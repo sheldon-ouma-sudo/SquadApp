@@ -19,15 +19,28 @@ const LoginScreen = () => {
          placeholder ="Password"
          //value={}
         // onChangeText={text =>} // everytime a text changes in our variable it spits out a text variable which we can then use in our function to change the text variable
-
+         style={styles.input}
+         secureTextEntry
         />
     </View>
     
-    <Text>LoginScreen</Text>
+   
     </KeyboardAvoidingView>
   )
 }
 
 export default LoginScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+container:{
+ flex:1,
+ justifyContent:"center",
+ alignItems:"center",
+
+ 
+
+}
+
+
+
+})
