@@ -1,9 +1,12 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
 import React from 'react'
-import { TouchableOpacity } from 'react-native-web'
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const LoginScreen = () => {
+    
+
+
   return (
     <KeyboardAvoidingView 
     style={styles.container}
@@ -14,7 +17,7 @@ const LoginScreen = () => {
          placeholder ="Email"
          //value={}
         // onChangeText={text =>} // everytime a text changes in our variable it spits out a text variable which we can then use in our function to change the text variable
-
+        style={styles.input}
         />
         <TextInput
          placeholder ="Password"
@@ -25,14 +28,14 @@ const LoginScreen = () => {
         />
     </View> 
     {/*this view contains our buttons */}
-    <View  style={styles.buttonContainer}>
+    <View style={styles.buttonContainer}>
         <TouchableOpacity
-            onPress={()=>{}}
-            style = {styles.button}
+        style = {styles.button}
             >
-            <Text style={styles.button}>
+            <Text style={styles.buttonText}>
                 Login
             </Text>
+
         </TouchableOpacity>
         <TouchableOpacity
             onPress={()=>{}}
@@ -43,9 +46,7 @@ const LoginScreen = () => {
             </Text>
         </TouchableOpacity>
 
-
     </View>
-   
     </KeyboardAvoidingView>
   )
 }
@@ -61,9 +62,53 @@ container:{
  flex:1,
  justifyContent:"center",
  alignItems:"center",
+},
+InputContainer:{
+    width: '80%'
+},
+input:{
+    backgroundColor: 'white',
+    paddingHorizontal: 15,
+    paddingVertical:10,
+    borderRadius:10,
+    marginTop: 5,
+    
 
- 
+},
+buttonContainer:{
+width: '60%',
+justifyContent: 'center',
+alignItems: 'center',
+marginTop: 40
 
+},
+button:{
+    backgroundColor: '#1145FD',
+    width: '100%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center'
+
+
+},
+buttonText:{
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16
+    
+},
+buttonOutline:{
+ backgroundColor: 'white',
+ marginTop: 5,
+ borderColor: '#1145FD',
+ borderWidth: 2,
+
+
+},
+buttonOutlineText:{
+    color: '#1145FD',
+    fontWeight: '700',
+    fontSize: 16
 }
 
 
