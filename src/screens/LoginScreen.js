@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput } from 'react-native'
 import React from 'react'
+import { TouchableOpacity } from 'react-native-web'
 
 
 const LoginScreen = () => {
@@ -22,12 +23,36 @@ const LoginScreen = () => {
          style={styles.input}
          secureTextEntry
         />
+    </View> 
+    {/*this view contains our buttons */}
+    <View  style={styles.buttonContainer}>
+        <TouchableOpacity
+            onPress={()=>{}}
+            style = {styles.button}
+            >
+            <Text style={styles.button}>
+                Login
+            </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={()=>{}}
+            style = {[styles.button, styles.buttonOutline]}
+            >
+            <Text style={styles.buttonOutlineText}>
+                SignUp
+            </Text>
+        </TouchableOpacity>
+
+
     </View>
-    
    
     </KeyboardAvoidingView>
   )
 }
+
+
+
+
 
 export default LoginScreen
 
