@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
 import React from 'react'
+import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 const LoginScreen = () => {
-    
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
 
   return (
@@ -15,14 +17,14 @@ const LoginScreen = () => {
     <View style={styles.InputContainer}>
        <TextInput
          placeholder ="Email"
-         //value={}
-        // onChangeText={text =>} // everytime a text changes in our variable it spits out a text variable which we can then use in our function to change the text variable
+         value={email}
+         onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
         style={styles.input}
         />
         <TextInput
          placeholder ="Password"
-         //value={}
-        // onChangeText={text =>} // everytime a text changes in our variable it spits out a text variable which we can then use in our function to change the text variable
+         value={password}
+        onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
          style={styles.input}
          secureTextEntry
         />
