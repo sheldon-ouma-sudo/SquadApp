@@ -1,13 +1,24 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
 import React from 'react'
 import { useState } from 'react';
+import { auth } from '../firebase';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+//this function handles sign up
+const handleSignUp = () => {
+ auth
+ .createUserWithEmailAndPassword(email,password)  
+ //once this is done, then create the user's credentials
+ .then(userCredentials =>{
+    const user= userCredentials.user;
+    console.log(email);
+ })
+ .catch(error =>alert(error.message))
+}
 
   return (
     <KeyboardAvoidingView 
@@ -40,7 +51,7 @@ const LoginScreen = () => {
 
         </TouchableOpacity>
         <TouchableOpacity
-            onPress={()=>{}}
+            onPress={handleSignUp}
             style = {[styles.button, styles.buttonOutline]}
             >
             <Text style={styles.buttonOutlineText}>
