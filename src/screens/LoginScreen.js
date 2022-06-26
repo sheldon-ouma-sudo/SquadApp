@@ -8,6 +8,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+
+
+
+
+
 //this function handles sign up
 const handleSignUp = () => {
  auth
@@ -15,9 +21,20 @@ const handleSignUp = () => {
  //once this is done, then create the user's credentials
  .then(userCredentials =>{
     const user= userCredentials.user;
-    console.log(user.email);
+    console.log('sign up with ',user.email);
  })
  .catch(error =>alert(error.message))
+}
+//handle the login functionaility of the app
+const handleLogin = () =>{
+    auth.signInWithEmailAndPassword(email, password)
+    .then(userCredentials =>{
+        const user= userCredentials.user;
+        console.log('Log in with ',user.email);
+       
+     })
+    
+
 }
 
   return (
@@ -43,6 +60,7 @@ const handleSignUp = () => {
     {/*this view contains our buttons */}
     <View style={styles.buttonContainer}>
         <TouchableOpacity
+        onPress={handleLogin}
         style = {styles.button}
             >
             <Text style={styles.buttonText}>
