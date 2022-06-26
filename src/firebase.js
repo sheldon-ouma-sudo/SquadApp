@@ -27,6 +27,7 @@ if(firebase.apps.length == 0){
     app = firebase.app
 }
 const auth = firebase.auth()
+export {auth}
 export default firebase;
 //const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);

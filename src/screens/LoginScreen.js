@@ -15,7 +15,7 @@ const handleSignUp = () => {
  //once this is done, then create the user's credentials
  .then(userCredentials =>{
     const user= userCredentials.user;
-    console.log(email);
+    console.log(user.email);
  })
  .catch(error =>alert(error.message))
 }
