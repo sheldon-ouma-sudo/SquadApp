@@ -1,15 +1,27 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { auth } from '../firebase';
+
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/core';
 
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+//this is the import to enable the navigation 
+const navigation = useNavigation()
+//the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
+useEffect(()=>{
+const unsubscribe = auth.onAuthStateChanged(user =>{
+    if(user){
+        navigation.navigate("HomeScreen")
+    }
+})
+return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
 
-
+}, {})
 
 
 
