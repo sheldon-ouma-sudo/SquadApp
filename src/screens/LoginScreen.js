@@ -80,6 +80,13 @@ const handleLogin = () =>{
             </Text>
 
         </TouchableOpacity>
+        <View style= {styles.textWrapper}>
+            <Text style={styles.text}>
+            Don't have an account?
+            </Text>
+        </View>
+
+
         <TouchableOpacity
             onPress={handleSignUp}
             style = {[styles.button, styles.buttonOutline]}
@@ -90,17 +97,13 @@ const handleLogin = () =>{
         </TouchableOpacity>
 
     </View>
+    
     </KeyboardAvoidingView>
   )
 }
 
 
-<View>
 
-    <Text>
-        Do you have an account?
-    </Text>
-</View>
 
 
 export default LoginScreen
@@ -119,7 +122,7 @@ input:{
     paddingHorizontal: 15,
     paddingVertical:10,
     borderRadius:10,
-    marginTop: 5,
+    marginTop: 15,
     
 
 },
@@ -127,7 +130,9 @@ buttonContainer:{
 width: '60%',
 justifyContent: 'center',
 alignItems: 'center',
-marginTop: 40
+marginTop: 10,
+marginBottom: 60
+
 
 },
 button:{
@@ -135,7 +140,8 @@ button:{
     width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    
 
 
 },
@@ -157,6 +163,23 @@ buttonOutlineText:{
     color: '#1145FD',
     fontWeight: '700',
     fontSize: 16
+},
+textWrapper:{
+    textAlign:'left',
+    marginTop:5,
+    flexDirection:'row',
+    justifyContent:'flex-start',
+    alignItems:'flex-start'
+
+},
+
+text:{
+fontSize: 15,
+textAlign: 'left',
+marginTop:10,
+marginBottom: 10,
+alignItems:'left'
+
 }
 
 
