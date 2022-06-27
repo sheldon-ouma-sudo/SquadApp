@@ -16,7 +16,7 @@ const navigation = useNavigation()
 useEffect(()=>{
 const unsubscribe = auth.onAuthStateChanged(user =>{
     if(user){
-        navigation.navigate("HomeScreen")
+        navigation.navigate("Home Screen")
     }
 })
 return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
