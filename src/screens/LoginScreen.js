@@ -16,7 +16,7 @@ const navigation = useNavigation()
 useEffect(()=>{
 const unsubscribe = auth.onAuthStateChanged(user =>{
     if(user){
-        navigation.navigate("Home Screen")
+        navigation.replace("HomeScreen")
     }
 })
 return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
@@ -95,7 +95,12 @@ const handleLogin = () =>{
 }
 
 
+<View>
 
+    <Text>
+        Do you have an account?
+    </Text>
+</View>
 
 
 export default LoginScreen
