@@ -88,7 +88,8 @@ const handleLogin = () =>{
 
 
         <TouchableOpacity
-            onPress={handleSignUp}
+            onPress={() =>
+                navigation.replace('SignupScreen')}
             style = {[styles.button, styles.buttonOutline]}
             >
             <Text style={styles.buttonOutlineText}>
