@@ -56,7 +56,7 @@ const handleLogin = () =>{
     >
     <View style={styles.InputContainer}>
        <TextInput
-         placeholder ="Email"
+         placeholder ="Phone number, email address, or username"
          value={email}
          onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
         style={styles.input}
@@ -132,21 +132,28 @@ container:{
  flex:1,
  justifyContent:"center",
  alignItems:"center",
+ backgroundColor: "#F4F8FB"
 },
 InputContainer:{
-    width: '80%'
+    width: 296,
+    
+    right: 16
 },
 input:{
-    backgroundColor: 'white',
+    backgroundColor: '#EAEAEA',
     paddingHorizontal: 15,
     paddingVertical:10,
-    borderRadius:10,
-    marginTop: 15,
+    borderRadius:5,
+    width:296,
+    height:42,
+    marginTop: 10,
     
 
 },
 buttonContainer:{
-width: '60%',
+width: 296,
+height:42,
+borderRadius:5,
 justifyContent: 'center',
 alignItems: 'center',
 marginTop: 10,
@@ -156,18 +163,21 @@ marginBottom: 60
 },
 button:{
     backgroundColor: '#1145FD',
-    width: '100%',
+    width: 296,
+    height: 42,
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 5,
+    marginTop: 40,
     alignItems: 'center',
-    
+    right: 20,
+    top: 0
 
 
 },
 buttonText:{
     color: 'white',
     fontWeight: '700',
-    fontSize: 16
+    fontSize: 10
     
 },
 buttonOutline:{
