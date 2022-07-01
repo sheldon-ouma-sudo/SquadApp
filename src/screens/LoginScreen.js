@@ -95,27 +95,11 @@ const handleLogin = () =>{
                     </TouchableOpacity>
                     </View>
                 </View>
-      
- 
- {/** <View style= {styles.textWrapper}>
-            <Text style={styles.text}>
-            Don't have an account?
-            </Text>
-        </View>
-
-
-       
-        <TouchableOpacity
-            onPress={() =>
-                navigation.replace('SignupScreen')}
-            style = {[styles.button, styles.buttonOutline]}
-            >
-            <Text style={styles.buttonOutlineText}>
-                SignUp
-            </Text>
-        </TouchableOpacity>
-*/}
-   
+                <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
+                    <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:50, flexDirection:"column"}} />
+                    <Text style={{ alignSelf:'10', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
+                    <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:80}} />
+            </View>
     
     </KeyboardAvoidingView>
   )
@@ -214,8 +198,9 @@ alignItems:'left'
 },
 signUpText:{
     fontSize: 10,
-    marginTop: 15
-}
+    marginTop: 15,
+    marginBottom:10
+},
 
 
 

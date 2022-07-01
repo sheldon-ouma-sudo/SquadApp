@@ -30,4 +30,4 @@ const auth = firebase.auth()
 export {auth}
 export default firebase;
 //const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+//const analytics = getAnalytics(app);
