@@ -17,7 +17,7 @@ const SignupScreen = () => {
    }
   return (
     <View>
-      <Text>SignUpScreen</Text>
+      <Text></Text>
     </View>
   )
 }

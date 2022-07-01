@@ -80,13 +80,31 @@ const handleLogin = () =>{
             </Text>
 
         </TouchableOpacity>
-        <View style= {styles.textWrapper}>
+
+        
+             {/* <Text>Item to give cash credit for:</Text>*/}
+                <View style={{flexDirection:"row"}}>
+                    <View style={[{flex:1},styles.textWrapper]}>
+                        <Text style={[{justifyContent: 'flex-start'},styles.text]} >  Don't have an account?</Text>
+                    </View>
+
+                    <TouchableOpacity  onPress={() =>
+                    navigation.replace('SignupScreen')}
+                    style={{flex:1}}>
+                        <Text  style={[{justifyContent: 'flex-end'},styles.signUpText]}> SignUp </Text>
+                    </TouchableOpacity>
+                    </View>
+                </View>
+      
+ 
+ {/** <View style= {styles.textWrapper}>
             <Text style={styles.text}>
             Don't have an account?
             </Text>
         </View>
 
 
+       
         <TouchableOpacity
             onPress={() =>
                 navigation.replace('SignupScreen')}
@@ -96,8 +114,8 @@ const handleLogin = () =>{
                 SignUp
             </Text>
         </TouchableOpacity>
-
-    </View>
+*/}
+   
     
     </KeyboardAvoidingView>
   )
@@ -175,12 +193,16 @@ textWrapper:{
 },
 
 text:{
-fontSize: 15,
+fontSize: 10,
 textAlign: 'left',
 marginTop:10,
 marginBottom: 10,
 alignItems:'left'
 
+},
+signUpText:{
+    fontSize: 10,
+    marginTop: 15
 }
 
 
