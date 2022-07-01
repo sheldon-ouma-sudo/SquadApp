@@ -136,8 +136,8 @@ container:{
 },
 InputContainer:{
     width: 296,
-    
     right: 16
+
 },
 input:{
     backgroundColor: '#EAEAEA',
@@ -145,8 +145,10 @@ input:{
     paddingVertical:10,
     borderRadius:5,
     width:296,
-    height:42,
-    marginTop: 10,
+    height:32,
+    marginTop:10,
+    fontSize: 12,
+    color:'#535353'
     
 
 },
