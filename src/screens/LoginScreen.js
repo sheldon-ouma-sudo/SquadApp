@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, } from 'react-native'
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native'
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { auth } from '../firebase';
@@ -94,11 +94,40 @@ const handleLogin = () =>{
                     </TouchableOpacity>
                     </View>
                 </View>
+                {/*this is the straight line with the text in it*/}
                 <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
                     <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:50, flexDirection:"column"}} />
                     <Text style={{ alignSelf:'10', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
                     <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:80}} />
-            </View>
+                </View>
+
+                {/**this is the view with the google and the facebook icons */}
+               <View style= {{flexDirection:"row"}}>
+                 <View style= {{flex:1}}>
+                    <Image
+                     source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
+                     style= {[{justifyContent:'flex-start'}, styles.Googlelogo]}
+                    >
+                    </Image>
+                    <View style= {{fex:1}}>
+                        <Image
+                         source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                         style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                        >
+                        </Image>
+
+                    </View>
+                    </View>       
+
+
+
+
+               </View>
+
+
+
+
+
     </KeyboardAvoidingView>
   )
 }
