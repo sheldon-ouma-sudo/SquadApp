@@ -83,7 +83,7 @@ const handleLogin = () =>{
 
         
              {/* <Text>Item to give cash credit for:</Text>*/}
-                <View style={{flexDirection:"row"}}>
+                <View style={[{flexDirection:"row"},styles.signUpContanier]}>
                     <View style={[{flex:1},styles.textWrapper]}>
                         <Text style={[{justifyContent: 'flex-start'},styles.text]} >  Don't have an account?</Text>
                     </View>
@@ -148,7 +148,8 @@ container:{
 },
 InputContainer:{
     width: 296,
-    right: 16
+    right: 16,
+    marginLeft:29
 
 },
 input:{
@@ -160,6 +161,8 @@ input:{
     height:32,
     marginTop:10,
     fontSize: 12,
+    marginRight:15,
+    marginLeft:10,
     fontStyle:"Montserrat",
     color:'#535353'
     
@@ -171,7 +174,7 @@ height:42,
 borderRadius:5,
 justifyContent: 'center',
 alignItems: 'center',
-marginTop: 10,
+marginTop: 23,
 marginBottom: 60
 
 
@@ -184,7 +187,8 @@ button:{
     borderRadius: 5,
     marginTop: 40,
     alignItems: 'center',
-    right: 20,
+    marginRight: 10,
+    marginLeft:15,
     top: 0
 
 
@@ -231,8 +235,10 @@ signUpText:{
     fontSize: 10,
     marginTop: 15,
     marginBottom:10,
+    marginLeft: 10,
     fontStyle:"Montserrat"
 },
+horizontalLineContainer:{},
 googleLogo:{
 height: 30, 
 width:30,
@@ -254,11 +260,11 @@ facebookLogo:{
 },
 forgotPasswordText:{
 
-    marginTop:20,
+    marginTop:30,
     marginRight:150,
     marginLeft:120,
     marginRight:150,
-    fontSize:10
+    fontSize:12
 }
 
 
