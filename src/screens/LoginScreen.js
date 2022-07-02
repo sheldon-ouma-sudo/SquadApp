@@ -107,21 +107,15 @@ const handleLogin = () =>{
                     <Image
                      source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
                      style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-                    >
-                    </Image>
-                    <View style= {{fex:1}}>
+                    ></Image>
+                </View>
+                <View style= {{fex:1}}>
                         <Image
                          source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
                          style={[{justifyContent:'flex-end'},styles.facebookLogo]}
                         >
                         </Image>
-
-                    </View>
-                    </View>       
-
-
-
-
+                </View>       
                </View>
 
 
@@ -235,21 +229,21 @@ signUpText:{
 googleLogo:{
 height: 30, 
 width:30,
-borderRadius:100/2,
+borderRadius:20,
 overflow:'hidden',
-borderWidth:3,
+borderWidth:1,
 borderColor: "red",
-marginLeft:120
+marginLeft:150
 
 },
 facebookLogo:{
     height: 30, 
     width:30,
-    borderRadius:50/2,
+    borderRadius:20,
     overflow:'hidden',
-    borderWidth:3,
+    borderWidth:1,
     borderColor: "red",
-    marginLeft: 190
+   marginRight:200
 },
 
 
