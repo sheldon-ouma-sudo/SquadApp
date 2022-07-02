@@ -233,21 +233,23 @@ signUpText:{
     fontStyle:"Montserrat"
 },
 googleLogo:{
-height: 100, 
-width:100,
+height: 30, 
+width:30,
 borderRadius:100/2,
 overflow:'hidden',
 borderWidth:3,
-borderColor: "red"
+borderColor: "red",
+marginLeft:120
 
 },
 facebookLogo:{
-    height: 100, 
-    width:100,
-    borderRadius:100/2,
+    height: 30, 
+    width:30,
+    borderRadius:50/2,
     overflow:'hidden',
     borderWidth:3,
-    borderColor: "red"
+    borderColor: "red",
+    marginLeft: 190
 },
 
 
