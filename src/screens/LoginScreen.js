@@ -118,6 +118,13 @@ const handleLogin = () =>{
                 </View>       
                </View>
 
+               {/**this is the forgot password functionality */}
+               <View style={styles.forgotPasswordTextContainer}>
+                <Text style={styles.forgotPasswordText}>
+                     Forgot Password?
+                </Text>
+
+               </View>
 
 
 
@@ -245,7 +252,14 @@ facebookLogo:{
     borderColor: "red",
    marginRight:200
 },
+forgotPasswordText:{
 
+    marginTop:20,
+    marginRight:150,
+    marginLeft:120,
+    marginRight:150,
+    fontSize:10
+}
 
 
 
