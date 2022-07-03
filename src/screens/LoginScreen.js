@@ -54,6 +54,12 @@ const handleLogin = () =>{
     style={styles.container}
     behavior="padding"
     >
+    <View style={styles.logoContainer}>
+       <Image>
+        
+       </Image>
+
+    </View>
     <View style={styles.InputContainer}>
        <TextInput
          placeholder ="Phone number, email address, or username"
@@ -96,9 +102,9 @@ const handleLogin = () =>{
                 </View>
                 {/*this is the straight line with the text in it*/}
                 <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
-                    <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:50, flexDirection:"column"}} />
+                    <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:70, flexDirection:"column"}} />
                     <Text style={{ alignSelf:'10', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
-                    <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:80}} />
+                    <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:60}} />
                 </View>
 
                 {/**this is the view with the google and the facebook icons */}
@@ -149,7 +155,8 @@ container:{
 InputContainer:{
     width: 296,
     right: 16,
-    marginLeft:29
+    marginLeft:29,
+    marginTop: 80
 
 },
 input:{
@@ -226,6 +233,7 @@ fontSize: 10,
 textAlign: 'left',
 marginTop:10,
 marginBottom: 10,
+marginLeft:10,
 alignItems:'left',
 fontStyle: "Montserrat"
 
