@@ -54,16 +54,15 @@
         style={styles.container}
         behavior="padding"
         >
-        <View style={styles.InputContainer}>
-        <View style={styles.logoImageContainer}>
+        <View style={styles.squadLogoContainer}>
           <Image
-          
-          source={require('/Users/sheldonotieno/Squad/assets/Squad Logo.png')}
-          
-          >
-          </Image>
-
+            source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+            style={styles.squadLogo}
+            resizeMode='contain'
+          ></Image>
         </View>
+
+        <View style={styles.InputContainer}>
         <TextInput
             placeholder ="Phone number, email address, or username"
             value={email}
@@ -153,13 +152,19 @@
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    backgroundColor: "#F4F8FB"
+    backgroundColor: "##F4F8FB"
+    },
+    squadLogo:{
+        width:221,
+        height:85
+
+
     },
     InputContainer:{
         width: 296,
         right: 16,
         marginLeft:29,
-        marginTop: 50
+        marginTop: 20
 
     },
     input:{
@@ -257,7 +262,7 @@
     overflow:'hidden',
     borderWidth:1,
     borderColor: "red",
-    marginLeft:150
+    marginLeft:180
 
     },
     facebookLogo:{
@@ -267,14 +272,14 @@
         overflow:'hidden',
         borderWidth:1,
         borderColor: "red",
-    marginRight:200
+        marginRight:170
     },
     forgotPasswordText:{
 
         marginTop:30,
         marginRight:150,
         marginLeft:120,
-        marginRight:150,
+        marginRight:120,
         fontSize:12
     }
 
