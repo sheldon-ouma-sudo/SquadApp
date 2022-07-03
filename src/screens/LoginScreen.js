@@ -54,18 +54,16 @@
         style={styles.container}
         behavior="padding"
         >
+        <View style={styles.InputContainer}>
         <View style={styles.logoImageContainer}>
           <Image
           
           source={require('/Users/sheldonotieno/Squad/assets/Squad Logo.png')}
           
           >
-
-
           </Image>
 
         </View>
-        <View style={styles.InputContainer}>
         <TextInput
             placeholder ="Phone number, email address, or username"
             value={email}
