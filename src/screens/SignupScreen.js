@@ -1,5 +1,11 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native'
+    import React, { useEffect } from 'react'
+    import { useState } from 'react';
+    import { auth } from '../firebase';
+
+    import { LinearGradient } from 'expo-linear-gradient';
+    import { useNavigation } from '@react-navigation/core';
+
 
 
 const SignupScreen = () => {
