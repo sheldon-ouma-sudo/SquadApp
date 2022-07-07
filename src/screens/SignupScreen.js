@@ -62,18 +62,44 @@
 
       <View style={styles.InputContainer}>
       <TextInput
-          placeholder ="Phone number, email address, or username"
+          placeholder ="email address"
           value={email}
           onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
           style={styles.input}
           />
           <TextInput
+          placeholder ="username"
+          value={password}
+          onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+          style={styles.input}
+          secureTextEntry
+          />
+
+      <TextInput
+          placeholder ="phone number"
+          value={password}
+          onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+          style={styles.input}
+          secureTextEntry
+          />
+
+      <TextInput
           placeholder ="Password"
           value={password}
           onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
           style={styles.input}
           secureTextEntry
           />
+
+        <TextInput
+          placeholder ="confirm password"
+          value={password}
+          onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+          style={styles.input}
+          secureTextEntry
+          />
+
+
       </View> 
       {/*this view contains our buttons */}
       <View style={styles.buttonContainer}>
