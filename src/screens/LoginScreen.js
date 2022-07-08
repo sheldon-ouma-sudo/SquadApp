@@ -2,7 +2,7 @@
     import React, { useEffect } from 'react'
     import { useState } from 'react';
     import { auth } from '../firebase';
-   
+    
 
     import { LinearGradient } from 'expo-linear-gradient';
     import { useNavigation } from '@react-navigation/core';
@@ -290,11 +290,6 @@ import react from 'react';
     logo:{
         marginTop:-37
       }
-  
-
-
-
-
 
 
     })
