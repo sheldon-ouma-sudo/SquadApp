@@ -1,7 +1,7 @@
     import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native'
     import React, { useEffect } from 'react'
     import { useState } from 'react';
-    import { auth } from '../firebase';
+    import { auth, createUserDocument } from '../firebase';
 
     import { LinearGradient } from 'expo-linear-gradient';
     import { useNavigation } from '@react-navigation/core';
@@ -25,9 +25,6 @@
 
     }, {})
 
-
-
-
     //this function handles sign up
     const handleSignUp = () => {
     auth
@@ -38,18 +35,9 @@
         console.log('sign up with ',user.email);
     })
     .catch(error =>alert(error.message))
-    async
+    createUserDocument(user, {username, phone,})
     }
-    //handle the login functionaility of the app
-    const handleLogin = () =>{
-        auth.signInWithEmailAndPassword(email, password)
-        .then(userCredentials =>{
-            const user= userCredentials.user;
-            console.log('Log in with ',user.email);
-        
-        })   
-
-    }
+    
     return (
         <KeyboardAvoidingView 
         style={styles.container}
@@ -107,7 +95,7 @@
         {/*this view contains our buttons */}
         <View style={styles.buttonContainer}>
             <TouchableOpacity
-            onPress={handleLogin}
+            onPress={handleSignUp}
             style = {styles.button}
                 >
                 <Text style={styles.buttonText}>

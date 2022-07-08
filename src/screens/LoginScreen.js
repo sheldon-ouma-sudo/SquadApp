@@ -24,21 +24,7 @@
     return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
 
     }, {})
-
-
-
-
-    //this function handles sign up
-    const handleSignUp = () => {
-    auth
-    .createUserWithEmailAndPassword(email,password)  
-    //once this is done, then create the user's credentials
-    .then(userCredentials =>{
-        const user= userCredentials.user;
-        console.log('sign up with ',user.email);
-    })
-    .catch(error =>alert(error.message))
-    }
+    
     //handle the login functionaility of the app
     const handleLogin = () =>{
         auth.signInWithEmailAndPassword(email, password)
