@@ -179,7 +179,8 @@
         marginRight:15,
         marginLeft:10,
         fontStyle:"Montserrat",
-        color:'#535353'
+        color:'#535353',
+        fontWeight:'600'
         
 
     },
@@ -243,7 +244,8 @@
     marginBottom: 10,
     marginLeft:10,
     alignItems:'left',
-    fontStyle: "Montserrat"
+    fontStyle: "Montserrat",
+    fontWeight:40
 
 
     },
