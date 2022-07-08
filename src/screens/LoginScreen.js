@@ -245,7 +245,7 @@
     marginLeft:10,
     alignItems:'left',
     fontStyle: "Montserrat",
-    fontWeight:40
+    fontWeight:'600'
 
 
     },

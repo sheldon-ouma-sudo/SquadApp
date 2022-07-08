@@ -113,7 +113,7 @@
             </TouchableOpacity>
                   </View>
                   <TouchableOpacity  onPress={() =>
-                          navigation.replace('SignupScreen')}
+                          navigation.replace('LoginScreen')}
                           >
                               <Text  style={[{justifyContent: 'center'},styles.loginText]}> Login </Text>
                           </TouchableOpacity>
