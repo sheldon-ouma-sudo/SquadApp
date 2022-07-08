@@ -110,7 +110,7 @@
                     </View>
 
                     {/**this is the view with the google and the facebook icons */}
-                <View style= {{flexDirection:"row"}}>
+                <View style= {[{flexDirection:"row"}, styles.logo]}>
                     <View style= {{flex:1}}>
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
@@ -281,7 +281,11 @@
         marginLeft:120,
         marginRight:120,
         fontSize:12
-    }
+    },
+    logo:{
+        marginTop:-37
+      }
+  
 
 
 
