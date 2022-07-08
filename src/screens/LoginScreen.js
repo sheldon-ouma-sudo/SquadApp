@@ -6,7 +6,7 @@
 
     import { LinearGradient } from 'expo-linear-gradient';
     import { useNavigation } from '@react-navigation/core';
-import react from 'react';
+    import react from 'react';
 
 
     const LoginScreen = () => {
