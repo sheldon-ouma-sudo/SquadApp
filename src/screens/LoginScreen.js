@@ -64,7 +64,7 @@
 
         <View style={styles.InputContainer}>
         <TextInput
-            placeholder ="Phone number, email address, or username"
+            placeholder ="phone number, email address, or username"
             value={email}
             onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
@@ -131,10 +131,14 @@
                     <Text style={styles.forgotPasswordText}>
                         Forgot Password?
                     </Text>
-
                 </View>
+    
+               {/**horizontal line at the botton of the page*/}
 
+               <View>
 
+                
+               </View>
 
 
         </KeyboardAvoidingView>
@@ -152,7 +156,7 @@
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    backgroundColor: "##F4F8FB"
+    backgroundColor: "#F4F8FB"
     },
     squadLogo:{
         width:221,
@@ -254,7 +258,8 @@
         marginTop: 15,
         marginBottom:10,
         marginLeft: 10,
-        fontStyle:"Montserrat"
+        fontStyle:"Montserrat",
+        fontWeight:"800"
     },
     horizontalLineContainer:{},
     googleLogo:{
@@ -282,7 +287,8 @@
         marginRight:150,
         marginLeft:120,
         marginRight:120,
-        fontSize:12
+        fontSize:12,
+        fontWeight:"600"
     },
     logo:{
         marginTop:-37

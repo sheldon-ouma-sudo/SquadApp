@@ -164,7 +164,7 @@
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    backgroundColor: "##F4F8FB"
+    backgroundColor: "#F4F8FB"
     },
     squadLogo:{
         width:221,
