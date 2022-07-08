@@ -110,9 +110,14 @@
               <Text style={styles.buttonText}>
                   Create an Account
               </Text>
-
           </TouchableOpacity>
-                  </View>
+                </View>
+                <TouchableOpacity  onPress={() =>
+                        navigation.replace('SignupScreen')}
+                        >
+                            <Text  style={[{justifyContent: 'center'},styles.signUpText]}> Login </Text>
+                        </TouchableOpacity>
+                    
                   {/*this is the straight line with the text in it*/}
                   <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
                       <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:70, flexDirection:"column"}} />
@@ -175,7 +180,8 @@
       width: 296,
       right: 16,
       marginLeft:29,
-      marginTop: 20
+      marginTop: 20,
+      borderRadius:5
 
   },
   input:{
@@ -260,7 +266,7 @@
   },
   signUpText:{
       fontSize: 10,
-      marginTop: 15,
+      marginTop: -30,
       marginBottom:10,
       marginLeft: 10,
       fontStyle:"Montserrat"
