@@ -2,6 +2,7 @@
 import firebase from 'firebase/compat/app';
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import "firebase/firestore";
 
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -29,5 +30,45 @@ if(firebase.apps.length == 0){
 const auth = firebase.auth()
 export {auth}
 export default firebase;
+//export the fire store
+export const firestore = firebase.firestore;
+//export the createuserDocument function
+
+export const createUserDocument= async(user, {additionalData})=>{
+//if there is no user coming from the firebase do nothing
+if(!user) return;
+//get the reference from the database
+const userRef= firestore.doc('users/${user.uid}');
+//fetch the document's address locations
+const snapshot = await userRef.get();
+
+//if there is not a documents, create one 
+if(!snapshot.exists){
+  const {email} = user;
+  const {username} = additionalData;
+  const {phone} = additionalData;
+}
+//let's create the user
+try{
+  userRef.set({
+username, 
+email,
+phone, 
+createdAt: new Date()
+
+
+  });
+}catch (error){
+  console.log('Error in creating user, error');
+}
+
+};
+
+
+
+
+
+
+
 //const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);

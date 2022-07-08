@@ -10,6 +10,8 @@
     const SignupScreen = () => {
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
+        const [username, setUsername] = useState('')
+        const [phone, setPhone] = useState('')
     //this is the import to enable the navigation 
     const navigation = useNavigation()
     //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
@@ -36,6 +38,7 @@
         console.log('sign up with ',user.email);
     })
     .catch(error =>alert(error.message))
+    async
     }
     //handle the login functionaility of the app
     const handleLogin = () =>{
