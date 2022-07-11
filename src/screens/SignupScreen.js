@@ -32,12 +32,14 @@
     //this function handles sign up
     const handleSignUp = () => {
     auth
-    .createUserWithEmailAndPassword(email,password)  
+    .createUserWithEmailAndPassword(email, password)  
+  //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
     //once this is done, then create the user's credentials
-    .then(userCredentials =>{
-        const user= userCredentials.user;
-        console.log('sign up with ',user.email);
-    })
+    .then(userCredentials =>{  const user= userCredentials.user;
+        console.log('sign up with ',user.email);})
+
+
+
     .catch(error =>alert(error.message))
    // createUserDocument(user, {username, phone,})
     }
