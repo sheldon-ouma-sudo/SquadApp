@@ -12,6 +12,7 @@
         const [password, setPassword] = useState('')
         const [username, setUsername] = useState('')
         const [phone, setPhone] = useState('')
+        const [confirmPassword, setConfirmPassword] = useState('')
     //this is the import to enable the navigation 
     const navigation = useNavigation()
     //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
@@ -25,6 +26,9 @@
 
     }, {})
 
+
+
+
     //this function handles sign up
     const handleSignUp = () => {
     auth
@@ -37,7 +41,16 @@
     .catch(error =>alert(error.message))
     createUserDocument(user, {username, phone,})
     }
-    
+    //handle the login functionaility of the app
+    const handleLogin = () =>{
+        auth.signInWithEmailAndPassword(email, password)
+        .then(userCredentials =>{
+            const user= userCredentials.user;
+            console.log('Log in with ',user.email);
+        
+        })   
+
+    }
     return (
         <KeyboardAvoidingView 
         style={styles.container}
@@ -60,18 +73,18 @@
             />
             <TextInput
             placeholder ="username"
-            value={password}
-            onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+            value={username}
+            onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            secureTextEntry
+            //secureTextEntry
             />
 
         <TextInput
             placeholder ="phone number"
-            value={password}
-            onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+            value={phone}
+            onChangeText={text =>setPhone(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            secureTextEntry
+           // secureTextEntry
             />
 
         <TextInput
@@ -84,8 +97,8 @@
 
           <TextInput
             placeholder ="confirm password"
-            value={password}
-            onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+            value={confirmPassword}
+            onChangeText={text =>setConfirmPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
             secureTextEntry
             />
