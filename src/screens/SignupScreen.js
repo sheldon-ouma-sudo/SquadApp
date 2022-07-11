@@ -12,7 +12,7 @@
         const [password, setPassword] = useState('')
         const [username, setUsername] = useState('')
         const [phone, setPhone] = useState('')
-        const [confirmPassword, setConfirmPassword] = useState('')
+        //const [confirmPassword, setConfirmPassword] = useState('')
     //this is the import to enable the navigation 
     const navigation = useNavigation()
     //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
