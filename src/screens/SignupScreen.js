@@ -1,11 +1,11 @@
-        import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native'
+        import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image} from 'react-native'
         import React, { useEffect } from 'react'
         import { useState } from 'react';
         import { auth } from '../firebase';
-        import firestore from '../firebase';
+        import 'firebase/firestore';
+        import firebase from '../firebase';
         
 
-        import { LinearGradient } from 'expo-linear-gradient';
         import { useNavigation } from '@react-navigation/core';
 
 
@@ -31,11 +31,11 @@
         //this function handles sign up
         const handleSignUp = () => {
         auth
-        .createUserWithEmailAndPassword(email, password)  
+        .createUserWithEmailAndPassword(email.trim(), password)  
     //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
         //once this is done, then create the user's credentials
         .then((user) =>{
-            //const firestore = firebase.firestore;
+            const firestore = firebase.firestore;
             const userRef = firestore().collection('users').doc(user.uid)
             //let's get the snapshot of the document 
             const snapShot = userRef.get()
