@@ -26,9 +26,6 @@
 
     }, [])
 
-
-
-
     //this function handles sign up
     const handleSignUp = () => {
     auth
@@ -37,6 +34,7 @@
     //once this is done, then create the user's credentials
     .then(userCredentials =>{  const user= userCredentials.user;
         console.log('sign up with ',user.email);})
+    
 
 
 
