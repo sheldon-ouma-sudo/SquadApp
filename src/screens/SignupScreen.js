@@ -45,19 +45,21 @@
                     userRef.set({
                         email,
                         username,
-                        phoneNumber,
+                        phone,
                     })
-                }catch{
-                    console.log('error in creating the user')
+                }catch(error){
+                    console.log(error)
+                    
                 }
             
             }
+            
             //let's check if there is the user document already 
             
 
         })
-        .then(userCredentials =>{  const user= userCredentials.user;
-            console.log('sign up with ',user.email);})
+       // .then(userCredentials =>{  const user= userCredentials.user;
+          //  console.log('sign up with ',user.email);})
         
 
 
