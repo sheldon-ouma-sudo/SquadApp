@@ -2,6 +2,7 @@
         import React, { useEffect } from 'react'
         import { useState } from 'react';
         import { auth } from '../firebase';
+        import firestore from '../firebase';
         
 
         import { LinearGradient } from 'expo-linear-gradient';
@@ -30,14 +31,14 @@
         //this function handles sign up
         const handleSignUp = () => {
         auth
-        .createUserAndRetrieveWithEmailAndPassword(email, password)  
+        .createUserWithEmailAndPassword(email, password)  
     //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
         //once this is done, then create the user's credentials
         .then((user) =>{
-            const firestore = firebase.firestore;
+            //const firestore = firebase.firestore;
             const userRef = firestore().collection('users').doc(user.uid)
             //let's get the snapshot of the document 
-            const snapShot = await userRef.get()
+            const snapShot = userRef.get()
             //if there is no snapshot or such document, then let's create one
             if(!snapShot.exists){
                 try{
