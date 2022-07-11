@@ -33,7 +33,7 @@ export default firebase;
 //export the fire store
 export const firestore = firebase.firestore;
 //export the createuserDocument function
-
+{/**
 export const createUserDocument= async(user, {additionalData})=>{
 //if there is no user coming from the firebase do nothing
 if(!user) return;
@@ -41,7 +41,7 @@ if(!user) return;
 const userRef= firestore.doc('users/${user.uid}');
 //fetch the document's address locations
 const snapshot = await userRef.get();
-
+ *
 //if there is not a documents, create one 
 if(!snapshot.exists){
   const {email} = user;
@@ -72,3 +72,5 @@ createdAt: new Date()
 
 //const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
+
+*/}

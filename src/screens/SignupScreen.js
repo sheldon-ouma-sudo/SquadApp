@@ -39,9 +39,10 @@
         console.log('sign up with ',user.email);
     })
     .catch(error =>alert(error.message))
-    createUserDocument(user, {username, phone,})
+   // createUserDocument(user, {username, phone,})
     }
     //handle the login functionaility of the app
+    {/** 
     const handleLogin = () =>{
         auth.signInWithEmailAndPassword(email, password)
         .then(userCredentials =>{
@@ -51,6 +52,7 @@
         })   
 
     }
+    */}
     return (
         <KeyboardAvoidingView 
         style={styles.container}
