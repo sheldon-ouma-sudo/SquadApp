@@ -94,7 +94,7 @@
             style={styles.input}
             secureTextEntry
             />
-
+            {/** 
           <TextInput
             placeholder ="confirm password"
             value={confirmPassword}
@@ -102,7 +102,7 @@
             style={styles.input}
             secureTextEntry
             />
-
+*/}
 
         </View> 
         {/*this view contains our buttons */}
