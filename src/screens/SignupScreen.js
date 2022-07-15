@@ -98,7 +98,7 @@
                 }
                 newText = newText + clear[i];
             }
-
+            
             this.setState({phoneNumber:newText})
 
         }
@@ -138,7 +138,7 @@
 
             <TextInput
                 placeholder ="phone number"
-                value={phoneNumber}
+                value= {this.state.phoneNumber}
                 onChangeText={Number => this.formatPhoneNumber(Number)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
             // secureTextEntry
