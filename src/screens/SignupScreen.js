@@ -14,7 +14,7 @@
             const [email, setEmail] = useState('')
             const [password, setPassword] = useState('')
             const [username, setUsername] = useState('')
-            const [phone, setPhone] = useState('')
+            const [phoneNumber, setPhone] = useState('')
             //const [confirmPassword, setConfirmPassword] = useState('')
         //this is the import to enable the navigation 
         const navigation = useNavigation()
@@ -47,7 +47,7 @@
                         name,
                         email,
                         username,
-                        phone,
+                        phoneNumber,
                     })
                 }catch(error){
                     console.log(error)
@@ -137,7 +137,7 @@
             <TextInput
                 placeholder ="phone number"
                 value={phone}
-                onChangeText={Number => setPhone(Number)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+                onChangeText={Number => this.formatPhoneNumber(Number)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
             // secureTextEntry
                 />
