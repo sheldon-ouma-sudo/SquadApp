@@ -83,7 +83,7 @@
         */}
         //function that handles the phone number part of the app
         //handle the formatPhoneNumber and error that props from the setState
-        this.formatPhoneNumber = this.formatPhoneNumber.bind(this);
+       // this.formatPhoneNumber = this.formatPhoneNumber.bind(this);
         formatPhoneNumber = (phoneNumber) => {
             let newText = '';
             let clear= (''+phoneNumber).replace(/\D/g, '');
