@@ -97,7 +97,7 @@
                 newText = newText + clear[i];
             }
 
-            this.setState({phoneNumber:this.newText})
+            this.setState({phoneNumber:newText})
 
         }
         return (
