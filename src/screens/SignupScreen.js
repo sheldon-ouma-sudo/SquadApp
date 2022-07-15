@@ -10,6 +10,7 @@
 
 
         const SignupScreen = () => {
+            const [name, setName] = useState('')
             const [email, setEmail] = useState('')
             const [password, setPassword] = useState('')
             const [username, setUsername] = useState('')
@@ -43,6 +44,7 @@
             if(!snapShot.exists){
                 try{
                     userRef.set({
+                        name,
                         email,
                         username,
                         phone,
@@ -79,6 +81,7 @@
 
         }
         */}
+        
         return (
             <KeyboardAvoidingView 
             style={styles.container}
@@ -93,6 +96,12 @@
             </View>
 
             <View style={styles.InputContainer}>
+            <TextInput
+                placeholder ="name"
+                value={name}
+                onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                style={styles.input}
+                />
             <TextInput
                 placeholder ="email address"
                 value={email}
@@ -110,7 +119,7 @@
             <TextInput
                 placeholder ="phone number"
                 value={phone}
-                onChangeText={text =>setPhone(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+                onChangeText={Number => setPhone(Number)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
             // secureTextEntry
                 />
