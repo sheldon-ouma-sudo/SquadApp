@@ -88,8 +88,9 @@
                 var match = number.match(/(\d{3})(\d{3})(\d{4})$/)
             
                 if (match) {
-            
-                  num = ['(', match[1], ') ', match[2], '-', match[3]].join('');
+                var intlCode = match[1] ? "+1 " : ""
+
+                 var num = [intlCode,'(', match[1], ') ', match[2], '-', match[3]].join('');
             
                   setPhone(num);
             
