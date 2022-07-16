@@ -83,25 +83,23 @@
             }
             */}
             //function that handles the phone number part of the app
-    
-        _onChangeText = (text) => {
-                let formatedNo = this.formatMobileNumber(text);
-                this.setState({ phone: formatedNo });
-                };
+            const phoneFormat = (number) => {
 
-                formatMobileNumber=(text=> {
-                var cleaned = ("" + text).replace(/\D/g, "");
-                var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+                var match = number.match(/(\d{3})(\d{3})(\d{4})$/)
+            
                 if (match) {
-                    var intlCode = match[1] ? "+1 " : "",
-                    number = [intlCode, "(", match[2], ") ", match[3], "-", match[4]].join(
-                        ""
-                    );
-                    return number;
+            
+                  num = ['(', match[1], ') ', match[2], '-', match[3]].join('');
+            
+                  setPhone(num);
+            
+                  return;
                 }
-                return text;
-                })
-
+            
+                setPhone(number);
+              }
+            
+          
             return (
                 <KeyboardAvoidingView 
                 style={styles.container}
@@ -140,9 +138,7 @@
                 <TextInput       
                     maxLength={10}
                     keyboardType="numeric"
-                    onChangeText={text => {
-                    this._onChangeText(text);
-                    }}
+                    onChangeText={number => phoneFormat(number)}
                     placeholder="enter your phone number"
                    // placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
                     style={styles.input}
