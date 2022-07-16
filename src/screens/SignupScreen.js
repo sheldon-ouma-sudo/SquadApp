@@ -133,7 +133,7 @@
                  containerStyle={styles.phoneContainer}
                  textContainerStyle={styles.textInput}
                  onChangeFormattedText={text => {
-                     setPhoneNumber(text);
+                     setPhone(text);
                  }}
                  defaultCode="IN"
                  layout='first'
@@ -379,7 +379,11 @@
     },
     logo:{
     marginTop:-37
-    }
+    },
+    phoneContainer: {
+        width: '75%',
+        height: 50,
+    },
 
 
 
