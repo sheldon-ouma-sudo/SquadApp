@@ -82,8 +82,8 @@
         }
         */}
         //function that handles the phone number part of the app
-        {/*
-        formatPhoneNumber = (phoneNumber) => {
+       // {/*
+       const formatPhoneNumber = (phoneNumber) => {
             let newText = '';
             let clear= (''+phoneNumber).replace(/\D/g, '');
             for(var i= 0; i<clear.length; i++){
@@ -98,10 +98,10 @@
                 newText = newText + clear[i];
             }
 
-            this.setState({phoneNumber:newText})
+           setPhone(Number)
 
         }
-    **/}
+ //**/}
         return (
             <KeyboardAvoidingView 
             style={styles.container}
@@ -139,7 +139,7 @@
             <TextInput
                 placeholder ="phone number"
                 value={phoneNumber}
-                onChangeText={Number => setPhone(Number)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+                onChangeText={formatPhoneNumber} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
             // secureTextEntry
                 />
