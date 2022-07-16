@@ -145,8 +145,8 @@
                 style={styles.input}
                // defaultCode='US'
                 defaultCode = 'US'
-                onChangeText={(number) =>{
-                    setPhone(number)
+                onChangeText={(text) =>{
+                    setPhone(text)
                 
                 
                 }} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
