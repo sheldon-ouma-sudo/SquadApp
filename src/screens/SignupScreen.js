@@ -6,7 +6,7 @@
     import 'firebase/firestore';
     import firebase from '../firebase';
     import { useNavigation } from '@react-navigation/core';
-    import { CallingCodePicker } from "@digieggs/rn-country-code-picker";
+    import CallingCodePicker  from "@digieggs/rn-country-code-picker";
     import { SafeAreaView } from 'react-native-safe-area-context';
 
 
