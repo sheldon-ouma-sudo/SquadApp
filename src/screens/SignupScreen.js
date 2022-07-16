@@ -127,19 +127,6 @@
             style={styles.input}
             //secureTextEntry
             />
-                <PhoneInput
-                 ref={phoneInput}
-                 defaultValue={phoneNumber}
-                 containerStyle={styles.phoneContainer}
-                 textContainerStyle={styles.textInput}
-                 onChangeFormattedText={text => {
-                     setPhone(text);
-                 }}
-                 defaultCode="IN"
-                 layout='first'
-                 withShadow
-                 autoFocus
-             />
       
 
         <TextInput
@@ -212,12 +199,7 @@
     )
     }
 
-
-
-
-
     export default SignupScreen
-
     const styles = StyleSheet.create({
     container:{
     flex:1,
@@ -292,8 +274,6 @@
     marginTop: 5,
     borderColor: '#1145FD',
     borderWidth: 2,
-
-
     },
     buttonOutlineText:{
         color: '#1145FD',
@@ -317,7 +297,6 @@
     marginLeft:10,
     alignItems:'left',
     fontStyle: "Montserrat"
-
 
     },
     loginText:{
@@ -355,8 +334,5 @@
         width: '75%',
         height: 50,
     },
-
-
-
 
     })
