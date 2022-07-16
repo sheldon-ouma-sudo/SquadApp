@@ -1,13 +1,11 @@
     import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image} from 'react-native'
     import React, { useEffect } from 'react'
     import PhoneInput from 'react-native-phone-input';
-    import { useState } from 'react';
+    import { useState,useRef } from 'react';
     import { auth } from '../firebase';
     import 'firebase/firestore';
     import firebase from '../firebase';
     import { useNavigation } from '@react-navigation/core';
-    import CallingCodePicker  from "@digieggs/rn-country-code-picker";
-    import { SafeAreaView } from 'react-native-safe-area-context';
 
 
     const SignupScreen = () => {
@@ -16,10 +14,11 @@
         const [password, setPassword] = useState('')
         const [username, setUsername] = useState('')
         const [phoneNumber, setPhone] = useState('')
-        const [intlCode, setIntCod] = useState('')
+        const [intCode, setIntCod] = useState('')
         //const [confirmPassword, setConfirmPassword] = useState('')
     //this is the import to enable the navigation 
     const navigation = useNavigation()
+    const phoneInput = React.useRef(null);
     //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
     useEffect(()=>{
     const unsubscribe = auth.onAuthStateChanged(user =>{
@@ -128,24 +127,19 @@
             style={styles.input}
             //secureTextEntry
             />
-        <View style={[{flexDirection: 'row'}]}>
-          <View style={{flex:1}}>
-            <SafeAreaView style={[{justifyContent:'flex-start'},styles.countryCode]}>
-                <CallingCodePicker
-                onValueChange={() => {}}
-                style={styles.countryCodePicker}
-                togglerContainerStyle={styles.togglerContainerStyle}
-                togglerLabelStyle={styles.togglerLabelStyle}
-                searchInputStyle={styles.searchInputStyle}
-                pickerItemLabelStyle={styles.pickerItemLabelStyle}
-                pickerItemContainerStyle={styles.pickerItemContainerStyle}
-                />
-            </SafeAreaView>
-          </View>
-          <View style={{flex:1}}>
-            <TextInput maxLength={10}value={phoneNumber}keyboardType="numeric"onChangeText={number => phoneFormat(number)}placeholder="enter your phone number" style={[{justifyContent:'flex-end'},styles.phoneNumInput]}/>
-            </View>
-        </View>
+                <PhoneInput
+                 ref={phoneInput}
+                 defaultValue={phoneNumber}
+                 containerStyle={styles.phoneContainer}
+                 textContainerStyle={styles.textInput}
+                 onChangeFormattedText={text => {
+                     setPhoneNumber(text);
+                 }}
+                 defaultCode="IN"
+                 layout='first'
+                 withShadow
+                 autoFocus
+             />
       
 
         <TextInput
@@ -385,34 +379,9 @@
     },
     logo:{
     marginTop:-37
-    },
+    }
 
-    pickerItemLabelStyle: {
-        marginLeft: 10,
-        marginVertical: 10,
-        alignSelf: 'center'
-      },
-      pickerItemContainerStyle: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignSelf: 'center'
-      },
-      searchInputStyle: {
-        borderColor: '#888888',
-        borderWidth: 1,
-        height: 36,
-        borderRadius: 10,
-        paddingHorizontal: 10
-      },
-      togglerLabelStyle: {
-        fontSize: 20
-      },
-      togglerContainerStyle: {
-        backgroundColor: '#BAFFC0',
-        borderRadius: 10,
-        padding: 5
-      }
+
 
 
     })
