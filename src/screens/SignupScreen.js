@@ -1,5 +1,6 @@
         import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image} from 'react-native'
         import React, { useEffect } from 'react'
+        import PhoneInput from 'react-native-phone-input';
         import { useState } from 'react';
         import { auth } from '../firebase';
         import 'firebase/firestore';
@@ -127,6 +128,7 @@
             <TextInput
                 placeholder ="email address"
                 value={email}
+                keyboardType="email-address"
                 onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                 style={styles.input}
                 />
@@ -138,9 +140,10 @@
                 //secureTextEntry
                 />
 
-            <TextInput
+            <PhoneInput
                 placeholder ="phone number"
                 value={phoneNumber}
+                keyboardType= "numeric"
                 onChangeText={formatPhoneNumber} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
             // secureTextEntry
