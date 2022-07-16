@@ -101,7 +101,7 @@
                 }
                 return text;
                 })
-                
+
             return (
                 <KeyboardAvoidingView 
                 style={styles.container}
@@ -138,14 +138,15 @@
                     />
 
                 <TextInput       
-                    maxLength={maxLength}
-                    keyboardType={keyboardType}
+                    maxLength={10}
+                    keyboardType="numeric"
                     onChangeText={text => {
                     this._onChangeText(text);
                     }}
-                    placeholder={placeholder}
-                    placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
-                    value={value}
+                    placeholder="enter your phone number"
+                   // placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
+                    style={styles.input}
+                    value={phoneNumber}
                 />
 
                 <TextInput
