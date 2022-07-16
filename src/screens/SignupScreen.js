@@ -126,13 +126,13 @@
             //secureTextEntry
             />
 
-        <TextInput       
+        <TextInput style={[styles.input]}      
             maxLength={10}
             keyboardType="numeric"
             onChangeText={number => phoneFormat(number)}
             placeholder="enter your phone number"
         // placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
-            style={styles.input}
+            
             value={phoneNumber}
         />
 
