@@ -14,7 +14,7 @@
             const [email, setEmail] = useState('')
             const [password, setPassword] = useState('')
             const [username, setUsername] = useState('')
-            const [phoneNumber, formatPhoneNumber] = useState('')
+            const [phoneNumber, setPhone] = useState('')
             //const [confirmPassword, setConfirmPassword] = useState('')
         //this is the import to enable the navigation 
         const navigation = useNavigation()
@@ -82,6 +82,7 @@
         }
         */}
         //function that handles the phone number part of the app
+        {/*
         formatPhoneNumber = (phoneNumber) => {
             let newText = '';
             let clear= (''+phoneNumber).replace(/\D/g, '');
@@ -100,6 +101,7 @@
             this.setState({phoneNumber:newText})
 
         }
+    **/}
         return (
             <KeyboardAvoidingView 
             style={styles.container}
@@ -137,7 +139,7 @@
             <TextInput
                 placeholder ="phone number"
                 value={phoneNumber}
-                onChangeText={Number =>formatPhoneNumber(Number)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+                onChangeText={Number => setPhone(Number)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
             // secureTextEntry
                 />
