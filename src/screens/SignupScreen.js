@@ -239,35 +239,6 @@
         borderRadius:5
 
     },
-    countryCode:{
-        backgroundColor: '#EAEAEA',
-        paddingHorizontal: 15,
-        paddingVertical:10,
-        borderRadius:5,
-        width:60,
-        height:32,
-        marginTop:10,
-        fontSize: 12,
-        marginLeft:10
-
-    },
-    phoneNumInput:{
-        backgroundColor: '#EAEAEA',
-        paddingHorizontal: 15,
-        paddingVertical:10,
-        borderRadius:5,
-        width:230,
-        height:32,
-        marginTop:10,
-        fontSize: 12,
-        marginRight:75,
-        marginLeft:-75,
-        fontStyle:"Montserrat",
-        color:'#535353',
-       fontWeight:'600'
-
-
-    },
     input:{
         backgroundColor: '#EAEAEA',
         paddingHorizontal: 15,
