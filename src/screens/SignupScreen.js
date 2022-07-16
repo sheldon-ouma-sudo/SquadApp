@@ -6,6 +6,8 @@
     import 'firebase/firestore';
     import firebase from '../firebase';
     import { useNavigation } from '@react-navigation/core';
+    import { CallingCodePicker } from "@digieggs/rn-country-code-picker";
+    import { SafeAreaView } from 'react-native-safe-area-context';
 
 
     const SignupScreen = () => {
@@ -128,13 +130,17 @@
             />
         <View style={[{flexDirection: 'row'}]}>
           <View style={{flex:1}}>
-            <View style={[{justifyContent:'flex-start'},styles.countryCode]}>
-                <PhoneInput
-                value={intlCode}
-                //onPress={}
-                
+            <SafeAreaView style={[{justifyContent:'flex-start'},styles.countryCode]}>
+                <CallingCodePicker
+                onValueChange={() => {}}
+                style={styles.countryCodePicker}
+                togglerContainerStyle={styles.togglerContainerStyle}
+                togglerLabelStyle={styles.togglerLabelStyle}
+                searchInputStyle={styles.searchInputStyle}
+                pickerItemLabelStyle={styles.pickerItemLabelStyle}
+                pickerItemContainerStyle={styles.pickerItemContainerStyle}
                 />
-            </View>
+            </SafeAreaView>
           </View>
           <View style={{flex:1}}>
             <TextInput maxLength={10}value={phoneNumber}keyboardType="numeric"onChangeText={number => phoneFormat(number)}placeholder="enter your phone number" style={[{justifyContent:'flex-end'},styles.phoneNumInput]}/>
@@ -379,9 +385,34 @@
     },
     logo:{
     marginTop:-37
-    }
+    },
 
-
+    pickerItemLabelStyle: {
+        marginLeft: 10,
+        marginVertical: 10,
+        alignSelf: 'center'
+      },
+      pickerItemContainerStyle: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignSelf: 'center'
+      },
+      searchInputStyle: {
+        borderColor: '#888888',
+        borderWidth: 1,
+        height: 36,
+        borderRadius: 10,
+        paddingHorizontal: 10
+      },
+      togglerLabelStyle: {
+        fontSize: 20
+      },
+      togglerContainerStyle: {
+        backgroundColor: '#BAFFC0',
+        borderRadius: 10,
+        padding: 5
+      }
 
 
     })
