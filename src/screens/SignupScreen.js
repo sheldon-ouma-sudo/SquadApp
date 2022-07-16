@@ -84,8 +84,9 @@
         */}
         //function that handles the phone number part of the app
        // 
-       const formatPhoneNumber = (phoneNumber) => {
-        setPhone(Number)
+       {/** */}
+       //const formatPhoneNumber = (phoneNumber) => {
+       // setPhone(Number)
         {/*
             let newText = '';
             let clear= (''+phoneNumber).replace(/\D/g, '');
@@ -100,11 +101,8 @@
                 }
                 newText = newText + clear[i];
             }
-
         //**/}
-
-        }
-
+       // }
         return (
             <KeyboardAvoidingView 
             style={styles.container}
@@ -120,20 +118,20 @@
 
             <View style={styles.InputContainer}>
             <TextInput
-                placeholder ="name"
+                placeholder ="enter your name"
                 value={name}
                 onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                 style={styles.input}
                 />
             <TextInput
-                placeholder ="email address"
+                placeholder ="enter email address"
                 value={email}
                 keyboardType="email-address"
                 onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                 style={styles.input}
                 />
                 <TextInput
-                placeholder ="username"
+                placeholder ="enter username"
                 value={username}
                 onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
@@ -141,12 +139,18 @@
                 />
 
             <PhoneInput
-                placeholder ="phone number"
+                placeholder ="enter phone number"
                 value={phoneNumber}
-                keyboardType= "numeric"
-                onChangeText={formatPhoneNumber} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+               // keyboardType= "numeric"
                 style={styles.input}
-            // secureTextEntry
+               // defaultCode='US'
+                defaultCode = 'US'
+                onChangeText={(number) =>{
+                    setPhone(number)
+                
+                
+                }} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+               
                 />
 
             <TextInput
