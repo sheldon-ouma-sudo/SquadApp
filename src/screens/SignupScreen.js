@@ -14,6 +14,7 @@
         const [password, setPassword] = useState('')
         const [username, setUsername] = useState('')
         const [phoneNumber, setPhone] = useState('')
+        const [intlCode, setIntCod] = useState('')
         //const [confirmPassword, setConfirmPassword] = useState('')
     //this is the import to enable the navigation 
     const navigation = useNavigation()
@@ -125,16 +126,21 @@
             style={styles.input}
             //secureTextEntry
             />
-
-        <TextInput style={[styles.input]}      
-            maxLength={10}
-            keyboardType="numeric"
-            onChangeText={number => phoneFormat(number)}
-            placeholder="enter your phone number"
-        // placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
-            
-            value={phoneNumber}
-        />
+        <View style={[{flexDirection: 'row'}]}>
+          <View style={{flex:1}}>
+            <View style={[{justifyContent:'flex-start'},styles.countryCode]}>
+                <PhoneInput
+                value={intlCode}
+                //onPress={}
+                
+                />
+            </View>
+          </View>
+          <View style={{flex:1}}>
+            <TextInput maxLength={10}value={phoneNumber}keyboardType="numeric"onChangeText={number => phoneFormat(number)}placeholder="enter your phone number" style={[{justifyContent:'flex-end'},styles.phoneNumInput]}/>
+            </View>
+        </View>
+      
 
         <TextInput
             placeholder ="Password"
@@ -231,6 +237,35 @@
         marginLeft:29,
         marginTop: 20,
         borderRadius:5
+
+    },
+    countryCode:{
+        backgroundColor: '#EAEAEA',
+        paddingHorizontal: 15,
+        paddingVertical:10,
+        borderRadius:5,
+        width:60,
+        height:32,
+        marginTop:10,
+        fontSize: 12,
+        marginLeft:10
+
+    },
+    phoneNumInput:{
+        backgroundColor: '#EAEAEA',
+        paddingHorizontal: 15,
+        paddingVertical:10,
+        borderRadius:5,
+        width:230,
+        height:32,
+        marginTop:10,
+        fontSize: 12,
+        marginRight:75,
+        marginLeft:-75,
+        fontStyle:"Montserrat",
+        color:'#535353',
+       fontWeight:'600'
+
 
     },
     input:{
