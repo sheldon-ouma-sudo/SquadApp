@@ -55,37 +55,12 @@
                 
             }
         
-        }    
-        //let's check if there is the user document already      
+        }         
     })
-// .then(userCredentials =>{  const user= userCredentials.user;
-    //  console.log('sign up with ',user.email);})
+
 
     .catch(error =>alert(error.message))
-// createUserDocument(user, {username, phone,})
-    }
-    //handle the login functionaility of the app
-    {/** 
-    const handleLogin = () =>{
-        auth.signInWithEmailAndPassword(email, password)
-        .then(userCredentials =>{
-            const user= userCredentials.user;
-            console.log('Log in with ',user.email);
-        
-        })   
 
-    }
-    */}
-    //function that handles the phone number part of the app
-    const phoneFormat = (number) => {
-        var match = number.match(/(\d{3})(\d{3})(\d{4})$/)
-        if(match) {
-        var intlCode = match[1] ? "+1 " : ""
-        var num = ['(', match[1], ') ', match[2], '-', match[3]].join('');
-        setPhone(num);
-        return;
-        }
-        setPhone(number);
     }
     return (
         <KeyboardAvoidingView 
