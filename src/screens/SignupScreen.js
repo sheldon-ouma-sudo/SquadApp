@@ -82,8 +82,10 @@
         }
         */}
         //function that handles the phone number part of the app
-       // {/*
+       // 
        const formatPhoneNumber = (phoneNumber) => {
+        setPhone(Number)
+        {/*
             let newText = '';
             let clear= (''+phoneNumber).replace(/\D/g, '');
             for(var i= 0; i<clear.length; i++){
@@ -98,10 +100,10 @@
                 newText = newText + clear[i];
             }
 
-           setPhone(Number)
+        //**/}
 
         }
- //**/}
+
         return (
             <KeyboardAvoidingView 
             style={styles.container}
