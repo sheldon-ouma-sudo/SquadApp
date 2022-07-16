@@ -29,13 +29,10 @@
     return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
 
     }, [])
-
     //this function handles sign up
     const handleSignUp = () => {
     auth
     .createUserWithEmailAndPassword(email.trim(), password)  
-//  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
-    //once this is done, then create the user's credentials
     .then((user) =>{
         const firestore = firebase.firestore;
         const userRef = firestore().collection('users').doc(user.uid)
@@ -51,16 +48,12 @@
                     phoneNumber,
                 })
             }catch(error){
-                console.log(error)
-                
+                console.log(error)    
             }
         
         }         
     })
-
-
     .catch(error =>alert(error.message))
-
     }
     return (
         <KeyboardAvoidingView 
