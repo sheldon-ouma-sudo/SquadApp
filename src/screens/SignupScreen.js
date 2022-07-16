@@ -84,23 +84,15 @@
             */}
             //function that handles the phone number part of the app
             const phoneFormat = (number) => {
-
                 var match = number.match(/(\d{3})(\d{3})(\d{4})$/)
-            
                 if (match) {
                 var intlCode = match[1] ? "+1 " : ""
-
                  var num = [intlCode,'(', match[1], ') ', match[2], '-', match[3]].join('');
-            
-                  setPhone(num);
-            
+                setPhone(num);
                   return;
                 }
-            
                 setPhone(number);
               }
-            
-          
             return (
                 <KeyboardAvoidingView 
                 style={styles.container}
