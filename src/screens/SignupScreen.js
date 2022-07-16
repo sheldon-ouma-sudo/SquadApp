@@ -55,17 +55,11 @@
                 
             }
         
-        }
-        
-        //let's check if there is the user document already 
-        
-
+        }    
+        //let's check if there is the user document already      
     })
 // .then(userCredentials =>{  const user= userCredentials.user;
     //  console.log('sign up with ',user.email);})
-    
-
-
 
     .catch(error =>alert(error.message))
 // createUserDocument(user, {username, phone,})
@@ -125,7 +119,6 @@
             value={username}
             onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            //secureTextEntry
             />
       
 
@@ -158,11 +151,13 @@
                 </Text>
             </TouchableOpacity>
                 </View>
-                <TouchableOpacity  onPress={() =>
-                        navigation.replace('LoginScreen')}
-                        >
-                            <Text  style={[{justifyContent: 'center'},styles.loginText]}> Login </Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity  onPress={() =>
+                            navigation.replace('LoginScreen')}
+                            >
+                        <Text  
+                        style={[{justifyContent: 'center'},styles.loginText]}> 
+                        Login </Text>
+                    </TouchableOpacity>
                     
                     {/*this is the straight line with the text in it*/}
                     <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
@@ -172,7 +167,7 @@
                     </View>
 
                     {/**this is the view with the google and the facebook icons */}
-                <View style= {[{flexDirection:"row"}, styles.logo]}>
+            <View style= {[{flexDirection:"row"}, styles.logo]}>
                     <View style= {{flex:1}}>
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
@@ -329,10 +324,6 @@
     },
     logo:{
     marginTop:-37
-    },
-    phoneContainer: {
-        width: '75%',
-        height: 50,
     },
 
     })
