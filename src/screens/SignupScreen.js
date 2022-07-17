@@ -17,8 +17,8 @@
         const [username, setUsername] = useState('')
         const [phoneNumber, setPhone] = useState('')
         const [confirmPassword, setConfirmPassword] = useState('')
-        const [errorMessage, setErrorMessage] = useState(false);
-        const  [form, setForm]= useState('')
+        const [error, setError] = useState(false);
+        const [form, setForm]= useState('')
         
     //this is the import to enable the navigation 
     const navigation = useNavigation()
@@ -31,7 +31,7 @@
     })
     return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
 
-    }, [])
+    }, []) 
 
 
 
@@ -43,6 +43,14 @@
 
  const onSubmit = () =>{
   //carry out the validation 
+    if(!form.userName){
+        setError(prev=>{
+            return{...prev, userName:"Please enter a username"}
+        });
+    }else{
+        setName(name)
+    }
+
 
  };
 
