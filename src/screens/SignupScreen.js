@@ -74,10 +74,7 @@
         }
         setPhone(number);
         }
-        const onChange = () =>({}) =>{
-            
-
-        }
+        
     return (
         <KeyboardAvoidingView 
         style={styles.container}
