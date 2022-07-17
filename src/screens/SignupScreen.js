@@ -33,8 +33,26 @@
 
     }, [])
 
+
+
+ //this function handles the changing state of the functions which in turn controls the validation 
+ const onChange = () =>({name, value}) =>{
+    setForm({...form, [name]:value})
+ };
+ 
+
+ const onSubmit = () =>{
+  //carry out the validation 
+
+ };
+
+
+
+
+
+
     //this function handles sign up
-    const handleSignUp = () => {
+    const handleSignUp = (onChange, onSubmit, form, error) => {
     auth
     .createUserWithEmailAndPassword(email.trim(), password)  
     //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
@@ -97,7 +115,7 @@
             onChangeText={text => 
                 onChange('name', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}  
-            error={error}
+            error={error.name}
             />
         <TextInput
             placeholder ="enter email address"
@@ -107,16 +125,16 @@
             onChangeText={text => 
                 onChange('email', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
-            error={error}
+            error={error.email}
             />
             <TextInput
             placeholder ="enter username"
             autoCapitalize='none'
             value={username}
             onChangeText={text => 
-                onChange('username', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+                onChange('userName', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            error={error}
+            error={error.userName}
             
             />
 
@@ -138,7 +156,7 @@
                 onChange('password', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
             secureTextEntry
-            error={error}
+            error={error.password}
             />
             
             <TextInput
@@ -147,7 +165,7 @@
             onChangeText={text => 
                 onChange('confirmPassword', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            error={error}
+            error={error.confirmPassword}
             secureTextEntry
             />
 
@@ -196,10 +214,6 @@
         </KeyboardAvoidingView>
     )
     }
-
-
-
-
 
     export default SignupScreen
 
@@ -336,8 +350,4 @@
     logo:{
     marginTop:-37
     }
-
-
-
-
     })
