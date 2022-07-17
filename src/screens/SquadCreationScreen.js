@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const SquadCreation = () => {
+const SquadCreationScreen = () => {
   return (
     <View>
       <Text>Create your Squad</Text>
@@ -9,4 +9,4 @@ const SquadCreation = () => {
   )
 }
 
-export default SquadCreation
+export default SquadCreationScreen

@@ -5,7 +5,7 @@
   import LoginScreen from './src/screens/LoginScreen';
   import HomeScreen from './src/screens/HomeScreen';
   import SignupScreen from './src/screens/SignupScreen';
-import SquadCreation from './src/screens/SquadCreation';
+  import SquadCreationScreen from './src/screens/SquadCreationScreen';
 
   //this is the create stack navigator method: src from the navigation docs on the internet
   const Stack = createNativeStackNavigator();
@@ -21,7 +21,7 @@ import SquadCreation from './src/screens/SquadCreation';
           <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
-          <Stack.Screen options={{headerShown: false}} name="SquadCreation"  component={SquadCreation} />
+          <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
