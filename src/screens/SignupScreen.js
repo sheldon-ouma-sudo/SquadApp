@@ -17,8 +17,8 @@
         const [username, setUsername] = useState('')
         const [phoneNumber, setPhone] = useState('')
         const [confirmPassword, setConfirmPassword] = useState('')
-        const [error, setError] = useState(false);
-        const [form, setForm]= useState('')
+        const [errorMessage, setErrorMessage] = useState(false);
+        const  [form, setForm]= useState('')
         
     //this is the import to enable the navigation 
     const navigation = useNavigation()
@@ -31,36 +31,10 @@
     })
     return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
 
-    }, []) 
-
-
-
- //this function handles the changing state of the functions which in turn controls the validation 
- const onChange = () =>({name, value}) =>{
-    setForm({...form, [name]:value})
- };
- 
-
- const onSubmit = () =>{
-  //carry out the validation 
-    if(!form.userName){
-        setError(prev=>{
-            return{...prev, userName:"Please enter a username"}
-        });
-    }else{
-        setName(name)
-    }
-
-
- };
-
-
-
-
-
+    }, [])
 
     //this function handles sign up
-    const handleSignUp = (onChange, onSubmit, form, error) => {
+    const handleSignUp = () => {
     auth
     .createUserWithEmailAndPassword(email.trim(), password)  
     //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
@@ -100,8 +74,10 @@
         }
         setPhone(number);
         }
-       
+        const onChange = () =>({}) =>{
+            
 
+        }
     return (
         <KeyboardAvoidingView 
         style={styles.container}
@@ -120,30 +96,24 @@
             placeholder ="enter your name"
             autoCapitalize='none'
             value={name}
-            onChangeText={text => 
-                onChange('name', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+            onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}  
-            error={error.name}
             />
         <TextInput
             placeholder ="enter email address"
             value={email}
             autoCapitalize='none'
             keyboardType="email-address"
-            onChangeText={text => 
-                onChange('email', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+            onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
-            error={error.email}
             />
             <TextInput
             placeholder ="enter username"
             autoCapitalize='none'
             value={username}
-            onChangeText={text => 
-                onChange('userName', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+            onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            error={error.userName}
-            
+            //secureTextEntry
             />
 
         <TextInput       
@@ -154,26 +124,21 @@
             // placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
             style={styles.input}
             value={phoneNumber}
-            error={error}
         />
 
         <TextInput
             placeholder ="Password"
             value={password}
-            oonChangeText={text => 
-                onChange('password', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+            onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
             secureTextEntry
-            error={error.password}
             />
             
             <TextInput
             placeholder ="confirm password"
             value={confirmPassword}
-            onChangeText={text => 
-                onChange('confirmPassword', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+            onChangeText={text =>setConfirmPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            error={error.confirmPassword}
             secureTextEntry
             />
 
@@ -222,6 +187,10 @@
         </KeyboardAvoidingView>
     )
     }
+
+
+
+
 
     export default SignupScreen
 
@@ -358,4 +327,8 @@
     logo:{
     marginTop:-37
     }
+
+
+
+
     })
