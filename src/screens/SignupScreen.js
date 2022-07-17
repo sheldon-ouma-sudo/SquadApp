@@ -74,11 +74,7 @@
         }
         setPhone(number);
         }
-        //this function handles the changing state of the functions which in turn controls the validation 
-        const onChange = () =>({name, value}) =>{
-            setForm({...form, [name]:value})
-         };
-         
+       
 
     return (
         <KeyboardAvoidingView 
@@ -101,6 +97,7 @@
             onChangeText={text => 
                 onChange('name', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}  
+            error={error}
             />
         <TextInput
             placeholder ="enter email address"
@@ -110,6 +107,7 @@
             onChangeText={text => 
                 onChange('email', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
+            error={error}
             />
             <TextInput
             placeholder ="enter username"
@@ -118,7 +116,8 @@
             onChangeText={text => 
                 onChange('username', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
-            //secureTextEntry
+            error={error}
+            
             />
 
         <TextInput       
@@ -129,6 +128,7 @@
             // placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
             style={styles.input}
             value={phoneNumber}
+            error={error}
         />
 
         <TextInput
@@ -138,6 +138,7 @@
                 onChange('password', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
             secureTextEntry
+            error={error}
             />
             
             <TextInput
@@ -146,6 +147,7 @@
             onChangeText={text => 
                 onChange('confirmPassword', text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
+            error={error}
             secureTextEntry
             />
 
