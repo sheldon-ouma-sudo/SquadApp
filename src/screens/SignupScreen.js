@@ -16,7 +16,10 @@
                 const [password, setPassword] = useState('')
                 const [username, setUsername] = useState('')
                 const [phoneNumber, setPhone] = useState('')
-                //const [confirmPassword, setConfirmPassword] = useState('')
+                const [confirmPassword, setConfirmPassword] = useState('')
+                const [showErrorMessage, setShowErrorMessage] = useState(false);
+                const [confirmPasswordClass, setConfirmPasswordClass] = useState('form-control');
+                const [isCPasswordDirty, setIsCPasswordDirty] = useState(false);
             //this is the import to enable the navigation 
             const navigation = useNavigation()
             //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
@@ -107,7 +110,9 @@
 
                 <View style={styles.InputContainer}>
                 <TextInput
+                  
                     placeholder ="enter your name"
+                    autoCapitalize='none'
                     value={name}
                     onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
@@ -115,12 +120,14 @@
                 <TextInput
                     placeholder ="enter email address"
                     value={email}
+                    autoCapitalize='none'
                     keyboardType="email-address"
                     onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
                     />
                     <TextInput
                     placeholder ="enter username"
+                    autoCapitalize='none'
                     value={username}
                     onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                     style={styles.input}
@@ -144,7 +151,7 @@
                     style={styles.input}
                     secureTextEntry
                     />
-                    {/** 
+                 
                  <TextInput
                     placeholder ="confirm password"
                     value={confirmPassword}
@@ -152,7 +159,7 @@
                     style={styles.input}
                     secureTextEntry
                     />
-        */}
+        
 
                 </View> 
                 {/*this view contains our buttons */}
@@ -195,14 +202,6 @@
                                     </Image>
                             </View>       
                         </View>
-
-                        
-
-                        
-
-
-
-
                 </KeyboardAvoidingView>
             )
             }

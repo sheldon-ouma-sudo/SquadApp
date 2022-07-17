@@ -54,6 +54,7 @@
         <TextInput
             placeholder ="phone number, email address, or username"
             value={email}
+            autoComplete='none'
             onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
             />
