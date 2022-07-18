@@ -17,6 +17,7 @@
         const [emailError, setEmailError] = useState("")
         const [password, setPassword] = useState('')
         const [username, setUsername] = useState('')
+        const[userNameError, setUserNameError] = useState('')
         const [phoneNumber, setPhone] = useState('')
         const [passwordError, setPasswordError] = useState("")
         const [confirmPassword, setConfirmPassword] = useState('')
@@ -39,6 +40,24 @@
 
     //this function handles sign up
     const handleSignUp = () => {
+        //username validation 
+         var userNameValid = false;
+         if(email.length == 0){
+             setUserNameError("Username is required");
+         }        
+         else if(username.length < 5){
+            setUserNameError("username should be minimum 6 characters");
+         }      
+         else if(username.indexOf(' ') >= 0){        
+            setUserNameError('username cannot contain spaces');                          
+         }  
+         else{
+            setUserNameError("")
+             userNameValid = true
+         }
+        
+
+
         //email validation 
         var emailValid = false;
         if(email.length == 0){
@@ -149,7 +168,6 @@
         </View>
         <View style={styles.InputContainer}>
         <TextInput
-            
             placeholder ="Enter Your Name "
             autoCapitalize='none'
             value={name}
@@ -164,7 +182,8 @@
             onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
             />
-            {emailError.length > 0 &&<Text>{emailError}</Text>}
+            {emailError.length > 0 &&<Text style={styles.errorText}>{emailError} 
+            </Text>}
             <TextInput
             placeholder ="Username"
             autoCapitalize='none'
@@ -173,7 +192,7 @@
             style={styles.input}
             //secureTextEntry
             />
-
+              {userNameError.length > 0 && <Text style={styles.errorText}>{userNameError}</Text>}
         <TextInput       
             maxLength={10}
             keyboardType="number-pad"
@@ -190,7 +209,7 @@
             style={styles.input}
             secureTextEntry
             />
-            {passwordError.length > 0 && <Text>{passwordError}</Text>}
+            {passwordError.length > 0 && <Text style={styles.errorText}>{passwordError}</Text>}
             <TextInput
             placeholder ="Confirm Password"
             value={confirmPassword}
@@ -226,14 +245,14 @@
                     </View>
 
                     {/**this is the view with the google and the facebook icons */}
-                <View style= {[{flexDirection:"row"}, styles.logo]}>
-                    <View style= {{flex:1}}>
+                    <View style= {[{flexDirection:"row"}, styles.logo]}>
+                     <View style= {{flex:1}}>
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
                         style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
                         ></Image>
                     </View>
-                    <View style= {{fex:1}}>
+                        <View style= {{fex:1}}>
                             <Image
                             source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
                             style={[{justifyContent:'flex-end'},styles.facebookLogo]}
@@ -244,11 +263,6 @@
         </KeyboardAvoidingView>
     )
     }
-
-
-
-
-
     export default SignupScreen
 
     const styles = StyleSheet.create({
@@ -272,34 +286,39 @@
         borderRadius:5
 
     },
+
     input:{
         backgroundColor: '#EAEAEA',
         paddingHorizontal: 15,
         paddingVertical:10,
         borderRadius:5,
         width:296,
-        height:32,
+        height:42,
         marginTop:10,
-        fontSize: 15,
+        fontSize: 13,
         marginRight:15,
         marginLeft:10,
         fontStyle:"Montserrat",
         color:'#535353',
-        fontWeight:'400'
-        
-
+        fontWeight:'400'   
     },
-    buttonContainer:{
-    width: 296,
-    height:42,
-    borderRadius:5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 23,
-    marginBottom: 60
+     errorText:{
+        color:'#FFFFF',
+        marginLeft:20,
+        fontSize:12,
 
 
+     },
+        buttonContainer:{
+        width: 296,
+        height:42,
+        borderRadius:5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 23,
+        marginBottom: 60
     },
+
     button:{
         backgroundColor: '#1145FD',
         width: 296,
