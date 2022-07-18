@@ -205,7 +205,7 @@
                 onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                 style={styles.input}
                 />
-                {emailError.length > 0 &&<Text style={styles.errorText}>{emailError} 
+                {emailError.length > 0 &&<Text style={[styles.errorText,{color:'red'}]}>{emailError} 
                 </Text>}
                 <TextInput
                 placeholder ="Username"
@@ -216,7 +216,7 @@
                 style={styles.input}
                 //secureTextEntry
                 />
-                {userNameError.length > 0 && <Text style={styles.errorText}>{userNameError}</Text>}
+                {userNameError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{userNameError}</Text>}
             <TextInput       
                 maxLength={10}
                 keyboardType="number-pad"
@@ -226,7 +226,7 @@
                 style={styles.input}
                 value={phoneNumber}
             />
-                {userNameError.length > 0 && <Text style={styles.errorText}>{phoneNumberError}</Text>}
+                {userNameError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{phoneNumberError}</Text>}
             <TextInput
                 placeholder ="Password"
                 value={password}
@@ -235,7 +235,7 @@
                 style={styles.input}
                 secureTextEntry
                 />
-                {passwordError.length > 0 && <Text style={styles.errorText}>{passwordError}</Text>}
+                {passwordError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{passwordError}</Text>}
                 <TextInput
                 placeholder ="Confirm Password"
                 value={confirmPassword}
@@ -333,6 +333,7 @@
             color:'#FFFFF',
             marginLeft:20,
             fontSize:12,
+            textAlign:'center'
 
 
         },
