@@ -52,7 +52,7 @@
 
         <View style={styles.InputContainer}>
         <TextInput
-            placeholder ="phone number, email address, or username"
+            placeholder ="Phone number, Email address, or Username"
             value={email}
             autoComplete='none'
             onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
@@ -151,7 +151,7 @@
         marginTop: 20
 
     },
-    input:{
+   input:{
         backgroundColor: '#EAEAEA',
         paddingHorizontal: 15,
         paddingVertical:10,
@@ -159,12 +159,12 @@
         width:296,
         height:32,
         marginTop:10,
-        fontSize: 12,
+        fontSize: 13,
         marginRight:15,
         marginLeft:10,
         fontStyle:"Montserrat",
         color:'#535353',
-        fontWeight:'600'
+        fontWeight:'400'
         
 
     },
