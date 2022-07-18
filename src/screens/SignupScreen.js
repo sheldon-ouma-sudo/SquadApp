@@ -49,7 +49,9 @@
         }      
         else if(email.indexOf(' ') >= 0){        
             setEmailError('Email cannot contain spaces');                          
-        }    
+        } else if(email.indexOf('@') <= 0){        
+            setEmailError('Email is invald, please key in the valid key');                          
+        }      
         else{
             setEmailError("")
             emailValid = true
@@ -81,7 +83,7 @@
         }else if(!isUpperCase(password)){
             setPasswordError('password must contain at least 1 uppercase letter')
         }
-
+         //the validation for the username 
         else{
             setPasswordError("")
             passwordValid = true
@@ -304,7 +306,7 @@
         height: 42,
         padding: 15,
         borderRadius: 5,
-        marginTop: 20,
+        marginTop: -2,
         alignItems: 'center',
         marginRight: 10,
         marginLeft:15,
@@ -315,7 +317,7 @@
     buttonText:{
         color: 'white',
         fontWeight: '700',
-        fontSize: 12
+        fontSize: 12.5
         
     },
     buttonOutline:{
@@ -352,8 +354,8 @@
 
     },
     loginText:{
-        fontSize: 10,
-        marginTop: -30,
+        fontSize: 14,
+        marginTop: -40,
         marginBottom:10,
         marginLeft: 10,
         fontWeight:'bold',
@@ -367,7 +369,8 @@
     overflow:'hidden',
     borderWidth:1,
     borderColor: "red",
-    marginLeft:180
+    marginLeft:180,
+    marginTop:-5
 
     },
     facebookLogo:{
@@ -382,8 +385,4 @@
     logo:{
     marginTop:-37
     }
-
-
-
-
     })
