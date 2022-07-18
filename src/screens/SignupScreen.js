@@ -428,7 +428,8 @@
             overflow:'hidden',
             borderWidth:1,
             borderColor: "red",
-            marginRight:170
+            marginRight:170,
+            marginTop:-5
         },
         logo:{
         marginTop:-37
