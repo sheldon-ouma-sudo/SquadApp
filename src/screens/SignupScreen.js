@@ -226,7 +226,7 @@
                 style={styles.input}
                 value={phoneNumber}
             />
-                {userNameError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{phoneNumberError}</Text>}
+                {phoneNumberError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{phoneNumberError}</Text>}
             <TextInput
                 placeholder ="Password"
                 value={password}
@@ -243,8 +243,9 @@
                 onChangeText={text =>setConfirmPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
                 secureTextEntry
+                
                 />
-
+                {confirmPasswordError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{confirmPassword}</Text>}
 
             </View> 
             {/*this view contains our buttons */}
