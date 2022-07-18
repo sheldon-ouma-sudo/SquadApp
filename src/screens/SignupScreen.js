@@ -12,10 +12,13 @@
 
     const SignupScreen = () => {
         const [name, setName] = useState('')
+        const [nameError, setNameError] = useState("")
         const [email, setEmail] = useState('')
+        const [emailError, setEmailError] = useState("")
         const [password, setPassword] = useState('')
         const [username, setUsername] = useState('')
         const [phoneNumber, setPhone] = useState('')
+        const [passwordError, setPasswordError] = useState("")
         const [confirmPassword, setConfirmPassword] = useState('')
        
     //this is the import to enable the navigation 
@@ -33,6 +36,49 @@
 
     //this function handles sign up
     const handleSignUp = () => {
+        //email validation 
+        var emailValid = false;
+        if(email.length == 0){
+            setEmailError("Email is required");
+        }        
+        else if(email.length < 6){
+            setEmailError("Email should be minimum 6 characters");
+        }      
+        else if(email.indexOf(' ') >= 0){        
+            setEmailError('Email cannot contain spaces');                          
+        }    
+        else{
+            setEmailError("")
+            emailValid = true
+        }
+
+        //password validation 
+        var passwordValid = false;
+        if(password.length == 0){
+            setPasswordError("Password is required");
+        }        
+        else if(password.length < 8){
+            setPasswordError("Password should be minimum 8 characters");
+        }      
+        else if(password.indexOf(' ') >= 0){        
+            setPasswordError('Password cannot contain spaces');                          
+        }
+        else if(password!=confirmPassword){
+            setPasswordError('Password and confirm password do not match')
+
+        }
+
+        else{
+            setPasswordError("")
+            passwordValid = true
+        }        
+    
+        if(emailValid && passwordValid){            
+            alert('Email: ' + email + '\nPassword: ' + password); 
+            setEmail("");
+            setPassword("");
+        }        
+
     auth
     .createUserWithEmailAndPassword(email.trim(), password)  
     //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
@@ -88,22 +134,23 @@
         <View style={styles.InputContainer}>
         <TextInput
             
-            placeholder ="enter your name"
+            placeholder ="Enter Your Name "
             autoCapitalize='none'
             value={name}
             onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}  
             />
         <TextInput
-            placeholder ="enter email address"
+            placeholder ="Email Address"
             value={email}
             autoCapitalize='none'
             keyboardType="email-address"
             onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
             />
+            {emailError.length > 0 &&<Text>{emailError}</Text>}
             <TextInput
-            placeholder ="enter username"
+            placeholder ="Username"
             autoCapitalize='none'
             value={username}
             onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
@@ -115,8 +162,7 @@
             maxLength={10}
             keyboardType="number-pad"
             onChangeText={number => phoneFormat(number)}
-            placeholder="enter your phone number"
-        
+            placeholder="Phone Number"
             style={styles.input}
             value={phoneNumber}
         />
@@ -128,9 +174,9 @@
             style={styles.input}
             secureTextEntry
             />
-            
+            {passwordError.length > 0 && <Text>{passwordError}</Text>}
             <TextInput
-            placeholder ="confirm password"
+            placeholder ="Confirm Password"
             value={confirmPassword}
             onChangeText={text =>setConfirmPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
             style={styles.input}
@@ -218,12 +264,12 @@
         width:296,
         height:32,
         marginTop:10,
-        fontSize: 12,
+        fontSize: 15,
         marginRight:15,
         marginLeft:10,
         fontStyle:"Montserrat",
         color:'#535353',
-        fontWeight:'600'
+        fontWeight:'400'
         
 
     },
@@ -255,7 +301,7 @@
     buttonText:{
         color: 'white',
         fontWeight: '700',
-        fontSize: 10
+        fontSize: 12
         
     },
     buttonOutline:{
@@ -281,7 +327,7 @@
     },
 
     text:{
-    fontSize: 10,
+    fontSize: 12,
     textAlign: 'left',
     marginTop:10,
     marginBottom: 10,
