@@ -17,9 +17,7 @@
         const [username, setUsername] = useState('')
         const [phoneNumber, setPhone] = useState('')
         const [confirmPassword, setConfirmPassword] = useState('')
-        const [errorMessage, setErrorMessage] = useState(false);
-        const  [form, setForm]= useState('')
-        
+       
     //this is the import to enable the navigation 
     const navigation = useNavigation()
     //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
@@ -118,7 +116,7 @@
             keyboardType="number-pad"
             onChangeText={number => phoneFormat(number)}
             placeholder="enter your phone number"
-            // placeholderTextColor={Constants.APP_TEXT_GRAY_COLOR}
+        
             style={styles.input}
             value={phoneNumber}
         />
