@@ -34,6 +34,9 @@
 
     }, [])
 
+    //check the string if has a uppercase letter
+    const isUpperCase = (string) => /^[A-Z]*$/.test(string)
+
     //this function handles sign up
     const handleSignUp = () => {
         //email validation 
@@ -66,6 +69,17 @@
         else if(password!=confirmPassword){
             setPasswordError('Password and confirm password do not match')
 
+        }else if(password.indexOf('!')==-1|| password.indexOf('@')==-1||password.indexOf('#')==-1||password.indexOf('$')==-1||
+        password.indexOf('%')==-1||password.indexOf('^')==-1||password.indexOf('&')==-1||
+        password.indexOf('*')==-1||password.indexOf('(')==-1||password.indexOf(')')==-1||
+        password.indexOf('-')==-1||password.indexOf('_')==-1||password.indexOf('+')==-1||
+        password.indexOf('=')==-1||password.indexOf('{')==-1||password.indexOf('}')==-1||
+        password.indexOf('|')==-1||password.indexOf('?')==-1||password.indexOf('<')==-1||
+        password.indexOf('>')==-1||password.indexOf('.')==-1||password.indexOf('/')==-1||
+        password.indexOf(',')==-1){
+            setPasswordError('password should contain at least 1 special character')
+        }else if(!isUpperCase(password)){
+            setPasswordError('password must contain at least 1 uppercase letter')
         }
 
         else{
