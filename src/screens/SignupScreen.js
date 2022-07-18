@@ -11,14 +11,15 @@
 
 
     const SignupScreen = () => {
-        const [name, setName] = useState('')
-        const [nameError, setNameError] = useState("")
+       //const [name, setName] = useState('')
+       // const [nameError, setNameError] = useState("")
         const [email, setEmail] = useState('')
         const [emailError, setEmailError] = useState("")
         const [password, setPassword] = useState('')
         const [username, setUsername] = useState('')
-        const[userNameError, setUserNameError] = useState('')
+        const [userNameError, setUserNameError] = useState('')
         const [phoneNumber, setPhone] = useState('')
+        const [phoneNumberError, setPhoneNumberError] = useState('')
         const [passwordError, setPasswordError] = useState("")
         const [confirmPassword, setConfirmPassword] = useState('')
        
@@ -38,8 +39,33 @@
     //check the string if has a uppercase letter
     const isUpperCase = (string) => /^[A-Z]*$/.test(string)
 
+    //check if the the string has is a valid number 
+    function isNumeric(num){
+        if(num.indexOf(" ")!=5 ||num.indexOf('-') !=9){
+            return isNaNuN(num)
+        }
+        return !isNaN(num)
+      }
+
     //this function handles sign up
     const handleSignUp = () => {
+         //email address validation 
+         var emailValid = false;
+         if(email.length == 0){
+             setEmailError("Email is required");
+         }        
+         else if(email.length < 6){
+             setEmailError("Email should be minimum 6 characters");
+         }      
+         else if(email.indexOf(' ') >= 0){        
+             setEmailError('Email cannot contain spaces');                          
+         } else if(email.indexOf('@') <= 0){        
+             setEmailError('Email is invald, please key in the valid key');                          
+         }      
+         else{
+             setEmailError("")
+             emailValid = true
+         }
         //username validation 
          var userNameValid = false;
          if(email.length == 0){
@@ -56,26 +82,22 @@
              userNameValid = true
          }
         
-
-
-        //email validation 
-        var emailValid = false;
-        if(email.length == 0){
-            setEmailError("Email is required");
+       
+        //phone number validation
+        var phoneNumberValid = false;
+        if(phoneNumber.length == 0){
+            setPhoneNumberError("Phone Number is required");
         }        
-        else if(email.length < 6){
-            setEmailError("Email should be minimum 6 characters");
+        else if(phoneNumber.length < 13){
+            setPhoneNumberError("Incorrect phone number");
         }      
-        else if(email.indexOf(' ') >= 0){        
-            setEmailError('Email cannot contain spaces');                          
-        } else if(email.indexOf('@') <= 0){        
-            setEmailError('Email is invald, please key in the valid key');                          
-        }      
+        else if(!isNumeric){        
+            setPhoneNumberError('Please enter a valid phone number');                          
+        }  
         else{
-            setEmailError("")
-            emailValid = true
+            setPhoneNumberError("")
+            phoneNumberValid= true
         }
-
         //password validation 
         var passwordValid = false;
         if(password.length == 0){
@@ -102,17 +124,23 @@
         }else if(!isUpperCase(password)){
             setPasswordError('password must contain at least 1 uppercase letter')
         }
-         //the validation for the username 
+         
         else{
             setPasswordError("")
             passwordValid = true
         }        
-    
-        if(emailValid && passwordValid){            
+        //confirm password validation 
+        if(password!=confirmPassword){
+            setPasswordError('Password and confirm password do not match')
+
+        }
+        if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
             alert('Email: ' + email + '\nPassword: ' + password); 
             setEmail("");
             setPassword("");
-        }        
+            setUsername("")
+            setPhone("")
+              
 
     auth
     .createUserWithEmailAndPassword(email.trim(), password)  
@@ -127,7 +155,6 @@
         if(!snapShot.exists){
             try{
                 userRef.set({
-                    name,
                     email,
                     username,
                     phoneNumber,
@@ -141,13 +168,15 @@
 
     })
     .catch(error =>alert(error.message))
-    // createUserDocument(user, {username, phone,})
+
     }
+
+}
     //function that handles the phone number part of the app
     const phoneFormat = (number) => {
         var match = number.match(/(\d{3})(\d{3})(\d{4})$/)
         if (match) {
-            num = ['(', match[1], ') ', match[2], '-', match[3]].join('');
+            let num = ['(', match[1], ') ', match[2], '-', match[3]].join('');
             setPhone(num);
             return;
         }
@@ -167,13 +196,6 @@
         ></Image>
         </View>
         <View style={styles.InputContainer}>
-        <TextInput
-            placeholder ="Enter Your Name "
-            autoCapitalize='none'
-            value={name}
-            onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
-            style={styles.input}  
-            />
         <TextInput
             placeholder ="Email Address"
             value={email}
@@ -201,7 +223,7 @@
             style={styles.input}
             value={phoneNumber}
         />
-
+             {userNameError.length > 0 && <Text style={styles.errorText}>{phoneNumberError}</Text>}
         <TextInput
             placeholder ="Password"
             value={password}
