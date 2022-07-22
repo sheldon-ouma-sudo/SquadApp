@@ -108,17 +108,14 @@ textWrapper:{
   marginTop:5,
   flexDirection:'row',
   justifyContent:'flex-start',
-  alignItems:'flex-start'
-
+ alignItems:'flex-start'
 },
 textContanier:{
   justifyContent:"center",
   marginLeft:90,
   marginRight:20,
   marginTop:-280,
-  marginBottom:300
-  
-  
+  marginBottom:300   
 },
 confirmationText:{
   fontWeight:'500',
