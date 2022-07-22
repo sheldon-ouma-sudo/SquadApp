@@ -30,7 +30,7 @@
         useEffect(()=>{
         const unsubscribe = auth.onAuthStateChanged(user =>{
             if(user){
-                navigation.replace("SquadCreationScreen")
+                navigation.replace("PhoneOTPScreen")
             }
         })
         return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
