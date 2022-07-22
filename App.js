@@ -8,7 +8,7 @@
     import SquadCreationScreen from './src/screens/SquadCreationScreen';
     import PhoneOTPScreen from './src/screens/PhoneOTPScreen';
     import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
-    import EmailOTPScreen from './src/EmailOTPScreen';
+    import EmailOTPScreen from './src/screens/EmailOTPScreen';
   
 
     //this is the create stack navigator method: src from the navigation docs on the internet
