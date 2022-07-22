@@ -127,7 +127,7 @@
 
             }
             if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
-                alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
+               // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
                 setEmail("");
                 setPassword("");
                 setUsername("")
