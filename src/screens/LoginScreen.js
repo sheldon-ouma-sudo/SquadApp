@@ -116,11 +116,14 @@
                 </View>
 
                 {/**this is the forgot password functionality */}
-                <View style={styles.forgotPasswordTextContainer}>
-                    <Text style={styles.forgotPasswordText}>
+                <TouchableOpacity style={styles.forgotPasswordTextContainer}>
+                    <Text 
+                    onPress={() =>
+                        navigation.replace('ForgotPasswordScreen')}
+                    style={styles.forgotPasswordText}>
                         Forgot Password?
                     </Text>
-                </View>
+                </TouchableOpacity>
     
                {/**horizontal line at the botton of the page*/}
 

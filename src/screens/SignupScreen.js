@@ -192,7 +192,7 @@
                 placeholder ="Email Address"
                 value={email}
                 autoCapitalize='none'
-                textAlign = 'center'
+                //textAlign = 'center'
                 keyboardType="email-address"
                 onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                 style={styles.input}
@@ -203,7 +203,7 @@
                 placeholder ="Username"
                 autoCapitalize='none'
                 value={username}
-                textAlign = 'center'
+                //textAlign = 'center'
                 onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
                 //secureTextEntry
@@ -214,7 +214,7 @@
                 keyboardType="number-pad"
                 onChangeText={number => phoneFormat(number)}
                 placeholder="Phone Number"
-                textAlign = 'center'
+               // textAlign = 'center'
                 style={styles.input}
                 value={phoneNumber}
             />
@@ -222,7 +222,7 @@
             <TextInput
                 placeholder ="Password"
                 value={password}
-                textAlign = 'center'
+                //textAlign = 'center'
                 onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
                 secureTextEntry
@@ -231,7 +231,7 @@
                 <TextInput
                 placeholder ="Confirm Password"
                 value={confirmPassword}
-                textAlign = 'center'
+                //textAlign = 'center'
                 onChangeText={text =>setConfirmPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
                 secureTextEntry
