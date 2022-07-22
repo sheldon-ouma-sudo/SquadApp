@@ -45,7 +45,7 @@ const EmailOTPScreen = () => {
                 <Text style={[{justifyContent: 'flex-start'},styles.confirmationText]} >  Wrong Email?</Text>
             </View>
             <TouchableOpacity  onPress={() =>
-            navigation.replace('SignupScreen')}
+            navigation.navigate('SignupScreen')}
             style={{flex:1}}>
                 <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText]}> Return to Sign Up </Text>
             </TouchableOpacity>
