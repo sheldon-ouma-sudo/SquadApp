@@ -113,7 +113,7 @@ textWrapper:{
 },
 textContanier:{
   justifyContent:"center",
-  marginLeft:80,
+  marginLeft:90,
   marginRight:20,
   marginTop:-280,
   marginBottom:300
