@@ -36,10 +36,11 @@
         return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
 
         }, [])
-
-        //check the string if has a uppercase letter
-        const isUpperCase = (string) => /^[A-Z]*$/.test(string)
-
+        //this checks for the uppercase on the password and special character
+        function checkPassword(str){
+        var re =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+        return re.test(str);
+    }
         //check if the the string has is a valid number 
         function isNumeric(num){
             if(num.indexOf(" ")!=5 ||num.indexOf('-') !=9){
@@ -113,18 +114,9 @@
             else if(password!=confirmPassword){
                 setPasswordError('Password and confirm password do not match')
 
-            }else if(password.indexOf('!')==-1|| password.indexOf('@')==-1||password.indexOf('#')==-1||password.indexOf('$')==-1||
-            password.indexOf('%')==-1||password.indexOf('^')==-1||password.indexOf('&')==-1||
-            password.indexOf('*')==-1||password.indexOf('(')==-1||password.indexOf(')')==-1||
-            password.indexOf('-')==-1||password.indexOf('_')==-1||password.indexOf('+')==-1||
-            password.indexOf('=')==-1||password.indexOf('{')==-1||password.indexOf('}')==-1||
-            password.indexOf('|')==-1||password.indexOf('?')==-1||password.indexOf('<')==-1||
-            password.indexOf('>')==-1||password.indexOf('.')==-1||password.indexOf('/')==-1||
-            password.indexOf(',')==-1){
-                setPasswordError('password should contain at least 1 special character')
-            }else if(!isUpperCase(password)){
-                setPasswordError('password must contain at least 1 uppercase letter')
-            } 
+            }else if(!checkPassword){
+                setPasswordError("the password should contain at least one special character and an uppercase letter")
+            }
             else{
                 setPasswordError("")
                 passwordValid = true
@@ -245,7 +237,7 @@
                 secureTextEntry
                 
                 />
-                {confirmPasswordError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{confirmPassword}</Text>}
+                {confirmPasswordError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{confirmPasswordError}</Text>}
 
             </View> 
             {/*this view contains our buttons */}
@@ -334,7 +326,7 @@
             color:'#FFFFF',
             marginLeft:20,
             fontSize:12,
-            textAlign:'center'
+            //textAlign:'center'
 
 
         },
