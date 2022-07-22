@@ -37,15 +37,15 @@ const PhoneOTPScreen = () => {
               </TouchableOpacity>
            </View>
           </View>
-          
-          <View style={[{flexDirection:"row"},styles.signUpContanier]}>
+
+          <View style={[{flexDirection:"row"},styles.textContanier]}>
             <View style={[{flex:1},styles.textWrapper]}>
-                <Text style={[{justifyContent: 'flex-start'},styles.text]} >  Don't have an account?</Text>
+                <Text style={[{justifyContent: 'flex-start'},styles.text]} >  Didn't get the code?</Text>
             </View>
             <TouchableOpacity  onPress={() =>
             navigation.replace('SignupScreen')}
             style={{flex:1}}>
-                <Text  style={[{justifyContent: 'flex-end'},styles.signUpText]}> SignUp </Text>
+                <Text  style={[{justifyContent: 'flex-end'},styles.signUpText]}> Try with email </Text>
             </TouchableOpacity>
            </View>
     </KeyboardAvoidingView>
@@ -103,5 +103,21 @@ buttonText:{
   fontSize: 12.5
   
 },
+textWrapper:{
+  textAlign:'left',
+  marginTop:5,
+  flexDirection:'row',
+  justifyContent:'flex-start',
+  alignItems:'flex-start'
+
+},
+textContanier:{
+  justifyContent:"center",
+  marginLeft:80,
+  marginTop:-280,
+  marginBottom:300
+  
+  
+}
 
 })
