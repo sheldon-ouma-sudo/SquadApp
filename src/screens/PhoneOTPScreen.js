@@ -40,12 +40,12 @@
 
             <View style={[{flexDirection:"row"},styles.textContanier]}>
               <View style={[{flex:1},styles.textWrapper]}>
-                  <Text style={[{justifyContent: 'flex-start'},styles.text]} >  Didn't get the code?</Text>
+                  <Text style={[{justifyContent: 'flex-start'},styles.confirmationText]} >  Didn't get the code?</Text>
               </View>
               <TouchableOpacity  onPress={() =>
               navigation.replace('SignupScreen')}
               style={{flex:1}}>
-                  <Text  style={[{justifyContent: 'flex-end'},styles.signUpText]}> Try with email </Text>
+                  <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText]}> Try with email </Text>
               </TouchableOpacity>
             </View>
       </KeyboardAvoidingView>
@@ -118,6 +118,9 @@
     marginBottom:300
     
     
+  },
+  confirmationText:{
+    fontWeight:'500'
   }
 
   })
