@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
   },
   squadLogo:{
       width:221,
-      height:85
+      height:85,
+      marginBottom:30
 
 
   },
@@ -80,10 +81,11 @@ button:{
   height: 42,
   padding: 15,
   borderRadius: 5,
-  marginTop: 30,
+  marginTop: 10,
   alignItems: 'center',
   marginRight: 10,
-  marginLeft:15
+  marginLeft:15,
+  marginBottom:300
 },
 buttonText:{
   color: 'white',
