@@ -54,8 +54,7 @@ const styles = StyleSheet.create({
   },
   squadLogo:{
       width:221,
-      height:85,
-      marginBottom:20
+      height:85
 
 
   },
