@@ -255,7 +255,7 @@
                             navigation.replace('LoginScreen')}
                             >
                                 <Text  style={[{justifyContent: 'center'},styles.loginText]}> Login </Text>
-                            </TouchableOpacity>
+                    </TouchableOpacity>
                         
                         {/*this is the straight line with the text in it*/}
                         <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
