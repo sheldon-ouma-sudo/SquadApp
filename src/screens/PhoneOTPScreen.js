@@ -26,7 +26,7 @@ const PhoneOTPScreen = () => {
                 />
           </View>
           <View>
-          <View style={styles.buttonContainer}>
+           <View style={styles.buttonContainer}>
             <TouchableOpacity
             ///onPress={handleSignUp}
             style = {styles.button}
@@ -35,9 +35,19 @@ const PhoneOTPScreen = () => {
                   Confirm
                 </Text>
               </TouchableOpacity>
+           </View>
           </View>
-          </View>
-
+          
+          <View style={[{flexDirection:"row"},styles.signUpContanier]}>
+            <View style={[{flex:1},styles.textWrapper]}>
+                <Text style={[{justifyContent: 'flex-start'},styles.text]} >  Don't have an account?</Text>
+            </View>
+            <TouchableOpacity  onPress={() =>
+            navigation.replace('SignupScreen')}
+            style={{flex:1}}>
+                <Text  style={[{justifyContent: 'flex-end'},styles.signUpText]}> SignUp </Text>
+            </TouchableOpacity>
+           </View>
     </KeyboardAvoidingView>
   )
 }
