@@ -47,7 +47,7 @@ const EmailOTPScreen = () => {
             <TouchableOpacity  onPress={() =>
             navigation.replace('SignupScreen')}
             style={{flex:1}}>
-                <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText]}> Return to SignUp Page </Text>
+                <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText]}> Return to Sign Up </Text>
             </TouchableOpacity>
           </View>
           </KeyboardAvoidingView>
@@ -121,7 +121,8 @@ textContanier:{
   
 },
 confirmationText:{
-  fontWeight:'500'
+  fontWeight:'500',
+  marginRight:35
 }
 
 })
