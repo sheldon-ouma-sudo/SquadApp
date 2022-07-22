@@ -4,7 +4,7 @@ import React from 'react'
 const EmailOTPScreen = () => {
   return (
     <View>
-      <Text>EmailOTPScreen</Text>
+      
     </View>
   )
 }
