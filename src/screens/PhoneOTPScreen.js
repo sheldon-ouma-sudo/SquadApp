@@ -48,7 +48,7 @@
                     <Text style={[{justifyContent: 'flex-start'},styles.confirmationText]} >  Didn't get the code?</Text>
                 </View>
                 <TouchableOpacity  onPress={() =>
-                navigation.replace('SignupScreen')}
+                navigation.replace('EmailOTPScreen')}
                 style={{flex:1}}>
                     <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText]}> Try with email </Text>
                 </TouchableOpacity>

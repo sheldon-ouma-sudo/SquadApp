@@ -7,6 +7,7 @@
   import SignupScreen from './src/screens/SignupScreen';
   import SquadCreationScreen from './src/screens/SquadCreationScreen';
   import PhoneOTPScreen from './src/screens/PhoneOTPScreen';
+import EmailOTPScreen from './src/EmailOTPScreen';
 
   //this is the create stack navigator method: src from the navigation docs on the internet
   const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@
           <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
           <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
           <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
+          <Stack.Screen options={{headerShown: false}} name="EmailOTPScreen"  component={EmailOTPScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
