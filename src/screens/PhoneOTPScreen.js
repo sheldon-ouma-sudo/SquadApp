@@ -93,8 +93,8 @@
     borderRadius: 5,
     marginTop: 10,
     alignItems: 'center',
-    marginRight: 10,
-    marginLeft:15,
+    marginRight: 15,
+    marginLeft:10,
     marginBottom:300
   },
   buttonText:{
