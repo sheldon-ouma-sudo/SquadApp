@@ -114,6 +114,7 @@
   textContanier:{
     justifyContent:"center",
     marginLeft:80,
+    marginRight:20,
     marginTop:-280,
     marginBottom:300
     
