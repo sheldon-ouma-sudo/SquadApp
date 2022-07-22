@@ -122,7 +122,7 @@
                 passwordValid = true
             }        
             //confirm password validation 
-            if(password!=confirmPassword){
+            if(password!==confirmPassword){
                 setConfirmPasswordError('Password and confirm password do not match')
 
             }
