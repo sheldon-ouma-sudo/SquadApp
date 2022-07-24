@@ -3907,6 +3907,13 @@ expo-firebase-firestore@^2.0.0:
     expo-firebase-app "~2.0.0"
     js-base64 "^2.4.9"
 
+expo-firebase-recaptcha@~2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/expo-firebase-recaptcha/-/expo-firebase-recaptcha-2.2.0.tgz#879aadac80704941bf7d65a2f12ef5c1cbd9811a"
+  integrity sha512-/JYtUQ4YC+jqLFrcx9RJrZp+rPP+hcXZ63HhRqm2YWr2ReQXG+YyT84PcLhSTwesBmAn4HPQWOvawaUQs7cmYw==
+  dependencies:
+    expo-firebase-core "~5.0.0"
+
 expo-font@~10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/expo-font/-/expo-font-10.1.0.tgz#2e8f8954943c5afca8444c1ffb1d74623c6a4fb6"
