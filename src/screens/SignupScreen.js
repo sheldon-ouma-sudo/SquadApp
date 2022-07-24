@@ -309,6 +309,9 @@ return (
                         </Image>
                 </View>       
             </View>
+            <Text style={[{marginTop:90}, {marginBottom:-80}]}> 
+                        English(United States)
+            </Text>
     </KeyboardAvoidingView>
 )
 }

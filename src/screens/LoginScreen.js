@@ -124,7 +124,11 @@
                         Forgot Password?
                     </Text>
                 </TouchableOpacity>
-    
+                
+                    <Text style={[{marginTop:90}, {marginBottom:-80}]}> 
+                        English(United States)
+                    </Text>
+                    
                {/**horizontal line at the botton of the page*/}
 
               
