@@ -52,7 +52,7 @@ const phoneFormat = (number) => {
             containerButtonStyle={{
             /// alignItems:'center',
             justifyContent:'flex-start',
-                marginLeft:100   
+                marginLeft:50  
             }}
             style={[{justifyContent:'flex-start'},styles.countryCodeInput]}
         />
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 25,
         paddingVertical:10,
         borderRadius:5,
-        width:16,
+        width:280,
         height:42,
         marginTop:10,
         fontSize: 13,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         paddingVertical:10,
         borderRadius:5,
-        width:42,
+        width:16,
         height:42,
         marginTop:10,
         fontSize: 13,

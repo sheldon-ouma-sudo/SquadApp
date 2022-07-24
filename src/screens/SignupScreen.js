@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import PhoneInput from 'react-native-phone-input';
 import { useState } from 'react';
 import { auth } from '../firebase';
+import { CountryCode } from 'react-native-country-picker-modal'
+import CountryPicker from 'react-native-country-picker-modal'
 import 'firebase/firestore';
 import firebase from '../firebase';
 
@@ -22,6 +24,8 @@ const SignupScreen = () => {
     const [phoneNumberError, setPhoneNumberError] = useState('')
     const [passwordError, setPasswordError] = useState("")
     const [confirmPassword, setConfirmPassword] = useState('')
+    const[countryCode, setCountryCode] = useState('US')
+    const[callingCode, setCallingCode] = useState('1')
     const [confirmPasswordError, setConfirmPasswordError]= useState("")
 
 //this is the import to enable the navigation 
@@ -226,7 +230,7 @@ return (
                     containerButtonStyle={{
                     /// alignItems:'center',
                     justifyContent:'flex-start',
-                        marginLeft:100   
+                        marginLeft:10   
                     }}
                     style={[{justifyContent:'flex-start'},styles.countryCodeInput]}
                 />
@@ -346,6 +350,31 @@ input:{
     fontStyle:"Montserrat",
     color:'#535353',
     fontWeight:'400'   
+},
+countryCodeInput:{
+ backgroundColor: '#EAEAEA',
+ marginTop:10,
+ height:42,
+ marginLeft:10,
+ marginRight:-25,
+ 
+
+ 
+
+},
+phoneNumberInput:{
+    backgroundColor: '#EAEAEA',
+    marginTop:10,
+    height:42,
+    marginLeft:-175,
+    marginRight:-10,
+    paddingVertical:13,
+    paddingHorizontal:12,
+    width:100,
+    fontSize: 13,
+    color:'#535353',
+    
+   
 },
 errorText:{
     color:'#FFFFF',
