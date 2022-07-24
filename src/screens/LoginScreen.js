@@ -125,11 +125,14 @@
                     </Text>
                 </TouchableOpacity>
                 
-                    <Text style={[{marginTop:90}, {marginBottom:-80}]}> 
-                        English(United States)
-                    </Text>
+                    
                     
                {/**horizontal line at the botton of the page*/}
+               <View style={{backgroundColor: 'black', height: 1, width:400, marginTop:150}} />
+                <Text style={[{marginTop:10}, {marginBottom:-180},{alignSelf:'center'}]}> 
+                            English(United States)
+                </Text>
+        
 
               
         </KeyboardAvoidingView>

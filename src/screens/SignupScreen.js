@@ -311,8 +311,8 @@ return (
             </View>
              <View >
 
-        <View style={{backgroundColor: 'black', height: 1,  marginTop:90}} />
-                <Text style={[{marginTop:90}, {marginBottom:-80}]}> 
+        <View style={{backgroundColor: 'black', height: 1, width:400, marginTop:190}} />
+                <Text style={[{marginTop:10}, {marginBottom:-80},{alignSelf:'center'}]}> 
                             English(United States)
                 </Text>
         </View>
