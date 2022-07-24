@@ -309,9 +309,13 @@ return (
                         </Image>
                 </View>       
             </View>
-            <Text style={[{marginTop:90}, {marginBottom:-80}]}> 
-                        English(United States)
-            </Text>
+             <View >
+
+        <View style={{backgroundColor: 'black', height: 1,  marginTop:90}} />
+                <Text style={[{marginTop:90}, {marginBottom:-80}]}> 
+                            English(United States)
+                </Text>
+        </View>
     </KeyboardAvoidingView>
 )
 }

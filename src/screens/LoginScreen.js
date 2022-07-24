@@ -241,7 +241,7 @@
 
     },
     signUpText:{
-        fontSize: 10,
+        fontSize: 12.5,
         marginTop: 15,
         marginBottom:10,
         marginLeft: 10,
