@@ -51,7 +51,7 @@ const phoneFormat = (number) => {
             }}
             containerButtonStyle={{
             /// alignItems:'center',
-            justifyContent:'flex-start',
+            //justifyContent:'flex-start',
                 marginLeft:50  
             }}
             style={[{justifyContent:'flex-start'},styles.countryCodeInput]}
