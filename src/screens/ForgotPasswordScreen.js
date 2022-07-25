@@ -1,4 +1,6 @@
 import * as React from 'react';
+import OtpAutoFillViewManager from 'react-native-otp-auto-fill';
+
 import {
   Text,
   View,
@@ -11,6 +13,7 @@ import {
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+
 
 // Initialize Firebase JS SDK >=9.x.x
 // https://firebase.google.com/docs/web/setup
@@ -81,6 +84,14 @@ export default function App() {
           }
         }}
       />
+       <View style={styles.container}>
+      <OtpAutoFillViewManager
+        onComplete={handleComplete}
+        onAndroidSignature={handleOnAndroidSignature}
+        style={styles.box}
+        length={4} // Define the length of OTP code. This is a must.
+      />
+    </View>
       <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
       <TextInput
         style={{ marginVertical: 10, fontSize: 17 }}
