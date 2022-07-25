@@ -59,7 +59,19 @@ if (!app?.options || Platform.OS === 'web') {
               <View>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                ///onPress={handleSignUp}
+                onPress={async () => {
+                  try {
+                    const credential = PhoneAuthProvider.credential(
+                      verificationId,
+                      verificationCode
+                    );
+                    await signInWithCredential(auth, credential);
+                    showMessage({ text: 'Phone authentication successful 👍' });
+                  } catch (err) {
+                    showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                  }
+                }
+                }
                 style = {styles.button}
                     >
                     <Text style={styles.buttonText}>
