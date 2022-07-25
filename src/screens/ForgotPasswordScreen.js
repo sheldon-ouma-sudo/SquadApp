@@ -85,12 +85,7 @@ export default function App() {
         }}
       />
        <View style={styles.container}>
-      <OtpAutoFillViewManager
-        onComplete={handleComplete}
-        onAndroidSignature={handleOnAndroidSignature}
-        style={styles.box}
-        length={4} // Define the length of OTP code. This is a must.
-      />
+      
     </View>
       <Text style={{ marginTop: 20 }}>Enter Verification code</Text>
       <TextInput
@@ -139,3 +134,17 @@ export default function App() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  box: {
+    width: 300,
+    height: 55,
+    marginVertical: 20,
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+});
