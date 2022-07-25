@@ -7,15 +7,9 @@ import { CountryCode } from 'react-native-country-picker-modal'
 import CountryPicker from 'react-native-country-picker-modal'
 import 'firebase/firestore';
 import firebase from '../firebase';
+
+
 import { useNavigation } from '@react-navigation/core';
-import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
-import { initializeApp, getApp } from 'firebase/app';
-import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
-
-
-const app = getApp();
-//const auth = getAuth();
-
 
 
 const SignupScreen = () => {
@@ -60,7 +54,7 @@ function isNumeric(num){
 }
 
 //this function handles sign up
-const handleSignUp = async () => {
+const handleSignUp = () => {
     //email address validation 
     var emailValid = false;
     if(email.length == 0){
@@ -172,19 +166,7 @@ auth
 .catch(error =>alert(error.message))
 
 }
-try {
-    const phoneProvider = new PhoneAuthProvider(auth);
-    const verificationId = await phoneProvider.verifyPhoneNumber(
-      phoneNumber,
-      recaptchaVerifier.current
-    );
-    setVerificationId(verificationId);
-    showMessage({
-      text: 'Verification code has been sent to your phone.',
-    });
-  } catch (err) {
-    showMessage({ text: `Error: ${err.message}`, color: 'red' });
-  }
+
 }
 //function that handles the phone number part of the app
 const phoneFormat = (number) => {
