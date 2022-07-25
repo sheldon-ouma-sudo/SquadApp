@@ -167,7 +167,19 @@ auth
 .catch(error =>alert(error.message))
 
 }
-
+try {
+    const phoneProvider = new PhoneAuthProvider(auth);
+    const verificationId = await phoneProvider.verifyPhoneNumber(
+      phoneNumber,
+      recaptchaVerifier.current
+    );
+    setVerificationId(verificationId);
+    showMessage({
+      text: 'Verification code has been sent to your phone.',
+    });
+  } catch (err) {
+    showMessage({ text: `Error: ${err.message}`, color: 'red' });
+  }
 }
 //function that handles the phone number part of the app
 const phoneFormat = (number) => {
