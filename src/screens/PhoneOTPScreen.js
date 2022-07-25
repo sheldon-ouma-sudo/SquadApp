@@ -1,33 +1,13 @@
     import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity} from 'react-native'
     import React from 'react'
     import { useNavigation } from '@react-navigation/core';
-    import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
-    import { initializeApp, getApp } from 'firebase/app';
-    import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
-
     
 
-    const app = getApp();
-    const auth = getAuth();
-
-// Double-check that we can run the example
-if (!app?.options || Platform.OS === 'web') {
-  throw new Error('This example only works on Android or iOS, and requires a valid Firebase config.');
-}
+ 
 
 
     const PhoneOTPScreen = () => {
     const navigation = useNavigation()
-
-    // Ref or state management hooks
-  const recaptchaVerifier = React.useRef(null);
-  const [verificationId, setVerificationId] = React.useState();
-  const [verificationCode, setVerificationCode] = React.useState();
-
-  const firebaseConfig = app ? app.options : undefined;
-  const [message, showMessage] = React.useState();
-  const attemptInvisibleVerification = false;
-
       return (
         <KeyboardAvoidingView
           style={styles.container}
@@ -41,11 +21,6 @@ if (!app?.options || Platform.OS === 'web') {
                 ></Image>
                 </View>
               <View>
-              <FirebaseRecaptchaVerifierModal
-                  ref={recaptchaVerifier}
-                  firebaseConfig={app.options}
-                  //attemptInvisibleVerification = true
-                  />
                 <TextInput
                     placeholder ="Enter Confirmtion Code"
                   // value={email}
