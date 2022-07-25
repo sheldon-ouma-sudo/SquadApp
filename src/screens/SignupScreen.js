@@ -13,6 +13,11 @@ import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 
+const app = getApp();
+//const auth = getAuth();
+
+
+
 const SignupScreen = () => {
 //const [name, setName] = useState('')
 // const [nameError, setNameError] = useState("")
