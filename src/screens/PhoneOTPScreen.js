@@ -44,7 +44,7 @@ if (!app?.options || Platform.OS === 'web') {
               <FirebaseRecaptchaVerifierModal
                   ref={recaptchaVerifier}
                   firebaseConfig={app.options}
-                  attemptInvisibleVerification
+                  //attemptInvisibleVerification = true
                   />
                 <TextInput
                     placeholder ="Enter Confirmtion Code"
