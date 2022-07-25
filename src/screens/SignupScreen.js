@@ -7,9 +7,10 @@ import { CountryCode } from 'react-native-country-picker-modal'
 import CountryPicker from 'react-native-country-picker-modal'
 import 'firebase/firestore';
 import firebase from '../firebase';
-
-
 import { useNavigation } from '@react-navigation/core';
+import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import { initializeApp, getApp } from 'firebase/app';
+import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
 
 const SignupScreen = () => {
@@ -54,7 +55,7 @@ function isNumeric(num){
 }
 
 //this function handles sign up
-const handleSignUp = () => {
+const handleSignUp = async () => {
     //email address validation 
     var emailValid = false;
     if(email.length == 0){
