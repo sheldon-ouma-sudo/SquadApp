@@ -1,7 +1,6 @@
     import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity} from 'react-native'
     import React from 'react'
-    import { useNavigation } from '@react-navigation/core';
-    
+  import { useNavigation } from '@react-navigation/core';
 
  
 
