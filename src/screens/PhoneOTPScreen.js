@@ -12,6 +12,7 @@
     async function confirmCode() {
       try {
         await verificationId.confirm(code);
+        setCode(code)
       } catch (error) {
         console.log('Invalid code.');
       }
@@ -35,7 +36,7 @@
                     autoCapitalize='none'
                     textAlign = 'center'
                     keyboardType="numeric"
-                    onChangeText={setCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                    onChangeText={confirmCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
                     />
               </View>
