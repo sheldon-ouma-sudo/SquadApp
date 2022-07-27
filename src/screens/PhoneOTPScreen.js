@@ -7,7 +7,7 @@
     
 
     const PhoneOTPScreen = () => {
-      const [verificationCode, setVerificationCode] = useState("")
+   const [verificationCode, setVerificationCode] = useState("")
     
 
     const verificationId = props.route.params.verificationId
@@ -32,7 +32,7 @@
                     autoCapitalize='none'
                     textAlign = 'center'
                     keyboardType="numeric"
-                    onChangeText={confirmCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                    onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
                     />
               </View>
@@ -50,6 +50,7 @@
                   } catch (err) {
                     showMessage({ text: `Error: ${err.message}`, color: 'red' });
                   }
+                  navigation.navigate('Home')
                 }}
                 style = {styles.button}
                     >
