@@ -1,22 +1,18 @@
     import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity} from 'react-native'
-    import React from 'react'
+    import React, { useState } from 'react'
     import { useNavigation } from '@react-navigation/core';
+    import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+    
     
     
 
     const PhoneOTPScreen = () => {
-    const [code, setCode] = useState('');
+      const [verificationCode, setVerificationCode] = useState("")
+    
 
     const verificationId = props.route.params.verificationId
     const navigation = useNavigation()
-    async function confirmCode() {
-      try {
-        await verificationId.confirm(code);
-        setCode(code)
-      } catch (error) {
-        console.log('Invalid code.');
-      }
-    }
+    
       return (
         <KeyboardAvoidingView
           style={styles.container}
@@ -43,7 +39,18 @@
               <View>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                ///onPress={handleSignUp}
+                onPress={async () => {
+                  try {
+                    const credential = PhoneAuthProvider.credential(
+                      verificationId,
+                      verificationCode
+                    );
+                    await signInWithCredential(auth, credential);
+                    showMessage({ text: 'Phone authentication successful 👍' });
+                  } catch (err) {
+                    showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                  }
+                }}
                 style = {styles.button}
                     >
                     <Text style={styles.buttonText}>
