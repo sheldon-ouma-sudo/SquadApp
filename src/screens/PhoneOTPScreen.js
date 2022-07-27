@@ -5,11 +5,13 @@
     
 
     const PhoneOTPScreen = () => {
+    const [code, setCode] = useState('');
+
     const verificationId = props.route.params.verificationId
     const navigation = useNavigation()
     async function confirmCode() {
       try {
-        await confirm.confirm(code);
+        await verificationId.confirm(code);
       } catch (error) {
         console.log('Invalid code.');
       }
@@ -33,7 +35,7 @@
                     autoCapitalize='none'
                     textAlign = 'center'
                     keyboardType="numeric"
-                    //onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                    onChangeText={setCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
                     />
               </View>
