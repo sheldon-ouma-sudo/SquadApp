@@ -7,7 +7,7 @@
         import CountryPicker from 'react-native-country-picker-modal'
         import 'firebase/firestore';
         import firebase from '../firebase';
-
+      
 
         import { useNavigation } from '@react-navigation/core';
 
@@ -15,6 +15,7 @@
         const SignupScreen = () => {
         //const [name, setName] = useState('')
         // const [nameError, setNameError] = useState("")
+            const recaptchaVerifier = React.useRef(null);
             const [email, setEmail] = useState('')
             const [emailError, setEmailError] = useState("")
             const [password, setPassword] = useState('')
@@ -24,23 +25,14 @@
             const [phoneNumberError, setPhoneNumberError] = useState('')
             const [passwordError, setPasswordError] = useState("")
             const [confirmPassword, setConfirmPassword] = useState('')
-            const[countryCode, setCountryCode] = useState('US')
-            const[callingCode, setCallingCode] = useState('1')
+            const [countryCode, setCountryCode] = useState('US')
+            const [callingCode, setCallingCode] = useState('1')
             const [confirmPasswordError, setConfirmPasswordError]= useState("")
-              const [verificationId, setVerificationId] = React.useState();
+            const [verificationId, setVerificationId] = useState("");
 
         //this is the import to enable the navigation 
         const navigation = useNavigation()
-        //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
-        useEffect(()=>{
-        const unsubscribe = auth.onAuthStateChanged(user =>{
-            if(user){
-                navigation.replace("PhoneOTPScreen")
-            }
-        })
-        return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
-
-        }, [])
+     
         //this checks for the uppercase on the password and special character
         function checkPassword(str){
         var re =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
@@ -158,9 +150,34 @@
          })
          .catch(error =>alert(error.message))
          }
-
+         try {
+            const phoneProvider = new PhoneAuthProvider(auth);
+            const verificationId = phoneProvider.verifyPhoneNumber(
+              phoneNumber,
+              recaptchaVerifier.current
+            );
+            setVerificationId(verificationId);
+            showMessage({
+              text: 'Verification code has been sent to your phone.',
+            });
+          } catch (err) {
+            showMessage({ text: `Error: ${err.message}`, color: 'red' });
+          }
+         // navigation.navigate('OTPScreen', { verificationId: 
+            //verificationId})
+         
+             //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
+            useEffect(()=>{
+            const unsubscribe = auth.onAuthStateChanged(user =>{
+                if(user){
+                    navigation.replace("PhoneOTPScreen",  { verificationId: 
+                        verificationId})
+                }
+            })
+            return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
+    
+            }, [])
          }}
-        
         //function that handles the phone number part of the app
         const phoneFormat = (number) => {
             var match = number.match(/(\d{3})(\d{3})(\d{4})$/)

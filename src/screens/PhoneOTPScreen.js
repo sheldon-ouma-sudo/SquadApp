@@ -2,12 +2,18 @@
     import React from 'react'
     import { useNavigation } from '@react-navigation/core';
     
-
- 
-
+    
 
     const PhoneOTPScreen = () => {
+    const verificationId = props.route.params.verificationId
     const navigation = useNavigation()
+    async function confirmCode() {
+      try {
+        await confirm.confirm(code);
+      } catch (error) {
+        console.log('Invalid code.');
+      }
+    }
       return (
         <KeyboardAvoidingView
           style={styles.container}
