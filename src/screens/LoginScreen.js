@@ -49,7 +49,7 @@
 
         <View style={styles.InputContainer}>
         <TextInput
-            placeholder ="Phone number, Email address, or Username"
+            placeholder ="Email address"
             value={email}
             autoComplete='none'
             autoCapitalize='none'
