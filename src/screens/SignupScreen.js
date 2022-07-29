@@ -1,14 +1,12 @@
         import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image} from 'react-native'
         import React, { useEffect } from 'react'
-        import PhoneInput from 'react-native-phone-input';
+       // import PhoneInput from 'react-native-phone-input';
         import { useState } from 'react';
         import { auth } from '../firebase';
-        import { CountryCode } from 'react-native-country-picker-modal'
+       // import { CountryCode } from 'react-native-country-picker-modal'
         import CountryPicker from 'react-native-country-picker-modal'
         import 'firebase/firestore';
         import firebase from '../firebase';
-      
-
         import { useNavigation } from '@react-navigation/core';
 
 
