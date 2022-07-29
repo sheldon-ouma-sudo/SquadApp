@@ -35,6 +35,7 @@
         
 
     }
+
    signInWithGoogleAsync = async() => {
     try {
         const result = await Google.logInAsync({
@@ -126,6 +127,7 @@
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
                         style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+                        onPress={signInWithGoogleAsync}
                         ></Image>
                     </View>
                     <View style= {{fex:1}}>
