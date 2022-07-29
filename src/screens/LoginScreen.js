@@ -2,9 +2,6 @@
     import React, { useEffect } from 'react'
     import { useState } from 'react';
     import { auth } from '../firebase';
-    import Hr from "react-native-hr-component";
-
-    import { LinearGradient } from 'expo-linear-gradient';
     import { useNavigation } from '@react-navigation/core';
     import react from 'react';
 
