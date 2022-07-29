@@ -9,6 +9,10 @@
     import PhoneOTPScreen from './src/screens/PhoneOTPScreen';
     import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
     import EmailOTPScreen from './src/screens/EmailOTPScreen';
+    import AgeGenderLocationScreen from './src/screens/AgeGenderLocationScreen';
+    import PersonalInterests from './src/screens/PersonalInterests';
+    import ProfilePictureUpload from './src/screens/ProfilePictureUpload';
+    import GoogleSignInLoadingScreen from './src/screens/GoogleSignInLoadingScreen';
   
 
     //this is the create stack navigator method: src from the navigation docs on the internet
