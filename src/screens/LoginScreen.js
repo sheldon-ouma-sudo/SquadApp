@@ -3,9 +3,11 @@
     import { useState } from 'react';
     import { auth } from '../firebase';
     import { useNavigation } from '@react-navigation/core';
+    import Google from 'expo-google-app-auth';
+
     import react from 'react';
 
-
+    
     const LoginScreen = () => {
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
@@ -33,6 +35,28 @@
         
 
     }
+   signInWithGoogleAsync = async() => {
+    try {
+        const result = await Google.logInAsync({
+        behavior: 'web',
+        androidClientId: 32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com,
+        iosClientId: 32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com,
+        scopes: ['profile', 'email'],
+        });
+    
+        if (result.type === 'success') {
+          return result.accessToken;
+        } else {
+          return { cancelled: true };
+        }
+      } catch (e) {
+        return { error: true };
+      }
+    }
+
+   
+
+
 
     return (
         <KeyboardAvoidingView 
