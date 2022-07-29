@@ -47,7 +47,6 @@
         }
         //this function handles sign up
        const  handleSignUp={async() {
-
              //email address validation 
              var emailValid = false;
              if(email.length == 0){
