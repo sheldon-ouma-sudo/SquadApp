@@ -18,9 +18,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.Squad",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.Squad",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
