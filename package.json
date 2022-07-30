@@ -21,6 +21,7 @@
     "expo-application": "^4.1.0",
     "expo-auth-session": "^3.6.1",
     "expo-cli": "^6.0.1",
+    "expo-facebook": "^12.2.0",
     "expo-firebase-analytics": "~7.0.0",
     "expo-firebase-firestore": "^2.0.0",
     "expo-firebase-recaptcha": "~2.2.0",
