@@ -3,7 +3,7 @@
     import { useState } from 'react';
     import { auth } from '../firebase';
     import { useNavigation } from '@react-navigation/core';
-    import Google from 'expo-google-app-auth';
+    import * as Google from 'expo-google-app-auth';
 
     import react from 'react';
 
@@ -196,7 +196,7 @@
         fontSize: 13,
         marginRight:15,
         marginLeft:10,
-        fontStyle:"Montserrat",
+        fontStyle:"Montserrat-Regular",
         color:'#535353',
         fontWeight:'400'
         
@@ -262,7 +262,7 @@
     marginBottom: 10,
     marginLeft:10,
     alignItems:'left',
-    fontStyle: "Montserrat",
+    fontStyle: "Montserrat-Regular",
     fontWeight:'600'
 
 
@@ -272,7 +272,7 @@
         marginTop: 15,
         marginBottom:10,
         marginLeft: 10,
-        fontStyle:"Montserrat",
+        fontFamily:"Montserrat-Regular",
         fontWeight:"800"
     },
     horizontalLineContainer:{},

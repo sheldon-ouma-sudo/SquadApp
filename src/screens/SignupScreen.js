@@ -362,7 +362,7 @@
             fontSize: 13,
             marginRight:15,
             marginLeft:10,
-            fontStyle:"Montserrat",
+            fontFamily:"Montserrat-Regular",
             color:'#535353',
             fontWeight:'400'   
         },
