@@ -1,5 +1,7 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet} from 'react-native'
 import React from 'react'
+import { Stepper } from 'react-form-stepper'
+
 
 const ForgotPasswordScreen = () => {
   return (
@@ -15,8 +17,8 @@ const ForgotPasswordScreen = () => {
           ></Image>
         </View>      
 
-
         
+
         </KeyboardAvoidingView>
   )
 }
