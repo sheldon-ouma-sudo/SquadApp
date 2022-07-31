@@ -1,6 +1,8 @@
-import { View, Text,KeyboardAvoidingView,Image, StyleSheet,Dimensions} from 'react-native'
-import React from 'react'
-
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+  StatusBar,Dimensions} from 'react-native'
+  import React, { useState } from 'react'
+  import StepIndicator from 'react-native-step-indicator';
+   
 
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
@@ -32,6 +34,7 @@ const customStyles = {
 
 
 const AgeGenderLocationScreen = () => {
+  const[currentPosition, setCurrentPositon] = useState(0)
   return (
     <KeyboardAvoidingView 
         style={styles.container}
