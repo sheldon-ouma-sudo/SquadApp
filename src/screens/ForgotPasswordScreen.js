@@ -1,116 +1,132 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-
-export default function HorizontalLinearStepper() {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set<number>(""));
-
-  const isStepOptional = (step: number) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step: number) => {
-    return skipped.has(step);
-  };
-
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) { 
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
-  return (
-    <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps: { completed?: boolean } = {};
-          const labelProps: {
-            optional?: React.ReactNode;
-          } = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
-            <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
-          </Box>
-        </React.Fragment>
-      )}
-    </Box>
-  );
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+StatusBar,Dimensions} from 'react-native'
+import React, { useState } from 'react'
+import StepIndicator from 'react-native-step-indicator';
+ 
+//const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
+const{width,height} = Dimensions.get("window")
+//const[currentPosition, setCurrentPositon]=useState(0)
+const customStyles = {
+  stepIndicatorSize: 25,
+  currentStepIndicatorSize:30,
+  separatorStrokeWidth: 2, 
+  currentStepStrokeWidth: 3,
+  stepStrokeCurrentColor: '#ffff',
+  stepStrokeWidth: 3,
+  stepStrokeFinishedColor: '#ffff',
+  stepStrokeUnFinishedColor: '#aaaaaa',
+  separatorFinishedColor: '#ffff',
+  separatorUnFinishedColor: '#aaaaaa',
+  stepIndicatorFinishedColor: '#fff',
+  stepIndicatorUnFinishedColor: '#ffffff',
+  stepIndicatorCurrentColor: '#1764EF',
+  stepIndicatorLabelFontSize: 13,
+  currentStepIndicatorLabelFontSize: 13,
+  stepIndicatorLabelCurrentColor: '#ffffff',
+  stepIndicatorLabelFinishedColor: '#ffffff',
+  stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+  labelColor: '#999999',
+  labelSize: 13,
+  currentStepLabelColor: '#fffff'
 }
+ 
+ 
+
+const ForgotPasswordScreen = () => {
+  
+const[currentPosition, setCurrentPositon] = useState(0)
+const data=[
+ {label:"ordered and delivered", 
+ status:"your order is on its way", 
+ dateTime:"Sat, 4th November 11.34pm"
+},
+ {label:"ordered and delivered", 
+ status:"your order is on its way",
+  dateTime:"Sat, 4th November 11.34pm"
+},
+ {label:"ordered and delivered",
+  status:"your order is on its way", 
+  dateTime:"Sat, 4th November 11.34pm"
+},
+ {label:"ordered and delivered",
+  status:"your order is on its way", 
+  dateTime:"Sat, 4th November 11.34pm"
+},
+
+
+
+];
+  return (
+    <KeyboardAvoidingView 
+        style={styles.container}
+        behavior="padding"
+        >
+        <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
+          <Image
+            source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+            style={styles.squadLogo}
+            resizeMode='contain'
+          ></Image>
+        </View>      
+        <StatusBar backgroundColor={'black'} barStyle="light-content" />
+        <View style={styles.header}>
+          <Text style={styles.headerText}> Sign Up Progress</Text>
+        </View>
+        <View style={styles.indicatiorWindow}>
+        <StepIndicator
+         customStyles={customStyles}
+         currentPosition={currentPosition}
+         //labels={labels}
+    />
+        </View>  
+  
+        </KeyboardAvoidingView>
+  )
+}
+
+
+const styles = StyleSheet.create({
+  container:{
+  flex:1,
+  justifyContent:"flex-start",
+  alignItems:"center",
+  backgroundColor: "#F4F8FB"
+
+  },
+  squadLogo:{
+      width:100,
+      height:35,
+      marginRight:250,
+      marginTop:130
+      
+
+
+  },
+  header:{
+    height: 55, 
+    padding:10, 
+    width:'50%',
+    //backgroundColor:"#000",
+    elevation:10,
+    justifyContent:"center",
+    alignItems:'center',
+    marginRight:200,
+    marginTop: 20,
+  },
+  headerText:{
+    //color:'red',
+    fontSize:22,
+    fontWeight:'bold'
+  },
+  indicatiorWindow:{
+    //height:height-170,
+    width:width-30,
+    padding:20,
+    margin:15,
+    elevation:10,
+    borderRadius:20,
+    //backgroundColor:'blue'
+  },
+  
+})
+export default ForgotPasswordScreen
