@@ -14,6 +14,9 @@ const ForgotPasswordScreen = () => {
             resizeMode='contain'
           ></Image>
         </View>      
+
+
+        
         </KeyboardAvoidingView>
   )
 }
