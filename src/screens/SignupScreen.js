@@ -297,7 +297,7 @@
                         {/*this is the straight line with the text in it*/}
                         <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
                             <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:70, flexDirection:"column"}} />
-                            <Text style={{ alignSelf:'10', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
+                            <Text style={{ alignSelf:'', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
                             <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:60}} />
                         </View>
 
@@ -362,7 +362,7 @@
             fontSize: 13,
             marginRight:15,
             marginLeft:10,
-            fontFamily:"Montserrat-Regular",
+            //fontFamily:"Montserrat-Regular",
             color:'#535353',
             fontWeight:'400'   
         },
@@ -457,8 +457,8 @@
         marginTop:10,
         marginBottom: 10,
         marginLeft:10,
-        alignItems:'left',
-        fontStyle: "Montserrat"
+       // alignItems:'left',
+        //fontStyle: "Montserrat"
 
 
         },
@@ -468,7 +468,7 @@
             marginBottom:10,
             marginLeft: 10,
             fontWeight:'bold',
-            fontStyle:"Montserrat"
+           // fontStyle:"Montserrat"
         },
         horizontalLineContainer:{},
         googleLogo:{

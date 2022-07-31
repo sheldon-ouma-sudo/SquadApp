@@ -76,7 +76,7 @@
         <TextInput
             placeholder ="Email address"
             value={email}
-            autoComplete='none'
+            //autoComplete='none'
             autoCapitalize='none'
             onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
@@ -117,7 +117,7 @@
                     {/*this is the straight line with the text in it*/}
                     <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
                         <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:70, flexDirection:"column"}} />
-                        <Text style={{ alignSelf:'10', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
+                        <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
                         <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:60}} />
                     </View>
 
@@ -196,7 +196,7 @@
         fontSize: 13,
         marginRight:15,
         marginLeft:10,
-        fontStyle:"Montserrat-Regular",
+       // fontStyle:"Montserrat-Regular",
         color:'#535353',
         fontWeight:'400'
         
@@ -223,7 +223,7 @@
         alignItems: 'center',
         marginRight: 10,
         marginLeft:15,
-        top: 0
+     
 
 
     },
@@ -261,8 +261,8 @@
     marginTop:10,
     marginBottom: 10,
     marginLeft:10,
-    alignItems:'left',
-    fontStyle: "Montserrat-Regular",
+    alignItems:'flex-start',
+    //Style: "Montserrat-Regular",
     fontWeight:'600'
 
 
@@ -272,7 +272,7 @@
         marginTop: 15,
         marginBottom:10,
         marginLeft: 10,
-        fontFamily:"Montserrat-Regular",
+       // fontFamily:"Montserrat-Regular",
         fontWeight:"800"
     },
     horizontalLineContainer:{},
