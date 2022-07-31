@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   squadLogo:{
       width:100,
       height:35,
-      marginRight:230,
+      marginRight:250,
       marginTop:-350
       
 
