@@ -77,7 +77,7 @@ const data=[
          customStyles={customStyles}
          currentPosition={currentPosition}
          //labels={labels}
-    />
+         />
         </View>  
   
         </KeyboardAvoidingView>
