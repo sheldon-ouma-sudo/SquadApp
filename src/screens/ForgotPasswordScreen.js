@@ -1,7 +1,8 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet,StatusBar,Dimensions} from 'react-native'
 import React, { useState } from 'react'
 import StepIndicator from 'react-native-step-indicator';
-import { Input, Icon } from 'react-native-elements'
+import { Input } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
  
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -83,24 +84,30 @@ const data=[
         <View style={styles.InputContainer}>
          <Input
          placeholder='MM-DD-YYYY'
-          style={styles.input}
+          //style={styles.input}
           label="Age"
+          style={[styles.input, {marginRight:-10}]}
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
+          rightIcon={{ type: 'font-awesome', name: 'calendar', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
+         
          />
          <Input
          placeholder='Select your gender'
-          style={styles.input}
           label="Gender"
+          style={[styles.input, {marginRight:-10}]}
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
+          rightIcon={{ type: 'font-awesome', name: 'chevron-down', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
+         
          />
          <Input
          placeholder='Enter your location'
-          style={styles.input}
+          style={[styles.input, {marginRight:-10}]}
           label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
+          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
          
          
           
