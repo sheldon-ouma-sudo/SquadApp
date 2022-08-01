@@ -101,6 +101,9 @@ const data=[
           label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
+         
+         
+          
          />
 
         </View>
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
     //backgroundColor:'blue'
   },
   InputContainer:{
-    width: 320,
+    width: 350,
     right: 16,
     marginLeft:29,
     marginTop: 20,
@@ -171,7 +174,7 @@ input:{
   height:42,
   marginTop:10,
   fontSize: 13,
-  marginRight:25,
+  marginRight:15,
   marginLeft:-5,
   //fontFamily:"Montserrat-Regular",
   color:'#535353',
