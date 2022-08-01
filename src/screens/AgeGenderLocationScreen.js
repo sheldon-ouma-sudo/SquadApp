@@ -1,4 +1,4 @@
-import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions} from 'react-native'
   import React, { useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
@@ -105,7 +105,22 @@ const styles = StyleSheet.create({
     margin:15,
     elevation:10,
     borderRadius:20,
+    marginTop:-10
     //backgroundColor:'blue'
   },
-  
+  input:{
+    backgroundColor: '#EAEAEA',
+    paddingHorizontal: 15,
+    paddingVertical:10,
+    borderRadius:5,
+    width:296,
+    height:42,
+    marginTop:10,
+    fontSize: 13,
+    marginRight:15,
+    marginLeft:10,
+    //fontFamily:"Montserrat-Regular",
+    color:'#535353',
+    fontWeight:'400'   
+},
 })

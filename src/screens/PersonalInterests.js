@@ -2,6 +2,7 @@
     StatusBar,Dimensions} from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
+import { TouchableOpacity } from 'react-native';
      
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -55,6 +56,12 @@ const PersonalInterests = () => {
      //labels={labels}
      />
     </View>  
+    <TouchableOpacity>
+
+
+
+
+    </TouchableOpacity>
 
     </KeyboardAvoidingView>
   )

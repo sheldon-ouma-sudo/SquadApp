@@ -1,7 +1,8 @@
-import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-StatusBar,Dimensions} from 'react-native'
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet,StatusBar,Dimensions} from 'react-native'
 import React, { useState } from 'react'
 import StepIndicator from 'react-native-step-indicator';
+import { Input, Icon } from 'react-native-elements'
+
  
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
@@ -79,6 +80,15 @@ const data=[
          //labels={labels}
          />
         </View>  
+        <View style={styles.InputContainer}>
+         <Input
+         //style={styles.input}
+         
+         />
+
+
+        </View>
+
   
         </KeyboardAvoidingView>
   )
@@ -125,8 +135,32 @@ const styles = StyleSheet.create({
     margin:15,
     elevation:10,
     borderRadius:20,
+    marginTop:-10
     //backgroundColor:'blue'
   },
+  InputContainer:{
+    width: 296,
+    right: 16,
+    marginLeft:29,
+    marginTop: 20,
+    borderRadius:5
+
+},
+input:{
+  backgroundColor: '#EAEAEA',
+  paddingHorizontal: 15,
+  paddingVertical:10,
+  borderRadius:5,
+  width:296,
+  height:42,
+  marginTop:10,
+  fontSize: 13,
+  marginRight:15,
+  marginLeft:10,
+  //fontFamily:"Montserrat-Regular",
+  color:'#535353',
+  fontWeight:'400'   
+},
   
 })
 export default ForgotPasswordScreen
