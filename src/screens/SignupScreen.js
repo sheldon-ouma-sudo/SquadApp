@@ -296,9 +296,9 @@
                         
                         {/*this is the straight line with the text in it*/}
                         <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
-                            <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:70, flexDirection:"column"}} />
-                            <Text style={{ alignSelf:'', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
-                            <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:60}} />
+                        <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: 'center', marginLeft:50}} />
+                        <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 12 }}>OR</Text>
+                        <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: 'center', marginRight:50}}/>
                         </View>
 
                         {/**this is the view with the google and the facebook icons */}
@@ -360,11 +360,12 @@
             height:42,
             marginTop:10,
             fontSize: 13,
+            fontWeight:'400',
             marginRight:15,
             marginLeft:10,
             //fontFamily:"Montserrat-Regular",
             color:'#535353',
-            fontWeight:'400'   
+              
         },
         countryCodeInput:{
         backgroundColor: '#EAEAEA',
@@ -388,8 +389,9 @@
             paddingVertical:13,
             paddingHorizontal:12,
             width:100,
-            fontSize: 13,
             color:'#535353',
+            fontSize: 13,
+            fontWeight:'400',
             
         
         },
@@ -481,7 +483,8 @@
         borderWidth:1,
         borderColor: "red",
         marginLeft:180,
-        marginTop:-5
+        marginTop:-5,
+        marginRight:20
 
         },
         facebookLogo:{
@@ -495,6 +498,6 @@
             marginTop:-5
         },
         logo:{
-        marginTop:-37
+        marginTop:37
         }
         })

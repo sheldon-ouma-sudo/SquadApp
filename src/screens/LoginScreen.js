@@ -115,10 +115,11 @@
                         </View>
                     </View>
                     {/*this is the straight line with the text in it*/}
+                  
                     <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
-                        <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginLeft:70, flexDirection:"column"}} />
-                        <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 10, marginBottom:50, flexDirection:"column" }}>OR</Text>
-                        <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: '10', marginRight:60}} />
+                        <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: 'center', marginLeft:50}} />
+                        <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 12 }}>OR</Text>
+                        <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: 'center', marginRight:50}}/>
                     </View>
 
                     {/**this is the view with the google and the facebook icons */}
@@ -305,7 +306,7 @@
         fontWeight:"600"
     },
     logo:{
-        marginTop:-37
+        marginTop:37
       }
 
 
