@@ -1,7 +1,9 @@
   import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-  StatusBar,Dimensions} from 'react-native'
+  StatusBar,Dimensions,TouchableOpacity} from 'react-native'
   import React, { useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
+  import { Input } from 'react-native-elements'
+  import { useNavigation } from '@react-navigation/core';
    
 
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -35,6 +37,7 @@ const customStyles = {
 
 const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
+  const navigation = useNavigation()
   return (
     <KeyboardAvoidingView 
         style={styles.container}
@@ -146,7 +149,14 @@ const styles = StyleSheet.create({
     marginTop:-10
     //backgroundColor:'blue'
   },
- 
+  InputContainer:{
+    width: 350,
+    right: 16,
+    marginLeft:29,
+    marginTop: 20,
+    borderRadius:5
+
+},
 input:{
   backgroundColor: '#EAEAEA',
   paddingHorizontal: 15,

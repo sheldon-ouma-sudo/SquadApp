@@ -57,7 +57,7 @@ const ProfilePictureUpload = () => {
     <View style={styles.indicatiorWindow}>
     <StepIndicator
      customStyles={customStyles}
-     //currentPosition={currentPosition}
+     currentPosition={currentPosition}
      //labels={labels}
      />
     </View>  
@@ -83,7 +83,7 @@ const ProfilePictureUpload = () => {
             </TouchableOpacity>
     </View>
 
-      <View style={[{ flexDirection:"row" },{marginTop:30}]}>
+      <View style={[{ flexDirection:"row" },{marginTop:30}, {marginLeft:30}]}>
         <TouchableOpacity  onPress={() =>navigation.replace('AgeGenderLocationScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
            </TouchableOpacity>
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
             borderWidth:3,
             borderColor: '#1764EF',
             marginRight:170,
-            marginLeft:150,
+            marginLeft:170,
             marginTop:60
   },
   button:{
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     marginTop: 130,
     alignItems: 'center',
     marginRight: 50,
-    marginLeft:15,
+    marginLeft:20,
 
 },
 
