@@ -1,8 +1,8 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions} from 'react-native'
-    import React, { useState } from 'react'
+    import React, { useState,useNavigation } from 'react'
     import StepIndicator from 'react-native-step-indicator';
-import { TouchableOpacity } from 'react-native';
+     import { TouchableOpacity } from 'react-native';
      
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -14,11 +14,11 @@ import { TouchableOpacity } from 'react-native';
       currentStepStrokeWidth: 3,
       stepStrokeCurrentColor: '#ffff',
       stepStrokeWidth: 3,
-      stepStrokeFinishedColor: '#ffff',
+      stepStrokeFinishedColor: '#1764EF',
       stepStrokeUnFinishedColor: '#aaaaaa',
-      separatorFinishedColor: '#ffff',
+      separatorFinishedColor: '#1764EF',
       separatorUnFinishedColor: '#aaaaaa',
-      stepIndicatorFinishedColor: '#fff',
+      stepIndicatorFinishedColor:  '#1764EF',
       stepIndicatorUnFinishedColor: '#ffffff',
       stepIndicatorCurrentColor: '#1764EF',
       stepIndicatorLabelFontSize: 13,
@@ -31,8 +31,11 @@ import { TouchableOpacity } from 'react-native';
       currentStepLabelColor: '#fffff'
     }
      
-     
 const PersonalInterests = () => {
+  //const navigation = useNavigation()
+  const[currentPosition, setCurrentPositon] = useState(2)
+
+
   return (
     <KeyboardAvoidingView 
     style={styles.container}
