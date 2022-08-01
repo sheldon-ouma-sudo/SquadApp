@@ -1,9 +1,4 @@
-  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-  StatusBar,Dimensions} from 'react-native'
-  import React, { useState } from 'react'
-  import StepIndicator from 'react-native-step-indicator';
-   
-  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+    import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions} from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
@@ -82,7 +77,7 @@ const styles = StyleSheet.create({
       marginTop:130
       
 
-
+   
   },
   header:{
     height: 55, 

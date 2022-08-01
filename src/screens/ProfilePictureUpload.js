@@ -1,11 +1,63 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+  StatusBar,Dimensions} from 'react-native'
+  import React, { useState } from 'react'
+  import StepIndicator from 'react-native-step-indicator';
 
+  
+ //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
+const{width,height} = Dimensions.get("window")
+//const[currentPosition, setCurrentPositon]=useState(0)
+const customStyles = {
+  stepIndicatorSize: 25,
+  currentStepIndicatorSize:30,
+  separatorStrokeWidth: 2, 
+  currentStepStrokeWidth: 3,
+  stepStrokeCurrentColor: '#ffff',
+  stepStrokeWidth: 3,
+  stepStrokeFinishedColor: '#ffff',
+  stepStrokeUnFinishedColor: '#aaaaaa',
+  separatorFinishedColor: '#ffff',
+  separatorUnFinishedColor: '#aaaaaa',
+  stepIndicatorFinishedColor: '#fff',
+  stepIndicatorUnFinishedColor: '#ffffff',
+  stepIndicatorCurrentColor: '#1764EF',
+  stepIndicatorLabelFontSize: 13,
+  currentStepIndicatorLabelFontSize: 13,
+  stepIndicatorLabelCurrentColor: '#ffffff',
+  stepIndicatorLabelFinishedColor: '#ffffff',
+  stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+  labelColor: '#999999',
+  labelSize: 13,
+  currentStepLabelColor: '#fffff'
+}
 const ProfilePictureUpload = () => {
+const[currentPosition, setCurrentPositon] = useState(0)
+
   return (
-    <View>
-      <Text>ProfilePictureUpload</Text>
+    <KeyboardAvoidingView 
+    style={styles.container}
+    behavior="padding"
+    >
+    <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
+      <Image
+        source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+        style={styles.squadLogo}
+        resizeMode='contain'
+      ></Image>
+    </View>      
+    <StatusBar backgroundColor={'black'} barStyle="light-content" />
+    <View style={styles.header}>
+      <Text style={styles.headerText}> Sign Up Progress</Text>
     </View>
+    <View style={styles.indicatiorWindow}>
+    <StepIndicator
+     customStyles={customStyles}
+     currentPosition={currentPosition}
+     //labels={labels}
+     />
+    </View>  
+
+    </KeyboardAvoidingView>
   )
 }
 
