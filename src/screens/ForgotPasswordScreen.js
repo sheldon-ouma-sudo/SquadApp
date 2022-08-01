@@ -82,10 +82,26 @@ const data=[
         </View>  
         <View style={styles.InputContainer}>
          <Input
-         //style={styles.input}
-         
+         placeholder='MM-DD-YYYY'
+          style={styles.input}
+          label="Age"
+          underlineColor="transparent"
+          inputContainerStyle={{borderBottomWidth:0}}
          />
-
+         <Input
+         placeholder='Select your gender'
+          style={styles.input}
+          label="Gender"
+          underlineColor="transparent"
+          inputContainerStyle={{borderBottomWidth:0}}
+         />
+         <Input
+         placeholder='Enter your location'
+          style={styles.input}
+          label="Location"
+          underlineColor="transparent"
+          inputContainerStyle={{borderBottomWidth:0}}
+         />
 
         </View>
 
@@ -139,7 +155,7 @@ const styles = StyleSheet.create({
     //backgroundColor:'blue'
   },
   InputContainer:{
-    width: 296,
+    width: 320,
     right: 16,
     marginLeft:29,
     marginTop: 20,
@@ -151,15 +167,16 @@ input:{
   paddingHorizontal: 15,
   paddingVertical:10,
   borderRadius:5,
-  width:296,
+  width:320,
   height:42,
   marginTop:10,
   fontSize: 13,
-  marginRight:15,
-  marginLeft:10,
+  marginRight:25,
+  marginLeft:-5,
   //fontFamily:"Montserrat-Regular",
   color:'#535353',
-  fontWeight:'400'   
+  fontWeight:'400' ,
+  color:'black'  
 },
   
 })
