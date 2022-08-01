@@ -58,8 +58,46 @@ const AgeGenderLocationScreen = () => {
          //labels={labels}
          />
         </View>  
-  
-        </KeyboardAvoidingView>
+        <TouchableOpacity>
+        <View style={styles.InputContainer}>
+         <Input
+         placeholder='MM-DD-YYYY'
+          //style={styles.input}
+          label="Age"
+          style={[styles.input, {marginRight:-10}]}
+          underlineColor="transparent"
+          inputContainerStyle={{borderBottomWidth:0}}
+          rightIcon={{ type: 'font-awesome', name: 'calendar', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
+         
+         />
+         <Input
+         placeholder='Select your gender'
+          label="Gender"
+          style={[styles.input, {marginRight:-10}]}
+          underlineColor="transparent"
+          inputContainerStyle={{borderBottomWidth:0}}
+          rightIcon={{ type: 'font-awesome', name: 'chevron-down', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
+         
+         />
+         <Input
+         placeholder='Enter your location'
+          style={[styles.input, {marginRight:-10}]}
+          label="Location"
+          underlineColor="transparent"
+          inputContainerStyle={{borderBottomWidth:0}}
+          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}} 
+         />
+        </View>
+        <View style={[{ flexDirection:"row" },{marginTop:-30}]}>
+        <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+           </TouchableOpacity>
+            <TouchableOpacity  onPress={() =>navigation.replace('ProfilePictureUploadScreen')}style={[{flex:1}, styles.button]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+           </TouchableOpacity>
+   </View>
+   </TouchableOpacity>
+  </KeyboardAvoidingView>
   )
 }
 
@@ -108,19 +146,66 @@ const styles = StyleSheet.create({
     marginTop:-10
     //backgroundColor:'blue'
   },
-  input:{
-    backgroundColor: '#EAEAEA',
-    paddingHorizontal: 15,
-    paddingVertical:10,
-    borderRadius:5,
-    width:296,
-    height:42,
-    marginTop:10,
-    fontSize: 13,
-    marginRight:15,
-    marginLeft:10,
-    //fontFamily:"Montserrat-Regular",
-    color:'#535353',
-    fontWeight:'400'   
+ 
+input:{
+  backgroundColor: '#EAEAEA',
+  paddingHorizontal: 15,
+  paddingVertical:10,
+  borderRadius:5,
+  width:320,
+  height:42,
+  marginTop:10,
+  fontSize: 13,
+  marginRight:15,
+  marginLeft:-5,
+  //fontFamily:"Montserrat-Regular",
+  color:'#535353',
+  fontWeight:'400' ,
+  color:'black'  
 },
+
+  button:{
+    backgroundColor: '#1145FD',
+    width: 120,
+    height: 42,
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 130,
+    alignItems: 'center',
+    marginRight: 50,
+    marginLeft:15,
+
+},
+
+backButton:{
+  backgroundColor: '#EAEAEA',
+  width: 120,
+  height: 42,
+  padding: 10,
+  borderRadius: 5,
+  marginTop: 130,
+  alignItems: 'center',
+  marginRight: 5,
+  marginLeft:15,
+  borderColor:'#1145FD'
+
+
+},
+buttonText:{
+  color: 'white',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+backText:{
+  color: '#1145FD',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+
 })

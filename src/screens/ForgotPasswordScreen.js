@@ -1,8 +1,10 @@
-import { View, Text,KeyboardAvoidingView,Image, StyleSheet,StatusBar,Dimensions} from 'react-native'
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet,StatusBar,Dimensions, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import StepIndicator from 'react-native-step-indicator';
 import { Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/core';
+//import { TouchableOpacity } from 'react-native-web';
 
  
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -56,8 +58,8 @@ const data=[
 },
 
 
-
 ];
+const navigation = useNavigation()
   return (
     <KeyboardAvoidingView 
         style={styles.container}
@@ -81,6 +83,7 @@ const data=[
          //labels={labels}
          />
         </View>  
+      <TouchableOpacity>
         <View style={styles.InputContainer}>
          <Input
          placeholder='MM-DD-YYYY'
@@ -107,16 +110,19 @@ const data=[
           label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
-         
-         
-          
+          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}} 
          />
-
         </View>
-
-  
-        </KeyboardAvoidingView>
+        <View style={[{ flexDirection:"row" },{marginTop:-30}]}>
+        <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+           </TouchableOpacity>
+            <TouchableOpacity  onPress={() =>navigation.replace('ProfilePictureUploadScreen')}style={[{flex:1}, styles.button]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+           </TouchableOpacity>
+   </View>
+   </TouchableOpacity>
+  </KeyboardAvoidingView>
   )
 }
 
@@ -188,6 +194,50 @@ input:{
   fontWeight:'400' ,
   color:'black'  
 },
+
+  button:{
+    backgroundColor: '#1145FD',
+    width: 120,
+    height: 42,
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 130,
+    alignItems: 'center',
+    marginRight: 50,
+    marginLeft:15,
+
+},
+
+backButton:{
+  backgroundColor: '#EAEAEA',
+  width: 120,
+  height: 42,
+  padding: 10,
+  borderRadius: 5,
+  marginTop: 130,
+  alignItems: 'center',
+  marginRight: 5,
+  marginLeft:15,
+  borderColor:'#1145FD'
+
+
+},
+buttonText:{
+  color: 'white',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
   
+  
+},
+backText:{
+  color: '#1145FD',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+
 })
 export default ForgotPasswordScreen

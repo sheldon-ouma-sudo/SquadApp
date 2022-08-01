@@ -3,7 +3,7 @@
   import React, { useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
 
-  
+
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
 //const[currentPosition, setCurrentPositon]=useState(0)
@@ -14,11 +14,11 @@ const customStyles = {
   currentStepStrokeWidth: 3,
   stepStrokeCurrentColor: '#ffff',
   stepStrokeWidth: 3,
-  stepStrokeFinishedColor: '#ffff',
+  stepStrokeFinishedColor: '#1764EF',
   stepStrokeUnFinishedColor: '#aaaaaa',
-  separatorFinishedColor: '#ffff',
+  separatorFinishedColor: '#1764EF',
   separatorUnFinishedColor: '#aaaaaa',
-  stepIndicatorFinishedColor: '#fff',
+  stepIndicatorFinishedColor:  '#1764EF',
   stepIndicatorUnFinishedColor: '#ffffff',
   stepIndicatorCurrentColor: '#1764EF',
   stepIndicatorLabelFontSize: 13,
@@ -31,7 +31,7 @@ const customStyles = {
   currentStepLabelColor: '#fffff'
 }
 const ProfilePictureUpload = () => {
-const[currentPosition, setCurrentPositon] = useState(0)
+const[currentPosition, setCurrentPositon] = useState(1)
 
   return (
     <KeyboardAvoidingView 

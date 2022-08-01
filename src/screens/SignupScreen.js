@@ -240,7 +240,7 @@
                             justifyContent:'flex-start',
                                 marginLeft:10   
                             }}
-                            style={[{justifyContent:'flex-start'},styles.countryCodeInput]}
+                            style={[{justifyContent:'flex-start'},styles.countryCodeInput,{padding:5}]}
                         />
                     </View>
                     <View style={[{flex:1},styles.phoneNumberInput]}>
@@ -370,8 +370,10 @@
         backgroundColor: '#EAEAEA',
         marginTop:10,
         height:42,
+        width:40,
         marginLeft:10,
-        marginRight:-25,
+        marginRight:12,
+        paddingHorizontal:10
         
 
         
