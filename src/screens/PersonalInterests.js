@@ -26,7 +26,7 @@
       stepIndicatorLabelCurrentColor: '#ffffff',
       stepIndicatorLabelFinishedColor: '#ffffff',
       stepIndicatorLabelUnFinishedColor: '#aaaaaa',
-      labelColor: '#999999',
+      //labelColor: '#999999',
       labelSize: 13,
       currentStepLabelColor: '#fffff'
     }
