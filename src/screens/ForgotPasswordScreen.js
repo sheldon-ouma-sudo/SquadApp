@@ -178,9 +178,9 @@ const navigation = useNavigation()
          // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
           search={true} 
           //maxHeight = '5'
-          boxStyles={[{marginLeft:5}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}]} //override default styles
+          boxStyles={[{marginLeft:5}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
     />
-         <View style={[{marginLeft:10},{marginTop:2},{marginBottom:1}]}>
+         <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
           <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
         </View>
 
