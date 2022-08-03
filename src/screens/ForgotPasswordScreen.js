@@ -62,7 +62,8 @@ const data=[
 
 ];
   const [selectedGender, setGenderSelected] =useState("");
-  
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
   const dataGender = [
     {key:'1', value:"Agender"},
     {key:'1', value:"Androgyne"},
@@ -155,10 +156,11 @@ const navigation = useNavigation()
          placeholder='MM-DD-YYYY'
           //style={styles.input}
           //label="Age"
+          placeholderTextColor={'#535353'} 
           style={[styles.input, {marginRight:-20}, {height:58},{marginBottom:-5}]}
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'calendar', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10, borderRadius:15}}
+          rightIcon={{ type: 'font-awesome', name: 'calendar', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:13.8, padding:9, color:'#535353', marginRight:10, borderRadius:15}}
          
          />
         <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
