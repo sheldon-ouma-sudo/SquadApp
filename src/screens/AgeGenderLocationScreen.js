@@ -4,7 +4,7 @@
   import StepIndicator from 'react-native-step-indicator';
   import { Input } from 'react-native-elements'
   import { useNavigation } from '@react-navigation/core';
-  import SelectDropdown from 'react-native-select-dropdown';
+  import SelectList from 'react-native-dropdown-select-list';
    
 
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -95,7 +95,7 @@ const gender = [
 
 const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
-  const[gender, setGender]= useState("")
+  const[genderSelected, setGenderSelected]= useState("")
   const navigation = useNavigation()
   return (
     <KeyboardAvoidingView 

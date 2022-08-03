@@ -10743,6 +10743,11 @@
     "prop-types" "15.7.2"
     "react-async-hook" "3.6.1"
 
+"react-native-dropdown-select-list@^1.0.18":
+  "integrity" "sha512-GJBjyxjRw/MGMZAGlONziRkUPKPB5gO/4vBgf9fnsUxNI/ATo6fwfGw187GNSwe8LHjie87wAu6/35iwz6fOdA=="
+  "resolved" "https://registry.npmjs.org/react-native-dropdown-select-list/-/react-native-dropdown-select-list-1.0.18.tgz"
+  "version" "1.0.18"
+
 "react-native-elements@^3.4.2":
   "integrity" "sha512-m0eAWOn7JuR1wNTNY0WHuaqst4LI/gFE4N5Bbyfsc4DiryWsMST7aAg5w/Gos4IexWIzhLKCIkPxthND1m/8Xg=="
   "resolved" "https://registry.npmjs.org/react-native-elements/-/react-native-elements-3.4.2.tgz"
