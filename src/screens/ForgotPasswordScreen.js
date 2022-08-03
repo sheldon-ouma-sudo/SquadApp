@@ -4,6 +4,7 @@ import StepIndicator from 'react-native-step-indicator';
 import { Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/core';
+import SelectList from 'react-native-dropdown-select-list'
 //import { TouchableOpacity } from 'react-native-web';
 
  
@@ -59,6 +60,14 @@ const data=[
 
 
 ];
+  const [selectedGender, setGenderSelected] =useState("");
+  
+  const dataGender = [
+    {key:'1',value:'Jammu & Kashmir'},
+    {key:'2',value:'Gujrat'},
+    {key:'3',value:'Maharashtra'},
+    {key:'4',value:'Goa'},
+  ];
 const navigation = useNavigation()
   return (
     <KeyboardAvoidingView 
@@ -95,15 +104,15 @@ const navigation = useNavigation()
           rightIcon={{ type: 'font-awesome', name: 'calendar', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
          
          />
-         <Input
-         placeholder='Select your gender'
-          label="Gender"
-          style={[styles.input, {marginRight:-10}]}
-          underlineColor="transparent"
-          inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'chevron-down', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
-         
-         />
+        <SelectList 
+          onSelect={() => alert(selectedGender)}
+          setSelected={setGenderSelected} 
+          data={dataGender}  
+          arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
+          searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
+          search={false} 
+          boxStyles={{borderRadius:0}} //override default styles
+    />
          <Input
          placeholder='Enter your location'
           style={[styles.input, {marginRight:-10}]}
