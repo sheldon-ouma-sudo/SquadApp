@@ -64,10 +64,63 @@ const data=[
   const [selectedGender, setGenderSelected] =useState("");
   
   const dataGender = [
-    {key:'1',value:'Jammu & Kashmir'},
-    {key:'2',value:'Gujrat'},
-    {key:'3',value:'Maharashtra'},
-    {key:'4',value:'Goa'},
+    {key:'1', value:"Agender"},
+    {key:'1', value:"Androgyne"},
+    {key:'1', value:"Androgynous"},
+    {key:'1', value:"Bigender"},
+    {key:'1', value:"Cis"},
+    {key:'1', value:"Cisgender"},
+    {key:'1', value:"Cis Female"},
+    {key:'1', value:"Cis Male"},
+    {key:'1', value:"Cis Man"},
+    {key:'1', value:"Cis Woman"},
+    {key:'1', value:"Cisgender Female"},
+    {key:'1', value: " Cisgender Male"},
+    { key:'1', value: "Cisgender Man"},
+    {key:'1', value: "Cisgender Woman"},
+    {key:'1', value:" Female to Male"},
+    {key:'1', value:"FTM"},
+    {key:'1', value:"Gender Fluid"},
+    {key:'1', value: "Gender Nonconforming"},
+    {key:'1', value: "Gender Questioning"},
+    {key:'1', value: "Gender Variant"},
+    { key:'1', value: "Genderqueer"},
+    {key:'1', value: "Intersex"},
+    {key:'1', value:"Male to Female"},
+    {key:'1', value: "MTF"},
+    {key:'1', value: "MTF"},
+  {key:'1', value: "Neither"},
+  {key:'1', value: "Neutrois"},
+  {key:'1', value: "Non-binary"},
+  {key:'1', value: "Other"},
+  {key:'1', value:"Pangender"},
+  { key:'1', value:"Trans"},
+  {key:'1', value: "Trans*"},
+  {key:'1', value:  "Trans Female"},
+  {key:'1', value: "Trans* Female"},
+  {key:'1', value:"Trans Male"},
+  {key:'1', value:"Trans* Male"},
+  {key:'1', value:"Trans Man"},
+  {key:'1', value:"Trans* Man"},
+  { key:'1', value: "Trans Person"},
+  {key:'1', value: "Trans* Person"},
+  {key:'1', value:"Trans Woman"},
+  {key:'1', value: "Trans* Woman"},
+  {key:'1', value: "Transfeminine"},
+  {key:'1', value: "Transgender"},
+  {key:'1', value:"Transgender Female"},
+  {key:'1', value:"Transgender Male"},
+  { key:'1', value:"Transgender Man"},
+  {key:'1', value:"Transgender Person"},
+  {key:'1', value: "Transgender Woman"},
+  {key:'1', value:"Transmasculine"},
+  {key:'1', value: "Transsexual"},
+  {key:'1', value: "Transsexual Female"},
+  {key:'1', value:"Transsexual Male"},
+  {key:'1', value: "Transsexual Man"},
+  {key:'1', value:"Transsexual Person"},
+  {key:'1', value:"Transsexual Woman"},
+  {key:'1', value:"Two-Spirit"}
   ];
 const navigation = useNavigation()
   return (
@@ -109,9 +162,10 @@ const navigation = useNavigation()
           onSelect={() => alert(selectedGender)}
           setSelected={setGenderSelected} 
           data={dataGender}  
-          arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
-          searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
-          search={false} 
+          style={styles.input}
+         //arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
+         // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
+          search={true} 
           boxStyles={{borderRadius:0}} //override default styles
     />
          <Input
