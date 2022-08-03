@@ -148,36 +148,52 @@ const navigation = useNavigation()
         </View>  
       <TouchableOpacity>
         <View style={styles.InputContainer}>
+        <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
+          <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
+        </View>
          <Input
          placeholder='MM-DD-YYYY'
           //style={styles.input}
-          label="Age"
-          style={[styles.input, {marginRight:-10}]}
+          //label="Age"
+          style={[styles.input, {marginRight:-20}, {height:58},{marginBottom:-5}]}
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'calendar', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
+          rightIcon={{ type: 'font-awesome', name: 'calendar', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10, borderRadius:15}}
          
          />
+        <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
+          <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
+        </View>
+
         <SelectList 
-          onSelect={() => alert(selectedGender)}
+          onSelect={() => (selectedGender)}
+          placeholder="Select your gender"
+          label="Gender"
           setSelected={setGenderSelected} 
           data={dataGender}  
           style={styles.input}
          //arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
          // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
           search={true} 
-          boxStyles={{borderRadius:0}} //override default styles
+          //maxHeight = '5'
+          boxStyles={[{marginLeft:5}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}]} //override default styles
     />
+         <View style={[{marginLeft:10},{marginTop:2},{marginBottom:1}]}>
+          <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
+        </View>
+
          <Input
          placeholder='Enter your location'
-          style={[styles.input, {marginRight:-10}]}
-          label="Location"
+         placeholderTextColor={'#535353'} 
+         placeholderStyle={{ fontSize: 15, borderColor:'#535353' }}
+          style={[styles.input, {marginRight:-20}, {height:58}]}
+          //label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}} 
+          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:12, padding:5, color:'#535353', marginRight:10, borderRadius:15}} 
          />
         </View>
-        <View style={[{ flexDirection:"row" },{marginTop:-30}]}>
+        <View style={[{ flexDirection:"row" },{marginTop:-60}]}>
         <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
            </TouchableOpacity>
@@ -246,7 +262,7 @@ input:{
   backgroundColor: '#EAEAEA',
   paddingHorizontal: 15,
   paddingVertical:10,
-  borderRadius:5,
+  borderRadius:15,
   width:320,
   height:42,
   marginTop:10,
