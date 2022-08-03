@@ -5,6 +5,7 @@ import { Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/core';
 import SelectList from 'react-native-dropdown-select-list'
+import FontAwesome from '@fortawesome/fontawesome'
 //import { TouchableOpacity } from 'react-native-web';
 
  
