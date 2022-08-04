@@ -219,7 +219,7 @@ const AgeGenderLocationScreen = () => {
           rightIcon={{ type: 'font-awesome', name: 'map-marker', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:12, padding:9, color:'#535353', marginRight:10, borderRadius:15}} 
          />
         </View>
-        <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:15}]}>
+        <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:25}]}>
         <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
            </TouchableOpacity>
