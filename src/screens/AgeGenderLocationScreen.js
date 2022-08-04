@@ -5,7 +5,8 @@
   import { Input } from 'react-native-elements'
   import { useNavigation } from '@react-navigation/core';
   import SelectList from 'react-native-dropdown-select-list';
-  import DatePicker from 'react-native-datepicker';
+  import DatePicker from 'react-native-datepicker'
+  import { useEffect } from 'react';
    
 
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -100,6 +101,28 @@ const AgeGenderLocationScreen = () => {
   const [date, setDate] = useState(new Date())
   const [open, setOpen] = useState(false)
   const navigation = useNavigation()
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
   return (
     <KeyboardAvoidingView 
         style={styles.container}
@@ -125,6 +148,10 @@ const AgeGenderLocationScreen = () => {
         </View>  
         <TouchableOpacity>
         <View style={styles.InputContainer}>
+        <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
+          <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
+        </View>
+     
         <DatePicker
           style={styles.datePickerStyle}
           date={date} //initial date from state
@@ -184,7 +211,7 @@ const AgeGenderLocationScreen = () => {
          placeholder='Enter your location'
          placeholderTextColor={'#535353'} 
          placeholderStyle={{ fontSize: 15, borderColor:'#535353' }}
-          style={[styles.input, {marginRight:-20}, {height:58}]}
+          style={[styles.input, {marginRight:-20}, {height:58},{marginLeft:15}]}
           //label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
@@ -200,6 +227,7 @@ const AgeGenderLocationScreen = () => {
             <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
            </TouchableOpacity>
    </View>
+        
    </TouchableOpacity>
   </KeyboardAvoidingView>
   )
