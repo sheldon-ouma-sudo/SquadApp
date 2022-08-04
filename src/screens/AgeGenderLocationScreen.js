@@ -290,7 +290,7 @@ input:{
   backgroundColor: '#EAEAEA',
   paddingHorizontal: 15,
   paddingVertical:10,
-  borderRadius:5,
+  borderRadius:10,
   width:320,
   height:42,
   marginTop:10,
