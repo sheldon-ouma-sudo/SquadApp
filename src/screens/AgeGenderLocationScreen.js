@@ -5,6 +5,7 @@
   import { Input } from 'react-native-elements'
   import { useNavigation } from '@react-navigation/core';
   import SelectList from 'react-native-dropdown-select-list';
+  import DatePicker from 'react-native-datepicker';
    
 
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -34,7 +35,7 @@ const customStyles = {
   currentStepLabelColor: '#fffff'
 }
 
-const gender = [
+const dataGender  = [
   {key:'1', value:"Agender"},
   {key:'1', value:"Androgyne"},
   {key:'1', value:"Androgynous"},
@@ -95,7 +96,9 @@ const gender = [
 
 const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
-  const[genderSelected, setGenderSelected]= useState("")
+  const [selectedGender, setGenderSelected] =useState("");
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(false)
   const navigation = useNavigation()
   return (
     <KeyboardAvoidingView 
@@ -122,35 +125,74 @@ const AgeGenderLocationScreen = () => {
         </View>  
         <TouchableOpacity>
         <View style={styles.InputContainer}>
-         <Input
-         placeholder='MM-DD-YYYY'
-          //style={styles.input}
-          label="Age"
-          style={[styles.input, {marginRight:-10}]}
-          underlineColor="transparent"
-          inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'calendar', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
-         
-         />
-         <Input
-         placeholder='Select your gender'
+        <DatePicker
+          style={styles.datePickerStyle}
+          date={date} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="DD-MM-YYYY"
+          format="DD-MM-YYYY"
+          minDate="01-01-1950"
+          maxDate="01-01-2004"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 290,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 15,
+              marginRight:-10,
+              borderRadius:12,
+              backgroundColor:'#EAEAEA',
+              height:50,
+              marginBottom:5,
+              alignItems:"flex-start",
+              paddingHorizontal:8
+            },
+          }}
+          onDateChange={(date) => {
+            setDate(date);
+          }}
+        />
+       
+        <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
+          <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
+        </View>
+
+        <SelectList 
+          onSelect={() => (selectedGender)}
+          placeholder="Select your gender"
           label="Gender"
-          style={[styles.input, {marginRight:-10}]}
-          underlineColor="transparent"
-          inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'chevron-down', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}}
-         
-         />
+          setSelected={setGenderSelected} 
+          data={dataGender}  
+          style={styles.input}
+         //arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
+         // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
+          search={true} 
+          //maxHeight = '5'
+          boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
+    />
+         <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-5}]}>
+          <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
+        </View>
+
          <Input
          placeholder='Enter your location'
-          style={[styles.input, {marginRight:-10}]}
-          label="Location"
+         placeholderTextColor={'#535353'} 
+         placeholderStyle={{ fontSize: 15, borderColor:'#535353' }}
+          style={[styles.input, {marginRight:-20}, {height:58}]}
+          //label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:40, backgroundColor:'#EAEAEA', width:40,marginTop:10, padding:5, color:'#535353', marginRight:10}} 
+          iconPosition='left'
+          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:12, padding:5, color:'#535353', marginRight:10, borderRadius:15}} 
          />
         </View>
-        <View style={[{ flexDirection:"row" },{marginTop:-30}]}>
+        <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:15}]}>
         <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
            </TouchableOpacity>
@@ -274,6 +316,14 @@ backText:{
   fontSize: 15,
   alignItems:"center"
   
+  
+},
+datePickerStyle: {
+  width: 320,
+  marginTop: 20,
+  marginBottom:15,
+  marginRight:50
+
   
 },
 
