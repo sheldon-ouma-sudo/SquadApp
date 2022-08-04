@@ -5,7 +5,7 @@
   import { Input } from 'react-native-elements'
   import { useNavigation } from '@react-navigation/core';
   import SelectList from 'react-native-dropdown-select-list';
-  import DatePicker from 'react-native-community/datetimepicker'
+  import DatePicker from '@react-native-community/datetimepicker'
   import { useEffect } from 'react';
   import * as Location from 'expo-location';
    
