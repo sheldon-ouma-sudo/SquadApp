@@ -7,6 +7,7 @@
   import SelectList from 'react-native-dropdown-select-list';
   import DatePicker from 'react-native-datepicker'
   import { useEffect } from 'react';
+  import * as Location from 'expo-location';
    
 
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -104,24 +105,30 @@ const AgeGenderLocationScreen = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
+  async function requestLocationPermission() {
+    if (Platform.OS === 'ios') {
+      Geolocation.setRNConfiguration({
+        authorizationLevel: 'whenInUse'
+      })
+
+      Geolocation.requestAuthorization()
+      // IOS permission request does not offer a callback :/
+      return null
+    } else if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          return true
+        } else {
+          return false
+        }
+      } catch (err) {
+        console.warn(err.message)
+        return false
       }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-    })();
-  }, []);
-
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
+    }
   }
   return (
     <KeyboardAvoidingView 
@@ -215,8 +222,7 @@ const AgeGenderLocationScreen = () => {
           //label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
-          iconPosition='left'
-          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:12, padding:5, color:'#535353', marginRight:10, borderRadius:15}} 
+          rightIcon={{ type: 'font-awesome', name: 'map-marker', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:12, padding:9, color:'#535353', marginRight:10, borderRadius:15}} 
          />
         </View>
         <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:15}]}>
