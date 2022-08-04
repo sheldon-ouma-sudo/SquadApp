@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/core';
 import SelectList from 'react-native-dropdown-select-list'
 import FontAwesome from '@fortawesome/fontawesome'
+import DatePicker from 'react-native-datepicker';
 //import { TouchableOpacity } from 'react-native-web';
 
  
@@ -152,17 +153,41 @@ const navigation = useNavigation()
         <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
           <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
         </View>
-         <Input
-         placeholder='MM-DD-YYYY'
-          //style={styles.input}
-          //label="Age"
-          placeholderTextColor={'#535353'} 
-          style={[styles.input, {marginRight:-20}, {height:58},{marginBottom:-5}]}
-          underlineColor="transparent"
-          inputContainerStyle={{borderBottomWidth:0}}
-          rightIcon={{ type: 'font-awesome', name: 'calendar', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:13.8, padding:9, color:'#535353', marginRight:10, borderRadius:15}}
-         
-         />
+     
+        <DatePicker
+          style={styles.datePickerStyle}
+          date={date} //initial date from state
+          mode="date" //The enum of date, datetime and time
+          placeholder="DD-MM-YYYY"
+          format="DD-MM-YYYY"
+          minDate="01-01-1950"
+          maxDate="01-01-2004"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              //display: 'none',
+              position: 'absolute',
+              left: 290,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 10,
+              marginRight:-10,
+              borderRadius:12,
+              backgroundColor:'#EAEAEA',
+              height:50,
+              marginBottom:5,
+              alignItems:"flex-start",
+              paddingHorizontal:8
+            },
+          }}
+          onDateChange={(date) => {
+            setDate(date);
+          }}
+        />
+       
         <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
           <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
         </View>
@@ -318,6 +343,14 @@ backText:{
   fontSize: 15,
   alignItems:"center"
   
+  
+},
+datePickerStyle: {
+  width: 320,
+  marginTop: 20,
+  marginBottom:15,
+  marginRight:50
+
   
 },
 
