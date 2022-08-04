@@ -105,30 +105,24 @@ const AgeGenderLocationScreen = () => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  async function requestLocationPermission() {
-    if (Platform.OS === 'ios') {
-      Geolocation.setRNConfiguration({
-        authorizationLevel: 'whenInUse'
-      })
-
-      Geolocation.requestAuthorization()
-      // IOS permission request does not offer a callback :/
-      return null
-    } else if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        )
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          return true
-        } else {
-          return false
-        }
-      } catch (err) {
-        console.warn(err.message)
-        return false
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
       }
-    }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
   }
   return (
     <KeyboardAvoidingView 
