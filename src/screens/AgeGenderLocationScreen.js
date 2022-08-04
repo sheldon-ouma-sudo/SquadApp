@@ -212,7 +212,7 @@ const AgeGenderLocationScreen = () => {
          placeholder='Enter your location'
          placeholderTextColor={'#535353'} 
          placeholderStyle={{ fontSize: 15, borderColor:'#535353' }}
-          style={[styles.input, {marginRight:-20}, {height:58},{marginLeft:15}]}
+          style={[styles.input, {marginRight:-20}, {height:58},{marginLeft:8}]}
           //label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
