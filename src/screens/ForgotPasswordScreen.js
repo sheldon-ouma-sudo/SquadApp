@@ -173,7 +173,7 @@ const navigation = useNavigation()
               marginLeft: 0,
             },
             dateInput: {
-              marginLeft: 10,
+              marginLeft: 15,
               marginRight:-10,
               borderRadius:12,
               backgroundColor:'#EAEAEA',
@@ -203,9 +203,9 @@ const navigation = useNavigation()
          // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
           search={true} 
           //maxHeight = '5'
-          boxStyles={[{marginLeft:5}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
+          boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
     />
-         <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
+         <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-5}]}>
           <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
         </View>
 
@@ -217,6 +217,7 @@ const navigation = useNavigation()
           //label="Location"
           underlineColor="transparent"
           inputContainerStyle={{borderBottomWidth:0}}
+          iconPosition='left'
           rightIcon={{ type: 'font-awesome', name: 'map-marker', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:12, padding:5, color:'#535353', marginRight:10, borderRadius:15}} 
          />
         </View>
@@ -290,6 +291,7 @@ input:{
   paddingHorizontal: 15,
   paddingVertical:10,
   borderRadius:15,
+ 
   width:320,
   height:42,
   marginTop:10,
