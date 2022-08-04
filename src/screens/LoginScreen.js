@@ -4,9 +4,13 @@
     import { auth } from '../firebase';
     import { useNavigation } from '@react-navigation/core';
     import * as Google from 'expo-google-app-auth';
+    import { initializeApp } from 'firebase-admin/app';
 
     import react from 'react';
-
+    initializeApp({
+        credential: applicationDefault(),
+        databaseURL: "https://squad-db9d1-default-rtdb.firebaseio.com"
+    });
     
     const LoginScreen = () => {
         const [email, setEmail] = useState('')
