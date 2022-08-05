@@ -13,6 +13,9 @@
     import PersonalInterests from './src/screens/PersonalInterests';
     import ProfilePictureUpload from './src/screens/ProfilePictureUpload';
     import GoogleSignInLoadingScreen from './src/screens/GoogleSignInLoadingScreen';
+    import UploadProfPicture from './src/screens/UploadProfPictureScreen';
+    import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen';
+    
   
 
     //this is the create stack navigator method: src from the navigation docs on the internet
@@ -37,6 +40,9 @@
             <Stack.Screen options={{headerShown: false}} name="GoogleSignInLoading" component={GoogleSignInLoadingScreen}/>
             <Stack.Screen options={{headerShown: false}} name="PersonalInterestScreen" component={PersonalInterests}/>
             <Stack.Screen options={{headerShown: false}} name="ProfilePictureUploadScreen" component={ProfilePictureUpload}/>
+            <Stack.Screen options={{headerShown: false}} name="UploadProfPictureScreen" component={UploadProfPicture}/>
+            <Stack.Screen options={{headerShown: false}} name="ChangeProfilePictureScreen" component={ChangeProfilePictureScreen}/>
+    
           </Stack.Navigator>
         </NavigationContainer>
       );

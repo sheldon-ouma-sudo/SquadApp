@@ -1,4 +1,4 @@
-  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
   import React, { useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
@@ -32,12 +32,10 @@ const customStyles = {
   labelSize: 13,
   currentStepLabelColor: '#fffff'
 }
-const ProfilePictureUpload = () => {
+
+const UploadProfPicture = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
-
-   
-
   return (
     <KeyboardAvoidingView 
     style={styles.container}
@@ -75,29 +73,25 @@ const ProfilePictureUpload = () => {
             <TouchableOpacity
             //onPress={handleLogin}
             style = {styles.profilePictureButton}
-                >
+                > 
                 <Text style={styles.buttonText}>
-                    Add Profile Picture
+                  Upload Profile Picture
                 </Text>
 
             </TouchableOpacity>
     </View>
 
       <View style={[{ flexDirection:"row" },{marginTop:-10}, {marginBottom:30},{marginLeft:30}]}>
-        <TouchableOpacity  onPress={() =>navigation.replace('AgeGenderLocationScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+        <TouchableOpacity  onPress={() =>navigation.replace('ProfilePictureUploadScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
            </TouchableOpacity>
-            <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[{flex:1}, styles.button]}>
+            <TouchableOpacity  onPress={() =>navigation.replace('ChangeProfilePictureScreen')}style={[{flex:1}, styles.button]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
            </TouchableOpacity>
    </View>
-  
-
     </KeyboardAvoidingView>
   )
 }
-
-export default ProfilePictureUpload
 const styles = StyleSheet.create({
   container:{
   flex:1,
@@ -208,3 +202,5 @@ profilePictureButton:{
 
 },
 })
+
+export default UploadProfPicture
