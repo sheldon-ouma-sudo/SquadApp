@@ -115,5 +115,74 @@ const styles = StyleSheet.create({
     borderRadius:20,
     //backgroundColor:'blue'
   },
+  button:{
+    backgroundColor: '#1145FD',
+    width: 120,
+    height: 42,
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 130,
+    alignItems: 'center',
+    marginRight: 50,
+    marginLeft:20,
+
+},
+
+backButton:{
+  backgroundColor: '#EAEAEA',
+  width: 120,
+  height: 42,
+  padding: 10,
+  borderRadius: 5,
+  marginTop: 130,
+  alignItems: 'center',
+  marginRight: 5,
+  marginLeft:15,
+  borderColor:'#1145FD'
+
+
+},
+buttonText:{
+  color: 'white',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
   
-})
+  
+},
+backText:{
+  color: '#1145FD',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+  
+profilePictureButton:{
+  backgroundColor: '#1145FD',
+  width: 256,
+  height: 42,
+  padding: 10,
+  borderRadius: 5,
+  marginTop: 30,
+  alignItems: 'center',
+  marginRight: 50,
+  marginLeft:50,
+
+},
+  },
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+)
