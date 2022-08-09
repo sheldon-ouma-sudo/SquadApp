@@ -1,8 +1,10 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions} from 'react-native'
-    import React, { useState,useNavigation } from 'react'
+   // import React, { useState,useNavigation } from 'react'
     import StepIndicator from 'react-native-step-indicator';
      import { TouchableOpacity } from 'react-native';
+     import { useNavigation } from '@react-navigation/native';
+     import { useState } from 'react';
      
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -34,7 +36,7 @@
 const PersonalInterests = () => {
   //const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(2)
-
+  const navigation = useNavigation()
 
   return (
     <KeyboardAvoidingView 
@@ -59,11 +61,12 @@ const PersonalInterests = () => {
      //labels={labels}
      />
     </View>  
-    <View style={[{ flexDirection:"row" },{marginTop:410}, {marginBottom:30},{marginLeft:30}]}>
-         <TouchableOpacity  onPress={() =>navigation.replace('UploadProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+    <View style={[{ flexDirection:"row" },{marginTop:210}, {marginBottom:30},{marginLeft:30}]}>
+ 
+         <TouchableOpacity  onPress={() =>navigation.replace('ChangeProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
              <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
             </TouchableOpacity>
-             <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.button]}>
+             <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[{flex:1}, styles.button]}>
              <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
             </TouchableOpacity>
     </View>
