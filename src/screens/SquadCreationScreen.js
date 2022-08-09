@@ -29,7 +29,8 @@
         stepIndicatorLabelUnFinishedColor: '#aaaaaa',
         //labelColor: '#999999',
         labelSize: 13,
-        currentStepLabelColor: '#fffff'
+        currentStepLabelColor: '#fffff',
+        
     }
     const SquadCreationScreen = () => {
         const[currentPosition, setCurrentPositon] = useState(3)
@@ -103,7 +104,7 @@
         width:width-30,
         padding:20,
         margin:15,
-        elevation:10,
+        //elevation:10,
         borderRadius:20,
         //backgroundColor:'blue'
         },

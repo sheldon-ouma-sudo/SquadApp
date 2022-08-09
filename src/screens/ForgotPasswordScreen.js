@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
     width:width-30,
     padding:20,
     margin:15,
-    elevation:10,
+    //elevation:10,
     borderRadius:20,
     marginTop:-10
     //backgroundColor:'blue'

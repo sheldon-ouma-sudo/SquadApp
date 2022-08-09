@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     padding:10, 
     width:'50%',
     //backgroundColor:"#000",
-    elevation:10,
+    //elevation:10,
     justifyContent:"center",
     alignItems:'center',
     marginRight:200,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     width:width-30,
     padding:20,
     margin:15,
-    elevation:10,
+    //elevation:10,
     borderRadius:20,
     //backgroundColor:'blue'
   },
