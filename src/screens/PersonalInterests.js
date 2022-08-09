@@ -59,13 +59,14 @@ const PersonalInterests = () => {
      //labels={labels}
      />
     </View>  
-    <TouchableOpacity>
-
-
-
-
-    </TouchableOpacity>
-
+    <View style={[{ flexDirection:"row" },{marginTop:410}, {marginBottom:30},{marginLeft:30}]}>
+         <TouchableOpacity  onPress={() =>navigation.replace('UploadProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+            </TouchableOpacity>
+             <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.button]}>
+             <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+            </TouchableOpacity>
+    </View>
     </KeyboardAvoidingView>
   )
 }
