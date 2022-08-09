@@ -153,8 +153,8 @@
                     
                     
                {/**horizontal line at the botton of the page*/}
-               <View style={{backgroundColor: 'black', height: 1, width:400, marginTop:150}} />
-                <Text style={[{marginTop:10}, {marginBottom:-180},{alignSelf:'center'}]}> 
+               <View style={{backgroundColor: 'black', height: 1, width:350, marginTop:100}} />
+                <Text style={[{marginTop:10}, {marginBottom:-80},{alignSelf:'center'}]}> 
                             English(United States)
                 </Text>
         
@@ -284,7 +284,7 @@
     overflow:'hidden',
     borderWidth:1,
     borderColor: "red",
-    marginLeft:180
+    marginLeft:150
 
     },
     facebookLogo:{
@@ -294,7 +294,7 @@
         overflow:'hidden',
         borderWidth:1,
         borderColor: "red",
-        marginRight:170
+        marginRight:160
     },
     forgotPasswordText:{
 
