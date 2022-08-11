@@ -319,7 +319,7 @@
                     </View>
                     <View >
 
-                <View style={{backgroundColor: 'black', height: 1, width:350, marginTop:70}} />
+                <View style={{backgroundColor: 'black', height: 1, width:350, marginTop:100}} />
                         <Text style={[{marginTop:10}, {marginBottom:-80},{alignSelf:'center'}]}> 
                                     English(United States)
                         </Text>
@@ -482,7 +482,7 @@
         overflow:'hidden',
         borderWidth:1,
         borderColor: "red",
-        marginLeft:160,
+        marginLeft:220,
         marginTop:-5,
         marginRight:20
 
@@ -494,7 +494,7 @@
             overflow:'hidden',
             borderWidth:1,
             borderColor: "red",
-            marginRight:150,
+            marginRight:220,
             marginTop:-5
         },
         logo:{

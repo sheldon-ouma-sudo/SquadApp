@@ -36,29 +36,37 @@
         const[currentPosition, setCurrentPositon] = useState(3)
         const navigation = useNavigation()
     return (
-        <KeyboardAvoidingView 
-        style={styles.container}
-        behavior="padding"
-        >
-        <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-          <Image
-            source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-            style={styles.squadLogo}
-            resizeMode='contain'
-          ></Image>
-        </View>      
-        <StatusBar backgroundColor={'black'} barStyle="light-content" />
-        <View style={styles.header}>
-          <Text style={styles.headerText}> Sign Up Progress</Text>
-        </View>
-        <View style={styles.indicatiorWindow}>
-        <StepIndicator
-         customStyles={customStyles}
-         currentPosition={currentPosition}
-         //labels={labels}
-         />
-        </View> 
-            </KeyboardAvoidingView>
+                    <KeyboardAvoidingView 
+                    style={styles.container}
+                    behavior="padding"
+                    >
+                    <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
+                    <Image
+                        source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+                        style={styles.squadLogo}
+                        resizeMode='contain'
+                    ></Image>
+                    </View>      
+                    <StatusBar backgroundColor={'black'} barStyle="light-content" />
+                    <View style={styles.header}>
+                    <Text style={styles.headerText}> Sign Up Progress</Text>
+                    </View>
+                    <View style={styles.indicatiorWindow}>
+                    <StepIndicator
+                    customStyles={customStyles}
+                    currentPosition={currentPosition}
+                    //labels={labels}
+                    />
+                    </View> 
+                    <View style={[{ flexDirection:"row" },{marginTop:-10}, {marginBottom:30},{marginLeft:30}]}>
+                    <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+                        <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+                    </TouchableOpacity>
+                        <TouchableOpacity  onPress={() =>navigation.replace('HomeScreen')}style={[{flex:1}, styles.button]}>
+                        <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+                    </TouchableOpacity>
+                    </View>
+                    </KeyboardAvoidingView>
     )
     }
     
@@ -107,6 +115,62 @@
         //elevation:10,
         borderRadius:20,
         //backgroundColor:'blue'
+        },
+        button:{
+            backgroundColor: '#1145FD',
+            width: 120,
+            height: 42,
+            padding: 10,
+            borderRadius: 5,
+            marginTop: 130,
+            alignItems: 'center',
+            marginRight: 50,
+            marginLeft:20,
+        
+        },
+        
+        backButton:{
+          backgroundColor: '#EAEAEA',
+          width: 120,
+          height: 42,
+          padding: 10,
+          borderRadius: 5,
+          marginTop: 130,
+          alignItems: 'center',
+          marginRight: 5,
+          marginLeft:15,
+          borderColor:'#1145FD'
+        
+        
+        },
+        buttonText:{
+          color: 'white',
+          fontWeight: '700',
+          fontSize: 15,
+          alignItems:"center"
+          
+          
+        },
+        backText:{
+          color: '#1145FD',
+          fontWeight: '700',
+          fontSize: 15,
+          alignItems:"center"
+          
+          
+        },
+          
+        profilePictureButton:{
+          backgroundColor: '#1145FD',
+          width: 256,
+          height: 42,
+          padding: 10,
+          borderRadius: 5,
+          marginTop: 30,
+          alignItems: 'center',
+          marginRight: 50,
+          marginLeft:50,
+        
         },
         
     })

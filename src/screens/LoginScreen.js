@@ -141,7 +141,7 @@
                 </View>
 
                 {/**this is the forgot password functionality */}
-                <TouchableOpacity style={styles.forgotPasswordTextContainer}>
+                <TouchableOpacity style={{marginTop:20}}>
                     <Text 
                     onPress={() =>
                         navigation.replace('ForgotPasswordScreen')}
@@ -153,7 +153,7 @@
                     
                     
                {/**horizontal line at the botton of the page*/}
-               <View style={{backgroundColor: 'black', height: 1, width:350, marginTop:100}} />
+               <View style={{backgroundColor: 'black', height: 1, width:350, marginTop:160}} />
                 <Text style={[{marginTop:10}, {marginBottom:-80},{alignSelf:'center'}]}> 
                             English(United States)
                 </Text>
@@ -284,7 +284,8 @@
     overflow:'hidden',
     borderWidth:1,
     borderColor: "red",
-    marginLeft:150
+    marginLeft:160
+  
 
     },
     facebookLogo:{
