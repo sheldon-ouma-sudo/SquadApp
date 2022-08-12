@@ -33,7 +33,7 @@
 
     const SECTIONS = [
       {
-        title: 'Made for you',
+        title: 'Select the themes you are intersted in:',
         data: [
           {
             key: '1',
@@ -81,7 +81,9 @@
     ];
     
     const ListItem = ({ item }) => (
-      <View style={styles.item}>
+      <TouchableOpacity style={styles.item}
+      
+      >
       <Image
         source={{
           uri: item.uri,
@@ -90,7 +92,9 @@
         resizeMode="cover"
       />
       <Text style={styles.itemText}>{item.text}</Text>
-    </View>
+    </TouchableOpacity>
+    
+    
     );
     
      
@@ -134,7 +138,10 @@ const PersonalInterests = () => {
               <FlatList
                 horizontal
                 data={section.data}
-                renderItem={({ item }) => <ListItem item={item} />}
+                renderItem={({ item }) => 
+                <ListItem item={item} />  
+                }
+                contentContainerStyle={{ paddingBottom: -40 }}
                 showsHorizontalScrollIndicator={false}
                 />
                 </>
@@ -147,13 +154,13 @@ const PersonalInterests = () => {
                 </SafeAreaView>
         </View>
         <View style={[{ flexDirection:"row" }, {marginBottom:30},{marginLeft:30}]}>
-         <TouchableOpacity  onPress={() =>navigation.replace('UploadProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
-             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
-            </TouchableOpacity>
-             <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.button]}>
-             <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
-            </TouchableOpacity>
-    </View>
+        <TouchableOpacity  onPress={() =>navigation.replace('UploadProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+         <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+        </TouchableOpacity>
+         <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.button]}>
+         <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+        </TouchableOpacity>
+</View>
     </KeyboardAvoidingView>
   )
 }
@@ -165,28 +172,30 @@ const styles = StyleSheet.create({
   flex:1,
   justifyContent:"flex-start",
   alignItems:"center",
-  backgroundColor: "#F4F8FB"
+  backgroundColor: "#F4F8FB",
+  
 
   },
   squadLogo:{
       width:100,
       height:35,
       marginRight:250,
-      marginTop:130
+      marginTop:70
       
 
    
   },
   header:{
     height: 55, 
-    padding:10, 
+    //padding:10, 
     width:'50%',
     //backgroundColor:"#000",
     //elevation:10,
     justifyContent:"center",
     alignItems:'center',
     marginRight:200,
-    marginTop: 20,
+    marginTop: 10,
+    marginLeft:35
   },
   headerText:{
     //color:'red',
@@ -200,6 +209,8 @@ const styles = StyleSheet.create({
     margin:15,
     //elevation:10,
     borderRadius:20,
+    marginTop:-20
+
     //backgroundColor:'blue'
   },
   button:{
@@ -259,12 +270,13 @@ profilePictureButton:{
 
 },
 sectionHeader: {
-  fontWeight: '800',
-  fontSize: 18,
-  color: '#f4f4f4',
-  marginTop: -5,
+  fontWeight: '400',
+  fontSize: 15,
+  //color: '#f4f4f4',
+  marginTop: 10,
   marginBottom: 5,
-  padding:-15,
+  marginLeft:25
+  //padding:-15,
 
  
 },

@@ -86,21 +86,22 @@
             width:100,
             height:35,
             marginRight:250,
-            marginTop:130
+            marginTop:70
             
-    
-    
+      
+         
         },
         header:{
-        height: 55, 
-        padding:10, 
-        width:'50%',
-        //backgroundColor:"#000",
-        elevation:10,
-        justifyContent:"center",
-        alignItems:'center',
-        marginRight:200,
-        marginTop: 20,
+          height: 55, 
+          //padding:10, 
+          width:'50%',
+          //backgroundColor:"#000",
+          //elevation:10,
+          justifyContent:"center",
+          alignItems:'center',
+          marginRight:200,
+          marginTop: 10,
+          marginLeft:35
         },
         headerText:{
         //color:'red',
