@@ -1,10 +1,8 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions} from 'react-native'
-   // import React, { useState,useNavigation } from 'react'
+    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList} from 'react-native'
+    import React, { useState,useNavigation } from 'react'
     import StepIndicator from 'react-native-step-indicator';
      import { TouchableOpacity } from 'react-native';
-     import { useNavigation } from '@react-navigation/native';
-     import { useState } from 'react';
      
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -32,11 +30,74 @@
       labelSize: 13,
       currentStepLabelColor: '#fffff'
     }
+
+    const SECTIONS = [
+      {
+        title: 'Made for you',
+        data: [
+          {
+            key: '1',
+            text: 'Food',
+            uri: 'https://media3.giphy.com/media/26xBzfqV1XqKAlRCw/giphy.gif',
+          },
+          {
+            key: '2',
+            text: 'Fashion',
+            uri: 'https://media3.giphy.com/media/xjIh4zHDjhjji/giphy.gif',
+           
+          },
+    
+          {
+            key: '3',
+            text: 'Travel',
+            uri: 'https://media3.giphy.com/media/iBBfBIj1XopJF6WTVI/giphy.gif',
+          },
+          
+        ],
+      },
+      {
+        //title: 'Punk and hardcore',
+        data: [
+          {
+            key: '4',
+            text: 'Decor',
+            uri: 'https://media3.giphy.com/media/JGdbbSyi3wM9uBKv8p/giphy.gif',
+          },
+          {
+            key: '5',
+            text: 'Wellness',
+            uri: 'https://media3.giphy.com/media/cAgGLp84BRh4lZumDt/giphy.gif',
+          },
+          {
+            key: '6',
+            text: 'Social',
+            uri: 'https://media3.giphy.com/media/Swg9cud2W8OKVhz9rt/giphy.gif',
+          },
+      
+        ],
+      
+       
+      },
+    ];
+    
+    const ListItem = ({ item }) => (
+      <View style={styles.item}>
+      <Image
+        source={{
+          uri: item.uri,
+        }}
+        style={styles.itemPhoto}
+        resizeMode="cover"
+      />
+      <Text style={styles.itemText}>{item.text}</Text>
+    </View>
+    );
+    
      
 const PersonalInterests = () => {
   //const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(2)
-  const navigation = useNavigation()
+
 
   return (
     <KeyboardAvoidingView 
@@ -61,12 +122,35 @@ const PersonalInterests = () => {
      //labels={labels}
      />
     </View>  
-    <View style={[{ flexDirection:"row" },{marginTop:210}, {marginBottom:30},{marginLeft:30}]}>
- 
-         <TouchableOpacity  onPress={() =>navigation.replace('ChangeProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+    <View style={{marginTop:-30}}>
+      <SafeAreaView>
+          <SectionList
+            contentContainerStyle={{ paddingHorizontal: 10 }}
+            stickySectionHeadersEnabled={false}
+            sections={SECTIONS}
+            renderSectionHeader={({ section }) => (
+                    <>
+              <Text style={styles.sectionHeader}>{section.title}</Text>
+              <FlatList
+                horizontal
+                data={section.data}
+                renderItem={({ item }) => <ListItem item={item} />}
+                showsHorizontalScrollIndicator={false}
+                />
+                </>
+                )}
+                renderItem={({ item, section }) => {
+                  return null;
+                  //return <ListItem item={item} />;
+                }}
+                />
+                </SafeAreaView>
+        </View>
+        <View style={[{ flexDirection:"row" }, {marginBottom:30},{marginLeft:30}]}>
+         <TouchableOpacity  onPress={() =>navigation.replace('UploadProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
              <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
             </TouchableOpacity>
-             <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[{flex:1}, styles.button]}>
+             <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.button]}>
              <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
             </TouchableOpacity>
     </View>
@@ -98,7 +182,7 @@ const styles = StyleSheet.create({
     padding:10, 
     width:'50%',
     //backgroundColor:"#000",
-    //:10,
+    //elevation:10,
     justifyContent:"center",
     alignItems:'center',
     marginRight:200,
@@ -174,6 +258,31 @@ profilePictureButton:{
   marginLeft:50,
 
 },
+sectionHeader: {
+  fontWeight: '800',
+  fontSize: 18,
+  color: '#f4f4f4',
+  marginTop: -5,
+  marginBottom: 5,
+  padding:-15,
+
+ 
+},
+item: {
+  margin: 10,
+  backgroundColor: '#FFFFFF',
+  padding:10
+},
+itemPhoto: {
+  width: 100,
+  height: 100,
+},
+itemText: {
+  color: '#1145FD',
+  marginTop: 8,
+  fontWeight:'600'
+},  
+
   },
   
 

@@ -153,12 +153,13 @@
                     
                     
                {/**horizontal line at the botton of the page*/}
-               <View style={{backgroundColor: 'black', height: 1, width:350, marginTop:160}} />
-                <Text style={[{marginTop:10}, {marginBottom:-80},{alignSelf:'center'}]}> 
+            <View style={{marginTop:140, marginBottom:-130}}>
+            <View style={{backgroundColor: 'black', height: 1, width:350}} />
+                <Text style={[{marginTop:10}, {alignSelf:'center'}]}> 
                             English(United States)
                 </Text>
-        
-
+            </View>
+               
               
         </KeyboardAvoidingView>
     )
