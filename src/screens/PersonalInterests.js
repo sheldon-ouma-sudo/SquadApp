@@ -154,7 +154,7 @@ const PersonalInterests = () => {
                 />
                   <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:40},{marginTop:-330} ]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text></TouchableOpacity>
-                  <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:350},{marginLeft:230}, ]}>
+                  <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:300},{marginLeft:230}, ]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text></TouchableOpacity>
                 </SafeAreaView>
         </View>
