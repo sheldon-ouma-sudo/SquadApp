@@ -248,9 +248,6 @@ const styles = StyleSheet.create({
     height:35,
     marginRight:250,
     marginTop:70
-    
-
- 
 },
 header:{
   height: 55, 

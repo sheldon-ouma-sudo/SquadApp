@@ -82,7 +82,7 @@ const ChangeProfilePictureScreen = () => {
              </TouchableOpacity>
      </View>
  
-       <View style={[{ flexDirection:"row" },{marginTop:-10}, {marginBottom:30},{marginLeft:30}]}>
+       <View style={[{ flexDirection:"row" },{marginTop:-20}, {marginBottom:30},{marginLeft:30}]}>
          <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
              <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
             </TouchableOpacity>
@@ -149,7 +149,7 @@ header:{
    },
    button:{
      backgroundColor: '#1145FD',
-     width: 120,
+     width: 180,
      height: 42,
      padding: 10,
      borderRadius: 5,
@@ -162,7 +162,7 @@ header:{
  
  backButton:{
    backgroundColor: '#EAEAEA',
-   width: 120,
+   width: 180,
    height: 42,
    padding: 10,
    borderRadius: 5,

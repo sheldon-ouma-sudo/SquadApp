@@ -148,7 +148,7 @@ header:{
   },
   button:{
     backgroundColor: '#1145FD',
-    width: 120,
+    width: 180,
     height: 42,
     padding: 10,
     borderRadius: 5,
@@ -161,7 +161,7 @@ header:{
 
 backButton:{
   backgroundColor: '#EAEAEA',
-  width: 120,
+  width: 180,
   height: 42,
   padding: 10,
   borderRadius: 5,

@@ -1,8 +1,9 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions,SafeAreaView,SectionList,FlatList} from 'react-native'
-    import React, { useState,useNavigation } from 'react'
+    import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
      import { TouchableOpacity } from 'react-native';
+     import { useNavigation } from '@react-navigation/native';
      
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -99,7 +100,7 @@
     
      
 const PersonalInterests = () => {
-  //const navigation = useNavigation()
+  const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(2)
 
 
@@ -151,22 +152,18 @@ const PersonalInterests = () => {
                   //return <ListItem item={item} />;
                 }}
                 />
+                  <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:40},{marginTop:-330} ]}>
+                  <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text></TouchableOpacity>
+                  <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:350},{marginLeft:230}, ]}>
+                  <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text></TouchableOpacity>
                 </SafeAreaView>
         </View>
-        <View style={[{ flexDirection:"row" }, {marginBottom:30},{marginLeft:30}]}>
-        <TouchableOpacity  onPress={() =>navigation.replace('UploadProfilePictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
-         <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
-        </TouchableOpacity>
-         <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.button]}>
-         <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
-        </TouchableOpacity>
-</View>
+        
     </KeyboardAvoidingView>
   )
 }
 
 export default PersonalInterests
-
 const styles = StyleSheet.create({
   container:{
   flex:1,
@@ -215,27 +212,27 @@ const styles = StyleSheet.create({
   },
   button:{
     backgroundColor: '#1145FD',
-    width: 120,
+    width: 180,
     height: 42,
     padding: 10,
     borderRadius: 5,
-    marginTop: 130,
+    marginTop: 100,
     alignItems: 'center',
-    marginRight: 50,
+    marginRight: 30,
     marginLeft:20,
 
 },
 
 backButton:{
   backgroundColor: '#EAEAEA',
-  width: 120,
+  width: 180,
   height: 42,
   padding: 10,
   borderRadius: 5,
-  marginTop: 130,
+  //marginTop: 100,
   alignItems: 'center',
-  marginRight: 5,
-  marginLeft:15,
+  //marginRight: 5,
+  //marginLeft:10,
   borderColor:'#1145FD'
 
 
@@ -249,6 +246,14 @@ buttonText:{
   
 },
 backText:{
+  color: '#1145FD',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+nextText:{
   color: '#1145FD',
   fontWeight: '700',
   fontSize: 15,
