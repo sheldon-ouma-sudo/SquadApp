@@ -144,7 +144,7 @@
                 <TouchableOpacity style={{marginTop:20}}>
                     <Text 
                     onPress={() =>
-                        navigation.replace('ForgotPasswordScreen')}
+                        navigation.replace('PhoneOTPScreen')}
                     style={styles.forgotPasswordText}>
                         Forgot Password?
                     </Text>

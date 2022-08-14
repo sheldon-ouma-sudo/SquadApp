@@ -48,7 +48,7 @@
                   <Text 
                    style={[{justifyContent: 'flex-end'},styles.confirmationText]}
                    onPress={() =>
-                    navigation.navigate('SignupScreen')}
+                    navigation.replace('SignupScreen')}
                   >
                      Return to Sign Up   
                   </Text>
