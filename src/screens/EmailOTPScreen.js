@@ -46,7 +46,7 @@
               </View>
               <TouchableOpacity style={{flex:1}}>
                   <Text 
-                   style={[{justifyContent: 'flex-end'},styles.confirmationText]}
+                   style={[{justifyContent: 'flex-end'},styles.confirmationText,{marginTop:5}]}
                    onPress={() =>
                     navigation.replace('SignupScreen')}
                   >
@@ -85,7 +85,7 @@
       fontSize: 13,
       marginRight:15,
       marginLeft:10,
-      fontStyle:"Montserrat",
+      //fontStyle:"Montserrat",
       color:'#535353',
       fontWeight:'400'   
   },
@@ -123,7 +123,8 @@
   },
   confirmationText:{
     fontWeight:'500',
-    marginRight:35
+    marginRight:40,
+    marginLeft:-20
   }
 
   })

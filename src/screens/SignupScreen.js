@@ -1,4 +1,4 @@
-        import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image} from 'react-native'
+        import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Platform} from 'react-native'
         import React, { useEffect } from 'react'
        // import PhoneInput from 'react-native-phone-input';
         import { useState } from 'react';
@@ -7,7 +7,11 @@
         import CountryPicker from 'react-native-country-picker-modal'
         import 'firebase/firestore';
         import firebase from '../firebase';
+        import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
         import { useNavigation } from '@react-navigation/core';
+        import { initializeApp, getApp } from 'firebase/app';
+        import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+
 
 
         const SignupScreen = () => {
@@ -147,21 +151,25 @@
          })
          .catch(error =>alert(error.message))
          }
-         try {
-            const phoneProvider = new PhoneAuthProvider(auth);
-            const verificationId = phoneProvider.verifyPhoneNumber(
-              phoneNumber,
-              recaptchaVerifier.current
-            );
-            setVerificationId(verificationId);
-            showMessage({
-              text: 'Verification code has been sent to your phone.',
-            });
-          } catch (err) {
-            showMessage({ text: `Error: ${err.message}`, color: 'red' });
-          }
-         // navigation.navigate('OTPScreen', { verificationId: 
-            //verificationId})
+         // Double-check that we can run the example
+               
+                try {
+                const phoneProvider = new PhoneAuthProvider(auth);
+                const verificationId = phoneProvider.verifyPhoneNumber(
+                  phoneNumber,
+                  recaptchaVerifier.current
+                );
+                setVerificationId(verificationId);
+                showMessage({
+                  text: 'Verification code has been sent to your phone.',
+                });
+              } catch (err) {
+                showMessage({ text: `Error: ${err.message}`, color: 'red' });
+              } 
+  
+      
+          navigation.navigate('OTPScreen', { verificationId: 
+            verificationId})
          
              //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
             useEffect(()=>{
@@ -200,6 +208,11 @@
             ></Image>
             </View>
             <View style={styles.InputContainer}>
+                 <FirebaseRecaptchaVerifierModal
+                    ref={recaptchaVerifier}
+                    //firebaseConfig={app.options}
+                    // attemptInvisibleVerification
+                />
                 <TextInput
                 placeholder ="Email Address"
                 value={email}

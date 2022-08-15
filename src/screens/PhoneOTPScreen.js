@@ -1,6 +1,7 @@
     import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity} from 'react-native'
     import React, { useState } from 'react'
     import { useNavigation } from '@react-navigation/core';
+    import { useRoute } from '@react-navigation/native';
     import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
     
     
@@ -8,9 +9,9 @@
 
   const PhoneOTPScreen = () => {
   const [verificationCode, setVerificationCode] = useState("")
-    
-
-    const verificationId = props.route.params.verificationId
+  
+    const route = useRoute();
+    const verificationId = route.params.verificationId
     const navigation = useNavigation()
     
       return (
@@ -50,7 +51,7 @@
                   } catch (err) {
                     showMessage({ text: `Error: ${err.message}`, color: 'red' });
                   }
-                  navigation.navigate('Home')
+                  navigation.navigate('AgeGenderLocationScreen')
                 }}
                 style = {styles.button}
                     >
@@ -68,7 +69,7 @@
                 <TouchableOpacity  onPress={() =>
                 navigation.replace('EmailOTPScreen')}
                 style={{flex:1}}>
-                    <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText]}> Try with email </Text>
+                    <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText, {marginTop:5}]}> Try with email </Text>
                 </TouchableOpacity>
               </View>
         </KeyboardAvoidingView>
@@ -144,7 +145,8 @@
       
     },
     confirmationText:{
-      fontWeight:'500'
+      fontWeight:'500',
+      
     }
 
     })
