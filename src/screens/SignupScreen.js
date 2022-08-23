@@ -48,7 +48,7 @@
             return !isNaN(num)
         }
         //this function handles sign up
-       const  handleSignUp={async() {
+       const  handleSignUp=async()=> {
              //email address validation 
              var emailValid = false;
              if(email.length == 0){
@@ -154,21 +154,29 @@
          // Double-check that we can run the example
                
                 try {
+                    console.log("I am here 1")
+                const applicationVerifier = new firebase.auth.RecaptchaVerifier(
+                        'recaptcha-container');
+                        console.log("I am here 2")
                 const phoneProvider = new PhoneAuthProvider(auth);
-                const verificationId = phoneProvider.verifyPhoneNumber(
+                console.log("I am here 3")
+                const verificationId = await phoneProvider.verifyPhoneNumber(
                   phoneNumber,
-                  recaptchaVerifier.current
+                  applicationVerifier
                 );
+                console.log("I am here 4")
                 setVerificationId(verificationId);
                 showMessage({
                   text: 'Verification code has been sent to your phone.',
                 });
+                console.log("I am here 5")
+
               } catch (err) {
                 showMessage({ text: `Error: ${err.message}`, color: 'red' });
               } 
   
-      
-          navigation.navigate('OTPScreen', { verificationId: 
+        console.log(verificationId)
+          navigation.navigate('PhoneOTPScreen', { verificationId: 
             verificationId})
          
              //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
@@ -182,7 +190,13 @@
             return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
     
             }, [])
-         }}
+         }
+
+
+
+
+
+         
         //function that handles the phone number part of the app
         const phoneFormat = (number) => {
             var match = number.match(/(\d{3})(\d{3})(\d{4})$/)
@@ -208,11 +222,7 @@
             ></Image>
             </View>
             <View style={styles.InputContainer}>
-                 <FirebaseRecaptchaVerifierModal
-                    ref={recaptchaVerifier}
-                    //firebaseConfig={app.options}
-                    // attemptInvisibleVerification
-                />
+                
                 <TextInput
                 placeholder ="Email Address"
                 value={email}

@@ -1,5 +1,5 @@
     import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity} from 'react-native'
-    import React, { useState } from 'react'
+    import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/core';
     import { useRoute } from '@react-navigation/native';
     import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
@@ -9,11 +9,16 @@
 
   const PhoneOTPScreen = () => {
   const [verificationCode, setVerificationCode] = useState("")
-  
-    const route = useRoute();
-    const verificationId = route.params.verificationId
-    const navigation = useNavigation()
     
+    const route = useRoute();
+    const verificationId = "dummy"
+    //route.params.verificationId
+    console.log(route.params)
+    const navigation = useNavigation()
+    useEffect(()=>{
+      
+
+    }, [])
       return (
         <KeyboardAvoidingView
           style={styles.container}
@@ -105,7 +110,7 @@
         fontSize: 13,
         marginRight:15,
         marginLeft:10,
-        fontStyle:"Montserrat",
+        //fontStyle:"Montserrat",
         color:'#535353',
         fontWeight:'400'   
     },
