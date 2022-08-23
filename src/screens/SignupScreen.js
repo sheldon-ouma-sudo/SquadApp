@@ -40,13 +40,7 @@
         var re =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
         return re.test(str);
         }
-        //check if the the string has is a valid number 
-        function isNumeric(num){
-            if(num.indexOf(" ")!=5 ||num.indexOf('-') !=9){
-                return isNaNuN(num)
-            }
-            return !isNaN(num)
-        }
+      
         //this function handles sign up
        const  handleSignUp=async()=> {
              //email address validation 
@@ -81,21 +75,7 @@
                  setUserNameError("")
                  userNameValid = true
              }   
-             //phone number validation
-             var phoneNumberValid = false;
-             if(phoneNumber.length == 0){
-                 setPhoneNumberError("Phone Number is required");
-             }        
-             else if(phoneNumber.length < 13){
-                 setPhoneNumberError("Incorrect phone number");
-             }      
-             else if(!isNumeric){        
-                 setPhoneNumberError('Please enter a valid phone number');                          
-             }  
-             else{
-                 setPhoneNumberError("")
-                 phoneNumberValid= true
-             }
+             
              //password validation 
              var passwordValid = false;
              if(password.length == 0){
@@ -126,7 +106,7 @@
                  setEmail("");
                  setPassword("");
                  setUsername("")
-                 setPhone("")          
+                       
          auth
          .createUserWithEmailAndPassword(email.trim(), password)  
          //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
@@ -151,64 +131,17 @@
          })
          .catch(error =>alert(error.message))
          }
-         // Double-check that we can run the example
-               
-                try {
-                    console.log("I am here 1")
-                const applicationVerifier = new firebase.auth.RecaptchaVerifier(
-                        'recaptcha-container');
-                        console.log("I am here 2")
-                const phoneProvider = new PhoneAuthProvider(auth);
-                console.log("I am here 3")
-                const verificationId = await phoneProvider.verifyPhoneNumber(
-                  phoneNumber,
-                  applicationVerifier
-                );
-                console.log("I am here 4")
-                setVerificationId(verificationId);
-                showMessage({
-                  text: 'Verification code has been sent to your phone.',
-                });
-                console.log("I am here 5")
-
-              } catch (err) {
-                showMessage({ text: `Error: ${err.message}`, color: 'red' });
-              } 
-  
-        console.log(verificationId)
-          navigation.navigate('PhoneOTPScreen', { verificationId: 
-            verificationId})
-         
              //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
             useEffect(()=>{
             const unsubscribe = auth.onAuthStateChanged(user =>{
                 if(user){
-                    navigation.replace("PhoneOTPScreen",  { verificationId: 
-                        verificationId})
+                    navigation.replace("PhoneOTPScreen")
                 }
             })
             return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
     
             }, [])
-         }
-
-
-
-
-
-         
-        //function that handles the phone number part of the app
-        const phoneFormat = (number) => {
-            var match = number.match(/(\d{3})(\d{3})(\d{4})$/)
-            if (match) {
-                let num = ['(', match[1], ') ', match[2], '-', match[3]].join('');
-                num= '+' + callingCode+ num
-                setPhone(num);
-                return;
-            }
-            setPhone(number);
-            }
-            
+         }   
         return (
             <KeyboardAvoidingView 
             style={styles.container}
@@ -222,7 +155,6 @@
             ></Image>
             </View>
             <View style={styles.InputContainer}>
-                
                 <TextInput
                 placeholder ="Email Address"
                 value={email}
@@ -244,41 +176,7 @@
                 //secureTextEntry
                 />
                 {userNameError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{userNameError}</Text>}
-                <View style={{flexDirection:'row'}}>
-                    <View style={[{flex:1},styles.countryCodeInput]}>
-                        <CountryPicker
-                            withFilter
-                            withAlphaFilter={false}
-                            withCurrencyButton={false}
-                            withCallingCode
-                            withFlag
-                            countryCode={countryCode}
-                            onSelect={country =>{
-                                const{cca2, callingCode} = country
-                                setCountryCode(cca2)
-                                setCallingCode(callingCode[0])
-                            }}
-                            containerButtonStyle={{
-                            /// alignItems:'center',
-                            justifyContent:'flex-start',
-                                marginLeft:10   
-                            }}
-                            style={[{justifyContent:'flex-start'},styles.countryCodeInput,{padding:5}]}
-                        />
-                    </View>
-                    <View style={[{flex:1},styles.phoneNumberInput]}>
-                        <TextInput       
-                            maxLength={10}
-                            keyboardType="number-pad"
-                            onChangeText={number => phoneFormat(number)}
-                            placeholder="Enter Phone Number"
-                            // textAlign = 'center'
-                            value={phoneNumber}
-                            style={[{justifyContent:'flex-end'}]}
-                            />
-                    </View>
-            </View>
-                {phoneNumberError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{phoneNumberError}</Text>}
+                
             <TextInput
                 placeholder ="Password"
                 value={password}
@@ -383,7 +281,7 @@
             height:42,
             marginTop:10,
             fontSize: 13,
-            fontWeight:'400',
+            fontWeight:'600',
             marginRight:15,
             marginLeft:10,
             //fontFamily:"Montserrat-Regular",
@@ -397,10 +295,7 @@
         width:40,
         marginLeft:10,
         marginRight:12,
-        paddingHorizontal:10
-        
-
-        
+        paddingHorizontal:10    
 
         },
         phoneNumberInput:{
