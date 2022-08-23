@@ -1,5 +1,6 @@
+import { width } from '@mui/system';
 import React, {useState, useRef} from 'react';
-import {View, Text, Alert, StyleSheet, Pressable} from 'react-native';
+import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
 
 const PhoneNumberScreen = () => {
@@ -13,18 +14,21 @@ const PhoneNumberScreen = () => {
             style={styles.container}
             behavior="padding"
     >
-        <View style={styles.squadLogoContainer}>
+        <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
             <Image
                 source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
                 style={styles.squadLogo}
                 resizeMode='contain'
             ></Image>
             </View>
-            <View style={styles.container}>
+            <View style={styles.phoneNumText}>
+                <Text style={styles.enterNumText}>Enter Your Phone Number</Text>
+            </View>
+            <View>
                 <PhoneInput
                     ref={phoneInput}
                     defaultValue={phoneNumber}
-                    defaultCode="IN"
+                    defaultCode="US"
                     layout="first"
                     withShadow
                     autoFocus
@@ -35,7 +39,7 @@ const PhoneNumberScreen = () => {
                     }}
                 />
             <Pressable style={styles.button} onPress={() => buttonPress()}>
-                <Text style={styles.continueText}>Get Phone Number</Text>
+                <Text style={styles.continueText}>Continue</Text>
             </Pressable>
     </View>
       </KeyboardAvoidingView>
@@ -54,22 +58,48 @@ const styles = StyleSheet.create({
     squadLogo:{
         width:221,
         height:85,
-        marginBottom:30
+        marginBottom:50
+    },
+    phoneNumText:{
+        marginBottom:20,
+      
+    },
+    enterNumText:{
+        fontSize:18,
+        fontWeight:'600',
+        color:'#1145FD'
+
+      
     },
     phoneContainer: {
         width: '75%',
         height: 50,
+        marginBottom:210,
+        borderRadius:10,
+        marginLeft:100
+        
+    
       },
       button: {
-        marginTop: 30,
+        marginTop: -190,
         width: '75%',
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'green',
+        backgroundColor: '#1145FD',
+        marginLeft:100,
+        marginRight:100,
+        borderRadius:5 , 
+        marginBottom:180,
+        width:320,
+        
       },
       textInput: {
         paddingVertical: 0,
+       
       },  
+      continueText:{
+        color:"white"
+      }
 })
 export default PhoneNumberScreen
