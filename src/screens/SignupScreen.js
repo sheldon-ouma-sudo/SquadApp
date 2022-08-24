@@ -4,10 +4,9 @@
         import { useState } from 'react';
         import { auth } from '../firebase';
        // import { CountryCode } from 'react-native-country-picker-modal'
-        import CountryPicker from 'react-native-country-picker-modal'
+     
         import 'firebase/firestore';
         import firebase from '../firebase';
-        import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
         import { useNavigation } from '@react-navigation/core';
         import { initializeApp, getApp } from 'firebase/app';
         import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
