@@ -1,37 +1,72 @@
         import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Platform,} from 'react-native'
         import React, { useEffect } from 'react'
-       // import PhoneInput from 'react-native-phone-input';
+        import { Input } from 'react-native-elements';
         import { useState } from 'react';
         import { auth } from '../firebase';
-       // import { CountryCode } from 'react-native-country-picker-modal'
-     
         import 'firebase/firestore';
         import firebase from '../firebase';
         import { useNavigation } from '@react-navigation/core';
         import { initializeApp, getApp } from 'firebase/app';
         import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import { text } from '@fortawesome/fontawesome';
+import { inputClasses } from '@mui/material';
 
 
 
         const SignupScreen = () => {
-        //const [name, setName] = useState('')
-        // const [nameError, setNameError] = useState("")
-            const recaptchaVerifier = React.useRef(null);
+            const [inputs, setInputs] = useState({email: '',username: '', password: ''});
+            const [errors, setErrors] = useState({})
             const [email, setEmail] = useState('')
             const [emailError, setEmailError] = useState("")
             const [password, setPassword] = useState('')
             const [username, setUsername] = useState('')
             const [userNameError, setUserNameError] = useState('')
             const [phoneNumber, setPhone] = useState('')
-            const [phoneNumberError, setPhoneNumberError] = useState('')
             const [passwordError, setPasswordError] = useState("")
             const [confirmPassword, setConfirmPassword] = useState('')
-            const [countryCode, setCountryCode] = useState('US')
-            const [callingCode, setCallingCode] = useState('1')
             const [confirmPasswordError, setConfirmPasswordError]= useState("")
-            const [verificationId, setVerificationId] = useState("");
 
-        //this is the import to enable the navigation 
+            const validate = () =>{
+                //email validation
+                let valid = true;
+                if(!inputs.email){
+                    handleError('Please input email', 'email')
+                    valid = false;
+                }else if(!inputs.email.match(/\S+@\S+\.\S+/)){
+                    valid = false;
+                    handleError('Please enter a valid email address','email')
+                }else if(inputs.email.indexOf(' ') >= 0){    
+                    valid = false;    
+                    handleError('Email cannot contain spaces', 'email');                          
+                } else if(inputs.email.indexOf('@') <= 0){     
+                    valid = false;   
+                    handleError('Email is invald, please key in the valid key', 'email');                          
+                } 
+                //username validation 
+                if(!inputs.username){
+                    valid = false;
+                    handleError('Please input username', 'username')
+                }
+                //password validation
+                if(inputs.password.length<8){
+                    valid = false;
+                    handleError('the password should contain at least one special character and an uppercase letter', 'password')
+                }else if(!checkPassword){
+                    valid = false;
+                    handleError("the password should contain at least one special character and an uppercase letter", 'password')
+                }
+                if(valid){
+                    handleSignUp();
+                }
+
+            } 
+            const handleOnChange =(text, input) =>{
+                setInputs((prevState)=>({...prevState, [input]: text})) }
+            const handleError =(errorMessage, input) => {
+                setErrors(prevState => ({...prevState, [input]:errorMessage}))
+            }
+        
+                //this is the import to enable the navigation 
         const navigation = useNavigation()
      
         //this checks for the uppercase on the password and special character
@@ -160,7 +195,9 @@
                 autoCapitalize='none'
                 //textAlign = 'center'
                 keyboardType="email-address"
-                onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                error={errors.email}
+                onFocus={()=>{handleError(null, 'email')}}
+                onChangeText={()=>handleOnChange(text, "email")}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                 style={styles.input}
                 />
                 {emailError.length > 0 &&<Text style={[styles.errorText,{color:'red'}]}>{emailError} 
@@ -170,9 +207,11 @@
                 autoCapitalize='none'
                 value={username}
                 //textAlign = 'center'
-                onChangeText={text =>setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+                error={errors.username}
+                onFocus={()=>{handleError(null, 'username')}}
+                onChangeText={()=>handleOnChange(text, 'username')}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
-                //secureTextEntry
+               
                 />
                 {userNameError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{userNameError}</Text>}
                 
@@ -180,7 +219,7 @@
                 placeholder ="Password"
                 value={password}
                 //textAlign = 'center'
-                onChangeText={text =>setPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+                onChangeText={()=>handleOnChange(text, 'password')}/// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
                 secureTextEntry
                 />
