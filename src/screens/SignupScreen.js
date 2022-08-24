@@ -1,4 +1,4 @@
-        import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Platform} from 'react-native'
+        import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image, Platform,} from 'react-native'
         import React, { useEffect } from 'react'
        // import PhoneInput from 'react-native-phone-input';
         import { useState } from 'react';
