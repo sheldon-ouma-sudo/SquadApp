@@ -11,7 +11,6 @@
     const SignupScreen = () => {
     const [inputs, setInputs] = useState({email: '',username: '', password: '', confirmPassword:''});
     const [errors, setErrors] = useState({})
-
     //this checks for the uppercase on the password and special character
     function checkPassword(str){
     var re =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;

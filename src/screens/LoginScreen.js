@@ -5,8 +5,6 @@
     import { useNavigation } from '@react-navigation/core';
     import * as Google from 'expo-google-app-auth';
 
-    import react from 'react';
-
     
     const LoginScreen = () => {
         const [email, setEmail] = useState('')
