@@ -22,6 +22,7 @@
 		1CEC43AC288D87980065E460 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CEC437E288D87940065E460 /* Persistence.swift */; };
 		1CEC43AD288D87980065E460 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CEC437F288D87980065E460 /* Assets.xcassets */; };
 		1CEC43AE288D87980065E460 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CEC437F288D87980065E460 /* Assets.xcassets */; };
+		1CED0B8B28BE4F2800F5D9C8 /* GoogleService-Info (2).plist in Resources */ = {isa = PBXBuildFile; fileRef = 1CED0B8A28BE4F2800F5D9C8 /* GoogleService-Info (2).plist */; };
 		52553BC465B960138DAB78C1 /* Pods_Squad__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 614D6FD73BD715C196A9C575 /* Pods_Squad__iOS_.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		1CEC439D288D87980065E460 /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CEC43A1288D87980065E460 /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		1CEC43A3288D87980065E460 /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
+		1CED0B8A28BE4F2800F5D9C8 /* GoogleService-Info (2).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info (2).plist"; sourceTree = "<group>"; };
 		42FA13F35756D180C8F2413C /* Pods-Squad (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Squad (iOS).debug.xcconfig"; path = "Target Support Files/Pods-Squad (iOS)/Pods-Squad (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		536978A0E7B5FDBAC2401347 /* Pods-Squad (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Squad (iOS).release.xcconfig"; path = "Target Support Files/Pods-Squad (iOS)/Pods-Squad (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		614D6FD73BD715C196A9C575 /* Pods_Squad__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Squad__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +104,7 @@
 		1CEC4374288D87940065E460 = {
 			isa = PBXGroup;
 			children = (
+				1CED0B8A28BE4F2800F5D9C8 /* GoogleService-Info (2).plist */,
 				1CEC4379288D87940065E460 /* Shared */,
 				1CEC438B288D87980065E460 /* macOS */,
 				1CEC4394288D87980065E460 /* Tests iOS */,
@@ -178,7 +181,6 @@
 				A78F06B7EE0900C61864A8B4 /* Pods-Squad (macOS).debug.xcconfig */,
 				FC62D472D763D7FA8EAB0CB5 /* Pods-Squad (macOS).release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -309,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CED0B8B28BE4F2800F5D9C8 /* GoogleService-Info (2).plist in Resources */,
 				1CEC43AD288D87980065E460 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -3,7 +3,7 @@ import React, {useState, useRef} from 'react';
 import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
 
-const PhoneNumberScreen = () => {
+function PhoneNumberScreen(props) {
     const [phoneNumber, setphoneNumber] = useState('');
     const phoneInput = useRef(null);
     const buttonPress = () => {
