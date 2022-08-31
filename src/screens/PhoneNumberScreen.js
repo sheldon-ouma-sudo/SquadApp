@@ -4,7 +4,7 @@ import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image} f
 import PhoneInput from 'react-native-phone-number-input'
 import auth from '@react-native-firebase/auth';
 
-function PhoneNumberScreen(props) {
+const PhoneNumberScreen=(props) =>{
     const [phoneNumber, setphoneNumber] = useState('');
     const [confirmationCode, setConfirmationCode]= useState(null)
     const phoneInput = useRef(null);
@@ -20,6 +20,7 @@ function PhoneNumberScreen(props) {
     }
 
     const buttonPress = () => {
+        console.log(phoneNumber)
         Alert.alert(phoneNumber);
         sendConfirmation
       };
