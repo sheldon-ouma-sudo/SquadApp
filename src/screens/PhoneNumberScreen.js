@@ -1,11 +1,18 @@
 import { width } from '@mui/system';
 import React, {useState, useRef} from 'react';
 import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image} from 'react-native';
-import PhoneInput from 'react-native-phone-number-input';
+import PhoneInput from 'react-native-phone-number-input'
+import auth from '@react-native-firebase/auth';
 
 function PhoneNumberScreen(props) {
     const [phoneNumber, setphoneNumber] = useState('');
+    const [confirmationCode, setConfirmationCode]= useState(null)
     const phoneInput = useRef(null);
+    
+    const sendConfirmation = async() =>{
+        props.navigation.navigate()
+    }
+
     const buttonPress = () => {
         Alert.alert(phoneNumber);
       };
