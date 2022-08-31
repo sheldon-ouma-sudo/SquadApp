@@ -21,6 +21,7 @@ function PhoneNumberScreen(props) {
 
     const buttonPress = () => {
         Alert.alert(phoneNumber);
+        sendConfirmation
       };
   return (
       <KeyboardAvoidingView
