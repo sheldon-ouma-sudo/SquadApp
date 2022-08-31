@@ -10,7 +10,13 @@ function PhoneNumberScreen(props) {
     const phoneInput = useRef(null);
     
     const sendConfirmation = async() =>{
-        props.navigation.navigate()
+        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+        console.log(confirmation)
+        if(confirmation){
+        setConfirmationCode(confirmation);
+        }
+        props.navigation.navigate('PhoneOTPScreen',{'confirmationCode': confirmationCode} )
+
     }
 
     const buttonPress = () => {
