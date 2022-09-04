@@ -2,6 +2,8 @@ import { width } from '@mui/system';
 import React, {useState, useRef} from 'react';
 import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
+import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import { initializeApp, getApp } from 'firebase/app';
 
 function PhoneNumberScreen(props) {
     const [phoneNumber, setphoneNumber] = useState('');
