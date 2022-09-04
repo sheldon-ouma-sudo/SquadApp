@@ -1,6 +1,0 @@
-framework module Pods_Squad__iOS_ {
-  umbrella header "Pods-Squad (iOS)-umbrella.h"
-
-  export *
-  module * { export * }
-}
