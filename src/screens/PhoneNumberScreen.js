@@ -1,28 +1,13 @@
 import { width } from '@mui/system';
 import React, {useState, useRef} from 'react';
 import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image} from 'react-native';
-import PhoneInput from 'react-native-phone-number-input'
-import auth from '@react-native-firebase/auth';
+import PhoneInput from 'react-native-phone-number-input';
 
-const PhoneNumberScreen=(props) =>{
+function PhoneNumberScreen(props) {
     const [phoneNumber, setphoneNumber] = useState('');
-    const [confirmationCode, setConfirmationCode]= useState(null)
     const phoneInput = useRef(null);
-    
-    const sendConfirmation = async() =>{
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        console.log(confirmation)
-        if(confirmation){
-        setConfirmationCode(confirmation);
-        }
-        props.navigation.navigate('PhoneOTPScreen',{'confirmationCode': confirmationCode} )
-
-    }
-
     const buttonPress = () => {
-        console.log(phoneNumber)
         Alert.alert(phoneNumber);
-        sendConfirmation
       };
   return (
       <KeyboardAvoidingView
