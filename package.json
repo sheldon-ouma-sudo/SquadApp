@@ -88,6 +88,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "^0.17.7",
     "react-native-webview": "11.18.1",
+    "react-navigation-hooks": "^1.1.0",
     "react-phone-number-input": "^3.2.4",
     "readable-stream": "^1.0.33",
     "stream-browserify": "^1.0.0",

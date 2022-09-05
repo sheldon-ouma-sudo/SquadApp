@@ -1,4 +1,5 @@
 import { width } from '@mui/system';
+import { useNavigation } from '@react-navigation/native';
 import React, {useState, useRef} from 'react';
 import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image,  Platform,} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
@@ -18,6 +19,7 @@ if (!app?.options || Platform.OS === 'web') {
   }
   
 function PhoneNumberScreen(props) {
+    const navigation = useNavigation()
     const [phoneNumber, setphoneNumber] = useState('');
     const phoneInput = useRef(null);
     const recaptchaVerifier = React.useRef(null);
@@ -26,26 +28,28 @@ function PhoneNumberScreen(props) {
     const [message, showMessage] = React.useState();
     const attemptInvisibleVerification = false;
     const buttonPress = async() => {
-        Alert.alert(phoneNumber);
+        //Alert.alert(phoneNumber);
         console.log(phoneNumber)
         // The FirebaseRecaptchaVerifierModal ref implements the
           // FirebaseAuthApplicationVerifier interface and can be
           // passed directly to `verifyPhoneNumber`.
           try {
             const phoneProvider = new PhoneAuthProvider(auth);
-            const verificationId = await phoneProvider.verifyPhoneNumber(
+            const verificationCode = await phoneProvider.verifyPhoneNumber(
               phoneNumber,
               recaptchaVerifier.current
             );
-            console.log(verificationId)
-            setVerificationId(verificationId);
+            console.log("The verification code is:", verificationCode)
+            setVerificationId(verificationCode);
+            console.log("The end of the verification code")
             showMessage({
               text: 'Verification code has been sent to your phone.',
             });
           } catch (err) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' });
           }
-          props.navigate(PhoneOTPScreen, {"verificationId":verificationId})
+          console.log("the verification code is:", verificationId)
+          props.navigation.navigate(PhoneOTPScreen, {"verificationId":verificationId})
       };
   return (
       <KeyboardAvoidingView

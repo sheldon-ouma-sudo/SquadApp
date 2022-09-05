@@ -7,14 +7,16 @@
     
     
 
-  const PhoneOTPScreen = () => {
-  const [verificationCode, setVerificationCode] = useState("")
-    
-    const route = useRoute();
-    const verificationId = "dummy"
-    //route.params.verificationId
-    console.log(route.params)
+  const PhoneOTPScreen = (props) => {
     const navigation = useNavigation()
+    const route = useRoute();
+    const [verificationCode, setVerificationCode] = useState("")
+   const verificationId = useN
+    console.log('route', verificationId)
+    //const verificationId = "dummy"
+    //route.params.verificationId 
+    console.log(route.params)
+    
     useEffect(()=>{
       
 
