@@ -40,7 +40,7 @@ function PhoneNumberScreen(props) {
               recaptchaVerifier.current
             );
             console.log("The verification code is:", verificationCode)
-            setVerificationId(verificationCode);
+            setVerificationId(verificationId);
             console.log("The end of the verification code")
             showMessage({
               text: 'Verification code has been sent to your phone.',

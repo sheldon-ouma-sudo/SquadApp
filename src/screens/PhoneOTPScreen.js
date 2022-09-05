@@ -2,27 +2,44 @@
     import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/core';
     import { useRoute } from '@react-navigation/native';
+    import RNOtpVerify from 'react-native-otp-verify';
     import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
     
     
     
 
   const PhoneOTPScreen = (props) => {
-    const navigation = useNavigation()
-    const route = useRoute();
-    const [verificationCode, setVerificationCode] = useState("")
-   const verificationId = useN
-    console.log('route', verificationId)
+    //const navigation = useNavigation()
+   // const route = useRoute();
+    const [otp, setOtp] = useState("")
+   //const verificationId = props.navigation.getParam(verificationId)
+    //console.log('route', verificationId)
     //const verificationId = "dummy"
     //route.params.verificationId 
-    console.log(route.params)
+   // console.log(route.params)
     
     useEffect(()=>{
-      
+      RNOtpVerify.getHash()
+    .then(console.log)
+    .catch(console.log);
+    startListeningForOtp = () =>
 
-    }, [])
+    RNOtpVerify.getOtp()
+    .then(p => RNOtpVerify.addListener(otpHandler))
+    .catch(p => console.log(p));
+
+    const otpHandler = (message) => {
+    const otp = /(\d{4})/g.exec(message)[1];
+    setOtp(otp);
+      }
+
+  
+    //return ()=>RNOtpVerify.removeListener();{
+      //effect
+    },[])
+
       return (
-        <KeyboardAvoidingView
+        <View
           style={styles.container}
                 behavior="padding"
                 >
@@ -79,7 +96,7 @@
                     <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText, {marginTop:5}]}> Try with email </Text>
                 </TouchableOpacity>
               </View>
-        </KeyboardAvoidingView>
+        </View>
       )
     }
 
