@@ -1,15 +1,47 @@
 import { width } from '@mui/system';
 import React, {useState, useRef} from 'react';
-import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image} from 'react-native';
+import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image,  Platform,} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
+import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 
+
+
+// Firebase references
+const app = getApp();
+const auth = getAuth();
+// Double-check that we can run the example
+if (!app?.options || Platform.OS === 'web') {
+    throw new Error('This example only works on Android or iOS, and requires a valid Firebase config.');
+  }
+  
 function PhoneNumberScreen(props) {
     const [phoneNumber, setphoneNumber] = useState('');
     const phoneInput = useRef(null);
-    const buttonPress = () => {
+    const recaptchaVerifier = React.useRef(null);
+    const [verificationId, setVerificationId] = React.useState();
+    const firebaseConfig = app ? app.options : undefined;
+    const [message, showMessage] = React.useState();
+    const attemptInvisibleVerification = false;
+    const buttonPress = async() => {
         Alert.alert(phoneNumber);
+        // The FirebaseRecaptchaVerifierModal ref implements the
+          // FirebaseAuthApplicationVerifier interface and can be
+          // passed directly to `verifyPhoneNumber`.
+          try {
+            const phoneProvider = new PhoneAuthProvider(auth);
+            const verificationId = await phoneProvider.verifyPhoneNumber(
+              phoneNumber,
+              recaptchaVerifier.current
+            );
+            setVerificationId(verificationId);
+            showMessage({
+              text: 'Verification code has been sent to your phone.',
+            });
+          } catch (err) {
+            showMessage({ text: `Error: ${err.message}`, color: 'red' });
+          }
       };
   return (
       <KeyboardAvoidingView
@@ -27,6 +59,11 @@ function PhoneNumberScreen(props) {
                 <Text style={styles.enterNumText}>Enter Your Phone Number</Text>
             </View>
             <View>
+            <FirebaseRecaptchaVerifierModal
+                    ref={recaptchaVerifier}
+                    firebaseConfig={app.options}
+                    // attemptInvisibleVerification
+                />
                 <PhoneInput
                     ref={phoneInput}
                     defaultValue={phoneNumber}
