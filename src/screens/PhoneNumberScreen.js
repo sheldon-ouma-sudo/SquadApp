@@ -5,6 +5,7 @@ import PhoneInput from 'react-native-phone-number-input';
 import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
 import { initializeApp, getApp } from 'firebase/app';
 import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import PhoneOTPScreen from './PhoneOTPScreen';
 
 
 
@@ -26,6 +27,7 @@ function PhoneNumberScreen(props) {
     const attemptInvisibleVerification = false;
     const buttonPress = async() => {
         Alert.alert(phoneNumber);
+        console.log(phoneNumber)
         // The FirebaseRecaptchaVerifierModal ref implements the
           // FirebaseAuthApplicationVerifier interface and can be
           // passed directly to `verifyPhoneNumber`.
@@ -35,6 +37,7 @@ function PhoneNumberScreen(props) {
               phoneNumber,
               recaptchaVerifier.current
             );
+            console.log(verificationId)
             setVerificationId(verificationId);
             showMessage({
               text: 'Verification code has been sent to your phone.',
@@ -42,6 +45,7 @@ function PhoneNumberScreen(props) {
           } catch (err) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' });
           }
+          props.navigate(PhoneOTPScreen, {"verificationId":verificationId})
       };
   return (
       <KeyboardAvoidingView
