@@ -11,7 +11,7 @@
   const PhoneOTPScreen = (props) => {
     const navigation = useNavigation()
     const route = useRoute();
-    const [otp, setOtp] = useState("")
+    const [verificationCode, setVerificationCode] = useState("")
    //const verificationId = props.navigation.getParam(verificationId)
     //console.log('route', verificationId)
     //const verificationId = "dummy"
@@ -30,11 +30,12 @@
 
     const otpHandler = (message) => {
     const otp = /(\d{6})/g.exec(message)[1];
-    setOtp(otp);
-      }
+    setVerificationCode(otp);
+    RNOtpVerify.removeListener();
+   }
 
   
-    //return ()=>RNOtpVerify.removeListener();{
+    return ()=>RNOtpVerify.removeListener();
       //effect
     },[])
 
@@ -53,11 +54,11 @@
               <View>
                 <TextInput
                     placeholder ="Enter Confirmtion Code"
-                    value={otp}
+                    value={verificationId}
                     autoCapitalize='none'
                     textAlign = 'center'
                     keyboardType="numeric"
-                    onChangeText={setOtp} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                    onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
                     />
               </View>
@@ -68,7 +69,7 @@
                   try {
                     const credential = PhoneAuthProvider.credential(
                       verificationId,
-                        otp
+                      verificationCode
                     );
                     await signInWithCredential(auth, credential);
                     showMessage({ text: 'Phone authentication successful 👍' });
