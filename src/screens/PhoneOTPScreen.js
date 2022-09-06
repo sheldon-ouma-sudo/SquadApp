@@ -3,10 +3,12 @@
     import { useNavigation } from '@react-navigation/core';
     import { useRoute } from '@react-navigation/native';
     import RNOtpVerify from 'react-native-otp-verify';
-    import { PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+    import { initializeApp, getApp } from 'firebase/app';
+    import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
     
     
-    
+const app = getApp();
+const auth = getAuth();
 
   const PhoneOTPScreen = () => {
     const navigation = useNavigation()
@@ -17,11 +19,13 @@
     //console.log('route', verificationId)
     //const verificationId = "dummy"
     //route.params.verificationId 
-   // console.log(route.params)
+   // 
    
 //whenever it changes it to is not null
       useEffect(()=>{ 
         const verificationId = route.params?.verificationId
+        console.log(route.params)
+        //console.log(verificationId)
       if(verificationId!==null){
         setVerificationCode(verificationId)
         setVerificationId(verificationId)
@@ -64,11 +68,14 @@
                       verificationCode
                     );
                     await signInWithCredential(auth, credential);
-                    showMessage({ text: 'Phone authentication successful 👍' });
+                    console.log('Phone authentication successful 👍')
+                    navigation.navigate('AgeGenderLocationScreen')
+                   // showMessage({ text: 'Phone authentication successful 👍' });
                   } catch (err) {
-                    showMessage({ text: `Error: ${err.message}`, color: 'red' });
+                    console.log(err.message)
+                    //showMessage({ text: `Error: ${err.message}`, color: 'red' });
                   }
-                  navigation.navigate('AgeGenderLocationScreen')
+                  
                 }}
                 style = {styles.button}
                     >
