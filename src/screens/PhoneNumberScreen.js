@@ -40,16 +40,18 @@ function PhoneNumberScreen() {
               recaptchaVerifier.current
             );
             console.log("The verification code is:", verificationCode)
-            setVerificationId(verificationId);
+            setVerificationId(verificationCode);
             console.log("The end of the verification code")
             showMessage({
               text: 'Verification code has been sent to your phone.',
             });
+            console.log("the verification code is:", verificationCode)
+            console.log("and the verification Id is:", verificationId)
+            navigation.navigate(PhoneOTPScreen, {"verificationId":verificationCode})
           } catch (err) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' });
           }
-          console.log("the verification code is:", verificationId)
-          navigation.navigate(PhoneOTPScreen, {"verificationId":verificationId})
+          
       };
   return (
       <KeyboardAvoidingView

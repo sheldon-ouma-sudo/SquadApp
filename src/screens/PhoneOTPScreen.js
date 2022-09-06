@@ -8,36 +8,28 @@
     
     
 
-  const PhoneOTPScreen = (props) => {
+  const PhoneOTPScreen = () => {
     const navigation = useNavigation()
     const route = useRoute();
     const [verificationCode, setVerificationCode] = useState("")
+    const [verificationId, setVerificationId] = useState("")
    //const verificationId = props.navigation.getParam(verificationId)
     //console.log('route', verificationId)
     //const verificationId = "dummy"
     //route.params.verificationId 
    // console.log(route.params)
-  const verificationId = route.params.verificationId
-    useEffect(()=>{
-      RNOtpVerify.getHash()
-    .then(console.log)
-    .catch(console.log);
-    startListeningForOtp = () =>
+   
+//whenever it changes it to is not null
+      useEffect(()=>{ 
+        const verificationId = route.params?.verificationId
+      if(verificationId!==null){
+        setVerificationCode(verificationId)
+        setVerificationId(verificationId)
+      }
 
-    RNOtpVerify.getOtp()
-    .then(p => RNOtpVerify.addListener(otpHandler))
-    .catch(p => console.log(p));
-
-    const otpHandler = (message) => {
-    const otp = /(\d{6})/g.exec(message)[1];
-    setVerificationCode(otp);
-    RNOtpVerify.removeListener();
-   }
-
-  
-    return ()=>RNOtpVerify.removeListener();
-      //effect
-    },[])
+      },
+      [route.params?.verificationId])
+    
 
       return (
         <View
@@ -58,7 +50,7 @@
                     autoCapitalize='none'
                     textAlign = 'center'
                     keyboardType="numeric"
-                    onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                   // onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
                     />
               </View>
