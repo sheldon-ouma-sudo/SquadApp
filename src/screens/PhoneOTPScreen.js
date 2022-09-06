@@ -1,4 +1,4 @@
-    import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity} from 'react-native'
+    import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity, Keyboard} from 'react-native'
     import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/core';
     import { useRoute } from '@react-navigation/native';
@@ -9,15 +9,15 @@
     
 
   const PhoneOTPScreen = (props) => {
-    //const navigation = useNavigation()
-   // const route = useRoute();
+    const navigation = useNavigation()
+    const route = useRoute();
     const [otp, setOtp] = useState("")
    //const verificationId = props.navigation.getParam(verificationId)
     //console.log('route', verificationId)
     //const verificationId = "dummy"
     //route.params.verificationId 
    // console.log(route.params)
-    
+  const verificationId = route.params.verificationId
     useEffect(()=>{
       RNOtpVerify.getHash()
     .then(console.log)
@@ -29,7 +29,7 @@
     .catch(p => console.log(p));
 
     const otpHandler = (message) => {
-    const otp = /(\d{4})/g.exec(message)[1];
+    const otp = /(\d{6})/g.exec(message)[1];
     setOtp(otp);
       }
 
@@ -53,11 +53,11 @@
               <View>
                 <TextInput
                     placeholder ="Enter Confirmtion Code"
-                  // value={email}
+                    value={otp}
                     autoCapitalize='none'
                     textAlign = 'center'
                     keyboardType="numeric"
-                    onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                    onChangeText={setOtp} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                     style={styles.input}
                     />
               </View>
@@ -68,7 +68,7 @@
                   try {
                     const credential = PhoneAuthProvider.credential(
                       verificationId,
-                      verificationCode
+                        otp
                     );
                     await signInWithCredential(auth, credential);
                     showMessage({ text: 'Phone authentication successful 👍' });

@@ -18,7 +18,7 @@ if (!app?.options || Platform.OS === 'web') {
     throw new Error('This example only works on Android or iOS, and requires a valid Firebase config.');
   }
   
-function PhoneNumberScreen(props) {
+function PhoneNumberScreen() {
     const navigation = useNavigation()
     const [phoneNumber, setphoneNumber] = useState('');
     const phoneInput = useRef(null);
@@ -49,7 +49,7 @@ function PhoneNumberScreen(props) {
             showMessage({ text: `Error: ${err.message}`, color: 'red' });
           }
           console.log("the verification code is:", verificationId)
-          props.navigation.navigate(PhoneOTPScreen, {"verificationId":verificationId})
+          navigation.navigate(PhoneOTPScreen, {"verificationId":verificationId})
       };
   return (
       <KeyboardAvoidingView
