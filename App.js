@@ -31,7 +31,7 @@
           <Stack.Navigator>
           {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
             <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="HomeScreen" independent={true} options={{headerShown: false}}component={HomeScreen} />
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
             <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
             <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
