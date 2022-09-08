@@ -8,6 +8,9 @@
   import DatePicker from 'react-native-datepicker'
   import { useEffect } from 'react';
   import * as Location from 'expo-location';
+  import { auth } from '../firebase';
+  import 'firebase/firestore';
+  import firebase from '../firebase';
    
 
 //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -104,6 +107,7 @@ const AgeGenderLocationScreen = () => {
   const navigation = useNavigation()
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const user = firebase.auth().currentUser
 
   useEffect(() => {
     (async () => {
@@ -123,6 +127,26 @@ const AgeGenderLocationScreen = () => {
     text = errorMsg;
   } else if (location) {
     text = JSON.stringify(location);
+  }
+  const saveAgeGenderLocation =()=>{
+    if(user){
+    //find their info from the data base
+    const firestore = firebase.firestore;
+    const userRef = firestore().collection('users').doc(user.uid)
+    //let's get the snapshot of the document 
+    const snapShot = userRef.get()
+    if(snapShot.exists){
+      try {userRef.set({
+        date,
+        selectedGender,
+        currentPosition,
+      })
+      } catch (error) {
+        
+      }
+
+    }
+  }
   }
   return (
     <KeyboardAvoidingView 
