@@ -8,6 +8,7 @@ function HomeScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Home!</Text>
+      <Ionicons name="md-home" size={80} color="#006600" />
     </View>
   );
 }
