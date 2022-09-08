@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {Ionicons} from '@expo/vector-icons'
 
 function HomeScreen() {
   return (
@@ -48,10 +49,10 @@ export default function App() {
     <NavigationContainer independent={true}>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={ProfileScreen} />
-        <Tab.Screen name="PollCreation" component={PollCreationScreen} />
         <Tab.Screen name="PollRequest" component={PollReqeuestScreen} />
+         <Tab.Screen name="PollCreation" component={PollCreationScreen} />
         <Tab.Screen name="Notification" component={NotificationScreen} />
+        <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
