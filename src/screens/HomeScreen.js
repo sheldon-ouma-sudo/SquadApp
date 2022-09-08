@@ -1,14 +1,58 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const HomeScreen = () => {
+function HomeScreen() {
   return (
-    <View>
-      <Text>Home Screen</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
     </View>
-  )
+  );
 }
 
-export default HomeScreen
+function NotificationScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+function PollReqeuestScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Poll Request </Text>
+    </View>
+  );
+}
 
-const styles = StyleSheet.create({})
+function PollCreationScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Home!</Text>
+    </View>
+  );
+}
+
+function ProfileScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={ProfileScreen} />
+        <Tab.Screen name="PollCreation" component={PollCreationScreen} />
+        <Tab.Screen name="PollRequest" component={PollReqeuestScreen} />
+        <Tab.Screen name="Notification" component={NotificationScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}

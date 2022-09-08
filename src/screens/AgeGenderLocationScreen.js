@@ -8,6 +8,7 @@
   import DatePicker from 'react-native-datepicker'
   import { useEffect } from 'react';
   import * as Location from 'expo-location';
+  //import {Location, Permission} from 'expo'
   import { auth } from '../firebase';
   import 'firebase/firestore';
   import firebase from '../firebase';
@@ -103,7 +104,7 @@ const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
   const [selectedGender, setGenderSelected] =useState("");
   const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(false)
+  //const [open, setOpen] = useState(false)
   const navigation = useNavigation()
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
