@@ -16,124 +16,23 @@
     import UploadProfPicture from './src/screens/UploadProfPictureScreen';
     import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen';
     import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
-    import { Ionicons } from "@expo/vector-icons";
-    import { createAppContainer } from "react-navigation";
-    import { createBottomTabNavigator } from "react-navigation-tabs";
-    import PollCreation from './src/screens/PollCreationScreen';
-    import PollRequest from './src/screens/PollRequestScreen';
-    import Profile from './src/screens/ProfileScreen';
-    //import HomeScreen from './src/screens/HomeScreen';
-    import NotificationScreen from './src/screens/NotificationScreen';
-        
+  
+    
   
 
     //this is the create stack navigator method: src from the navigation docs on the internet
-    //const Stack = createNativeStackNavigator();
-
-   
-    const TabNavigator = () =>{ createBottomTabNavigator({
-        Home: {
-            screen: HomeScreen,
-            navigationOptions: {
-              tabBarLabel: "Home",
-              tabBarOptions: {
-                activeTintColor: "#1145FD",
-              },
-              tabBarIcon: (tabInfo) => {
-                return (
-                  <Ionicons
-                    name="home"
-                    size={24}
-                    color={tabInfo.focused ? "#1145FD" : "#8e8e93"}
-                  />
-                );
-              },
-            },
-          },
-      PollRequest: {
-        screen: PollRequest,
-        navigationOptions: {
-          tabBarLabel: "Poll Request",
-          tabBarOptions: {
-            activeTintColor: "#1145FD",
-          },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="globe"
-                size={24}
-                color={tabInfo.focused ? "#1145FD" : "#8e8e93"}
-              />
-            );
-          },
-        },
-      },
-      PollCreation: {
-        screen: PollCreation,
-        navigationOptions: {
-          tabBarLabel: "Poll Creation",
-          tabBarOptions: {
-            activeTintColor: "#1145FD",
-          },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="duplicate"
-                size={24}
-                color={tabInfo.focused ? "#1145FD" : "#8e8e93"}
-              />
-            );
-          },
-        },
-      },
-      Notification: {
-        screen: NotificationScreen,
-        navigationOptions: {
-          tabBarLabel: "Notifications",
-          tabBarOptions: {
-            activeTintColor:"#1145FD",
-          },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="notifications"
-                size={24}
-                color={tabInfo.focused ? "#1145FD" : "#8e8e93"}
-              />
-            );
-          },
-        },
-      },
-      Profile: {
-        screen: Profile,
-        navigationOptions: {
-          tabBarLabel: "Profile",
-          tabBarOptions: {
-            activeTintColor: "#1145FD",
-          },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="person-circle"
-                size={24}
-                color={tabInfo.focused ? "#1145FD" : "#8e8e93"}
-              />
-            );
-          },
-        },
-      }, 
-  });
-    }
-    //this is the create stack navigator method: src from the navigation docs on the internet
     const Stack = createNativeStackNavigator();
-   const HomeTabNavigator = createAppContainer(TabNavigator);
+
+
+
+
     export default function App() {
       return (
-        <NavigationContainer> 
+        <NavigationContainer>
           <Stack.Navigator>
           {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
             <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name = "HomeTabNavigator" component={HomeTabNavigator}/>
+            <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
             <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
             <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
