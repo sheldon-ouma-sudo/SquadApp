@@ -2,11 +2,11 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
-import PollCreation from './PollCreationScreen';
-import PollRequest from './PollRequestScreen';
-import Profile from './ProfileScreen';
-import HomeScreen from './HomeScreen';
-import NotificationScreen from './NotificationScreen';
+import PollCreation from './src/screens/PollCreationScreen';
+import PollRequest from './src/screens/PollRequestScreen';
+import Profile from './src/screens/ProfileScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import NotificationScreen from './src/screens/NotificationScreen';
     
   
 
