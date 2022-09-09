@@ -31,7 +31,7 @@
     //const Stack = createNativeStackNavigator();
 
    
-    const TabNavigator = createBottomTabNavigator({
+    const TabNavigator = () =>{ createBottomTabNavigator({
         Home: {
             screen: HomeScreen,
             navigationOptions: {
@@ -123,17 +123,17 @@
         },
       }, 
   });
-
+    }
     //this is the create stack navigator method: src from the navigation docs on the internet
     const Stack = createNativeStackNavigator();
-    const Navigator = createAppContainer(TabNavigator);
+   const HomeTabNavigator = createAppContainer(TabNavigator);
     export default function App() {
       return (
         <NavigationContainer> 
           <Stack.Navigator>
           {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
             <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name = "HomeScreen" component={Navigator}/>
+            <Stack.Screen name = "HomeTabNavigator" component={HomeTabNavigator}/>
             <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
             <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
             <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
