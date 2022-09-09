@@ -11,8 +11,7 @@ import NotificationScreen from './src/screens/NotificationScreen';
   
 
     //this is the create stack navigator method: src from the navigation docs on the internet
-    const Stack = createNativeStackNavigator();
-
+  const Stack = createNativeStackNavigator();
     const TabNavigator = createBottomTabNavigator({
         Home: {
             screen: HomeScreen,

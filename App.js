@@ -1,4 +1,5 @@
     import { StatusBar } from 'expo-status-bar';
+    import { LogBox } from "react-native";
     import { StyleSheet, Text, View } from 'react-native';
     import { NavigationContainer } from '@react-navigation/native';
     import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -26,6 +27,7 @@
       
     //this is the create stack navigator method: src from the navigation docs on the internet
     const Stack = createNativeStackNavigator();
+    LogBox.ignoreLogs(["EventEmitter.removeListener"]);
     const TabNavigator = createBottomTabNavigator({
       Home: {
           screen: HomeScreen, 
