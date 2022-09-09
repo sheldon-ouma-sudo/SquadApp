@@ -142,10 +142,10 @@
                 <TouchableOpacity style={{marginTop:20}}>
                     <Text 
                     onPress={() =>
-                        navigation.replace('HomeScreen')}
+                        navigation.navigate('Navigator')}
                     style={styles.forgotPasswordText}>
                         Forgot Password?
-                    </Text>
+                    </Text> 
                 </TouchableOpacity>
                 
                     
