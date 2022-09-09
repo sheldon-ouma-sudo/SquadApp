@@ -30,16 +30,16 @@
       Home: {
           screen: HomeScreen, 
           navigationOptions: {
-            tabBarLabel: "User",
+            tabBarLabel: "Home",
             tabBarOptions: {
-              activeTintColor: "#006600",
+              activeTintColor: '#1145FD',
             },
             tabBarIcon: (tabInfo) => {
               return (
                 <Ionicons
-                  name="md-person-circle-outline"
+                  name="home"
                   size={24}
-                  color={tabInfo.focused ? "#006600" : "#8e8e93"}
+                  color={tabInfo.focused ?'#1145FD': "#8e8e93"}
                 />
               );
             },
@@ -48,16 +48,16 @@
     PollRequest: {
       screen: PollRequest,
       navigationOptions: {
-        tabBarLabel: "User",
+        tabBarLabel: "Poll Request",
         tabBarOptions: {
-          activeTintColor: "#006600",
+          activeTintColor: '#1145FD',
         },
         tabBarIcon: (tabInfo) => {
           return (
             <Ionicons
-              name="md-person-circle-outline"
+              name="globe"
               size={24}
-              color={tabInfo.focused ? "#006600" : "#8e8e93"}
+              color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
             />
           );
         },
@@ -66,16 +66,16 @@
     PollCreation: {
       screen: PollCreation,
       navigationOptions: {
-        tabBarLabel: "User",
+        tabBarLabel: "",
         tabBarOptions: {
-          activeTintColor: "#006600",
+          activeTintColor: '#1145FD',
         },
         tabBarIcon: (tabInfo) => {
           return (
             <Ionicons
-              name="md-person-circle-outline"
+              name="duplicate"
               size={24}
-              color={tabInfo.focused ? "#006600" : "#8e8e93"}
+              color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
             />
           );
         },
@@ -84,16 +84,16 @@
     Notification: {
       screen: NotificationScreen,
       navigationOptions: {
-        tabBarLabel: "User",
+        tabBarLabel: "Notifications",
         tabBarOptions: {
-          activeTintColor: "#006600",
+          activeTintColor: '#1145FD',
         },
         tabBarIcon: (tabInfo) => {
           return (
             <Ionicons
-              name="md-person-circle-outline"
+              name="notifications"
               size={24}
-              color={tabInfo.focused ? "#006600" : "#8e8e93"}
+              color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
             />
           );
         },
@@ -102,16 +102,16 @@
     Profile: {
       screen: Profile,
       navigationOptions: {
-        tabBarLabel: "Setting",
+        tabBarLabel: "Profile",
         tabBarOptions: {
-          activeTintColor: "#006600",
+          activeTintColor: '#1145FD',
         },
         tabBarIcon: (tabInfo) => {
           return (
             <Ionicons
-              name="md-settings-outline"
+              name="person-circle"
               size={24}
-              color={tabInfo.focused ? "#006600" : "#8e8e93"}
+              color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
             />
           );
         },
@@ -135,7 +135,7 @@ function HomeScreenBottonNavigator (){
           <Stack.Navigator>
           {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
             <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="HomeScreenBottomNavigator" component={HomeScreenBottonNavigator} />
+            <Stack.Screen name="HomeScreenBottomNavigator" options={{headerShown: false}} component={HomeScreenBottonNavigator} />
             <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
             <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
             <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
