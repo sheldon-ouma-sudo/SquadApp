@@ -76,7 +76,8 @@
       Get feedback from those you know best:
       Your Squad will be the default group of contacts 
       that you will be able to share your polls with: 
-      you can always edit the Squad in your account page 
+      you can always edit the Squad in your account page.
+      Grow your Squad through the following:
       </Text>
     </View>
     {/** Squad and contact Squad creation*/}
@@ -102,88 +103,81 @@
               >
            </Ionicons>
            <Text style={styles.contactsTexts}>
-            Grow Your Squad
+             Squad Access
           </Text>
       </TouchableOpacity>       
   </View>
  {/**Instagram and Tiktok Squad creation*/}
-  <View style= {[{flexDirection:"row"}, styles.logo]}>
-          <TouchableOpacity style= {{flex:1}}>
-              <Image
-              //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
-              style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-              ></Image>
+  <View style= {[{flexDirection:"row"}, ]}>
+          <TouchableOpacity style= {[{flex:1},styles.InstagramLogoContainer ]}>
+          <FontAwesome5 
+          name="instagram-square" 
+          size={54} 
+          color='#1977F3' 
+          style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+            />
+            <Text style={styles.contactsTexts}>
+           Access Instagram
+          </Text>
           </TouchableOpacity>
-          <TouchableOpacity style= {{fex:1}}>
-                  <Image
+          
+          <TouchableOpacity style= {[{fex:1}, styles.TiktokLogoContainer]}>
+                  <FontAwesome5
+                  name='tiktok'
+                  size = {54}
+                  color='#1977F3' 
                   //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
-                  style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                  style={[{justifyContent:'flex-end'},styles.TiktokLogo]}
                   >
-                  </Image>
+                  </FontAwesome5>
+                  <Text style={styles.contactsTexts}>
+                    Access Tiktok
+                  </Text>
           </TouchableOpacity>       
       </View>
 
        {/**Twitter and Snapchat Squad creation*/}
-      <View style= {[{flexDirection:"row"}, styles.logo]}>
-          <TouchableOpacity style= {{flex:1}}>
-              <Image
+      <View style= {[{flexDirection:"row"},]}>
+          <TouchableOpacity style= {[{flex:1}, styles.SnapChateLogoContainer]}>
+              <FontAwesome
+              name='snapchat-ghost'
+              size={54}
+              color= '#1977F3' 
               //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
-              style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-              ></Image>
+              style= {[{justifyContent:'flex-start'}, styles.SnapChatLogo]}
+              ></FontAwesome>
+              <Text style={styles.contactsTexts}>
+                    Access SnapChat
+                  </Text>
              </TouchableOpacity>
-              <TouchableOpacity style= {{fex:1}}>
-                  <Image
+              <TouchableOpacity style= {[{fex:1},styles.TwitterLogoContainer]}>
+                  <AntDesign
+                  name='twitter'
+                  size={54}
+                  color= '#1977F3' 
                  // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
                   style={[{justifyContent:'flex-end'},styles.facebookLogo]}
                   >
-                  </Image>
+                  </AntDesign>
+                  <Text style={styles.contactsTexts}>
+                    Twitter Access
+                </Text>
           </TouchableOpacity>       
       </View>
-      <View style= {[{flexDirection:"row"}, styles.logo]}>
-              <TouchableOpacity style= {{flex:1}}>
-                  <Image
-                  //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
-                  style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-                  ></Image>
-              </TouchableOpacity>
-              <TouchableOpacity style= {{fex:1}}>
-                      <Image
-                     // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
-                      style={[{justifyContent:'flex-end'},styles.facebookLogo]}
-                      >
-                      </Image>
-              </TouchableOpacity>       
-          </View>
-        <View style= {[{flexDirection:"row"}, styles.logo]}>
-            <View style= {{flex:1}}>
-                <Image
-                //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
-                style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-                ></Image>
-            </View>
-                <View style= {{fex:1}}>
-                    <Image
-                   // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
-                    style={[{justifyContent:'flex-end'},styles.facebookLogo]}
-                    >
-                    </Image>
-            </View>       
-        </View>
-        <View style= {[{flexDirection:"row"}, styles.logo]}>
-            <View style= {{flex:1}}>
-                <Image
-               // source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
-                style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-                ></Image>
-            </View>
-                <View style= {{fex:1}}>
-                    <Image
-                  //  source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
-                    style={[{justifyContent:'flex-end'},styles.facebookLogo]}
-                    >
-                    </Image>
-            </View>       
-        </View>
+
+      <View style={[{ flexDirection:"row" },{marginTop:-50}, {marginBottom:30},{marginLeft:30}]}>
+        <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+           </TouchableOpacity>
+            <TouchableOpacity  onPress={() =>
+              navigation.navigate('HomeScreenBottomNavigator', { screen: 'HomeScreen' })}
+              style={[{flex:1}, styles.button]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+           </TouchableOpacity>
+   </View>
+  
+      
+        
       
     </KeyboardAvoidingView>
   )
@@ -255,7 +249,7 @@
     padding:10,
     marginRight:80,
     //alignItems:'center',
-    marginLeft:30
+    marginLeft:50
   },
   contactsLogo:{
     marginLeft:30
@@ -270,27 +264,97 @@
     height:100,
     backgroundColor: '#FFFFFF',
     padding:10,
-    marginRight:60,
+    marginRight:50,
     //alignItems:'center',
-    marginLeft:-50
+    marginLeft:-60
     
   },
   squadAddLogo:{
    marginLeft:10
-  }
-
   },
+  InstagramLogoContainer:{
+    width:120,
+    height:100,
+    marginTop:30,
+    backgroundColor: '#FFFFFF',
+    padding:10,
+    marginRight:80,
+    //alignItems:'center',
+    marginLeft:50
+  },
+  TiktokLogoContainer:{
+    marginTop:30,
+    width:150,
+    height:100,
+    backgroundColor: '#FFFFFF',
+    padding:10,
+    marginRight:50,
+    //alignItems:'center',
+    marginLeft:-60
+  },
+ SnapChateLogoContainer:{
+  width:120,
+  height:100,
+  marginTop:30,
+  backgroundColor: '#FFFFFF',
+  padding:10,
+  marginRight:80,
+  //alignItems:'center',
+  marginLeft:50
+    
+  },
+  TwitterLogoContainer:{
+    marginTop:30,
+    width:150,
+    height:100,
+    backgroundColor: '#FFFFFF',
+    padding:10,
+    marginRight:50,
+    //alignItems:'center',
+    marginLeft:-60
+  },
+  button:{
+    backgroundColor: '#1145FD',
+    width: 120,
+    height: 42,
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 130,
+    alignItems: 'center',
+    marginRight: 50,
+    marginLeft:20,
 
+},
 
+backButton:{
+  backgroundColor: '#EAEAEA',
+  width: 120,
+  height: 42,
+  padding: 10,
+  borderRadius: 5,
+  marginTop: 130,
+  alignItems: 'center',
+  marginRight: 5,
+  marginLeft:15,
+  borderColor:'#1145FD'
 
-
-
-
-
-
-
-
-
-
+},
+buttonText:{
+  color: 'white',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+backText:{
+  color: '#1145FD',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+  },
 
   )

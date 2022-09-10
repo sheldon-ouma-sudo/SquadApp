@@ -95,8 +95,7 @@ function PhoneNumberScreen() {
     
   )
 }
-
-
+export default PhoneNumberScreen
 const styles = StyleSheet.create({
     container:{
     flex:1,
@@ -151,4 +150,3 @@ const styles = StyleSheet.create({
         color:"white"
       }
 })
-export default PhoneNumberScreen
