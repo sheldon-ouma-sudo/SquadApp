@@ -92,12 +92,18 @@
             Access Contacts
           </Text>
       </TouchableOpacity>
-      <TouchableOpacity style= {{fex:1}}>
+      <TouchableOpacity style= {[{fex:1}, styles.squadAddLogoContainer]}>
               <Ionicons
+              name = 'person-add'
+              size={50}
+              color='#1977F3'
               //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
-              style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+              style={[{justifyContent:'flex-end'},styles.squadAddLogo]}
               >
            </Ionicons>
+           <Text style={styles.contactsTexts}>
+            Grow Your Squad
+          </Text>
       </TouchableOpacity>       
   </View>
  {/**Instagram and Tiktok Squad creation*/}
@@ -240,13 +246,14 @@
     fontWeight:'500',
     fontSize:14
   },
+ 
   contacts:{
     width:120,
-    height:120,
+    height:100,
     marginTop:30,
     backgroundColor: '#FFFFFF',
     padding:10,
-    marginRight:200,
+    marginRight:80,
     //alignItems:'center',
     marginLeft:30
   },
@@ -257,8 +264,19 @@
   contactsTexts:{
     fontWeight:'600'
   },
-  squadAddLogo:{
+  squadAddLogoContainer:{
+    marginTop:30,
+    width:150,
+    height:100,
+    backgroundColor: '#FFFFFF',
+    padding:10,
+    marginRight:60,
+    //alignItems:'center',
+    marginLeft:-50
     
+  },
+  squadAddLogo:{
+   marginLeft:10
   }
 
   },
