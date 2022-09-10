@@ -5,6 +5,12 @@
     import { TouchableOpacity } from 'react-native';
     import { useNavigation } from '@react-navigation/native';
     import { Icon } from 'react-native-elements';
+    import { fontSize } from '@mui/system';
+    import { Entypo } from '@expo/vector-icons'; //contacts
+    import { Ionicons } from '@expo/vector-icons'; 
+    import { FontAwesome5 } from '@expo/vector-icons';//instagram and tiktok 
+    import { FontAwesome } from '@expo/vector-icons'; //snapchat
+    import { AntDesign } from '@expo/vector-icons'; //twitter
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -32,75 +38,12 @@
       labelSize: 13,
       currentStepLabelColor: '#fffff'
     }
-    const SECTIONS = [
-      {
-        title: 'Select the themes you are intersted in:',
-        data: [
-          {
-            key: '1',
-            text: 'Food',
-            uri: 'https://www.iconfinder.com/icons/5296499/fb_facebook_facebook_logo_icon',
-            
-          },
-          {
-            key: '2',
-            text: 'Fashion',
-            uri: 'https://media3.giphy.com/media/xjIh4zHDjhjji/giphy.gif',
-          
-          },
-    
-          {
-            key: '3',
-            text: 'Travel',
-            uri: 'https://media3.giphy.com/media/iBBfBIj1XopJF6WTVI/giphy.gif',
-          },
-          
-        ],
-      },
-      {
-        data: [
-          {
-            key: '4',
-            text: 'Decor',
-            uri: 'https://media3.giphy.com/media/JGdbbSyi3wM9uBKv8p/giphy.gif',
-          },
-          {
-            key: '5',
-            text: 'Wellness',
-            uri: 'https://media3.giphy.com/media/cAgGLp84BRh4lZumDt/giphy.gif',
-            
-          },
-          {
-            key: '6',
-            text: 'Social',
-            uri: 'https://media3.giphy.com/media/Swg9cud2W8OKVhz9rt/giphy.gif',
-          },
-      
-        ],
-      
-      
-      },
-    ];
-    
-    const ListItem = ({ item }) => (
-      <TouchableOpacity style={styles.item}
-      
-      >
-      <Image
-        source={{
-          uri: item.uri,
-        }}
-        style={styles.itemPhoto}
-        resizeMode="cover"
-      />
-      <Text style={styles.itemText}>{item.text}</Text>
-    </TouchableOpacity>
     
     
-    );
     
     
-  const PersonalInterests = () => {
+    
+  const SquadCreationScreen = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(3)
 
@@ -128,43 +71,119 @@
     //labels={labels}
     />
     </View>  
-    <View style={{marginTop:-30}}>
-      <SafeAreaView>
-          <SectionList
-            contentContainerStyle={{ paddingHorizontal: 10 }}
-            stickySectionHeadersEnabled={false}
-            sections={SECTIONS}
-            renderSectionHeader={({ section }) => (
-                    <>
-              <Text style={styles.sectionHeader}>{section.title}</Text>
-              <FlatList
-                horizontal
-                data={section.data}
-                renderItem={({ item }) => 
-                <ListItem item={item} />  
-                }
-                contentContainerStyle={{ paddingBottom: -40 }}
-                showsHorizontalScrollIndicator={false}
-                />
-                </>
-                )}
-                renderItem={({ item, section }) => {
-                  return null;
-                  //return <ListItem item={item} />;
-                }}
-                />
-                  <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:40},{marginTop:-330} ]}>
-                  <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text></TouchableOpacity>
-                  <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:300},{marginLeft:230}, ]}>
-                  <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text></TouchableOpacity>
-                </SafeAreaView>
+    <View style={styles.squadTextContainer}>
+      <Text style={styles.squadText}>
+      Get feedback from those you know best:
+      Your Squad will be the default group of contacts 
+      that you will be able to share your polls with: 
+      you can always edit the Squad in your account page 
+      </Text>
+    </View>
+    {/** Squad and contact Squad creation*/}
+    <View style= {[{flexDirection:"row"}]}>
+      <TouchableOpacity style= {[{flex:1}, styles.contacts]}>
+          <Ionicons
+          name = "people"
+          size = {50}
+          color= '#1977F3'
+          style= {[{justifyContent:'flex-start'}, styles.contactsLogo]}
+          ></Ionicons>
+          <Text style={styles.contactsTexts}>
+            Access Contacts
+          </Text>
+      </TouchableOpacity>
+      <TouchableOpacity style= {{fex:1}}>
+              <Ionicons
+              //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+              style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+              >
+           </Ionicons>
+      </TouchableOpacity>       
+  </View>
+ {/**Instagram and Tiktok Squad creation*/}
+  <View style= {[{flexDirection:"row"}, styles.logo]}>
+          <TouchableOpacity style= {{flex:1}}>
+              <Image
+              //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
+              style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+              ></Image>
+          </TouchableOpacity>
+          <TouchableOpacity style= {{fex:1}}>
+                  <Image
+                  //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                  style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                  >
+                  </Image>
+          </TouchableOpacity>       
+      </View>
+
+       {/**Twitter and Snapchat Squad creation*/}
+      <View style= {[{flexDirection:"row"}, styles.logo]}>
+          <TouchableOpacity style= {{flex:1}}>
+              <Image
+              //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
+              style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+              ></Image>
+             </TouchableOpacity>
+              <TouchableOpacity style= {{fex:1}}>
+                  <Image
+                 // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                  style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                  >
+                  </Image>
+          </TouchableOpacity>       
+      </View>
+      <View style= {[{flexDirection:"row"}, styles.logo]}>
+              <TouchableOpacity style= {{flex:1}}>
+                  <Image
+                  //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
+                  style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+                  ></Image>
+              </TouchableOpacity>
+              <TouchableOpacity style= {{fex:1}}>
+                      <Image
+                     // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                      style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                      >
+                      </Image>
+              </TouchableOpacity>       
+          </View>
+        <View style= {[{flexDirection:"row"}, styles.logo]}>
+            <View style= {{flex:1}}>
+                <Image
+                //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
+                style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+                ></Image>
+            </View>
+                <View style= {{fex:1}}>
+                    <Image
+                   // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                    style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                    >
+                    </Image>
+            </View>       
         </View>
-        
+        <View style= {[{flexDirection:"row"}, styles.logo]}>
+            <View style= {{flex:1}}>
+                <Image
+               // source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
+                style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+                ></Image>
+            </View>
+                <View style= {{fex:1}}>
+                    <Image
+                  //  source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                    style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                    >
+                    </Image>
+            </View>       
+        </View>
+      
     </KeyboardAvoidingView>
   )
   }
 
-  export default PersonalInterests
+  export default SquadCreationScreen
   const styles = StyleSheet.create({
   container:{
   flex:1,
@@ -211,95 +230,36 @@
 
     //backgroundColor:'blue'
   },
-  button:{
-    backgroundColor: '#1145FD',
-    width: 180,
-    height: 42,
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 100,
-    alignItems: 'center',
-    marginRight: 30,
-    marginLeft:20,
+  squadTextContainer:{
+    marginTop:-10,
+    marginLeft:25,
+    marginRight:20
 
   },
-
-  backButton:{
-  backgroundColor: '#EAEAEA',
-  width: 180,
-  height: 42,
-  padding: 10,
-  borderRadius: 5,
-  //marginTop: 100,
-  alignItems: 'center',
-  //marginRight: 5,
-  //marginLeft:10,
-  borderColor:'#1145FD'
-
-
+  squadText:{
+    fontWeight:'500',
+    fontSize:14
   },
-  buttonText:{
-  color: 'white',
-  fontWeight: '700',
-  fontSize: 15,
-  alignItems:"center"
-
-
+  contacts:{
+    width:120,
+    height:120,
+    marginTop:30,
+    backgroundColor: '#FFFFFF',
+    padding:10,
+    marginRight:200,
+    //alignItems:'center',
+    marginLeft:30
   },
-  backText:{
-  color: '#1145FD',
-  fontWeight: '700',
-  fontSize: 15,
-  alignItems:"center"
-
-
+  contactsLogo:{
+    marginLeft:30
+   
   },
-  nextText:{
-  color: '#1145FD',
-  fontWeight: '700',
-  fontSize: 15,
-  alignItems:"center"
-
-
+  contactsTexts:{
+    fontWeight:'600'
   },
-
-  profilePictureButton:{
-  backgroundColor: '#1145FD',
-  width: 256,
-  height: 42,
-  padding: 10,
-  borderRadius: 5,
-  marginTop: 30,
-  alignItems: 'center',
-  marginRight: 50,
-  marginLeft:50,
-
-  },
-  sectionHeader: {
-  fontWeight: '400',
-  fontSize: 15,
-  //color: '#f4f4f4',
-  marginTop: 10,
-  marginBottom: 5,
-  marginLeft:25
-  //padding:-15,
-
-
-  },
-  item: {
-  margin: 10,
-  backgroundColor: '#FFFFFF',
-  padding:10
-  },
-  itemPhoto: {
-  width: 100,
-  height: 100,
-  },
-  itemText: {
-  color: '#1145FD',
-  marginTop: 8,
-  fontWeight:'600'
-  },  
+  squadAddLogo:{
+    
+  }
 
   },
 

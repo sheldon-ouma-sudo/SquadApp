@@ -31,6 +31,7 @@
       labelSize: 13,
       currentStepLabelColor: '#fffff'
     }
+
     const SECTIONS = [
       {
         title: 'Select the themes you are intersted in:',
@@ -56,6 +57,7 @@
         ],
       },
       {
+        //title: 'Punk and hardcore',
         data: [
           {
             key: '4',
