@@ -24,6 +24,10 @@
     import PollRequest from './src/screens/PollRequestScreen';
     import Profile from './src/screens/ProfileScreen';
     import NotificationScreen from './src/screens/NotificationScreen';
+    import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+    import MySquadScreen from './src/screens/MySquadScreen';
+    import PersonalPollScreen from './src/screens/PersonalPollScreen';
+    import SquadScreen from './src/screens/SquadScreen';
       
     //this is the create stack navigator method: src from the navigation docs on the internet
     const Stack = createNativeStackNavigator();
