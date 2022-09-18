@@ -32,6 +32,152 @@
     //this is the create stack navigator method: src from the navigation docs on the internet
     const Stack = createNativeStackNavigator();
     LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+    const TopHomeTabNavigator = createMaterialTopTabNavigator({
+      Home: {
+        screen: HomeScreen, 
+        navigationOptions: {
+          tabBarLabel: "Home",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="home"
+                size={24}
+                color={tabInfo.focused ?'#1145FD': "#8e8e93"}
+              />
+            );
+          },
+        },
+      },
+      PollRequest: {
+        screen: PollRequest,
+        navigationOptions: {
+          tabBarLabel: "Poll Request",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="globe"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+              />
+            );
+          },
+        },
+      },
+      PollCreation: {
+        screen: PollCreation,
+        navigationOptions: {
+          tabBarLabel: "",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="duplicate"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+              />
+            );
+          },
+        },
+      },PollCreation: {
+        screen: PollCreation,
+        navigationOptions: {
+          tabBarLabel: "",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="duplicate"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+              />
+            );
+          },
+        },
+      },
+    })
+    const TopProflileTabNavigator = createMaterialTopTabNavigator({
+      Home: {
+        screen: HomeScreen, 
+        navigationOptions: {
+          tabBarLabel: "Home",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="home"
+                size={24}
+                color={tabInfo.focused ?'#1145FD': "#8e8e93"}
+              />
+            );
+          },
+        },
+      },
+      PollRequest: {
+        screen: PollRequest,
+        navigationOptions: {
+          tabBarLabel: "Poll Request",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="globe"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+              />
+            );
+          },
+        },
+      },
+      PollCreation: {
+        screen: PollCreation,
+        navigationOptions: {
+          tabBarLabel: "",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="duplicate"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+              />
+            );
+          },
+        },
+      },PollCreation: {
+        screen: PollCreation,
+        navigationOptions: {
+          tabBarLabel: "",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="duplicate"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+              />
+            );
+          },
+        },
+      },
+    })
     const TabNavigator = createBottomTabNavigator({
       Home: {
           screen: HomeScreen, 
