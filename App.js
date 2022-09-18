@@ -37,151 +37,77 @@
     const Stack = createNativeStackNavigator();
     LogBox.ignoreLogs(["EventEmitter.removeListener"]);
     const TopHomeTabNavigator = createMaterialTopTabNavigator({
-      Home: {
-        screen: HomeScreen, 
+      TrendingScreen: {
+        screen: TrendingPollScreen, 
         navigationOptions: {
-          tabBarLabel: "Home",
+         // tabBarLabel: "Home",
           tabBarOptions: {
             activeTintColor: '#1145FD',
+            title: 'Trending'
           },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="home"
-                size={24}
-                color={tabInfo.focused ?'#1145FD': "#8e8e93"}
-              />
-            );
+          
+        },
+      },
+      PublicPollScreen: {
+        screen: PublicPollSquadScreen,
+        navigationOptions: {
+          tabBarLabel: "Public Polls",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
           },
         },
       },
-      PollRequest: {
-        screen: PollRequest,
+      SquadPollScreen: {
+        screen: MySquadPollScreen,
         navigationOptions: {
-          tabBarLabel: "Poll Request",
+          tabBarLabel: "Squad Polls",
           tabBarOptions: {
             activeTintColor: '#1145FD',
           },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="globe"
-                size={24}
-                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-              />
-            );
-          },
+          
         },
-      },
-      PollCreation: {
-        screen: PollCreation,
-        navigationOptions: {
-          tabBarLabel: "",
-          tabBarOptions: {
-            activeTintColor: '#1145FD',
-          },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="duplicate"
-                size={24}
-                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-              />
-            );
-          },
-        },
-      },PollCreation: {
-        screen: PollCreation,
-        navigationOptions: {
-          tabBarLabel: "",
-          tabBarOptions: {
-            activeTintColor: '#1145FD',
-          },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="duplicate"
-                size={24}
-                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-              />
-            );
-          },
-        },
-      },
+      },          
     })
+
+
+    
     const TopProflileTabNavigator = createMaterialTopTabNavigator({
-      Home: {
-        screen: HomeScreen, 
+      MySquadScreen: {
+        screen: MySquadScreen, 
         navigationOptions: {
-          tabBarLabel: "Home",
+          tabBarLabel: "Squad",
           tabBarOptions: {
             activeTintColor: '#1145FD',
           },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="home"
-                size={24}
-                color={tabInfo.focused ?'#1145FD': "#8e8e93"}
-              />
-            );
-          },
+          
         },
       },
-      PollRequest: {
-        screen: PollRequest,
+      Polls: {
+        screen: PersonalPollScreen,
         navigationOptions: {
-          tabBarLabel: "Poll Request",
+          tabBarLabel: "Polls",
           tabBarOptions: {
             activeTintColor: '#1145FD',
           },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="globe"
-                size={24}
-                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-              />
-            );
-          },
+          
         },
       },
-      PollCreation: {
-        screen: PollCreation,
+      Squad: {
+        screen: SquadScreen,
         navigationOptions: {
-          tabBarLabel: "",
+          tabBarLabel: "Squads",
           tabBarOptions: {
             activeTintColor: '#1145FD',
           },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="duplicate"
-                size={24}
-                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-              />
-            );
-          },
-        },
-      },PollCreation: {
-        screen: PollCreation,
-        navigationOptions: {
-          tabBarLabel: "",
-          tabBarOptions: {
-            activeTintColor: '#1145FD',
-          },
-          tabBarIcon: (tabInfo) => {
-            return (
-              <Ionicons
-                name="duplicate"
-                size={24}
-                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-              />
-            );
-          },
+          
         },
       },
+     
     })
+
+
+
+
     const TabNavigator = createBottomTabNavigator({
       Home: {
           screen: HomeScreen, 
