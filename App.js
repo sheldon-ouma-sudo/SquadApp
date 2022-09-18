@@ -25,9 +25,13 @@
     import Profile from './src/screens/ProfileScreen';
     import NotificationScreen from './src/screens/NotificationScreen';
     import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-    import MySquadScreen from './src/screens/MySquadScreen';
-    import PersonalPollScreen from './src/screens/PersonalPollScreen';
-    import SquadScreen from './src/screens/SquadScreen';
+    import MySquadScreen from './src/screens/MySquadScreen';//profile screen
+    import PersonalPollScreen from './src/screens/PersonalPollScreen';//profile screen
+    import SquadScreen from './src/screens/SquadScreen';//profile screen
+    import TrendingPollScreen from './src/screens/TrendingPollScreen';//home page
+    import MySquadPollScreen from './src/screens/MySquadPollScreen';//home page
+    import PublicPollSquadScreen from './src/screens/PublicPollSquadScreen'; //homepage screen 
+
       
     //this is the create stack navigator method: src from the navigation docs on the internet
     const Stack = createNativeStackNavigator();
