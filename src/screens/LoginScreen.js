@@ -122,27 +122,27 @@
 
                     {/**this is the view with the google and the facebook icons */}
                 <View style= {[{flexDirection:"row"}, styles.logo]}>
-                    <View style= {{flex:1}}>
+                    <TouchableOpacity style= {{flex:1}}>
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
                         style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
                         onPress={signInWithGoogleAsync}
                         ></Image>
-                    </View>
-                    <View style= {{fex:1}}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style= {{fex:1}}>
                             <Image
                             source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
                             style={[{justifyContent:'flex-end'},styles.facebookLogo]}
                             >
                             </Image>
-                    </View>       
+                    </TouchableOpacity>       
                 </View>
 
                 {/**this is the forgot password functionality */}
                 <TouchableOpacity style={{marginTop:20}}>
                     <Text 
                     onPress={() =>
-                        navigation.navigate("AgeGenderLocationScreen")}
+                        navigation.navigate("HomeScreenBottomNavigator",{screen:'HomeScreen'})}
                     style={styles.forgotPasswordText}>
                         Forgot Password?
                     </Text> 
