@@ -44,6 +44,7 @@
         });
     
         if (result.type === 'success') {
+            navigation.navigate("HomeScreenBottomNavigator",{screen:'HomeScreen'})
           return result.accessToken;
         } else {
           return { cancelled: true };
