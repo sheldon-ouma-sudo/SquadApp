@@ -34,7 +34,7 @@
 
     }
 
-   signInWithGoogleAsync = async() => {
+ const  signInWithGoogleAsync = async() => {
     try {
         const result = await Google.logInAsync({
         behavior: 'web',
@@ -123,11 +123,14 @@
 
                     {/**this is the view with the google and the facebook icons */}
                 <View style= {[{flexDirection:"row"}, styles.logo]}>
-                    <TouchableOpacity style= {{flex:1}}>
+                    <TouchableOpacity 
+                    style= {{flex:1}}
+                    onPress={signInWithGoogleAsync}
+                     >
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
                         style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-                        onPress={signInWithGoogleAsync}
+                        //onPress={signInWithGoogleAsync}
                         ></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style= {{fex:1}}>
