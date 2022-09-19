@@ -4,7 +4,7 @@
     import StepIndicator from 'react-native-step-indicator';
     import { Icon } from 'react-native-elements';
     import Ionicons from '@expo/vector-icons/Ionicons';
-    import { useNavigation } from 'react-navigation';
+    import { useNavigation } from '@react-navigation';
 
 const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
