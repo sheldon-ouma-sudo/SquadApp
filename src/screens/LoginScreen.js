@@ -2,7 +2,7 @@
     import React, { useEffect } from 'react'
     import { useState } from 'react';
     import { auth } from '../firebase';
-    import { useNavigation } from '@react-navigation/core';
+    import { useNavigation } from 'react-navigation';
     import * as Google from 'expo-google-app-auth';
 
     

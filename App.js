@@ -18,7 +18,7 @@
       import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen';
       import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
       import { Ionicons } from "@expo/vector-icons";
-      import { createAppContainer } from "react-navigation";
+      import { createAppContainer } from 'react-navigation';
       import { createBottomTabNavigator } from "react-navigation-tabs";
       import PollCreation from './src/screens/PollCreationScreen';
       import PollRequest from './src/screens/PollRequestScreen';
