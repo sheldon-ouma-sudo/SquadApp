@@ -4,6 +4,12 @@
     import { auth } from '../firebase';
     import { useNavigation } from '@react-navigation/core';
     import * as Google from 'expo-auth-session/providers/google'
+    import * as WebBrowser from 'expo-web-browser';
+    import { ResponseType } from 'expo-auth-session';
+    import * as Google from 'expo-auth-session/providers/google';
+    import { initializeApp } from 'firebase/app';
+    import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+   // import { Button } from 'react-native';
 
     
     const LoginScreen = () => {
@@ -43,15 +49,27 @@
         iosClientId: 32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com,                 
         scopes: ['profile', 'email'],
         };
-          //console.log(re)
-        if (result.type === 'success') {
-            navigation.navigate("HomeScreenBottomNavigator",{screen:'HomeScreen'})
-          return result.accessToken;
-        } else {
-          return { cancelled: true };
-        }
-    
+
+
+        Google.loginAsync(config)
+        .then((result)=>{
+            const{type, user} = result;
+            if(type=='success'){
+                const{email, name,photoUrl} = user;
+                handleMessage('Google signin successful', "SUCCESS")
+                setTimeout(()=>navigation.navigate("HomeScreenBottomNavigator",{screen:'HomeScreen'}))
+            }else{
+                handleMessage('Google sign in was cancelled')
+            }
+        })
+        .catch(error =>{
+            console.log(error)
+            handleMessage("An error occured. Check your network and try again")
+        })
+     
     }
+        
+            
 
    
 
