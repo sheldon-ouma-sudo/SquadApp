@@ -5,7 +5,7 @@
     import auth from '@react-native-firebase/auth';
     import { useNavigation } from '@react-navigation/core';
     import { GoogleSignin } from '@react-native-google-signin/google-signin';
-    import { async } from '@firebase/util';
+   
 
 
 
