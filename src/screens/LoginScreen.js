@@ -1,27 +1,64 @@
     import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native'
     import React, { useEffect } from 'react'
     import { useState } from 'react';
-    import { auth } from '../firebase';
+    //import { auth } from '../firebase';
+    import auth from '@react-native-firebase/auth';
     import { useNavigation } from '@react-navigation/core';
-    import * as Google from 'expo-auth-session/providers/google';
+    import { GoogleSignin } from '@react-native-google-signin/google-signin';
+    import { async } from '@firebase/util';
 
-    
+
+
     const LoginScreen = () => {
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
-    //this is the import to enable the navigation 
-    const navigation = useNavigation()
-    //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
-    useEffect(()=>{
-    const unsubscribe = auth.onAuthStateChanged(user =>{
-        if(user){
-            navigation.replace("HomeScreen")
-        }
-    })
-    return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
+        const [initializing, setInitializing] = useState(true);
+        const [user, setUser] = useState();
 
-    }, [])
-    
+    //this is the import to enable the navigation 
+            const navigation = useNavigation()
+    //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
+            useEffect(()=>{
+            const unsubscribe = auth.onAuthStateChanged(user =>{
+            if(user){
+            navigation.replace("HomeScreen")
+            }
+            })
+            return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
+
+            }, [])
+
+            function onAuthStateChanged(user) {
+                setUser(user);
+                if (initializing) setInitializing(false);
+            }
+            
+            useEffect(() => {
+                const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+                return subscriber; // unsubscribe on unmount
+            }, []);
+            const onGoogleButtonPress= async() => {
+                // Get the users ID token
+                const { idToken } = await GoogleSignin.signIn();
+            
+                // Create a Google credential with the token
+                const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            
+                // Sign-in the user with the credential
+                const user_sign_in = auth().signInWithCredential(googleCredential)
+                user_sign_in.then((user)=>{
+                    console.log(error)
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
+            }
+            
+            if (initializing) return null;
+
+
+
+
     //handle the login functionaility of the app
     const handleLogin = () =>{
         auth.signInWithEmailAndPassword(email, password)
@@ -34,18 +71,27 @@
 
     }
 
- const  signInWithGoogleAsync = () => {
+    GoogleSignin.configure({
+    webClientId: "32488750865-3e277uia0ioeikisftl953t22fcsoqmg.apps.googleusercontent.com",
+    });
+
+
+
+
+
+    {/**
+    const  signInWithGoogleAsync = () => {
     alert('Signing in with Google!');
         const config = {
         //behavior: 'web',
         androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
         iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com',            
         scopes: ['profile', 'email'],
-        };
-    
+        };    
+    }
+    */}
 
- }
-   
+
 
 
 
@@ -55,11 +101,11 @@
         behavior="padding"
         >
         <View style={styles.squadLogoContainer}>
-          <Image
+        <Image
             source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
             style={styles.squadLogo}
             resizeMode='contain'
-          ></Image>
+        ></Image>
         </View>
 
         <View style={styles.InputContainer}>
@@ -105,7 +151,7 @@
                         </View>
                     </View>
                     {/*this is the straight line with the text in it*/}
-                  
+                
                     <View style={[{flexDirection: 'row'}, styles.horizontalLineContainer]}>
                         <View style={{backgroundColor: 'black', height: 1, flex: 1, alignSelf: 'center', marginLeft:50}} />
                         <Text style={{ alignSelf:'center', paddingHorizontal:5, fontSize: 12 }}>OR</Text>
@@ -116,8 +162,8 @@
                 <TouchableOpacity style= {[{flexDirection:"row"}, styles.logo]}>
                     <TouchableOpacity 
                     style= {{flex:1}}
-                    onPress={signInWithGoogleAsync}
-                     >
+                    onPress={onGoogleButtonPress}
+                    >
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
                         style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
@@ -146,15 +192,15 @@
                 
                     
                     
-               {/**horizontal line at the botton of the page*/}
+            {/**horizontal line at the botton of the page*/}
             <View style={{marginTop:140, marginBottom:-130}}>
             <View style={{backgroundColor: 'black', height: 1, width:350}} />
                 <Text style={[{marginTop:10}, {alignSelf:'center'}]}> 
                             English(United States)
                 </Text>
             </View>
-               
-              
+            
+            
         </KeyboardAvoidingView>
     )
     }
@@ -181,7 +227,7 @@
         marginTop: 20
 
     },
-   input:{
+    input:{
         backgroundColor: '#EAEAEA',
         paddingHorizontal: 15,
         paddingVertical:10,
@@ -192,7 +238,7 @@
         fontSize: 13,
         marginRight:15,
         marginLeft:10,
-       // fontStyle:"Montserrat-Regular",
+    // fontStyle:"Montserrat-Regular",
         color:'#535353',
         fontWeight:'400'
         
@@ -219,7 +265,7 @@
         alignItems: 'center',
         marginRight: 10,
         marginLeft:15,
-     
+
 
 
     },
@@ -268,7 +314,7 @@
         marginTop: 15,
         marginBottom:10,
         marginLeft: 10,
-       // fontFamily:"Montserrat-Regular",
+    // fontFamily:"Montserrat-Regular",
         fontWeight:"800"
     },
     horizontalLineContainer:{},
@@ -280,7 +326,7 @@
     borderWidth:1,
     borderColor: "red",
     marginLeft:160
-  
+
 
     },
     facebookLogo:{
@@ -303,7 +349,7 @@
     },
     logo:{
         marginTop:37
-      }
+    }
 
 
     })
