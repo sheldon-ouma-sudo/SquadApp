@@ -19,7 +19,8 @@
     ],
     "ios": {
       "bundleIdentifier": "com.Squad",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "package": "com.Squad",
