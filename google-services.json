@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "32488750865",
+    "firebase_url": "https://squad-db9d1-default-rtdb.firebaseio.com",
+    "project_id": "squad-db9d1",
+    "storage_bucket": "squad-db9d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32488750865:android:f2ed80a552aa6fa51c56b0",
+        "android_client_info": {
+          "package_name": "com.Squad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32488750865-kiauamjki96jradtioren7r841qi0mc6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Squad",
+            "certificate_hash": "6003f2c81d53d29b7751b501c5249d00eb567e55"
+          }
+        },
+        {
+          "client_id": "32488750865-3e277uia0ioeikisftl953t22fcsoqmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKDPr8A6szhswUCAj-HG--Ahwri_WGXBY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "32488750865-3e277uia0ioeikisftl953t22fcsoqmg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "host.exp.exponent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
