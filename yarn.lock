@@ -6799,6 +6799,13 @@ expo-pwa@0.0.102:
     commander "2.20.0"
     update-check "1.5.3"
 
+expo-random@~12.2.0:
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/expo-random/-/expo-random-12.2.0.tgz#a3c8a9ce84ef2c85900131d96eea6c7123285482"
+  integrity sha512-SihCGLmDyDOALzBN8XXpz2hCw0RSx9c4/rvjcS4Bfqhw6luHjL2rHNTLrFYrPrPRmG1jHM6dXXJe/Zm8jdu+2g==
+  dependencies:
+    base64-js "^1.3.0"
+
 expo-splash-screen@~0.15.1:
   version "0.15.1"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.15.1.tgz#bdfb2434bda7fb1cde97e029fc7a791d7b3e3125"

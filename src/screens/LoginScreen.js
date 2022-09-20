@@ -3,13 +3,7 @@
     import { useState } from 'react';
     import { auth } from '../firebase';
     import { useNavigation } from '@react-navigation/core';
-    import * as Google from 'expo-auth-session/providers/google'
-    import * as WebBrowser from 'expo-web-browser';
-    import { ResponseType } from 'expo-auth-session';
     import * as Google from 'expo-auth-session/providers/google';
-    import { initializeApp } from 'firebase/app';
-    import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
-   // import { Button } from 'react-native';
 
     
     const LoginScreen = () => {
@@ -42,35 +36,15 @@
 
  const  signInWithGoogleAsync = () => {
     alert('Signing in with Google!');
-    
         const config = {
         //behavior: 'web',
-        androidClientId: 32488750865-mrsm1208o2d8ldnj430cjn7b6jm8dbtt.apps.googleusercontent.com,
-        iosClientId: 32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com,                 
+        androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
+        iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com',            
         scopes: ['profile', 'email'],
         };
+    
 
-
-        Google.loginAsync(config)
-        .then((result)=>{
-            const{type, user} = result;
-            if(type=='success'){
-                const{email, name,photoUrl} = user;
-                handleMessage('Google signin successful', "SUCCESS")
-                setTimeout(()=>navigation.navigate("HomeScreenBottomNavigator",{screen:'HomeScreen'}))
-            }else{
-                handleMessage('Google sign in was cancelled')
-            }
-        })
-        .catch(error =>{
-            console.log(error)
-            handleMessage("An error occured. Check your network and try again")
-        })
-     
-    }
-        
-            
-
+ }
    
 
 
