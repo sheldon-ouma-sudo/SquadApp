@@ -3,7 +3,7 @@
     import { useState } from 'react';
     import { auth } from '../firebase';
     import { useNavigation } from '@react-navigation/core';
-    import * as Google from 'expo-google-app-auth';
+    import * as Google from 'expo-auth-session/providers/google'
 
     
     const LoginScreen = () => {
@@ -34,24 +34,23 @@
 
     }
 
- const  signInWithGoogleAsync = async() => {
-    try {
-        const result = await Google.logInAsync({
-        behavior: 'web',
-        androidClientId: 32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com,
-        iosClientId: 32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com,
-        scopes: ['profile', 'email'],
-        });
+ const  signInWithGoogleAsync = () => {
+    alert('Signing in with Google!');
     
+        const config = {
+        //behavior: 'web',
+        androidClientId: 32488750865-mrsm1208o2d8ldnj430cjn7b6jm8dbtt.apps.googleusercontent.com,
+        iosClientId: 32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com,                 
+        scopes: ['profile', 'email'],
+        };
+          //console.log(re)
         if (result.type === 'success') {
             navigation.navigate("HomeScreenBottomNavigator",{screen:'HomeScreen'})
           return result.accessToken;
         } else {
           return { cancelled: true };
         }
-      } catch (e) {
-        return { error: true };
-      }
+    
     }
 
    
@@ -122,7 +121,7 @@
                     </View>
 
                     {/**this is the view with the google and the facebook icons */}
-                <View style= {[{flexDirection:"row"}, styles.logo]}>
+                <TouchableOpacity style= {[{flexDirection:"row"}, styles.logo]}>
                     <TouchableOpacity 
                     style= {{flex:1}}
                     onPress={signInWithGoogleAsync}
@@ -131,6 +130,7 @@
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
                         style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
                         //onPress={signInWithGoogleAsync}
+                    
                         ></Image>
                     </TouchableOpacity>
                     <TouchableOpacity style= {{fex:1}}>
@@ -140,7 +140,7 @@
                             >
                             </Image>
                     </TouchableOpacity>       
-                </View>
+                </TouchableOpacity>
 
                 {/**this is the forgot password functionality */}
                 <TouchableOpacity style={{marginTop:20}}>
