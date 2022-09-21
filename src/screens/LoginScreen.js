@@ -69,10 +69,10 @@
         
 
     }
-
-    GoogleSignin.configure({
+{/** GoogleSignin.configure({
     webClientId: "32488750865-3e277uia0ioeikisftl953t22fcsoqmg.apps.googleusercontent.com",
-    });
+    });*/}
+    
 
 
 
