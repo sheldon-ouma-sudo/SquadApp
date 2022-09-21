@@ -1,12 +1,12 @@
     import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native'
     import React, { useEffect } from 'react'
     import { useState } from 'react';
-    //import { auth } from '../firebase';
-    import auth from '@react-native-firebase/auth';
+    import { auth } from '../firebase';
+    //import auth from '@react-native-firebase/auth';
     import { useNavigation } from '@react-navigation/core';
     import { GoogleSignin } from '@react-native-google-signin/google-signin';
    
-
+ 
 
 
     const LoginScreen = () => {
