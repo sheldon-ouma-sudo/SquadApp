@@ -4,10 +4,11 @@
     import { auth } from '../firebase';
    // import auth from '@react-native-firebase/auth';
     import { useNavigation } from '@react-navigation/core';
-import { async } from '@firebase/util';
+    import { async } from '@firebase/util';
+    import  * as Google from 'expo-app-auth'
     //import { GoogleSignin } from 'expo-google-sign-in';
    
- 
+
 
 
     const LoginScreen = () => {
@@ -97,8 +98,24 @@ const signWithFacebook = () => {
 }
 
 const signInWithGoogle = async() => {
+    alert('Signing in with Google!');
+        const config = {
+        //behavior: 'web',
+        androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
+        iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com',            
+        scopes: ['profile', 'email'],
+        };    
 
-
+    Google.logInAsync(config)
+    .then((result)=> {
+        const {type, user} = result
+        if(type=='sucess'){
+            handleMessage('Google sigin successful', 'SUCCESS')
+            setTimeout(()=>   navigation.navigate('HomeScreenBottomNavigator', { screen: 'HomeScreen' }), 500)
+        }else{
+            handleMessage("Google signin was cancell")
+        }
+    })
 }
 
     return (
