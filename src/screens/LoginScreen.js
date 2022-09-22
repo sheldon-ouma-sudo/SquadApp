@@ -4,6 +4,7 @@
     import { auth } from '../firebase';
    // import auth from '@react-native-firebase/auth';
     import { useNavigation } from '@react-navigation/core';
+import { async } from '@firebase/util';
     //import { GoogleSignin } from 'expo-google-sign-in';
    
  
@@ -91,8 +92,14 @@
     */}
 
 
+const signWithFacebook = () => {
+
+}
+
+const signInWithGoogle = async() => {
 
 
+}
 
     return (
         <KeyboardAvoidingView 
