@@ -61,22 +61,22 @@ const auth = getAuth();
               <View>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                onPress={async () => {
-                  try {
-                    const credential = PhoneAuthProvider.credential(
-                      verificationId,
-                      verificationCode
-                    );
-                    await signInWithCredential(auth, credential);
-                    console.log('Phone authentication successful 👍')
-                    navigation.navigate('AgeGenderLocationScreen')
+                //onPress={async () => {
+                //  try {
+                  //  const credential = PhoneAuthProvider.credential(
+                   //   verificationId,
+                    //</View>  verificationCode
+                   // );
+                   // await signInWithCredential(auth, credential);
+                    //console.log('Phone authentication successful 👍')
+                   //navigation.navigate('AgeGenderLocationScreen')
                    // showMessage({ text: 'Phone authentication successful 👍' });
-                  } catch (err) {
-                    console.log(err.message)
+                 // } catch (err) {
+                 //   console.log(err.message)
                     //showMessage({ text: `Error: ${err.message}`, color: 'red' });
-                  }
+                 // }
                   
-                }}
+               // }}
                 style = {styles.button}
                     >
                     <Text style={styles.buttonText}>
