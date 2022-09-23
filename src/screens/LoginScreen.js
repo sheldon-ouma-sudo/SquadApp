@@ -5,7 +5,7 @@
    // import auth from '@react-native-firebase/auth';
     import { useNavigation } from '@react-navigation/core';
     import { async } from '@firebase/util';
-    import  * as Google from 'expo-app-auth'
+    import  * as Google from 'expo-auth-session/providers/google'
     //import { GoogleSignin } from 'expo-google-sign-in';
    
 
@@ -97,7 +97,7 @@ const signWithFacebook = () => {
 
 }
 
-const signInWithGoogle = async() => {
+const signInWithGoogle = () => {
     alert('Signing in with Google!');
         const config = {
         //behavior: 'web',
@@ -105,15 +105,15 @@ const signInWithGoogle = async() => {
         iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com',            
         scopes: ['profile', 'email'],
         };    
-
+ 
     Google.logInAsync(config)
     .then((result)=> {
         const {type, user} = result
         if(type=='sucess'){
-            handleMessage('Google sigin successful', 'SUCCESS')
+            console.log('Google sigin successful', 'SUCCESS')
             setTimeout(()=>   navigation.navigate('HomeScreenBottomNavigator', { screen: 'HomeScreen' }), 500)
         }else{
-            handleMessage("Google signin was cancell")
+            console.log("Google signin was cancell")
         }
     })
 }
@@ -185,7 +185,7 @@ const signInWithGoogle = async() => {
                 <TouchableOpacity style= {[{flexDirection:"row"}, styles.logo]}>
                     <TouchableOpacity 
                     style= {{flex:1}}
-                   // onPress={onGoogleButtonPress}
+                    onPress={signInWithGoogle}
                     >
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
