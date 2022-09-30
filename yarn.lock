@@ -6416,11 +6416,6 @@ expo-app-auth@~11.1.0:
     "@expo/config-plugins" "^4.0.2"
     invariant "^2.2.4"
 
-expo-application@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.npmjs.org/expo-application/-/expo-application-4.2.2.tgz"
-  integrity sha512-bFEaFRUdV6aK2iBd+HzkHNPYsyj88EAhaQW5leznmO0qQMJxpAQ3eoUXMey1hfDBh1qgkkHgSyCZ9BIgMAGJ1g==
-
 expo-application@~4.1.0:
   version "4.1.0"
   resolved "https://registry.npmjs.org/expo-application/-/expo-application-4.1.0.tgz"
