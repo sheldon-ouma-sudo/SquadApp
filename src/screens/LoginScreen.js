@@ -6,17 +6,55 @@
     import { useNavigation } from '@react-navigation/core';
     import { async } from '@firebase/util';
     import  * as Google from 'expo-auth-session/providers/google'
+    import * as WebBrowswer from 'expo-web-browser'
+import { UserInfo } from 'firebase-admin/lib/auth/user-record';
     //import { GoogleSignin } from 'expo-google-sign-in';
    
 
-
+    WebBrowswer.maybeCompleteAuthSession
 
     const LoginScreen = () => {
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
         const [initializing, setInitializing] = useState(true);
         const [user, setUser] = useState();
+        const [accessToken, setAccessToken] = useState()
+        const [userInfo, setUserInfo] = useState()
+        const [request, response, promptAsync] = Google.useAuthRequest({
+        androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
+        iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com', 
+        expoClientId: "32488750865-uqnbfbv424n1feumrc3lrtu0q42q4140.apps.googleusercontent.com",           
+        //scopes: ['profile', 'email']
 
+        })
+
+        useEffect(()=>{
+            if(response?.type ==='success'){
+                setAccessToken(response.authentication.accessToken)
+            }
+
+        }, [response]);
+        async function getUserData(){
+            let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+                headers:{Authorization: `Bearer ${accessToken}`}
+            })
+            userInfoResponse.json().then(data =>{
+                setUserInfo(data)
+            });
+        }
+
+
+        function showUserInfo(){
+            if(userInfo){
+                return(
+                <View style ={styles.userInfo}>
+                    <Image source={{uri: userInfo.picture}}style = {styles.profilePic}/>
+                    <Text>Welcome {userInfo.name}</Text>
+                    <Text>Welcome {userInfo.email}</Text>
+                </View>
+                );
+            }
+        }
     //this is the import to enable the navigation 
             const navigation = useNavigation()
     //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
@@ -75,11 +113,6 @@
     webClientId: "32488750865-3e277uia0ioeikisftl953t22fcsoqmg.apps.googleusercontent.com",
     });*/}
     
-
-
-
-
-
     {/**
     const  signInWithGoogleAsync = () => {
     alert('Signing in with Google!');
@@ -97,27 +130,8 @@ const signWithFacebook = () => {
 
 }
 
-const signInWithGoogle = () => {
-    alert('Signing in with Google!');
-        const config = {
-        //behavior: 'web',
-        androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
-        iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com',            
-        scopes: ['profile', 'email'],
-        };    
- 
-    Google.logInAsync(config)
-    .then((result)=> {
-        const {type, user} = result
-        if(type=='sucess'){
-            console.log('Google sigin successful', 'SUCCESS')
-            setTimeout(()=>   navigation.navigate('HomeScreenBottomNavigator', { screen: 'HomeScreen' }), 500)
-        }else{
-            console.log("Google signin was cancell")
-        }
-    })
-}
 
+    
     return (
         <KeyboardAvoidingView 
         style={styles.container}
@@ -183,9 +197,11 @@ const signInWithGoogle = () => {
 
                     {/**this is the view with the google and the facebook icons */}
                 <TouchableOpacity style= {[{flexDirection:"row"}, styles.logo]}>
+                    {showUserInfo()}
                     <TouchableOpacity 
                     style= {{flex:1}}
-                    onPress={signInWithGoogle}
+                    title = {accessToken?"Get User Data": "Login"}
+                    onPress={accessToken? getUserData:()  =>{promptAsync({showInRecents: true})}}
                     >
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
