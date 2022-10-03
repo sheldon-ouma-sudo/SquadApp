@@ -4,11 +4,12 @@
       import { NavigationContainer } from '@react-navigation/native';
       import { createNativeStackNavigator } from '@react-navigation/native-stack';
       import LoginScreen from './src/screens/LoginScreen';
+      import RoughWorkScreen from './src/screens/RoughWorkScreen';
       import HomeScreen from './src/screens/HomeScreen';
       import SignupScreen from './src/screens/SignupScreen';
       import SquadCreationScreen from './src/screens/SquadCreationScreen';
       import PhoneOTPScreen from './src/screens/PhoneOTPScreen';
-      import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
+      import ForgotPasswordScreen from './src/screens/RoughWorkScreen';
       import EmailOTPScreen from './src/screens/EmailOTPScreen';
       import AgeGenderLocationScreen from './src/screens/AgeGenderLocationScreen';
       import PersonalInterests from './src/screens/PersonalInterests';
@@ -233,6 +234,7 @@
               <Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopTabNavigator}/>
               <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/>
               <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
+              <Stack.Screen options={{headerShown: false}} name ="RoughWorkScreen" component={RoughWorkScreen}/>
               <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
               <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
               <Stack.Screen options={{headerShown: false}} name="EmailOTPScreen"  component={EmailOTPScreen} />
