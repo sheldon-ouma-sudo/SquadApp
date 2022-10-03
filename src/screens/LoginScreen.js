@@ -7,7 +7,8 @@
     import { async } from '@firebase/util';
     import  * as Google from 'expo-auth-session/providers/google'
     import * as WebBrowswer from 'expo-web-browser'
-import { UserInfo } from 'firebase-admin/lib/auth/user-record';
+    import * as Facebook from 'expo-facebook'
+    //import  UserInfo  from 'firebase-admin/lib/auth/user-record';
     //import { GoogleSignin } from 'expo-google-sign-in';
    
 
@@ -20,6 +21,9 @@ import { UserInfo } from 'firebase-admin/lib/auth/user-record';
         const [user, setUser] = useState();
         const [accessToken, setAccessToken] = useState()
         const [userInfo, setUserInfo] = useState()
+        const [isLoggedIn, setLoggedInStatus] = useState(false)
+        const [userData, setUserData] = useState(null)
+        const [isImageLoading, setImageLoadingStatus] = useState(false)
         const [request, response, promptAsync] = Google.useAuthRequest({
         androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
         iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com', 
@@ -68,36 +72,28 @@ import { UserInfo } from 'firebase-admin/lib/auth/user-record';
 
             }, [])
 
+            const signWithFacebook =async () => {
+            try{
+                await Facebook.initializeAsync({
+                    appId:'546453377226490',
+                })
+                const{ type, token } = await Facebook.logInWithReadPermissionsAsync({permissions:['public, profile'], })
+             if(type === 'success'){
+                //we are using the facebook graph api
+                fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name, email, picture.height(500)`)
+                .then(response=>response.json)
+                .then(data =>{
+                    setLoggedInStatus(true)
+                    setUserData(data)
+                })
+                .catch(e=>console.log(e))
+             }else{
+             }
 
-
-            {/**function onAuthStateChanged(user) {
-                setUser(user);
-                if (initializing) setInitializing(false);
+            }catch({message}){
+                alert(`Facebook Login Error': ${message}`);
             }
-            useEffect(() => {
-                const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-                return subscriber; // unsubscribe on unmount
-            }, []);
-            const onGoogleButtonPress= async() => {
-                // Get the users ID token
-                const { idToken } = await GoogleSignin.signIn();
-                // Create a Google credential with the token
-                const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-                // Sign-in the user with the credential
-                const user_sign_in = auth().signInWithCredential(googleCredential)
-                user_sign_in.then((user)=>{
-                    console.log(error)
-                })
-                .catch((error)=>{
-                    console.log(error);
-                })
-            }    
-            if (initializing) return null;
-*/}
-            
-
-
-
+            }
     //handle the login functionaility of the app
     const handleLogin = () =>{
         auth.signInWithEmailAndPassword(email, password)
@@ -126,9 +122,7 @@ import { UserInfo } from 'firebase-admin/lib/auth/user-record';
     */}
 
 
-const signWithFacebook = () => {
 
-}
 
 
     
