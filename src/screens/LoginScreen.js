@@ -77,7 +77,7 @@
                 await Facebook.initializeAsync({
                     appId:'546453377226490',
                 })
-                const{ type, token } = await Facebook.logInWithReadPermissionsAsync({permissions:['public, profile'], })
+                const{ type, token } = await Facebook.logInWithReadPermissionsAsync({permissions:['public_profile'], })
              if(type === 'success'){
                 //we are using the facebook graph api
                 fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name, email, picture.height(500)`)
@@ -93,7 +93,15 @@
             }catch({message}){
                 alert(`Facebook Login Error': ${message}`);
             }
+            
             }
+            logout = () =>{
+                setLoggedInStatus(false)
+                setUserData(null)
+                setImageLoadingStatus(false)
+            }
+
+
     //handle the login functionaility of the app
     const handleLogin = () =>{
         auth.signInWithEmailAndPassword(email, password)
@@ -204,7 +212,10 @@
                     
                         ></Image>
                     </TouchableOpacity>
-                    <TouchableOpacity style= {{fex:1}}>
+                    <TouchableOpacity 
+                    style= {{fex:1}}
+                    onPress={signWithFacebook}
+                    >
                             <Image
                             source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
                             style={[{justifyContent:'flex-end'},styles.facebookLogo]}
