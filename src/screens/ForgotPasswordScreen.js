@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/core';
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation()
+  const[emailOrPhoneNumber, setEmailOrPhoneNumber] = useState("")
+  const[confirmationEmailOrPhone, setConfirmationEmairOrPhone] = useState("")
   return (
     <KeyboardAvoidingView
     style={styles.container}
@@ -20,20 +22,20 @@ const ForgotPasswordScreen = () => {
         <View>
           <TextInput
               placeholder ="Enter Email or Phone Number"
-              //value={verificationId}
+              value={emailOrPhoneNumber}
               autoCapitalize='none'
               textAlign = 'center'
               //keyboardType="numeric"
-             // onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+             onChangeText={text =>setEmailOrPhoneNumber(text)}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
               style={styles.input}
               />
               <TextInput
               placeholder ="Confirm Email or Phone Number"
-              //value={verificationId}
+              value={confirmationEmailOrPhone}
               autoCapitalize='none'
               textAlign = 'center'
               //keyboardType="numeric"
-             // onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+              onChangeText={text =>setConfirmationEmairOrPhone(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
               style={styles.input}
               />
         </View>
