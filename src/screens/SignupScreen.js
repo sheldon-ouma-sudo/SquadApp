@@ -6,7 +6,7 @@
         import firebase from '../firebase';
         import { useNavigation } from '@react-navigation/core';
 
-        
+
         const SignupScreen = () => {
         //const [name, setName] = useState('')
         // const [nameError, setNameError] = useState("")
@@ -152,8 +152,7 @@
                 onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                 style={styles.input}
                 />
-                {emailError.length > 0 &&<Text style={[styles.errorText,{color:'red'}]}>{emailError} 
-                </Text>}
+                {emailError.length > 0 &&<Text style={[styles.errorText,{color:'red'}]}>{emailError}  </Text>}
                 <TextInput
                 placeholder ="Username"
                 autoCapitalize='none'

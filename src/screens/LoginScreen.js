@@ -18,6 +18,8 @@
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
         const [accessToken, setAccessToken] = useState()
+        const [emailError, setEmailError] = useState("")
+        const [passwordError, setPasswordError] = useState("")
         const [userInfo, setUserInfo] = useState()
         const [initializing, setInitializing] = useState(true);
         const [user, setUser] = useState();
@@ -143,10 +145,8 @@
             setPasswordError("")
             passwordValid = true
         }        
-        //confirm password validation 
-        if(password!==confirmPassword){
-            setConfirmPasswordError('Password and confirm password do not match')
-        }
+        
+    
         if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
             // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
             setEmail("");
@@ -185,6 +185,7 @@
             onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
             style={styles.input}
             />
+            {emailError.length > 0 &&<Text style={[styles.errorText,{color:'red'}]}>{emailError}  </Text>}
             <TextInput
             placeholder ="Password"
             value={password}
@@ -192,6 +193,7 @@
             style={styles.input}
             secureTextEntry
             />
+             {passwordError.length > 0 && <Text style={[styles.errorText,{color:'red'}]}>{passwordError}</Text>}
         </View> 
         {/*this view contains our buttons */}
         <View style={styles.buttonContainer}>
@@ -353,6 +355,15 @@
     marginTop: 5,
     borderColor: '#1145FD',
     borderWidth: 2,
+
+
+    },
+    errorText:{
+        color:'#FFFFF',
+        marginLeft:20,
+        fontSize:12,
+        fontWeight:'600'
+        //textAlign:'center'
 
 
     },
