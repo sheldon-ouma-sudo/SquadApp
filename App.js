@@ -31,6 +31,7 @@
       import TrendingPollScreen from './src/screens/TrendingPollScreen';//home page
       import MySquadPollScreen from './src/screens/MySquadPollScreen';//home page
       import PublicPollSquadScreen from './src/screens/PublicPollSquadScreen'; //homepage screen 
+      import PasswordResetScreen from './src/screens/PasswordResetScreen';
 
         
       //this is the create stack navigator method: src from the navigation docs on the internet
@@ -233,6 +234,7 @@
               <Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopTabNavigator}/>
               <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/>
               <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
+               <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/>
               <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
               <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
               <Stack.Screen options={{headerShown: false}} name="EmailOTPScreen"  component={EmailOTPScreen} />

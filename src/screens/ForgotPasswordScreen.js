@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/core';
 
 
 const ForgotPasswordScreen = () => {
+  const navigation = useNavigation()
   return (
     <View
     style={styles.container}
@@ -18,11 +19,20 @@ const ForgotPasswordScreen = () => {
           </View>
         <View>
           <TextInput
-              placeholder ="Enter Confirmtion Code"
+              placeholder ="Enter Email or Phone Number"
               //value={verificationId}
               autoCapitalize='none'
               textAlign = 'center'
-              keyboardType="numeric"
+              //keyboardType="numeric"
+             // onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+              style={styles.input}
+              />
+              <TextInput
+              placeholder ="Confirm Email or Phone Number"
+              //value={verificationId}
+              autoCapitalize='none'
+              textAlign = 'center'
+              //keyboardType="numeric"
              // onChangeText={setVerificationCode} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
               style={styles.input}
               />
@@ -31,6 +41,8 @@ const ForgotPasswordScreen = () => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
           style = {styles.button}
+          nPress={() =>
+            navigation.navigate('PasswordResetScreen')}
               >
               <Text style={styles.buttonText}>
                 Confirm
@@ -40,15 +52,22 @@ const ForgotPasswordScreen = () => {
         </View>
 
         <View style={[{flexDirection:"row"},styles.textContanier]}>
-          <View style={[{flex:1},styles.textWrapper]}>
-              <Text style={[{justifyContent: 'flex-start'},styles.confirmationText]} >  Didn't get the code?</Text>
-          </View>
-          <TouchableOpacity  onPress={() =>
-          navigation.replace('EmailOTPScreen')}
-          style={{flex:1}}>
-              <Text  style={[{justifyContent: 'flex-end'},styles.confirmationText, {marginTop:5}]}> Try with email </Text>
+          <TouchableOpacity style={[styles.textWrapper]}
+          nPress={() =>navigation.navigate('LoginScreen')}
+          >
+              <Text style={[{justifyContent: 'center'},styles.navigationText]} >  Return to Sign In</Text>
           </TouchableOpacity>
+          
         </View>
+
+
+        <View style={{marginTop:80, marginBottom:-100}}>
+            <View style={{backgroundColor: 'black', height: 1, width:350}} />
+                <Text style={[{marginTop:10}, {alignSelf:'center'}]}> 
+                            English(United States)
+                </Text>
+            </View>
+            
   </View>
 )
 }
@@ -119,8 +138,9 @@ textContanier:{
   
   
 },
-confirmationText:{
+navigationText:{
   fontWeight:'500',
+  marginRight:50
   
 }
 
