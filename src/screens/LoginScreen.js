@@ -17,10 +17,10 @@
     const LoginScreen = () => {
         const [email, setEmail] = useState('')
         const [password, setPassword] = useState('')
-        const [initializing, setInitializing] = useState(true);
-        const [user, setUser] = useState();
         const [accessToken, setAccessToken] = useState()
         const [userInfo, setUserInfo] = useState()
+        const [initializing, setInitializing] = useState(true);
+        const [user, setUser] = useState();
         const [isLoggedIn, setLoggedInStatus] = useState(false)
         const [userData, setUserData] = useState(null)
         const [isImageLoading, setImageLoadingStatus] = useState(false)
@@ -104,35 +104,64 @@
 
     //handle the login functionaility of the app
     const handleLogin = () =>{
+        //login form validation
+        var emailValid = false;
+        if(email.length == 0){
+            setEmailError("Email is required");
+        }        
+        else if(email.length < 6){
+            setEmailError("Email should be minimum 6 characters");
+        }      
+        else if(email.indexOf(' ') >= 0){        
+            setEmailError('Email cannot contain spaces');                          
+        } else if(email.indexOf('@') <= 0){        
+            setEmailError('Email is invald, please key in the valid key');                          
+        }      
+        else{
+            setEmailError("")
+            emailValid = true
+        }
+      
+        //password validation 
+        var passwordValid = false;
+        if(password.length == 0){
+            setPasswordError("Password is required");
+        }        
+        else if(password.length < 8){
+            setPasswordError("Password should be minimum 8 characters");
+        }      
+        else if(password.indexOf(' ') >= 0){        
+            setPasswordError('Password cannot contain spaces');                          
+        }
+        else if(password!=confirmPassword){
+            setPasswordError('Password and confirm password do not match')
+
+        }else if(!checkPassword){
+            setPasswordError("the password should contain at least one special character and an uppercase letter")
+        }
+        else{
+            setPasswordError("")
+            passwordValid = true
+        }        
+        //confirm password validation 
+        if(password!==confirmPassword){
+            setConfirmPasswordError('Password and confirm password do not match')
+        }
+        if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
+            // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
+            setEmail("");
+            setPassword("");
+            setUsername("")
+                  
         auth.signInWithEmailAndPassword(email, password)
         .then(userCredentials =>{
             const user= userCredentials.user;
             console.log('Log in with ',user.email);
         
         })
-        
+    } 
 
     }
-{/** GoogleSignin.configure({
-    webClientId: "32488750865-3e277uia0ioeikisftl953t22fcsoqmg.apps.googleusercontent.com",
-    });*/}
-    
-    {/**
-    const  signInWithGoogleAsync = () => {
-    alert('Signing in with Google!');
-        const config = {
-        //behavior: 'web',
-        androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
-        iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com',            
-        scopes: ['profile', 'email'],
-        };    
-    }
-    */}
-
-
-
-
-
     
     return (
         <KeyboardAvoidingView 

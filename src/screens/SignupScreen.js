@@ -5,13 +5,11 @@
         import 'firebase/firestore';
         import firebase from '../firebase';
         import { useNavigation } from '@react-navigation/core';
+
         
-
-
         const SignupScreen = () => {
         //const [name, setName] = useState('')
         // const [nameError, setNameError] = useState("")
-            const recaptchaVerifier = React.useRef(null);
             const [email, setEmail] = useState('')
             const [emailError, setEmailError] = useState("")
             const [password, setPassword] = useState('')
@@ -66,7 +64,6 @@
                  setUserNameError("")
                  userNameValid = true
              }   
-             
              //password validation 
              var passwordValid = false;
              if(password.length == 0){
