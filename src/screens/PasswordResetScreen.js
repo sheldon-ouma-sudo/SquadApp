@@ -16,9 +16,9 @@ const PasswordResetScreen = () => {
                 resizeMode='contain'
             ></Image>
             </View>
-          <View>
-            <Text>
-                    
+          <View style={styles.resetTextContainer}>
+            <Text style={styles.resetText}>
+              Your Password  reset link has been sent. Please check your email or text messages.    
             </Text> 
           </View>
           <View>
@@ -26,23 +26,16 @@ const PasswordResetScreen = () => {
             <TouchableOpacity
             style = {styles.button}
             onPress={() =>
-              navigation.navigate('PasswordResetScreen')}
+              navigation.navigate('LoginScreen')}
                 >
                 <Text style={styles.buttonText}>
-                  Confirm
+                  Retun to Sign in
                 </Text>
               </TouchableOpacity>
           </View>
           </View>
   
-          <View style={[{flexDirection:"row"},styles.textContanier]}>
-            <TouchableOpacity style={[styles.textWrapper]}
-            onPress={() =>navigation.navigate('LoginScreen')}
-            >
-                <Text style={[{justifyContent: 'center'},styles.navigationText]} >  Return to Sign In</Text>
-            </TouchableOpacity>
-            
-          </View>
+          
   
   
           <View style={{marginTop:80, marginBottom:-100}}>
@@ -91,7 +84,7 @@ const PasswordResetScreen = () => {
     backgroundColor: '#1145FD',
     width: 296,
     height: 42,
-    padding: 15,
+    padding: 12,
     borderRadius: 5,
     marginTop: 10,
     alignItems: 'center',
@@ -102,7 +95,7 @@ const PasswordResetScreen = () => {
   buttonText:{
     color: 'white',
     fontWeight: '700',
-    fontSize: 12.5
+    fontSize: 13.5
     
   },
   textWrapper:{
@@ -126,6 +119,17 @@ const PasswordResetScreen = () => {
     fontWeight:'500',
     marginRight:50
     
+  },
+  resetText:{
+    fontSize:17
+  },
+  resetTextContainer:{
+    marginBottom:20,
+    alignItems:'center',
+    marginEnd:40,
+    marginLeft:35
+    
+
   }
   
   })

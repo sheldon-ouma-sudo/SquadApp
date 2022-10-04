@@ -45,7 +45,7 @@ const ForgotPasswordScreen = () => {
             navigation.navigate('PasswordResetScreen')}
               >
               <Text style={styles.buttonText}>
-                Confirm
+                Send Link
               </Text>
             </TouchableOpacity>
         </View>

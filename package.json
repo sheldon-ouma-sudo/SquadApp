@@ -117,7 +117,8 @@
     "undefined": "react-navigation/native",
     "url": "^0.10.3",
     "util": "^0.10.4",
-    "vm-browserify": "^0.0.4"
+    "vm-browserify": "^0.0.4",
+    "expo-linking": "~3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
