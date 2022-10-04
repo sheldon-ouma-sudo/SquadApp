@@ -32,6 +32,7 @@
       import MySquadPollScreen from './src/screens/MySquadPollScreen';//home page
       import PublicPollSquadScreen from './src/screens/PublicPollSquadScreen'; //homepage screen 
       import PasswordResetScreen from './src/screens/PasswordResetScreen';
+      import TestWorkScreen from './src/screens/TestWorkScreen';
 
         
       //this is the create stack navigator method: src from the navigation docs on the internet
@@ -246,6 +247,7 @@
               <Stack.Screen options={{headerShown: false}} name="UploadProfPictureScreen" component={UploadProfPicture}/>
               <Stack.Screen options={{headerShown: false}} name="ChangeProfilePictureScreen" component={ChangeProfilePictureScreen}/>
               <Stack.Screen options={{headerShown: false}} name="PhoneNumberScreen" component={PhoneNumberScreen}/>
+              <Stack.Screen options={{headerShown: false}} name="TestWorkScreen" component={TestWorkScreen}/>
             </Stack.Navigator>
           </NavigationContainer>
         );

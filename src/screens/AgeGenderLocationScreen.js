@@ -40,7 +40,6 @@ const customStyles = {
   labelSize: 13,
   currentStepLabelColor: '#fffff'
 }
-
 const dataGender  = [
   {key:'1', value:"Agender"},
   {key:'1', value:"Androgyne"},

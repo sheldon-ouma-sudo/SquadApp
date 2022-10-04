@@ -41,7 +41,7 @@ const ForgotPasswordScreen = () => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
           style = {styles.button}
-          nPress={() =>
+          onPress={() =>
             navigation.navigate('PasswordResetScreen')}
               >
               <Text style={styles.buttonText}>
@@ -53,7 +53,7 @@ const ForgotPasswordScreen = () => {
 
         <View style={[{flexDirection:"row"},styles.textContanier]}>
           <TouchableOpacity style={[styles.textWrapper]}
-          nPress={() =>navigation.navigate('LoginScreen')}
+          onPress={() =>navigation.navigate('LoginScreen')}
           >
               <Text style={[{justifyContent: 'center'},styles.navigationText]} >  Return to Sign In</Text>
           </TouchableOpacity>
