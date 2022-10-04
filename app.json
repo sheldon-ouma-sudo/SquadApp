@@ -2,6 +2,7 @@
   "expo": {
     "name": "Squad",
     "slug": "Squad",
+    "scheme":"squad",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
