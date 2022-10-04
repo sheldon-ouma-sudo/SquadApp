@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation()
   return (
-    <View
+    <KeyboardAvoidingView
     style={styles.container}
           behavior="padding"
           >
@@ -68,7 +68,7 @@ const ForgotPasswordScreen = () => {
                 </Text>
             </View>
             
-  </View>
+  </KeyboardAvoidingView>
 )
 }
 
