@@ -33,8 +33,6 @@ const auth = getAuth();
 
       },
       [route.params?.verificationId])
-    
-
       return (
         <View
           style={styles.container}
