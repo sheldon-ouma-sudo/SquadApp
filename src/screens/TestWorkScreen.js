@@ -175,9 +175,9 @@ const TestWorkScreen = () => {
           </View>
        
           <DatePicker
-            style={styles.datePickerStyle}
+           // style={styles.datePickerStyle}
             date={date} //initial date from state
-            mode="date" //The enum of date, datetime and time
+            //mode="date" //The enum of date, datetime and time
             value={date}
             placeholder="DD-MM-YYYY"
             format="DD-MM-YYYY"
@@ -185,25 +185,7 @@ const TestWorkScreen = () => {
             maxDate="01-01-2004"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                //display: 'none',
-                position: 'absolute',
-                left: 290,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 15,
-                marginRight:-10,
-                borderRadius:12,
-                backgroundColor:'#EAEAEA',
-                height:50,
-                marginBottom:5,
-                alignItems:"flex-start",
-                paddingHorizontal:8
-              },
-            }}
+            
             onDateChange={(date) => {
               setDate(date);
             }}
@@ -229,7 +211,6 @@ const TestWorkScreen = () => {
            <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-5}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
           </View>
-  
            <Input
            placeholder='Enter your location'
            placeholderTextColor={'#535353'} 
