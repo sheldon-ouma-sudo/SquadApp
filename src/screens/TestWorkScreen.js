@@ -5,7 +5,7 @@
     import { Input } from 'react-native-elements'
     import { useNavigation } from '@react-navigation/core';
     import SelectList from 'react-native-dropdown-select-list';
-    import DatePicker from 'react-native-datepicker'
+    import DatePicker from '@react-native-community/datetimepicker'
     import { useEffect } from 'react';
     import * as Location from 'expo-location';
     //import {Location, Permission} from 'expo'
@@ -178,6 +178,7 @@ const TestWorkScreen = () => {
             style={styles.datePickerStyle}
             date={date} //initial date from state
             mode="date" //The enum of date, datetime and time
+            value={date}
             placeholder="DD-MM-YYYY"
             format="DD-MM-YYYY"
             minDate="01-01-1950"
@@ -371,7 +372,7 @@ const TestWorkScreen = () => {
     width: 320,
     marginTop: 20,
     marginBottom:15,
-    marginRight:50
+    marginRight:10
   
     
   },
