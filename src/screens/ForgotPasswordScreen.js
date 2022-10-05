@@ -1,12 +1,46 @@
 import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity, Keyboard} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/core';
+import { getAuth } from 'firebase/auth';
 
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation()
   const[emailOrPhoneNumber, setEmailOrPhoneNumber] = useState("")
   const[confirmationEmailOrPhone, setConfirmationEmairOrPhone] = useState("")
+
+  const actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for
+    // this URL must be whitelisted in the Firebase Console.
+    url: 'https://www.example.com/checkout?cartId=1234',
+    // This must be true for email link sign-in.
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: 'com.Squad',
+    },
+    android: {
+      packageName: 'com.Squad',
+      installApp: true,
+      minimumVersion: '12',
+    },
+    // FDL custom domain.
+    dynamicLinkDomain: 'coolapp.page.link',
+  };
+
+  const handleSendResetEmail =()=>{
+  getAuth()
+  .generatePasswordResetLink(emailOrPhoneNumber, actionCodeSettings)
+  .then((link) => {
+    // Construct password reset email template, embed the link and send
+    // using custom SMTP server.
+    return sendCustomPasswordResetEmail(userEmail, displayName, link);
+  })
+  .catch((error) => {
+    // Some error occurred.
+  });
+  }
+
+
   return (
     <KeyboardAvoidingView
     style={styles.container}
