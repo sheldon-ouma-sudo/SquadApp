@@ -1,12 +1,15 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions,TouchableOpacity} from 'react-native'
+    StatusBar,Dimensions,TouchableOpacity, TextInput, Button} from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
     import { Input } from 'react-native-elements'
     import { useNavigation } from '@react-navigation/core';
     import SelectList from 'react-native-dropdown-select-list';
     import DatePicker from '@react-native-community/datetimepicker'
+    import DateTimePickerModal from 'react-native-modal-datetime-picker';
     import { useEffect } from 'react';
+    import moment from 'moment';
+    import { Ionicons } from '@expo/vector-icons'; 
     import * as Location from 'expo-location';
     //import {Location, Permission} from 'expo'
     import { auth } from '../firebase';
@@ -99,8 +102,8 @@
 const TestWorkScreen = () => {
     const[currentPosition, setCurrentPositon] = useState(0)
     const [selectedGender, setGenderSelected] =useState("");
-    const [date, setDate] = useState(new Date())
-    //const [open, setOpen] = useState(false)
+    const [selectedDate, setSelectedDate] = useState();
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const navigation = useNavigation()
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -125,6 +128,21 @@ const TestWorkScreen = () => {
     } else if (location) {
       text = JSON.stringify(location);
     }
+
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const handleConfirm = (date) => {
+    setSelectedDate(date);
+    hideDatePicker();
+  };
+
     const saveAgeGenderLocation =()=>{
       if(user){
       //find their info from the data base
@@ -173,28 +191,20 @@ const TestWorkScreen = () => {
           <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
           </View>
-       
-          <DatePicker
-           // style={styles.datePickerStyle}
-            date={date} //initial date from state
-            //mode="date" //The enum of date, datetime and time
-            value={date}
-            placeholder="DD-MM-YYYY"
-            format="DD-MM-YYYY"
-            minDate="01-01-1950"
-            maxDate="01-01-2004"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            
-            onDateChange={(date) => {
-              setDate(date);
-            }}
-          />
-         
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Text>{`Date:  ${selectedDate? moment(selectedDate).format("MM/DD/YYYY"):"Please select date"}`}</Text>
+            <Button title="Show Date Picker" onPress={showDatePicker} />
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+       </View>
+
           <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
           </View>
-  
           <SelectList 
             onSelect={() => (selectedGender)}
             placeholder="Select your gender"
@@ -202,35 +212,42 @@ const TestWorkScreen = () => {
             setSelected={setGenderSelected} 
             data={dataGender}  
             style={styles.input}
-           //arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
-           // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
             search={true} 
-            //maxHeight = '5'
             boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
       />
            <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-5}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
           </View>
-           <Input
-           placeholder='Enter your location'
-           placeholderTextColor={'#535353'} 
-           placeholderStyle={{ fontSize: 15, borderColor:'#535353' }}
-            style={[styles.input, {marginRight:-20}, {height:58},{marginLeft:8}]}
-            //label="Location"
-            underlineColor="transparent"
-            inputContainerStyle={{borderBottomWidth:0}}
-            rightIcon={{ type: 'font-awesome', name: 'map-marker', height:58, backgroundColor:'#EAEAEA', width:40,marginTop:12, padding:9, color:'#535353', marginRight:10, borderRadius:15}} 
-           />
+            <View style={styles.passwordContainer}>
+                <TextInput
+                  style={styles.inputStyle}
+                    autoCorrect={false}
+                    textAlign= 'left'
+                  // secureTextEntry
+                   placeholder="Enter Your Location"
+                    //value={date}
+                    placeholderTextColor={'#000'}
+                  // onChangeText={this.onPasswordEntry}
+                  
+                  />
+                <Ionicons
+                name="md-location-outline" 
+                  color='#000'
+                  size={36}
+                />
+              </View>
+
+
+
           </View>
           <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:25}]}>
-          <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+            <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
              </TouchableOpacity>
               <TouchableOpacity  onPress={() =>navigation.replace('ProfilePictureUploadScreen')}style={[{flex:1}, styles.button]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
              </TouchableOpacity>
-     </View>
-          
+          </View>
      </TouchableOpacity>
     </KeyboardAvoidingView>
     )
@@ -356,6 +373,25 @@ const TestWorkScreen = () => {
     marginRight:10
   
     
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    width:320,
+    height:50,
+    borderWidth: 1,
+    borderColor: '#000',
+    marginTop:20,
+    marginLeft:10,
+    overflow:'hidden',
+    borderRadius:10,
+    backgroundColor: '#EAEAEA',
+    //borderColor: "red",
+    paddingBottom: -3,
+    paddingLeft:10
+  },
+  inputStyle: {
+    flex: 1,
+       color:'#535353'
   },
   
   })
