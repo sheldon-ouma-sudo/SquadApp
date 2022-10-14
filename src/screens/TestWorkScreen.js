@@ -210,7 +210,7 @@ const TestWorkScreen = () => {
                   }
                   // ... You can check the source to find the other keys.
                 }}
-        onDateChange={(date) => {selectedDate(date)}}
+        onDateChange={date=> setSelectedDate(date)}
       />
             </TouchableOpacity>
          
