@@ -1,5 +1,5 @@
         import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-        StatusBar,Dimensions,TouchableOpacity, TextInput} from 'react-native'
+        StatusBar,Dimensions,TouchableOpacity, TextInput, Alert} from 'react-native'
         import React, { useState } from 'react'
         import StepIndicator from 'react-native-step-indicator';
         import { Input } from 'react-native-elements'
@@ -102,33 +102,64 @@
 
       const AgeGenderLocationScreen = () => {
         const[currentPosition, setCurrentPositon] = useState(0)
+        const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
         const [selectedGender, setGenderSelected] =useState("");
         const [selectedDate, setSelectedDate] = useState("");
         //const [open, setOpen] = useState(false)
         const navigation = useNavigation()
-        const [location, setLocation] = useState(null);
-        const [errorMsg, setErrorMsg] = useState(null);
+        const [displayCurrentAddress, setDisplayCurrentAddress] = useState("");
         const user = firebase.auth().currentUser
+        const CheckIfLocationEnabled = async () => {
+          let enabled = await Location.hasServicesEnabledAsync();
+      
+          if (!enabled) {
+            Alert.alert(
+              'Location Service not enabled',
+              'Please enable your location services to continue',
+              [{ text: 'OK' }],
+              { cancelable: false }
+            );
+          } else {
+            setLocationServiceEnabled(enabled);
+          }
+        };
+
+        const GetCurrentLocation = async () => {
+          Alert.alert('getting current location')
+          let { status } = await Location.requestBackgroundPermissionsAsync();
+          if (status !== 'granted') {
+            Alert.alert(
+              'Permission not granted',
+              'Allow the app to use location service.',
+              [{ text: 'OK' }],
+              { cancelable: false }
+            );
+          }
+        
+          let { coords } = await Location.getCurrentPositionAsync();
+        
+          if (coords) {
+            const { latitude, longitude } = coords;
+            let response = await Location.reverseGeocodeAsync({
+              latitude,
+              longitude
+            });
+        
+            for (let item of response) {
+              let address = `${item.street}, ${item.postalCode}, ${item.city}`;
+        
+              setDisplayCurrentAddress(address);
+            }
+          }
+        };
+        
 
         useEffect(() => {
-          (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-              setErrorMsg('Permission to access location was denied');
-              return;
-            }
-
-            let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
-          })();
+          CheckIfLocationEnabled();
+          GetCurrentLocation();
         }, []);
-
-        let text = 'Waiting..';
-        if (errorMsg) {
-          text = errorMsg;
-        } else if (location) {
-          text = JSON.stringify(location);
-        }
+      
+       
         const saveAgeGenderLocation =()=>{
           if(user){
           //find their info from the data base
@@ -140,7 +171,7 @@
             try {userRef.set({
               date,
               selectedGender,
-              currentPosition,
+              displayCurrentAddress,
             })
             } catch (error) {
               
@@ -230,15 +261,15 @@
                 <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
               </View>
 
-              <View style={styles.passwordContainer}>
+              <TouchableOpacity style={styles.passwordContainer}>
                       <TextInput
-                        style={styles.inputStyle}
+                          style={styles.inputStyle}
                           autoCorrect={false}
-                          textAlign= 'left'
-                        // secureTextEntry
-                        placeholder="Enter Your Location"
-                          //value={date}
+                          textAlign= 'left' 
+                          placeholder="Enter Your Location"
                           placeholderTextColor={'#000'}
+                          value={displayCurrentAddress}
+                          onPressIn={GetCurrentLocation}
                         // onChangeText={this.onPasswordEntry}
                         />
                       <Ionicons
@@ -246,7 +277,7 @@
                         color='#000'
                         size={36}
                       />
-                    </View>
+                    </TouchableOpacity>
 
               </View>
 
