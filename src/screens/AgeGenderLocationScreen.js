@@ -5,7 +5,7 @@
         import { Input } from 'react-native-elements'
         import { useNavigation } from '@react-navigation/core';
         import SelectList from 'react-native-dropdown-select-list';
-        import DatePicker from '@react-native-community/datetimepicker'
+        import DatePicker from 'react-native-datepicker';
         import { useEffect } from 'react';
         import * as Location from 'expo-location';
         import { Ionicons } from '@expo/vector-icons';
@@ -103,7 +103,7 @@
       const AgeGenderLocationScreen = () => {
         const[currentPosition, setCurrentPositon] = useState(0)
         const [selectedGender, setGenderSelected] =useState("");
-        const [date, setDate] = useState(new Date())
+        const [selectedDate, setSelectedDate] = useState("");
         //const [open, setOpen] = useState(false)
         const navigation = useNavigation()
         const [location, setLocation] = useState(null);
@@ -178,40 +178,36 @@
                 <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
               </View>
           
-              <DatePicker
-                style={styles.datePickerStyle}
-                date={date} //initial date from state
-                mode="date" //The enum of date, datetime and time
-                placeholder="DD-MM-YYYY"
-                format="DD-MM-YYYY"
-                minDate="01-01-1950"
-                maxDate="01-01-2004"
+              <TouchableOpacity style={styles.passwordContainer}>
+            <DatePicker
+                style={{width: 200}}
+                date={selectedDate}
+                mode="date"
+                //placeholder="select date"
+                format="YYYY-MM-DD"
+                minDate="1922-05-01"
+                maxDate="2007-05-01"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
-                value={date}
                 customStyles={{
                   dateIcon: {
-                    //display: 'none',
                     position: 'absolute',
-                    left: 290,
+                    left: 0,
                     top: 4,
-                    marginLeft: 0,
+                    marginLeft: 250
                   },
                   dateInput: {
-                    marginLeft: 15,
-                    marginRight:-10,
-                    borderRadius:12,
-                    backgroundColor:'#EAEAEA',
-                    height:50,
-                    marginBottom:5,
+                    //marginLeft: -50,
                     alignItems:"flex-start",
-                    paddingHorizontal:8
-                  },
+                    height:50,
+                    borderColor: '#EAEAEA',
+                   color: '#535353' 
+                  }
+                  // ... You can check the source to find the other keys.
                 }}
-                onDateChange={(date) => {
-                  setDate(date);
-                }}
-              />
+            onDateChange={date=> setSelectedDate(date)}/>
+            </TouchableOpacity>
+         
             
               <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
                 <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
@@ -230,7 +226,7 @@
                 //maxHeight = '5'
                 boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
           />
-              <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-5}]}>
+              <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-10}]}>
                 <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
               </View>
 
@@ -391,6 +387,7 @@
         borderColor: '#000',
         marginTop:20,
         marginLeft:10,
+        marginBottom:10,
         overflow:'hidden',
         borderRadius:10,
         backgroundColor: '#EAEAEA',

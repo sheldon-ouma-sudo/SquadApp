@@ -181,7 +181,6 @@ const TestWorkScreen = () => {
           <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
           </View>
-         
             <TouchableOpacity style={styles.passwordContainer}>
             <DatePicker
                 style={{width: 200}}
@@ -205,13 +204,11 @@ const TestWorkScreen = () => {
                     alignItems:"flex-start",
                     height:50,
                     borderColor: '#EAEAEA',
-                    color: '#535353'
-                  
+                   color: '#535353' 
                   }
                   // ... You can check the source to find the other keys.
                 }}
-        onDateChange={date=> setSelectedDate(date)}
-      />
+            onDateChange={date=> setSelectedDate(date)}/>
             </TouchableOpacity>
          
     
