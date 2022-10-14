@@ -5,17 +5,18 @@
     import { Input } from 'react-native-elements'
     import { useNavigation } from '@react-navigation/core';
     import SelectList from 'react-native-dropdown-select-list';
-    import DatePicker from '@react-native-community/datetimepicker'
-    import DateTimePickerModal from 'react-native-modal-datetime-picker';
     import { useEffect } from 'react';
     import moment from 'moment';
     import { Ionicons } from '@expo/vector-icons'; 
+    import DatePicker from 'react-native-datepicker';
     import * as Location from 'expo-location';
     //import {Location, Permission} from 'expo'
     import { auth } from '../firebase';
     import 'firebase/firestore';
     import firebase from '../firebase';
     const{width,height} = Dimensions.get("window")
+    import { LogBox } from 'react-native';
+
     //const[currentPosition, setCurrentPositon]=useState(0)
     
     const customStyles = {
@@ -102,13 +103,17 @@
 const TestWorkScreen = () => {
     const[currentPosition, setCurrentPositon] = useState(0)
     const [selectedGender, setGenderSelected] =useState("");
-    const [selectedDate, setSelectedDate] = useState();
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [selectedDate, setSelectedDate] = useState("");
+    //const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const navigation = useNavigation()
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
-    const user = firebase.auth().currentUser
-  
+    const user = firebase.auth().currentUser 
+    //const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    useEffect(() => {
+      LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+  }, [])
     useEffect(() => {
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -128,21 +133,6 @@ const TestWorkScreen = () => {
     } else if (location) {
       text = JSON.stringify(location);
     }
-
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const handleConfirm = (date) => {
-    setSelectedDate(date);
-    hideDatePicker();
-  };
-
     const saveAgeGenderLocation =()=>{
       if(user){
       //find their info from the data base
@@ -152,7 +142,7 @@ const TestWorkScreen = () => {
       const snapShot = userRef.get()
       if(snapShot.exists){
         try {userRef.set({
-          date,
+           selectedDate,
           selectedGender,
           currentPosition,
         })
@@ -191,16 +181,40 @@ const TestWorkScreen = () => {
           <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
           </View>
-          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <Text>{`Date:  ${selectedDate? moment(selectedDate).format("MM/DD/YYYY"):"Please select date"}`}</Text>
-            <Button title="Show Date Picker" onPress={showDatePicker} />
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
-       </View>
+         
+            <TouchableOpacity style={styles.passwordContainer}>
+            <DatePicker
+                style={{width: 200}}
+                date={selectedDate}
+                mode="date"
+                //placeholder="select date"
+                format="YYYY-MM-DD"
+                minDate="1922-05-01"
+                maxDate="2007-05-01"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 250
+                  },
+                  dateInput: {
+                    //marginLeft: -50,
+                    alignItems:"flex-start",
+                    height:50,
+                    borderColor: '#EAEAEA',
+                    color: '#535353'
+                  
+                  }
+                  // ... You can check the source to find the other keys.
+                }}
+        onDateChange={(date) => {selectedDate(date)}}
+      />
+            </TouchableOpacity>
+         
+    
 
           <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
@@ -227,8 +241,7 @@ const TestWorkScreen = () => {
                    placeholder="Enter Your Location"
                     //value={date}
                     placeholderTextColor={'#000'}
-                  // onChangeText={this.onPasswordEntry}
-                  
+                  // onChangeText={this.onPasswordEntry}     
                   />
                 <Ionicons
                 name="md-location-outline" 
@@ -381,6 +394,7 @@ const TestWorkScreen = () => {
     borderWidth: 1,
     borderColor: '#000',
     marginTop:20,
+    marginBottom:10,
     marginLeft:10,
     overflow:'hidden',
     borderRadius:10,
