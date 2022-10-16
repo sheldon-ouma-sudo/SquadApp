@@ -81,14 +81,28 @@ const UploadProfPicture = () => {
             </TouchableOpacity>
     </View>
 
-      <View style={[{ flexDirection:"row" },{marginTop:-10}, {marginBottom:30},{marginLeft:30}]}>
-        <TouchableOpacity  onPress={() =>navigation.replace('ProfilePictureUploadScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
-            <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
-           </TouchableOpacity>
-            <TouchableOpacity  onPress={() =>navigation.replace('ChangeProfilePictureScreen')}style={[{flex:1}, styles.button]}>
-            <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
-           </TouchableOpacity>
-   </View>
+           {/**this is the view with the google and the facebook icons */}
+           <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
+                    <TouchableOpacity 
+                    style= {{flex:1}}
+                    >
+                        <Image
+                        style= {[{justifyContent:'flex-start'},styles.cameraUploadStyle]}
+                        ></Image>
+                    </TouchableOpacity>
+                    <TouchableOpacity 
+                    style= {{fex:1}}
+                    >
+                            <Image  
+                            style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
+                            >
+                            </Image>
+                    </TouchableOpacity>       
+                </TouchableOpacity>
+
+
+
+
     </KeyboardAvoidingView>
   )
 }
@@ -189,6 +203,35 @@ backText:{
   
   
 },
+profPictureUpload:{
+backgroundColor:'white',
+marginTop:140,
+borderRadius:20,
+marginLeft:20,
+marginRight:20,
+height:300
+},
+
+cameraUploadStyle:{
+ padding:15,
+ backgroundColor:'#EAEAEA',
+ borderRadius:20,
+ width:150,
+ height:120,
+ marginTop:60,
+ marginLeft:40
+
+},
+photoUploadStyle:{
+  padding:15,
+  backgroundColor:'#EAEAEA',
+  borderRadius:20,
+  width:150,
+  height:120,
+  marginTop:60,
+  marginRight:40
+
+ },
   
 profilePictureButton:{
   backgroundColor: '#1145FD',

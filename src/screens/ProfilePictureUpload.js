@@ -73,6 +73,7 @@ const ProfilePictureUpload = () => {
       </View>
       <View style={styles.buttonContainer}>
             <TouchableOpacity
+            onPress={() =>navigation.replace('UploadProfPictureScreen')}
             //onPress={handleLogin}
             style = {styles.profilePictureButton}
                 >
@@ -83,15 +84,7 @@ const ProfilePictureUpload = () => {
             </TouchableOpacity>
     </View>
 
-      <View style={[{ flexDirection:"row" },{marginTop:-10}, {marginBottom:30},{marginLeft:30}]}>
-        <TouchableOpacity  onPress={() =>navigation.replace('AgeGenderLocationScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
-            <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
-           </TouchableOpacity>
-            <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[{flex:1}, styles.button]}>
-            <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
-           </TouchableOpacity>
-   </View>
-  
+     
 
     </KeyboardAvoidingView>
   )

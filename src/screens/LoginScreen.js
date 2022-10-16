@@ -254,7 +254,7 @@
                             </Image>
                     </TouchableOpacity>       
                 </TouchableOpacity>
-
+                
                 {/**this is the forgot password functionality */}
                 <TouchableOpacity style={{marginTop:20}}>
                     <Text 
