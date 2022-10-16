@@ -117,6 +117,7 @@ const pickImage = async () => {
            <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
                     <TouchableOpacity 
                     style= {{flex:1}}
+                    
                     >
                       <View
                         style= {[{justifyContent:'flex-start'},styles.cameraUploadStyle]}
