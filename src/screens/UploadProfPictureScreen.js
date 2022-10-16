@@ -1,12 +1,14 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
-  import React, { useState } from 'react'
+  import React, { useEffect, useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
   //import { Icon } from 'react-native-elements';
   import Ionicons from '@expo/vector-icons/Ionicons';
   import { FontAwesome } from '@expo/vector-icons'; 
   import { Entypo } from '@expo/vector-icons'; 
   import { useNavigation } from '@react-navigation/core';
+  import { async } from '@firebase/util';
+  import * as ImagePicker from 'expo-image-picker'
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
@@ -38,6 +40,33 @@ const customStyles = {
 const UploadProfPicture = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
+  const[hasGalleryPermissions, setGallerPermissions] = useState(null)
+  const[image, setImage]= useState(null )
+
+useEffect(()=>{
+  (async()=>{
+    const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    setGallerPermissions(galleryStatus === 'granted');
+  })()
+},[])
+
+
+const pickImage = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    meadiaTypes:ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true, 
+    aspect:[4,3],
+    quality:1,
+  });
+  console.log(result)
+  if(!result.cancelled){
+    setImage(result.uri)
+  }
+  if(hasGalleryPermissions===false){
+    return<Text>No access to photo gallery</Text>
+  }
+}
+
   return (
     <KeyboardAvoidingView 
     style={styles.container}
