@@ -101,7 +101,7 @@ const UploadProfPicture = () => {
                            <View
                             style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
                             >
-                               <Entypo name="camera" size={50} style={styles.cameraIcons}color='#1764EF'/>
+                               <Entypo name="camera" size={55} style={styles.cameraIcons}color='#1764EF'/>
                             </View>
                             <Text style={styles.captureText}>Capture</Text>
                     </TouchableOpacity>       
@@ -243,7 +243,8 @@ photoUploadStyle:{
 
  },
  cameraIcons:{
-  marginBottom:30
+  marginBottom:30,
+  marginTop:10
 },
 photoIcons:{
   marginTop:10
