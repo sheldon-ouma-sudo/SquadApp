@@ -179,6 +179,7 @@
 
           }
         }
+        navigation.replace('ProfilePictureUploadScreen')
         }
         return (
           <KeyboardAvoidingView 
@@ -286,7 +287,7 @@
               <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
                 </TouchableOpacity>
-                  <TouchableOpacity  onPress={() =>navigation.replace('ProfilePictureUploadScreen')}style={[{flex:1}, styles.button]}>
+                  <TouchableOpacity  onPress={saveAgeGenderLocation}style={[{flex:1}, styles.button]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
                 </TouchableOpacity>
         </View>
