@@ -2,8 +2,10 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
   import React, { useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
-  import { Icon } from 'react-native-elements';
+  //import { Icon } from 'react-native-elements';
   import Ionicons from '@expo/vector-icons/Ionicons';
+  import { FontAwesome } from '@expo/vector-icons'; 
+  import { Entypo } from '@expo/vector-icons'; 
   import { useNavigation } from '@react-navigation/core';
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -86,17 +88,22 @@ const UploadProfPicture = () => {
                     <TouchableOpacity 
                     style= {{flex:1}}
                     >
-                        <Image
+                      <View
                         style= {[{justifyContent:'flex-start'},styles.cameraUploadStyle]}
-                        ></Image>
+                        >
+                          <FontAwesome name="photo" size={50} style={styles.photoIcons} color='#1764EF' />
+                        </View>
+                        <Text style={styles.uploadText}>Upload</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                     style= {{fex:1}}
                     >
-                            <Image  
+                           <View
                             style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
                             >
-                            </Image>
+                               <Entypo name="camera" size={50} style={styles.cameraIcons}color='#1764EF'/>
+                            </View>
+                            <Text style={styles.captureText}>Capture</Text>
                     </TouchableOpacity>       
                 </TouchableOpacity>
 
@@ -150,16 +157,16 @@ header:{
     //backgroundColor:'blue'
   },
   profilePictureContainer:{
-            height: 150, 
-            width:150,
-            borderRadius:90,
-            overflow:'hidden',
-            borderWidth:3,
-            borderColor: '#1764EF',
-            marginRight:170,
-            marginLeft:170,
-            marginTop:30
-  },
+    height: 150, 
+    width:150,
+    borderRadius:90,
+    overflow:'hidden',
+    borderWidth:3,
+    borderColor: '#1764EF',
+    marginRight:170,
+    marginLeft:170,
+    marginTop:30
+},
   button:{
     backgroundColor: '#1145FD',
     width: 180,
@@ -219,7 +226,8 @@ cameraUploadStyle:{
  width:150,
  height:120,
  marginTop:60,
- marginLeft:40
+ marginLeft:40,
+ alignItems:'center'
 
 },
 photoUploadStyle:{
@@ -229,10 +237,27 @@ photoUploadStyle:{
   width:150,
   height:120,
   marginTop:60,
-  marginRight:40
+  marginRight:40,
+  alignItems:"center",
+  
 
  },
-  
+ cameraIcons:{
+  marginBottom:30
+},
+photoIcons:{
+  marginTop:10
+},
+
+captureText:{
+  marginLeft:54,
+  marginTop:10
+},
+uploadText:{
+ marginLeft:80,
+ marginTop:10
+},
+
 profilePictureButton:{
   backgroundColor: '#1145FD',
   width: 256,
@@ -245,6 +270,7 @@ profilePictureButton:{
   marginLeft:50,
 
 },
+
 })
 
 export default UploadProfPicture
