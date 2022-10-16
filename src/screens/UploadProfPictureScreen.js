@@ -94,9 +94,10 @@ const pickImage = async () => {
     <View style={styles.profilePictureContainer}>
         <TouchableOpacity>
         <Ionicons
-        name='camera'
-        size={100}
-        style={[{marginLeft:20},{justifyContent:"center"},{marginTop:20}]}
+        name='person-circle'
+        size={172}
+        color='#808080'
+        style={[{marginLeft:-8},{justifyContent:"center"},{marginTop:-18},]}
         />
         </TouchableOpacity>
       </View>
