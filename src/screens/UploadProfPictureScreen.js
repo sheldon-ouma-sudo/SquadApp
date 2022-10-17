@@ -41,7 +41,7 @@ const UploadProfPicture = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
-  const[image, setImage]= useState(null )
+  const[image, setImage]= useState('http://placekitten.com/g/200/300')
 
 useEffect(()=>{
   (async()=>{
@@ -66,6 +66,19 @@ const pickImage = async () => {
     return<Text>No access to photo gallery</Text>
   }
 }
+
+const takePhotoFromCamera = () =>{
+ImagePicker.launchCameraAsync({
+  width:300,
+  height:300,
+  cropping:true
+}).then(image=>{
+  console.log(image)
+  setImage(image.path)
+})
+
+}
+
 
   return (
     <KeyboardAvoidingView 
@@ -93,11 +106,11 @@ const pickImage = async () => {
     
     <View style={styles.profilePictureContainer}>
         <TouchableOpacity>
-        <Ionicons
-        name='person-circle'
-        size={172}
-        color='#808080'
-        style={[{marginLeft:-8},{justifyContent:"center"},{marginTop:-18},]}
+        <Image
+        //source={{uri:image}}
+        uri={image}
+        resizeMode={'contain'}
+        style={[{height:100}, {width:100}]}
         />
         </TouchableOpacity>
       </View>
@@ -112,7 +125,6 @@ const pickImage = async () => {
 
             </TouchableOpacity>
     </View>
-
            {/**this is the view with the google and the facebook icons */}
            <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
                     <TouchableOpacity 
