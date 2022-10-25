@@ -41,7 +41,7 @@ const UploadProfPicture = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
-  const[image, setImage]= useState('http://placekitten.com/g/200/300')
+  const[image, setImage]= useState(require('/Users/sheldonotieno/Squad/assets/squad-logo.png'))
 
 useEffect(()=>{
   (async()=>{
@@ -55,6 +55,7 @@ const pickImage = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({
     meadiaTypes:ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true, 
+    cropping:true,
     aspect:[4,3],
     quality:1,
   });
@@ -68,6 +69,7 @@ const pickImage = async () => {
 }
 
 const takePhotoFromCamera = () =>{
+  console.log(hasGalleryPermissions)
 ImagePicker.launchCameraAsync({
   width:300,
   height:300,
@@ -110,7 +112,7 @@ ImagePicker.launchCameraAsync({
         //source={{uri:image}}
         uri={image}
         resizeMode={'contain'}
-        style={[{height:100}, {width:100}]}
+        style={[{height:100}, {width:100}, styles.squadLogo]}
         />
         </TouchableOpacity>
       </View>
@@ -129,6 +131,7 @@ ImagePicker.launchCameraAsync({
            <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
                     <TouchableOpacity 
                     style= {{flex:1}}
+                    onPress={pickImage}
                     
                     >
                       <View
@@ -140,6 +143,7 @@ ImagePicker.launchCameraAsync({
                     </TouchableOpacity>
                     <TouchableOpacity 
                     style= {{fex:1}}
+                    onPress={takePhotoFromCamera}
                     >
                            <View
                             style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
