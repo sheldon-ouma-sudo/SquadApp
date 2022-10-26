@@ -34,17 +34,78 @@
       import PasswordResetScreen from './src/screens/PasswordResetScreen';
       import TestWorkScreen from './src/screens/TestWorkScreen';
 
-      import ExploreScreen from './src/screens/ExploreScreen';
-
         
       //this is the create stack navigator method: src from the navigation docs on the internet
       const Stack = createNativeStackNavigator();
-      //LogBox.ignoreLogs(["EventEmitter.removeListener"]);
-    
+      LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+      const TopHomeTabNavigator = createMaterialTopTabNavigator({
+        TrendingScreen: {
+          screen: TrendingPollScreen, 
+          navigationOptions: {
+          // tabBarLabel: "Home",
+            tabBarOptions: {
+              activeTintColor: '#1145FD',
+              title: 'Trending'
+            },
+            
+          },
+        },
+        PublicPollScreen: {
+          screen: PublicPollSquadScreen,
+          navigationOptions: {
+            tabBarLabel: "Public Polls",
+            tabBarOptions: {
+              activeTintColor: '#1145FD',
+            },
+          },
+        },
+        SquadPollScreen: {
+          screen: MySquadPollScreen,
+          navigationOptions: {
+            tabBarLabel: "Squad Polls",
+            tabBarOptions: {
+              activeTintColor: '#1145FD',
+            },
+            
+          },
+        },          
+      })
 
 
 
-     
+      const TopProflileTabNavigator = createMaterialTopTabNavigator({
+        MySquadScreen: {
+          screen: MySquadScreen, 
+          navigationOptions: {
+            tabBarLabel: "Squad",
+            tabBarOptions: {
+              activeTintColor: '#1145FD',
+            },
+            
+          },
+        },
+        Polls: {
+          screen: PersonalPollScreen,
+          navigationOptions: {
+            tabBarLabel: "Polls",
+            tabBarOptions: {
+              activeTintColor: '#1145FD',
+            },
+            
+          },
+        },
+        Squad: {
+          screen: SquadScreen,
+          navigationOptions: {
+            tabBarLabel: "Squads",
+            tabBarOptions: {
+              activeTintColor: '#1145FD',
+            },
+            
+          },
+        },
+      
+      })
 
 
 
@@ -148,12 +209,25 @@
       <Navigator>
         <HomeScreen />
       </Navigator>
+
+
     )
   }
-  //const HomeTopTabNavigator = createAppContainer(TopHomeTabNavigator)
-  //const ProfileTopTabNavigator = createAppContainer(TopProflileTabNavigator)
-  //function HomeScreenTopTabNavigator(){<HomeTopTabNavigator><HomeScreen/></HomeTopTabNavigator>}
-  //function ProfileScreenTopTabNavigator(){<ProfileTopTabNavigator> <Profile/></ProfileTopTabNavigator>}
+  const HomeTopTabNavigator = createAppContainer(TopHomeTabNavigator)
+  const ProfileTopTabNavigator = createAppContainer(TopProflileTabNavigator)
+  function HomeScreenTopTabNavigator(){
+    return(
+    <HomeTopTabNavigator><HomeScreen/>
+     </HomeTopTabNavigator>
+     )      
+  }
+  function ProfileScreenTopTabNavigator(){
+    return(
+    <ProfileTopTabNavigator>
+      <Profile/>
+    </ProfileTopTabNavigator>
+  )
+  }
       export default function App() {
         return (
           <NavigationContainer>
@@ -161,8 +235,8 @@
             {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
               <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
               <Stack.Screen name="HomeScreenBottomNavigator" options={{headerShown: false}} component={HomeScreenBottonNavigator} />
-             {/**<Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopTabNavigator}/> */} 
-             {/** <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/> */}
+              <Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopTabNavigator}/>
+              <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/>
               <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
                <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/>
               <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
