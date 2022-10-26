@@ -118,7 +118,7 @@ ImagePicker.launchCameraAsync({
       </View>
       <View style={styles.buttonContainer}>
             <TouchableOpacity
-            //onPress={handleLogin}
+            onPress={() =>navigation.replace('ChangeProfilePictureScreen')}
             style = {styles.profilePictureButton}
                 > 
                 <Text style={styles.buttonText}>

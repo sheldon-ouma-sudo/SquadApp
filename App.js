@@ -34,10 +34,20 @@
       import PasswordResetScreen from './src/screens/PasswordResetScreen';
       import TestWorkScreen from './src/screens/TestWorkScreen';
 
+      import ExploreScreen from './src/screens/ExploreScreen';
+
         
       //this is the create stack navigator method: src from the navigation docs on the internet
       const Stack = createNativeStackNavigator();
-      LogBox.ignoreLogs(["EventEmitter.removeListener"]);  
+      //LogBox.ignoreLogs(["EventEmitter.removeListener"]);
+    
+
+
+
+     
+
+
+
 
       const TabNavigator = createBottomTabNavigator({
         Home: {
@@ -138,14 +148,12 @@
       <Navigator>
         <HomeScreen />
       </Navigator>
-
-
     )
   }
   //const HomeTopTabNavigator = createAppContainer(TopHomeTabNavigator)
-  ///const ProfileTopTabNavigator = createAppContainer(TopProflileTabNavigator)
-  
-  //function ProfileScreenTopTabNavigator(){<ProfileTopTabNavigator><Profile/></ProfileTopTabNavigator> }
+  //const ProfileTopTabNavigator = createAppContainer(TopProflileTabNavigator)
+  //function HomeScreenTopTabNavigator(){<HomeTopTabNavigator><HomeScreen/></HomeTopTabNavigator>}
+  //function ProfileScreenTopTabNavigator(){<ProfileTopTabNavigator> <Profile/></ProfileTopTabNavigator>}
       export default function App() {
         return (
           <NavigationContainer>
@@ -153,6 +161,8 @@
             {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
               <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
               <Stack.Screen name="HomeScreenBottomNavigator" options={{headerShown: false}} component={HomeScreenBottonNavigator} />
+             {/**<Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopTabNavigator}/> */} 
+             {/** <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/> */}
               <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
                <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/>
               <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
