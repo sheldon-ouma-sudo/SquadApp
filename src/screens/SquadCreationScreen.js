@@ -245,13 +245,15 @@
     height:100,
     marginTop:30,
     backgroundColor: '#FFFFFF',
+    borderRadius:12,
     padding:10,
     marginRight:80,
     //alignItems:'center',
     marginLeft:50
   },
   contactsLogo:{
-    marginLeft:30
+    marginLeft:30,
+    
    
   },
   contactsTexts:{
@@ -262,6 +264,7 @@
     width:150,
     height:100,
     backgroundColor: '#FFFFFF',
+    borderRadius:12,
     padding:10,
     marginRight:50,
     //alignItems:'center',
@@ -269,13 +272,14 @@
     
   },
   squadAddLogo:{
-   marginLeft:10
+   marginLeft:10,
   },
   InstagramLogoContainer:{
     width:120,
     height:100,
     marginTop:30,
     backgroundColor: '#FFFFFF',
+    borderRadius:12,
     padding:10,
     marginRight:80,
     //alignItems:'center',
@@ -286,6 +290,7 @@
     width:150,
     height:100,
     backgroundColor: '#FFFFFF',
+    borderRadius:12,
     padding:10,
     marginRight:50,
     //alignItems:'center',
@@ -296,6 +301,7 @@
   height:100,
   marginTop:30,
   backgroundColor: '#FFFFFF',
+  borderRadius:12,
   padding:10,
   marginRight:80,
   //alignItems:'center',
@@ -307,6 +313,7 @@
     width:150,
     height:100,
     backgroundColor: '#FFFFFF',
+    borderRadius:12,
     padding:10,
     marginRight:50,
     //alignItems:'center',
