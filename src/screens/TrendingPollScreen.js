@@ -6,8 +6,7 @@ const TrendingPollScreen = () => {
     <KeyboardAvoidingView 
     style={styles.container}
     behavior="padding"
-    >
-        
+    >    
     </KeyboardAvoidingView>
   )
 }
