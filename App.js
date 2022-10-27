@@ -132,8 +132,7 @@
         },
       },
       });
-
-
+      
       
   const Navigator = createAppContainer(TabNavigator);
   function RootNavigation (){
@@ -142,9 +141,10 @@
         <BaseNavigationScreen />
       </Navigator>
 
-
+ 
     )
   }
+
   //const HomeTopTabNavigator = createAppContainer(TopHomeTabNavigator)
  //const ProfileTopTabNavigator = createAppContainer(TopProflileTabNavigator)
   //function HomeScreenTopTabNavigator(){return(<HomeTopTabNavigator><HomeScreen/></HomeTopTabNavigator>) }
@@ -156,7 +156,7 @@
             {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
               <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
               <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={RootNavigation} />
-              {/**<Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopTabNavigator}/>
+             {/**<Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopNavigator}/>
               <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/> */}
               <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
                <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/>
