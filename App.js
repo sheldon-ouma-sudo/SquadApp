@@ -35,7 +35,13 @@
       import PasswordResetScreen from './src/screens/PasswordResetScreen';
       import TestWorkScreen from './src/screens/TestWorkScreen';
       import ExploreScreen from './src/screens/ExploreScreen';
-
+      import ActivityScreen from './src/screens/ActivityScreen';
+      import PollContentScreen from './src/screens/PollContentScreen';
+      import MediaPreviewScreen from './src/screens/MediaPreviewScreen';
+      import PersonalClosedPollScreen from './src/screens/PersonalClosedPollScreen';
+      import PersonalOpenPOlls from './src/screens/PersonalOpenPOlls';
+      import PollResponse from './src/screens/PollResponse';
+      import SwayingScreen from './src/screens/SwayingScreen';
         
       //this is the create stack navigator method: src from the navigation docs on the internet
       const Stack = createNativeStackNavigator();
