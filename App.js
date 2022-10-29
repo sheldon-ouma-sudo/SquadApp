@@ -119,6 +119,7 @@
           },
         },
       },
+      
       Profile: {
         screen: Profile,
         navigationOptions: {

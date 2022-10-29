@@ -5,22 +5,25 @@
     import PollRequest from './PollRequestScreen';
     import React from 'react'
 
-const Tab = createMaterialTopTabNavigator();
-const NotificationScreen = () => {
-  return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-      <View style={[styles.squadLogoContainer, { flexDirection: 'column' }]}>
-        <Image
-          source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-          style={styles.squadLogo}
-          resizeMode='contain'
-        ></Image>
-      </View>
-    </KeyboardAvoidingView>
- 
+    const Tab = createMaterialTopTabNavigator();
+    const NotificationScreen = () => {
+      return (
+        <><KeyboardAvoidingView
+          style={styles.container}
+          behavior="padding"
+        >
+          <View style={[styles.squadLogoContainer, { flexDirection: 'column' }]}>
+            <Image
+              source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+              style={styles.squadLogo}
+              resizeMode='contain'
+            ></Image>
+          </View>
+        </KeyboardAvoidingView>
+        <Tab.Screen name="Poll Requests" component={PollRequest} />
+        <Tab.Screen name="Activity" component={ActivityScreen} /></>
+          
+    
   )
 }
 
