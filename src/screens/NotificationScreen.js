@@ -19,10 +19,10 @@
               resizeMode='contain'
             ></Image>
           </View>
-        </KeyboardAvoidingView>
-        <Tab.Screen name="Poll Requests" component={PollRequest} />
-        <Tab.Screen name="Activity" component={ActivityScreen} /></>
-          
+        </KeyboardAvoidingView><Tab.Navigator>
+            <Tab.Screen name="Poll Requests" component={PollRequest} />
+            <Tab.Screen name="Activity" component={ActivityScreen} />
+          </Tab.Navigator></>
     
   )
 }
