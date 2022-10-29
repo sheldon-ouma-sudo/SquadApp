@@ -288,7 +288,8 @@ sectionHeader: {
 item: {
   margin: 10,
   backgroundColor: '#FFFFFF',
-  padding:10
+  padding:10,
+  borderRadius:5
 },
 itemPhoto: {
   width: 100,

@@ -280,7 +280,8 @@ sectionHeader: {
   //color: '#f4f4f4',
   marginTop: 10,
   marginBottom: 5,
-  marginLeft:25
+  marginLeft:25,
+  
   //padding:-15,
 
  
@@ -288,9 +289,10 @@ sectionHeader: {
 item: {
   margin: 10,
   backgroundColor: '#FFFFFF',
-  padding:10
+  padding:10,
+  borderRadius:5
 },
-itemPhoto: {
+ itemPhoto: {
   width: 100,
   height: 100,
 },
