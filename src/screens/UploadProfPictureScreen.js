@@ -41,7 +41,7 @@ const UploadProfPicture = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
-  const[image, setImage]= useState(require('/Users/sheldonotieno/Squad/assets/squad-logo.png'))
+  const[image, setImage]= useState('http://placekitten.com/g/200/300')
 
 useEffect(()=>{
   (async()=>{
@@ -55,7 +55,6 @@ const pickImage = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({
     meadiaTypes:ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true, 
-    cropping:true,
     aspect:[4,3],
     quality:1,
   });
@@ -69,13 +68,13 @@ const pickImage = async () => {
 }
 
 const takePhotoFromCamera = () =>{
-  console.log(hasGalleryPermissions)
 ImagePicker.launchCameraAsync({
   width:300,
   height:300,
   cropping:true
 }).then(image=>{
   console.log(image)
+  //upload picture and then 
   setImage(image.path)
 })
 
@@ -110,15 +109,15 @@ ImagePicker.launchCameraAsync({
         <TouchableOpacity>
         <Image
         //source={{uri:image}}
-        uri={image}
+        source={{uri:image}}
         resizeMode={'contain'}
-        style={[{height:100}, {width:100}, styles.squadLogo]}
+        style={[{height:155}, {width:230},{overflow: 'hidden'}]}
         />
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
             <TouchableOpacity
-            onPress={() =>navigation.replace('ChangeProfilePictureScreen')}
+            //onPress={handleLogin}
             style = {styles.profilePictureButton}
                 > 
                 <Text style={styles.buttonText}>
@@ -143,7 +142,6 @@ ImagePicker.launchCameraAsync({
                     </TouchableOpacity>
                     <TouchableOpacity 
                     style= {{fex:1}}
-                    onPress={takePhotoFromCamera}
                     >
                            <View
                             style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
