@@ -5,10 +5,11 @@
     import PollRequest from './PollRequestScreen';
     import React from 'react'
 
-    const Tab = createMaterialTopTabNavigator();
+  
     const NotificationScreen = () => {
+    //const Tab = createMaterialTopTabNavigator();
       return (
-        <><KeyboardAvoidingView
+      <KeyboardAvoidingView
           style={styles.container}
           behavior="padding"
         >
@@ -19,10 +20,8 @@
               resizeMode='contain'
             ></Image>
           </View>
-        </KeyboardAvoidingView><Tab.Navigator>
-            <Tab.Screen name="Poll Requests" component={PollRequest} />
-            <Tab.Screen name="Activity" component={ActivityScreen} />
-          </Tab.Navigator></>
+        </KeyboardAvoidingView>
+        
     
   )
 }

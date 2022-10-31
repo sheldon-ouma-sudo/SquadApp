@@ -5,11 +5,11 @@ import TrendingPollScreen from './TrendingPollScreen'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MySquadPollScreen from './MySquadPollScreen';
 
-const Tab = createMaterialTopTabNavigator();
 
 const HomeScreen = () => {
+//const Tab = createMaterialTopTabNavigator();
   return (
-    <><KeyboardAvoidingView
+    <KeyboardAvoidingView
       style={styles.container}
       behavior="padding"
     >
@@ -21,19 +21,7 @@ const HomeScreen = () => {
         ></Image>
       </View>
     </KeyboardAvoidingView>
-    <Tab.Navigator
-      style={[{ marginTop: -620 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
-      screenOptions={{
-        tabBarLabelStyle: { color: '#1145FD', fontWeight:'600' },
-        //tabBarItemStyle: { width: 100 },
-        tabBarStyle: { backgroundColor: "#F4F8FB" },
-      }}
-    >
-        <Tab.Screen 
-        name="Trending Polls" 
-        component={TrendingPollScreen} />
-        <Tab.Screen name="Squad Polls" component={MySquadPollScreen} />
-      </Tab.Navigator></>
+  
   );
    
 }
