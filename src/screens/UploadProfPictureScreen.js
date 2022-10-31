@@ -142,6 +142,7 @@ ImagePicker.launchCameraAsync({
                     </TouchableOpacity>
                     <TouchableOpacity 
                     style= {{fex:1}}
+                    onPress={takePhotoFromCamera}
                     >
                            <View
                             style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
