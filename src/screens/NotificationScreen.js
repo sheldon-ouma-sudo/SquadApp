@@ -4,12 +4,13 @@
     import ActivityScreen from './ActivityScreen';
     import PollRequest from './PollRequestScreen';
     import React from 'react'
+    import TopTabNavigator from './TopTabNavigator';
 
   
     const NotificationScreen = () => {
     //const Tab = createMaterialTopTabNavigator();
       return (
-      <KeyboardAvoidingView
+        <><KeyboardAvoidingView
           style={styles.container}
           behavior="padding"
         >
@@ -21,7 +22,10 @@
             ></Image>
           </View>
         </KeyboardAvoidingView>
-        
+        <TopTabNavigator.Navigator>
+            <TopTabNavigator.Screen name="Poll Requests" component={PollRequest} />
+            <TopTabNavigator.Screen name="Activity" component={ActivityScreen} />
+          </TopTabNavigator.Navigator></>
     
   )
 }

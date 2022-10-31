@@ -5,11 +5,12 @@
   import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
   import MySquadScreen from './MySquadScreen'
   import React from 'react'
+  import TopTabNavigator from './TopTabNavigator'
 
 const Profile = () => {
   //const Tab = createMaterialTopTabNavigator()
   return (
-<KeyboardAvoidingView
+    <><KeyboardAvoidingView
       style={styles.container}
       behavior="padding"
     >
@@ -20,8 +21,20 @@ const Profile = () => {
           resizeMode='contain'
         ></Image>
       </View>
-    </KeyboardAvoidingView>
-        
+    </KeyboardAvoidingView><TopTabNavigator.Navigator
+      style={[{ marginTop: -620 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
+      screenOptions={{
+        tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
+        //tabBarItemStyle: { width: 100 },
+        tabBarStyle: { backgroundColor: "#F4F8FB" },
+      }}
+    >
+        <TopTabNavigator.Screen
+          name="Polls "
+          component={PersonalPollScreen} />
+        <TopTabNavigator.Screen name="Squad" component={MySquadScreen} />
+        <TopTabNavigator.Screen name="Swaying" component={SwayingScreen} />
+      </TopTabNavigator.Navigator></>
   )
 }
 

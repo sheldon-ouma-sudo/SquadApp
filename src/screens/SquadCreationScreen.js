@@ -169,7 +169,7 @@
             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
            </TouchableOpacity>
             <TouchableOpacity  onPress={() =>
-              navigation.navigate('HomeScreenBottomNavigator', { screen: 'HomeScreen' })}
+              navigation.navigate('RootNavigation', { screen: 'HomeScreen' })}
               style={[{flex:1}, styles.button]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
            </TouchableOpacity>
