@@ -72,7 +72,7 @@ const ChangeProfilePictureScreen = () => {
        </View>
        <View style={styles.buttonContainer}>
              <TouchableOpacity
-             //onPress={handleLogin}
+             onPress={()=>navigation.navigate('UploadProfPictureScreen')}
              style = {styles.profilePictureButton}
                  > 
                  <Text style={styles.buttonText}>
