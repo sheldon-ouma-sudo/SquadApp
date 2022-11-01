@@ -7,7 +7,6 @@ const MySquadPollScreen = () => {
     style={styles.container}
     behavior="padding"
   >
-  
   </KeyboardAvoidingView>
   )
 }
