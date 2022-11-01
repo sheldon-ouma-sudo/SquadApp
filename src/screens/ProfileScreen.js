@@ -8,7 +8,6 @@
   import TopTabNavigator from './TopTabNavigator'
 
 const Profile = () => {
-  //const Tab = createMaterialTopTabNavigator()
   return (
     <><KeyboardAvoidingView
       style={styles.container}
