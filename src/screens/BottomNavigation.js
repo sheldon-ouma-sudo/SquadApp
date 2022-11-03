@@ -2,7 +2,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
 import React from 'react'
 import NotificationScreen from './NotificationTopNavigation';
-import HomeScreen from './HomeTapNavigation';
+import HomeScreen from './HomeTopNavigation';
 import Profile from './ProfileTopNavigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import ExploreScreen from './ExploreScreen';

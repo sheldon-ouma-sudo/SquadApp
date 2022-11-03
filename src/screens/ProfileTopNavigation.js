@@ -6,52 +6,49 @@
   import MySquadScreen from './MySquadScreen'
   import React from 'react'
   import TopTabNavigator from './TopTabNavigator'
+  import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const Profile = () => {
-  return (
-    <><KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-      <View style={[styles.squadLogoContainer, { flexDirection: 'column' }]}>
-        <Image
-          source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-          style={styles.squadLogo}
-          resizeMode='contain'
-        ></Image>
-      </View>
-    </KeyboardAvoidingView><TopTabNavigator.Navigator
-      style={[{ marginTop: -620 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
-      screenOptions={{
-        tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
-        //tabBarItemStyle: { width: 100 },
-        tabBarStyle: { backgroundColor: "#F4F8FB" },
-      }}
-    >
-        <TopTabNavigator.Screen
-          name="Polls "
-          component={PersonalPollScreen} />
-        <TopTabNavigator.Screen name="Squad" component={MySquadScreen} />
-        <TopTabNavigator.Screen name="Swaying" component={SwayingScreen} />
-      </TopTabNavigator.Navigator></>
-  )
-}
+  const Tab = createMaterialTopTabNavigator();
 
-export default Profile
-const styles = StyleSheet.create({
-  container:{
-  flex:1,
-  justifyContent:"flex-start",
-  alignItems:"center",
-  backgroundColor: "#F4F8FB",
-
-
-  },
-  squadLogo:{
-      width:100,
-      height:35,
-      marginRight:250,
-      marginTop:70  
+  function Tabs () {
+    const insets = useSafeAreaInsets();
+    return (
+      <Tab.Navigator
+        style={[{ marginTop: insets.top }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
+        screenOptions={{
+          tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
+          //tabBarItemStyle: { width: 100 },
+          tabBarStyle: { backgroundColor: "#F4F8FB" },
+        }}
+      >
+          <Tab.Screen
+            name="Polls "
+            component={PersonalPollScreen} />
+          <Tab.Screen.Screen name="Squad" component={MySquadScreen} />
+          <Tab.Screen.Screen name="Swaying" component={SwayingScreen} />
+        </Tab.Navigator>
+    )
   }
-})
+
+  export default  function Profile(){
+    return(
+        <Tabs/>
+    )
+  }
+  const styles = StyleSheet.create({
+    container:{
+    flex:1,
+    justifyContent:"flex-start",
+    alignItems:"center",
+    backgroundColor: "#F4F8FB",
+
+
+    },
+    squadLogo:{
+        width:100,
+        height:35,
+        marginRight:250,
+        marginTop:70  
+    }
+  })
 

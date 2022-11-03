@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import PollCreation from './src/screens/PollCreationScreen';
 import PollRequest from './src/screens/PollRequestScreen';
 import Profile from './src/screens/ProfileTopNavigation';
-import HomeScreen from './src/screens/HomeTapNavigation';
+import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
     
   

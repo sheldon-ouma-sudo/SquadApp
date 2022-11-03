@@ -5,41 +5,36 @@ import TrendingPollScreen from './TrendingPollScreen'
 //import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MySquadPollScreen from './MySquadPollScreen';
 import TopTabNavigator from './TopTabNavigator';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-
-const HomeScreen = () => {
-//const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator();
+function Tabs(){
+  const insets = useSafeAreaInsets();
   return (
-    <><KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-      <View style={[styles.squadLogoContainer, { flexDirection: 'column' }]}>
-        <Image
-          source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-          style={styles.squadLogo}
-          resizeMode='contain'
-        ></Image>
-      </View>
-    </KeyboardAvoidingView>
-    <TopTabNavigator.Navigator
-      style={[{ marginTop: -620 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
+    <Tab.Navigator
+      style={[{ marginTop: insets.top }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
       screenOptions={{
         tabBarLabelStyle: { color: '#1145FD', fontWeight:'600' },
         //tabBarItemStyle: { width: 100 },
         tabBarStyle: { backgroundColor: "#F4F8FB" },
       }}
     >
-        <TopTabNavigator.Screen 
+        <Tab.Screen 
         name="Trending Polls" 
         component={TrendingPollScreen} />
-        <TopTabNavigator.Screen name="Squad Polls" component={MySquadPollScreen} />
-      </TopTabNavigator.Navigator></>
+        <Tab.Screen 
+        name="Squad Polls" 
+        component={MySquadPollScreen} />
+      </Tab.Navigator>
   );
    
 }
 
-export default HomeScreen
+export default function HomeScreen(){
+  return(
+    <Tabs/>
+  )
+}
 const styles = StyleSheet.create({
   container:{
   flex:1,
