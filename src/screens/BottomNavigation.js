@@ -7,6 +7,7 @@ import Profile from './ProfileTopNavigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import ExploreScreen from './ExploreScreen';
 import PollCreation from './PollCreationScreen';
+import { Ionicons } from '@expo/vector-icons';
 
 
 
