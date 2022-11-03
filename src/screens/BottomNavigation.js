@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 const Tab = createBottomTabNavigator();
-const BottomNavigation = () => {
+function Tabs () {
   return (
     <><KeyboardAvoidingView
       style={styles.container}
@@ -118,7 +118,11 @@ const BottomNavigation = () => {
 }
 
 
-export default BottomNavigation
+export default  function BottomNavigation(){
+  return(
+    <Tabs/>
+  )
+}
 
 const styles = StyleSheet.create({
     container:{
