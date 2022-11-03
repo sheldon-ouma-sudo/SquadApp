@@ -18,6 +18,7 @@
       import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
       import TestWorkScreen from './src/screens/TestWorkScreen';
       import BottomNavigation from './src/screens/BottomNavigation';
+      import PasswordResetScreen from './src/screens/PasswordResetScreen';
       
       //this is the create stack navigator method: src from the navigation docs on the internet
       const Stack = createNativeStackNavigator();

@@ -2,17 +2,15 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
 import React from 'react'
 import NotificationScreen from './NotificationTopNavigation';
-import HomeScreen from './HomeTopNavigation';
 import Profile from './ProfileTopNavigation';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ExploreScreen from './ExploreScreen';
 import PollCreation from './PollCreationScreen';
-import { Ionicons } from '@expo/vector-icons';
-
+import HomeScreen from './HomeTopNavigation';
 
 
 const Tab = createBottomTabNavigator();
-function Tabs () {
+const BottomNavigation = () => {
   return (
     <><KeyboardAvoidingView
       style={styles.container}
@@ -118,11 +116,7 @@ function Tabs () {
 }
 
 
-export default  function BottomNavigation(){
-  return
-    <Tabs/>
-  
-}
+export default BottomNavigation
 
 const styles = StyleSheet.create({
     container:{
