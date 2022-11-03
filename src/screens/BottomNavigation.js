@@ -2,7 +2,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
 import React from 'react'
 
-const BaseNavigationScreen = () => {
+const BottomNavigation = () => {
   return (
     <KeyboardAvoidingView 
     style={styles.container}
@@ -20,7 +20,7 @@ const BaseNavigationScreen = () => {
 }
 
 
-export default BaseNavigationScreen
+export default BottomNavigation
 
 const styles = StyleSheet.create({
     container:{

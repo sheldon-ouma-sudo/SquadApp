@@ -4,7 +4,7 @@
       import { NavigationContainer } from '@react-navigation/native';
       import { createNativeStackNavigator } from '@react-navigation/native-stack';
       import LoginScreen from './src/screens/LoginScreen';
-      import HomeScreen from './src/screens/HomeScreen';
+      import HomeScreen from './src/screens/HomeTapNavigation';
       import SignupScreen from './src/screens/SignupScreen';
       import SquadCreationScreen from './src/screens/SquadCreationScreen';
       import PhoneOTPScreen from './src/screens/PhoneOTPScreen';
@@ -22,9 +22,9 @@
       import { createBottomTabNavigator } from "react-navigation-tabs";
       import PollCreation from './src/screens/PollCreationScreen';
       import PollRequest from './src/screens/PollRequestScreen';
-      import Profile from './src/screens/ProfileScreen';
-      import NotificationScreen from './src/screens/NotificationScreen';
-      import BaseNavigationScreen from './src/screens/BaseNavigationScreen';
+      import Profile from './src/screens/ProfileTopNavigation';
+      import NotificationScreen from './src/screens/NotificationTopNavigation';
+      import BaseNavigationScreen from './src/screens/BottomNavigation';
       import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
       import MySquadScreen from './src/screens/MySquadScreen';//profile screen
       import PersonalPollScreen from './src/screens/PersonalPollScreen';//profile screen
