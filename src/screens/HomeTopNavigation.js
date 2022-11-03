@@ -2,9 +2,8 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet, StatusBar,Dimensions
 import React from 'react'
 import PublicPollSquadScreen from './PublicPollSquadScreen'
 import TrendingPollScreen from './TrendingPollScreen'
-//import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MySquadPollScreen from './MySquadPollScreen';
-import TopTabNavigator from './TopTabNavigator';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Tab = createMaterialTopTabNavigator();
