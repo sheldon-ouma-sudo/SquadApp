@@ -5,6 +5,8 @@ import NotificationScreen from './NotificationTopNavigation';
 import HomeScreen from './HomeTapNavigation';
 import Profile from './ProfileTopNavigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import ExploreScreen from './ExploreScreen';
+import PollCreation from './PollCreationScreen';
 
 
 
@@ -101,15 +103,6 @@ const Tab = createBottomTabNavigator();
 //   },
 // },
 // });
-
-
-
-
-
-
-
-
-
 const BottomNavigation = () => {
   return (
     <><KeyboardAvoidingView
@@ -126,12 +119,9 @@ const BottomNavigation = () => {
     </KeyboardAvoidingView>
     <Tab.Navigator
     initialRouteName="Home"
-    tabBarOptions= {{
-    activeTintColor: '#1145FD',
-              }}
+   // tabBarOptions= {{//activeTintColor: '#1145FD',}}
     >
-     <Tab.Screen
-     name= "Home"
+     <Tab.Screen  
      component={HomeScreen}
      options={{
      tabBarIcon: (tabInfo) => {
@@ -144,10 +134,76 @@ const BottomNavigation = () => {
      }
         }}
      /> 
-      
-      
-      
-      
+      <Tab.Screen
+      component={ExploreScreen}
+      options={{
+             tabBarLabel: "Explore",
+             tabBarOptions: {
+              activeTintColor: '#1145FD',
+           },
+            tabBarIcon: (tabInfo) => {
+             return (
+               <Ionicons
+                name="globe"
+                  size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+             )
+            }
+          }}
+      />
+      <Tab.Screen
+       component={PollCreation}
+       options={{
+              tabBarLabel: "Poll Creation",
+              tabBarOptions: {
+               activeTintColor: '#1145FD',
+            },
+             tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                name="duplicate"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+              )
+             }
+           }}
+      />
+
+<Tab.Screen
+       component={NotificationScreen}
+       options={{
+              tabBarLabel: "Notification",
+              tabBarOptions: {
+               activeTintColor: '#1145FD',
+            },
+             tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="notifications"
+                  size={24}
+                 color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+              )
+             }
+           }}
+      />
+
+<Tab.Screen
+       component={Profile}
+       options={{
+              tabBarLabel: "Profile",
+              tabBarOptions: {
+               activeTintColor: '#1145FD',
+            },
+             tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="person-circle"
+                  size={24}
+                 color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+              )
+             }
+           }}
+      />  
       </Tab.Navigator></>
   )
 }
