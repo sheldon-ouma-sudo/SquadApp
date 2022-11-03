@@ -31,9 +31,9 @@
   }
 
   export default  function Profile(){
-    return(
+    return
         <Tabs/>
-    )
+    
   }
   const styles = StyleSheet.create({
     container:{

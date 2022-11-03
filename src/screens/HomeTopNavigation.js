@@ -30,9 +30,9 @@ function Tabs(){
 }
 
 export default function HomeScreen(){
-  return(
+  return
     <Tabs/>
-  )
+  
 }
 const styles = StyleSheet.create({
   container:{

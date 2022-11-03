@@ -30,9 +30,9 @@
 }
 
 export default function NotificationScreen(){
-  return(
+  return
    <Tabs/>
-  )
+  
 }
 const styles = StyleSheet.create({
     container:{

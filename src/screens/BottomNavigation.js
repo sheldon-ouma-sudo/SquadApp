@@ -119,9 +119,9 @@ function Tabs () {
 
 
 export default  function BottomNavigation(){
-  return(
+  return
     <Tabs/>
-  )
+  
 }
 
 const styles = StyleSheet.create({
