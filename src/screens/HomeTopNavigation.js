@@ -7,7 +7,7 @@ import MySquadPollScreen from './MySquadPollScreen';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Tab = createMaterialTopTabNavigator();
-function Tabs(){
+const HomeScreen=()=>{
   const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
@@ -29,11 +29,8 @@ function Tabs(){
    
 }
 
-export default function HomeScreen(){
-  return
-    <Tabs/>
-  
-}
+export default  HomeScreen
+
 const styles = StyleSheet.create({
   container:{
   flex:1,

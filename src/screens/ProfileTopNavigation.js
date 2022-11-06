@@ -5,12 +5,11 @@
   import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
   import MySquadScreen from './MySquadScreen'
   import React from 'react'
-  import TopTabNavigator from './TopTabNavigator'
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
   const Tab = createMaterialTopTabNavigator();
 
-  function Tabs () {
+  const Profile =()=> {
     const insets = useSafeAreaInsets();
     return (
       <Tab.Navigator
@@ -30,11 +29,10 @@
     )
   }
 
-  export default  function Profile(){
-    return
-        <Tabs/>
-    
-  }
+  export default  Profile
+
+
+
   const styles = StyleSheet.create({
     container:{
     flex:1,

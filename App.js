@@ -17,118 +17,216 @@
       import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen';
       import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
       import TestWorkScreen from './src/screens/TestWorkScreen';
-      import BottomNavigation from './src/screens/BottomNavigation';
       import PasswordResetScreen from './src/screens/PasswordResetScreen';
+      import Profile from './src/screens/ProfileTopNavigation';
+      import ExploreScreen from './src/screens/ExploreScreen';
+      import PollCreation from './src/screens/PollCreationScreen';
+      import HomeScreen from './src/screens/HomeTopNavigation';
+      import NotificationScreen from './src/screens/NotificationTopNavigation';
+      import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
       
       //this is the create stack navigator method: src from the navigation docs on the internet
       const Stack = createNativeStackNavigator();
       LogBox.ignoreLogs(["EventEmitter.removeListener"]);
-//   Home: {
-//       screen: HomeScreen, 
-//       navigationOptions: {
-//         tabBarLabel: "Home",
+      const Tab = createBottomTabNavigator();
+    function BottomNavigationTabs(){
+      return (
+          <Tab.Navigator
+        initialRouteName="Home"
+      // tabBarOptions= {{//activeTintColor: '#1145FD',}}
+        >
+        <Tab.Screen  
+        component={HomeScreen}
+        options={{
+        tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                name="home"
+                size={24}
+                color={tabInfo.focused ?'#1145FD': "#8e8e93"}/>
+              )
+        }
+            }}
+        /> 
+          <Tab.Screen
+          component={ExploreScreen}
+          options={{
+                tabBarLabel: "Explore",
+                tabBarOptions: {
+                  activeTintColor: '#1145FD',
+              },
+                tabBarIcon: (tabInfo) => {
+                return (
+                  <Ionicons
+                    name="globe"
+                      size={24}
+                    color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+                )
+                }
+              }}
+          />
+          <Tab.Screen
+          component={PollCreation}
+          options={{
+                  tabBarLabel: "Poll Creation",
+                  tabBarOptions: {
+                  activeTintColor: '#1145FD',
+                },
+                tabBarIcon: (tabInfo) => {
+                  return (
+                    <Ionicons
+                    name="duplicate"
+                    size={24}
+                    color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+                  )
+                }
+              }}
+          />
+
+    <Tab.Screen
+          component={NotificationScreen}
+          options={{
+                  tabBarLabel: "Notification",
+                  tabBarOptions: {
+                  activeTintColor: '#1145FD',
+                },
+                tabBarIcon: (tabInfo) => {
+                  return (
+                    <Ionicons
+                      name="notifications"
+                      size={24}
+                    color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+                  )
+                }
+              }}
+          />
+
+    <Tab.Screen
+          component={Profile}
+          options={{
+                  tabBarLabel: "Profile",
+                  tabBarOptions: {
+                  activeTintColor: '#1145FD',
+                },
+                tabBarIcon: (tabInfo) => {
+                  return (
+                    <Ionicons
+                      name="person-circle"
+                      size={24}
+                    color={tabInfo.focused ? '#1145FD' : "#8e8e93"}/>
+                  )
+                }
+              }}
+          />  
+          </Tab.Navigator>
+
+    )}
+//       const TabNavigator = createBottomTabNavigator({
+//       Home: {
+//      screen: HomeScreen, 
+//     navigationOptions: {
+//      tabBarLabel: "Home",
 //         tabBarOptions: {
-//           activeTintColor: '#1145FD',
-//         },
-//         tabBarIcon: (tabInfo) => {
-//           return (
-//             <Ionicons
-//               name="home"
-//               size={24}
-//               color={tabInfo.focused ?'#1145FD': "#8e8e93"}
-//             />
-//           );
-//         },
+//         activeTintColor: '#1145FD',
 //       },
+//        tabBarIcon: (tabInfo) => {
+//           return (
+//            <Ionicons
+//              name="home"
+//              size={24}
+//               color={tabInfo.focused ?'#1145FD': "#8e8e93"}
+//            />
+//          );
+//         },
+//      },
 //     },
 // Explore: {
-//   screen: ExploreScreen,
-//   navigationOptions: {
+//  screen: ExploreScreen,
+//    navigationOptions: {
 //     tabBarLabel: "Explore",
-//     tabBarOptions: {
-//       activeTintColor: '#1145FD',
-//     },
-//     tabBarIcon: (tabInfo) => {
-//       return (
-//         <Ionicons
-//           name="globe"
-//           size={24}
-//           color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-//         />
-//       );
-//     },
-//   },
-// },
-// PollCreation: {
+//    tabBarOptions: {
+//     activeTintColor: '#1145FD',
+//    },
+//    tabBarIcon: (tabInfo) => {
+//      return (
+//        <Ionicons
+//         name="globe"
+//       size={24}
+//        color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+//      />
+//     );
+//    },
+//  },
+//  },
+//  PollCreation: {
 //   screen: PollCreation,
-//   navigationOptions: {
-//     tabBarLabel: "",
+//  navigationOptions: {
+//    tabBarLabel: "",
 //     tabBarOptions: {
-//       activeTintColor: '#1145FD',
+//      activeTintColor: '#1145FD',
 //     },
 //     tabBarIcon: (tabInfo) => {
 //       return (
 //         <Ionicons
-//           name="duplicate"
-//           size={24}
+//          name="duplicate"           size={24}
 //           color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-//         />
+//        />
 //       );
 //     },
 //   },
 // },
-// Notification: {
-//   screen: NotificationScreen,
-//   navigationOptions: {
-//     tabBarLabel: "Notifications",
+//  Notification: {
+//    screen: NotificationScreen,
+//    navigationOptions: {
+//      tabBarLabel: "Notifications",
 //     tabBarOptions: {
 //       activeTintColor: '#1145FD',
-//     },
+//    },
 //     tabBarIcon: (tabInfo) => {
-//       return (
-//         <Ionicons
+//      return (
+//        <Ionicons
 //           name="notifications"
-//           size={24}
-//           color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-//         />
-//       );
-//     },
+//            size={24}
+//          color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
+//        />
+//    );
 //   },
-// },
-
-// Profile: {
-//   screen: Profile,
+//  },
+//  },
+//  Profile: {
+//  screen: Profile,
 //   navigationOptions: {
 //     tabBarLabel: "Profile",
 //     tabBarOptions: {
-//       activeTintColor: '#1145FD',
+//      activeTintColor: '#1145FD',
 //     },
 //     tabBarIcon: (tabInfo) => {
-//       return (
-//         <Ionicons
-//           name="person-circle"
+//      return (
+//       <Ionicons
+//          name="person-circle"
 //           size={24}
 //           color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-//         />
-//       );
-//     },
+//        />
+//    );
+//   },
 //   },
 // },
 // });
 
-  //const Navigator = createAppContainer(TabNavigator);
-  // function RootNavigation (){
-  //  return(
-  //    <Navigator>
-  //        <BaseNavigationScreen />
-  //     </Navigator>
-  //   )}
+//   const Navigator = createAppContainer(TabNavigator);
+//  function RootNavigation (){
+//     return(
+//     <Navigator>
+//        <BottomNavigation />
+//       </Navigator>
+//      )}
 
       export default function App() {
         return (
           <NavigationContainer>
             <Stack.Navigator>
-              <Stack.Screen options={{headerShown:false}}  name="BottomNavigation" component={BottomNavigation}/>
+              <Stack.Screen options={{headerShown:false}}  name="BottomNavigationTabs" component={BottomNavigationTabs}/>
               <Stack.Screen options={{headerShown :false}} name="LoginScreen" component={LoginScreen} />
               <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
               <Stack.Screen options={{headerShown:false}}  name="PasswordResetScreen" component={PasswordResetScreen}/>

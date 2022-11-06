@@ -7,7 +7,7 @@
     import { useSafeAreaInsets } from 'react-native-safe-area-context';
     
     const Tab = createMaterialTopTabNavigator();
-    function Tabs(){
+   const NotificationScreen=()=>{
       const insets = useSafeAreaInsets();
       return (
         <Tab.Navigator
@@ -29,11 +29,8 @@
   )
 }
 
-export default function NotificationScreen(){
-  return
-   <Tabs/>
+export default NotificationScreen
   
-}
 const styles = StyleSheet.create({
     container:{
     flex:1,
