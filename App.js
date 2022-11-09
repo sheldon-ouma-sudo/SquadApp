@@ -18,20 +18,9 @@ import UploadProfPicture from './src/screens/UploadProfPictureScreen';
 import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen';
 import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
 import { Ionicons } from "@expo/vector-icons";
-import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PollCreation from './src/screens/PollCreationScreen';
-import PollRequest from './src/screens/PollRequestScreen';
 import Profile from './src/screens/ProfileTopNavigation';
-//import NotificationScreen from './src/screens/NotificationScreen';
-import BaseNavigationScreen from './src/screens/BaseNavigationScreen';
-import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
-import MySquadScreen from './src/screens/MySquadScreen';//profile screen
-import PersonalPollScreen from './src/screens/PersonalPollScreen';//profile screen
-import SquadScreen from './src/screens/SquadScreen';//profile screen
-import TrendingPollScreen from './src/screens/TrendingPollScreen';//home page
-import MySquadPollScreen from './src/screens/MySquadPollScreen';//home page
-import PublicPollSquadScreen from './src/screens/PublicPollSquadScreen'; //homepage screen 
 import PasswordResetScreen from './src/screens/PasswordResetScreen';
 import TestWorkScreen from './src/screens/TestWorkScreen';
 import ExploreScreen from './src/screens/ExploreScreen';
