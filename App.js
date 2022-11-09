@@ -35,18 +35,9 @@ import PublicPollSquadScreen from './src/screens/PublicPollSquadScreen'; //homep
 import PasswordResetScreen from './src/screens/PasswordResetScreen';
 import TestWorkScreen from './src/screens/TestWorkScreen';
 import ExploreScreen from './src/screens/ExploreScreen';
-import ActivityScreen from './src/screens/ActivityScreen';
-import PollContentScreen from './src/screens/PollContentScreen';
-import MediaPreviewScreen from './src/screens/MediaPreviewScreen';
-import PersonalClosedPollScreen from './src/screens/PersonalClosedPollScreen';
-import PersonalOpenPOlls from './src/screens/PersonalOpenPOlls';
-import PollResponse from './src/screens/PollResponse';
-import SwayingScreen from './src/screens/SwayingScreen';
 import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
-//import { Ionicons } from '@expo/vector-icons';
-  
-//this is the create stack navigator method: src from the navigation docs on the internet
+
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 const Tab = createBottomTabNavigator();
@@ -153,20 +144,12 @@ function BottomTabs() {
   );
 }
 
-
-//const HomeTopTabNavigator = createAppContainer(TopHomeTabNavigator)
-//const ProfileTopTabNavigator = createAppContainer(TopProflileTabNavigator)
-//function HomeScreenTopTabNavigator(){return(<HomeTopTabNavigator><HomeScreen/></HomeTopTabNavigator>) }
-//function ProfileScreenTopTabNavigator(){return(<ProfileTopTabNavigator><Profile/></ProfileTopTabNavigator>)}
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
         <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={BottomTabs} /> 
-       {/**<Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopNavigator}/>
-        <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/> */}
         <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
          <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/>
         <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
