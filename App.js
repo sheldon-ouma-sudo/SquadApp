@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
 import { LogBox } from "react-native";
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+  StatusBar,Dimensions,TouchableOpacity} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './src/screens/LoginScreen';
@@ -44,6 +44,7 @@ import PollResponse from './src/screens/PollResponse';
 import SwayingScreen from './src/screens/SwayingScreen';
 import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
+//import { Ionicons } from '@expo/vector-icons';
   
 //this is the create stack navigator method: src from the navigation docs on the internet
 const Stack = createNativeStackNavigator();
@@ -51,20 +52,106 @@ LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 const Tab = createBottomTabNavigator();
 function BottomTabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Explore" component={ExploreScreen} />
-      <Tab.Screen name="Poll Creation" component={PollCreation} />
-      <Tab.Screen name="Notification" component={NotificationScreen} />
-      <Tab.Screen name="Profile" component={Profile} />
-    </Tab.Navigator>
+    <><KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+    >
+      <View style={[styles.squadLogoContainer, { flexDirection: 'column' }]}>
+        <Image
+          source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+          style={styles.squadLogo}
+          resizeMode='contain'
+        ></Image>
+      </View>
+    </KeyboardAvoidingView><Tab.Navigator>
+        <Tab.Screen options={{
+          headerShown: false,
+          tabBarLabel: "Home",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="home"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"} />
+            );
+          }
+        }}
+          name="Home"
+          component={HomeScreen} />
+        <Tab.Screen options={{
+          headerShown: false,
+          tabBarLabel: "Explore",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="globe"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"} />
+            );
+          }
+        }}
+          name="Explore"
+          component={ExploreScreen} />
+        <Tab.Screen
+          options={{
+            headerShown: false,
+            tabBarLabel: "Poll Creation",
+            tabBarOptions: {
+              activeTintColor: '#1145FD',
+            },
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="duplicate"
+                  size={24}
+                  color={tabInfo.focused ? '#1145FD' : "#8e8e93"} />
+              );
+            }
+          }} name="Poll Creation"
+          component={PollCreation} />
+        <Tab.Screen options={{
+          headerShown: false,
+          tabBarLabel: "Notification",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="notifications"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"} />
+            );
+          }
+        }}
+          name="Notification"
+          component={NotificationScreen} />
+        <Tab.Screen options={{
+          headerShown: false,
+          tabBarLabel: "Profile",
+          tabBarOptions: {
+            activeTintColor: '#1145FD',
+          },
+          tabBarIcon: (tabInfo) => {
+            return (
+              <Ionicons
+                name="person-circle"
+                size={24}
+                color={tabInfo.focused ? '#1145FD' : "#8e8e93"} />
+            );
+          }
+        }}
+          name="Profile"
+          component={Profile} />
+      </Tab.Navigator></>
   );
 }
-
-
-
- 
-
 
 
 //const HomeTopTabNavigator = createAppContainer(TopHomeTabNavigator)
@@ -104,6 +191,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F4F8FB',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    marginBottom:-690
   },
+  squadLogo:{
+    width:100,
+    height:35,
+    marginRight:250,
+    marginTop:70  
+}
+
+
 });
