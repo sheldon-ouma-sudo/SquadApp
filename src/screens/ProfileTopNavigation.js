@@ -7,9 +7,10 @@
   import React from 'react'
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-  const Tab = createMaterialTopTabNavigator();
+  
 
   const Profile =()=> {
+    const Tab = createMaterialTopTabNavigator();
     const insets = useSafeAreaInsets();
     return (
       <Tab.Navigator
@@ -21,10 +22,17 @@
         }}
       >
           <Tab.Screen
-            name="Polls "
+            name="Polls"
             component={PersonalPollScreen} />
-          <Tab.Screen.Screen name="Squad" component={MySquadScreen} />
-          <Tab.Screen.Screen name="Swaying" component={SwayingScreen} />
+            <Tab.Screen
+            name="My Squad"
+            component={MySquadScreen} />
+            <Tab.Screen
+            name="Squads I belong to"
+            component={SwayingScreen} />
+         
+         
+         
         </Tab.Navigator>
     )
   }

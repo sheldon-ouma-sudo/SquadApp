@@ -19,7 +19,7 @@ import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen
 import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
 import { Ionicons } from "@expo/vector-icons";
 import { createAppContainer } from 'react-navigation';
-import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PollCreation from './src/screens/PollCreationScreen';
 import PollRequest from './src/screens/PollRequestScreen';
 import Profile from './src/screens/ProfileTopNavigation';
@@ -48,111 +48,22 @@ import NotificationScreen from './src/screens/NotificationTopNavigation';
 //this is the create stack navigator method: src from the navigation docs on the internet
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
-const TabNavigator = createBottomTabNavigator({
-  Home: {
-      screen: HomeScreen, 
-      navigationOptions: {
-        tabBarLabel: "Home",
-        tabBarOptions: {
-          activeTintColor: '#1145FD',
-        },
-        tabBarIcon: (tabInfo) => {
-          return (
-            <Ionicons
-              name="home"
-              size={24}
-              color={tabInfo.focused ?'#1145FD': "#8e8e93"}
-            />
-          );
-        },
-      },
-    },
-Explore: {
-  screen: ExploreScreen,
-  navigationOptions: {
-    tabBarLabel: "Explore",
-    tabBarOptions: {
-      activeTintColor: '#1145FD',
-    },
-    tabBarIcon: (tabInfo) => {
-      return (
-        <Ionicons
-          name="globe"
-          size={24}
-          color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-        />
-      );
-    },
-  },
-},
-PollCreation: {
-  screen: PollCreation,
-  navigationOptions: {
-    tabBarLabel: "",
-    tabBarOptions: {
-      activeTintColor: '#1145FD',
-    },
-    tabBarIcon: (tabInfo) => {
-      return (
-        <Ionicons
-          name="duplicate"
-          size={24}
-          color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-        />
-      );
-    },
-  },
-},
-Notification: {
-  screen: NotificationScreen,
-  navigationOptions: {
-    tabBarLabel: "Notifications",
-    tabBarOptions: {
-      activeTintColor: '#1145FD',
-    },
-    tabBarIcon: (tabInfo) => {
-      return (
-        <Ionicons
-          name="notifications"
-          size={24}
-          color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-        />
-      );
-    },
-  },
-},
-Profile: {
-  screen: Profile,
-  navigationOptions: {
-    tabBarLabel: "Profile",
-    tabBarOptions: {
-      activeTintColor: '#1145FD',
-    },
-    tabBarIcon: (tabInfo) => {
-      return (
-        <Ionicons
-          name="person-circle"
-          size={24}
-          color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-        />
-      );
-    },
-  },
-},
-});
-
-
-const Navigator = createAppContainer(TabNavigator);
-function RootNavigation (){
-return(
-<Navigator>
-  <BaseNavigationScreen />
-</Navigator>
-
-
-)
+const Tab = createBottomTabNavigator();
+function BottomTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Explore" component={ExploreScreen} />
+      <Tab.Screen name="Poll Creation" component={PollCreation} />
+      <Tab.Screen name="Notification" component={NotificationScreen} />
+      <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
+  );
 }
 
+
+
+ 
 
 
 
@@ -166,7 +77,7 @@ export default function App() {
       <Stack.Navigator>
       {/*<Stack.Screen name="Home"component={HomeScreen}options={{ title: 'Welcome' }}/>*/}
         <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={RootNavigation} />
+        <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={BottomTabs} /> 
        {/**<Stack.Screen name= "HomeScreenTopNavigator"    options={{headerShown:false}} component={HomeScreenTopNavigator}/>
         <Stack.Screen  name = "ProfileScreenTopTabNavigator" options={{headerShow:false}} component={ProfileScreenTopTabNavigator}/> */}
         <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />

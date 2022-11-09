@@ -12,7 +12,7 @@
       const insets = useSafeAreaInsets();
       return (
         <Tab.Navigator
-        initialRouteName='ActivityScreen'
+        //initialRouteName='ActivityScreen'
         style={[{ marginTop: insets.top },
            { marginEnd: 5 }, { marginStart: 5 }, 
            { backgroundColor: "#F4F8FB" }, 
