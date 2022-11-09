@@ -9,11 +9,7 @@ const PollRequest = () => {
     behavior="padding"
     >
     <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-      <Image
-        source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-        style={styles.squadLogo}
-        resizeMode='contain'
-      ></Image>
+    
     </View>     
     </KeyboardAvoidingView>
   )
