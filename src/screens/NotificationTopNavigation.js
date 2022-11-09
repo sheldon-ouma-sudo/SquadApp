@@ -6,11 +6,13 @@
     import React from 'react'
     import { useSafeAreaInsets } from 'react-native-safe-area-context';
     
-    const Tab = createMaterialTopTabNavigator();
+   
    const NotificationScreen=()=>{
+    const Tab = createMaterialTopTabNavigator();
       const insets = useSafeAreaInsets();
       return (
         <Tab.Navigator
+        initialRouteName='ActivityScreen'
         style={[{ marginTop: insets.top },
            { marginEnd: 5 }, { marginStart: 5 }, 
            { backgroundColor: "#F4F8FB" }, 
