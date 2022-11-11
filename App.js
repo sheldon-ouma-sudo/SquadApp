@@ -43,7 +43,8 @@ function BottomTabs() {
           resizeMode='contain'
         ></Image>
       </View>
-    </KeyboardAvoidingView><Tab.Navigator>
+    </KeyboardAvoidingView>
+    <Tab.Navigator>
         <Tab.Screen options={{
           headerShown: false,
           tabBarLabel: "Home",
