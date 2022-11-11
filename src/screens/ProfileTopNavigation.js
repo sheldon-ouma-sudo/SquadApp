@@ -29,10 +29,7 @@
             component={MySquadScreen} />
             <Tab.Screen
             name="Sways"
-            component={SwayingScreen} />
-         
-         
-         
+            component={SwayingScreen} />      
         </Tab.Navigator>
     )
   }
