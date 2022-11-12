@@ -2,7 +2,6 @@
     import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/core';
     import { useRoute } from '@react-navigation/native';
-    import RNOtpVerify from 'react-native-otp-verify';
     import { initializeApp, getApp } from 'firebase/app';
     import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
     

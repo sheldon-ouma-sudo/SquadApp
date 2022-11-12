@@ -26,11 +26,11 @@ const PersonalPollScreen = () => {
       }}
     >
         <Tab.Screen
-          name="Closed Polls"
-          component={PersonalClosedPollScreen} />
-        <Tab.Screen
           name="Live Polls"
           component={PersonalOpenPOlls} />
+          <Tab.Screen
+          name="Closed Polls"
+          component={PersonalClosedPollScreen} />
       </Tab.Navigator></>
   )
   
