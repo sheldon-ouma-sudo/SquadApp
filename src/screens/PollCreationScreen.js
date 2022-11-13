@@ -36,7 +36,7 @@ const PollCreation = () => {
     flashMode={flash}
     ref={cameraRef}
     >
-      <TouchableOpacity  style={[styles.switchCamera, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50},{width:70}]}>
+    <TouchableOpacity  style={[styles.switchCamera, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50},{width:70}]}>
       <AntDesign name="retweet" size={34} color="white" style={[{marginTop:15}]} />
     </TouchableOpacity>
     <TouchableOpacity  style={[styles.photosMedia, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50},{width:70}]}>
