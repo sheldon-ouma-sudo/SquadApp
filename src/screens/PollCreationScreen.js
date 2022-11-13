@@ -6,7 +6,9 @@ import { Camera, CameraType } from 'expo-camera'
 import { async } from '@firebase/util'
 import { Octicons } from '@expo/vector-icons'; 
 import { Button } from 'react-native-elements'
-import { Entypo } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';  
+import { AntDesign } from '@expo/vector-icons'; 
 
 
 const PollCreation = () => {
@@ -34,10 +36,16 @@ const PollCreation = () => {
     flashMode={flash}
     ref={cameraRef}
     >
-       <Entypo name="circle" size={100} color='#1145FD' style={[{marginTop:600},{ marginLeft:170}]} />
-      <TouchableOpacity  style={[styles.cameraButtonContainer, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50}]}>
+      <TouchableOpacity  style={[styles.switchCamera, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50},{width:70}]}>
+      <AntDesign name="retweet" size={34} color="white" style={[{marginTop:15}]} />
+    </TouchableOpacity>
+    <TouchableOpacity  style={[styles.photosMedia, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50},{width:70}]}>
+      <MaterialIcons name="perm-media" size={34} color="white" style={[{marginTop:15}]} />
+    </TouchableOpacity>
+    <TouchableOpacity  style={[styles.cameraIconButtonContainer, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50}]}>
       <Octicons name="screen-full" size={34} color="white" style={[{marginTop:15}]} />
     </TouchableOpacity>
+    
     </Camera>
     <View  >
   
@@ -69,18 +77,30 @@ const styles = StyleSheet.create({
     marginBottom:-420
 
   },
-  cameraButtonContainer:{
-    marginTop:-85,
+  cameraIconButtonContainer:{
+    marginTop:-80,
     //marginRight:180,
     alignItems:'center',
     marginBottom:120,
     //height:40,
     width:70,
-    marginLeft:185
-
-
-  
+    marginLeft:190
   },
+  photosMedia:{
+    marginTop:-60,
+    //marginRight:180,
+    alignItems:'center',
+    //marginBottom:120,
+    //height:40,
+    //width:70,
+    marginLeft:20
+  },
+  switchCamera:{
+    alignItems:'center',
+    marginLeft:350,
+    marginTop:600
+  },
+  
   button:{
   //height:120,
    width:120,
