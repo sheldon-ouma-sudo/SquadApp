@@ -8,8 +8,7 @@ const ExploreScreen = () => {
     behavior="padding"
     > 
      <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-    
-    </View>     
+  </View>     
     </KeyboardAvoidingView>
   )
 }
