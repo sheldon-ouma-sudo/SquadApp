@@ -1,6 +1,8 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
 import React from 'react'
+import * as MediaLibrary from 'expo-media-library'
+import { Camera, CameraType } from 'expo-camera'
 
 
 const PollCreation = () => {
