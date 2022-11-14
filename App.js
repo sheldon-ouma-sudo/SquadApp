@@ -142,7 +142,7 @@ export default function App() {
         <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={BottomTabs} /> 
         <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
-        <Stack.Screen options={{headerShwn:false}} name ="PollContentScreen" component={PollContentScreen}/>
+        <Stack.Screen options={{headerShown:false}} name ="PollContentScreen" component={PollContentScreen}/>
          <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/>
         <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
         <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
