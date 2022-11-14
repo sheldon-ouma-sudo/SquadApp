@@ -37,19 +37,7 @@ const PollContentScreen = () => {
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
 
-    <SelectList 
-    onSelect={() => (PollLabel)}
-    placeholder="Select your gender"
-    label="Gender"
-    setSelected={setSelectedPollLabel} 
-    data={dataGender}  
-    style={styles.input}
-  //arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
-  // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
-    search={true} 
-    //maxHeight = '5'
-    boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
-/>
+    
 
     </KeyboardAvoidingView>
   )
