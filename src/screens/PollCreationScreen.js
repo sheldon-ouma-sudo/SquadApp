@@ -9,16 +9,18 @@ import { Button } from 'react-native-elements'
 import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';  
 import { AntDesign } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/core';
 
 
 const PollCreation = () => {
+
   const[hasCameraPermissions, setHasCameraPermissions] = useState(null)
   const[image, setImage]= useState(null)
   const[type, setType]= useState(Camera.Constants.Type.back)
   const[flash, setFlash] = useState(Camera.Constants.FlashMode.off)
   const cameraRef=useRef(null)
   
-
+  const navigation = useNavigation();
   useEffect (()=>{(
     async() => {
       MediaLibrary.requestPermissionsAsync()
@@ -27,6 +29,21 @@ const PollCreation = () => {
     })();
    
   },[])
+  const takePicture = async () =>{
+    if(cameraRef){
+      try{
+        const data = await cameraRef.current.takePictureAsync()
+        console.log(data)
+        setImage(data.uri)
+      }catch(e){
+        console.log(e)
+      }
+    }
+    navigation.navigate("PollContentScreen")
+  }
+  if(hasCameraPermissions===false){
+    return<Text>Access to camera denied!</Text>
+  }
   return (
     <View style={styles.container}>
    
@@ -36,13 +53,20 @@ const PollCreation = () => {
     flashMode={flash}
     ref={cameraRef}
     >
-    <TouchableOpacity  style={[styles.switchCamera, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50},{width:70}]}>
+    <TouchableOpacity  
+    style={[styles.switchCamera, 
+    {height:70},{backgroundColor:'#1145FD'},
+    {borderRadius:50},{width:70}]}
+    //onPress={()=>{setType(type == CameraType.back()? CameraType.front:CameraType.back)}}
+    >
       <AntDesign name="retweet" size={34} color="white" style={[{marginTop:15}]} />
     </TouchableOpacity>
     <TouchableOpacity  style={[styles.photosMedia, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50},{width:70}]}>
       <MaterialIcons name="perm-media" size={34} color="white" style={[{marginTop:15}]} />
     </TouchableOpacity>
-    <TouchableOpacity  style={[styles.cameraIconButtonContainer, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50}]}>
+    <TouchableOpacity  style={[styles.cameraIconButtonContainer, {height:70},{backgroundColor:'#1145FD'},{borderRadius:50}]}
+    onPress={takePicture}
+    >
       <Octicons name="screen-full" size={34} color="white" style={[{marginTop:15}]} />
     </TouchableOpacity>
     
