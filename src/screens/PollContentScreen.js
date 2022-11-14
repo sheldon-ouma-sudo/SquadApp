@@ -1,9 +1,11 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet,Image, SelectList } from 'react-native'
+import { View, Text, KeyboardAvoidingView, StyleSheet,Image, TextInput } from 'react-native'
 import { useState, useEffect } from 'react'
+import SelectList  from 'react-native-dropdown-select-list'
 import { fontSize } from '@mui/system'
 
 const PollContentScreen = () => {
-  const[PollLabel, setSelectedPollLabel] = useState()
+  const [selected, setSelected]  = useState()
+  const [caption, setCaption] = useState()
 
 
   const data=[
@@ -33,12 +35,31 @@ const PollContentScreen = () => {
     <Image>
 
     </Image>
-  <View style={styles.pollContentStyles}>
+    <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
+    <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:70,marginLeft:30}}>
+    <SelectList 
+    setSelected={(val) => setSelected(val)} 
+    data={data} 
+    save="value"
+    search={true} 
+    />
 
-    
-
+    </View>
+    <View style={styles.pollContentStyles}>
+      <Text style={styles.pollContentCaption}>Poll Caption</Text>
+    </View>
+    <TextInput
+      placeholder ="Example: A Tesla or a Messeratti?"
+      value={caption}
+      onChangeText={text =>setCaption(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+      style={styles.input}
+      textAlignVertical={"top"}
+    ></TextInput>
+    <View style={styles.pollAudience}>
+      <Text style={styles.pollContentCaption}>Poll Audience</Text>
+    </View>
     </KeyboardAvoidingView>
   )
 }
@@ -67,10 +88,33 @@ const styles = StyleSheet.create({
     fontSize:18
   },
   pollContentLabel:{
-    marginTop:120,
+    marginTop:80,
     fontWeight:'700',
     fontSize:18
 
-  }
-  
+  },
+  input:{
+    backgroundColor: '#fff',
+    paddingHorizontal: 15,
+    paddingVertical:10,
+    borderRadius:12,
+    width:350,
+    height:80,
+    marginTop:10,
+    fontSize: 13,
+    marginRight:15,
+    marginLeft:-20,
+// fontStyle:"Montserrat-Regular",
+    color:'black',
+    fontWeight:'400'    
+},
+pollContentCaption:{
+  marginTop:-10,
+  fontWeight:'700',
+  fontSize:18
+},
+pollAudience:{
+  marginTop:20,
+  marginRight:250
+}
 })
