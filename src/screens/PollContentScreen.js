@@ -3,7 +3,18 @@ import { useState, useEffect } from 'react'
 import { fontSize } from '@mui/system'
 
 const PollContentScreen = () => {
-  const[selectedPollLabel, PollLabel] = useState()
+  const[PollLabel, setSelectedPollLabel] = useState()
+
+
+  const data=[
+        {key:'1', value:"Fashion"},
+        {key:'2', value:"Decor"},
+        {key:'3', value:"Food"},
+        {key:'4', value:"Travel"},
+        {key:'5', value:"Social"},
+        {key:'6', value:"Health"},
+        {key:'7', value:"Other"},
+  ]
   return (
     <KeyboardAvoidingView
     style={styles.container}
@@ -27,10 +38,10 @@ const PollContentScreen = () => {
     </View>
 
     <SelectList 
-    onSelect={() => (selectedGender)}
+    onSelect={() => (PollLabel)}
     placeholder="Select your gender"
     label="Gender"
-    setSelected={setGenderSelected} 
+    setSelected={setSelectedPollLabel} 
     data={dataGender}  
     style={styles.input}
   //arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
