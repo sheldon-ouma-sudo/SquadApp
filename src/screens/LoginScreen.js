@@ -204,7 +204,6 @@ return (
             <Text style={styles.buttonText}>
                 Login
             </Text>
-
         </TouchableOpacity>
 
         
@@ -338,10 +337,8 @@ button:{
     alignItems: 'center',
     marginRight: 10,
     marginLeft:15,
-
-
-
 },
+
 buttonText:{
     color: 'white',
     fontWeight: '700',
