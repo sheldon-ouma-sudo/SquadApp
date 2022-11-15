@@ -1,11 +1,13 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,Image, TextInput } from 'react-native'
 import { useState, useEffect } from 'react'
-import SelectList  from 'react-native-dropdown-select-list'
-import { fontSize } from '@mui/system'
+import SelectList from 'react-native-dropdown-select-list'
+import MultipleSelectList from 'react-native-dropdown-select-list'
 
 const PollContentScreen = () => {
-  const [selected, setSelected]  = useState()
+  const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
+  const [categories, setCategories] = useState([])
+
 
 
   const data=[
@@ -17,6 +19,15 @@ const PollContentScreen = () => {
         {key:'6', value:"Health"},
         {key:'7', value:"Other"},
   ]
+  const pollAudienceOptions=[
+    {key:'1', value:"Instagram"},
+    {key:'2', value:"Twitter"},
+    {key:'3', value:"SnapChat"},
+    {key:'4', value:"Squad"},
+    {key:'5', value:"Contacts"},
+    {key:'6', value:"Squad"},
+    {key:'7', value:"Other"},
+]
   return (
     <KeyboardAvoidingView
     style={styles.container}
@@ -41,6 +52,7 @@ const PollContentScreen = () => {
     <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:70,marginLeft:30}}>
     <SelectList 
     setSelected={(val) => setSelected(val)} 
+    value={selected}
     data={data} 
     save="value"
     search={true} 
@@ -59,6 +71,10 @@ const PollContentScreen = () => {
     ></TextInput>
     <View style={styles.pollAudience}>
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
+      <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}>
+      
+      </View>
+
     </View>
     </KeyboardAvoidingView>
   )
@@ -88,7 +104,7 @@ const styles = StyleSheet.create({
     fontSize:18
   },
   pollContentLabel:{
-    marginTop:80,
+    marginTop:90,
     fontWeight:'700',
     fontSize:18
 
@@ -103,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop:10,
     fontSize: 13,
     marginRight:15,
-    marginLeft:-20,
+    marginLeft:5,
 // fontStyle:"Montserrat-Regular",
     color:'black',
     fontWeight:'400'    
