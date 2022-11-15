@@ -324,9 +324,8 @@ justifyContent: 'center',
 alignItems: 'center',
 marginTop: 23,
 marginBottom: 60
-
-
 },
+
 button:{
     backgroundColor: '#1145FD',
     width: 296,

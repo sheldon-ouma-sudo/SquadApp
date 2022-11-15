@@ -94,6 +94,7 @@
     "react-native-level-fs": "^3.0.1",
     "react-native-localize": "^2.2.2",
     "react-native-modal-datetime-picker": "^14.0.0",
+    "react-native-multiple-select": "^0.5.12",
     "react-native-os": "^1.2.6",
     "react-native-otp-auto-fill": "^0.1.17",
     "react-native-otp-verify": "^1.0.5",

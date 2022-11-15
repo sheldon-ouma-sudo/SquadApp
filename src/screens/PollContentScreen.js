@@ -75,7 +75,7 @@ const handlePoll =()=>{
       <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
       <MultipleSelectList 
         setSelected={(val) => setSelected(val)} 
-        data={data} 
+        data={pollAudienceOptions} 
         save="value"
         onSelect={() => alert(selected)} 
         label="Categories"
