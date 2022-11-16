@@ -11,9 +11,7 @@ import * as Facebook from 'expo-facebook'
 //import  UserInfo  from 'firebase-admin/lib/auth/user-record';
 //import { GoogleSignin } from 'expo-google-sign-in';
 
-
 WebBrowswer.maybeCompleteAuthSession
-
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
