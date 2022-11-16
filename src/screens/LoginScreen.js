@@ -48,8 +48,6 @@ const LoginScreen = () => {
             setUserInfo(data)
         });
     }
-
-
     function showUserInfo(){
         if(userInfo){
             return(
@@ -62,46 +60,46 @@ const LoginScreen = () => {
         }
     }
 //this is the import to enable the navigation 
-        const navigation = useNavigation()
-//the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
-        useEffect(()=>{
-        const unsubscribe = auth.onAuthStateChanged(user =>{
-        if(user){
-        navigation.replace("HomeScreen")
-        }
+    const navigation = useNavigation()
+    //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
+    useEffect(()=>{
+    const unsubscribe = auth.onAuthStateChanged(user =>{
+    if(user){
+    navigation.replace("HomeScreen")
+    }
+    })
+    return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
+
+    }, [])
+
+    const signWithFacebook =async () => {
+    try{
+        await Facebook.initializeAsync({
+            appId:'546453377226490',
         })
-        return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
-
-        }, [])
-
-        const signWithFacebook =async () => {
-        try{
-            await Facebook.initializeAsync({
-                appId:'546453377226490',
-            })
-            const{ type, token } = await Facebook.logInWithReadPermissionsAsync({permissions:['public_profile'], })
-            if(type === 'success'){
-            //we are using the facebook graph api
-            fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name, email, picture.height(500)`)
-            .then(response=>response.json)
-            .then(data =>{
-                setLoggedInStatus(true)
-                setUserData(data)
-            })
-            .catch(e=>console.log(e))
-            }else{
-            }
-
-        }catch({message}){
-            alert(`Facebook Login Error': ${message}`);
+        const{ type, token } = await Facebook.logInWithReadPermissionsAsync({permissions:['public_profile'], })
+        if(type === 'success'){
+        //we are using the facebook graph api
+        fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name, email, picture.height(500)`)
+        .then(response=>response.json)
+        .then(data =>{
+            setLoggedInStatus(true)
+            setUserData(data)
+        })
+        .catch(e=>console.log(e))
+        }else{
         }
-        
-        }
-        logout = () =>{
-            setLoggedInStatus(false)
-            setUserData(null)
-            setImageLoadingStatus(false)
-        }
+
+    }catch({message}){
+        alert(`Facebook Login Error': ${message}`);
+    }
+
+    }
+    logout = () =>{
+        setLoggedInStatus(false)
+        setUserData(null)
+        setImageLoadingStatus(false)
+    }
 
 
 //handle the login functionaility of the app
@@ -145,8 +143,6 @@ const handleLogin = () =>{
         setPasswordError("")
         passwordValid = true
     }        
-    
-
     if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
         // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
         setEmail("");
@@ -205,8 +201,6 @@ return (
                 Login
             </Text>
         </TouchableOpacity>
-
-        
             {/* <Text>Item to give cash credit for:</Text>*/}
                 <View style={[{flexDirection:"row"},styles.signUpContanier]}>
                     <View style={[{flex:1},styles.textWrapper]}>

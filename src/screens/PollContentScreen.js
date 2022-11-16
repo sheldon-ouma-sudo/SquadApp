@@ -1,13 +1,14 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet,Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, KeyboardAvoidingView, StyleSheet,Image, TextInput, TouchableOpacity, StatusBar} from 'react-native'
 import { useState, useEffect } from 'react'
 import SelectList from 'react-native-dropdown-select-list'
-import MultipleSelectList from 'react-native-dropdown-select-list'
-import { Button } from 'react-native-elements'
+import { MultiSelect } from 'react-native-element-dropdown';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/core';
 
 const PollContentScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
-  const [categories, setCategories] = useState([])
+  const [selectedPollAudience, setSelectedPollAudience] = useState([]);
   const data=[
         {key:'1', value:"Fashion"},
         {key:'2', value:"Decor"},
@@ -17,17 +18,26 @@ const PollContentScreen = () => {
         {key:'6', value:"Health"},
         {key:'7', value:"Other"},
   ]
-  const pollAudienceOptions=[
-    {key:'1', value:"Instagram"},
-    {key:'2', value:"Twitter"},
-    {key:'3', value:"SnapChat"},
-    {key:'4', value:"Squad"},
-    {key:'5', value:"Contacts"},
-    {key:'6', value:"Squad"},
-    {key:'7', value:"Other"},
+  const DATA=[
+    { label: 'Squad', value: '1' },
+    { label: 'Instagram', value: '2' },
+    { label: 'Twitter', value: '3' },
+    { label: 'Contancts', value: '4' },
+    { label: 'Snapchat', value: '5' },
+    { label: 'Tiktok', value: '6' },
 ]
+const navigate = useNavigation()
+const renderDataItem = (item) => {
+  return (
+      <View style={styles.item}>
+          <Text style={styles.selectedTextStyle}>{item.label}</Text>
+          <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+      </View>
+  );
+};
 const handlePoll =()=>{
   alert("Attempts to create a poll")
+  navigate.navigate("RootNavigation")
 }
   return (
     <KeyboardAvoidingView
@@ -73,14 +83,42 @@ const handlePoll =()=>{
     <View style={styles.pollAudience}>
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
       <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
-      <MultipleSelectList 
-        setSelected={(val) => setSelected(val)} 
-        data={pollAudienceOptions} 
-        save="value"
-        onSelect={() => alert(selected)} 
-        label="Categories"
-    />
     </View>
+    <MultiSelect
+        style={styles.dropdown}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={DATA}
+        labelField="label"
+        valueField="value"
+        placeholder="Choose Poll Audience"
+        value={selected}
+        search
+        searchPlaceholder="Search..."
+        onChange={item => {
+            setSelected(item);
+        }}
+        renderLeftIcon={() => (
+            <AntDesign
+                style={styles.icon}
+                color="black"
+                name="Safety"
+                size={20}
+            />
+        )}
+      renderItem={renderDataItem}
+      renderSelectedItem={(item, unSelect) => (
+          <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+              <View style={styles.selectedStyle}>
+                  <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                  <AntDesign color="black" name="delete" size={17} />
+              </View>
+          </TouchableOpacity>
+                )}
+            />
+            <StatusBar />
     <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handlePoll}
@@ -91,6 +129,7 @@ const handlePoll =()=>{
             </Text>
         </TouchableOpacity>
         </View>
+      
     </KeyboardAvoidingView>
   )
 }
@@ -150,7 +189,7 @@ pollAudience:{
 },
 button:{
   backgroundColor: '#1764EF',
-  width: 296,
+  width: 380,
   height: 42,
   padding: 12,
   borderRadius: 5,
@@ -173,5 +212,73 @@ buttonContainer:{
     fontWeight: '600',
     fontSize: 14
     
+},
+dropdown: {
+  height: 50,
+  width:350,
+  backgroundColor: '#1764EF',
+  borderRadius: 12,
+  padding: 12,
+  shadowColor: '#000',
+  shadowOffset: {
+      width: 0,
+      height: 1,
+  },
+  shadowOpacity: 0.2,
+  shadowRadius: 1.41,
+
+  elevation: 2,
+},
+placeholderStyle: {
+  fontSize: 16,
+  color:'white'
+},
+selectedTextStyle: {
+  fontSize: 14,
+},
+iconStyle: {
+  width: 20,
+  height: 30,
+
+},
+inputSearchStyle: {
+  height: 40,
+  fontSize: 16,
+},
+icon: {
+  marginRight: 5,
+  color:'white'
+},
+item: {
+  padding: 17,
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+
+},
+selectedStyle: {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 14,
+  backgroundColor: 'white',
+  shadowColor: '#000',
+  marginTop: 8,
+  marginRight: 12,
+  paddingHorizontal: 12,
+  paddingVertical: 8,
+  shadowOffset: {
+      width: 0,
+      height: 1,
+  },
+  shadowOpacity: 0.2,
+  shadowRadius: 1.41,
+  marginLeft:50,
+
+  elevation: 2,
+},
+textSelectedStyle: {
+  marginRight: 10,
+  fontSize: 16,
 },
 })
