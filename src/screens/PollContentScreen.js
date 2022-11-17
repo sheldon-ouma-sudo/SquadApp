@@ -94,11 +94,11 @@ const handlePoll =()=>{
         labelField="label"
         valueField="value"
         placeholder="Choose Poll Audience"
-        value={selected}
+        value={selectedPollAudience}
         search
         searchPlaceholder="Search..."
         onChange={item => {
-            setSelected(item);
+            setSelectedPollAudience(item);
         }}
         renderLeftIcon={() => (
             <AntDesign

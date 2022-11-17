@@ -41,7 +41,7 @@ const UploadProfPicture = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
-  const[image, setImage]= useState('http://placekitten.com/g/200/300')
+  const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
 
 useEffect(()=>{
   (async()=>{
@@ -111,7 +111,7 @@ ImagePicker.launchCameraAsync({
         //source={{uri:image}}
         source={{uri:image}}
         resizeMode={'contain'}
-        style={[{height:155}, {width:230},{overflow: 'hidden'}]}
+        style={[{height:150}, {width:350},{overflow: 'hidden'}]}
         />
         </TouchableOpacity>
       </View>
@@ -207,9 +207,11 @@ header:{
     height: 150, 
     width:150,
     borderRadius:90,
+    alignContent:'center',
+    alignItems:'center',
     overflow:'hidden',
-    borderWidth:3,
-    borderColor: '#1764EF',
+    borderWidth:0,
+    //borderColor: '#1764EF',
     marginRight:170,
     marginLeft:170,
     marginTop:30

@@ -27,6 +27,7 @@ import ExploreScreen from './src/screens/ExploreScreen';
 import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
 import PollContentScreen from "./src/screens/PollContentScreen";
+import NewTestScreenWork from "./src/screens/NewTestScreen";
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
@@ -139,8 +140,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        
         <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={BottomTabs} /> 
+        <Stack.Screen options={{headerShown : false}} name="NewTestWorkScreen" component={NewTestScreenWork}/>
         <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
         <Stack.Screen options={{headerShown:false}} name ="PollContentScreen" component={PollContentScreen}/>
          <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/>
