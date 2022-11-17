@@ -43,8 +43,7 @@ const UploadProfPicture = () => {
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
   const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
 
-useEffect(()=>{
-  (async()=>{
+useEffect(()=>{(async()=>{
     const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
     setGallerPermissions(galleryStatus === 'granted');
   })()

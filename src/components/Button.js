@@ -6,7 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export default function Button({ title, onPress, icon, color }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
-      <Entypo name={icon} size={36} color={color ? color : '#f1f1f1'} />
+      <Entypo name={icon} size={40} color={color ? color : '#f1f1f1'} />
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
