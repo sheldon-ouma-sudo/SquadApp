@@ -225,14 +225,11 @@ return (
                 <TouchableOpacity 
                 style= {{flex:1}}
                 title = {accessToken?"Get User Data": "Login"}
-                onPress={accessToken? getUserData:()  =>{promptAsync({showInRecents: true})}}
-                >
+                onPress={accessToken? getUserData:()  =>{promptAsync({showInRecents: true})}}>
                     <Image
                     source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
-                    style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-                    //onPress={signInWithGoogleAsync}
-                
-                    ></Image>
+                    style= {[{justifyContent:'flex-start'}, styles.googleLogo]}>
+                    </Image>
                 </TouchableOpacity>
                 <TouchableOpacity 
                 style= {{fex:1}}

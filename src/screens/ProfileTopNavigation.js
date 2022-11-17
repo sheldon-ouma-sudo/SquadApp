@@ -13,9 +13,10 @@
     const[userName, setUserName] =useState('User Profile Name')
     const Tab = createMaterialTopTabNavigator();
     const insets = useSafeAreaInsets();
+    const ProfileName=userName
     return (
       <>
-      <View style={[{backgroundColor:"#F4F8FB"}]}>
+      <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"}]}>
         <TouchableOpacity>
           <Image
             source={{ uri:profileImage }}
@@ -23,7 +24,9 @@
             style={[{ height: 150 }, { width: 150 }, 
             {overflow:'hidden'}]} />
         </TouchableOpacity>
-      
+        <View>
+         
+        </View>
       </View>
       <Tab.Navigator
         style={[{ marginTop: -10 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
@@ -56,9 +59,8 @@
     justifyContent:"flex-start",
     alignItems:"center",
     backgroundColor: "#F4F8FB",
-
-
     },
+
     squadLogo:{
         width:100,
         height:35,
