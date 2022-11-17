@@ -3,7 +3,8 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import { MaterialIcons } from '@expo/vector-icons';  
+import { MaterialIcons } from '@expo/vector-icons'; 
+import { Octicons } from '@expo/vector-icons';  
 import { AntDesign } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/core';
 import Button from '../components/Button';
@@ -66,18 +67,18 @@ const NewTestScreenWork = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               paddingHorizontal: 30,
-              marginTop:20
+              marginTop:80
             }}
           >
-            <Button
-              title=""
-              icon="retweet"
+              <TouchableOpacity
+              style={[{marginTop:-10},{marginBottom:10},{ marginLeft: 10 }, { alignItems: 'center' }, { height: 70 }, { backgroundColor: '#1145FD' }, { borderRadius: 50 }, { width: 70 }]}
               onPress={() => {
                 setType(
                   type === CameraType.back ? CameraType.front : CameraType.back
                 );
-              }}
-            />
+              } }>
+              <AntDesign name="retweet" size={34} color="white" style={[{ marginTop: 15 }]} />
+            </TouchableOpacity>
             <Button
              style={[{marginRight:100}]}
               onPress={() =>
@@ -114,16 +115,22 @@ const NewTestScreenWork = () => {
             <Button title="Save" onPress={savePicture} icon="check" />
           </View>
         ) : (
-          <Button 
-          //title="Take a picture" 
-          onPress={takePicture} icon="camera" />
-        )}
+          <><TouchableOpacity style={[styles.photosMedia, { height: 70 }, { backgroundColor: '#1145FD' }, { borderRadius: 50 }, { width: 70 }]}>
+              <MaterialIcons name="perm-media" size={34} color="white" style={[{ marginTop: 15 }]} />
+            </TouchableOpacity><>
+
+                <TouchableOpacity style={[styles.cameraIconButtonContainer, { height: 70 }, { backgroundColor: '#1145FD' }, { borderRadius: 50 }]}
+                  onPress={takePicture}>
+                  <Octicons name="screen-full" size={34} color="white" style={[{ marginTop: 15 }]} />
+                </TouchableOpacity></></> 
+        ) 
+        }
       </View>
     </View>
   )
 }
 
-export default NewTestScreenWork
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -153,7 +160,28 @@ const styles = StyleSheet.create({
     flex: 5,
     borderRadius: 20,
   },
+  cameraIconButtonContainer:{
+    marginTop:-80,
+    //marginRight:180,
+    alignItems:'center',
+    marginBottom:120,
+    //height:40,
+    width:70,
+    marginLeft:200,
+    //marginBottom:50
+  },
+  photosMedia:{
+    //marginTop:-30,
+    //marginRight:180,
+    alignItems:'center',
+    //marginBottom:120,
+    //height:40,
+    //width:70,
+    marginLeft:30
+  },
   topControls: {
     flex: 1,
   },
 });
+
+export default NewTestScreenWork
