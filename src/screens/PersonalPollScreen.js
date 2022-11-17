@@ -16,8 +16,9 @@ const PersonalPollScreen = () => {
       behavior="padding"
     >
     
-    </KeyboardAvoidingView><Tab.Navigator
-      style={[{ marginTop: 30 }, { marginEnd: 25 }, { marginStart: 25 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
+    </KeyboardAvoidingView>
+    <Tab.Navigator
+      style={[{ marginTop: 80 }, { marginEnd: 15 }, { marginStart: 15 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
       screenOptions={{
         tabBarLabelStyle: { color: '#ffff', fontWeight: '600' },
         //tabBarItemStyle: { width: 100 },
