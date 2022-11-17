@@ -3,7 +3,9 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';  
+import { AntDesign } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/core';
 import Button from '../components/Button';
 
   
@@ -64,6 +66,7 @@ const NewTestScreenWork = () => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               paddingHorizontal: 30,
+              marginTop:20
             }}
           >
             <Button
