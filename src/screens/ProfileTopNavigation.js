@@ -10,13 +10,23 @@
 
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+    const[userName, setUserName] =useState('User Profile Name')
     const Tab = createMaterialTopTabNavigator();
     const insets = useSafeAreaInsets();
     return (
       <>
-    
+      <View style={[{backgroundColor:"#F4F8FB"}]}>
+        <TouchableOpacity>
+          <Image
+            source={{ uri:profileImage }}
+            resizeMode={'contain'}
+            style={[{ height: 150 }, { width: 150 }, 
+            {overflow:'hidden'}]} />
+        </TouchableOpacity>
+      
+      </View>
       <Tab.Navigator
-        style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
+        style={[{ marginTop: -10 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
         screenOptions={{
           tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
           //tabBarItemStyle: { width: 100 },
