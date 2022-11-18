@@ -273,7 +273,7 @@ selectedStyle: {
   },
   shadowOpacity: 0.2,
   shadowRadius: 1.41,
-  marginLeft:50,
+  marginLeft:37,
 
   elevation: 2,
 },
