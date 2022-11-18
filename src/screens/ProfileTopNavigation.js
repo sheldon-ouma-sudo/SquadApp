@@ -7,6 +7,7 @@
   import React from 'react'
   import { useState } from 'react'
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
+  import { fontSize } from '@mui/system'
 
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
@@ -21,11 +22,20 @@
           <Image
             source={{ uri:profileImage }}
             resizeMode={'contain'}
-            style={[{ height: 150 }, { width: 150 }, 
-            {overflow:'hidden'}]} />
+            style={[{ height: 120 }, { width: 120 }, 
+            {overflow:'hidden'},{marginBottom:20}, {marginLeft:30}]} />
         </TouchableOpacity>
-        <View>
-         
+        <View
+         style={[{marginLeft:40},{marginTop:70}]}>
+           <Text
+           style={[{fontSize:16},{marginTop:5},{marginLeft:-15},{marginBottom:-5}]}
+           >Polls</Text>
+           <Text
+           style={[{fontSize:16},{marginTop:-15},{marginLeft:50}]}
+           >Squad</Text>
+         <Text
+           style={[{fontSize:16},{marginTop:-20},{marginLeft:125}]}
+           >Sways</Text>
         </View>
       </View>
       <Tab.Navigator
