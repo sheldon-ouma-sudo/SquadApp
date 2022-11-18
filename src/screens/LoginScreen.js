@@ -251,9 +251,7 @@ return (
                 style={styles.forgotPasswordText}>
                     Forgot Password?
                 </Text> 
-            </TouchableOpacity>
-            
-                
+            </TouchableOpacity>     
                 
         {/**horizontal line at the botton of the page*/}
         <View style={{marginTop:140, marginBottom:-130}}>
@@ -261,9 +259,7 @@ return (
             <Text style={[{marginTop:10}, {alignSelf:'center'}]}> 
                         English(United States)
             </Text>
-        </View>
-        
-        
+        </View> 
     </KeyboardAvoidingView>
 )
 }
