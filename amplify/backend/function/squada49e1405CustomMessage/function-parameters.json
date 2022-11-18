@@ -1,0 +1,26 @@
+{
+  "trigger": true,
+  "modules": [
+    "verification-link"
+  ],
+  "parentResource": "squada49e1405",
+  "functionName": "squada49e1405CustomMessage",
+  "resourceName": "squada49e1405CustomMessage",
+  "parentStack": "auth",
+  "triggerEnvs": [
+    {
+      "key": "RESOURCENAME",
+      "value": "resourceName"
+    }
+  ],
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/CustomMessage",
+  "triggerTemplate": "CustomMessage.json.ejs",
+  "triggerEventPath": "CustomMessage.event.json",
+  "roleName": "squada49e1405CustomMessage",
+  "skipEdit": true,
+  "REDIRECTURL": "",
+  "EMAILSUBJECT": "",
+  "EMAILMESSAGE": "Thanks for starting the new account with Squad a home of meaningful connections with family friends. We want to make sure that it is really you to avoid any security risks like impersonation etc. Below is a link to authenticate your account. Thanks and we are happy to have you be part of the Squad🥳",
+  "RESOURCENAME": "resourceName",
+  "enableCors": false
+}

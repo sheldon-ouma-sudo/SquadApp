@@ -9,7 +9,27 @@
       "UnauthRoleName": "amplify-squad-dev-204913-unauthRole",
       "StackName": "amplify-squad-dev-204913",
       "StackId": "arn:aws:cloudformation:us-west-1:753195318657:stack/amplify-squad-dev-204913/5a071a00-66fc-11ed-bce4-02a2a2a59edd",
-      "AmplifyAppId": "d3vki6yy69p5bt"
+      "AmplifyAppId": "d3vki6yy69p5bt",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-squad-dev-204913-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "squada49e1405": {}
+      },
+      "function": {
+        "squada49e1405CustomMessage": {
+          "REDIRECTURL": "",
+          "EMAILSUBJECT": "",
+          "EMAILMESSAGE": "Thanks for starting the new account with Squad a home of meaningful connections with family friends. We want to make sure that it is really you to avoid any security risks like impersonation etc. Below is a link to authenticate your account. Thanks and we are happy to have you be part of the Squad🥳",
+          "deploymentBucketName": "amplify-squad-dev-204913-deployment",
+          "s3Key": "amplify-builds/squada49e1405CustomMessage-396a4a706253756e4f75-build.zip"
+        },
+        "squada49e1405PostConfirmation": {
+          "GROUP": "",
+          "deploymentBucketName": "amplify-squad-dev-204913-deployment",
+          "s3Key": "amplify-builds/squada49e1405PostConfirmation-4345724a324c466e4f46-build.zip"
+        }
+      }
     }
   }
 }
