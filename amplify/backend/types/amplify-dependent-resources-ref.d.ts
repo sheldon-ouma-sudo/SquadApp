@@ -23,5 +23,18 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientIDWeb": "string",
             "AppClientID": "string"
         }
+    },
+    "storage": {
+        "s3SquadPhotoMediaStorage": {
+            "BucketName": "string",
+            "Region": "string"
+        }
+    },
+    "api": {
+        "squad": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
     }
 }

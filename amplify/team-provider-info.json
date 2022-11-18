@@ -29,6 +29,12 @@
           "deploymentBucketName": "amplify-squad-dev-204913-deployment",
           "s3Key": "amplify-builds/squada49e1405PostConfirmation-4345724a324c466e4f46-build.zip"
         }
+      },
+      "storage": {
+        "s3SquadPhotoMediaStorage": {}
+      },
+      "api": {
+        "squad": {}
       }
     }
   }
