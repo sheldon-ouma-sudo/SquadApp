@@ -247,7 +247,7 @@ return (
             <TouchableOpacity style={{marginTop:20}}>
                 <Text 
                 onPress={() =>
-                    navigation.navigate('RootNavigation', { screen: 'HomeScreen' })}
+                    navigation.navigate("PhoneNumberScreen")}
                 style={styles.forgotPasswordText}>
                     Forgot Password?
                 </Text> 

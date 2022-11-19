@@ -239,7 +239,7 @@ return (
     </KeyboardAvoidingView>
 )
 }
-export default SignupScreen
+
 
 const styles = StyleSheet.create({
 container:{
@@ -411,3 +411,4 @@ logo:{
 marginTop:37
 }
 })
+export default SignupScreen
