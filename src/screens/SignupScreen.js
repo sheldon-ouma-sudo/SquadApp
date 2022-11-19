@@ -21,6 +21,7 @@ const SignupScreen = () => {
     const [passwordError, setPasswordError] = useState("")
     const [confirmPassword, setConfirmPassword] = useState('')
     const [confirmPasswordError, setConfirmPasswordError]= useState("")
+    const[name, setName]=useState('')
     
 
 //this is the import to enable the navigation 
@@ -31,7 +32,15 @@ function checkPassword(str){
 var re =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 return re.test(str);
 }
-
+async function signUpWithAws() {
+    try {
+      await Auth.signUp({ email,name, username, password, attributes: { email, name } });
+      console.log('✅ Sign-up Confirmed');
+      navigation.navigate('EmailOTPScreen');
+    } catch (error) {
+      console.log('Error signing up, check your network and try again', error);
+    }
+  }
 //this function handles sign up
 const  handleSignUp=async()=> {
         //email address validation 
@@ -91,13 +100,12 @@ const  handleSignUp=async()=> {
         if(password!==confirmPassword){
             setConfirmPasswordError('Password and confirm password do not match')
         }
-        if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
+        if(emailValid && passwordValid&&userNameValid){            
             // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
             setEmail("");
             setPassword("");
             setUsername("")
-    //create users with AWS 
-    try{const response = await Auth.signUp({ username, password, attributes: { email } })}catch(e){Alert.alert('check your netwok and try again', e.message)}
+  
     //create user profile with firebase
     auth.createUserWithEmailAndPassword(email.trim(), password)  
     //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
@@ -146,6 +154,15 @@ return (
     ></Image>
     </View>
     <View style={styles.InputContainer}>
+    <TextInput
+        placeholder ="Name"
+        value={name}
+        autoCapitalize='none'
+        //textAlign = 'center'
+        keyboardType="email-address"
+        onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+        style={styles.input}
+        />
         <TextInput
         placeholder ="Email Address"
         value={email}
@@ -192,7 +209,7 @@ return (
     {/*this view contains our buttons */}
     <View style={styles.buttonContainer}>
         <TouchableOpacity
-        onPress={handleSignUp}
+        onPress={signUpWithAws}
         style = {styles.button}
             >
             <Text style={styles.buttonText}>
