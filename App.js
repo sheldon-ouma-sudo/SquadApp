@@ -28,16 +28,7 @@ import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
 import PollContentScreen from "./src/screens/PollContentScreen";
 import NewTestScreenWork from "./src/screens/NewTestScreen";
-import Amplify from 'aws-amplify';
-import awsconfig from './src/aws-exports'
 
-
-Amplify.configure({
-  ...awsconfig,
-  Analytics: {
-    disabled: true,
-  },
-});
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);

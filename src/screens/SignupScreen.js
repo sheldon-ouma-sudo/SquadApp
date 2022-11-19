@@ -5,18 +5,8 @@ import { auth } from '../firebase';
 import 'firebase/firestore';
 import firebase from '../firebase';
 import { useNavigation } from '@react-navigation/core';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports'
 
-
-Amplify.configure({
-  ...awsconfig,
-  Analytics: {
-    disabled: true,
-  },
-});
-
-
+ 
 const SignupScreen = () => {
 //const [name, setName] = useState('')
 // const [nameError, setNameError] = useState("")
