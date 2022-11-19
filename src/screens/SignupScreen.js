@@ -5,6 +5,8 @@ import { auth } from '../firebase';
 import 'firebase/firestore';
 import firebase from '../firebase';
 import { useNavigation } from '@react-navigation/core';
+import { Auth } from 'aws-amplify';
+import { Alert } from '@mui/material';
 
  
 const SignupScreen = () => {
@@ -94,9 +96,10 @@ const  handleSignUp=async()=> {
             setEmail("");
             setPassword("");
             setUsername("")
-                
-    auth
-    .createUserWithEmailAndPassword(email.trim(), password)  
+    //create users with AWS 
+    try{const response = await Auth.signUp({ username, password, attributes: { email } })}catch(e){Alert.alert('check your netwok and try again', e.message)}
+    //create user profile with firebase
+    auth.createUserWithEmailAndPassword(email.trim(), password)  
     //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
     //once this is done, then create the user's credentials
     .then((user) =>{
