@@ -8,11 +8,15 @@ import { async } from '@firebase/util';
 import  * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowswer from 'expo-web-browser'
 import * as Facebook from 'expo-facebook'
+import { Auth } from 'aws-amplify';
+
 //import  UserInfo  from 'firebase-admin/lib/auth/user-record';
 //import { GoogleSignin } from 'expo-google-sign-in';
 
 WebBrowswer.maybeCompleteAuthSession
 const LoginScreen = () => {
+    const [username, setUsername] = useState('');
+    //const [password, setPassword] = useState('');
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [accessToken, setAccessToken] = useState()
@@ -99,8 +103,16 @@ const LoginScreen = () => {
         setImageLoadingStatus(false)
     }
 
-
-//handle the login functionaility of the app
+    async function signInWithAWS() {
+        try {
+          await Auth.signIn(username, password);
+          console.log('✅ Success');
+          //updateAuthState('loggedIn');
+        } catch (error) {
+          console.log('❌ Error signing in...', error);
+        }
+      }
+//handle the login functionaility of the app with firebase
 const handleLogin = () =>{
     //login form validation
     var emailValid = false;
@@ -172,11 +184,11 @@ return (
 
     <View style={styles.InputContainer}>
     <TextInput
-        placeholder ="Email address"
-        value={email}
+        placeholder ="Username"
+        value={username}
         //autoComplete='none'
         autoCapitalize='none'
-        onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+        onChangeText={text => setUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
         style={styles.input}
         />
         {emailError.length > 0 &&<Text style={[styles.errorText,{color:'red'}]}>{emailError}  </Text>}
@@ -192,7 +204,7 @@ return (
     {/*this view contains our buttons */}
     <View style={styles.buttonContainer}>
         <TouchableOpacity
-        onPress={handleLogin}
+        onPress={signInWithAWS}
         style = {styles.button}
             >
             <Text style={styles.buttonText}>
@@ -247,7 +259,7 @@ return (
             <TouchableOpacity style={{marginTop:20}}>
                 <Text 
                 onPress={() =>
-                    navigation.navigate("PhoneNumberScreen")}
+                    navigation.navigate("EmailOTPScreen")}
                 style={styles.forgotPasswordText}>
                     Forgot Password?
                 </Text> 

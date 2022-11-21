@@ -1,9 +1,35 @@
   import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity} from 'react-native'
   import React from 'react'
-  import { useNavigation } from '@react-navigation/core';
+  import { useState } from 'react';
+  import { useNavigation } from '@react-navigation/native';
+  import { useRoute } from '@react-navigation/native';
+  import { Auth } from 'aws-amplify';
 
   const EmailOTPScreen = () => {
-    const navigation = useNavigation()
+  //const [userName, setUserName] = useState('');
+  const [authCode, setAuthCode] = useState('');
+
+  const navigation = useNavigation()
+  const route = useRoute();
+   
+  const username = route?.params.username 
+
+  async function confirmSignUp() {
+    try {
+      console.log(authCode)
+      console.log(username)
+      await Auth.confirmSignUp(username, authCode)
+      //await Auth.confirmSignUp(username, authCode);
+      console.log('✅ Code confirmed');
+      navigation.navigate("AgeGenderLocationScreen");
+    } catch (e) {
+      console.log(
+        'Verification unsuccessful.',
+        e.message
+      );
+    }
+  }
+    //const navigation = useNavigation()
     return (
       <KeyboardAvoidingView
         style={styles.container}
@@ -19,18 +45,20 @@
             <View>
               <TextInput
                   placeholder ="Enter the confirmation code"
-                // value={email}
+                  value={authCode}
                   autoCapitalize='none'
                   textAlign = 'center'
                   keyboardType="numeric"
-                  //onChangeText={text => setEmail(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+                  onChangeText={text => setAuthCode(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
                   style={styles.input}
                   />
+
+                  <Text>username:{route.params.username}</Text>
             </View>
             <View>
               <View style={styles.buttonContainer}>
               <TouchableOpacity
-              ///onPress={handleSignUp}
+              onPress={confirmSignUp}
               style = {styles.button}
                   >
                   <Text style={styles.buttonText}>

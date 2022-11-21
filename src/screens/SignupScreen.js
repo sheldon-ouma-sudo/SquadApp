@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { auth } from '../firebase';
 import 'firebase/firestore';
 import firebase from '../firebase';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
-import { Alert } from '@mui/material';
+
 
  
 const SignupScreen = () => {
@@ -36,7 +36,7 @@ async function signUpWithAws() {
     try {
       await Auth.signUp({ email,name, username, password, attributes: { email, name } });
       console.log('✅ Sign-up Confirmed');
-      navigation.navigate('EmailOTPScreen');
+      navigation.navigate('EmailOTPScreen',{username:username});
     } catch (error) {
       console.log('Error signing up, check your network and try again', error);
     }
