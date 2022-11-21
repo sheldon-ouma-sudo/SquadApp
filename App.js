@@ -1,6 +1,5 @@
 import { LogBox } from "react-native";
-import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-  StatusBar,Dimensions,TouchableOpacity} from 'react-native'
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet, StatusBar,Dimensions,TouchableOpacity} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './src/screens/LoginScreen';
