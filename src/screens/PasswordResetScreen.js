@@ -20,9 +20,9 @@ const PasswordResetScreen = () => {
       .then(data => console.log(data))
       console.log('✅ Reset Password Confirmed');
       console.log(username) 
-      navigation.navigate("CompletePasswordResetSCreen")
+      navigation.navigate("LoginScreen")
     }catch(error){
-      console.log('❌ Error sending the email...', error);
+      console.log('❌ confirming the password...', error);
 
     }
   }

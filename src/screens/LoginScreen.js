@@ -109,7 +109,7 @@ const LoginScreen = () => {
           console.log('✅ Success');
           //updateAuthState('loggedIn');
         } catch (error) {
-          console.log('❌ Error signing in...', error);
+          console.log('❌ Error signing in...', error); 
         }
       }
 //handle the login functionaility of the app with firebase
