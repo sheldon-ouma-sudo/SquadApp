@@ -14,33 +14,28 @@ const CompletePasswordResetSCreen = () => {
 
     async function completeNewSignUp(){
         try{
-            Auth.signIn(username, password)
-        .then(user => {
-    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-        Auth.completeNewPassword(
-            user,               // the Cognito User Object
-            newPassword,       // the new password
-            // OPTIONAL, the required attributes
-            {
-              email: 'xxxx@example.com',
-              phone_number: '1234567890'
-            }
-        ).then(user => {
+            Auth.signIn(username, wrongPassword)
+            .then(user => {
+            if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+            const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+            Auth.completeNewPassword(
+               user,               // the Cognito User Object
+              newPassword,       // the new password      
+            ).then(user => {
             // at this time the user is logged in if no MFA required
             console.log(user);
-        }).catch(e => {
-          console.log(e);
-        });
-    } else {
-        // other situations
-    }
-        }).catch(e => {
+            navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+             }).catch(e => {
+              console.log(e);
+             });
+            } else {
+            // other situations
+            }
+            }).catch(e => {
             console.log(e);
-        });
-
+            });
         }catch(e){
-
+            console.log("password completion failed", e)
         }
     }
 
@@ -68,7 +63,15 @@ const CompletePasswordResetSCreen = () => {
              onChangeText={text =>setUserNmae(text)}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
               style={styles.input}
               />
-         
+            <TextInput
+              placeholder ="Enter the wrong password"
+              value={wrongPassword}
+              autoCapitalize='none'
+              textAlign = 'center'
+              //keyboardType="numeric"
+              onChangeText={text =>setWrongPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+              style={styles.input}
+              />
               <TextInput
               placeholder ="Enter the new password"
               value={newPassword}
@@ -83,8 +86,7 @@ const CompletePasswordResetSCreen = () => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
             style = {styles.button}
-            onPress={() =>
-                navigation.navigate('RootNavigation', { screen: 'HomeScreen' })}
+            onPress={completeNewSignUp}
                 >
                 <Text style={styles.buttonText}>
                   Login
