@@ -22,16 +22,12 @@ const ForgotPasswordScreen = () => {
     try {
       await Auth.forgotPassword(username)
       .then(data => console.log(data))
-      console.log('✅ Sign-up Confirmed');
+      console.log('✅ the email is sent');
       navigation.navigate('PasswordResetScreen',{username:username})
     } catch (error) {
       console.log('❌ Error sending the email...', error);
     }
   }
-
-
-
-
 
   // const actionCodeSettings = {
   //   // URL you want to redirect back to. The domain (www.example.com) for
@@ -101,8 +97,7 @@ const ForgotPasswordScreen = () => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
           style = {styles.button}
-          onPress={() =>
-            navigation.navigate('PasswordResetScreen')}
+          onPress={sendResetEmailLink}
               >
               <Text style={styles.buttonText}>
                 Send Link

@@ -13,13 +13,14 @@ const PasswordResetScreen = () => {
   const navigation = useNavigation()
   const route = useRoute();
    
-  const {username} = route?.params.username || {}
+  const username = route?.params.username 
   async function resetPassword(){
     try{
       Auth.forgotPasswordSubmit(username, verificationCode, newPassword)
       .then(data => console.log(data))
       console.log('✅ Reset Password Confirmed');
-      navigation.navigate()
+      console.log(username) 
+      navigation.navigate("CompletePasswordResetSCreen")
     }catch(error){
       console.log('❌ Error sending the email...', error);
 
@@ -75,8 +76,7 @@ const PasswordResetScreen = () => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
             style = {styles.button}
-            onPress={() =>
-              navigation.navigate('LoginScreen')}
+            onPress={resetPassword}
                 >
                 <Text style={styles.buttonText}>
                   Reset Password
@@ -84,11 +84,8 @@ const PasswordResetScreen = () => {
               </TouchableOpacity>
           </View>
           </View>
-  
-          
-  
-  
-          <View style={{marginTop:80, marginBottom:-100}}>
+
+          <View style={{marginTop:20, marginBottom:20}}>
               <View style={{backgroundColor: 'black', height: 1, width:350}} />
                   <Text style={[{marginTop:10}, {alignSelf:'center'}]}> 
                               English(United States)
@@ -114,7 +111,10 @@ const PasswordResetScreen = () => {
   
   
     },
-  
+  squadLogoContainer:{
+    marginTop:80
+  },
+
     input:{
       backgroundColor: '#EAEAEA',
       paddingHorizontal: 15,

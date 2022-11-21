@@ -1,6 +1,8 @@
 import { View, Text, KeyboardAvoidingView,StyleSheet,Image,TextInput, TouchableOpacity } from 'react-native'
 import { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { Auth } from 'aws-amplify';
+
 import React from 'react'
 
 const CompletePasswordResetSCreen = () => {
@@ -9,7 +11,39 @@ const CompletePasswordResetSCreen = () => {
     const[username, setUserNmae] = useState("")
 
     const navigation = useNavigation()
-    
+
+    async function completeNewSignUp(){
+        try{
+            Auth.signIn(username, password)
+        .then(user => {
+    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+        const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+        Auth.completeNewPassword(
+            user,               // the Cognito User Object
+            newPassword,       // the new password
+            // OPTIONAL, the required attributes
+            {
+              email: 'xxxx@example.com',
+              phone_number: '1234567890'
+            }
+        ).then(user => {
+            // at this time the user is logged in if no MFA required
+            console.log(user);
+        }).catch(e => {
+          console.log(e);
+        });
+    } else {
+        // other situations
+    }
+        }).catch(e => {
+            console.log(e);
+        });
+
+        }catch(e){
+
+        }
+    }
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -34,15 +68,7 @@ const CompletePasswordResetSCreen = () => {
              onChangeText={text =>setUserNmae(text)}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
               style={styles.input}
               />
-            <TextInput
-              placeholder ="Enter the wrong password"
-              value={wrongPassword}
-              autoCapitalize='none'
-              textAlign = 'center'
-              //keyboardType="numeric"
-              onChangeText={text =>setWrongPassword(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
-              style={styles.input}
-              />
+         
               <TextInput
               placeholder ="Enter the new password"
               value={newPassword}
