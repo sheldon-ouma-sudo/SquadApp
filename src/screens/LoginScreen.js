@@ -259,7 +259,7 @@ return (
             <TouchableOpacity style={{marginTop:20}}>
                 <Text 
                 onPress={() =>
-                    navigation.navigate("EmailOTPScreen")}
+                    navigation.navigate("ForgotPasswordScreen")}
                 style={styles.forgotPasswordText}>
                     Forgot Password?
                 </Text> 

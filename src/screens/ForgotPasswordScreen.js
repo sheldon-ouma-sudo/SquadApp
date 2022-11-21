@@ -2,43 +2,67 @@ import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,Touchable
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/core';
 import { getAuth } from 'firebase/auth';
+import { Auth } from 'aws-amplify';
+
+// // Send confirmation code to user's email
+// Auth.forgotPassword(username)
+//     .then(data => console.log(data))
+//     .catch(err => console.log(err));
+
+
 
 
 const ForgotPasswordScreen = () => {
-  const navigation = useNavigation()
-  const[emailOrPhoneNumber, setEmailOrPhoneNumber] = useState("")
-  const[confirmationEmailOrPhone, setConfirmationEmairOrPhone] = useState("")
+  const[username, setUserName] = useState("")
+  const[confirmUsername ,setConfirmUsername] = useState("")
 
-  const actionCodeSettings = {
-    // URL you want to redirect back to. The domain (www.example.com) for
-    // this URL must be whitelisted in the Firebase Console.
-    url: 'https://www.example.com/checkout?cartId=1234',
-    // This must be true for email link sign-in.
-    handleCodeInApp: true,
-    iOS: {
-      bundleId: 'com.Squad',
-    },
-    android: {
-      packageName: 'com.Squad',
-      installApp: true,
-      minimumVersion: '12',
-    },
-    // FDL custom domain.
-    dynamicLinkDomain: 'coolapp.page.link',
-  };
+  const navigation = useNavigation();
 
-  const handleSendResetEmail =()=>{
-  getAuth()
-  .generatePasswordResetLink(emailOrPhoneNumber, actionCodeSettings)
-  .then((link) => {
-    // Construct password reset email template, embed the link and send
-    // using custom SMTP server.
-    return sendCustomPasswordResetEmail(userEmail, displayName, link);
-  })
-  .catch((error) => {
-    // Some error occurred.
-  });
+  async function sendResetEmailLink() {
+    try {
+      await Auth.forgotPassword(username)
+      .then(data => console.log(data))
+      console.log('✅ Sign-up Confirmed');
+      navigation.navigate('PasswordResetScreen',{username:username})
+    } catch (error) {
+      console.log('❌ Error sending the email...', error);
+    }
   }
+
+
+
+
+
+  // const actionCodeSettings = {
+  //   // URL you want to redirect back to. The domain (www.example.com) for
+  //   // this URL must be whitelisted in the Firebase Console.
+  //   url: 'https://www.example.com/checkout?cartId=1234',
+  //   // This must be true for email link sign-in.
+  //   handleCodeInApp: true,
+  //   iOS: {
+  //     bundleId: 'com.Squad',
+  //   },
+  //   android: {
+  //     packageName: 'com.Squad',
+  //     installApp: true,
+  //     minimumVersion: '12',
+  //   },
+  //   // FDL custom domain.
+  //   dynamicLinkDomain: 'coolapp.page.link',
+  // };
+
+  // const handleSendResetEmail =()=>{
+  // getAuth()
+  // .generatePasswordResetLink(emailOrPhoneNumber, actionCodeSettings)
+  // .then((link) => {
+  //   // Construct password reset email template, embed the link and send
+  //   // using custom SMTP server.
+  //   return sendCustomPasswordResetEmail(userEmail, displayName, link);
+  // })
+  // .catch((error) => {
+  //   // Some error occurred.
+  // });
+  // }
 
 
   return (
@@ -55,21 +79,21 @@ const ForgotPasswordScreen = () => {
           </View>
         <View>
           <TextInput
-              placeholder ="Enter Email or Phone Number"
-              value={emailOrPhoneNumber}
+              placeholder ="Enter Username"
+              value={username}
               autoCapitalize='none'
               textAlign = 'center'
               //keyboardType="numeric"
-             onChangeText={text =>setEmailOrPhoneNumber(text)}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+             onChangeText={text =>setUserName(text)}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
               style={styles.input}
               />
               <TextInput
-              placeholder ="Confirm Email or Phone Number"
-              value={confirmationEmailOrPhone}
+              placeholder ="Confirm username"
+              value={confirmUsername}
               autoCapitalize='none'
               textAlign = 'center'
               //keyboardType="numeric"
-              onChangeText={text =>setConfirmationEmairOrPhone(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+              onChangeText={text =>setConfirmUsername(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
               style={styles.input}
               />
         </View>

@@ -1,9 +1,30 @@
-import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity, Keyboard} from 'react-native'
+import { View, Text, KeyboardAvoidingView,StyleSheet, Image,TouchableOpacity, TextInput} from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
+import { Auth } from 'aws-amplify';
+import { useRoute } from '@react-navigation/native';
 
 const PasswordResetScreen = () => {
-    const navigation = useNavigation()
+  const[newPassword, setNewPassowrd]=useState("")
+  const[confirmNewPassword, setConfirmNewPassowrd] = useState("")
+  const[verificationCode, setVerificationCode] = useState("")
+
+
+  const navigation = useNavigation()
+  const route = useRoute();
+   
+  const {username} = route?.params.username || {}
+  async function resetPassword(){
+    try{
+      Auth.forgotPasswordSubmit(username, verificationCode, newPassword)
+      .then(data => console.log(data))
+      console.log('✅ Reset Password Confirmed');
+      navigation.navigate()
+    }catch(error){
+      console.log('❌ Error sending the email...', error);
+
+    }
+  }
     return (
       <View
       style={styles.container}
@@ -18,10 +39,39 @@ const PasswordResetScreen = () => {
             </View>
           <View style={styles.resetTextContainer}>
             <Text style={styles.resetText}>
-              Your Password  reset link has been sent. Please check your email or text messages.    
+              Your verification code has been sent to your email. Please check and enter your verification code and reset your password below.    
             </Text> 
           </View>
           <View>
+          <View>
+          <TextInput
+              placeholder ="Enter the verification code"
+              value={verificationCode}
+              autoCapitalize='none'
+              textAlign = 'center'
+              //keyboardType="numeric"
+             onChangeText={text =>setVerificationCode(text)}// everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+              style={styles.input}
+              />
+              <TextInput
+              placeholder ="Enter the new password"
+              value={newPassword}
+              autoCapitalize='none'
+              textAlign = 'center'
+              //keyboardType="numeric"
+              onChangeText={text =>setNewPassowrd(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+              style={styles.input}
+              />
+               <TextInput
+              placeholder ="Confirm the new password"
+              value={confirmNewPassword}
+              autoCapitalize='none'
+              textAlign = 'center'
+              //keyboardType="numeric"
+              onChangeText={text =>setConfirmNewPassowrd(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+              style={styles.input}
+              />
+        </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
             style = {styles.button}
@@ -29,7 +79,7 @@ const PasswordResetScreen = () => {
               navigation.navigate('LoginScreen')}
                 >
                 <Text style={styles.buttonText}>
-                  Retun to Sign in
+                  Reset Password
                 </Text>
               </TouchableOpacity>
           </View>
@@ -121,13 +171,14 @@ const PasswordResetScreen = () => {
     
   },
   resetText:{
-    fontSize:17
+    fontSize:17,
+    fontWeight:'500'
   },
   resetTextContainer:{
     marginBottom:20,
     alignItems:'center',
-    marginEnd:40,
-    marginLeft:35
+    marginEnd:50,
+    marginLeft:45
     
 
   }
