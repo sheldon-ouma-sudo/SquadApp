@@ -13,7 +13,7 @@
         import { auth } from '../firebase';
         import 'firebase/firestore';
         import firebase from '../firebase';
-        
+          
 
       //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
       const{width,height} = Dimensions.get("window")
