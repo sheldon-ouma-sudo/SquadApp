@@ -30,7 +30,7 @@ import NewTestScreenWork from "./src/screens/NewTestScreen";
 ///import Amplify from "@aws-amplify/core";
 
 //Amplify.configure(config)
-
+ 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 const Tab = createBottomTabNavigator();
