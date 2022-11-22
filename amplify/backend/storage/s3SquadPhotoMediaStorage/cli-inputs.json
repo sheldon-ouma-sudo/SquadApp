@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3SquadPhotoMediaStorage",
+  "policyUUID": "202799f2",
+  "bucketName": "s3squadbucket",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "squada49e1405PostConfirmation",
+  "groupAccess": {}
+}

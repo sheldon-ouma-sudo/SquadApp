@@ -1,0 +1,34 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-squad-dev-204913-authRole",
+      "UnauthRoleArn": "arn:aws:iam::753195318657:role/amplify-squad-dev-204913-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::753195318657:role/amplify-squad-dev-204913-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-squad-dev-204913-deployment",
+      "UnauthRoleName": "amplify-squad-dev-204913-unauthRole",
+      "StackName": "amplify-squad-dev-204913",
+      "StackId": "arn:aws:cloudformation:us-west-1:753195318657:stack/amplify-squad-dev-204913/5a071a00-66fc-11ed-bce4-02a2a2a59edd",
+      "AmplifyAppId": "d3vki6yy69p5bt",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-squad-dev-204913-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "squada49e1405": {}
+      },
+      "storage": {
+        "s3SquadPhotoMediaStorage": {}
+      },
+      "function": {
+        "squada49e1405CustomMessage": {
+          "deploymentBucketName": "amplify-squad-dev-204913-deployment",
+          "s3Key": "amplify-builds/squada49e1405CustomMessage-396a4a706253756e4f75-build.zip"
+        },
+        "squada49e1405PostConfirmation": {
+          "deploymentBucketName": "amplify-squad-dev-204913-deployment",
+          "s3Key": "amplify-builds/squada49e1405PostConfirmation-4345724a324c466e4f46-build.zip"
+        }
+      }
+    }
+  }
+}
