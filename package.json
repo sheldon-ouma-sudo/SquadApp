@@ -10,7 +10,6 @@
     "prepare": "expo run build"
   },
   "dependencies": {
-    "@digieggs/rn-country-code-picker": "^1.4.4",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@expo/vector-icons": "^13.0.0",

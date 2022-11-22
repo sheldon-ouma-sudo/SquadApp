@@ -5,9 +5,9 @@
         import { Input } from 'react-native-elements'
         import { useNavigation } from '@react-navigation/core';
         import SelectList from 'react-native-dropdown-select-list';
-        import DatePicker from 'react-native-datepicker';
+        //import DatePicker from 'react-native-datepicker';
         import { useEffect } from 'react';
-        import * as Location from 'expo-location';
+        import * as Location from 'expo-location'; 
         import { Ionicons } from '@expo/vector-icons';
         //import {Location, Permission} from 'expo'
         import { auth } from '../firebase';
@@ -211,7 +211,7 @@
               </View>
           
               <TouchableOpacity style={styles.passwordContainer}>
-            <DatePicker
+            {/* <DatePicker
                 style={{width: 200}}
                 date={selectedDate}
                 mode="date"
@@ -237,7 +237,7 @@
                   }
                   // ... You can check the source to find the other keys.
                 }}
-            onDateChange={date=> setSelectedDate(date)}/>
+            onDateChange={date=> setSelectedDate(date)}/> */}
             </TouchableOpacity>
          
             
