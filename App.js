@@ -26,10 +26,10 @@ import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
 import PollContentScreen from "./src/screens/PollContentScreen";
 import NewTestScreenWork from "./src/screens/NewTestScreen";
-import config from './src/aws-exports'
-import Amplify from "@aws-amplify/core";
+//import config from './src/aws-exports'
+///import Amplify from "@aws-amplify/core";
 
-Amplify.configure(config)
+//Amplify.configure(config)
 
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
