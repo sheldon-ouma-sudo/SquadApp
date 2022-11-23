@@ -53,7 +53,7 @@
                   style={styles.input}
                   />
 
-                  <Text>username:{route.params.username}</Text>
+                  {/**<Text>username:{route.params.username}</Text> */}
             </View>
             <View>
               <View style={styles.buttonContainer}>
