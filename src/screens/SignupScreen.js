@@ -35,8 +35,15 @@ return re.test(str);
 }
 async function signUpWithAws() {
     try {
-      await Auth.signUp({ email,name, username, password, attributes: { name, email, preferred_username: username } });
+      await Auth.signUp({ email,name, username, password,
+         attributes: { name, email,
+             preferred_username: username },
+             autoSignIn: { // optional - enables auto sign in after user is confirmed
+                enabled: true,
+            }
+            });
       console.log('✅ Sign-up Confirmed');
+
       navigation.navigate('EmailOTPScreen',{username:username});
     } catch (error) {
       console.log('Error signing up, check your network and try again', error);
