@@ -123,7 +123,7 @@
             setLocationServiceEnabled(enabled);
           }
         };
-
+ 
         const GetCurrentLocation = async () => {
           Alert.alert('getting current location')
           let { status } = await Location.requestBackgroundPermissionsAsync();
@@ -144,11 +144,12 @@
               latitude,
               longitude
             });
-        
+            console.log(response)
             for (let item of response) {
               let address = `${item.street}, ${item.postalCode}, ${item.city}`;
         
               setDisplayCurrentAddress(address);
+              console.log(address)
             }
           }
         };
