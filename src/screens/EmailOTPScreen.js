@@ -4,6 +4,7 @@
   import { useNavigation } from '@react-navigation/native';
   import { useRoute } from '@react-navigation/native';
   import { Auth } from 'aws-amplify';
+  import { Hub } from 'aws-amplify';
 
   const EmailOTPScreen = () => {
   //const [userName, setUserName] = useState('');
@@ -13,6 +14,18 @@
   const route = useRoute();
    
   const username = route?.params.username 
+  //If authentication was successful, the event will contain CognitoUser in data object. If auto sign in failed, it will dispatch autoSignIn_failure event.
+  function listenToAutoSignInEvent() {
+    Hub.listen('auth', ({ payload }) => {
+        const { event } = payload;
+        if (event === 'autoSignIn') {
+            const user = payload.data;
+            // assign user
+        } else if (event === 'autoSignIn_failure') {
+            // redirect to sign in page
+        }
+    })
+}
 
   async function confirmSignUp() {
     try {
@@ -21,6 +34,7 @@
       await Auth.confirmSignUp(username, authCode)
       //await Auth.confirmSignUp(username, authCode);
       console.log('✅ Code confirmed');
+      listenToAutoSignInEvent() 
       navigation.navigate("AgeGenderLocationScreen");
     } catch (e) {
       console.log(
@@ -29,6 +43,15 @@
       );
     }
   }
+
+  async function resendConfirmationCode() {
+    try {
+        await Auth.resendSignUp(username);
+        console.log('code resent successfully');
+    } catch (err) {
+        console.log('error resending code: ', err);
+    }
+}
     //const navigation = useNavigation()
     return (
       <KeyboardAvoidingView
@@ -69,16 +92,18 @@
             </View>
 
             <View style={[{flexDirection:"row"},styles.textContanier]}>
-              <View style={[{flex:1},styles.textWrapper]}>
+              <TouchableOpacity 
+              onPress={() =>
+                navigation.replace('SignupScreen')}
+              style={[{flex:1},styles.textWrapper]}>
                   <Text style={[{justifyContent: 'flex-start'},styles.confirmationText]} >  Wrong Email?</Text>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity style={{flex:1}}>
                   <Text 
                    style={[{justifyContent: 'flex-end'},styles.confirmationText,{marginTop:5}]}
-                   onPress={() =>
-                    navigation.replace('SignupScreen')}
+                   onPress={resendConfirmationCode}
                   >
-                     Return to Sign Up   
+                     Re-send confimation 
                   </Text>
               </TouchableOpacity>
             </View>
@@ -152,7 +177,7 @@
   confirmationText:{
     fontWeight:'500',
     marginRight:40,
-    marginLeft:-20
+    marginLeft:-20,
   }
 
   })
