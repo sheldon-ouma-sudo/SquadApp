@@ -271,7 +271,7 @@
                           placeholderTextColor={'#000'}
                           value={displayCurrentAddress}
                           onPressIn={GetCurrentLocation}
-                        // onChangeText={this.onPasswordEntry}
+                      
                         />
                       <Ionicons
                       name="md-location-outline" 
