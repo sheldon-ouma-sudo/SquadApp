@@ -26,6 +26,7 @@ import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
 import PollContentScreen from "./src/screens/PollContentScreen";
 import NewTestScreenWork from "./src/screens/NewTestScreen";
+import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
 import config from './src/aws-exports'
 import Amplify from "@aws-amplify/core";
 
@@ -142,6 +143,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen options={{hearderShown:false}} name="MapMarkerScreen" component={MapMarkerSCreen}/>
         <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={BottomTabs} /> 
         <Stack.Screen options={{headerShown : false}} name="NewTestWorkScreen" component={NewTestScreenWork}/>
