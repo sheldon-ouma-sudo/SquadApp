@@ -12,16 +12,17 @@ import { Auth } from 'aws-amplify';
 const SignupScreen = () => {
 //const [name, setName] = useState('')
 // const [nameError, setNameError] = useState("")
-    const [email, setEmail] = useState('')
-    const [emailError, setEmailError] = useState("")
-    const [password, setPassword] = useState('')
-    const [username, setUsername] = useState('')
-    const [userNameError, setUserNameError] = useState('')
-    const [phoneNumber, setPhone] = useState('')
-    const [passwordError, setPasswordError] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [confirmPasswordError, setConfirmPasswordError]= useState("")
     const[name, setName]=useState('')
+    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [emailError, setEmailError] = useState("")
+    const [userNameError, setUserNameError] = useState('')
+   // const [phoneNumber, setPhone] = useState('')
+    const [passwordError, setPasswordError] = useState("")
+    const [confirmPasswordError, setConfirmPasswordError]= useState("")
+  
     
 
 //this is the import to enable the navigation 
@@ -34,7 +35,7 @@ return re.test(str);
 }
 async function signUpWithAws() {
     try {
-      await Auth.signUp({ email,name, username, password, attributes: { email, preferred_username: username } });
+      await Auth.signUp({ email,name, username, password, attributes: { name, email, preferred_username: username } });
       console.log('✅ Sign-up Confirmed');
       navigation.navigate('EmailOTPScreen',{username:username});
     } catch (error) {
