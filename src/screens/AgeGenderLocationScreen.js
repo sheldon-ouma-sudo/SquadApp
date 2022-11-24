@@ -102,86 +102,13 @@
 
       const AgeGenderLocationScreen = () => {
         const[currentPosition, setCurrentPositon] = useState(0)
-        const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
         const [selectedGender, setGenderSelected] =useState("");
-        const [selectedDate, setSelectedDate] = useState("");
-        //const [open, setOpen] = useState(false)
-        const navigation = useNavigation()
-        const [displayCurrentAddress, setDisplayCurrentAddress] = useState("");
-        const user = firebase.auth().currentUser
-        const CheckIfLocationEnabled = async () => {
-          let enabled = await Location.hasServicesEnabledAsync();
-      
-          if (!enabled) {
-            Alert.alert(
-              'Location Service not enabled',
-              'Please enable your location services to continue',
-              [{ text: 'OK' }],
-              { cancelable: false }
-            );
-          } else {
-            setLocationServiceEnabled(enabled);
-          }
-        };
- 
-        const GetCurrentLocation = async () => {
-          Alert.alert('getting current location')
-          let { status } = await Location.requestBackgroundPermissionsAsync();
-          if (status !== 'granted') {
-            Alert.alert(
-              'Permission not granted',
-              'Allow the app to use location service.',
-              [{ text: 'OK' }],
-              { cancelable: false }
-            );
-          }
-        
-          let { coords } = await Location.getCurrentPositionAsync();
-        
-          if (coords) {
-            const { latitude, longitude } = coords;
-            let response = await Location.reverseGeocodeAsync({
-              latitude,
-              longitude
-            });
-            console.log(response)
-            for (let item of response) {
-              let address = `${item.street}, ${item.postalCode}, ${item.city}`;
-        
-              setDisplayCurrentAddress(address);
-              console.log(address)
-            }
-          }
-        };
-        
-
-        useEffect(() => {
-          CheckIfLocationEnabled();
-          GetCurrentLocation();
-        }, []);
-      
-       
-        const saveAgeGenderLocation =()=>{
-          if(user){
-          //find their info from the data base
-          const firestore = firebase.firestore;
-          const userRef = firestore().collection('users').doc(user.uid)
-          //let's get the snapshot of the document 
-          const snapShot = userRef.get()
-          if(snapShot.exists){
-            try {userRef.set({
-              date,
-              selectedGender,
-              displayCurrentAddress,
-            })
-            } catch (error) {
-              
-            }
-
-          }
+         
+        function getLocation(){
+          alert("getting location")
         }
-        navigation.replace('ProfilePictureUploadScreen')
-        }
+
+        const navigation = useNavigation() 
         return (
           <KeyboardAvoidingView 
               style={styles.container}
@@ -252,43 +179,50 @@
                 label="Gender"
                 setSelected={setGenderSelected} 
                 data={dataGender}  
-                style={styles.input}
+                style={styles.passwordContainer}
               //arrowicon={<FontAwesome name="chevron-down" size={12} color={'black'} />} 
               // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
                 search={true} 
                 //maxHeight = '5'
-                boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52}]} //override default styles
+                boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52},{borderColor:'#000'}]} //override default styles
           />
               <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-10}]}>
                 <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
               </View>
-
-              <TouchableOpacity style={styles.passwordContainer}>
-                      <TextInput
-                          style={styles.inputStyle}
-                          autoCorrect={false}
-                          textAlign= 'left' 
-                          placeholder="Enter Your Location"
-                          placeholderTextColor={'#000'}
-                          value={displayCurrentAddress}
-                          onPressIn={GetCurrentLocation}
-                      
-                        />
-                      <Ionicons
+   
+         <View style= {[{flexDirection:"row"}]}>
+                <TouchableOpacity style= {{flex:1}}>
+                    <TextInput
+                    placeholder='Enter your location'
+                    placeholderTextColor={'#000'}
+                     style= {[{justifyContent:'flex-start'},styles.inputLocation]}
+                     />
+                </TouchableOpacity>
+               <TouchableOpacity style= {{fex:1}}>
+                     <TouchableOpacity style={[{justifyContent:'flex-end'},styles.locationIcon]}
+                      >
+                     <Ionicons
                       name="md-location-outline" 
                         color='#000'
                         size={36}
+                        style={[{alignContent:'center'},{alignSelf:'center'},{marginRight:5}]}
+                        onPressIn={() =>navigation.replace('SignupScreen')}
+                
                       />
-                    </TouchableOpacity>
+                     </TouchableOpacity>
+                </TouchableOpacity>       
+          </View>
+             
 
               </View>
 
 
               <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:25}]}>
               <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
-                  <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+                  <Text  
+                  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
                 </TouchableOpacity>
-                  <TouchableOpacity  onPress={saveAgeGenderLocation}style={[{flex:1}, styles.button]}>
+                  <TouchableOpacity  onPress={()=>navigation.replace('ProfilePictureUploadScreen')}style={[{flex:1}, styles.button]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
                 </TouchableOpacity>
         </View>
@@ -367,6 +301,41 @@
         fontWeight:'400' ,
         color:'black'  
       },
+   inputLocation:{
+    flexDirection: 'row',
+    width:260,
+    height:50,
+    borderWidth: 1,
+    borderColor: '#000',
+    marginTop:20,
+    marginLeft:10,
+    marginBottom:10,
+    overflow:'hidden',
+    borderRadius:10,
+    backgroundColor: '#EAEAEA',
+    //borderColor: "red",
+    paddingBottom: -3,
+    paddingLeft:10
+
+   },
+   locationIcon:{
+    flexDirection: 'row',
+    width:60,
+    height:50,
+    borderWidth: 1,
+    borderColor: '#000',
+    marginTop:20,
+    marginLeft:-5,
+    marginRight:15,
+    marginBottom:10,
+    overflow:'hidden',
+    borderRadius:10,
+    backgroundColor: '#EAEAEA',
+    //borderColor: "red",
+    paddingBottom: -3,
+    paddingLeft:10
+
+   },
 
         button:{
           backgroundColor: '#1145FD',
