@@ -5,7 +5,7 @@
         import { Input } from 'react-native-elements'
         import { useNavigation } from '@react-navigation/core';
         import SelectList from 'react-native-dropdown-select-list';
-        //import DatePicker from 'react-native-datepicker';
+        import DatePicker from 'react-native-datepicker';
         import { useEffect } from 'react';
         import * as Location from 'expo-location'; 
         import { Ionicons } from '@expo/vector-icons';
@@ -137,39 +137,62 @@
               <View style={[{marginLeft:10},{marginTop:2},{marginBottom:-5}]}>
                 <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
               </View>
-          
-              <TouchableOpacity style={styles.passwordContainer}>
-            {/* <DatePicker
-                style={{width: 200}}
-                date={selectedDate}
-                mode="date"
-                //placeholder="select date"
-                format="YYYY-MM-DD"
-                minDate="1922-05-01"
-                maxDate="2007-05-01"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                customStyles={{
-                  dateIcon: {
-                    position: 'absolute',
-                    left: 0,
-                    top: 4,
-                    marginLeft: 250
-                  },
-                  dateInput: {
-                    //marginLeft: -50,
-                    alignItems:"flex-start",
-                    height:50,
-                    borderColor: '#EAEAEA',
-                   color: '#535353' 
-                  }
-                  // ... You can check the source to find the other keys.
-                }}
-            onDateChange={date=> setSelectedDate(date)}/> */}
-            </TouchableOpacity>
-         
-            
-              <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:5}]}>
+              </View>
+              </TouchableOpacity>
+            <TouchableOpacity style= {[{flexDirection:"row"}]}>
+                <TouchableOpacity style= {{flex:1}}>
+                    <TextInput
+                    placeholder='Enter your location'
+                    placeholderTextColor={'#000'}
+                     style= {[{justifyContent:'flex-start'},styles.inputLocation]}
+                     onPress={getLocation}
+                     />
+                </TouchableOpacity>
+               <TouchableOpacity style= {{fex:1}}>
+                     <TouchableOpacity style={[{justifyContent:'flex-end'},styles.locationIcon]}
+                      onPress={() =>navigation.replace('SignupScreen')}
+                      >
+                     <Ionicons
+                      name="calendar" 
+                        color='#000'
+                        size={36}
+                        style={[{alignContent:'center'},{alignSelf:'center'},{marginRight:5}]}
+                      />
+                     </TouchableOpacity>
+                </TouchableOpacity>       
+          </TouchableOpacity>
+           
+              <TouchableOpacity>
+              <View style={styles.InputContainer}>
+              <View style={[{marginLeft:10},{marginTop:-2},{marginBottom:-5}]}>
+                <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
+              </View>
+              </View>
+              </TouchableOpacity>
+            <TouchableOpacity style= {[{flexDirection:"row"}]}>
+                <TouchableOpacity style= {{flex:1}}>
+                    <TextInput
+                    placeholder='Enter your location'
+                    placeholderTextColor={'#000'}
+                     style= {[{justifyContent:'flex-start'},styles.inputLocation]}
+                     onPress={getLocation}
+                     />
+                </TouchableOpacity>
+               <TouchableOpacity style= {{fex:1}}>
+                     <TouchableOpacity style={[{justifyContent:'flex-end'},styles.locationIcon]}
+                      onPress={() =>navigation.replace('SignupScreen')}
+                      >
+                     <Ionicons
+                      name="md-location-outline" 
+                        color='#000'
+                        size={36}
+                        style={[{alignContent:'center'},{alignSelf:'center'},{marginRight:5}]}
+                      />
+                     </TouchableOpacity>
+                </TouchableOpacity>       
+          </TouchableOpacity>
+           
+           <View style={[{marginLeft:10},{marginTop:10},{marginBottom:5},{marginRight:280}]}>
                 <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
               </View>
 
@@ -184,18 +207,19 @@
               // searchicon={<FontAwesome name="search" size={12} color={'black'} />} 
                 search={true} 
                 //maxHeight = '5'
-                boxStyles={[{marginLeft:12}, {width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52},{borderColor:'#000'}]} //override default styles
+                boxStyles={[{marginLeft:12}, {marginRight:20},{width:320},{marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, {height:52},{borderColor:'#000'}]} //override default styles
           />
-              <View style={[{marginLeft:15},{marginTop:2},{marginBottom:-10}]}>
-                <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
-              </View>
-   
-         <View style= {[{flexDirection:"row"}]}>
+
+          
+
+               
+          {/* <TouchableOpacity style= {[{flexDirection:"row"}]}>
                 <TouchableOpacity style= {{flex:1}}>
                     <TextInput
                     placeholder='Enter your location'
                     placeholderTextColor={'#000'}
                      style= {[{justifyContent:'flex-start'},styles.inputLocation]}
+                     onPress={getLocation}
                      />
                 </TouchableOpacity>
                <TouchableOpacity style= {{fex:1}}>
@@ -206,18 +230,16 @@
                         color='#000'
                         size={36}
                         style={[{alignContent:'center'},{alignSelf:'center'},{marginRight:5}]}
-                        onPressIn={() =>navigation.replace('SignupScreen')}
-                
                       />
                      </TouchableOpacity>
                 </TouchableOpacity>       
-          </View>
+          </TouchableOpacity> */}
+              
+
              
 
-              </View>
 
-
-              <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:25}]}>
+               <View style={[{ flexDirection:"row" },{marginTop:-60}, {marginLeft:25}]}>
               <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
                   <Text  
                   style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
@@ -226,8 +248,8 @@
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
                 </TouchableOpacity>
         </View>
-              
-        </TouchableOpacity>
+               
+       
         </KeyboardAvoidingView>
         )
       }
@@ -295,7 +317,7 @@
         marginTop:10,
         fontSize: 13,
         marginRight:15,
-        marginLeft:-5,
+        marginLeft:15,
         //fontFamily:"Montserrat-Regular",
         color:'#535353',
         fontWeight:'400' ,
@@ -307,8 +329,8 @@
     height:50,
     borderWidth: 1,
     borderColor: '#000',
-    marginTop:20,
-    marginLeft:10,
+    marginTop:10,
+    marginLeft:50,
     marginBottom:10,
     overflow:'hidden',
     borderRadius:10,
@@ -324,9 +346,9 @@
     height:50,
     borderWidth: 1,
     borderColor: '#000',
-    marginTop:20,
-    marginLeft:-5,
-    marginRight:15,
+    marginTop:10,
+    marginLeft:5,
+    marginRight:55,
     marginBottom:10,
     overflow:'hidden',
     borderRadius:10,
