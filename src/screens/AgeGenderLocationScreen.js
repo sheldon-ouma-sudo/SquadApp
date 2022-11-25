@@ -134,7 +134,7 @@ const AgeGenderLocationScreen = () => {
           style={[{justifyContent:'flex-end'},styles.calendarIcon]}> 
             <Ionicons
              name='calendar'
-             size={32}
+             size={30}
              color='#000'
             style={[{alignSelf:'center'},,{marginRight:15},{marginLeft:5}]}
             />
