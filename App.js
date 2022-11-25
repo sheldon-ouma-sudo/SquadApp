@@ -27,6 +27,7 @@ import NotificationScreen from './src/screens/NotificationTopNavigation';
 import PollContentScreen from "./src/screens/PollContentScreen";
 import NewTestScreenWork from "./src/screens/NewTestScreen";
 import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
+import CalendarScreen from "./src/screens/CalendarScreen";
 import config from './src/aws-exports'
 import Amplify from "@aws-amplify/core";
 
@@ -154,6 +155,7 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="EmailOTPScreen"  component={EmailOTPScreen} />
         <Stack.Screen options={{headerShown: false}} name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
         <Stack.Screen options={{headerShown: false}} name="AgeGenderLocationScreen" component={AgeGenderLocationScreen}/>
+        <Stack.Screen options={{headerShown:false}}  name="CalendarScreen" component={CalendarScreen}/>
         <Stack.Screen options={{headerShown:false}} name="MapMarkerScreen" component={MapMarkerSCreen}/>
         <Stack.Screen options={{headerShown: false}} name="GoogleSignInLoading" component={GoogleSignInLoadingScreen}/>
         <Stack.Screen options={{headerShown: false}} name="PersonalInterestScreen" component={PersonalInterests}/>
