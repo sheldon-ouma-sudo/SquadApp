@@ -96,6 +96,10 @@
 
 const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
+
+
+
+  const navigation = useNavigation()
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -119,7 +123,24 @@ const AgeGenderLocationScreen = () => {
         //labels={labels}
         />
         </View>  
-
+        <View style={[{ flexDirection:"row" },{marginTop:20}, {marginLeft:25}]}>
+        <TouchableOpacity style={[{flex:1}]}>
+           <TextInput 
+           style={[{justifyContent: 'flex-end'},styles.backText]}
+           />
+        </TouchableOpacity>
+        <TouchableOpacity style={[{flex:1},]}>
+          <TouchableOpacity onPress={()=>navigation.navigate("CalendarScreen")} 
+          style={[{justifyContent:'flex-end'},styles.calendarIcon]}> 
+            <Ionicons
+             name='calendar'
+             size={32}
+             color='#000'
+            style={[{alignSelf:'center'},,{marginRight:15},{marginLeft:5}]}
+            />
+          </TouchableOpacity>
+        </TouchableOpacity>
+        </View>
      
     </KeyboardAvoidingView>
   )
@@ -157,14 +178,28 @@ header:{
     fontWeight:'bold'
   },
   indicatiorWindow:{
-    //height:height-170,
     width:width-30,
     padding:20,
     margin:15,
-    //elevation:10,
     borderRadius:20,
     marginTop:-10
-    //backgroundColor:'blue'
   },
+  calendarIcon:{
+    marginRight:50,
+    flexDirection: 'row',
+    width:60,
+    height:50,
+    borderWidth: 1,
+    borderColor: '#000',
+    marginTop:20,
+    marginLeft:70,
+    marginBottom:10,
+    overflow:'hidden',
+    borderRadius:10,
+    backgroundColor: '#EAEAEA',
+    //borderColor: "red",
+    paddingBottom: -3,
+    paddingLeft:10
+  }
 })
 export default AgeGenderLocationScreen
