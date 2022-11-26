@@ -96,10 +96,13 @@
 
 const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
+  const[dateOfBirth, setDateOfBirth] = useState("MM-DD-YY")
+  const [selectedGender, setGenderSelected] =useState("");
+  const[location, setLocation]=useState("Enter your location")
 
 
 
-  const navigation = useNavigation()
+const navigation = useNavigation()
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -123,12 +126,22 @@ const AgeGenderLocationScreen = () => {
         //labels={labels}
         />
         </View>  
-        <View style={[{ flexDirection:"row" },{marginTop:20}, {marginLeft:25}]}>
-        <TouchableOpacity style={[{flex:1}]}>
-           <TextInput 
-           style={[{justifyContent: 'flex-end'},styles.backText]}
-           />
-        </TouchableOpacity>
+
+        {/* handling the date of birth functionality  */}
+        <View style={[{marginLeft:-10},{marginTop:2},{marginRight:210}]}>
+           <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
+          </View>
+        <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:30}]}>
+        <TouchableOpacity style={[{flex:1},{borderColor:'#1145FD'},]}>
+          <TouchableOpacity style={[{justifyContent: 'flex-start'},styles.ageInputContainer]}>  
+            <TextInput 
+              style={[{justifyContent: 'flex-end'},{textAlign:'center'},{fontWeight:'600'}]}
+              textAlign='left'
+              value={dateOfBirth}
+              
+                  />
+            </TouchableOpacity>
+          </TouchableOpacity>
         <TouchableOpacity style={[{flex:1},]}>
           <TouchableOpacity onPress={()=>navigation.navigate("CalendarScreen")} 
           style={[{justifyContent:'flex-end'},styles.calendarIcon]}> 
@@ -141,7 +154,54 @@ const AgeGenderLocationScreen = () => {
           </TouchableOpacity>
         </TouchableOpacity>
         </View>
-     
+
+
+         {/* handling the gender funcionality */}
+        <View style={[{marginLeft:-10},{marginTop:10},{marginRight:250}]}>
+           <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Gender</Text>
+        </View>
+        <TouchableOpacity >
+          <SelectList
+          onSelect={() => (selectedGender)}
+           placeholder="Select your gender"
+           label="Gender"
+           data={dataGender}  
+           setSelected={setGenderSelected} 
+           search={true} 
+           textAlign= 'left' 
+           boxStyles={[{marginLeft:8},{marginTop:10} ,{width:320},
+            {marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, 
+            ,{borderColor: '#000'},{height:52}]} 
+          />
+        </TouchableOpacity>
+
+          {/* handling the location funcionality */}
+          <View style={[{marginLeft:10},{marginTop:5},{marginRight:250}]}>
+            <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
+           </View>
+           <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:30}]}>
+            <TouchableOpacity style={[{flex:1},{borderColor:'#1145FD'},]}>
+              <TouchableOpacity style={[{justifyContent: 'flex-start'},styles.ageInputContainer]}>  
+                <TextInput 
+                  style={[{justifyContent: 'flex-end'},{textAlign:'center'},{fontWeight:'600'}]}
+                  textAlign='left'
+                  value={location}
+                  />
+                </TouchableOpacity>
+              </TouchableOpacity>
+            <TouchableOpacity style={[{flex:1},]}>
+              <TouchableOpacity onPress={()=>navigation.navigate("MapMarkerScreen")} 
+              style={[{justifyContent:'flex-end'},styles.calendarIcon]}> 
+                <Ionicons
+                name='location'
+                size={30}
+                color='#000'
+                style={[{alignSelf:'center'},,{marginRight:15},{marginLeft:5}]}
+                />
+              </TouchableOpacity>
+            </TouchableOpacity>
+        </View>
+
     </KeyboardAvoidingView>
   )
 }
@@ -162,10 +222,7 @@ const styles = StyleSheet.create({
 },
 header:{
   height: 55, 
-  //padding:10, 
   width:'50%',
-  //backgroundColor:"#000",
-  //elevation:10,
   justifyContent:"center",
   alignItems:'center',
   marginRight:200,
@@ -173,7 +230,6 @@ header:{
   marginLeft:35
 },
   headerText:{
-    //color:'red',
     fontSize:22,
     fontWeight:'bold'
   },
@@ -191,15 +247,42 @@ header:{
     height:50,
     borderWidth: 1,
     borderColor: '#000',
-    marginTop:20,
-    marginLeft:70,
+    marginLeft:90,
     marginBottom:10,
     overflow:'hidden',
     borderRadius:10,
     backgroundColor: '#EAEAEA',
-    //borderColor: "red",
     paddingBottom: -3,
     paddingLeft:10
-  }
+  },
+ ageInputContainer:{
+    marginRight:160,
+      flexDirection: 'row',
+      width:260,
+      height:50,
+      borderWidth: 1,
+      borderColor: '#000',
+      marginLeft:25,
+      marginBottom:10,
+      overflow:'hidden',
+      borderRadius:10,
+      backgroundColor: '#EAEAEA',
+     marginRight:50,
+      paddingBottom: -3,
+      paddingLeft:10
+   },
+   genderInputContaner:{
+        width:320,
+        height:50,
+        borderWidth: 1,
+        borderColor: '#000',
+        marginTop:10,
+        marginBottom:10,
+        overflow:'hidden',
+        borderRadius:10,
+        backgroundColor: '#EAEAEA',
+        paddingBottom: -3,
+        paddingLeft:10
+   }
 })
 export default AgeGenderLocationScreen
