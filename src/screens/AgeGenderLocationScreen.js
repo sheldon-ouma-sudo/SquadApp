@@ -201,6 +201,16 @@ const navigation = useNavigation()
               </TouchableOpacity>
             </TouchableOpacity>
         </View>
+   
+        <View style={[{ flexDirection:"row" },{marginTop:20}, {marginLeft:25}]}>
+              <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+                  <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+                </TouchableOpacity>
+                  <TouchableOpacity  style={[{flex:1}, styles.button]}>
+                  <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+                </TouchableOpacity>
+        </View>
+              
 
     </KeyboardAvoidingView>
   )
@@ -283,6 +293,50 @@ header:{
         backgroundColor: '#EAEAEA',
         paddingBottom: -3,
         paddingLeft:10
-   }
+   },
+   button:{
+    backgroundColor: '#1145FD',
+    width: 180,
+    height: 42,
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 130,
+    alignItems: 'center',
+    marginRight: 50,
+    marginLeft:15,
+
+},
+
+backButton:{
+  backgroundColor: '#EAEAEA',
+  width: 180,
+  height: 42,
+  padding: 10,
+  borderRadius: 5,
+  marginTop: 130,
+  alignItems: 'center',
+  marginRight: 5,
+  marginLeft:15,
+  borderColor:'#1145FD'
+
+
+},
+buttonText:{
+  color: 'white',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+backText:{
+  color: '#1145FD',
+  fontWeight: '700',
+  fontSize: 15,
+  alignItems:"center"
+  
+  
+},
+
 })
 export default AgeGenderLocationScreen
