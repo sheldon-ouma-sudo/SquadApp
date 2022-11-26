@@ -128,7 +128,7 @@ const navigation = useNavigation()
         </View>  
 
         {/* handling the date of birth functionality  */}
-        <View style={[{marginLeft:-10},{marginTop:2},{marginRight:210}]}>
+        <View style={[{marginLeft:-10},{marginTop:20},{marginRight:210}]}>
            <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
           </View>
         <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:30}]}>
@@ -206,12 +206,12 @@ const navigation = useNavigation()
               <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
                 </TouchableOpacity>
-                  <TouchableOpacity  style={[{flex:1}, styles.button]}>
+                  <TouchableOpacity 
+                   onPress={()=>navigation.navigate("ProfilePictureUploadScreen")}
+                   style={[{flex:1}, styles.button]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
                 </TouchableOpacity>
         </View>
-              
-
     </KeyboardAvoidingView>
   )
 }
