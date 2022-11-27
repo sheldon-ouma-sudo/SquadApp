@@ -12,7 +12,33 @@ const MapMarkerSCreen = () => {
     
   return (
     <View style={{ marginTop: 50, flex: 1 }}>
-   
+    <GooglePlacesAutocomplete
+        placeholder="Search"
+        fetchDetails={true}
+        GooglePlacesSearchQuery={{
+            rankby: "distance"
+        }}
+        onPress={(data, details = null) => {
+            console.log('starting to fetch data')
+            console.log('this is the address:',data.description)
+            ///console.log("data", data);
+            ///console.log("details", details);
+            console.log("this is the longititude:",JSON.stringify(details?.geometry?.location));
+          }}
+        
+        query={{
+            key: "AIzaSyCVlxhUjdMWqXtEpJhRImNEB9WAnp0uIWY",
+            language: "en",
+            components: "country:us",
+            types: "establishment",
+            radius: 30000,
+            location: `${region.latitude}, ${region.longitude}`
+        }}
+        styles={{
+            container: { flex: 0, position: "absolute", width: "100%", zIndex: 1 },
+            listView: { backgroundColor: "white" }
+        }}
+    />
     <MapView
         style={styles.map}
         initialRegion={{
