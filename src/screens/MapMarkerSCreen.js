@@ -5,6 +5,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import MapView, { Marker } from 'react-native-maps';
 import { borderRadius } from '@mui/system';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 const GOOGLE_PLACES_API_KEY = ''; // never save your real api key in a snack!
 var screenWidth = Dimensions.get('window').width;
 
@@ -16,7 +17,7 @@ const MapMarkerSCreen = () => {
     setRegion(details.geometry.location);
     setMarker(details.geometry.location);
   };
-
+  const navigation = useNavigation()
     return (
       <View style={styles.container}>
         <MapView
@@ -30,7 +31,7 @@ const MapMarkerSCreen = () => {
           <Marker 
           coordinate={{ latitude: marker.lat, longitude: marker.lng }}
           pinColor='#1145FD'
-          
+          //pinSize={54}
           />
         </MapView>
        <View style={[{backgroundColor:'white'}, {marginTop:700},{borderRadius:10}]}>
@@ -55,7 +56,7 @@ const MapMarkerSCreen = () => {
           }} // this in only required for use on the web. See https://git.io/JflFv more for details.
         />
           <TouchableOpacity
-        //onPress={signInWithAWS}
+         onPress={()=>navigation.navigate("AgeGenderLocationScreen")}
         style = {styles.button}
             >
             <Text style={styles.buttonText}>
@@ -110,7 +111,7 @@ const MapMarkerSCreen = () => {
       listView: {
         //backgroundColor: 'rgba(192,192,192,0.9)',
         top: 40,
-        marginBottom:10
+        //marginBottom:10
       },
     },
     button:{
@@ -123,7 +124,7 @@ const MapMarkerSCreen = () => {
         alignItems: 'center',
         marginRight: 10,
         marginLeft:25,
-        marginBottom:50
+        marginBottom:100
     },
     
     buttonText:{
