@@ -328,7 +328,7 @@ button:{
     backgroundColor: '#1145FD',
     width: 296,
     height: 42,
-    padding: 15,
+    //padding: 15,
     borderRadius: 5,
     marginTop: 40,
     alignItems: 'center',
@@ -339,7 +339,9 @@ button:{
 buttonText:{
     color: 'white',
     fontWeight: '700',
-    fontSize: 10
+    fontSize: 13,
+    alignSelf:'center',
+    marginTop:10
     
 },
 buttonOutline:{
