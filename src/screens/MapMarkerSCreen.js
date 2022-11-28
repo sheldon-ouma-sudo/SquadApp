@@ -5,17 +5,25 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import MapView, { Marker } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
+import { useNavigation,useRoute } from '@react-navigation/native';
 const GOOGLE_PLACES_API_KEY = ''; 
 var screenWidth = Dimensions.get('window').width;
 import { Ionicons } from '@expo/vector-icons';
 
 const MapMarkerSCreen = () => {
-    const [regionCoords, setRegion] = useState({ lat: 37.78825, lng: -122.4324 });
+  const [regionCoords, setRegion] = useState({ lat: 37.78825, lng: -122.4324 });
   const [marker, setMarker] = useState({ lat: 37.78825, lng: -122.4324 });
-
+  const[address, setAddress] = useState("Location will appear here once selected")
+  
+  
+  const navigation = useNavigation()
   const onPress = (data, details) => {
     setRegion(details.geometry.location);
     setMarker(details.geometry.location);
+    setAddress(data.description)
+    console.log("here is the address",address)
+
+    //setLocation()
   };
 
     return (
@@ -57,7 +65,8 @@ const MapMarkerSCreen = () => {
             autoCorrect={false}
             inputContainerStyle={{borderBottomWidth:0}}
             textAlign= 'left' 
-            placeholder="Location will appear here once selected"
+            //placeholder="Location will appear here once selected"
+            value={address}
             placeholderTextColor={'#000'}
             underlineColorAndroid={'transparent'}
             borderWidth={0}
@@ -81,7 +90,11 @@ const MapMarkerSCreen = () => {
            
         </TouchableOpacity>
         <TouchableOpacity
-         onPress={()=>navigation.navigate("AgeGenderLocationScreen")}
+        
+         onPress={()=>navigation.navigate("AgeGenderLocationScreen",{address:address})
+
+        
+        }
         style = {styles.button}
             >
             <Text style={styles.buttonText}>

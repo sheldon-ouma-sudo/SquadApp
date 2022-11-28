@@ -3,7 +3,7 @@
   import React, { useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
   import { Input } from 'react-native-elements'
-  import { useNavigation } from '@react-navigation/core';
+  import { useNavigation,useRoute } from '@react-navigation/native';
   import SelectList from 'react-native-dropdown-select-list';
   import { useEffect } from 'react';
   import * as Location from 'expo-location'; 
@@ -103,6 +103,24 @@ const AgeGenderLocationScreen = () => {
 
 
 const navigation = useNavigation()
+  const route = useRoute();
+  const address = route?.params || {}
+  //console.log(address)
+  //check if the object is empty 
+  function objectLength( object ) {
+    return Object.keys(object).length;
+  }
+
+    if(objectLength(address) !== 0){ 
+      console.log("here is the address object",address)
+      console.log("we are accessing the address Array:", Object.values(address).toString())
+   // let loc = JSON.stringify(address)
+    //console.log("actual address", loc)
+
+    }
+
+
+  //const username = route?.params.username 
   return (
     <KeyboardAvoidingView
       style={styles.container}
