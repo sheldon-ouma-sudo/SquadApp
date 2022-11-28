@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TextInput, Dimensions,Text } from 'react-native';
+import { View, StyleSheet, TextInput, Dimensions,TouchableOpacity, Text } from 'react-native';
 import Constants from 'expo-constants';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView, { Marker } from 'react-native-maps';
-import { borderRadius } from '@mui/system';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
-const GOOGLE_PLACES_API_KEY = ''; // never save your real api key in a snack!
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input } from 'react-native-elements';
+const GOOGLE_PLACES_API_KEY = ''; 
 var screenWidth = Dimensions.get('window').width;
+import { Ionicons } from '@expo/vector-icons';
 
 const MapMarkerSCreen = () => {
     const [regionCoords, setRegion] = useState({ lat: 37.78825, lng: -122.4324 });
@@ -17,7 +17,7 @@ const MapMarkerSCreen = () => {
     setRegion(details.geometry.location);
     setMarker(details.geometry.location);
   };
-  const navigation = useNavigation()
+
     return (
       <View style={styles.container}>
         <MapView
@@ -28,16 +28,11 @@ const MapMarkerSCreen = () => {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          <Marker 
-          coordinate={{ latitude: marker.lat, longitude: marker.lng }}
-          pinColor='#1145FD'
-          //pinSize={54}
-          />
+          <Marker coordinate={{ latitude: marker.lat, longitude: marker.lng }} />
         </MapView>
-       <View style={[{backgroundColor:'white'}, {marginTop:700},{borderRadius:10}]}>
+  
         <GooglePlacesAutocomplete
           styles={styles.searchbar}
-         
           placeholder="Search"
           query={{
             key: "AIzaSyCVlxhUjdMWqXtEpJhRImNEB9WAnp0uIWY",
@@ -55,7 +50,37 @@ const MapMarkerSCreen = () => {
             useOnPlatform: 'web',
           }} // this in only required for use on the web. See https://git.io/JflFv more for details.
         />
-          <TouchableOpacity
+         <View style={[{backgroundColor:'white'}, {marginTop:10},{borderRadius:10}]}>
+         <TouchableOpacity style={styles.passwordContainer}>
+            <Input
+            //style={{borderBottomWidth:0}}
+            autoCorrect={false}
+            inputContainerStyle={{borderBottomWidth:0}}
+            textAlign= 'left' 
+            placeholder="Location will appear here once selected"
+            placeholderTextColor={'#000'}
+            underlineColorAndroid={'transparent'}
+            borderWidth={0}
+            leftIcon={
+                <Ionicons
+                 name="md-location-outline" 
+                  size={24}
+                  color='black'
+                />
+            }
+            //value={displayCurrentAddress}
+            //onPressIn={GetCurrentLocation}
+        // onChangeText={this.onPasswordEntry}
+        // <Ionicons
+        // name="md-location-outline" 
+        // color='#000'
+        // size={36}
+        // style={[{marginTop:5},{marginLeft:-5}]}
+        // />
+            />
+           
+        </TouchableOpacity>
+        <TouchableOpacity
          onPress={()=>navigation.navigate("AgeGenderLocationScreen")}
         style = {styles.button}
             >
@@ -64,6 +89,7 @@ const MapMarkerSCreen = () => {
             </Text>
         </TouchableOpacity>
         </View>
+
       </View>
     );
   };
@@ -90,40 +116,38 @@ const MapMarkerSCreen = () => {
         color: '#1faadb',
       },
       textInputContainer: {
-       // backgroundColor: 'blue',
-        top: 35,
+        backgroundColor: 'rgba(0,0,0,0)',
+        top: 50,
         width: screenWidth - 10,
         borderWidth: 0,
       },
       textInput: {
-        marginLeft: 30,
-        marginRight: 40,
+        //marginLeft: 5,
+        //marginRight: 5,
         height: 38,
         color: '#5d5d5d',
         fontSize: 16,
         borderWidth: 0,
-       // marginTop:750,
-        borderRadius:5,
-        backgroundColor: '#EAEAEA',
-        color:'black',
-        
+        marginTop:20
       },
       listView: {
         //backgroundColor: 'rgba(192,192,192,0.9)',
-        top: 40,
-        //marginBottom:10
+        top: 48,
+        //marginLeft:5,
+        //marginRight:14
       },
     },
     button:{
         backgroundColor: '#1145FD',
-        width: 350,
+        width: 380,
         height: 42,
         //padding: 15,
         borderRadius: 5,
-        //marginTop: -10,
+        marginTop: 20,
         alignItems: 'center',
         marginRight: 10,
         marginLeft:25,
+        marginRight:25,
         marginBottom:100
     },
     
@@ -135,5 +159,40 @@ const MapMarkerSCreen = () => {
         marginTop:10
         
     },
+    input:{
+        backgroundColor: '#EAEAEA',
+        paddingHorizontal: 15,
+        paddingVertical:10,
+        borderRadius:5,
+        width:296,
+        height:32,
+        marginTop:10,
+        fontSize: 13,
+        marginRight:15,
+        marginLeft:10,
+    // fontStyle:"Montserrat-Regular",
+        color:'#535353',
+        fontWeight:'400',
+      
+    },
+    passwordContainer: {
+        flexDirection: 'row',
+        width:380,
+        height:50,
+        //borderWidth: 1,
+       borderColor: '#000',
+        marginTop:30,
+        marginLeft:25,
+        marginRight:25,
+        //marginBottom:10,
+        overflow:'hidden',
+        borderRadius:10,
+        backgroundColor: '#EAEAEA',
+        //borderColor: "red",
+        //paddingBottom: -3,
+        //paddingLeft:10,
+        borderBottomWidth:0
+      },
+
   });
 export default MapMarkerSCreen

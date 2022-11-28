@@ -257,7 +257,7 @@ header:{
     height:50,
     borderWidth: 1,
     borderColor: '#000',
-    marginLeft:90,
+    marginLeft:110,
     marginBottom:10,
     overflow:'hidden',
     borderRadius:10,
