@@ -1,11 +1,11 @@
   import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity, TextInput, Alert} from 'react-native'
-  import React, { useState } from 'react'
+  import React, { useState, useEffect} from 'react'
   import StepIndicator from 'react-native-step-indicator';
   import { Input } from 'react-native-elements'
   import { useNavigation,useRoute } from '@react-navigation/native';
   import SelectList from 'react-native-dropdown-select-list';
-  import { useEffect } from 'react';
+  //import { useEffect } from 'react';
   import * as Location from 'expo-location'; 
   import { Ionicons } from '@expo/vector-icons';
 
@@ -110,14 +110,18 @@ const navigation = useNavigation()
   function objectLength( object ) {
     return Object.keys(object).length;
   }
-
+  useEffect(() => {
     if(objectLength(address) !== 0){ 
       console.log("here is the address object",address)
       console.log("we are accessing the address Array:", Object.values(address).toString())
+      let loc = Object.values(address).toString()
    // let loc = JSON.stringify(address)
     //console.log("actual address", loc)
+    setLocation(loc)
 
     }
+  }, []);
+    
 
 
   //const username = route?.params.username 
