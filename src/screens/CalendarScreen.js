@@ -12,6 +12,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
     import {PanGestureHandler, State} from 'react-native-gesture-handler';
     //import {BlurView} from '@react-native-community/blur';
     import { BlurView } from 'expo-blur';
+    import {Calendar } from 'react-native-calendars'
 
   
   
@@ -40,6 +41,13 @@ const CalendarScreen = () => {
      
       <BlurView intensity={90} tint="dark" style={styles.blurContainer}>
         <Text style={[styles.text, { color: '#fff' }]}>{text}</Text>
+        <Calendar
+           markingType = {'custom'}
+           markedDates={{
+            '2012-05-16': {selected: true, marked: true, selectedColor: '#1145FD'},
+            
+          }}
+         />
       </BlurView>
     </View>
   );

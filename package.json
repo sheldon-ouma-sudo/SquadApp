@@ -33,6 +33,7 @@
     "react-dom": "^18.2.0",
     "react-moment": "^1.1.2",
     "react-native": "^0.70.6",
+    "react-native-calendars": "^1.1291.1",
     "react-native-dropdown-select-list": "^2.0.2",
     "react-native-element-dropdown": "^2.4.0",
     "react-native-elements": "^3.4.2",
