@@ -83,6 +83,7 @@
     "react-dom": "^17.0.2",
     "react-form-stepper": "^2.0.3",
     "react-native": "0.68.2",
+    "react-native-blur": "^3.2.2",
     "react-native-country-codes-picker": "^1.4.1",
     "react-native-country-picker-modal": "^2.0.0",
     "react-native-crypto": "^2.2.0",
@@ -136,7 +137,8 @@
     "undefined": "react-navigation/native",
     "url": "^0.10.3",
     "util": "^0.10.4",
-    "vm-browserify": "^0.0.4"
+    "vm-browserify": "^0.0.4",
+    "expo-blur": "~11.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
