@@ -264,7 +264,8 @@ marginTop:140,
 borderRadius:20,
 marginLeft:20,
 marginRight:20,
-height:300
+height:300,
+
 },
 
 cameraUploadStyle:{
@@ -273,9 +274,11 @@ cameraUploadStyle:{
  borderRadius:20,
  width:150,
  height:120,
- marginTop:60,
- marginLeft:40,
- alignItems:'center'
+ marginTop:30,
+ marginLeft:20,
+ alignItems:'center',
+ 
+ 
 
 },
 photoUploadStyle:{
@@ -284,7 +287,7 @@ photoUploadStyle:{
   borderRadius:20,
   width:150,
   height:120,
-  marginTop:60,
+  marginTop:30,
   marginRight:40,
   alignItems:"center",
   
@@ -292,7 +295,7 @@ photoUploadStyle:{
  },
  cameraIcons:{
   marginBottom:30,
-  marginTop:10
+  marginTop:10,
 },
 photoIcons:{
   marginTop:10

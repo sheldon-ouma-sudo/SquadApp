@@ -1,6 +1,6 @@
   import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity, TextInput, Alert} from 'react-native'
-  import React, { useState, useEffect} from 'react'
+  import React, { useState, useEffect, useRef} from 'react'
   import StepIndicator from 'react-native-step-indicator';
   import { Input } from 'react-native-elements'
   import { useNavigation,useRoute } from '@react-navigation/native';
@@ -102,14 +102,22 @@ const AgeGenderLocationScreen = () => {
 
 
 
-const navigation = useNavigation()
+  const navigation = useNavigation()
   const route = useRoute();
+  const inputRef = useRef()
   const address = route?.params || {}
   //console.log(address)
   //check if the object is empty 
   function objectLength( object ) {
     return Object.keys(object).length;
-  }
+  } 
+  // const updateOutput = () =>{
+  //   if(objectLength(address) !== 0){
+  //     setLocation(inputRef.Object.values(address).toString())
+  //     //
+  //   }
+   
+  //}
   useEffect(() => {
     if(objectLength(address) !== 0){ 
       console.log("here is the address object",address)
@@ -118,9 +126,11 @@ const navigation = useNavigation()
    // let loc = JSON.stringify(address)
     //console.log("actual address", loc)
     setLocation(loc)
+    console.log(loc)
+    console.log(address)
 
     }
-  }, []);
+  },);
     
 
 
@@ -205,14 +215,16 @@ const navigation = useNavigation()
             <TouchableOpacity style={[{flex:1},{borderColor:'#1145FD'},]}>
               <TouchableOpacity style={[{justifyContent: 'flex-start'},styles.ageInputContainer]}>  
                 <TextInput 
-                  style={[{justifyContent: 'flex-end'},{textAlign:'center'},{fontWeight:'600'}]}
+                  style={[{justifyContent: 'flex-end'},{textAlign:'center'},{fontWeight:'600'},{padding:5},{paddingTop:-9}]}
                   textAlign='left'
                   value={location}
                   />
                 </TouchableOpacity>
               </TouchableOpacity>
             <TouchableOpacity style={[{flex:1},]}>
-              <TouchableOpacity onPress={()=>navigation.navigate("MapMarkerScreen")} 
+              <TouchableOpacity onPress={()=>navigation.navigate("MapMarkerScreen")
+              
+            } 
               style={[{justifyContent:'flex-end'},styles.calendarIcon]}> 
                 <Ionicons
                 name='location'
@@ -279,7 +291,7 @@ header:{
     height:50,
     borderWidth: 1,
     borderColor: '#000',
-    marginLeft:110,
+    marginLeft:98,
     marginBottom:10,
     overflow:'hidden',
     borderRadius:10,
