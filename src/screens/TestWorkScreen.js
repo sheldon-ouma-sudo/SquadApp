@@ -8,7 +8,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { useEffect } from 'react';
   import moment from 'moment';
   import { Ionicons } from '@expo/vector-icons'; 
-  import DatePicker from 'react-native-datepicker';
+  //import DatePicker from 'react-native-datepicker';
   import * as Location from 'expo-location';
   //import {Location, Permission} from 'expo'
   import { auth } from '../firebase';

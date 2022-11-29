@@ -4,7 +4,7 @@
   import StepIndicator from 'react-native-step-indicator';
   import { Input } from 'react-native-elements'
   import { useNavigation,useRoute } from '@react-navigation/native';
-  import SelectList from 'react-native-dropdown-select-list';
+  import {SelectList} from 'react-native-dropdown-select-list';
   //import { useEffect } from 'react';
   import * as Location from 'expo-location'; 
   import { Ionicons } from '@expo/vector-icons';

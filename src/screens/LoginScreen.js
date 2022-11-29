@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { auth } from '../firebase';
 // import auth from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { async } from '@firebase/util';
 import  * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowswer from 'expo-web-browser'
