@@ -44,64 +44,43 @@ const [markedDates, setMarkedDates] = useState({
       [day.dateString]: {
         color: '#1145FD'
       },
-    //   [moment(day.dateString).add(1, 'days').format('YYYY-MM-DD')]: {
-    //     color: 'green'
-    //   },
-    //   [moment(day.dateString).add(2, 'days').format('YYYY-MM-DD')]: {
-    //     color: 'green'
-    //   },
-    //   [moment(day.dateString).add(3, 'days').format('YYYY-MM-DD')]: {
-    //     endingDay: true,color: 'green'
-    //   }
+   
     })
   }
+    
+  
 
   return (
     <View style={styles.container}>
       <Image style={[StyleSheet.absoluteFill, styles.image]} source={{ uri }} />
       
      
-      <BlurView intensity={90} tint="dark" style={styles.blurContainer}>
+      <BlurView intensity={90} tint="dark" style={[styles.blurContainer, ]}>
       <Calendar
+      
       markedDates={markedDates}
       markingType={'period'}
       onDayPress={handleDayPress}
       style={{
         borderWidth: 1,
         borderColor: 'gray',
-        height: 350,
+        height: 420,
         borderRadius:10,
-        arrowColor: 'black',
-        
+        arrowColor: 'black', 
+        marginTop:180
       }}
-      // Specify theme properties to override specific styles for calendar parts. Default = {}
-    //   theme={{
-    //     backgroundColor: '#ffffff',
-    //     calendarBackground: '#ffffff',
-    //     textSectionTitleColor: '#b6c1cd',
-    //     textSectionTitleDisabledColor: '#d9e1e8',
-    //     selectedDayBackgroundColor: '#00adf5',
-    //     selectedDayTextColor: '#ffffff',
-    //     todayTextColor: '#00adf5',
-    //     dayTextColor: '#2d4150',
-    //     textDisabledColor: '#d9e1e8',
-    //     dotColor: '#00adf5',
-    //     selectedDotColor: '#ffffff',
-    //     arrowColor: 'black',
-    //     disabledArrowColor: '#d9e1e8',
-    //     monthTextColor: 'blue',
-    //     indicatorColor: 'blue',
-    //     textDayFontFamily: 'monospace',
-    //     textMonthFontFamily: 'monospace',
-    //     textDayHeaderFontFamily: 'monospace',
-    //     textDayFontWeight: '300',
-    //     textMonthFontWeight: 'bold',
-    //     textDayHeaderFontWeight: '300',
-    //     textDayFontSize: 16,
-    //     textMonthFontSize: 16,
-    //     textDayHeaderFontSize: 16
-    //   }}
       />
+       <View style={{marginTop:-80, marginLeft:50}}>
+              <TouchableOpacity
+             // onPress={confirmSignUp}
+              style = {styles.button}
+                  >
+                  <Text style={styles.buttonText}>
+                    Confirm
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
       </BlurView>
     </View>
   );
@@ -124,7 +103,28 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: '600',
+    
   },
+  button:{
+    backgroundColor: '#1145FD',
+    width: 296,
+    height: 42,
+    //padding: 15,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+    marginRight: 15,
+    marginLeft:10,
+    marginBottom:300
+  },
+  buttonText:{
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 14,
+    marginTop:12
+
+    
+  }
 });
 
 export default CalendarScreen
