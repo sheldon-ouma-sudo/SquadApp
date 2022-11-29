@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     width:100,
     height:35,
     marginRight:250,
-    marginTop:70  
+    marginTop:40  
 }
 
 

@@ -48,7 +48,11 @@ const [markedDates, setMarkedDates] = useState({
     })
   }
     
-  
+  const confirmDate = () =>{
+    //console.log(markedDates)
+    console.log(Object.keys(markedDates))
+    navigation.navigate("AgeGenderLocationScreen",{dateOfBirth:markedDates})
+  }
 
   return (
     <View style={styles.container}>
@@ -70,9 +74,9 @@ const [markedDates, setMarkedDates] = useState({
         marginTop:180
       }}
       />
-       <View style={{marginTop:-80, marginLeft:50}}>
+       <View style={{marginTop:-80, marginLeft:35}}>
               <TouchableOpacity
-             // onPress={confirmSignUp}
+             onPress={confirmDate}
               style = {styles.button}
                   >
                   <Text style={styles.buttonText}>

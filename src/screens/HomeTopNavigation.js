@@ -11,7 +11,7 @@ const HomeScreen=()=>{
   const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
-      style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
+      style={[{ marginTop: -4 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
       screenOptions={{
         tabBarLabelStyle: { color: '#1145FD', fontWeight:'600' },
         //tabBarItemStyle: { width: 100 },

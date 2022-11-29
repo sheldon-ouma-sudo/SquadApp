@@ -6,7 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { Octicons } from '@expo/vector-icons';  
 import { AntDesign } from '@expo/vector-icons'; 
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import Button from '../components/Button';
 import * as ImagePicker from 'expo-image-picker'
 

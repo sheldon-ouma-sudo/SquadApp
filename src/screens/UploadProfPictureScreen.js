@@ -6,7 +6,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Ionicons from '@expo/vector-icons/Ionicons';
   import { FontAwesome } from '@expo/vector-icons'; 
   import { Entypo } from '@expo/vector-icons'; 
-  import { useNavigation } from '@react-navigation/core';
+  import { useNavigation } from '@react-navigation/native';
   import { async } from '@firebase/util';
   import * as ImagePicker from 'expo-image-picker'
 
