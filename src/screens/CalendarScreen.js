@@ -40,7 +40,7 @@ const [markedDates, setMarkedDates] = useState({
   //const username = route?.params.username 
   //const text = 'Hello, my container is blurring contents underneath!';
   const handleDayPress = (day) => {
-    setMarkedDates({
+    setMarkedDates({ 
       [day.dateString]: {
         color: '#1145FD'
       },
