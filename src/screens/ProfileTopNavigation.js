@@ -10,10 +10,10 @@
   import { fontSize } from '@mui/system'
 
   const Profile =()=> {
-    const[profileImage, setProflieImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+    const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
     const[userName, setUserName] =useState('User Profile Name')
     const Tab = createMaterialTopTabNavigator();
-    const insets = useSafeAreaInsets();
+    const insets = useSafeAreaInsets();  
     const ProfileName=userName
     return (
       <>

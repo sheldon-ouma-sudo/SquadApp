@@ -302,7 +302,7 @@ InputContainer:{
 input:{
     backgroundColor: '#EAEAEA',
     paddingHorizontal: 15,
-    paddingVertical:10,
+    paddingVertical:5,
     borderRadius:5,
     width:296,
     height:32,
