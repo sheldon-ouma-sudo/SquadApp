@@ -26,5 +26,12 @@
         ]
       }
     }
+  },
+  "storage": {
+    "s3squadfilestorage": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }

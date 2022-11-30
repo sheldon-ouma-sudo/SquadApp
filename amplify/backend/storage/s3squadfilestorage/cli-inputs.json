@@ -1,0 +1,14 @@
+{
+  "resourceName": "s3squadfilestorage",
+  "bucketName": "squad-file-storage",
+  "policyUUID": "3b9e33ac",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}
