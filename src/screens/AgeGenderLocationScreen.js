@@ -1,5 +1,5 @@
   import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-  StatusBar,Dimensions,TouchableOpacity, TextInput, Alert} from 'react-native'
+  StatusBar,Dimensions,TouchableOpacity, TextInput, Alert, SafeAreaView} from 'react-native'
   import React, { useState, useEffect, useRef} from 'react'
   import StepIndicator from 'react-native-step-indicator';
   import { Input } from 'react-native-elements'
@@ -136,7 +136,7 @@ const AgeGenderLocationScreen = () => {
 
   //const username = route?.params.username 
   return (
-    <KeyboardAvoidingView
+    <SafeAreaView
       style={styles.container}
         behavior="padding"
         >
@@ -160,7 +160,7 @@ const AgeGenderLocationScreen = () => {
         </View>  
 
         {/* handling the date of birth functionality  */}
-        <View style={[{marginLeft:-10},{marginTop:20},{marginRight:210}]}>
+        <View style={[{marginLeft:-10},{marginTop:10},{marginRight:210}]}>
            <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
           </View>
         <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:30}]}>
@@ -246,7 +246,7 @@ const AgeGenderLocationScreen = () => {
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
                 </TouchableOpacity>
         </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
