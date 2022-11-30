@@ -160,10 +160,10 @@ const AgeGenderLocationScreen = () => {
         </View>  
 
         {/* handling the date of birth functionality  */}
-        <View style={[{marginLeft:-10},{marginTop:10},{marginRight:210}]}>
+        <View style={[{marginLeft:-0},{marginTop:10},{marginRight:210}]}>
            <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Date of Birth</Text>
           </View>
-        <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:30}]}>
+        <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:20}]}>
         <TouchableOpacity style={[{flex:1},{borderColor:'#1145FD'},]}>
           <TouchableOpacity style={[{justifyContent: 'flex-start'},styles.ageInputContainer]}>  
             <TextInput 
@@ -211,7 +211,7 @@ const AgeGenderLocationScreen = () => {
           <View style={[{marginLeft:10},{marginTop:5},{marginRight:250}]}>
             <Text style={[{color:'#535353'},{fontWeight:"800"}]}>Location</Text>
            </View>
-           <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:30}]}>
+           <View style={[{ flexDirection:"row" },{marginTop:10}, {marginLeft:20}]}>
             <TouchableOpacity style={[{flex:1},{borderColor:'#1145FD'},]}>
               <TouchableOpacity style={[{justifyContent: 'flex-start'},styles.ageInputContainer]}>  
                 <TextInput 
@@ -306,7 +306,7 @@ header:{
       height:50,
       borderWidth: 1,
       borderColor: '#000',
-      marginLeft:25,
+      marginLeft:22,
       marginBottom:10,
       overflow:'hidden',
       borderRadius:10,

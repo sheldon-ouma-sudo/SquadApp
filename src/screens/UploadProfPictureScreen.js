@@ -130,8 +130,7 @@ ImagePicker.launchCameraAsync({
            <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
                     <TouchableOpacity 
                     style= {{flex:1}}
-                    onPress={pickImage}
-                    
+                    onPress={pickImage} 
                     >
                       <View
                         style= {[{justifyContent:'flex-start'},styles.cameraUploadStyle]}
@@ -269,11 +268,11 @@ height:300,
 },
 
 cameraUploadStyle:{
- padding:15,
+ padding:5,
  backgroundColor:'#EAEAEA',
  borderRadius:20,
- width:150,
- height:120,
+ width:130,
+ height:100,
  marginTop:30,
  marginLeft:20,
  alignItems:'center',
@@ -282,11 +281,11 @@ cameraUploadStyle:{
 
 },
 photoUploadStyle:{
-  padding:15,
+  padding:5,
   backgroundColor:'#EAEAEA',
   borderRadius:20,
-  width:150,
-  height:120,
+  width:130,
+  height:100,
   marginTop:30,
   marginRight:40,
   alignItems:"center",
@@ -298,7 +297,7 @@ photoUploadStyle:{
   marginTop:10,
 },
 photoIcons:{
-  marginTop:10
+  marginTop:15
 },
 
 captureText:{
@@ -306,7 +305,7 @@ captureText:{
   marginTop:10
 },
 uploadText:{
- marginLeft:80,
+ marginLeft:60,
  marginTop:10
 },
 
