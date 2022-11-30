@@ -50,8 +50,10 @@ const [markedDates, setMarkedDates] = useState({
     
   const confirmDate = () =>{
     //console.log(markedDates)
-    console.log(Object.keys(markedDates))
-    navigation.navigate("AgeGenderLocationScreen",{dateOfBirth:markedDates})
+    //console.log(Object.keys(markedDates))
+    const dateOfBirth = Object.keys(markedDates).toString()
+    console.log("this is the date of birth from calendar screen",dateOfBirth)
+    navigation.navigate("AgeGenderLocationScreen",{dateOfBirth:dateOfBirth})
   }
 
   return (

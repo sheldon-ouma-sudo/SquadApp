@@ -96,7 +96,7 @@
 
 const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
-  const[dateOfBirth, setDateOfBirth] = useState("MM-DD-YY")
+  const[age, setAge] = useState("YYYY-MM-DD")
   const [selectedGender, setGenderSelected] =useState("");
   const[location, setLocation]=useState("Enter your location")
 
@@ -105,7 +105,7 @@ const AgeGenderLocationScreen = () => {
   const navigation = useNavigation()
   const route = useRoute();
   const inputRef = useRef()
-  const address = route?.params || {}
+  const ageAndLocation = route?.params || {}
   //console.log(address)
   //check if the object is empty 
   function objectLength( object ) {
@@ -119,21 +119,33 @@ const AgeGenderLocationScreen = () => {
    
   //}
   useEffect(() => {
-    if(objectLength(address) !== 0){ 
-      console.log("here is the address object",address)
-      console.log("we are accessing the address Array:", Object.values(address).toString())
-      let loc = Object.values(address).toString()
+    if(objectLength(ageAndLocation) !== 0){ 
+      //console.log("here is the age and location object",ageAndLocation)
+      //console.log("this is the keys of the age and location keys:", Object.keys(ageAndLocation).toString())
+
+      if(Object.keys(ageAndLocation).toString() ==="dateOfBirth"){
+       // console.log("this date of the birth Mochi")
+        let newAge = Object.values(ageAndLocation).toString()
+        //console.log("this is the new age: ",newAge)
+        setAge(newAge)
+        //setAge(Object.values(ageAndLocation).toString())
+        //console.log(age)
+      }
+      if(Object.keys(ageAndLocation).toString()==="address"){
+        //console.log("this is our address Mochi")
+        let newAddress = Object.values(ageAndLocation).toString()
+        //console.log("here is the new address:", newAddress)
+        setLocation(newAddress)
+      }
+      //let loc = Object.values(address).toString()
    // let loc = JSON.stringify(address)
     //console.log("actual address", loc)
-    setLocation(loc)
-    console.log(loc)
-    console.log(address)
+    //setLocation(loc)
+    //console.log(loc)
+    //onsole.log(address)
 
     }
   },);
-    
-
-
   //const username = route?.params.username 
   return (
     <SafeAreaView
@@ -169,7 +181,7 @@ const AgeGenderLocationScreen = () => {
             <TextInput 
               style={[{justifyContent: 'flex-end'},{textAlign:'center'},{fontWeight:'600'}]}
               textAlign='left'
-              value={dateOfBirth}
+              value={age}
               
                   />
             </TouchableOpacity>
