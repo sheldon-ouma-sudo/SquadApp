@@ -106,47 +106,31 @@ const AgeGenderLocationScreen = () => {
   const route = useRoute();
   const inputRef = useRef()
   const ageAndLocation = route?.params || {}
-  //console.log(address)
-  //check if the object is empty 
   function objectLength( object ) {
     return Object.keys(object).length;
   } 
-  // const updateOutput = () =>{
-  //   if(objectLength(address) !== 0){
-  //     setLocation(inputRef.Object.values(address).toString())
-  //     //
-  //   }
-   
-  //}
+  
   useEffect(() => {
     if(objectLength(ageAndLocation) !== 0){ 
-      //console.log("here is the age and location object",ageAndLocation)
-      //console.log("this is the keys of the age and location keys:", Object.keys(ageAndLocation).toString())
-
+      
       if(Object.keys(ageAndLocation).toString() ==="dateOfBirth"){
-       // console.log("this date of the birth Mochi")
         let newAge = Object.values(ageAndLocation).toString()
-        //console.log("this is the new age: ",newAge)
         setAge(newAge)
-        //setAge(Object.values(ageAndLocation).toString())
-        //console.log(age)
       }
       if(Object.keys(ageAndLocation).toString()==="address"){
-        //console.log("this is our address Mochi")
         let newAddress = Object.values(ageAndLocation).toString()
-        //console.log("here is the new address:", newAddress)
         setLocation(newAddress)
       }
-      //let loc = Object.values(address).toString()
-   // let loc = JSON.stringify(address)
-    //console.log("actual address", loc)
-    //setLocation(loc)
-    //console.log(loc)
-    //onsole.log(address)
-
     }
   },);
-  //const username = route?.params.username 
+  async function saveAgeGenderLocation() {
+    const user = await Auth.currentAuthenticatedUser();
+    await Auth.updateUserAttributes(user, {
+      'address': location,
+      'birthdate': age,
+      'gender': selectedGender
+    });
+  }
   return (
     <SafeAreaView
       style={styles.container}
@@ -379,9 +363,7 @@ backText:{
   color: '#1145FD',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
-  
-  
+  alignItems:"center"  
 },
 
 })
