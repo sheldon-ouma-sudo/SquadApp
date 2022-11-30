@@ -40,7 +40,7 @@ const customStyles = {
 const UploadProfPicture = () => {
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
-  const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+  const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
  
   const navigation = useNavigation()
   useEffect(()=>{(async()=>{
