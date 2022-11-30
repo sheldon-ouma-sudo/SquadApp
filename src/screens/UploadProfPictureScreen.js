@@ -38,11 +38,11 @@ const customStyles = {
 }
 
 const UploadProfPicture = () => {
-  const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
-  const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-
+  const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFMaCXVzLXdlc3QtMSJIMEYCIQCjD%2FeDZeWBvKjwxs0o7Sco0i0V0exADdssOQdzmf88uwIhANoQfeA2PlqNWVgunp8gus5xCYg7vocFsYvN6iIJObBSKuQCCGwQABoMNzUzMTk1MzE4NjU3Igw60jKYyTkYDHvnppYqwQIhEj2y0H98PS9V%2FcsK60UBMjfTo677%2BbkVMNmY0LEdg3Arq9lgG6Ow4Fcn1hKcR9ybHB2nJgagSbORcH6mf1GI0ADkcB1QkM85xiYcklxLH8sK%2F2rSRX%2F6mZ0mv4JnHbZCXiaebPThJ8RHYluFfZnixG6DOpnRT%2Fex9z7SvVhYCKOr07Q4DjKpXsRI9vZIAN53FykgX5thCP19mNYeyxw7bEPNKCJgctlhXrZXxeQHavptUYWV09ldklV0PnjdTDo6aXGyFGITArpp6KYjjD%2FIgNuvr2r66hjbnJv0atZf5ptfSdqTv%2FnoVb19KEYObq1LSQLPgen1ZNt%2FgLC1nJ%2BjbLQrFs1Qlt1oEiL07Uod1aEq3kDM7OClEXeK78zf0oilLXlEUwsJVEgHk4X%2B9PstA4YqfPDO2BCqbxkky81vVuEwm4ubnAY6sgKUCZf2XyXmGjIhhu49JVzCspxmlIT2%2Bstv1nYxU4Jf3aIRROSZqJtWY0Q5Cwof18Fv%2FaQD58hvEY2Lw26ZpnQDshdP6n%2BB7oNcX6DAfQNw5FgJakNe%2FmgrGgYvMdvIAqosXydHLD3DskQFGQO1Qraig0b9fKin65ZUhahjvaMa5Elm3tPSCTr2vhQoU2z7zG2x%2BewRMy70vqIY3%2BYcrjPWygokSmkMc%2BWqD37MyxxrQRp2LdNBcGneOHz19MZTdPGicJZ8qT1CAh%2FwswjBHemYP6U8J6l%2B3LiaDtLXar9YVJdOw0VMVal%2FBAcSKI7BVskLigVyr1JZTTpLg2hF%2FETJUU2XgLT4jNaaOcxk7CV7ZrrPLcuEOVRXwgN7tAGGJIgcm9uW0aytsC0Tjo4YSzTI4Ho%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20221130T040108Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA26XPQPWAZA7LZYVP%2F20221130%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=baf38f18fc1392954bd961ec2b4c7e3be938f90859ed5d5b2fbfd801753c9c5c')
+ 
+  const navigation = useNavigation()
   useEffect(()=>{(async()=>{
       const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
       setGallerPermissions(galleryStatus === 'granted');
