@@ -9,11 +9,5 @@ export type AmplifyDependentResourcesAttributes = {
             "AppClientIDWeb": "string",
             "AppClientID": "string"
         }
-    },
-    "storage": {
-        "s3squadfilestorage": {
-            "BucketName": "string",
-            "Region": "string"
-        }
     }
 }

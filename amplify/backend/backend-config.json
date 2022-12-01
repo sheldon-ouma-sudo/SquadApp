@@ -27,11 +27,22 @@
       }
     }
   },
-  "storage": {
-    "s3squadfilestorage": {
-      "service": "S3",
+  "api": {
+    "squad": {
+      "service": "AppSync",
       "providerPlugin": "awscloudformation",
-      "dependsOn": []
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            }
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
     }
   }
 }
