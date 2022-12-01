@@ -131,6 +131,7 @@ const AgeGenderLocationScreen = () => {
       'gender': selectedGender
     });
   }
+
   return (
     <SafeAreaView
       style={styles.container}
@@ -232,7 +233,7 @@ const AgeGenderLocationScreen = () => {
             </TouchableOpacity>
         </View>
    
-        <View style={[{ flexDirection:"row" },{marginTop:20}, {marginLeft:25}]}>
+        <View style={[{ flexDirection:"row" },{marginTop:-20}, {marginLeft:25}]}>
               <TouchableOpacity  onPress={() =>navigation.replace('SignupScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
                 </TouchableOpacity>
