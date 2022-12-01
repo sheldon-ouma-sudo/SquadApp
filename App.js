@@ -30,6 +30,7 @@ import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import config from './src/aws-exports'
 import Amplify from "@aws-amplify/core";
+import {Storage} from 'aws-amplify';
 
 Amplify.configure(config)
  
