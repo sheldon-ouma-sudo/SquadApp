@@ -14,6 +14,13 @@
     "categories": {
       "auth": {
         "Squad": {}
+      },
+      "function": {
+        "squad5804d53c": {},
+        "squad57de16c5": {
+          "deploymentBucketName": "amplify-squad-staging-235821-deployment",
+          "s3Key": "amplify-builds/squad57de16c5-364c66666e6e53686f61-build.zip"
+        }
       }
     }
   }

@@ -44,5 +44,26 @@
         }
       }
     }
+  },
+  "function": {
+    "squad5804d53c": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "squad57de16c5": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "squad5804d53c",
+          "attributes": [
+            "Name"
+          ]
+        }
+      ]
+    }
   }
 }
