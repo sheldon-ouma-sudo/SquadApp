@@ -198,7 +198,7 @@ const AgeGenderLocationScreen = () => {
            setSelected={setGenderSelected} 
            search={true} 
            textAlign= 'left' 
-           boxStyles={[{marginLeft:8},{marginTop:10} ,{width:320},
+           boxStyles={[{marginLeft:-5},{marginTop:10} ,{width:320},
             {marginBottom:15},{backgroundColor: '#EAEAEA'},{color:'#535353'}, 
             ,{borderColor: '#000'},{height:52}]} 
           />
