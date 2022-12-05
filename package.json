@@ -51,13 +51,19 @@
     "react-native-step-indicator": "^1.0.3",
     "react-native-tab-view": "^3.3.0",
     "react-native-webview": "^11.25.0",
-    "react-navigation": "^4.4.4"
+    "react-navigation": "^4.4.4",
+    "yarn": "^1.22.19"
   },
   "name": "squad",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
   },
   "repository": {
     "type": "git",
@@ -70,5 +76,9 @@
     "url": "https://github.com/sheldon-ouma-sudo/SquadApp/issues"
   },
   "homepage": "https://github.com/sheldon-ouma-sudo/SquadApp#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "expo-module-scripts": "^3.0.4"
+  },
+  "packageManager": "yarn@3.3.0"
 }
