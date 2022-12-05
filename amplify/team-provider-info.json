@@ -16,11 +16,17 @@
         "Squad": {}
       },
       "function": {
-        "squad5804d53c": {},
+        "squad5804d53c": {
+          "deploymentBucketName": "amplify-squad-staging-235821-deployment",
+          "s3Key": "amplify-builds/squad5804d53c-54684879586a6761624c-build.zip"
+        },
         "squad57de16c5": {
           "deploymentBucketName": "amplify-squad-staging-235821-deployment",
           "s3Key": "amplify-builds/squad57de16c5-364c66666e6e53686f61-build.zip"
         }
+      },
+      "api": {
+        "squad": {}
       }
     }
   }
