@@ -80,6 +80,7 @@
        
       },
     ];
+    const[personalInterest, setPersonalInterest]  = useState()
     
     const ListItem = ({ item }) => (
       <TouchableOpacity style={styles.item}
