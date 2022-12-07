@@ -32,79 +32,79 @@
       currentStepLabelColor: '#fffff'
     }
 
-    const SECTIONS = [
-      {
-        title: 'Select the themes you are intersted in:',
-        data: [
-          {
-            key: '1',
-            text: 'Food',
-            uri: 'https://media3.giphy.com/media/26xBzfqV1XqKAlRCw/giphy.gif',
-          },
-          {
-            key: '2',
-            text: 'Fashion',
-            uri: 'https://media3.giphy.com/media/xjIh4zHDjhjji/giphy.gif',
-           
-          },
     
-          {
-            key: '3',
-            text: 'Travel',
-            uri: 'https://media3.giphy.com/media/iBBfBIj1XopJF6WTVI/giphy.gif',
-          },
-          
-        ],
-      },
-      {
-        //title: 'Punk and hardcore',
-        data: [
-          {
-            key: '4',
-            text: 'Decor',
-            uri: 'https://media3.giphy.com/media/JGdbbSyi3wM9uBKv8p/giphy.gif',
-          },
-          {
-            key: '5',
-            text: 'Wellness',
-            uri: 'https://media3.giphy.com/media/cAgGLp84BRh4lZumDt/giphy.gif',
-          },
-          {
-            key: '6',
-            text: 'Social',
-            uri: 'https://media3.giphy.com/media/Swg9cud2W8OKVhz9rt/giphy.gif',
-          },
-      
-        ],
-      
-       
-      },
-    ];
-    const[personalInterest, setPersonalInterest]  = useState()
-    
-    const ListItem = ({ item }) => (
-      <TouchableOpacity style={styles.item}
-      
-      >
-      <Image
-        source={{
-          uri: item.uri,
-        }}
-        style={styles.itemPhoto}
-        resizeMode="cover"
-      />
-      <Text style={styles.itemText}>{item.text}</Text>
-    </TouchableOpacity>
-    
-    
-    );
     
      
 const PersonalInterests = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(2)
+  const[personalInterest, setPersonalInterest]=useState(null)
 
-
+  const SECTIONS = [
+    {
+      title: 'Select the themes you are intersted in:',
+      data: [
+        {
+          key: '1',
+          text: 'Food',
+          uri: 'https://media3.giphy.com/media/26xBzfqV1XqKAlRCw/giphy.gif',
+        },
+        {
+          key: '2',
+          text: 'Fashion',
+          uri: 'https://media3.giphy.com/media/xjIh4zHDjhjji/giphy.gif',
+         
+        },
+  
+        {
+          key: '3',
+          text: 'Travel',
+          uri: 'https://media3.giphy.com/media/iBBfBIj1XopJF6WTVI/giphy.gif',
+        },
+        
+      ],
+    },
+    {
+      //title: 'Punk and hardcore',
+      data: [
+        {
+          key: '4',
+          text: 'Decor',
+          uri: 'https://media3.giphy.com/media/JGdbbSyi3wM9uBKv8p/giphy.gif',
+        },
+        {
+          key: '5',
+          text: 'Wellness',
+          uri: 'https://media3.giphy.com/media/cAgGLp84BRh4lZumDt/giphy.gif',
+        },
+        {
+          key: '6',
+          text: 'Social',
+          uri: 'https://media3.giphy.com/media/Swg9cud2W8OKVhz9rt/giphy.gif',
+        },
+    
+      ],
+    
+     
+    },
+  ];
+  const ListItem = ({ item }) => {
+    return(
+    <TouchableOpacity style={styles.item}
+    >
+    <View>
+    <Image
+      source={{
+        uri: item.uri,
+      }}
+      style={styles.itemPhoto}
+      resizeMode="cover"
+    />
+    </View>
+    <Text style={styles.itemText}>{item.text}</Text>
+  </TouchableOpacity>
+  )};
+  
   return (
     <KeyboardAvoidingView 
     style={styles.container}
