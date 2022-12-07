@@ -42,7 +42,7 @@ const PersonalInterests = () => {
 
   const SECTIONS = [
     {
-      title: 'Select the themes you are intersted in:',
+      title: 'Select the great themes you are intersted in:',
       data: [
         {
           key: '1',
@@ -90,9 +90,10 @@ const PersonalInterests = () => {
   ];
   const ListItem = ({ item }) => {
     return(
-    <TouchableOpacity style={styles.item}
+    <TouchableOpacity 
+    onPress={()=>{setPersonalInterest(item)}}
     >
-    <View>
+    <View style={styles.item}>
     <Image
       source={{
         uri: item.uri,
