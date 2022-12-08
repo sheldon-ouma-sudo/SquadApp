@@ -1,6 +1,6 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions,SafeAreaView,SectionList,FlatList} from 'react-native'
-    import React, { useState } from 'react'
+    import React, { useEffect, useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
      import { TouchableOpacity } from 'react-native';
      import { useNavigation } from '@react-navigation/native';
@@ -38,11 +38,11 @@
 const PersonalInterests = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(2)
-  const[personalInterest, setPersonalInterest]=useState(null)
+  const[personalInterest, setPersonalInterest]=useState([])
 
   const SECTIONS = [
     {
-      title: 'Select the great themes you are intersted in:',
+      title: 'Select the themes you are intersted in:',
       data: [
         {
           key: '1',
@@ -88,12 +88,20 @@ const PersonalInterests = () => {
      
     },
   ];
+  
+  
   const ListItem = ({ item }) => {
     return(
     <TouchableOpacity 
-    onPress={()=>{setPersonalInterest(item)}}
+    onPress={()=>{setPersonalInterest([...personalInterest,item])
+      console.log(personalInterest)
+      console.log(item)
+      console.log("personal intereste is as follows: ",personalInterest)
+    }
+  
+  }
     >
-    <View style={styles.item}>
+    <View style={[styles.item,{marginLeft:15},{marginRight:-2}]}>
     <Image
       source={{
         uri: item.uri,
@@ -165,7 +173,7 @@ const PersonalInterests = () => {
   )
 }
 
-export default PersonalInterests
+
 const styles = StyleSheet.create({
   container:{
   flex:1,
@@ -203,12 +211,13 @@ const styles = StyleSheet.create({
   },
   indicatiorWindow:{
     //height:height-170,
-    width:width-30,
+    width:width-20,
     padding:20,
     margin:15,
     //elevation:10,
     borderRadius:20,
-    marginTop:-20
+    marginTop:-20,
+    marginLeft:-8
 
     //backgroundColor:'blue'
   },
@@ -300,7 +309,9 @@ itemPhoto: {
 itemText: {
   color: '#1145FD',
   marginTop: 8,
-  fontWeight:'600'
+  fontWeight:'600',
+  marginLeft:20
 },  
 
   },)
+  export default PersonalInterests
