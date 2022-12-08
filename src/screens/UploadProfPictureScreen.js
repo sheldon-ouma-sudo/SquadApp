@@ -7,7 +7,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { FontAwesome } from '@expo/vector-icons'; 
   import { Entypo } from '@expo/vector-icons'; 
   import { useNavigation } from '@react-navigation/native';
-  import { async } from '@firebase/util';
+  //import { async } from '@firebase/util';
   import * as ImagePicker from 'expo-image-picker'
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
