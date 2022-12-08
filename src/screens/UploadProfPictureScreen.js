@@ -41,6 +41,7 @@ const UploadProfPicture = () => {
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
   const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
+  const[userImage, setUserImage] =useState('')
  
   const navigation = useNavigation()
   useEffect(()=>{(async()=>{
