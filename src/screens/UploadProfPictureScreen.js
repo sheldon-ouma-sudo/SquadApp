@@ -71,7 +71,7 @@ const result = await ImagePicker.launchCameraAsync();
 // Explore the result
 console.log(result);
 if (!result.canceled) {
-  setPickedImagePath(result.assets[0].uri);
+  setImage(result.assets[0].uri);
   console.log(result.assets[0].uri);
 }
 
