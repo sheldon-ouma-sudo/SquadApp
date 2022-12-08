@@ -66,16 +66,14 @@ const UploadProfPicture = () => {
     }
   };
 
-const takePhotoFromCamera = () =>{
-ImagePicker.launchCameraAsync({
-  width:300,
-  height:300,
-  cropping:true
-}).then(image=>{
-  console.log(image)
-  //upload picture and then 
-  setImage(image.path)
-})
+const takePhotoFromCamera = async () =>{
+const result = await ImagePicker.launchCameraAsync();
+// Explore the result
+console.log(result);
+if (!result.canceled) {
+  setPickedImagePath(result.assets[0].uri);
+  console.log(result.assets[0].uri);
+}
 
 }
 
