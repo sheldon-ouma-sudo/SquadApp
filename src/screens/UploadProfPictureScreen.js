@@ -258,8 +258,8 @@ header:{
     width:130,
     borderRadius:80,
     overflow:'hidden',
-    borderWidth:3,
-    borderColor: '#1764EF',
+    borderWidth:5,
+    borderColor: '#8BA1EE',
     marginRight:170,
     marginLeft:170,
     marginTop:30

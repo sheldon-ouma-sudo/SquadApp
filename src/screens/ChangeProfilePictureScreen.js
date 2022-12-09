@@ -150,7 +150,7 @@ header:{
              borderRadius:80,
              overflow:'hidden',
              borderWidth:3,
-             borderColor: '#1764EF',
+             borderColor: '#8BA1EE',
              marginRight:170,
              marginLeft:170,
              marginTop:30
