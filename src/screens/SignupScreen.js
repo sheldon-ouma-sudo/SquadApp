@@ -7,8 +7,6 @@ import firebase from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 
-
- 
 const SignupScreen = () => {
 //const [name, setName] = useState('')
 // const [nameError, setNameError] = useState("")
@@ -22,134 +20,130 @@ const SignupScreen = () => {
    // const [phoneNumber, setPhone] = useState('')
     const [passwordError, setPasswordError] = useState("")
     const [confirmPasswordError, setConfirmPasswordError]= useState("")
-  
-    
-
-//this is the import to enable the navigation 
-const navigation = useNavigation()
-
-//this checks for the uppercase on the password and special character
-function checkPassword(str){
-var re =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-return re.test(str);
-}
-async function signUpWithAws() {
-    try {
-      await Auth.signUp({ email,name, username, password,
-         attributes: { name, email,
-             preferred_username: username },
-             autoSignIn: { // optional - enables auto sign in after user is confirmed
-                enabled: true,
-            }
-            });
-      console.log('✅ Sign-up Confirmed');
-
-      navigation.navigate('EmailOTPScreen',{username:username});
-    } catch (error) {
-      console.log('Error signing up, check your network and try again', error);
+    //this is the import to enable the navigation 
+    const navigation = useNavigation()
+    //this checks for the uppercase on the password and special character
+    function checkPassword(str){
+    var re =  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    return re.test(str);
     }
+    async function signUpWithAws() {
+        try {
+        await Auth.signUp({ email,name, username, password,
+            attributes: { name, email,
+                preferred_username: username },
+                autoSignIn: { // optional - enables auto sign in after user is confirmed
+                    enabled: true,
+                }
+                });
+        console.log('✅ Sign-up Confirmed');
+
+        navigation.navigate('EmailOTPScreen',{username:username});
+        } catch (error) {
+        console.log('Error signing up, check your network and try again', error);
+        }
   }
-//this function handles sign up
-const  handleSignUp=async()=> {
-        //email address validation 
-        var emailValid = false;
-        if(email.length == 0){
-            setEmailError("Email is required");
-        }        
-        else if(email.length < 6){
-            setEmailError("Email should be minimum 6 characters");
-        }      
-        else if(email.indexOf(' ') >= 0){        
-            setEmailError('Email cannot contain spaces');                          
-        } else if(email.indexOf('@') <= 0){        
-            setEmailError('Email is invald, please key in the valid key');                          
-        }      
-        else{
-            setEmailError("")
-            emailValid = true
-        }
-        //username validation 
-        var userNameValid = false;
-        if(email.length == 0){
-            setUserNameError("Username is required");
-        }        
-        else if(username.length < 5){
-            setUserNameError("username should be minimum 6 characters");
-        }      
-        else if(username.indexOf(' ') >= 0){        
-            setUserNameError('username cannot contain spaces');                          
-        }  
-        else{
-            setUserNameError("")
-            userNameValid = true
-        }   
-        //password validation 
-        var passwordValid = false;
-        if(password.length == 0){
-            setPasswordError("Password is required");
-        }        
-        else if(password.length < 8){
-            setPasswordError("Password should be minimum 8 characters");
-        }      
-        else if(password.indexOf(' ') >= 0){        
-            setPasswordError('Password cannot contain spaces');                          
-        }
-        else if(password!=confirmPassword){
-            setPasswordError('Password and confirm password do not match')
-
-        }else if(!checkPassword){
-            setPasswordError("the password should contain at least one special character and an uppercase letter")
-        }
-        else{
-            setPasswordError("")
-            passwordValid = true
-        }        
-        //confirm password validation 
-        if(password!==confirmPassword){
-            setConfirmPasswordError('Password and confirm password do not match')
-        }
-        if(emailValid && passwordValid&&userNameValid){            
-            // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
-            setEmail("");
-            setPassword("");
-            setUsername("")
-  
-    //create user profile with firebase
-    auth.createUserWithEmailAndPassword(email.trim(), password)  
-    //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
-    //once this is done, then create the user's credentials
-    .then((user) =>{
-        const firestore = firebase.firestore;
-        const userRef = firestore().collection('users').doc(user.uid)
-        //let's get the snapshot of the document 
-        const snapShot = userRef.get()
-        //if there is no snapshot or such document, then let's create one
-        if(!snapShot.exists){
-            try{
-                userRef.set({
-                    email,
-                    username,
-                    phoneNumber,
-                })
-            }catch(error){
-                console.log(error)    
+        //this function handles sign up
+        const  handleSignUp=async()=> {
+            //email address validation 
+            var emailValid = false;
+            if(email.length == 0){
+                setEmailError("Email is required");
+            }        
+            else if(email.length < 6){
+                setEmailError("Email should be minimum 6 characters");
+            }      
+            else if(email.indexOf(' ') >= 0){        
+                setEmailError('Email cannot contain spaces');                          
+            } else if(email.indexOf('@') <= 0){        
+                setEmailError('Email is invald, please key in the valid key');                          
+            }      
+            else{
+                setEmailError("")
+                emailValid = true
             }
-        }          
-    })
-    .catch(error =>alert(error.message))
-    }
-        //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
-    useEffect(()=>{
-    const unsubscribe = auth.onAuthStateChanged(user =>{
-        if(user){
-            navigation.replace("PhoneOTPScreen")
-        }
-    })
-    return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
+            //username validation 
+            var userNameValid = false;
+            if(email.length == 0){
+                setUserNameError("Username is required");
+            }        
+            else if(username.length < 5){
+                setUserNameError("username should be minimum 6 characters");
+            }      
+            else if(username.indexOf(' ') >= 0){        
+                setUserNameError('username cannot contain spaces');                          
+            }  
+            else{
+                setUserNameError("")
+                userNameValid = true
+            }   
+            //password validation 
+            var passwordValid = false;
+            if(password.length == 0){
+                setPasswordError("Password is required");
+            }        
+            else if(password.length < 8){
+                setPasswordError("Password should be minimum 8 characters");
+            }      
+            else if(password.indexOf(' ') >= 0){        
+                setPasswordError('Password cannot contain spaces');                          
+            }
+            else if(password!=confirmPassword){
+                setPasswordError('Password and confirm password do not match')
 
-    }, [])
-    }   
-return (
+            }else if(!checkPassword){
+                setPasswordError("the password should contain at least one special character and an uppercase letter")
+            }
+            else{
+                setPasswordError("")
+                passwordValid = true
+            }        
+            //confirm password validation 
+            if(password!==confirmPassword){
+                setConfirmPasswordError('Password and confirm password do not match')
+            }
+            if(emailValid && passwordValid&&userNameValid){            
+                // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
+                setEmail("");
+                setPassword("");
+                setUsername("")
+    
+        //create user profile with firebase
+        auth.createUserWithEmailAndPassword(email.trim(), password)  
+        //  .then((res) => {firebase.database().ref('users/' + res.user.uid).set({email: email,username: username, phoneNumber:phone,})})
+        //once this is done, then create the user's credentials
+        .then((user) =>{
+            const firestore = firebase.firestore;
+            const userRef = firestore().collection('users').doc(user.uid)
+            //let's get the snapshot of the document 
+            const snapShot = userRef.get()
+            //if there is no snapshot or such document, then let's create one
+            if(!snapShot.exists){
+                try{
+                    userRef.set({
+                        email,
+                        username,
+                        phoneNumber,
+                    })
+                }catch(error){
+                    console.log(error)    
+                }
+            }          
+        })
+        .catch(error =>alert(error.message))
+        }
+            //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
+        useEffect(()=>{
+        const unsubscribe = auth.onAuthStateChanged(user =>{
+            if(user){
+                navigation.replace("PhoneOTPScreen")
+            }
+        })
+        return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
+
+        }, [])
+        }   
+    return (
     <KeyboardAvoidingView 
     style={styles.container}
     behavior="padding"

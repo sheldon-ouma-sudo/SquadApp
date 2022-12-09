@@ -1,14 +1,16 @@
-import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+ import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
   import React, { useEffect, useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
   //import { Icon } from 'react-native-elements';
-  import Ionicons from '@expo/vector-icons/Ionicons';
+  //import Ionicons from '@expo/vector-icons/Ionicons';
   import { FontAwesome } from '@expo/vector-icons'; 
   import { Entypo } from '@expo/vector-icons'; 
   import { useNavigation } from '@react-navigation/native';
   //import { async } from '@firebase/util';
   import * as ImagePicker from 'expo-image-picker'
+  import { Auth } from 'aws-amplify';
+  import { Storage } from 'aws-amplify';   
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
@@ -41,7 +43,9 @@ const UploadProfPicture = () => {
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
   const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
-  const[userImage, setUserImage] =useState('')
+  //const[userImage, setUserImage] =useState('')
+  const [progressText, setProgressText] = useState('');
+  const [isLoading, setisLoading] = useState(false);
  
   const navigation = useNavigation()
   useEffect(()=>{(async()=>{
@@ -50,6 +54,65 @@ const UploadProfPicture = () => {
     })()
   },[])
 
+
+  const fetchResourceFromURI = async uri => {
+    const response = await fetch(uri);
+    console.log(response);
+    const blob = await response.blob();
+    return blob;
+  };
+  //squad-file-storage235821-staging/private/userProfilePictures/
+  //squad-file-storage235821-staging/protected/userProfilePictures/
+  const uploadUserImage = async () => {
+    if (isLoading) return;
+    setisLoading(true);
+   const user = await Auth.currentAuthenticatedUser()
+   const userId = user.attributes.sub;
+   const ref = `squad-file-storage235821-staging/protected/userProfilePictures/${userId}`
+   const blob = fetchResourceFromURI(image);
+   const response = await Storage.put(ref, blob, {
+    contentType: "image/jpeg",
+    metadata: {userId: userId},
+    level: "protected",
+      progressCallback(uploadProgress) {
+        setProgressText(
+          `Progress: ${Math.round(
+            (uploadProgress.loaded / uploadProgress.total) * 100,
+          )} %`,
+        );
+        console.log(
+          `Progress: ${uploadProgress.loaded}/${uploadProgress.total}`,
+        );
+      },
+    })
+      .then(res => {
+        setProgressText('Upload Done: 100%');
+        setAsset(null);
+        setisLoading(false);
+        Storage.get(res.key)
+          .then(result => console.log(result))
+          .catch(err => {
+            setProgressText('Upload Error');
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        setisLoading(false);
+        setProgressText('Upload Error');
+        console.log(err);
+      });
+      console.log(response)
+       //update the user attributes with added picture
+       try {
+        await Auth.updateUserAttributes(user, {
+          'picture': response
+        });
+         console.log('✅ Success');
+        //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+        } catch (error) {
+        console.log('❌ Error uploading the picture...', error); 
+        }  
+    };
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -75,11 +138,8 @@ if (!result.canceled) {
   setImage(result.assets[0].uri);
   console.log(result.assets[0].uri);
 }
-
 }
-
-
-  return (
+return (
     <KeyboardAvoidingView 
     style={styles.container}
     behavior="padding"
@@ -101,8 +161,7 @@ if (!result.canceled) {
      currentPosition={currentPosition}
      //labels={labels}
      />
-    </View>  
-    
+    </View>   
     <View style={styles.profilePictureContainer}>
         <TouchableOpacity>
         <Image
@@ -116,7 +175,8 @@ if (!result.canceled) {
       <View style={styles.buttonContainer}>
             <TouchableOpacity
             onPress={ ()=>
-              navigation.navigate("ChangeProfilePictureScreen")}
+              //,{username:username}
+              navigation.navigate("ChangeProfilePictureScreen",{userImage:image})}
             style = {styles.profilePictureButton}
                 > 
                 <Text style={styles.buttonText}>
@@ -125,35 +185,31 @@ if (!result.canceled) {
 
             </TouchableOpacity>
     </View>
-           {/**this is the view with the google and the facebook icons */}
-           <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
-                    <TouchableOpacity 
-                    style= {{flex:1}}
-                    onPress={pickImage} 
+    {/**this is the view with the google and the facebook icons */}
+    <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
+            <TouchableOpacity 
+            style= {{flex:1}}
+            onPress={pickImage} 
+            >
+              <View
+                style= {[{justifyContent:'flex-start'},styles.cameraUploadStyle]}
+                >
+                  <FontAwesome name="photo" size={50} style={styles.photoIcons} color='#1764EF' />
+                </View>
+                <Text style={styles.uploadText}>Upload</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+            style= {{fex:1}}
+            onPress={takePhotoFromCamera}
+            >
+                    <View
+                    style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
                     >
-                      <View
-                        style= {[{justifyContent:'flex-start'},styles.cameraUploadStyle]}
-                        >
-                          <FontAwesome name="photo" size={50} style={styles.photoIcons} color='#1764EF' />
-                        </View>
-                        <Text style={styles.uploadText}>Upload</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                    style= {{fex:1}}
-                    onPress={takePhotoFromCamera}
-                    >
-                           <View
-                            style={[{justifyContent:'flex-end'},styles.photoUploadStyle]}
-                            >
-                               <Entypo name="camera" size={55} style={styles.cameraIcons}color='#1764EF'/>
-                            </View>
-                            <Text style={styles.captureText}>Capture</Text>
-                    </TouchableOpacity>       
-                </TouchableOpacity>
-
-
-
-
+                        <Entypo name="camera" size={55} style={styles.cameraIcons}color='#1764EF'/>
+                    </View>
+                    <Text style={styles.captureText}>Capture</Text>
+            </TouchableOpacity>       
+        </TouchableOpacity>
     </KeyboardAvoidingView>
   )
 }
@@ -170,9 +226,6 @@ const styles = StyleSheet.create({
     height:35,
     marginRight:250,
     marginTop:70
-    
-
- 
 },
 header:{
   height: 55, 
@@ -237,24 +290,18 @@ backButton:{
   marginRight: 5,
   marginLeft:15,
   borderColor:'#1145FD'
-
-
 },
 buttonText:{
   color: 'white',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
-  
-  
+  alignItems:"center" 
 },
 backText:{
   color: '#1145FD',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
-  
-  
+  alignItems:"center" 
 },
 profPictureUpload:{
 backgroundColor:'white',
@@ -263,9 +310,7 @@ borderRadius:20,
 marginLeft:20,
 marginRight:20,
 height:300,
-
 },
-
 cameraUploadStyle:{
  padding:5,
  backgroundColor:'#EAEAEA',
@@ -275,9 +320,6 @@ cameraUploadStyle:{
  marginTop:30,
  marginLeft:20,
  alignItems:'center',
- 
- 
-
 },
 photoUploadStyle:{
   padding:5,
@@ -288,8 +330,6 @@ photoUploadStyle:{
   marginTop:30,
   marginRight:40,
   alignItems:"center",
-  
-
  },
  cameraIcons:{
   marginBottom:30,
@@ -318,9 +358,6 @@ profilePictureButton:{
   alignItems: 'center',
   marginRight: 50,
   marginLeft:50,
-
 },
-
 })
-
 export default UploadProfPicture

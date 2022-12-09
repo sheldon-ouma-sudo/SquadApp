@@ -2,9 +2,9 @@
     StatusBar,Dimensions,TouchableOpacity} from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
-    import { Icon } from 'react-native-elements';
+    ///import { Icon } from 'react-native-elements';
     import Ionicons from '@expo/vector-icons/Ionicons';
-    import { useNavigation } from '@react-navigation/native';
+    import { useNavigation,useRoute } from '@react-navigation/native';
 
 const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
@@ -34,9 +34,10 @@ const customStyles = {
 }
 
 const ChangeProfilePictureScreen = () => {
- 
-   const navigation = useNavigation()
    const[currentPosition, setCurrentPositon] = useState(1)
+
+   const navigation = useRoute()
+   const userimage = route?.params.userImage
    return (
      <KeyboardAvoidingView 
      style={styles.container}
@@ -63,11 +64,12 @@ const ChangeProfilePictureScreen = () => {
      
      <View style={styles.profilePictureContainer}>
          <TouchableOpacity>
-         <Ionicons
-         name='camera'
-         size={100}
-         style={[{marginLeft:20},{justifyContent:"center"},{marginTop:20}]}
-         />
+         <Image
+        //source={{uri:image}}
+         source={{uri:image}}
+         resizeMode={'contain'}
+         style={[{height:150}, {width:350},{overflow: 'hidden'}]}
+        />
          </TouchableOpacity>
        </View>
        <View style={styles.buttonContainer}>
