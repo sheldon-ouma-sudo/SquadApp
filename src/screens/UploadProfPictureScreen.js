@@ -101,7 +101,7 @@ const UploadProfPicture = () => {
         setProgressText('Upload Error');
         console.log(err);
       });
-      console.log(response)
+      console.log("this is the response",response)
        //update the user attributes with added picture
        try {
         await Auth.updateUserAttributes(user, {
@@ -168,7 +168,7 @@ return (
         //source={{uri:image}}
         source={{uri:image}}
         resizeMode={'contain'}
-        style={[{height:150}, {width:350},{overflow: 'hidden'}]}
+        style={[{height:150}, {width:350},{overflow: 'hidden'},{marginTop:-13},{alignSelf:'center'}]}
         />
         </TouchableOpacity>
       </View>
@@ -254,14 +254,12 @@ header:{
     //backgroundColor:'blue'
   },
   profilePictureContainer:{
-    height: 150, 
-    width:150,
-    borderRadius:90,
-    alignContent:'center',
-    alignItems:'center',
+    height: 130, 
+    width:130,
+    borderRadius:80,
     overflow:'hidden',
-    borderWidth:0,
-    //borderColor: '#1764EF',
+    borderWidth:3,
+    borderColor: '#1764EF',
     marginRight:170,
     marginLeft:170,
     marginTop:30

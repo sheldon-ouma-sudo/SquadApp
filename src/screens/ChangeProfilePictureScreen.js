@@ -1,6 +1,6 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions,TouchableOpacity} from 'react-native'
-    import React, { useState } from 'react'
+    import React, { useEffect, useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
     ///import { Icon } from 'react-native-elements';
     import Ionicons from '@expo/vector-icons/Ionicons';
@@ -35,9 +35,15 @@ const customStyles = {
 
 const ChangeProfilePictureScreen = () => {
    const[currentPosition, setCurrentPositon] = useState(1)
+   const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
 
-   const navigation = useRoute()
-   const userimage = route?.params.userImage
+   const route = useRoute()
+   const navigation = useNavigation()
+   const userImage = route?.params.userImage
+   useEffect(()=>{
+    setImage(userImage)
+   })
+
    return (
      <KeyboardAvoidingView 
      style={styles.container}
@@ -68,7 +74,7 @@ const ChangeProfilePictureScreen = () => {
         //source={{uri:image}}
          source={{uri:image}}
          resizeMode={'contain'}
-         style={[{height:150}, {width:350},{overflow: 'hidden'}]}
+         style={[{height:150}, {width:350},{overflow: 'hidden'},{marginTop:-13},{alignSelf:'center'}]}
         />
          </TouchableOpacity>
        </View>
@@ -139,9 +145,9 @@ header:{
      //backgroundColor:'blue'
    },
    profilePictureContainer:{
-             height: 150, 
-             width:150,
-             borderRadius:90,
+             height: 130, 
+             width:130,
+             borderRadius:80,
              overflow:'hidden',
              borderWidth:3,
              borderColor: '#1764EF',
