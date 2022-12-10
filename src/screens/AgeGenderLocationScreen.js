@@ -124,13 +124,18 @@ const AgeGenderLocationScreen = () => {
     }
   },);
   async function saveAgeGenderLocation() {
-    const user = await Auth.currentAuthenticatedUser();
-    await Auth.updateUserAttributes(user, {
+    try{
+      const user = await Auth.currentAuthenticatedUser();
+      await Auth.updateUserAttributes(user, {
       'address': location,
       'birthdate': age,
       'gender': selectedGender
     });
-  }
+    }catch(e){
+     console.log("failed to update the additional attributes",)
+    }
+    }
+   
 
   return (
     <SafeAreaView
