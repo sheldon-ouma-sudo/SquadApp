@@ -87,31 +87,30 @@ const TestWorkScreen = () => {
     },
   ];
   
-  
+  const handleChange = prop => event => {
+    setPersonalInterest([ ...personalInterest, [prop], event.target.value ]);
+    console.log(personalInterest)
+    console.log(item)
+    console.log("personal intereste is as follows: ",personalInterest)
+};
   const ListItem = ({ item }) => {
     return(
     <TouchableOpacity 
-    onPress={()=>{setPersonalInterest([...personalInterest,item])
-      console.log(personalInterest)
-      console.log(item)
-      console.log("personal intereste is as follows: ",personalInterest)
-    }
-  
+    onPress={()=>{handleChange}
   }
     >
-    <View style={[styles.item,{marginLeft:15},{marginRight:-5}]}>
+    <View style={[item===personalInterest?styles.itemSelected:styles.item,{marginLeft:15},{marginRight:-5}]}>
     <Image
       source={{
         uri: item.uri,
       }}
-      style={styles.itemPhoto}
+      style={item===personalInterest?styles.itemPhotoSelected:styles.itemPhoto}
       resizeMode="cover"
     />
     </View>
-    <Text style={styles.itemText}>{item.text}</Text>
+    <Text style={item===personalInterest?styles.itemTextSelected:styles.item}>{item.text}</Text>
   </TouchableOpacity>
   )};
-  
   return (
     <KeyboardAvoidingView 
     style={styles.container}
@@ -165,12 +164,10 @@ const TestWorkScreen = () => {
                   <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:300},{marginLeft:230}, ]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text></TouchableOpacity>
                 </SafeAreaView>
-        </View>
-        
+        </View> 
     </KeyboardAvoidingView>
   )
 }
-
 
 const styles = StyleSheet.create({
   container:{
@@ -178,17 +175,12 @@ const styles = StyleSheet.create({
   justifyContent:"flex-start",
   alignItems:"center",
   backgroundColor: "#F4F8FB",
-  
-
   },
   squadLogo:{
       width:100,
       height:35,
       marginRight:250,
-      marginTop:70
-      
-
-   
+      marginTop:70 
   },
   header:{
     height: 55, 
@@ -243,34 +235,25 @@ backButton:{
   //marginRight: 5,
   //marginLeft:10,
   borderColor:'#1145FD'
-
-
 },
 buttonText:{
   color: 'white',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
-  
-  
+  alignItems:"center"  
 },
 backText:{
   color: '#1145FD',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
-  
-  
+  alignItems:"center" 
 },
 nextText:{
   color: '#1145FD',
   fontWeight: '700',
   fontSize: 15,
   alignItems:"center"
-  
-  
 },
-  
 profilePictureButton:{
   backgroundColor: '#1145FD',
   width: 256,
@@ -291,21 +274,35 @@ sectionHeader: {
   marginBottom: 5,
   marginLeft:25
   //padding:-15,
-
- 
 },
 item: {
+  margin: 10,
+  backgroundColor: '#FFFFFF',
+  padding:10,
+  borderRadius:5
+},
+itemPhoto: {
+  width: 100,
+  height: 100,
+},
+itemText: {
+  color: '#1145FD',
+  marginTop: 8,
+  fontWeight:'600',
+  marginLeft:20
+},
+itemSelected: {
   margin: 10,
   backgroundColor: '#1145FD',
   padding:25,
   borderRadius:3,
   marginBottom:-25
 },
-itemPhoto: {
+itemPhotoSelected: {
   width: 75,
   height: 75,
 },
-itemText: {
+itemTextSelected: {
   color: '#FFF',
   marginTop: 8,
   fontWeight:'600',
@@ -313,5 +310,5 @@ itemText: {
   paddingBottom:25
 },  
 
-  },)
-  export default TestWorkScreen
+},)
+export default TestWorkScreen
