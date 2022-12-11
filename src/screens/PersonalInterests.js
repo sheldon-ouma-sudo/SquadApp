@@ -90,15 +90,16 @@ const PersonalInterests = () => {
   ];
   const handleChange = prop => event => {
     setPersonalInterest([ ...personalInterest, [prop], event.target.value ]);
-    console.log(personalInterest)
-    console.log(item)
-    console.log("personal intereste is as follows: ",personalInterest)
 };
   
   const ListItem = ({ item }) => {
     return(
     <TouchableOpacity 
-    onPress={()=>{handleChange}
+    onPress={()=>{setPersonalInterest([...personalInterest,item])
+      console.log(personalInterest)
+      console.log(item)
+      console.log("personal intereste is as follows: ",personalInterest)
+    }
   
   }
     >
