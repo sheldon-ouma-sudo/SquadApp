@@ -8,10 +8,7 @@
     import { useCallback } from 'react';
     import { Auth } from 'aws-amplify';
   
-
-   
     const{width,height} = Dimensions.get("window")
-
     const customStyles = {
       stepIndicatorSize: 25,
       currentStepIndicatorSize:30,
@@ -127,9 +124,6 @@ const PersonalInterests = () => {
       }
     }
  }
-
-
-
   return (
     <SafeAreaView
     style={styles.container}
