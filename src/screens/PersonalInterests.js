@@ -119,10 +119,8 @@ useEffect(()=>{
       const  personalInterest = obj.title
       setUserInterest({...personalInterest,...userInterest})
       }
-      
     }
   }
-
 })
 
 async function saveUserInterest(){
