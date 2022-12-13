@@ -6,7 +6,7 @@ import MapView, { Marker } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 import { useNavigation,useRoute } from '@react-navigation/native';
-const GOOGLE_PLACES_API_KEY = ''; 
+//const GOOGLE_PLACES_API_KEY = ''; 
 var screenWidth = Dimensions.get('window').width;
 import { Ionicons } from '@expo/vector-icons';
 
@@ -77,15 +77,7 @@ const MapMarkerSCreen = () => {
                   color='black'
                 />
             }
-            //value={displayCurrentAddress}
-            //onPressIn={GetCurrentLocation}
-        // onChangeText={this.onPasswordEntry}
-        // <Ionicons
-        // name="md-location-outline" 
-        // color='#000'
-        // size={36}
-        // style={[{marginTop:5},{marginLeft:-5}]}
-        // />
+           
             />
            
         </TouchableOpacity>

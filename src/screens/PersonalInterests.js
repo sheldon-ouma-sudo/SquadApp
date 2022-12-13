@@ -109,12 +109,20 @@ const PersonalInterests = () => {
       setSelected(newSelected);
     },
     [selected],
-    console.log(selected),
-    console.log(DATA.id)
+    console.log(selected)
+    //console.log(DATA.id)
   );
 
  const saveUserInterest=()=>{
 //check if the map is not empty
+    if(selected.size!=0){
+      for(let keys of selected.keys()){
+        console.log("this are the keys of the map",keys)
+        let obj = DATA.find(obj=>obj.id==keys)
+        const  personalInterest = obj.title
+        setUserInterest(personalInterest)
+      }
+    }
  }
 
 
