@@ -1,10 +1,11 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList} from 'react-native'
+    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, ScrollView} from 'react-native'
     import React, { useEffect, useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
     import { TouchableOpacity } from 'react-native';
     import { useNavigation } from '@react-navigation/native';
     import Constants from 'expo-constants';
+    import { useCallback } from 'react';
 
    
     const{width,height} = Dimensions.get("window")
