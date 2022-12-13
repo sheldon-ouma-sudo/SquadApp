@@ -39,6 +39,16 @@ const PersonalInterests = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(2)
   const[personalInterest, setPersonalInterest]=useState([])
+  const [open, setOpen] = React.useState(false)
+  const [data, setData] = React.useState([
+    { label: 'temperature', selected:false },
+    { label: 'humidity', },
+    { label: 'light', },
+    { label: 'move', },
+    { label: 'sound', },
+    { label: 'carbon dioxide', },
+    { label: 'air pollution', }
+  ])
 
   const SECTIONS = [
     {
@@ -88,10 +98,10 @@ const PersonalInterests = () => {
      
     },
   ];
-  const handleChange = prop => event => {
-    setPersonalInterest([ ...personalInterest, [prop], event.target.value ]);
-};
-  
+  openList = () => setOpen(true)
+  closeList = () => setOpen(false)
+  onUpdateValue = (index, value) => { data[index].selected = value; return setData([...data]);}
+  renderItem = ({ item, index }) => <ItemRenderer key={index} index={index} selected={item.selected} label={item.label} onUpdateValue={onUpdateValue} />
   const ListItem = ({ item }) => {
     return(
     <TouchableOpacity 
@@ -152,7 +162,7 @@ const PersonalInterests = () => {
                 horizontal
                 data={section.data}
                 renderItem={({ item }) => 
-                <ListItem item={item} />  
+               <ListItem item={item} />  
                 }
                 contentContainerStyle={{ paddingBottom: -40 }}
                 showsHorizontalScrollIndicator={false}
