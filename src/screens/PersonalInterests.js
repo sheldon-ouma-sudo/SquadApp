@@ -1,4 +1,4 @@
-    import { View, Text,Image, StyleSheet, 
+    import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, ScrollView} from 'react-native'
     import React, { useEffect, useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
