@@ -97,7 +97,7 @@
      
 const PersonalInterests = () => {
   const [selected, setSelected] = useState(new Map());
-  const [userInterest, setUserInterest] = useState([])
+  const [userInterest, setUserInterest] = useState({})
   const[currentPosition, setCurrentPositon] = useState(2)
   const navigation = useNavigation()
   const onSelect = useCallback(
@@ -116,11 +116,14 @@ const PersonalInterests = () => {
  const saveUserInterest=()=>{
 //check if the map is not empty
     if(selected.size!=0){
-      for(let keys of selected.keys()){
+      for(let [key, value] of selected){
+        if(value === true){
         console.log("this are the keys of the map",keys)
-        let obj = DATA.find(obj=>obj.id==keys)
+        let obj = DATA.find(obj=>obj.id==key)
         const  personalInterest = obj.title
         setUserInterest(personalInterest)
+        }
+        
       }
     }
  }
