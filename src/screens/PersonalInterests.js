@@ -109,21 +109,29 @@ const PersonalInterests = () => {
     console.log(selected)
     //console.log(DATA.id)
   );
-
- const saveUserInterest=()=>{
-//check if the map is not empty
-    if(selected.size!=0){
-      for(let [key, value] of selected){
-        if(value === true){
-        console.log("this are the keys of the map",keys)
-        let obj = DATA.find(obj=>obj.id==key)
-        const  personalInterest = obj.title
-        setUserInterest(personalInterest)
-        }
-        
+useEffect(()=>{
+  //check if the map is not empty
+  if(selected.size!=0){
+    for(let [key, value] of selected){
+      if(value === true){
+      console.log("this are the keys of the map",keys)
+      let obj = DATA.find(obj=>obj.id==key)
+      const  personalInterest = obj.title
+      setUserInterest({...personalInterest,...userInterest})
       }
+      
     }
- }
+  }
+
+})
+
+async function saveUserInterest(){
+  const user = await Auth.currentAuthenticatedUser();
+  await Auth.updateUserAttributes(user, {
+    'custom:userInterest': userInterest
+  });
+}
+// const saveUserInterest=()=>{}
   return (
     <SafeAreaView
     style={styles.container}
