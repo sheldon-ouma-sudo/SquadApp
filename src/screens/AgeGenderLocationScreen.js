@@ -8,6 +8,7 @@
   //import { useEffect } from 'react';
   import * as Location from 'expo-location'; 
   import { Ionicons } from '@expo/vector-icons';
+  import { Auth } from 'aws-amplify';
 
 
   const{width,height} = Dimensions.get("window")

@@ -6,6 +6,8 @@
     import { useNavigation } from '@react-navigation/native';
     import Constants from 'expo-constants';
     import { useCallback } from 'react';
+    import { Auth } from 'aws-amplify';
+  
 
    
     const{width,height} = Dimensions.get("window")
@@ -73,7 +75,10 @@
     function Item({ id, title, selected, onSelect,url}) {
       return (
         <TouchableOpacity 
-          onPress={() => onSelect(id)}
+          onPress={() => 
+            onSelect(id)
+          }
+
           style={[
             styles.item,
             { backgroundColor: selected ? '#1145FD' : '#fff'  },
@@ -92,17 +97,27 @@
      
 const PersonalInterests = () => {
   const [selected, setSelected] = useState(new Map());
+  const [userInterest, setUserInterest] = useState([])
   const[currentPosition, setCurrentPositon] = useState(2)
   const navigation = useNavigation()
   const onSelect = useCallback(
     id => {
       const newSelected = new Map(selected);
       newSelected.set(id, !selected.get(id));
-
+      //const personalInterest = selected.get(title)
+     // console.log(personalInterest)
       setSelected(newSelected);
     },
     [selected],
+    console.log(selected),
+    console.log(DATA.id)
   );
+
+ const saveUserInterest=()=>{
+//check if the map is not empty
+ }
+
+
 
   return (
     <SafeAreaView
