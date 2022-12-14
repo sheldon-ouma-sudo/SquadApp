@@ -159,7 +159,7 @@
                 </Text>
           </TouchableOpacity>       
       </View>
-      <View style={[{ flexDirection:"row" },{marginTop:-50}, {marginBottom:30},{marginLeft:30}]}>
+      <View style={[{ flexDirection:"row" },{marginTop:-80}, {marginBottom:30},{marginLeft:30}]}>
         <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
             <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
            </TouchableOpacity>
