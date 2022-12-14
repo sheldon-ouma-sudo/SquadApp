@@ -27,7 +27,7 @@ const PollContentScreen = () => {
     { label: 'Snapchat', value: '5' },
     { label: 'Tiktok', value: '6' },
 ]
-const navigate = useNavigation()
+const navigation = useNavigation()
 const renderDataItem = (item) => {
   return (
       <View style={styles.item}>
@@ -37,8 +37,9 @@ const renderDataItem = (item) => {
   );
 };
 const handlePoll =()=>{
-  alert("Attempts to create a poll")
-  navigate.navigate("RootNavigation")
+  alert("Attempts to create a  new poll")
+  navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+
 }
   return (
     <KeyboardAvoidingView
