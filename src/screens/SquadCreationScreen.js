@@ -38,15 +38,10 @@
       labelSize: 13,
       currentStepLabelColor: '#fffff'
     }
-    
-    
-    
-    
-    
+   
   const SquadCreationScreen = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(3)
-
 
   return (
     <KeyboardAvoidingView 
