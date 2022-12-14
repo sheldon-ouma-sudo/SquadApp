@@ -1,9 +1,10 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet,Image, TextInput, TouchableOpacity, StatusBar} from 'react-native'
+import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
+  TextInput, TouchableOpacity, StatusBar} from 'react-native'
 import { useState, useEffect } from 'react'
-import SelectList from 'react-native-dropdown-select-list'
+import {SelectList} from 'react-native-dropdown-select-list'
 import { MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 
 const PollContentScreen = () => {
   const [selected, setSelected]  = useState("")
@@ -189,7 +190,7 @@ pollAudience:{
 },
 button:{
   backgroundColor: '#1764EF',
-  width: 380,
+  width: 350,
   height: 42,
   padding: 12,
   borderRadius: 5,
