@@ -112,10 +112,11 @@ useEffect(()=>{
   if(selected.size!=0){
     for(let [key, value] of selected){
       if(value === true){
-      console.log("this are the keys of the map",keys)
+      console.log("this are the keys of the map",key)
       let obj = DATA.find(obj=>obj.id==key)
       const  personalInterest = obj.title
       setUserInterest({...personalInterest,...userInterest})
+      console.log(personalInterest)
       }
     }
   }
