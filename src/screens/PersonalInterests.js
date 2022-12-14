@@ -68,14 +68,12 @@
       },
     
     ];
-   
     function Item({ id, title, selected, onSelect,url}) {
       return (
         <TouchableOpacity 
           onPress={() => 
             onSelect(id)
           }
-
           style={[
             styles.item,
             { backgroundColor: selected ? '#1145FD' : '#fff'  },
@@ -124,10 +122,17 @@ useEffect(()=>{
 })
 
 async function saveUserInterest(){
-  const user = await Auth.currentAuthenticatedUser();
-  await Auth.updateUserAttributes(user, {
-    'custom:userInterest': userInterest
-  });
+  try{
+    const user = await Auth.currentAuthenticatedUser();
+    await Auth.updateUserAttributes(user, {
+      'custom:userInterest': userInterest
+    });
+    console.log("✅successful saved user interestes")
+    navigation.navigate("SquadCreationScreen")
+  }catch(e){
+   console.log("❌failure on updating user custome attributes", e)
+  }
+  
 }
 // const saveUserInterest=()=>{}
   return (
