@@ -177,7 +177,7 @@
   )
   }
 
-  export default SquadCreationScreen
+  
   const styles = StyleSheet.create({
   container:{
   flex:1,
@@ -324,7 +324,6 @@
     alignItems: 'center',
     marginRight: 50,
     marginLeft:20,
-
 },
 
 backButton:{
@@ -338,24 +337,20 @@ backButton:{
   marginRight: 5,
   marginLeft:15,
   borderColor:'#1145FD'
-
 },
 buttonText:{
   color: 'white',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
-  
-  
+  alignItems:"center" 
 },
 backText:{
   color: '#1145FD',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
-  
-  
+  alignItems:"center" 
 },
   },
 
   )
+  export default SquadCreationScreen
