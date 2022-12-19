@@ -1,121 +1,50 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Text,
- ScrollView,
- Image,
- View,
- StatusBar,
- Dimensions,
-} from 'react-native';
-import StepIndicator from 'react-native-step-indicator';
-import { useState } from 'react';
-import { useCallback } from 'react';
-import Constants from 'expo-constants';
-import { useNavigation } from '@react-navigation/native';
-
-
-const{width,height} = Dimensions.get("window")
-const customStyles = {
-  stepIndicatorSize: 25,
-  currentStepIndicatorSize:30,
-  separatorStrokeWidth: 2, 
-  currentStepStrokeWidth: 3,
-  stepStrokeCurrentColor: '#ffff',
-  stepStrokeWidth: 3,
-  stepStrokeFinishedColor: '#1764EF',
-  stepStrokeUnFinishedColor: '#aaaaaa',
-  separatorFinishedColor: '#1764EF',
-  separatorUnFinishedColor: '#aaaaaa',
-  stepIndicatorFinishedColor:  '#1764EF',
-  stepIndicatorUnFinishedColor: '#ffffff',
-  stepIndicatorCurrentColor: '#1764EF',
-  stepIndicatorLabelFontSize: 13,
-  currentStepIndicatorLabelFontSize: 13,
-  stepIndicatorLabelCurrentColor: '#ffffff',
-  stepIndicatorLabelFinishedColor: '#ffffff',
-  stepIndicatorLabelUnFinishedColor: '#aaaaaa',
-  //labelColor: '#999999',
-  labelSize: 13,
-  currentStepLabelColor: '#fffff'
-}
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Food',
-    url: 'https://media3.giphy.com/media/26xBzfqV1XqKAlRCw/giphy.gif',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Fashion',
-    url: 'https://media3.giphy.com/media/xjIh4zHDjhjji/giphy.gif',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Travel',
-    url: 'https://media3.giphy.com/media/iBBfBIj1XopJF6WTVI/giphy.gif',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72v2',
-    title: 'Decor',
-     url: 'https://media3.giphy.com/media/JGdbbSyi3wM9uBKv8p/giphy.gif',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72v3',
-    title: 'Wellness',
-    url: 'https://media3.giphy.com/media/cAgGLp84BRh4lZumDt/giphy.gif',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72v4',
-    title: 'Social',
-    url: 'https://media3.giphy.com/media/Swg9cud2W8OKVhz9rt/giphy.gif',
-
-  },
-
-];
-
-
-
-function Item({ id, title, selected, onSelect,url}) {
-  return (
-    <TouchableOpacity 
-      onPress={() => onSelect(id)}
-      style={[
-        styles.item,
-        { backgroundColor: selected ? '#1145FD' : '#fff'  },
-      ]}
-    >
-      <Image
-      source={{uri:url}}
-      style={styles.itemPhoto}
-      resizeMode="cover"
-    />
-
-      <Text style={[styles.title,{color:selected?'#fff':'#1145FD'}]}>{title}</Text>
-    </TouchableOpacity>
-  );
-}
-
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+  StatusBar,Dimensions,SafeAreaView,SectionList,FlatList} from 'react-native'
+  import React, { useState } from 'react'
+  import StepIndicator from 'react-native-step-indicator';
+  import { TouchableOpacity } from 'react-native';
+  import { useNavigation } from '@react-navigation/native';
+  import { Icon } from 'react-native-elements';
+  import { fontSize } from '@mui/system';
+  import { Entypo } from '@expo/vector-icons'; //contacts
+  import { Ionicons } from '@expo/vector-icons'; 
+  import { FontAwesome5 } from '@expo/vector-icons';//instagram and tiktok 
+  import { FontAwesome } from '@expo/vector-icons'; //snapchat
+  import { AntDesign } from '@expo/vector-icons'; //twitter
+  
+  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
+  const{width,height} = Dimensions.get("window")
+  //const[currentPosition, setCurrentPositon]=useState(0)
+  const customStyles = {
+    stepIndicatorSize: 25,
+    currentStepIndicatorSize:30,
+    separatorStrokeWidth: 2, 
+    currentStepStrokeWidth: 3,
+    stepStrokeCurrentColor: '#ffff',
+    stepStrokeWidth: 3,
+    stepStrokeFinishedColor: '#1764EF',
+    stepStrokeUnFinishedColor: '#aaaaaa',
+    separatorFinishedColor: '#1764EF',
+    separatorUnFinishedColor: '#aaaaaa',
+    stepIndicatorFinishedColor:  '#1764EF',
+    stepIndicatorUnFinishedColor: '#ffffff',
+    stepIndicatorCurrentColor: '#1764EF',
+    stepIndicatorLabelFontSize: 13,
+    currentStepIndicatorLabelFontSize: 13,
+    stepIndicatorLabelCurrentColor: '#ffffff',
+    stepIndicatorLabelFinishedColor: '#ffffff',
+    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
+    //labelColor: '#999999',
+    labelSize: 13,
+    currentStepLabelColor: '#fffff'
+  }
+ 
 const TestWorkScreen =() => {
-  const [selected, setSelected] = useState(new Map());
-  const[currentPosition, setCurrentPositon] = useState(2)
   const navigation = useNavigation()
-  const onSelect = useCallback(
-    id => {
-      const newSelected = new Map(selected);
-      newSelected.set(id, !selected.get(id));
-
-      setSelected(newSelected);
-    },
-    [selected],
-  );
+  const[currentPosition, setCurrentPositon] = useState(3)
 
   return (
-    <SafeAreaView
+    <KeyboardAvoidingView 
     style={styles.container}
     behavior="padding"
     >
@@ -132,150 +61,295 @@ const TestWorkScreen =() => {
     </View>
     <View style={styles.indicatiorWindow}>
     <StepIndicator
-     customStyles={customStyles}
-     currentPosition={currentPosition}
-     //labels={labels}
-     />
-     <View
-     style={[{marginTop:10},{marginBottom:10}]}
-     >
-      <Text
-      style={styles.textInterest}
-      > 
-      Select themes are you are interested:
-      </Text>
-     </View>
+    customStyles={customStyles}
+    currentPosition={currentPosition}
+    //labels={labels}
+    />
     </View>  
-    <View style={{marginTop:-30}}></View>
-       <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}
-       style={[{marginRight:20}]}
-       >
-      <FlatList
-         data={DATA}
-         scrollEnabled={false}
-         numColumns={Math.ceil(DATA.length / 2)}
-        renderItem={({ item }) => (
-          <Item
-            id={item.id}
-            title={item.title}
-            url = {item.url}
-            selected={!!selected.get(item.id)}
-            onSelect={onSelect}
-          />
-        )}
-        keyExtractor={item => item.id}
-        extraData={selected}
-      />
-      </ScrollView>
-
-      <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:70},{marginTop:-330},{marginRight:250},{width:160} ]}>
-      <Text  style={[{justifyContent: 'flex-end'},styles.backText,]}> Back </Text>
+    <View style={styles.squadTextContainer}>
+      <Text style={styles.squadText}>
+      Get feedback from those you know best:
+      Your Squad will be the default group of contacts 
+      that you will be able to share your polls with: 
+      you can always edit the Squad in your account page.
+      Grow your Squad through the following:
+      </Text>
+    </View>
+    {/** Squad and contact Squad creation*/}
+    <View style= {[{flexDirection:"row"}]}>
+      <TouchableOpacity style= {[{flex:1}, styles.contacts]}>
+          <Ionicons
+          name = "people"
+          size = {50}
+          color= '#1977F3'
+          style= {[{justifyContent:'flex-start'}, styles.contactsLogo]}
+          ></Ionicons>
+          <Text style={styles.contactsTexts}>
+            Access Contacts
+          </Text>
       </TouchableOpacity>
-      <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:80},{marginLeft:230},{marginRight:50},{width:160} ]}>
-      <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
-      </TouchableOpacity>
+      <TouchableOpacity style= {[{fex:1}, styles.squadAddLogoContainer]}>
+              <Ionicons
+              name = 'person-add'
+              size={50}
+              color='#1977F3'
+              //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+              style={[{justifyContent:'flex-end'},styles.squadAddLogo]}
+              >
+           </Ionicons>
+           <Text style={styles.contactsTexts}>
+             Squad Access
+          </Text>
+      </TouchableOpacity>       
+  </View>
+ {/**Instagram and Tiktok Squad creation*/}
+  <View style= {[{flexDirection:"row"}, ]}>
+          <TouchableOpacity style= {[{flex:1},styles.InstagramLogoContainer ]}>
+          <FontAwesome5 
+          name="instagram-square" 
+          size={54} 
+          color='#1977F3' 
+          style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
+            />
+            <Text style={styles.contactsTexts}>
+           Access Instagram
+          </Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style= {[{fex:1}, styles.TiktokLogoContainer]}>
+                  <FontAwesome5
+                  name='tiktok'
+                  size = {54}
+                  color='#1977F3' 
+                  //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                  style={[{justifyContent:'flex-end'},styles.TiktokLogo]}
+                  >
+                  </FontAwesome5>
+                  <Text style={styles.contactsTexts}>
+                    Access Tiktok
+                  </Text>
+          </TouchableOpacity>       
+      </View>
 
-    </SafeAreaView>
-  );
-}
+       {/**Twitter and Snapchat Squad creation*/}
+      <View style= {[{flexDirection:"row"},]}>
+          <TouchableOpacity style= {[{flex:1}, styles.SnapChateLogoContainer]}>
+              <FontAwesome
+              name='snapchat-ghost'
+              size={54}
+              color= '#1977F3' 
+              //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
+              style= {[{justifyContent:'flex-start'}, styles.SnapChatLogo]}
+              ></FontAwesome>
+              <Text style={styles.contactsTexts}>
+                    Access SnapChat
+                  </Text>
+             </TouchableOpacity>
+              <TouchableOpacity style= {[{fex:1},styles.TwitterLogoContainer]}>
+                  <AntDesign
+                  name='twitter'
+                  size={54}
+                  color= '#1977F3' 
+                 // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
+                  style={[{justifyContent:'flex-end'},styles.facebookLogo]}
+                  >
+                  </AntDesign>
+                  <Text style={styles.contactsTexts}>
+                    Twitter Access
+                </Text>
+          </TouchableOpacity>       
+      </View>
+      <View style={[{ flexDirection:"row" },{marginTop:-80}, {marginBottom:30},{marginLeft:30}]}>
+        <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
+           </TouchableOpacity>
+            <TouchableOpacity  onPress={() =>
+             navigation.navigate('RootNavigation', { screen: 'HomeScreen' })}
+              style={[{flex:1}, styles.button]}>
+            <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
+           </TouchableOpacity>
+   </View>
+  
+      
+        
+      
+    </KeyboardAvoidingView>
+  )
+  }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems:"center",
-    justifyContent:"flex-start",
-    marginTop: Constants.statusBarHeight,
+  
+  const styles = StyleSheet.create({
+  container:{
+  flex:1,
+  justifyContent:"flex-start",
+  alignItems:"center",
+  backgroundColor: "#F4F8FB",
+
+
   },
   squadLogo:{
-    width:100,
-    height:35,
-    marginRight:250,
-    marginTop:70
-},
+      width:100,
+      height:35,
+      marginRight:250,
+      marginTop:70
+      
 
-header:{
-  height: 55, 
-  width:'50%',
-  justifyContent:"center",
-  alignItems:'center',
-  marginRight:200,
-  marginTop: 10,
-  marginLeft:35
-},
-headerText:{
-  fontSize:22,
-  fontWeight:'bold'
-},
-indicatiorWindow:{
-  width:width-20,
-  padding:20,
-  margin:15,
-  borderRadius:20,
-  marginTop:-20,
-  marginLeft:-8
-},
-textInterest:{
-fontSize:15
-},
-  item: {
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal:10,
-    height:120,
-    width:120,
-    borderRadius:3,
-    marginRight:-5
+  
   },
-  title: {
-    fontSize: 12,
-    marginTop:5,
+  header:{
+    height: 55, 
+    //padding:10, 
+    width:'50%',
+    //backgroundColor:"#000",
+    //elevation:10,
+    justifyContent:"center",
+    alignItems:'center',
+    marginRight:200,
+    marginTop: 10,
+    marginLeft:35
+  },
+  headerText:{
+    //color:'red',
+    fontSize:22,
+    fontWeight:'bold'
+  },
+  indicatiorWindow:{
+    //height:height-170,
+    width:width-30,
+    padding:20,
+    margin:15,
+    //elevation:10,
+    borderRadius:20,
+    marginTop:-20
+
+    //backgroundColor:'blue'
+  },
+  squadTextContainer:{
+    marginTop:-10,
+    marginLeft:25,
+    marginRight:20
+
+  },
+  squadText:{
+    fontWeight:'500',
+    fontSize:14
+  },
+ 
+  contacts:{
+    width:120,
+    height:100,
+    marginTop:30,
+    backgroundColor: '#FFFFFF',
+    borderRadius:12,
+    padding:10,
+    marginRight:80,
+    //alignItems:'center',
+    marginLeft:50
+  },
+  contactsLogo:{
+    marginLeft:30,
+    
+   
+  },
+  contactsTexts:{
     fontWeight:'600'
   },
-  itemPhoto: {
-    width: 75,
-    height: 75,
-    alignSelf:'center'
+  squadAddLogoContainer:{
+    marginTop:30,
+    width:150,
+    height:100,
+    backgroundColor: '#FFFFFF',
+    borderRadius:12,
+    padding:10,
+    marginRight:50,
+    //alignItems:'center',
+    marginLeft:-60
+    
+  },
+  squadAddLogo:{
+   marginLeft:10,
+  },
+  InstagramLogoContainer:{
+    width:120,
+    height:100,
+    marginTop:30,
+    backgroundColor: '#FFFFFF',
+    borderRadius:12,
+    padding:10,
+    marginRight:80,
+    //alignItems:'center',
+    marginLeft:50
+  },
+  TiktokLogoContainer:{
+    marginTop:30,
+    width:150,
+    height:100,
+    backgroundColor: '#FFFFFF',
+    borderRadius:12,
+    padding:10,
+    marginRight:50,
+    //alignItems:'center',
+    marginLeft:-60
+  },
+ SnapChateLogoContainer:{
+  width:120,
+  height:100,
+  marginTop:30,
+  backgroundColor: '#FFFFFF',
+  borderRadius:12,
+  padding:10,
+  marginRight:80,
+  //alignItems:'center',
+  marginLeft:50
+    
+  },
+  TwitterLogoContainer:{
+    marginTop:30,
+    width:150,
+    height:100,
+    backgroundColor: '#FFFFFF',
+    borderRadius:12,
+    padding:10,
+    marginRight:50,
+    //alignItems:'center',
+    marginLeft:-60
   },
   button:{
     backgroundColor: '#1145FD',
-    width: 180,
+    width: 120,
     height: 42,
     padding: 10,
     borderRadius: 5,
-    marginTop: 100,
+    marginTop: 130,
     alignItems: 'center',
-    marginRight: 30,
+    marginRight: 50,
     marginLeft:20,
-
 },
 
 backButton:{
   backgroundColor: '#EAEAEA',
-  width: 150,
+  width: 120,
   height: 42,
   padding: 10,
   borderRadius: 5,
-  alignItems: 'center', 
+  marginTop: 130,
+  alignItems: 'center',
+  marginRight: 5,
+  marginLeft:15,
   borderColor:'#1145FD'
 },
 buttonText:{
   color: 'white',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center",
-  width:50 
+  alignItems:"center" 
 },
 backText:{
   color: '#1145FD',
   fontWeight: '700',
   fontSize: 15,
-  alignItems:"center"
+  alignItems:"center" 
 },
-nextText:{
-  color: '#1145FD',
-  fontWeight: '700',
-  fontSize: 15,
-  alignItems:"center"
-},
-});
+  },
+  )
 export default TestWorkScreen
