@@ -258,7 +258,7 @@ return (
             <TouchableOpacity style={{marginTop:20}}>
                 <Text 
                 onPress={() =>
-                    navigation.navigate("AgeGenderLocationScreen")}
+                    navigation.navigate("TestWorkScreen")}
                 style={styles.forgotPasswordText}>
                     Forgot Password?
                 </Text> 
@@ -303,7 +303,7 @@ input:{
     paddingVertical:5,
     borderRadius:5,
     width:296,
-    height:32,
+    height:40,
     marginTop:10,
     fontSize: 13,
     marginRight:15,
@@ -330,7 +330,7 @@ button:{
     borderRadius: 5,
     marginTop: 40,
     alignItems: 'center',
-    marginRight: 10,
+    marginRight: 5,
     marginLeft:15,
 },
 
