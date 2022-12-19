@@ -167,9 +167,7 @@ const handleLogin = () =>{
     
     })
 } 
-
 }
-
 return (
     <KeyboardAvoidingView 
     style={styles.container}
