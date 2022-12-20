@@ -107,28 +107,28 @@ const PersonalInterests = () => {
    // console.log(selected),
     //console.log(userInterest)
   );
-   useEffect(()=>{
-//   //check if the map is not empty
-      if(selected.size!=0){
-        for(let [key, value] of selected){
-        if(value === true){
-          //console.log("this are the keys of the map and are true: ",key)
-          let obj = DATA.find(obj=>obj.id==key)
-           const  personalInterest = obj.title
-           setUserInterest(userInterest => [...personalInterest,userInterest])
-           console.log("here is the user Interest we are trying to find and this are the keys of the map and are true: ", personalInterest)
-           console.log(userInterest)
-        }else {
-              console.log("these are the keys and the value are false: ", key)
-          }
-//       let obj = DATA.find(obj=>obj.id==key)
-//       const  personalInterest = obj.title
-//      setUserInterests(searches => [...userInterest, personalInterests])
-//       console.log(personalInterest)
-   }
-    }
+//    useEffect(()=>{
+// //   //check if the map is not empty
+//       if(selected.size!=0){
+//         for(let [key, value] of selected){
+//         if(value === true){
+//           //console.log("this are the keys of the map and are true: ",key)
+//           let obj = DATA.find(obj=>obj.id==key)
+//            const  personalInterest = obj.title
+//            setUserInterest(userInterest => [...personalInterest,userInterest])
+//            console.log("here is the user Interest we are trying to find and this are the keys of the map and are true: ", personalInterest)
+//            console.log(userInterest)
+//         }else {
+//               console.log("these are the keys and the value are false: ", key)
+//           }
+// //       let obj = DATA.find(obj=>obj.id==key)
+// //       const  personalInterest = obj.title
+// //      setUserInterests(searches => [...userInterest, personalInterests])
+// //       console.log(personalInterest)
+//    }
+//     }
   
- }, [])
+//  }, [])
 
 async function saveUserInterest(){
   try{

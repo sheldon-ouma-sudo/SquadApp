@@ -42,6 +42,8 @@
   const SquadCreationScreen = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(3)
+  //this functionality gets the contanct to be used for one of the functionality namely; invite users to the app from the contacts
+  
 
   return (
     <KeyboardAvoidingView 
