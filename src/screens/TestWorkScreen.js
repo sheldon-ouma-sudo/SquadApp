@@ -44,7 +44,6 @@ const TestWorkScreen =() => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(3)
   const contactSquadCreation =async()=>{
-
   }
 
   const squadSquadCreation =async()=>{
@@ -71,9 +70,10 @@ const shareOptions = {
 }
 try{
   const shareResponse = await Share.open(shareOptions)
+  console.log(shareResponse)
 }
-catch (e){
-
+catch (error){
+ console.log("there is an error with sharing the link to the other users", )
 }
 }
 
@@ -122,7 +122,9 @@ catch (e){
             Access Contacts
           </Text>
       </TouchableOpacity>
-      <TouchableOpacity style= {[{fex:1}, styles.squadAddLogoContainer]}>
+      <TouchableOpacity 
+      onPress={genSquadCreation}
+      style= {[{fex:1}, styles.squadAddLogoContainer]}>
               <Ionicons
               name = 'person-add'
               size={50}
@@ -138,7 +140,9 @@ catch (e){
   </View>
  {/**Instagram and Tiktok Squad creation*/}
   <View style= {[{flexDirection:"row"}, ]}>
-          <TouchableOpacity style= {[{flex:1},styles.InstagramLogoContainer ]}>
+          <TouchableOpacity 
+           onPress={genSquadCreation}
+          style= {[{flex:1},styles.InstagramLogoContainer ]}>
           <FontAwesome5 
           name="instagram-square" 
           size={54} 
@@ -150,7 +154,9 @@ catch (e){
           </Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style= {[{fex:1}, styles.TiktokLogoContainer]}>
+          <TouchableOpacity 
+           onPress={genSquadCreation}
+          style= {[{fex:1}, styles.TiktokLogoContainer]}>
                   <FontAwesome5
                   name='tiktok'
                   size = {54}
@@ -167,7 +173,9 @@ catch (e){
 
        {/**Twitter and Snapchat Squad creation*/}
       <View style= {[{flexDirection:"row"},]}>
-          <TouchableOpacity style= {[{flex:1}, styles.SnapChateLogoContainer]}>
+          <TouchableOpacity 
+           onPress={genSquadCreation}
+          style= {[{flex:1}, styles.SnapChateLogoContainer]}>
               <FontAwesome
               name='snapchat-ghost'
               size={54}
@@ -179,7 +187,9 @@ catch (e){
                     Access SnapChat
                   </Text>
              </TouchableOpacity>
-              <TouchableOpacity style= {[{fex:1},styles.TwitterLogoContainer]}>
+              <TouchableOpacity 
+               onPress={genSquadCreation}
+              style= {[{fex:1},styles.TwitterLogoContainer]}>
                   <AntDesign
                   name='twitter'
                   size={54}
