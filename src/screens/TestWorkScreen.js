@@ -10,7 +10,8 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { Ionicons } from '@expo/vector-icons'; 
   import { FontAwesome5 } from '@expo/vector-icons';//instagram and tiktok 
   import { FontAwesome } from '@expo/vector-icons'; //snapchat
-  import { AntDesign } from '@expo/vector-icons'; //twitter
+  import { AntDesign } from '@expo/vector-icons'; //twitter\
+  import Share from 'expo-sharing' ;
   
   //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
   const{width,height} = Dimensions.get("window")
@@ -62,7 +63,19 @@ const TestWorkScreen =() => {
   const twitterSquadCreation =async()=>{
     
   }
+const genSquadCreation = async()=>{
+const shareOptions = {
+  message: "Please join my squad in the SquadPolls App for an amazing experience",
+  url: "<link>"
 
+}
+try{
+  const shareResponse = await Share.open(shareOptions)
+}
+catch (e){
+
+}
+}
 
   return (
     <KeyboardAvoidingView 
