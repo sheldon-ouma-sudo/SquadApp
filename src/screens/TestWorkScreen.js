@@ -42,6 +42,27 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
 const TestWorkScreen =() => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(3)
+  const contactSquadCreation =async()=>{
+
+  }
+
+  const squadSquadCreation =async()=>{
+    
+  }
+  const instagramSquadCreation =async()=>{
+    
+  }
+
+  const snapChatSquadCreation =async()=>{
+    
+  }
+  const tiktokSquadCreation =async()=>{
+    
+  }
+  const twitterSquadCreation =async()=>{
+    
+  }
+
 
   return (
     <KeyboardAvoidingView 
