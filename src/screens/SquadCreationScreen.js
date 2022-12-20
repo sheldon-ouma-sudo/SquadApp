@@ -11,7 +11,7 @@
     import { FontAwesome5 } from '@expo/vector-icons';//instagram and tiktok 
     import { FontAwesome } from '@expo/vector-icons'; //snapchat
     import { AntDesign } from '@expo/vector-icons'; //twitter
-   import Share from 'react-native-share'
+   //import Share from 'react-native-share'
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -69,8 +69,8 @@
   
   }
   try{
-    const shareResponse = await Share.open(shareOptions)
-    console.log(shareResponse)
+    //const shareResponse = await Share.open(shareOptions)
+   //console.log(shareResponse)
   }
   catch (error){
    console.log("there is an error with sharing the link to the other users", error)
