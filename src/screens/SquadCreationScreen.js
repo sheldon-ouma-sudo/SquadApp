@@ -1,5 +1,5 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList} from 'react-native'
+    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, } from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
     import { TouchableOpacity } from 'react-native';
@@ -11,6 +11,7 @@
     import { FontAwesome5 } from '@expo/vector-icons';//instagram and tiktok 
     import { FontAwesome } from '@expo/vector-icons'; //snapchat
     import { AntDesign } from '@expo/vector-icons'; //twitter
+   import Share from 'react-native-share'
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -72,8 +73,8 @@
     console.log(shareResponse)
   }
   catch (error){
-   console.log("there is an error with sharing the link to the other users", )
-  }
+   console.log("there is an error with sharing the link to the other users", error)
+  } 
   }
   
     return (
