@@ -1,5 +1,5 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, } from 'react-native'
+    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList,Share } from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
     import { TouchableOpacity } from 'react-native';
@@ -12,7 +12,7 @@
     import { FontAwesome } from '@expo/vector-icons'; //snapchat
     import { AntDesign } from '@expo/vector-icons'; //twitter
    //import Share from 'react-native-share'
-   import { Share } from 'react-native';
+   //import { Share } from 'react-native';
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -64,19 +64,24 @@
       
     }
   const genSquadCreation = async()=>{
-  const shareOptions = {
-    message: "Please join my squad in the SquadPolls App for an amazing experience",
-    url: "<link>"
-  
-  }
-  try{
-    //const shareResponse = await Share.open(shareOptions)
-   //console.log(shareResponse)
-  }
-  catch (error){
-   console.log("there is an error with sharing the link to the other users", error)
-  } 
-  }
+      try {
+        const result = await Share.share({
+          message:
+            "Kindly join my squad to be part of to be part of the fun🥰"
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    };
   
     return (
       <KeyboardAvoidingView 
