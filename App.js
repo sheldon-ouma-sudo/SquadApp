@@ -30,28 +30,41 @@ import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import config from './src/aws-exports'
 import Amplify from "@aws-amplify/core";
-import {Auth, Storage, API } from 'aws-amplify';
+import {Auth, Storage, API,graphqlOperation } from 'aws-amplify';
 import { useEffect } from "react";
+import {getUser} from './src/graphql/queries'
+import {createUser} from './src/graphql/mutations'
 
 Amplify.configure(config)
  ///run this once when the app is opened
 useEffect(()=>{
   const fetchUser = async()=>{
     //get the authenicated users
-    const userInfo = await Auth.currentAuthenticatedUser({bypassCache:true})
+    const userInfo = await Auth.currentAuthenticatedUser({bypassCache:false})
     console.log(userInfo)
     if(userInfo){
       //link the user on backend and the user on the appysnc
+      const userData = await API.graphql(graphqlOperation(getUser, {id:userInfo.attributes.sub}))
+      console.log(userData)
+    }
+    if(userData.data.getUser){
+      console.log("user is already in the registered in the db");
+      return 
     }
     //get the users from backend with the users id from the authentication 
     //if there is no user in our database with the Id
-
+     const newUser = {
+      id:userInfo.attributes.sub,
+      username:userInfo.username,
+      imageUrl:userInfo.profile_picture
+     }
+     await API.graphql(graphqlOperation(
+      createUser,
+      {input: newUser}
+     ))
   }
   fetchUser()
 }, [])
-
-
-
 
 
 const Stack = createNativeStackNavigator();

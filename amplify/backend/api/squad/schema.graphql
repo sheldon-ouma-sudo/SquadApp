@@ -8,7 +8,15 @@ type User @model {
   name: String!
   username: String!
   imageUrl: String
+
   numOfPolls: Int!
-  squad: String!
-  numOfSways: String!
+}
+type SquadUser @model {
+  id: ID!
+  userID: ID!
+  squadID: ID!
+}
+
+type Squad @model {
+  id: ID!
 }

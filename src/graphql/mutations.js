@@ -12,8 +12,6 @@ export const createUser = /* GraphQL */ `
       username
       imageUrl
       numOfPolls
-      squad
-      numOfSways
       createdAt
       updatedAt
     }
@@ -30,8 +28,6 @@ export const updateUser = /* GraphQL */ `
       username
       imageUrl
       numOfPolls
-      squad
-      numOfSways
       createdAt
       updatedAt
     }
@@ -48,8 +44,84 @@ export const deleteUser = /* GraphQL */ `
       username
       imageUrl
       numOfPolls
-      squad
-      numOfSways
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createSquadUser = /* GraphQL */ `
+  mutation CreateSquadUser(
+    $input: CreateSquadUserInput!
+    $condition: ModelSquadUserConditionInput
+  ) {
+    createSquadUser(input: $input, condition: $condition) {
+      id
+      userID
+      squadID
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSquadUser = /* GraphQL */ `
+  mutation UpdateSquadUser(
+    $input: UpdateSquadUserInput!
+    $condition: ModelSquadUserConditionInput
+  ) {
+    updateSquadUser(input: $input, condition: $condition) {
+      id
+      userID
+      squadID
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSquadUser = /* GraphQL */ `
+  mutation DeleteSquadUser(
+    $input: DeleteSquadUserInput!
+    $condition: ModelSquadUserConditionInput
+  ) {
+    deleteSquadUser(input: $input, condition: $condition) {
+      id
+      userID
+      squadID
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createSquad = /* GraphQL */ `
+  mutation CreateSquad(
+    $input: CreateSquadInput!
+    $condition: ModelSquadConditionInput
+  ) {
+    createSquad(input: $input, condition: $condition) {
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSquad = /* GraphQL */ `
+  mutation UpdateSquad(
+    $input: UpdateSquadInput!
+    $condition: ModelSquadConditionInput
+  ) {
+    updateSquad(input: $input, condition: $condition) {
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSquad = /* GraphQL */ `
+  mutation DeleteSquad(
+    $input: DeleteSquadInput!
+    $condition: ModelSquadConditionInput
+  ) {
+    deleteSquad(input: $input, condition: $condition) {
+      id
       createdAt
       updatedAt
     }

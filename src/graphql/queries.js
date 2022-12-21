@@ -9,8 +9,6 @@ export const getUser = /* GraphQL */ `
       username
       imageUrl
       numOfPolls
-      squad
-      numOfSways
       createdAt
       updatedAt
     }
@@ -29,8 +27,60 @@ export const listUsers = /* GraphQL */ `
         username
         imageUrl
         numOfPolls
-        squad
-        numOfSways
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getSquadUser = /* GraphQL */ `
+  query GetSquadUser($id: ID!) {
+    getSquadUser(id: $id) {
+      id
+      userID
+      squadID
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSquadUsers = /* GraphQL */ `
+  query ListSquadUsers(
+    $filter: ModelSquadUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSquadUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        squadID
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getSquad = /* GraphQL */ `
+  query GetSquad($id: ID!) {
+    getSquad(id: $id) {
+      id
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSquads = /* GraphQL */ `
+  query ListSquads(
+    $filter: ModelSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSquads(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
         createdAt
         updatedAt
       }
