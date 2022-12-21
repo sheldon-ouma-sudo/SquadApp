@@ -1,8 +1,11 @@
 module.exports = {
-    project: {
-        ios: {},
-        android: {},
+    assets: ['react-native-vector-icons'],
+    dependencies: {
+      'react-native-code-push': {
+        platforms: {
+          ios: null,
+          android: null,
+        },
+      },
     },
-    //assets: ['./assets/fonts/'], // <- your asset folder's path
-    };
-    
+  };

@@ -1,8 +1,8 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList,Share } from 'react-native'
+    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList,Share,TouchableOpacity } from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
-    import { TouchableOpacity } from 'react-native';
+   // import { TouchableOpacity } from 'react-native';
     import { useNavigation } from '@react-navigation/native';
     import { Icon } from 'react-native-elements';
     import { fontSize } from '@mui/system';
@@ -51,6 +51,17 @@
       
     }
     const instagramSquadCreation =async()=>{
+      try{
+        await onShareSingle({
+          title: "Share to Instagram",
+          message: "Check out my pic.",
+          social: Share.Social.INSTAGRAM,
+          url: file.pdf,
+        });
+      }catch(e){
+       console.log("there was an error while trying to share the link",)
+      }
+      
       
     }
   
@@ -116,6 +127,7 @@
         </Text>
       </View>
       {/** Squad and contact Squad creation*/}
+      <SafeAreaView></SafeAreaView>
       <View style= {[{flexDirection:"row"}]}>
         <TouchableOpacity style= {[{flex:1}, styles.contacts]}>
             <Ionicons
@@ -176,12 +188,13 @@
                     </Text>
             </TouchableOpacity>       
         </View>
+
   
          {/**Twitter and Snapchat Squad creation*/}
-        <View style= {[{flexDirection:"row"},]}>
+        <TouchableOpacity style= {[{flexDirection:"row"},]}>
             <TouchableOpacity 
              onPress={genSquadCreation}
-            style= {[{flex:1}, styles.SnapChateLogoContainer]}>
+             style= {[{flex:1}, styles.SnapChateLogoContainer]}>
                 <FontAwesome
                 name='snapchat-ghost'
                 size={54}
@@ -193,6 +206,7 @@
                       Access SnapChat
                     </Text>
                </TouchableOpacity>
+
                 <TouchableOpacity 
                  onPress={genSquadCreation}
                 style= {[{fex:1},styles.TwitterLogoContainer]}>
@@ -207,8 +221,10 @@
                     <Text style={styles.contactsTexts}>
                       Twitter Access
                   </Text>
-            </TouchableOpacity>       
-        </View>
+            </TouchableOpacity>  
+
+        </TouchableOpacity>
+        
         <View style={[{ flexDirection:"row" },{marginTop:-80}, {marginBottom:30},{marginLeft:30}]}>
           <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
