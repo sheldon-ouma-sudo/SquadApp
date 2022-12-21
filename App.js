@@ -30,10 +30,30 @@ import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import config from './src/aws-exports'
 import Amplify from "@aws-amplify/core";
-import {Storage} from 'aws-amplify';
+import {Auth, Storage, API } from 'aws-amplify';
+import { useEffect } from "react";
 
 Amplify.configure(config)
- 
+ ///run this once when the app is opened
+useEffect(()=>{
+  const fetchUser = async()=>{
+    //get the authenicated users
+    const userInfo = await Auth.currentAuthenticatedUser({bypassCache:true})
+    console.log(userInfo)
+    if(userInfo){
+      //link the user on backend and the user on the appysnc
+    }
+    //get the users from backend with the users id from the authentication 
+    //if there is no user in our database with the Id
+
+  }
+  fetchUser()
+}, [])
+
+
+
+
+
 const Stack = createNativeStackNavigator();
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 const Tab = createBottomTabNavigator();
