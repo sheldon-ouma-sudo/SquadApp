@@ -10,16 +10,14 @@ export const getUser = /* GraphQL */ `
       imageUrl
       numOfPolls
       squad {
-        id
-        createdAt
-        updatedAt
+        nextToken
       }
+      interests
       polls {
         nextToken
       }
       createdAt
       updatedAt
-      squadUserUsersId
     }
   }
 `;
@@ -36,43 +34,9 @@ export const listUsers = /* GraphQL */ `
         username
         imageUrl
         numOfPolls
+        interests
         createdAt
         updatedAt
-        squadUserUsersId
-      }
-      nextToken
-    }
-  }
-`;
-export const getSquadUser = /* GraphQL */ `
-  query GetSquadUser($id: ID!) {
-    getSquadUser(id: $id) {
-      id
-      userID
-      squadID
-      users {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      squadSquadUsersId
-    }
-  }
-`;
-export const listSquadUsers = /* GraphQL */ `
-  query ListSquadUsers(
-    $filter: ModelSquadUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSquadUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        userID
-        squadID
-        createdAt
-        updatedAt
-        squadSquadUsersId
       }
       nextToken
     }
@@ -82,7 +46,7 @@ export const getSquad = /* GraphQL */ `
   query GetSquad($id: ID!) {
     getSquad(id: $id) {
       id
-      SquadUsers {
+      users {
         nextToken
       }
       polls {
@@ -121,13 +85,12 @@ export const getPoll = /* GraphQL */ `
         username
         imageUrl
         numOfPolls
+        interests
         createdAt
         updatedAt
-        squadUserUsersId
       }
       createdAt
       userID
-      squadID
       squad {
         id
         createdAt
@@ -135,8 +98,6 @@ export const getPoll = /* GraphQL */ `
       }
       category
       updatedAt
-      userPollsId
-      squadPollsId
     }
   }
 `;
@@ -153,11 +114,162 @@ export const listPolls = /* GraphQL */ `
         images
         createdAt
         userID
-        squadID
         category
         updatedAt
-        userPollsId
-        squadPollsId
+      }
+      nextToken
+    }
+  }
+`;
+export const getUserSquad = /* GraphQL */ `
+  query GetUserSquad($id: ID!) {
+    getUserSquad(id: $id) {
+      id
+      userId
+      squadId
+      user {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
+        createdAt
+        updatedAt
+      }
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUserSquads = /* GraphQL */ `
+  query ListUserSquads(
+    $filter: ModelUserSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserSquads(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userId
+        squadId
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const pollsByUserID = /* GraphQL */ `
+  query PollsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        caption
+        images
+        createdAt
+        userID
+        category
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const listPollsBySquad = /* GraphQL */ `
+  query ListPollsBySquad(
+    $userID: ID!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPollsBySquad(
+      userID: $userID
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        caption
+        images
+        createdAt
+        userID
+        category
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const userSquadsByUserId = /* GraphQL */ `
+  query UserSquadsByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userSquadsByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        squadId
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const userSquadsBySquadId = /* GraphQL */ `
+  query UserSquadsBySquadId(
+    $squadId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userSquadsBySquadId(
+      squadId: $squadId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        squadId
+        createdAt
+        updatedAt
       }
       nextToken
     }

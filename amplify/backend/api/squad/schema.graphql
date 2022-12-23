@@ -9,20 +9,15 @@ type User @model {
   username: String!
   imageUrl: String
   numOfPolls: Int!
-  squad: [Squad]
-  polls: [Poll] @hasMany
-}
-type SquadUser @model {
-  id: ID!
-  userID: ID!
-  squadID: ID!
-  users: [User] @hasMany
+  squad: [Squad] @manyToMany(relationName: "UserSquad")
+  interests: [String]!
+  polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
 type Squad @model {
   id: ID!
-  SquadUsers: [SquadUser] @hasMany
-  polls: [Poll] @hasMany
+  users: [User] @manyToMany(relationName: "UserSquad")
+  polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
 }
 
 type Poll @model {
@@ -30,9 +25,14 @@ type Poll @model {
   caption: String!
   images: [String]
   user: [User]
-  createdAt: String!
+  createdAt: AWSDateTime!
   userID: ID!
-  squadID: ID!
+    @index(name: "byUser")
+    @index(
+      name: "bySquad"
+      sortKeyFields: ["createdAt"]
+      queryField: "listPollsBySquad"
+    )
   squad: [Squad]
   category: String!
 }

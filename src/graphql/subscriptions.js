@@ -10,16 +10,14 @@ export const onCreateUser = /* GraphQL */ `
       imageUrl
       numOfPolls
       squad {
-        id
-        createdAt
-        updatedAt
+        nextToken
       }
+      interests
       polls {
         nextToken
       }
       createdAt
       updatedAt
-      squadUserUsersId
     }
   }
 `;
@@ -32,16 +30,14 @@ export const onUpdateUser = /* GraphQL */ `
       imageUrl
       numOfPolls
       squad {
-        id
-        createdAt
-        updatedAt
+        nextToken
       }
+      interests
       polls {
         nextToken
       }
       createdAt
       updatedAt
-      squadUserUsersId
     }
   }
 `;
@@ -54,67 +50,14 @@ export const onDeleteUser = /* GraphQL */ `
       imageUrl
       numOfPolls
       squad {
-        id
-        createdAt
-        updatedAt
+        nextToken
       }
+      interests
       polls {
         nextToken
       }
       createdAt
       updatedAt
-      squadUserUsersId
-    }
-  }
-`;
-export const onCreateSquadUser = /* GraphQL */ `
-  subscription OnCreateSquadUser(
-    $filter: ModelSubscriptionSquadUserFilterInput
-  ) {
-    onCreateSquadUser(filter: $filter) {
-      id
-      userID
-      squadID
-      users {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      squadSquadUsersId
-    }
-  }
-`;
-export const onUpdateSquadUser = /* GraphQL */ `
-  subscription OnUpdateSquadUser(
-    $filter: ModelSubscriptionSquadUserFilterInput
-  ) {
-    onUpdateSquadUser(filter: $filter) {
-      id
-      userID
-      squadID
-      users {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      squadSquadUsersId
-    }
-  }
-`;
-export const onDeleteSquadUser = /* GraphQL */ `
-  subscription OnDeleteSquadUser(
-    $filter: ModelSubscriptionSquadUserFilterInput
-  ) {
-    onDeleteSquadUser(filter: $filter) {
-      id
-      userID
-      squadID
-      users {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      squadSquadUsersId
     }
   }
 `;
@@ -122,7 +65,7 @@ export const onCreateSquad = /* GraphQL */ `
   subscription OnCreateSquad($filter: ModelSubscriptionSquadFilterInput) {
     onCreateSquad(filter: $filter) {
       id
-      SquadUsers {
+      users {
         nextToken
       }
       polls {
@@ -137,7 +80,7 @@ export const onUpdateSquad = /* GraphQL */ `
   subscription OnUpdateSquad($filter: ModelSubscriptionSquadFilterInput) {
     onUpdateSquad(filter: $filter) {
       id
-      SquadUsers {
+      users {
         nextToken
       }
       polls {
@@ -152,7 +95,7 @@ export const onDeleteSquad = /* GraphQL */ `
   subscription OnDeleteSquad($filter: ModelSubscriptionSquadFilterInput) {
     onDeleteSquad(filter: $filter) {
       id
-      SquadUsers {
+      users {
         nextToken
       }
       polls {
@@ -175,13 +118,12 @@ export const onCreatePoll = /* GraphQL */ `
         username
         imageUrl
         numOfPolls
+        interests
         createdAt
         updatedAt
-        squadUserUsersId
       }
       createdAt
       userID
-      squadID
       squad {
         id
         createdAt
@@ -189,8 +131,6 @@ export const onCreatePoll = /* GraphQL */ `
       }
       category
       updatedAt
-      userPollsId
-      squadPollsId
     }
   }
 `;
@@ -206,13 +146,12 @@ export const onUpdatePoll = /* GraphQL */ `
         username
         imageUrl
         numOfPolls
+        interests
         createdAt
         updatedAt
-        squadUserUsersId
       }
       createdAt
       userID
-      squadID
       squad {
         id
         createdAt
@@ -220,8 +159,6 @@ export const onUpdatePoll = /* GraphQL */ `
       }
       category
       updatedAt
-      userPollsId
-      squadPollsId
     }
   }
 `;
@@ -237,13 +174,12 @@ export const onDeletePoll = /* GraphQL */ `
         username
         imageUrl
         numOfPolls
+        interests
         createdAt
         updatedAt
-        squadUserUsersId
       }
       createdAt
       userID
-      squadID
       squad {
         id
         createdAt
@@ -251,8 +187,90 @@ export const onDeletePoll = /* GraphQL */ `
       }
       category
       updatedAt
-      userPollsId
-      squadPollsId
+    }
+  }
+`;
+export const onCreateUserSquad = /* GraphQL */ `
+  subscription OnCreateUserSquad(
+    $filter: ModelSubscriptionUserSquadFilterInput
+  ) {
+    onCreateUserSquad(filter: $filter) {
+      id
+      userId
+      squadId
+      user {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
+        createdAt
+        updatedAt
+      }
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateUserSquad = /* GraphQL */ `
+  subscription OnUpdateUserSquad(
+    $filter: ModelSubscriptionUserSquadFilterInput
+  ) {
+    onUpdateUserSquad(filter: $filter) {
+      id
+      userId
+      squadId
+      user {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
+        createdAt
+        updatedAt
+      }
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteUserSquad = /* GraphQL */ `
+  subscription OnDeleteUserSquad(
+    $filter: ModelSubscriptionUserSquadFilterInput
+  ) {
+    onDeleteUserSquad(filter: $filter) {
+      id
+      userId
+      squadId
+      user {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
+        createdAt
+        updatedAt
+      }
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
     }
   }
 `;
