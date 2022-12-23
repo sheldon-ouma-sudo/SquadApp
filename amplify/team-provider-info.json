@@ -22,7 +22,7 @@
         },
         "squad57de16c5": {
           "deploymentBucketName": "amplify-squad-staging-235821-deployment",
-          "s3Key": "amplify-builds/squad57de16c5-364c66666e6e53686f61-build.zip"
+          "s3Key": "amplify-builds/squad57de16c5-5655417248322b6b6c2f-build.zip"
         }
       },
       "api": {

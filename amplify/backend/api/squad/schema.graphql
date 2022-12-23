@@ -9,13 +9,30 @@ type User @model {
   username: String!
   imageUrl: String
   numOfPolls: Int!
+  squad: [Squad]
+  polls: [Poll] @hasMany
 }
 type SquadUser @model {
   id: ID!
   userID: ID!
   squadID: ID!
+  users: [User] @hasMany
 }
 
 type Squad @model {
   id: ID!
+  SquadUsers: [SquadUser] @hasMany
+  polls: [Poll] @hasMany
+}
+
+type Poll @model {
+  id: ID!
+  caption: String!
+  images: [String]
+  user: [User]
+  createdAt: String!
+  userID: ID!
+  squadID: ID!
+  squad: [Squad]
+  category: String!
 }

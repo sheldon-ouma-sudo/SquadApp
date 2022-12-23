@@ -112,7 +112,7 @@ const PersonalInterests = () => {
    
 
     useEffect(()=>{
-//   //check if the map is not empty   
+   //check if the map is not empty   
       const getUserInterest = ()=>{
         console.log(selected.size)
          if(selected.size !== 0){

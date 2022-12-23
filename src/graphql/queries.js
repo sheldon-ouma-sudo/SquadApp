@@ -9,8 +9,17 @@ export const getUser = /* GraphQL */ `
       username
       imageUrl
       numOfPolls
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      polls {
+        nextToken
+      }
       createdAt
       updatedAt
+      squadUserUsersId
     }
   }
 `;
@@ -29,6 +38,7 @@ export const listUsers = /* GraphQL */ `
         numOfPolls
         createdAt
         updatedAt
+        squadUserUsersId
       }
       nextToken
     }
@@ -40,8 +50,12 @@ export const getSquadUser = /* GraphQL */ `
       id
       userID
       squadID
+      users {
+        nextToken
+      }
       createdAt
       updatedAt
+      squadSquadUsersId
     }
   }
 `;
@@ -58,6 +72,7 @@ export const listSquadUsers = /* GraphQL */ `
         squadID
         createdAt
         updatedAt
+        squadSquadUsersId
       }
       nextToken
     }
@@ -67,6 +82,12 @@ export const getSquad = /* GraphQL */ `
   query GetSquad($id: ID!) {
     getSquad(id: $id) {
       id
+      SquadUsers {
+        nextToken
+      }
+      polls {
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -83,6 +104,60 @@ export const listSquads = /* GraphQL */ `
         id
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPoll = /* GraphQL */ `
+  query GetPoll($id: ID!) {
+    getPoll(id: $id) {
+      id
+      caption
+      images
+      user {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        createdAt
+        updatedAt
+        squadUserUsersId
+      }
+      createdAt
+      userID
+      squadID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
+      updatedAt
+      userPollsId
+      squadPollsId
+    }
+  }
+`;
+export const listPolls = /* GraphQL */ `
+  query ListPolls(
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPolls(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        caption
+        images
+        createdAt
+        userID
+        squadID
+        category
+        updatedAt
+        userPollsId
+        squadPollsId
       }
       nextToken
     }
