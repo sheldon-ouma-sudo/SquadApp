@@ -35,7 +35,7 @@
     "resourceName": "Squad",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
-    "useDefault": "default",
+    "useDefault": "defaultSocial",
     "userPoolGroups": false,
     "userPoolGroupList": [],
     "adminQueries": false,
@@ -55,7 +55,11 @@
     },
     "breakCircularDependency": true,
     "dependsOn": [],
-    "hostedUI": false,
+    "hostedUI": true,
+    "hostedUIDomainName": "squad03ae7496-03ae7496",
+    "authProvidersUserPool": [],
+    "hostedUIProviderMeta": "[]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://127.0.0.1:19000/--/\",\"squad://\"],\"LogoutURLs\":[\"exp://127.0.0.1:19000/--/\"]}",
     "authProviders": []
   }
 }
