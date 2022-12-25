@@ -1,39 +1,15 @@
 {
   "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-squad-staging-235821-authRole",
-      "UnauthRoleArn": "arn:aws:iam::753195318657:role/amplify-squad-staging-235821-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::753195318657:role/amplify-squad-staging-235821-authRole",
+      "AuthRoleName": "amplify-squad-staging-192955-authRole",
+      "UnauthRoleArn": "arn:aws:iam::753195318657:role/amplify-squad-staging-192955-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::753195318657:role/amplify-squad-staging-192955-authRole",
       "Region": "us-west-2",
-      "DeploymentBucketName": "amplify-squad-staging-235821-deployment",
-      "UnauthRoleName": "amplify-squad-staging-235821-unauthRole",
-      "StackName": "amplify-squad-staging-235821",
-      "StackId": "arn:aws:cloudformation:us-west-2:753195318657:stack/amplify-squad-staging-235821/8b99fab0-6ac1-11ed-aae5-02ef913556fd",
-      "AmplifyAppId": "d3bcc4fxawgqhi"
-    },
-    "categories": {
-      "auth": {
-        "Squad": {}
-      },
-      "function": {
-        "squad5804d53c": {
-          "deploymentBucketName": "amplify-squad-staging-235821-deployment",
-          "s3Key": "amplify-builds/squad5804d53c-54684879586a6761624c-build.zip"
-        },
-        "squad57de16c5": {
-          "deploymentBucketName": "amplify-squad-staging-235821-deployment",
-          "s3Key": "amplify-builds/squad57de16c5-5655417248322b6b6c2f-build.zip"
-        }
-      },
-      "api": {
-        "squad": {}
-      },
-      "storage": {
-        "squadc0e72aa2": {
-          "bucketName": "squad-file-storage235821-staging",
-          "region": "us-west-2"
-        }
-      }
+      "DeploymentBucketName": "amplify-squad-staging-192955-deployment",
+      "UnauthRoleName": "amplify-squad-staging-192955-unauthRole",
+      "StackName": "amplify-squad-staging-192955",
+      "StackId": "arn:aws:cloudformation:us-west-2:753195318657:stack/amplify-squad-staging-192955/830ddaf0-848a-11ed-a705-02d9af9f85b1",
+      "AmplifyAppId": "d27u7mzj06ono0"
     }
   }
 }
