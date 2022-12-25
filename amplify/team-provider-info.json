@@ -29,7 +29,10 @@
         "squad": {}
       },
       "storage": {
-        "squadc0e72aa2": {}
+        "squadc0e72aa2": {
+          "bucketName": "squad-file-storage235821-staging",
+          "region": "us-west-2"
+        }
       }
     }
   }

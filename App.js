@@ -28,14 +28,15 @@ import PollContentScreen from "./src/screens/PollContentScreen";
 import NewTestScreenWork from "./src/screens/NewTestScreen";
 import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
-import config from './src/aws-exports'
-import Amplify from "@aws-amplify/core";
-import {Auth, Storage, API,graphqlOperation } from 'aws-amplify';
+import { Amplify, Auth, Hub } from "aws-amplify";
+import awsconfig from "./src/aws-exports";
+import {Storage, API,graphqlOperation } from 'aws-amplify';
 import { useEffect } from "react";
 import {getUser} from './src/graphql/queries'
 import {createUser} from './src/graphql/mutations'
 
-Amplify.configure(config)
+
+Amplify.configure(awsconfig);
  ///run this once when the app is opened
 
 
