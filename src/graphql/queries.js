@@ -1,12 +1,19 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getBlog = /* GraphQL */ `
-  query GetBlog($id: ID!) {
-    getBlog(id: $id) {
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
       id
       name
-      posts {
+      username
+      imageUrl
+      numOfPolls
+      squad {
+        nextToken
+      }
+      interests
+      polls {
         nextToken
       }
       createdAt
@@ -14,16 +21,20 @@ export const getBlog = /* GraphQL */ `
     }
   }
 `;
-export const listBlogs = /* GraphQL */ `
-  query ListBlogs(
-    $filter: ModelBlogFilterInput
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listBlogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
       }
@@ -31,75 +42,234 @@ export const listBlogs = /* GraphQL */ `
     }
   }
 `;
-export const getPost = /* GraphQL */ `
-  query GetPost($id: ID!) {
-    getPost(id: $id) {
+export const getSquad = /* GraphQL */ `
+  query GetSquad($id: ID!) {
+    getSquad(id: $id) {
       id
-      title
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
+      users {
+        nextToken
       }
-      comments {
+      polls {
         nextToken
       }
       createdAt
       updatedAt
-      blogPostsId
     }
   }
 `;
-export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostFilterInput
+export const listSquads = /* GraphQL */ `
+  query ListSquads(
+    $filter: ModelSquadFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listSquads(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        title
         createdAt
         updatedAt
-        blogPostsId
       }
       nextToken
     }
   }
 `;
-export const getComment = /* GraphQL */ `
-  query GetComment($id: ID!) {
-    getComment(id: $id) {
+export const getPoll = /* GraphQL */ `
+  query GetPoll($id: ID!) {
+    getPoll(id: $id) {
       id
-      post {
+      caption
+      images
+      user {
         id
-        title
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        blogPostsId
       }
-      content
       createdAt
+      userID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
       updatedAt
-      postCommentsId
     }
   }
 `;
-export const listComments = /* GraphQL */ `
-  query ListComments(
-    $filter: ModelCommentFilterInput
+export const listPolls = /* GraphQL */ `
+  query ListPolls(
+    $filter: ModelPollFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listPolls(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        content
+        caption
+        images
+        createdAt
+        userID
+        category
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getUserSquad = /* GraphQL */ `
+  query GetUserSquad($id: ID!) {
+    getUserSquad(id: $id) {
+      id
+      userId
+      squadId
+      user {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        postCommentsId
+      }
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUserSquads = /* GraphQL */ `
+  query ListUserSquads(
+    $filter: ModelUserSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserSquads(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userId
+        squadId
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const pollsByUserID = /* GraphQL */ `
+  query PollsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        caption
+        images
+        createdAt
+        userID
+        category
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const listPollsBySquad = /* GraphQL */ `
+  query ListPollsBySquad(
+    $userID: ID!
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPollsBySquad(
+      userID: $userID
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        caption
+        images
+        createdAt
+        userID
+        category
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const userSquadsByUserId = /* GraphQL */ `
+  query UserSquadsByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userSquadsByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        squadId
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const userSquadsBySquadId = /* GraphQL */ `
+  query UserSquadsBySquadId(
+    $squadId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    userSquadsBySquadId(
+      squadId: $squadId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userId
+        squadId
+        createdAt
+        updatedAt
       }
       nextToken
     }

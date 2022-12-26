@@ -2,7 +2,7 @@
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
 input AMPLIFY {
   globalAuthRule: AuthRule = { allow: public }
-} # FOR TESTING ONLY!
+} # FOR TESTING ONLY
 type User @model {
   id: ID!
   name: String!
@@ -13,13 +13,11 @@ type User @model {
   interests: [String]!
   polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
 }
-
 type Squad @model {
   id: ID!
   users: [User] @manyToMany(relationName: "UserSquad")
   polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
 }
-
 type Poll @model {
   id: ID!
   caption: String!

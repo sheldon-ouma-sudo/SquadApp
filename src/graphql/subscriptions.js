@@ -1,12 +1,19 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateBlog = /* GraphQL */ `
-  subscription OnCreateBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onCreateBlog(filter: $filter) {
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
+    onCreateUser(filter: $filter) {
       id
       name
-      posts {
+      username
+      imageUrl
+      numOfPolls
+      squad {
+        nextToken
+      }
+      interests
+      polls {
         nextToken
       }
       createdAt
@@ -14,12 +21,19 @@ export const onCreateBlog = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateBlog = /* GraphQL */ `
-  subscription OnUpdateBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onUpdateBlog(filter: $filter) {
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
+    onUpdateUser(filter: $filter) {
       id
       name
-      posts {
+      username
+      imageUrl
+      numOfPolls
+      squad {
+        nextToken
+      }
+      interests
+      polls {
         nextToken
       }
       createdAt
@@ -27,12 +41,19 @@ export const onUpdateBlog = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteBlog = /* GraphQL */ `
-  subscription OnDeleteBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onDeleteBlog(filter: $filter) {
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
+    onDeleteUser(filter: $filter) {
       id
       name
-      posts {
+      username
+      imageUrl
+      numOfPolls
+      squad {
+        nextToken
+      }
+      interests
+      polls {
         nextToken
       }
       createdAt
@@ -40,117 +61,216 @@ export const onDeleteBlog = /* GraphQL */ `
     }
   }
 `;
-export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost($filter: ModelSubscriptionPostFilterInput) {
-    onCreatePost(filter: $filter) {
+export const onCreateSquad = /* GraphQL */ `
+  subscription OnCreateSquad($filter: ModelSubscriptionSquadFilterInput) {
+    onCreateSquad(filter: $filter) {
       id
-      title
-      blog {
+      users {
+        nextToken
+      }
+      polls {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSquad = /* GraphQL */ `
+  subscription OnUpdateSquad($filter: ModelSubscriptionSquadFilterInput) {
+    onUpdateSquad(filter: $filter) {
+      id
+      users {
+        nextToken
+      }
+      polls {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSquad = /* GraphQL */ `
+  subscription OnDeleteSquad($filter: ModelSubscriptionSquadFilterInput) {
+    onDeleteSquad(filter: $filter) {
+      id
+      users {
+        nextToken
+      }
+      polls {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreatePoll = /* GraphQL */ `
+  subscription OnCreatePoll($filter: ModelSubscriptionPollFilterInput) {
+    onCreatePoll(filter: $filter) {
+      id
+      caption
+      images
+      user {
         id
         name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
       createdAt
+      userID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
       updatedAt
-      blogPostsId
     }
   }
 `;
-export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost($filter: ModelSubscriptionPostFilterInput) {
-    onUpdatePost(filter: $filter) {
+export const onUpdatePoll = /* GraphQL */ `
+  subscription OnUpdatePoll($filter: ModelSubscriptionPollFilterInput) {
+    onUpdatePoll(filter: $filter) {
       id
-      title
-      blog {
+      caption
+      images
+      user {
         id
         name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
       createdAt
+      userID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
       updatedAt
-      blogPostsId
     }
   }
 `;
-export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost($filter: ModelSubscriptionPostFilterInput) {
-    onDeletePost(filter: $filter) {
+export const onDeletePoll = /* GraphQL */ `
+  subscription OnDeletePoll($filter: ModelSubscriptionPollFilterInput) {
+    onDeletePoll(filter: $filter) {
       id
-      title
-      blog {
+      caption
+      images
+      user {
         id
         name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
       createdAt
+      userID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
       updatedAt
-      blogPostsId
     }
   }
 `;
-export const onCreateComment = /* GraphQL */ `
-  subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
-    onCreateComment(filter: $filter) {
+export const onCreateUserSquad = /* GraphQL */ `
+  subscription OnCreateUserSquad(
+    $filter: ModelSubscriptionUserSquadFilterInput
+  ) {
+    onCreateUserSquad(filter: $filter) {
       id
-      post {
+      userId
+      squadId
+      user {
         id
-        title
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        blogPostsId
       }
-      content
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
-      postCommentsId
     }
   }
 `;
-export const onUpdateComment = /* GraphQL */ `
-  subscription OnUpdateComment($filter: ModelSubscriptionCommentFilterInput) {
-    onUpdateComment(filter: $filter) {
+export const onUpdateUserSquad = /* GraphQL */ `
+  subscription OnUpdateUserSquad(
+    $filter: ModelSubscriptionUserSquadFilterInput
+  ) {
+    onUpdateUserSquad(filter: $filter) {
       id
-      post {
+      userId
+      squadId
+      user {
         id
-        title
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        blogPostsId
       }
-      content
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
-      postCommentsId
     }
   }
 `;
-export const onDeleteComment = /* GraphQL */ `
-  subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
-    onDeleteComment(filter: $filter) {
+export const onDeleteUserSquad = /* GraphQL */ `
+  subscription OnDeleteUserSquad(
+    $filter: ModelSubscriptionUserSquadFilterInput
+  ) {
+    onDeleteUserSquad(filter: $filter) {
       id
-      post {
+      userId
+      squadId
+      user {
         id
-        title
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        blogPostsId
       }
-      content
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
-      postCommentsId
     }
   }
 `;

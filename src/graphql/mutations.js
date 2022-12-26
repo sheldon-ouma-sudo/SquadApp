@@ -1,15 +1,22 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createBlog = /* GraphQL */ `
-  mutation CreateBlog(
-    $input: CreateBlogInput!
-    $condition: ModelBlogConditionInput
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    createBlog(input: $input, condition: $condition) {
+    createUser(input: $input, condition: $condition) {
       id
       name
-      posts {
+      username
+      imageUrl
+      numOfPolls
+      squad {
+        nextToken
+      }
+      interests
+      polls {
         nextToken
       }
       createdAt
@@ -17,15 +24,22 @@ export const createBlog = /* GraphQL */ `
     }
   }
 `;
-export const updateBlog = /* GraphQL */ `
-  mutation UpdateBlog(
-    $input: UpdateBlogInput!
-    $condition: ModelBlogConditionInput
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    updateBlog(input: $input, condition: $condition) {
+    updateUser(input: $input, condition: $condition) {
       id
       name
-      posts {
+      username
+      imageUrl
+      numOfPolls
+      squad {
+        nextToken
+      }
+      interests
+      polls {
         nextToken
       }
       createdAt
@@ -33,15 +47,22 @@ export const updateBlog = /* GraphQL */ `
     }
   }
 `;
-export const deleteBlog = /* GraphQL */ `
-  mutation DeleteBlog(
-    $input: DeleteBlogInput!
-    $condition: ModelBlogConditionInput
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
   ) {
-    deleteBlog(input: $input, condition: $condition) {
+    deleteUser(input: $input, condition: $condition) {
       id
       name
-      posts {
+      username
+      imageUrl
+      numOfPolls
+      squad {
+        nextToken
+      }
+      interests
+      polls {
         nextToken
       }
       createdAt
@@ -49,135 +70,237 @@ export const deleteBlog = /* GraphQL */ `
     }
   }
 `;
-export const createPost = /* GraphQL */ `
-  mutation CreatePost(
-    $input: CreatePostInput!
-    $condition: ModelPostConditionInput
+export const createSquad = /* GraphQL */ `
+  mutation CreateSquad(
+    $input: CreateSquadInput!
+    $condition: ModelSquadConditionInput
   ) {
-    createPost(input: $input, condition: $condition) {
+    createSquad(input: $input, condition: $condition) {
       id
-      title
-      blog {
+      users {
+        nextToken
+      }
+      polls {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSquad = /* GraphQL */ `
+  mutation UpdateSquad(
+    $input: UpdateSquadInput!
+    $condition: ModelSquadConditionInput
+  ) {
+    updateSquad(input: $input, condition: $condition) {
+      id
+      users {
+        nextToken
+      }
+      polls {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSquad = /* GraphQL */ `
+  mutation DeleteSquad(
+    $input: DeleteSquadInput!
+    $condition: ModelSquadConditionInput
+  ) {
+    deleteSquad(input: $input, condition: $condition) {
+      id
+      users {
+        nextToken
+      }
+      polls {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createPoll = /* GraphQL */ `
+  mutation CreatePoll(
+    $input: CreatePollInput!
+    $condition: ModelPollConditionInput
+  ) {
+    createPoll(input: $input, condition: $condition) {
+      id
+      caption
+      images
+      user {
         id
         name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
       createdAt
+      userID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
       updatedAt
-      blogPostsId
     }
   }
 `;
-export const updatePost = /* GraphQL */ `
-  mutation UpdatePost(
-    $input: UpdatePostInput!
-    $condition: ModelPostConditionInput
+export const updatePoll = /* GraphQL */ `
+  mutation UpdatePoll(
+    $input: UpdatePollInput!
+    $condition: ModelPollConditionInput
   ) {
-    updatePost(input: $input, condition: $condition) {
+    updatePoll(input: $input, condition: $condition) {
       id
-      title
-      blog {
+      caption
+      images
+      user {
         id
         name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
       createdAt
+      userID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
       updatedAt
-      blogPostsId
     }
   }
 `;
-export const deletePost = /* GraphQL */ `
-  mutation DeletePost(
-    $input: DeletePostInput!
-    $condition: ModelPostConditionInput
+export const deletePoll = /* GraphQL */ `
+  mutation DeletePoll(
+    $input: DeletePollInput!
+    $condition: ModelPollConditionInput
   ) {
-    deletePost(input: $input, condition: $condition) {
+    deletePoll(input: $input, condition: $condition) {
       id
-      title
-      blog {
+      caption
+      images
+      user {
         id
         name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
       }
-      comments {
-        nextToken
-      }
       createdAt
+      userID
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
+      category
       updatedAt
-      blogPostsId
     }
   }
 `;
-export const createComment = /* GraphQL */ `
-  mutation CreateComment(
-    $input: CreateCommentInput!
-    $condition: ModelCommentConditionInput
+export const createUserSquad = /* GraphQL */ `
+  mutation CreateUserSquad(
+    $input: CreateUserSquadInput!
+    $condition: ModelUserSquadConditionInput
   ) {
-    createComment(input: $input, condition: $condition) {
+    createUserSquad(input: $input, condition: $condition) {
       id
-      post {
+      userId
+      squadId
+      user {
         id
-        title
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        blogPostsId
       }
-      content
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
-      postCommentsId
     }
   }
 `;
-export const updateComment = /* GraphQL */ `
-  mutation UpdateComment(
-    $input: UpdateCommentInput!
-    $condition: ModelCommentConditionInput
+export const updateUserSquad = /* GraphQL */ `
+  mutation UpdateUserSquad(
+    $input: UpdateUserSquadInput!
+    $condition: ModelUserSquadConditionInput
   ) {
-    updateComment(input: $input, condition: $condition) {
+    updateUserSquad(input: $input, condition: $condition) {
       id
-      post {
+      userId
+      squadId
+      user {
         id
-        title
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        blogPostsId
       }
-      content
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
-      postCommentsId
     }
   }
 `;
-export const deleteComment = /* GraphQL */ `
-  mutation DeleteComment(
-    $input: DeleteCommentInput!
-    $condition: ModelCommentConditionInput
+export const deleteUserSquad = /* GraphQL */ `
+  mutation DeleteUserSquad(
+    $input: DeleteUserSquadInput!
+    $condition: ModelUserSquadConditionInput
   ) {
-    deleteComment(input: $input, condition: $condition) {
+    deleteUserSquad(input: $input, condition: $condition) {
       id
-      post {
+      userId
+      squadId
+      user {
         id
-        title
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
         createdAt
         updatedAt
-        blogPostsId
       }
-      content
+      squad {
+        id
+        createdAt
+        updatedAt
+      }
       createdAt
       updatedAt
-      postCommentsId
     }
   }
 `;
