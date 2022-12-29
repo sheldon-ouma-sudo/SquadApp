@@ -10,7 +10,10 @@
   //import { async } from '@firebase/util';
   import * as ImagePicker from 'expo-image-picker'
   import { Auth } from 'aws-amplify';
-  import { Storage } from 'aws-amplify';   
+  import { Storage } from 'aws-amplify'; 
+  import S3 from "aws-sdk/clients/s3";
+  import { Credentials } from "aws-sdk";
+  import { v4 as uuid } from "uuid";  
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
@@ -63,56 +66,56 @@ const UploadProfPicture = () => {
   };
   //squad-file-storage235821-staging/private/userProfilePictures/
   //squad-file-storage235821-staging/protected/userProfilePictures/
-  const uploadUserImage = async () => {
-    if (isLoading) return;
-    setisLoading(true);
-   const user = await Auth.currentAuthenticatedUser()
-   const userId = user.attributes.sub;
-   const ref = `squad-file-storage235821-staging/protected/userProfilePictures/${userId}`
-   const blob = fetchResourceFromURI(image);
-   const response = await Storage.put(ref, blob, {
-    contentType: "image/jpeg",
-    metadata: {userId: userId},
-    level: "protected",
-      progressCallback(uploadProgress) {
-        setProgressText(
-          `Progress: ${Math.round(
-            (uploadProgress.loaded / uploadProgress.total) * 100,
-          )} %`,
-        );
-        console.log(
-          `Progress: ${uploadProgress.loaded}/${uploadProgress.total}`,
-        );
-      },
-    })
-      .then(res => {
-        setProgressText('Upload Done: 100%');
-        setAsset(null);
-        setisLoading(false);
-        Storage.get(res.key)
-          .then(result => console.log(result))
-          .catch(err => {
-            setProgressText('Upload Error');
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        setisLoading(false);
-        setProgressText('Upload Error');
-        console.log(err);
-      });
-      console.log("this is the response",response)
-       //update the user attributes with added picture
-       try {
-        await Auth.updateUserAttributes(user, {
-          'picture': response
-        });
-         console.log('✅ Success');
-        //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
-        } catch (error) {
-        console.log('❌ Error uploading the picture...', error); 
-        }  
-    };
+  // const uploadUserImage = async () => {
+  //   if (isLoading) return;
+  //   setisLoading(true);
+  //  const user = await Auth.currentAuthenticatedUser()
+  //  const userId = user.attributes.sub;
+  //  const ref = `squad-file-storage235821-staging/protected/userProfilePictures/${userId}`
+  //  const blob = fetchResourceFromURI(image);
+  //  const response = await Storage.put(ref, blob, {
+  //   contentType: "image/jpeg",
+  //   metadata: {userId: userId},
+  //   level: "protected",
+  //     progressCallback(uploadProgress) {
+  //       setProgressText(
+  //         `Progress: ${Math.round(
+  //           (uploadProgress.loaded / uploadProgress.total) * 100,
+  //         )} %`,
+  //       );
+  //       console.log(
+  //         `Progress: ${uploadProgress.loaded}/${uploadProgress.total}`,
+  //       );
+  //     },
+  //   })
+  //     .then(res => {
+  //       setProgressText('Upload Done: 100%');
+  //       setAsset(null);
+  //       setisLoading(false);
+  //       Storage.get(res.key)
+  //         .then(result => console.log(result))
+  //         .catch(err => {
+  //           setProgressText('Upload Error');
+  //           console.log(err);
+  //         });
+  //     })
+  //     .catch(err => {
+  //       setisLoading(false);
+  //       setProgressText('Upload Error');
+  //       console.log(err);
+  //     });
+  //     console.log("this is the response",response)
+  //      //update the user attributes with added picture
+  //      try {
+  //       await Auth.updateUserAttributes(user, {
+  //         'picture': response
+  //       });
+  //        console.log('✅ Success');
+  //       //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+  //       } catch (error) {
+  //       console.log('❌ Error uploading the picture...', error); 
+  //       }  
+  //   };
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -139,6 +142,35 @@ if (!result.canceled) {
   console.log(result.assets[0].uri);
 }
 }
+
+
+// const access = new Credentials({
+//   accessKeyId: process.env.AWS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET,
+// });
+
+// const s3 = new S3({
+//   credentials: access,
+//   region: process.env.S3_REGION, //"us-west-2"
+//   signatureVersion: "v4",
+// });
+
+// const url = await s3.getSignedUrlPromise("putObject", {
+//   Bucket: process.env.S3_BUCKET,
+//   Key: `${fileId}.jpg`,
+//   ContentType: "image/jpeg",
+//   Expires: signedUrlExpireSeconds,
+// });
+
+// return res.json({
+//   url,
+// });
+
+// // make call to your server
+// const res = await requestUpload();
+// const data = await res.json();
+// await uploadImage(data.url, photo.uri);
+
 return (
     <KeyboardAvoidingView 
     style={styles.container}
