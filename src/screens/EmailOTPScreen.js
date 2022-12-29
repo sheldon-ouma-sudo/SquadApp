@@ -33,7 +33,7 @@
       console.log(username)
       await Auth.confirmSignUp(username, authCode)
       //await Auth.confirmSignUp(username, authCode);
-      console.log('✅ Code confirmed');
+      //console.log('✅ Code confirmed');
       listenToAutoSignInEvent() 
       navigation.navigate("AgeGenderLocationScreen");
     } catch (e) {
