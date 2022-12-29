@@ -56,14 +56,6 @@ const UploadProfPicture = () => {
       setGallerPermissions(galleryStatus === 'granted');
     })()
   },[])
-
-
-  const fetchResourceFromURI = async uri => {
-    const response = await fetch(uri);
-    console.log(response);
-    const blob = await response.blob();
-    return blob;
-  };
   //squad-file-storage235821-staging/private/userProfilePictures/
   //squad-file-storage235821-staging/protected/userProfilePictures/
   // const uploadUserImage = async () => {
@@ -115,35 +107,8 @@ const UploadProfPicture = () => {
   //       } catch (error) {
   //       console.log('❌ Error uploading the picture...', error); 
   //       }  
-  //   };
-
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
-const takePhotoFromCamera = async () =>{
-const result = await ImagePicker.launchCameraAsync();
-// Explore the result
-console.log(result);
-if (!result.canceled) {
-  setImage(result.assets[0].uri);
-  console.log(result.assets[0].uri);
-}
-}
-
-
+  //   }
+//upload an image, find the url of that image and then add as the user update attributes
 // const access = new Credentials({
 //   accessKeyId: process.env.AWS_KEY_ID,
 //   secretAccessKey: process.env.AWS_SECRET,
@@ -170,6 +135,61 @@ if (!result.canceled) {
 // const res = await requestUpload();
 // const data = await res.json();
 // await uploadImage(data.url, photo.uri);
+
+const pickImage = async () => {
+  // No permissions request is necessary for launching the image library
+  let result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [4, 3],
+    quality: 1,
+  });
+
+  console.log(result);
+
+  if (!result.canceled) {
+    setImage(result.assets[0].uri);
+  }
+};
+
+const takePhotoFromCamera = async () =>{
+const result = await ImagePicker.launchCameraAsync();
+// Explore the result
+console.log(result);
+if (!result.canceled) {
+setImage(result.assets[0].uri);
+console.log(result.assets[0].uri);
+}
+}
+//after getting the photo, we turn it into a blobl
+const fetchResourceFromURI = async uri => {
+  const response = await fetch(uri);
+  console.log("response from the blob creation",response);
+  const blob = await response.blob();
+  return blob;
+};
+//upload the picture to the specific bucket
+
+ const uploadUserImage = async () => {
+    if (isLoading) return;
+    setisLoading(true);
+   const user = await Auth.currentAuthenticatedUser()
+   const userId = user.attributes.sub;
+   const filename = uuid();
+   const ref = `squad-file-storage235821-staging/protected/userProfilePictures/@{userId}/${filename}`
+   const blob = fetchResourceFromURI(image);
+   try{
+    const response = await Storage.put(ref, blob, {
+      contentType: "image/jpeg",
+      metadata: {userId: userId},
+    });
+     console.log("✅successful picture upload",response)
+     navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+    }catch(e){
+     console.log("failure to upload the picture to the backend", e)
+   }
+   
+  }
 
 return (
     <KeyboardAvoidingView 
@@ -206,9 +226,9 @@ return (
       </View>
       <View style={styles.buttonContainer}>
             <TouchableOpacity
-            onPress={ ()=>
+            onPress={uploadUserImage}
               //,{username:username}
-              navigation.navigate("ChangeProfilePictureScreen",{userImage:image})}
+             // navigation.navigate("ChangeProfilePictureScreen",{userImage:image})}
             style = {styles.profilePictureButton}
                 > 
                 <Text style={styles.buttonText}>

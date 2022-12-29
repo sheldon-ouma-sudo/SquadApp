@@ -124,7 +124,9 @@ const AgeGenderLocationScreen = () => {
       }
     }
   },);
-  async function saveAgeGenderLocation() {
+
+  const saveAgeGenderLocation = async()=> {
+    alert("saving user attributes now")
     try{
       const user = await Auth.currentAuthenticatedUser();
       await Auth.updateUserAttributes(user, {
@@ -132,6 +134,9 @@ const AgeGenderLocationScreen = () => {
       'birthdate': age,
       'gender': selectedGender
     });
+    console.log(location,age,selectedGender)
+    console.log("✅successfully updated users attributes")
+    navigation.navigate("ProfilePictureUploadScreen")
     }catch(e){
      console.log("failed to update the additional attributes",)
     }
@@ -244,7 +249,7 @@ const AgeGenderLocationScreen = () => {
                   <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
                 </TouchableOpacity>
                   <TouchableOpacity 
-                   onPress={()=>navigation.navigate("ProfilePictureUploadScreen")}
+                   onPress={saveAgeGenderLocation}
                    style={[{flex:1}, styles.button]}>
                   <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
                 </TouchableOpacity>
