@@ -13,6 +13,7 @@
   import { Storage } from 'aws-amplify'; 
   import S3 from "aws-sdk/clients/s3";
   import { Credentials } from "aws-sdk";
+  import "react-native-get-random-values"
   import { v4 as uuid } from "uuid";  
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
@@ -171,6 +172,7 @@ const fetchResourceFromURI = async uri => {
 //upload the picture to the specific bucket
 
  const uploadUserImage = async () => {
+  alert("uploading the photo attempt")
     if (isLoading) return;
     setisLoading(true);
    const user = await Auth.currentAuthenticatedUser()
@@ -187,6 +189,11 @@ const fetchResourceFromURI = async uri => {
      navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
     }catch(e){
      console.log("failure to upload the picture to the backend", e)
+   }
+   try{
+
+   }catch{
+
    }
    
   }
