@@ -99,6 +99,7 @@ const AgeGenderLocationScreen = () => {
   const[currentPosition, setCurrentPositon] = useState(0)
   const[age, setAge] = useState("YYYY-MM-DD")
   const [selectedGender, setGenderSelected] =useState("");
+  const [gender, setGender] = useState("")
   const[location, setLocation]=useState("Enter your location")
 
 
@@ -122,9 +123,17 @@ const AgeGenderLocationScreen = () => {
         let newAddress = Object.values(ageAndLocation).toString()
         setLocation(newAddress)
       }
+      //set the gender
+      if(selectedGender){
+        let valueGender = array.map(value => value.key);
+        console.log(valueGender)
+        setGender(valueGender)
+       }
     }
   },);
   
+ 
+
   async function saveAgeGenderLocation(){
     alert("saving user attributes now")
     try{
@@ -136,7 +145,7 @@ const AgeGenderLocationScreen = () => {
     });
     console.log(location,age,selectedGender)
     console.log("✅successfully updated users attributes")
-    //navigation.navigate("ProfilePictureUploadScreen")
+    navigation.navigate("ProfilePictureUploadScreen")
     }catch(e){
      console.log("failed to update the additional attributes",)
     }
