@@ -15,6 +15,7 @@
   import { Credentials } from "aws-sdk";
   import "react-native-get-random-values"
   import { v4 as uuid } from "uuid";  
+  import { response } from 'express';
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
@@ -47,7 +48,7 @@ const UploadProfPicture = () => {
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
   const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
-  //const[userImage, setUserImage] =useState('')
+  const[userImage, setUserImage] =useState('')
   const [progressText, setProgressText] = useState('');
   const [isLoading, setisLoading] = useState(false);
  
@@ -178,24 +179,26 @@ const fetchResourceFromURI = async uri => {
    const user = await Auth.currentAuthenticatedUser()
    const userId = user.attributes.sub;
    const filename = uuid();
-   const ref = `squad-file-storage235821-staging/protected/userProfilePictures/@{userId}/${filename}`
+   const ref = `/@{useProfilePictures}/${filename}`
    const blob = fetchResourceFromURI(image);
    try{
     const response = await Storage.put(ref, blob, {
+      level:'protected',
       contentType: "image/jpeg",
       metadata: {userId: userId},
     });
-     console.log("✅successful picture upload",response)
+        console.log("✅successful picture upload",response)
+        try{
+          const userImgUrl = Storage.get(response.key)
+          setUserImage(userImgUrl)
+        }catch(e){
+        console.log("there was an error saving the user profile picture after the upload",e)
+        }    
      navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
     }catch(e){
      console.log("failure to upload the picture to the backend", e)
    }
-   try{
-
-   }catch{
-
-   }
-   
+   //update the user attributes
   }
 
 return (

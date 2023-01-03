@@ -12,6 +12,8 @@ export default function Button({ title, onPress, icon, color }) {
   );
 }
 
+
+
 const styles = StyleSheet.create({
   button: {
     height: 40,
