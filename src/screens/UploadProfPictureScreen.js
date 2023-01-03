@@ -144,7 +144,7 @@ const pickImage = async () => {
     mediaTypes: ImagePicker.MediaTypeOptions.All,
     allowsEditing: true,
     aspect: [4, 3],
-    quality: 1,
+    quality: 5,
   });
 
   console.log(result);
@@ -172,24 +172,26 @@ const fetchResourceFromURI = async uri => {
 };
 //upload the picture to the specific bucket
 
- const uploadUserImage = async () => {
+ const uploadUserImage = async (file) => {
   alert("uploading the photo attempt")
     if (isLoading) return;
     setisLoading(true);
    const user = await Auth.currentAuthenticatedUser()
    const userId = user.attributes.sub;
    const filename = uuid();
-   const ref = `/@{useProfilePictures}/${filename}`
+   const ref = `/@{useProfilePictures}/${Math.random()}.jpg`
    const blob = fetchResourceFromURI(image);
    try{
     const response = await Storage.put(ref, blob, {
       level:'protected',
-      contentType: "image/jpeg",
+      contentType: "png/jpeg",
+      level:'protected',
       metadata: {userId: userId},
     });
         console.log("✅successful picture upload",response)
         try{
           const userImgUrl = Storage.get(response.key)
+          console.log("the result of the image from db query is this", userImgUrl)
           setUserImage(userImgUrl)
         }catch(e){
         console.log("there was an error saving the user profile picture after the upload",e)
