@@ -15,7 +15,7 @@
   import { Credentials } from "aws-sdk";
   import "react-native-get-random-values"
   import { v4 as uuid } from "uuid";  
-  import { response } from 'express';
+
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
 const{width,height} = Dimensions.get("window")
