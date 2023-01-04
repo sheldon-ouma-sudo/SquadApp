@@ -48,7 +48,7 @@ const UploadProfPicture = () => {
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
   const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
-  const[userImage, setUserImage] =useState('')
+  const[userImage, setUserImage] =useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
   const [progressText, setProgressText] = useState('');
   const [isLoading, setisLoading] = useState(false);
  
@@ -58,85 +58,6 @@ const UploadProfPicture = () => {
       setGallerPermissions(galleryStatus === 'granted');
     })()
   },[])
-  //squad-file-storage235821-staging/private/userProfilePictures/
-  //squad-file-storage235821-staging/protected/userProfilePictures/
-  // const uploadUserImage = async () => {
-  //   if (isLoading) return;
-  //   setisLoading(true);
-  //  const user = await Auth.currentAuthenticatedUser()
-  //  const userId = user.attributes.sub;
-  //  const ref = `squad-file-storage235821-staging/protected/userProfilePictures/${userId}`
-  //  const blob = fetchResourceFromURI(image);
-  //  const response = await Storage.put(ref, blob, {
-  //   contentType: "image/jpeg",
-  //   metadata: {userId: userId},
-  //   level: "protected",
-  //     progressCallback(uploadProgress) {
-  //       setProgressText(
-  //         `Progress: ${Math.round(
-  //           (uploadProgress.loaded / uploadProgress.total) * 100,
-  //         )} %`,
-  //       );
-  //       console.log(
-  //         `Progress: ${uploadProgress.loaded}/${uploadProgress.total}`,
-  //       );
-  //     },
-  //   })
-  //     .then(res => {
-  //       setProgressText('Upload Done: 100%');
-  //       setAsset(null);
-  //       setisLoading(false);
-  //       Storage.get(res.key)
-  //         .then(result => console.log(result))
-  //         .catch(err => {
-  //           setProgressText('Upload Error');
-  //           console.log(err);
-  //         });
-  //     })
-  //     .catch(err => {
-  //       setisLoading(false);
-  //       setProgressText('Upload Error');
-  //       console.log(err);
-  //     });
-  //     console.log("this is the response",response)
-  //      //update the user attributes with added picture
-  //      try {
-  //       await Auth.updateUserAttributes(user, {
-  //         'picture': response
-  //       });
-  //        console.log('✅ Success');
-  //       //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
-  //       } catch (error) {
-  //       console.log('❌ Error uploading the picture...', error); 
-  //       }  
-  //   }
-//upload an image, find the url of that image and then add as the user update attributes
-// const access = new Credentials({
-//   accessKeyId: process.env.AWS_KEY_ID,
-//   secretAccessKey: process.env.AWS_SECRET,
-// });
-
-// const s3 = new S3({
-//   credentials: access,
-//   region: process.env.S3_REGION, //"us-west-2"
-//   signatureVersion: "v4",
-// });
-
-// const url = await s3.getSignedUrlPromise("putObject", {
-//   Bucket: process.env.S3_BUCKET,
-//   Key: `${fileId}.jpg`,
-//   ContentType: "image/jpeg",
-//   Expires: signedUrlExpireSeconds,
-// });
-
-// return res.json({
-//   url,
-// });
-
-// // make call to your server
-// const res = await requestUpload();
-// const data = await res.json();
-// await uploadImage(data.url, photo.uri);
 
 const pickImage = async () => {
   // No permissions request is necessary for launching the image library
@@ -144,13 +65,15 @@ const pickImage = async () => {
     mediaTypes: ImagePicker.MediaTypeOptions.All,
     allowsEditing: true,
     aspect: [4, 3],
-    quality: 5,
+    quality: 1,
+    base64:true
   });
 
   console.log(result);
 
   if (!result.canceled) {
     setImage(result.assets[0].uri);
+    //console.log("the new image is", image)
   }
 };
 
@@ -172,34 +95,65 @@ const fetchResourceFromURI = async uri => {
 };
 //upload the picture to the specific bucket
 
- const uploadUserImage = async (file) => {
+ const uploadUserImage = async () => {
   alert("uploading the photo attempt")
     if (isLoading) return;
     setisLoading(true);
    const user = await Auth.currentAuthenticatedUser()
    const userId = user.attributes.sub;
    const filename = uuid();
-   const ref = `/@{useProfilePictures}/${Math.random()}.jpg`
+   const ref = `/@{useProfilePictures}/${filename}.jpg`
    const blob = fetchResourceFromURI(image);
-   try{
-    const response = await Storage.put(ref, blob, {
-      level:'protected',
-      contentType: "png/jpeg",
-      level:'protected',
-      metadata: {userId: userId},
-    });
-        console.log("✅successful picture upload",response)
-        try{
-          const userImgUrl = Storage.get(response.key)
-          console.log("the result of the image from db query is this", userImgUrl)
-          setUserImage(userImgUrl)
-        }catch(e){
-        console.log("there was an error saving the user profile picture after the upload",e)
-        }    
-     navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
-    }catch(e){
-     console.log("failure to upload the picture to the backend", e)
-   }
+   return Storage.put(ref,blob, {
+    level:'protected',
+    contentType:image.type,
+    metadata: {userId: userId},
+    progressCallback(uploadProgress){
+      console.log('PROGRESS--', uploadProgress.loaded + '/' + uploadProgress.total);
+    }
+  })
+  .then((res) => {
+    Storage.get(res.key)
+    .then((result) => {
+      console.log('RESULT --- ', result);
+      let awsImageUri = result.substring(0,result.indexOf('?'))
+      setUserImage(awsImageUri)
+      console.log('RESULT AFTER REMOVED URI --', awsImageUri)
+      setisLoading(false)
+      try{
+       Auth.updateUserAttributes(user, {
+          'profile_pic': userImage})
+      }catch(e){
+        console.log("error uploading the profile pic attribute")
+      }
+      navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  }).catch(e => {
+    console.log(e);
+  })
+
+  //  try{
+  //   const response = await Storage.put(ref, blob, {
+  //     level:'protected',
+  //     contentType: "png/jpeg",
+  //     level:'protected',
+  //     metadata: {userId: userId},
+  //   });
+  //       console.log("✅successful picture upload",response)
+  //       try{
+  //         const userImgUrl = Storage.get(response.key)
+  //         console.log("the result of the image from db query is this", userImgUrl)
+  //         setUserImage(userImgUrl)
+  //       }catch(e){
+  //       console.log("there was an error saving the user profile picture after the upload",e)
+  //       }    
+  //    navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+  //   }catch(e){
+  //    console.log("failure to upload the picture to the backend", e)
+  //  }
    //update the user attributes
   }
 
