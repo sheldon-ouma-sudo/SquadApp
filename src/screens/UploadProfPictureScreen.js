@@ -135,6 +135,9 @@ const fetchResourceFromURI = async uri => {
     console.log(e);
   })
 
+ 
+
+
   //  try{
   //   const response = await Storage.put(ref, blob, {
   //     level:'protected',
