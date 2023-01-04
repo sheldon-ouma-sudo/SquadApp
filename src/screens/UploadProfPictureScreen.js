@@ -94,7 +94,7 @@ const fetchResourceFromURI = async uri => {
   return blob;
 };
 //upload the picture to the specific bucket
-
+useEffect(()=>{})
  const uploadUserImage = async () => {
   alert("uploading the photo attempt")
     if (isLoading) return;
