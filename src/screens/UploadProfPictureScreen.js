@@ -122,7 +122,7 @@ const fetchResourceFromURI = async uri => {
       setisLoading(false)
       try{
        Auth.updateUserAttributes(user, {
-          'profile_pic': userImage})
+          'picture': userImage})
       }catch(e){
         console.log("error uploading the profile pic attribute")
       }
