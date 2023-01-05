@@ -154,7 +154,7 @@ export default function App() {
       const authUser = await Auth.currentAuthenticatedUser({
         bypassCache: true,
       });
-
+        console.log(authUser)
       // query the database using Auth user id (sub)
       const userData = await API.graphql(
         graphqlOperation(getUser, { id: authUser.attributes.sub })
@@ -164,10 +164,16 @@ export default function App() {
         console.log("User already exists in DB");
         return;
       }
+      console.log("This is the user data",userData)
       // if there is no users in db, create one
       const newUser = {
         id: authUser.attributes.sub,
-        name: authUser.attributes.username
+        username: authUser.attributes.preferred_username,
+        name: authUser.attributes.name,
+        numOfPolls:0,
+        interests:['undefined for now']
+      
+    
       };
 
       await API.graphql(

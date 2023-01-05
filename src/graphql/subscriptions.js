@@ -1,6 +1,51 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateSways = /* GraphQL */ `
+  subscription OnCreateSways($filter: ModelSubscriptionSwaysFilterInput) {
+    onCreateSways(filter: $filter) {
+      id
+      Squads {
+        nextToken
+      }
+      Users {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSways = /* GraphQL */ `
+  subscription OnUpdateSways($filter: ModelSubscriptionSwaysFilterInput) {
+    onUpdateSways(filter: $filter) {
+      id
+      Squads {
+        nextToken
+      }
+      Users {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSways = /* GraphQL */ `
+  subscription OnDeleteSways($filter: ModelSubscriptionSwaysFilterInput) {
+    onDeleteSways(filter: $filter) {
+      id
+      Squads {
+        nextToken
+      }
+      Users {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateUser = /* GraphQL */ `
   subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
     onCreateUser(filter: $filter) {
@@ -16,6 +61,7 @@ export const onCreateUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
       createdAt
       updatedAt
     }
@@ -36,6 +82,7 @@ export const onUpdateUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
       createdAt
       updatedAt
     }
@@ -56,6 +103,7 @@ export const onDeleteUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
       createdAt
       updatedAt
     }
@@ -71,6 +119,8 @@ export const onCreateSquad = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
+      name
       createdAt
       updatedAt
     }
@@ -86,6 +136,8 @@ export const onUpdateSquad = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
+      name
       createdAt
       updatedAt
     }
@@ -101,6 +153,8 @@ export const onDeleteSquad = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
+      name
       createdAt
       updatedAt
     }
@@ -119,6 +173,7 @@ export const onCreatePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
         createdAt
         updatedAt
       }
@@ -126,10 +181,14 @@ export const onCreatePoll = /* GraphQL */ `
       userID
       squad {
         id
+        swaysID
+        name
         createdAt
         updatedAt
       }
       category
+      votes
+      feedback
       updatedAt
     }
   }
@@ -147,6 +206,7 @@ export const onUpdatePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
         createdAt
         updatedAt
       }
@@ -154,10 +214,14 @@ export const onUpdatePoll = /* GraphQL */ `
       userID
       squad {
         id
+        swaysID
+        name
         createdAt
         updatedAt
       }
       category
+      votes
+      feedback
       updatedAt
     }
   }
@@ -175,6 +239,7 @@ export const onDeletePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
         createdAt
         updatedAt
       }
@@ -182,10 +247,14 @@ export const onDeletePoll = /* GraphQL */ `
       userID
       squad {
         id
+        swaysID
+        name
         createdAt
         updatedAt
       }
       category
+      votes
+      feedback
       updatedAt
     }
   }
@@ -205,11 +274,14 @@ export const onCreateUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
         createdAt
         updatedAt
       }
       squad {
         id
+        swaysID
+        name
         createdAt
         updatedAt
       }
@@ -233,11 +305,14 @@ export const onUpdateUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
         createdAt
         updatedAt
       }
       squad {
         id
+        swaysID
+        name
         createdAt
         updatedAt
       }
@@ -261,11 +336,14 @@ export const onDeleteUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
         createdAt
         updatedAt
       }
       squad {
         id
+        swaysID
+        name
         createdAt
         updatedAt
       }

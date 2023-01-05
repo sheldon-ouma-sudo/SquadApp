@@ -1,6 +1,37 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getSways = /* GraphQL */ `
+  query GetSways($id: ID!) {
+    getSways(id: $id) {
+      id
+      Squads {
+        nextToken
+      }
+      Users {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSways = /* GraphQL */ `
+  query ListSways(
+    $filter: ModelSwaysFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSways(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
@@ -16,6 +47,7 @@ export const getUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
       createdAt
       updatedAt
     }
@@ -35,6 +67,37 @@ export const listUsers = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const usersBySwaysID = /* GraphQL */ `
+  query UsersBySwaysID(
+    $swaysID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersBySwaysID(
+      swaysID: $swaysID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
+        swaysID
         createdAt
         updatedAt
       }
@@ -52,6 +115,8 @@ export const getSquad = /* GraphQL */ `
       polls {
         nextToken
       }
+      swaysID
+      name
       createdAt
       updatedAt
     }
@@ -66,6 +131,34 @@ export const listSquads = /* GraphQL */ `
     listSquads(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        swaysID
+        name
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const squadsBySwaysID = /* GraphQL */ `
+  query SquadsBySwaysID(
+    $swaysID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    squadsBySwaysID(
+      swaysID: $swaysID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        swaysID
+        name
         createdAt
         updatedAt
       }
@@ -86,6 +179,7 @@ export const getPoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        swaysID
         createdAt
         updatedAt
       }
@@ -93,10 +187,14 @@ export const getPoll = /* GraphQL */ `
       userID
       squad {
         id
+        swaysID
+        name
         createdAt
         updatedAt
       }
       category
+      votes
+      feedback
       updatedAt
     }
   }
@@ -115,50 +213,8 @@ export const listPolls = /* GraphQL */ `
         createdAt
         userID
         category
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getUserSquad = /* GraphQL */ `
-  query GetUserSquad($id: ID!) {
-    getUserSquad(id: $id) {
-      id
-      userId
-      squadId
-      user {
-        id
-        name
-        username
-        imageUrl
-        numOfPolls
-        interests
-        createdAt
-        updatedAt
-      }
-      squad {
-        id
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listUserSquads = /* GraphQL */ `
-  query ListUserSquads(
-    $filter: ModelUserSquadFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUserSquads(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        userId
-        squadId
-        createdAt
+        votes
+        feedback
         updatedAt
       }
       nextToken
@@ -187,6 +243,8 @@ export const pollsByUserID = /* GraphQL */ `
         createdAt
         userID
         category
+        votes
+        feedback
         updatedAt
       }
       nextToken
@@ -217,6 +275,55 @@ export const listPollsBySquad = /* GraphQL */ `
         createdAt
         userID
         category
+        votes
+        feedback
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getUserSquad = /* GraphQL */ `
+  query GetUserSquad($id: ID!) {
+    getUserSquad(id: $id) {
+      id
+      userId
+      squadId
+      user {
+        id
+        name
+        username
+        imageUrl
+        numOfPolls
+        interests
+        swaysID
+        createdAt
+        updatedAt
+      }
+      squad {
+        id
+        swaysID
+        name
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listUserSquads = /* GraphQL */ `
+  query ListUserSquads(
+    $filter: ModelUserSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserSquads(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userId
+        squadId
+        createdAt
         updatedAt
       }
       nextToken
