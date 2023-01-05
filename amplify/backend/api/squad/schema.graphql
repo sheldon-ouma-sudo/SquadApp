@@ -1,3 +1,9 @@
+type Sways @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Squads: [Squad] @hasMany(indexName: "bySways", fields: ["id"])
+  Users: [User] @hasMany(indexName: "bySways", fields: ["id"])
+}
+
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
@@ -7,12 +13,15 @@ type User @model @auth(rules: [{allow: public}]) {
   squad: [Squad] @manyToMany(relationName: "UserSquad")
   interests: [String]!
   polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
+  swaysID: ID! @index(name: "bySways")
 }
 
 type Squad @model @auth(rules: [{allow: public}]) {
   id: ID!
   users: [User] @manyToMany(relationName: "UserSquad")
   polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
+  swaysID: ID! @index(name: "bySways")
+  name: String
 }
 
 type Poll @model @auth(rules: [{allow: public}]) {
@@ -24,5 +33,7 @@ type Poll @model @auth(rules: [{allow: public}]) {
   userID: ID! @index(name: "byUser") @index(name: "bySquad", sortKeyFields: ["createdAt"], queryField: "listPollsBySquad")
   squad: [Squad]
   category: String!
+  votes: Int
+  feedback: Float
 }
-   
+  

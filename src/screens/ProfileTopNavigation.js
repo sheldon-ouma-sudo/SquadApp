@@ -7,7 +7,8 @@
   import React from 'react'
   import { useState } from 'react'
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
+  import { Auth, API } from 'aws-amplify'; 
+  import { graphqlOperation } from 'aws-amplify' 
 
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
