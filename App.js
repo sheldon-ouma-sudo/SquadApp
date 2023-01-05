@@ -172,10 +172,7 @@ export default function App() {
         name: authUser.attributes.name,
         numOfPolls:0,
         interests:['undefined for now']
-      
-    
       };
-
       await API.graphql(
         graphqlOperation(createUser, { input: newUser })
       );
