@@ -142,7 +142,7 @@ const PersonalInterests = () => {
       }
     }
      getUserInterest()
- }, )
+ }, [selected, userInterest])
 
 // useEffect(()=>{
 //     const saveUserInterest = async()=>{
