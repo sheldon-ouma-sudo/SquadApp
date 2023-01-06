@@ -9,13 +9,21 @@
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
   import { Auth, API } from 'aws-amplify'; 
   import { graphqlOperation } from 'aws-amplify' 
+  //import {getUser} from './graphql/queries'
+  import {getUser} from '../graphql/queries'
+  
 
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
     const[userName, setUserName] =useState('User Profile Name')
     const Tab = createMaterialTopTabNavigator();
     const insets = useSafeAreaInsets();  
-    const ProfileName=userName
+    //query the user from the backend
+    //set the values to what is in the backend 
+
+
+
+
     return (
       <>
       <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"}]}>

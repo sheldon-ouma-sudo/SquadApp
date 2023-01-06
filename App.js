@@ -161,10 +161,17 @@ export default function App() {
       );
 
       if (userData.data.getUser) {
+        console.log("This is the user data is:",userData)
+        console.log("This is the user username is:",userData.data.getUser.username)
+        console.log("This is the user's name is:",userData.data.getUser.name)
+        console.log("This is the user's  squad is:",userData.data.getUser.squad)
+        console.log("This is the user's number of polls is:",userData.data.getUser.numOfPolls)
+        console.log("This is the user's interest is: ",userData.data.getUser.interests)
+        console.log("This is the user's image is:",userData.data.getUser.imageUrl)
         console.log("User already exists in DB");
         return;
       }
-      console.log("This is the user data",userData)
+      
       // if there is no users in db, create one
       const newUser = {
         id: authUser.attributes.sub,
