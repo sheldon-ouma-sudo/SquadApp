@@ -5,24 +5,47 @@
   import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
   import MySquadScreen from './MySquadScreen'
   import React from 'react'
-  import { useState } from 'react'
+  import { useState, useEffect } from 'react'
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
   import { Auth, API } from 'aws-amplify'; 
   import { graphqlOperation } from 'aws-amplify' 
-  //import {getUser} from './graphql/queries'
   import {getUser} from '../graphql/queries'
   
 
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
     const[userName, setUserName] =useState('User Profile Name')
+    const[userProfilePicture, setUserProfilePicture] = useState("")
+    const[numOfUserPolls, setNumOfUserPolls] = useState("")
+    const[numOfUserSways, setNumOfUserSways] = useState("")
     const Tab = createMaterialTopTabNavigator();
     const insets = useSafeAreaInsets();  
     //query the user from the backend
     //set the values to what is in the backend 
-
-
-
+     useEffect(()=>{
+      const getUser = async() =>{
+        // get Auth user
+        const authUser = await Auth.currentAuthenticatedUser({
+          bypassCache: true,
+        });
+          console.log(authUser)
+        // query the database using Auth user id (sub)
+        const userData = await API.graphql(
+          graphqlOperation(getUser, { id: authUser.attributes.sub })
+        );
+        if (userData.data.getUser) {
+          console.log("This is the user data is:",userData)
+          console.log("This is the user username is:",userData.data.getUser.username)
+          console.log("This is the user's name is:",userData.data.getUser.name)
+          console.log("This is the user's  squad is:",userData.data.getUser.squad)
+          console.log("This is the user's number of polls is:",userData.data.getUser.numOfPolls)
+          console.log("This is the user's interest is: ",userData.data.getUser.interests)
+          console.log("This is the user's image is:",userData.data.getUser.imageUrl)
+          console.log("User already exists in DB");
+        }
+    }
+     })
+   
 
     return (
       <>

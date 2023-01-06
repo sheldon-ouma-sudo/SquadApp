@@ -13,6 +13,7 @@ type User @model @auth(rules: [{ allow: public }]) {
   squad: [Squad] @manyToMany(relationName: "UserSquad")
   interests: [String]!
   polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
+  numOfSways: Int
   swaysID: ID @index(name: "bySways")
 }
 
@@ -41,4 +42,7 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   category: String!
   votes: Int
   feedback: Float
+  live: Boolean
+  closed: Boolean
 }
+ 

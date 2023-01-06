@@ -73,6 +73,7 @@ export const createUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      numOfSways
       swaysID
       createdAt
       updatedAt
@@ -97,6 +98,7 @@ export const updateUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      numOfSways
       swaysID
       createdAt
       updatedAt
@@ -121,6 +123,7 @@ export const deleteUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      numOfSways
       swaysID
       createdAt
       updatedAt
@@ -203,6 +206,7 @@ export const createPoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -219,6 +223,8 @@ export const createPoll = /* GraphQL */ `
       category
       votes
       feedback
+      live
+      closed
       updatedAt
     }
   }
@@ -239,6 +245,7 @@ export const updatePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -255,6 +262,8 @@ export const updatePoll = /* GraphQL */ `
       category
       votes
       feedback
+      live
+      closed
       updatedAt
     }
   }
@@ -275,6 +284,7 @@ export const deletePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -291,6 +301,8 @@ export const deletePoll = /* GraphQL */ `
       category
       votes
       feedback
+      live
+      closed
       updatedAt
     }
   }
@@ -311,6 +323,7 @@ export const createUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -343,6 +356,7 @@ export const updateUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -375,6 +389,7 @@ export const deleteUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt

@@ -47,6 +47,7 @@ export const getUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      numOfSways
       swaysID
       createdAt
       updatedAt
@@ -67,6 +68,7 @@ export const listUsers = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -97,6 +99,7 @@ export const usersBySwaysID = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -179,6 +182,7 @@ export const getPoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -195,6 +199,8 @@ export const getPoll = /* GraphQL */ `
       category
       votes
       feedback
+      live
+      closed
       updatedAt
     }
   }
@@ -215,6 +221,8 @@ export const listPolls = /* GraphQL */ `
         category
         votes
         feedback
+        live
+        closed
         updatedAt
       }
       nextToken
@@ -245,6 +253,8 @@ export const pollsByUserID = /* GraphQL */ `
         category
         votes
         feedback
+        live
+        closed
         updatedAt
       }
       nextToken
@@ -277,6 +287,8 @@ export const listPollsBySquad = /* GraphQL */ `
         category
         votes
         feedback
+        live
+        closed
         updatedAt
       }
       nextToken
@@ -296,6 +308,7 @@ export const getUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt

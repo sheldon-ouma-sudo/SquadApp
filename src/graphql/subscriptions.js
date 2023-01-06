@@ -61,6 +61,7 @@ export const onCreateUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      numOfSways
       swaysID
       createdAt
       updatedAt
@@ -82,6 +83,7 @@ export const onUpdateUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      numOfSways
       swaysID
       createdAt
       updatedAt
@@ -103,6 +105,7 @@ export const onDeleteUser = /* GraphQL */ `
       polls {
         nextToken
       }
+      numOfSways
       swaysID
       createdAt
       updatedAt
@@ -173,6 +176,7 @@ export const onCreatePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -189,6 +193,8 @@ export const onCreatePoll = /* GraphQL */ `
       category
       votes
       feedback
+      live
+      closed
       updatedAt
     }
   }
@@ -206,6 +212,7 @@ export const onUpdatePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -222,6 +229,8 @@ export const onUpdatePoll = /* GraphQL */ `
       category
       votes
       feedback
+      live
+      closed
       updatedAt
     }
   }
@@ -239,6 +248,7 @@ export const onDeletePoll = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -255,6 +265,8 @@ export const onDeletePoll = /* GraphQL */ `
       category
       votes
       feedback
+      live
+      closed
       updatedAt
     }
   }
@@ -274,6 +286,7 @@ export const onCreateUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -305,6 +318,7 @@ export const onUpdateUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
@@ -336,6 +350,7 @@ export const onDeleteUserSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         interests
+        numOfSways
         swaysID
         createdAt
         updatedAt
