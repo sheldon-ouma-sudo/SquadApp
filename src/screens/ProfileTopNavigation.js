@@ -34,11 +34,13 @@
           graphqlOperation(getUser, { id: authUser.attributes.sub })
         );
         if (userData.data.getUser) {
+          setUserName(userData.data.getUser.name)
           console.log("This is the user data is:",userData)
           console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
           console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
           console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
           console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
+          console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
           console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
           console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
         
@@ -58,8 +60,15 @@
             style={[{ height: 120 }, { width: 120 }, 
             {overflow:'hidden'},{marginBottom:20}, {marginLeft:30}]} />
         </TouchableOpacity>
+        <View >
+         <Text
+           style={[{fontSize:'24'}, {fontWeight:'600'}]}
+          >
+           {userName}
+         </Text>
+        </View>
         <View
-         style={[{marginLeft:40},{marginTop:70}]}>
+         style={[{marginLeft:-80},{marginTop:70}]}>
            <Text
            style={[{fontSize:16},{marginTop:5},{marginLeft:-15},{marginBottom:-5}]}
            >Polls</Text>

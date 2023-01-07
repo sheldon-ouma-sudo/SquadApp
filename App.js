@@ -178,6 +178,7 @@ export default function App() {
         username: authUser.attributes.preferred_username,
         name: authUser.attributes.name,
         numOfPolls:0,
+        numOfSways:0,
         interests:['undefined for now']
       };
       await API.graphql(
