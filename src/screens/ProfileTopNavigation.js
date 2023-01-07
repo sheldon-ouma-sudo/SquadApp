@@ -73,17 +73,28 @@ import { fontSize } from '@mui/system'
         <View
          style={[{marginLeft:-80},{marginTop:70}]}>
           <Text
-          style={[{marginBottom:5}, {fontSize:16}, {fontWeight:'600'}, {marginLeft:-5}]}
+          style={[{marginBottom:5}, {fontSize:18}, {fontWeight:'600'}, {marginLeft:-5}]}
           >{numOfUserPolls}</Text>
            <Text
            style={[{fontSize:16},{marginTop:5},{marginLeft:-15},{marginBottom:-5}]}
            >Polls </Text> 
            <Text
-           style={[{fontSize:16},{marginTop:-15},{marginLeft:60}]}
+           style={[{marginLeft:70}, {marginTop:-46}, {marginBottom:26}, {fontWeight:'600'}, {fontSize:18}]}
+           >
+            0
+           </Text>
+           <Text
+           style={[{fontSize:16},{marginTop:-15},{marginLeft:58}]}
            >Squad</Text>
+           <Text
+           style={[{marginLeft:160},{marginTop:-46}, {marginBottom:26}, {fontWeight:'600'}, {fontSize:18}]}
+           >
+            0
+           </Text>
          <Text
-           style={[{fontSize:16},{marginTop:-20},{marginLeft:155}]}
-           >Sways</Text>
+           style={[{fontSize:16},{marginTop:-20},{marginLeft:150}]}
+           >Sways
+           </Text>
         </View>
       </View>
 
