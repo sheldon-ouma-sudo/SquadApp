@@ -10,7 +10,7 @@
   import { Auth, API } from 'aws-amplify'; 
   import { graphqlOperation } from 'aws-amplify' 
   import {getUser} from '../graphql/queries'
-import { fontSize } from '@mui/system'
+
   
 
   const Profile =()=> {
@@ -87,7 +87,7 @@ import { fontSize } from '@mui/system'
            style={[{fontSize:16},{marginTop:-15},{marginLeft:58}]}
            >Squad</Text>
            <Text
-           style={[{marginLeft:160},{marginTop:-46}, {marginBottom:26}, {fontWeight:'600'}, {fontSize:18}]}
+           style={[{marginLeft:160},{marginTop:-48}, {marginBottom:29}, {fontWeight:'600'}, {fontSize:18}]}
            >
             0
            </Text>
