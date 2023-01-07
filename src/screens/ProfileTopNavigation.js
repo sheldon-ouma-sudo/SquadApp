@@ -17,7 +17,7 @@
     const[userName, setUserName] =useState('User Profile Name')
     //const[userProfilePicture, setUserProfilePicture] = useState("")
     const[numOfUserPolls, setNumOfUserPolls] = useState("")
-    const[numOfUserSways, setNumOfUserSways] = useState("")
+    const[numOfUserSways, setNumOfUserSways] = useState("0")
     const Tab = createMaterialTopTabNavigator();
     const insets = useSafeAreaInsets();  
     //query the user from the backend
@@ -35,6 +35,7 @@
         );
         if (userData.data.getUser) {
           setUserName(userData.data.getUser.name)
+          setNumOfUserPolls(userData.data.getUser.numOfPolls)
           console.log("This is the user data is:",userData)
           console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
           console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
