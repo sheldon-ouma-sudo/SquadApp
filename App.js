@@ -34,6 +34,7 @@ import {Storage, API,graphqlOperation } from 'aws-amplify';
 import { useEffect } from "react";
 import {getUser} from './src/graphql/queries'
 import {createUser} from './src/graphql/mutations'
+import {MySquadPollScreen} from './src/screens/MySquadPollScreen'
 
 
 Amplify.configure(awsconfig);
