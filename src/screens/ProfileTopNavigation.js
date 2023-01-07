@@ -10,6 +10,7 @@
   import { Auth, API } from 'aws-amplify'; 
   import { graphqlOperation } from 'aws-amplify' 
   import {getUser} from '../graphql/queries'
+import { fontSize } from '@mui/system'
   
 
   const Profile =()=> {
@@ -71,14 +72,17 @@
        
         <View
          style={[{marginLeft:-80},{marginTop:70}]}>
+          <Text
+          style={[{marginBottom:5}, {fontSize:16}, {fontWeight:'600'}, {marginLeft:-5}]}
+          >{numOfUserPolls}</Text>
            <Text
            style={[{fontSize:16},{marginTop:5},{marginLeft:-15},{marginBottom:-5}]}
-           >Polls</Text> 
+           >Polls </Text> 
            <Text
-           style={[{fontSize:16},{marginTop:-15},{marginLeft:50}]}
+           style={[{fontSize:16},{marginTop:-15},{marginLeft:60}]}
            >Squad</Text>
          <Text
-           style={[{fontSize:16},{marginTop:-20},{marginLeft:125}]}
+           style={[{fontSize:16},{marginTop:-20},{marginLeft:155}]}
            >Sways</Text>
         </View>
       </View>
