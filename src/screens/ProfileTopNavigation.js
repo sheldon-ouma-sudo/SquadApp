@@ -68,11 +68,12 @@
            {userName}
          </Text>
         </View>
+       
         <View
          style={[{marginLeft:-80},{marginTop:70}]}>
            <Text
            style={[{fontSize:16},{marginTop:5},{marginLeft:-15},{marginBottom:-5}]}
-           >Polls</Text>
+           >Polls</Text> 
            <Text
            style={[{fontSize:16},{marginTop:-15},{marginLeft:50}]}
            >Squad</Text>
@@ -81,6 +82,9 @@
            >Sways</Text>
         </View>
       </View>
+
+
+
       <Tab.Navigator
         style={[{ marginTop: -10 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
         screenOptions={{
