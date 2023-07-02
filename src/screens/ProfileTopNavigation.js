@@ -98,7 +98,7 @@
            </Text>
          <Text
            style={[{fontSize:16},{marginTop:-23.5},{marginLeft:65}]}
-           >Sways
+           >Squadron
            </Text>
         </View>
       </View>
@@ -120,7 +120,7 @@
             name="My Squad"
             component={MySquadScreen} />
           <Tab.Screen
-            name="Squadraton"
+            name="Squadron"
             component={SwayingScreen} />
         </Tab.Navigator></>
     )
