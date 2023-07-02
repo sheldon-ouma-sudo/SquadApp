@@ -136,16 +136,16 @@ const AgeGenderLocationScreen = () => {
  
 
   async function saveAgeGenderLocation(){
-    alert("saving user attributes now")
-    try{
-      const user = await Auth.currentAuthenticatedUser();
-      await Auth.updateUserAttributes(user, {
-      'address': location,
-      'birthdate': age,
-      'gender': selectedGender
-    });
-    console.log(location,age,selectedGender)
-    console.log("✅successfully updated users attributes")
+   // alert("saving user attributes now")
+     try{
+    //   const user = await Auth.currentAuthenticatedUser();
+    //   await Auth.updateUserAttributes(user, {
+    //   'address': location,
+    //   'birthdate': age,
+    //   'gender': selectedGender
+    // });
+    // console.log(location,age,selectedGender)
+    // console.log("✅successfully updated users attributes")
     navigation.navigate("ProfilePictureUploadScreen")
     }catch(e){
      console.log("failed to update the additional attributes",)

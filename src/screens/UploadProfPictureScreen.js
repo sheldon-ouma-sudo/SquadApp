@@ -47,7 +47,7 @@ const customStyles = {
 const UploadProfPicture = () => {
   const[currentPosition, setCurrentPositon] = useState(1)
   const[hasGalleryPermissions, setGallerPermissions] = useState(null)
-  const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
+  const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
   const[userImage, setUserImage] =useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
   const [progressText, setProgressText] = useState('');
   const [isLoading, setisLoading] = useState(false);
@@ -96,21 +96,21 @@ const fetchResourceFromURI = async uri => {
 //upload the picture to the specific bucket
  const uploadUserImage = async () => {
   alert("uploading the photo attempt")
-    if (isLoading) return;
-    setisLoading(true);
-   const user = await Auth.currentAuthenticatedUser()
-   const userId = user.attributes.sub;
-   const filename = uuid();
-   const ref = `/@{useProfilePictures}/${filename}.jpg`
-   const blob = fetchResourceFromURI(image);
-   return Storage.put(ref,blob, {
-    level:'protected',
-    contentType:image.type,
-    metadata: {userId: userId},
-    progressCallback(uploadProgress){
-      console.log('PROGRESS--', uploadProgress.loaded + '/' + uploadProgress.total);
-    }
-  })
+  //   if (isLoading) return;
+  //   setisLoading(true);
+  //  const user = await Auth.currentAuthenticatedUser()
+  //  const userId = user.attributes.sub;
+  //  const filename = uuid();
+  //  const ref = `/@{useProfilePictures}/${filename}.jpg`
+  //  const blob = fetchResourceFromURI(image);
+  //  return Storage.put(ref,blob, {
+  //   level:'protected',
+  //   contentType:image.type,
+  //   metadata: {userId: userId},
+  //   progressCallback(uploadProgress){
+  //     console.log('PROGRESS--', uploadProgress.loaded + '/' + uploadProgress.total);
+  //   }
+  // })
   .then((res) => {
     Storage.get(res.key)
     .then((result) => {
@@ -194,7 +194,7 @@ return (
       </View>
       <View style={styles.buttonContainer}>
             <TouchableOpacity
-            onPress={uploadUserImage}
+            onPress={navigation.navigate("ChangeProfilePictureScreen",{userImage:image})}
               //,{username:username}
              // navigation.navigate("ChangeProfilePictureScreen",{userImage:image})}
             style = {styles.profilePictureButton}

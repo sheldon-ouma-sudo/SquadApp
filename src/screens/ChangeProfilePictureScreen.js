@@ -91,7 +91,7 @@ const ChangeProfilePictureScreen = () => {
      </View>
  
        <View style={[{ flexDirection:"row" },{marginTop:-20}, {marginBottom:30},{marginLeft:30}]}>
-         <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
+         <TouchableOpacity  onPress={() =>navigation.navigate('UploadProfPictureScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
              <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
             </TouchableOpacity>
              <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.button]}>

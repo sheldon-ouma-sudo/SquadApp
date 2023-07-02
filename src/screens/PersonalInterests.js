@@ -243,7 +243,8 @@ return (
     />
     </ScrollView>
 
-    <TouchableOpacity  onPress={() =>navigation.replace('UploadProfPictureScreen')}style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:70},{marginTop:-330},{marginRight:250},{width:160} ]}>
+    <TouchableOpacity  onPress={()=>navigation.replace('UploadProfPictureScreen')}
+    style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:70},{marginTop:-330},{marginRight:250},{width:160} ]}>
     <Text  style={[{justifyContent: 'flex-end'},styles.backText,]}> Back </Text>
     </TouchableOpacity>
     <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:80},{marginLeft:230},{marginRight:50},{width:160} ]}>

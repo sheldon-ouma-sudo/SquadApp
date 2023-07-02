@@ -35,7 +35,24 @@ const customStyles = {
 const ProfilePictureUpload = () => {
   const navigation = useNavigation()
   const[currentPosition, setCurrentPositon] = useState(1)
-
+  async function navigate(){
+    // alert("saving user attributes now")
+      try{
+     //   const user = await Auth.currentAuthenticatedUser();
+     //   await Auth.updateUserAttributes(user, {
+     //   'address': location,
+     //   'birthdate': age,
+     //   'gender': selectedGender
+     // });
+     // console.log(location,age,selectedGender)
+     // console.log("✅successfully updated users attributes")
+     navigation.navigate("UploadProfPictureScreen")
+     }catch(e){
+      console.log("failed to update the additional attributes",)
+     }
+     }
+    
+ 
    
 
   return (
@@ -73,7 +90,7 @@ const ProfilePictureUpload = () => {
       </View>
       <View style={styles.buttonContainer}>
             <TouchableOpacity
-            onPress={() =>navigation.replace('UploadProfPictureScreen')}
+            onPress={navigate}
             //onPress={handleLogin}
             style = {styles.profilePictureButton}
                 >

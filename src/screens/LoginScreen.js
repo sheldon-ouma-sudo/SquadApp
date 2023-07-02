@@ -105,8 +105,8 @@ const LoginScreen = () => {
 
     async function signInWithAWS() {
         try {
-          await Auth.signIn(username, password);
-          console.log('✅ Success');
+          //await Auth.signIn(username, password);
+          //console.log('✅ Success');
           //updateAuthState('loggedIn');
          navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
         } catch (error) {

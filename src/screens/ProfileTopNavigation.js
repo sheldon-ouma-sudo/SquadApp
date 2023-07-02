@@ -23,33 +23,33 @@
     const insets = useSafeAreaInsets();  
     //query the user from the backend
     //set the values to what is in the backend 
-     useEffect(()=>{
-      const queryUser = async() =>{
-        // get Auth user
-        const authUser = await Auth.currentAuthenticatedUser({
-          bypassCache: true,
-        });
-          console.log(authUser)
-        // query the database using Auth user id (sub)
-        const userData = await API.graphql(
-          graphqlOperation(getUser, { id: authUser.attributes.sub })
-        );
-        if (userData.data.getUser) {
-          setUserName(userData.data.getUser.name)
-          setNumOfUserPolls(userData.data.getUser.numOfPolls)
-          console.log("This is the user data is:",userData)
-          console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
-          console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
-          console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
-          console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
-          console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
-          console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
-          console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
+    //  useEffect(()=>{
+    //   const queryUser = async() =>{
+    //     // get Auth user
+    //     const authUser = await Auth.currentAuthenticatedUser({
+    //       bypassCache: true,
+    //     });
+    //       console.log(authUser)
+    //     // query the database using Auth user id (sub)
+    //     const userData = await API.graphql(
+    //       graphqlOperation(getUser, { id: authUser.attributes.sub })
+    //     );
+    //     if (userData.data.getUser) {
+    //       setUserName(userData.data.getUser.name)
+    //       setNumOfUserPolls(userData.data.getUser.numOfPolls)
+    //       console.log("This is the user data is:",userData)
+    //       console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
+    //       console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
+    //       console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
+    //       console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
+    //       console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
+    //       console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
+    //       console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
         
-        }
-    }
-    queryUser()
-     })
+    //     }
+    // }
+    // queryUser()
+    //  })
    
 
     return (
@@ -57,7 +57,7 @@
       <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"}]}>
         <TouchableOpacity>
           <Image
-            source={{ uri:profileImage }}
+            source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
             style={[{ height: 120 }, { width: 120 }, 
             {overflow:'hidden'},{marginBottom:20}, {marginLeft:30}]} />
@@ -76,23 +76,28 @@
           style={[{marginBottom:5}, {fontSize:18}, {fontWeight:'600'}, {marginLeft:-5}]}
           >{numOfUserPolls}</Text>
            <Text
-           style={[{fontSize:16},{marginTop:5},{marginLeft:-15},{marginBottom:-5}]}
+           style={[{fontSize:16},{marginTop:5},{marginLeft:-85},{marginBottom:-5}]}
            >Polls </Text> 
            <Text
-           style={[{marginLeft:70}, {marginTop:-46}, {marginBottom:26}, {fontWeight:'600'}, {fontSize:18}]}
+           style={[{marginLeft:-70}, {marginTop:-46}, {marginBottom:26}, {fontWeight:'600'}, {fontSize:18}]}
            >
             0
            </Text>
            <Text
-           style={[{fontSize:16},{marginTop:-15},{marginLeft:58}]}
+           style={[{fontSize:16},{marginTop:-15},{marginLeft:-15}]}
            >Squad</Text>
+            <Text
+           style={[{marginLeft:10},{marginTop:-48}, {marginBottom:29}, {fontWeight:'600'}, {fontSize:18}]}
+           >
+            0
+           </Text>
            <Text
-           style={[{marginLeft:160},{marginTop:-48}, {marginBottom:29}, {fontWeight:'600'}, {fontSize:18}]}
+           style={[{marginLeft:80},{marginTop:-48}, {marginBottom:29}, {fontWeight:'600'}, {fontSize:18}]}
            >
             0
            </Text>
          <Text
-           style={[{fontSize:16},{marginTop:-20},{marginLeft:150}]}
+           style={[{fontSize:16},{marginTop:-23.5},{marginLeft:65}]}
            >Sways
            </Text>
         </View>
@@ -115,7 +120,7 @@
             name="My Squad"
             component={MySquadScreen} />
           <Tab.Screen
-            name="Sways"
+            name="Squadraton"
             component={SwayingScreen} />
         </Tab.Navigator></>
     )
