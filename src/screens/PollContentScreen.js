@@ -5,6 +5,7 @@ import {SelectList} from 'react-native-dropdown-select-list'
 import { MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 const PollContentScreen = () => {
   const [selected, setSelected]  = useState("")
@@ -28,6 +29,26 @@ const PollContentScreen = () => {
     { label: 'Tiktok', value: '6' },
 ]
 const navigation = useNavigation()
+const route = useRoute();
+const mediArr = []
+const latestMedia = route?.params.image
+function collectData(data){
+  while(i<4){
+    var media = {}
+    media.id = i;
+    media.uri = latestMedia;
+    if(mediArr.size()<4){
+      mediArr.push(media)
+    }else{
+      alert("the maximum amount of media exceeded, please delete some options and try again")
+    }
+    data = mediArr
+    i++;
+  }
+  return data
+}
+
+
 const renderDataItem = (item) => {
   return (
       <View style={styles.item}>

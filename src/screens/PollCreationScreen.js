@@ -55,7 +55,8 @@ const PollCreation = () => {
             console.log(error);
           }
         }
-        navigation.navigate("PollContentScreen")
+        console.log(image)
+        navigation.navigate('PollContentScreen',{image:image})
       };
 
       const pickImage = async () => {
@@ -73,7 +74,8 @@ const PollCreation = () => {
           return<Text>No access to photo gallery</Text>
         }
         savePicture();
-        navigation.navigate("PollContentScreen")
+        navigation.navigate('PollContentScreen',{image:image})
+        //navigation.navigate('EmailOTPScreen',{username:username});
       }
 
 
