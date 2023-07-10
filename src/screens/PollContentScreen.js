@@ -11,6 +11,7 @@ const PollContentScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
   const [selectedPollAudience, setSelectedPollAudience] = useState([]);
+  const [mediArr, setMediArr] = useState([])
   const data=[
         {key:'1', value:"Fashion"},
         {key:'2', value:"Decor"},
@@ -30,21 +31,18 @@ const PollContentScreen = () => {
 ]
 const navigation = useNavigation()
 const route = useRoute();
-const mediArr = []
 const latestMedia = route?.params.image
 function collectData(data){
-  while(i<4){
     var media = {}
     media.id = i;
     media.uri = latestMedia;
     if(mediArr.size()<4){
       mediArr.push(media)
+      setMediArr(mediArr)
     }else{
       alert("the maximum amount of media exceeded, please delete some options and try again")
     }
     data = mediArr
-    i++;
-  }
   return data
 }
 
