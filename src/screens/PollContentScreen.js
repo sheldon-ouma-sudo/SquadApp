@@ -32,7 +32,8 @@ const PollContentScreen = () => {
 const navigation = useNavigation()
 const route = useRoute();
 const latestMedia = route?.params.image
-function collectData(data){
+useEffect(()=>{
+  function collectData(data){
     var media = {}
     media.id = i;
     media.uri = latestMedia;
@@ -45,7 +46,9 @@ function collectData(data){
     data = mediArr
   return data
 }
+}, [mediArr])
 
+const mediaData = collectData(data)
 
 const renderDataItem = (item) => {
   return (
