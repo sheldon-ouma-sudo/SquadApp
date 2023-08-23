@@ -185,7 +185,6 @@ const styles = StyleSheet.create({
     marginTop:90,
     fontWeight:'700',
     fontSize:18
-
   },
   input:{
     backgroundColor: '#fff',
@@ -234,8 +233,7 @@ buttonContainer:{
   buttonText:{
     color: 'white',
     fontWeight: '600',
-    fontSize: 14
-    
+    fontSize: 14   
 },
 dropdown: {
   height: 50,
@@ -250,9 +248,9 @@ dropdown: {
   },
   shadowOpacity: 0.2,
   shadowRadius: 1.41,
-
   elevation: 2,
 },
+
 placeholderStyle: {
   fontSize: 16,
   color:'white'
@@ -263,8 +261,8 @@ selectedTextStyle: {
 iconStyle: {
   width: 20,
   height: 30,
-
 },
+
 inputSearchStyle: {
   height: 40,
   fontSize: 16,
