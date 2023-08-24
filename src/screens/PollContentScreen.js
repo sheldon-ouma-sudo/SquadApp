@@ -11,8 +11,9 @@ const PollContentScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
   const [selectedPollAudience, setSelectedPollAudience] = useState([]);
+  const[latest_media, setLatest_media] = useState(null)
   const [mediArr, setMediArr] = useState([])
-  const data=[
+  const data=[ // rename the variable 
         {key:'1', value:"Fashion"},
         {key:'2', value:"Decor"},
         {key:'3', value:"Food"},
@@ -21,7 +22,7 @@ const PollContentScreen = () => {
         {key:'6', value:"Health"},
         {key:'7', value:"Other"},
   ]
-  const DATA=[
+  const DATA=[//rename this variable 
     { label: 'Squad', value: '1' },
     { label: 'Instagram', value: '2' },
     { label: 'Twitter', value: '3' },
@@ -32,23 +33,18 @@ const PollContentScreen = () => {
 const navigation = useNavigation()
 const route = useRoute();
 const latestMedia = route?.params.image
-useEffect(()=>{
-  function collectData(data){
-    var media = {}
-    media.id = i;
-    media.uri = latestMedia;
-    if(mediArr.size()<4){
-      mediArr.push(media)
-      setMediArr(mediArr)
-    }else{
-      alert("the maximum amount of media exceeded, please delete some options and try again")
-    }
-    data = mediArr
-  return data
-}
-}, [mediArr])
 
-const mediaData = collectData(data)
+useEffect(()=>{
+  setLatest_media(latestMedia)
+  console.log("this is the latest media",latest_media)
+  if(mediArr.length <4){
+    mediArr.push(latest_media)
+  }
+
+    console.log(mediArr)
+ },[latest_media, mediArr])
+
+// const mediaData = collectData(data)
 
 const renderDataItem = (item) => {
   return (
@@ -78,9 +74,7 @@ const handlePoll =()=>{
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>
-    <Image>
-
-    </Image>
+    
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
