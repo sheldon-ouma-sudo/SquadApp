@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
-  TextInput, TouchableOpacity, StatusBar} from 'react-native'
+  TextInput, TouchableOpacity, StatusBar, FlatList, ScrollView} from 'react-native'
 import { useState, useEffect } from 'react'
 import {SelectList} from 'react-native-dropdown-select-list'
 import { MultiSelect } from 'react-native-element-dropdown';
@@ -74,7 +74,11 @@ const handlePoll =()=>{
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>
+     <View>
+      
+     </View>
     
+
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
@@ -169,14 +173,17 @@ const styles = StyleSheet.create({
   pollContentStyles:{
     marginRight:250,
     marginTop:20
-
+    
   },
   pollContentText:{
     fontWeight:'700',
     fontSize:18
   },
+  pollImagesContainer:{
+    marginBottom:15
+  },
   pollContentLabel:{
-    marginTop:90,
+    marginTop:10,
     fontWeight:'700',
     fontSize:18
   },

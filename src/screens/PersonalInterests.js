@@ -222,7 +222,9 @@ return (
    </View>
   </View>  
   <View style={{marginTop:-30}}></View>
-     <ScrollView horizontal={true} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}
+    <ScrollView horizontal={true}
+      showsVerticalScrollIndicator={false} 
+     showsHorizontalScrollIndicator={false}
      style={[{marginRight:20}]}
      >
     <FlatList
