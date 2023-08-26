@@ -75,7 +75,9 @@ const handlePoll =()=>{
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>
      <View>
-      
+      <Image>
+        
+      </Image>
      </View>
     
 
