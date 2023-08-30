@@ -56,7 +56,7 @@ const renderDataItem = (item) => {
 };
 const handlePoll =()=>{
   alert("Attempts to create a  new poll")
-  navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+  navigation.navigate('RootNavigation', { screen: 'Profile' })
 
 }
   return (
@@ -74,13 +74,15 @@ const handlePoll =()=>{
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>
-     <View>
-      <Image>
-        
-      </Image>
-     </View>
     
-
+    <FlatList
+      data={mediArr}
+      flexDirection="row"
+      flexWrap="wrap"
+      renderItem={({item}) => (
+        <Image source={item} />
+      )}
+    />
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
