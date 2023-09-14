@@ -12,6 +12,7 @@ const PollContentScreen = () => {
   const [caption, setCaption] = useState()
   const [selectedPollAudience, setSelectedPollAudience] = useState([]);
   const[latest_media, setLatest_media] = useState(null)
+  const [loading, setLoading] = useState(false);
   const [mediArr, setMediArr] = useState([])
   const data=[ // rename the variable 
         {key:'1', value:"Fashion"},
@@ -57,8 +58,21 @@ const renderDataItem = (item) => {
 const handlePoll =()=>{
   alert("Attempts to create a  new poll")
   navigation.navigate('RootNavigation', { screen: 'Profile' })
-
+  //creating a function that renders images from the user side by side
 }
+
+const renderImage = ({ source }) => (
+    <Image source={source} />
+  );
+
+  const renderImages = ({ images }) => (
+    <FlatList
+      data={images}
+      renderItem={renderImage}
+    />
+  );
+
+  
   return (
     <KeyboardAvoidingView
     style={styles.container}
@@ -74,16 +88,41 @@ const handlePoll =()=>{
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>
-    
-    <FlatList
-      data={mediArr}
-      flexDirection="row"
-      flexWrap="wrap"
-      renderItem={({item}) => (
-        <Image source={item} />
-      )}
-    />
-    <View style={styles.pollContentStyles}>
+    <ScrollView
+    style={styles.ImageContainer}
+    contentContainerStyle={{
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "center",
+    }}
+    horizontal={true}
+    >
+      {mediArr.map((image, i) => {
+            return (
+              <View
+                style={{
+                  padding: 5,
+                }}
+                key={i}
+              >
+                <Image
+                  source={{ uri: image }}
+                  style={[
+                    styles.Image,
+                    {
+                      width: i % 2 === 1 ? 150 : 95,
+                      height: i % 2 === 1 ? 150 : 95,
+                    },
+                  ]}
+                  resizeMode="center"
+                  onLoadStart={() => setLoading(true)}
+                  onLoadEnd={() => setLoading(false)}
+                />
+              </View>
+            );
+          })}
+    </ScrollView>
+    <View style={styles.pollLabelContainer}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
     <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:70,marginLeft:30}}>
@@ -94,8 +133,9 @@ const handlePoll =()=>{
     save="value"
     search={true} 
     />
-
     </View>
+   
+
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Poll Caption</Text>
     </View>
@@ -155,7 +195,8 @@ const handlePoll =()=>{
             </Text>
         </TouchableOpacity>
         </View>
-      
+
+    
     </KeyboardAvoidingView>
   )
 }
@@ -176,18 +217,23 @@ const styles = StyleSheet.create({
   },
   pollContentStyles:{
     marginRight:250,
-    marginTop:20
+    marginTop:30
     
+  },
+  pollLabelContainer:{
+    marginRight:250,
+    marginTop:0
+
   },
   pollContentText:{
     fontWeight:'700',
     fontSize:18
   },
   pollImagesContainer:{
-    marginBottom:15
+    marginBottom:10
   },
   pollContentLabel:{
-    marginTop:10,
+    marginTop:20,
     fontWeight:'700',
     fontSize:18
   },
@@ -205,6 +251,11 @@ const styles = StyleSheet.create({
 // fontStyle:"Montserrat-Regular",
     color:'black',
     fontWeight:'400'    
+},
+ImageContainer: {
+  marginHorizontal: 16,
+  marginTop: 20,
+  width: "90%",
 },
 pollContentCaption:{
   marginTop:-10,
