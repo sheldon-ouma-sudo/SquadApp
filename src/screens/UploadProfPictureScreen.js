@@ -13,8 +13,7 @@
   import { Storage } from 'aws-amplify'; 
   import S3 from "aws-sdk/clients/s3";
   import { Credentials } from "aws-sdk";
-  import "react-native-get-random-values"
-  import { v4 as uuid } from "uuid";  
+  
 
 
  //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
