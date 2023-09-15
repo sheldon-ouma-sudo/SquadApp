@@ -77,23 +77,23 @@ const pickImage = async () => {
 };
 
 const takePhotoFromCamera = async () =>{
-const result = await ImagePicker.launchCameraAsync();
-// Explore the result
-console.log(result);
-if (!result.canceled) {
-setImage(result.assets[0].uri);
-console.log(result.assets[0].uri);
+  const result = await ImagePicker.launchCameraAsync();
+  // Explore the result
+  console.log(result);
+  if (!result.canceled) {
+  setImage(result.assets[0].uri);
+  console.log(result.assets[0].uri);
+  }
 }
-}
-//after getting the photo, we turn it into a blobl
-const fetchResourceFromURI = async uri => {
-  const response = await fetch(uri);
-  console.log("response from the blob creation",response);
-  const blob = await response.blob();
-  return blob;
-};
-//upload the picture to the specific bucket
- const uploadUserImage = async () => {
+// //after getting the photo, we turn it into a blobl
+// const fetchResourceFromURI = async uri => {
+//   const response = await fetch(uri);
+//   console.log("response from the blob creation",response);
+//   const blob = await response.blob();
+//   return blob;
+// };
+// //upload the picture to the specific bucket
+const uploadUserImage = async () => {
   alert("uploading the photo attempt")
   //   if (isLoading) return;
   //   setisLoading(true);
@@ -110,30 +110,30 @@ const fetchResourceFromURI = async uri => {
   //     console.log('PROGRESS--', uploadProgress.loaded + '/' + uploadProgress.total);
   //   }
   // })
-  .then((res) => {
-    Storage.get(res.key)
-    .then((result) => {
-      console.log('RESULT --- ', result);
-      let awsImageUri = result.substring(0,result.indexOf('?'))
-      setUserImage(awsImageUri)
-      console.log('RESULT AFTER REMOVED URI --', awsImageUri)
-      setisLoading(false)
-      try{
-       Auth.updateUserAttributes(user, {
-          'picture': userImage})
-      }catch(e){
-        console.log("error uploading the profile pic attribute")
-      }
-      navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
-    })
-    .catch(e => {
-      console.log(e);
-    })
-  }).catch(e => {
-    console.log(e);
-  })
+  // .then((res) => {
+  //   Storage.get(res.key)
+  //   .then((result) => {
+  //     console.log('RESULT --- ', result);
+  //     let awsImageUri = result.substring(0,result.indexOf('?'))
+  //     setUserImage(awsImageUri)
+  //     console.log('RESULT AFTER REMOVED URI --', awsImageUri)
+  //     setisLoading(false)
+  //     try{
+  //      Auth.updateUserAttributes(user, {
+  //         'picture': userImage})
+  //     }catch(e){
+  //       console.log("error uploading the profile pic attribute")
+  //     }
+     navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+  //   })
+  //   .catch(e => {
+  //     console.log(e);
+  //   })
+  // }).catch(e => {
+  //   console.log(e);
+  }
 
- 
+
 
 
   //  try{
@@ -156,7 +156,7 @@ const fetchResourceFromURI = async uri => {
   //    console.log("failure to upload the picture to the backend", e)
   //  }
    //update the user attributes
-  }
+  //}
 
 return (
     <KeyboardAvoidingView 
@@ -193,7 +193,7 @@ return (
       </View>
       <View style={styles.buttonContainer}>
             <TouchableOpacity
-            onPress={navigation.navigate("ChangeProfilePictureScreen",{userImage:image})}
+            onPress={uploadUserImage}
               //,{username:username}
              // navigation.navigate("ChangeProfilePictureScreen",{userImage:image})}
             style = {styles.profilePictureButton}
@@ -204,7 +204,7 @@ return (
 
             </TouchableOpacity>
     </View>
-    {/**this is the view with the google and the facebook icons */}
+
     <TouchableOpacity style= {[{flexDirection:"row"}, styles.profPictureUpload]}>
             <TouchableOpacity 
             style= {{flex:1}}
@@ -229,6 +229,11 @@ return (
                     <Text style={styles.captureText}>Capture</Text>
             </TouchableOpacity>       
         </TouchableOpacity>
+    
+
+
+     
+    
     </KeyboardAvoidingView>
   )
 }
