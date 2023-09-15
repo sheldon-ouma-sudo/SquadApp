@@ -1,9 +1,23 @@
-# This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+type Squad @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
+  users: [User] @manyToMany(relationName: "UserSquad")
+  latestPoll: Poll @hasOne
+}
 
-type Todo @model {
+type Poll @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  pollCaption: String!
+  pollMedia: [String]
+  squadID: ID! @index(name: "bySquad")
+  userID: ID! @index(name: "byUser")
+}
+
+type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
-  description: String
-}
+  userName: String
+  imageUrl: String
+  Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
+  Squads: [Squad] @manyToMany(relationName: "UserSquad")
+} 
