@@ -15,7 +15,7 @@
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Squad Confirmation Message",
-    "emailVerificationMessage": "We are excited to have you be a part of the Squad,  your verification code: {####}\n",
+    "emailVerificationMessage": "We are excited to have you be a part of the Squad,  your verification code is: {####}\n",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [
