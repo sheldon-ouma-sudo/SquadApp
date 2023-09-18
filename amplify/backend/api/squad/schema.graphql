@@ -20,4 +20,7 @@ type User @model @auth(rules: [{allow: public}]) {
   imageUrl: String
   Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
   Squads: [Squad] @manyToMany(relationName: "UserSquad")
-} 
+  numOfPolls: Int
+  numOfSquadron: Int
+}
+ 
