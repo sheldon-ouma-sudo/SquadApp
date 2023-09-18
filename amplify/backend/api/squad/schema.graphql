@@ -1,8 +1,9 @@
 type Squad @model @auth(rules: [{allow: public}]) {
   id: ID!
   Polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
-  users: [User] @manyToMany(relationName: "UserSquad")
   latestPoll: Poll @hasOne
+  adminUser: String!
+  User: User @hasOne
 }
 
 type Poll @model @auth(rules: [{allow: public}]) {
@@ -11,6 +12,8 @@ type Poll @model @auth(rules: [{allow: public}]) {
   pollMedia: [String]
   squadID: ID! @index(name: "bySquad")
   userID: ID! @index(name: "byUser")
+  livePoll: Boolean!
+  closedPoll: Boolean!
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -19,8 +22,7 @@ type User @model @auth(rules: [{allow: public}]) {
   userName: String
   imageUrl: String
   Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
-  Squads: [Squad] @manyToMany(relationName: "UserSquad")
   numOfPolls: Int
   numOfSquadron: Int
-}
- 
+  Squad: Squad @belongsTo
+} 

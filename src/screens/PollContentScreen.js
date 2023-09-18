@@ -57,6 +57,8 @@ const renderDataItem = (item) => {
 };
 const handlePoll =()=>{
   alert("Attempts to create a  new poll")
+  //create the poll, the user id is the creator's id ig
+  // the squad id is the user's squad
   navigation.navigate('RootNavigation', { screen: 'Profile' })
   //creating a function that renders images from the user side by side
 }

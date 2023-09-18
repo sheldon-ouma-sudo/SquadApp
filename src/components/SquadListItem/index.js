@@ -16,7 +16,7 @@ const SquadListItem = ({
   //create a squad  -we don't want to do this here but at some point we want to add people into the squad 
   // add the clicked user to the squad
   //Add the auth user to the squad
-  //navigate the user to the newly created chatroom
+  //navigate the user to the newly created squad
 
 }) => {
   const navigation = useNavigation();

@@ -3,7 +3,7 @@
   import { useState } from 'react';
   import { useNavigation } from '@react-navigation/native';
   import { useRoute } from '@react-navigation/native';
-  import { Auth } from 'aws-amplify';
+  import { Auth, API, graphqlOperation } from 'aws-amplify';
   import { Hub } from 'aws-amplify';
 
   const EmailOTPScreen = () => {
@@ -35,6 +35,7 @@
       //await Auth.confirmSignUp(username, authCode);
       console.log('✅ Code confirmed');
       listenToAutoSignInEvent() 
+      //right here we create the squad for the user -- sweet 
       navigation.navigate("AgeGenderLocationScreen");
     } catch (e) {
       console.log(
