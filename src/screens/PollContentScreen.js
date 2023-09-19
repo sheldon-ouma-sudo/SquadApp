@@ -6,6 +6,8 @@ import { MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import {API,graphqlOperation, Auth} from "aws-amplify"
+import { createPoll } from '../graphql/mutations';
 
 const PollContentScreen = () => {
   const [selected, setSelected]  = useState("")
@@ -55,9 +57,21 @@ const renderDataItem = (item) => {
       </View>
   );
 };
-const handlePoll =()=>{
+const handlePoll =async ()=>{
   alert("Attempts to create a  new poll")
+//define the data for the new poll 
+const authUser = await Auth.currentAuthenticatedUser();
+const newPoll = {
+    closedPoll: false, 
+    livePoll: true, 
+    pollCaption: caption, 
+    userID: authUser.attributes.sub,
+};
+
   //create the poll, the user id is the creator's id ig
+  await API.graphql(graphqlOperation(
+    createPoll, {input: newPoll}
+  ))
   // the squad id is the user's squad
   navigation.navigate('RootNavigation', { screen: 'Profile' })
   //creating a function that renders images from the user side by side
@@ -66,7 +80,7 @@ const handlePoll =()=>{
 const renderImage = ({ source }) => (
     <Image source={source} />
   );
-
+//this flatlist is supposed to render images from the previous screen
   const renderImages = ({ images }) => (
     <FlatList
       data={images}
