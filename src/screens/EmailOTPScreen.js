@@ -52,6 +52,7 @@
     const newSquad = {
     adminUser: authUser.attributes.sub,
     }
+    
     const newSquadData = await API.graphql(graphqlOperation(
     createSquad, {input: newSquad}
     ))
