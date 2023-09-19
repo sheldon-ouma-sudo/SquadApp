@@ -4,6 +4,7 @@
   import { useNavigation } from '@react-navigation/native';
   import { useRoute } from '@react-navigation/native';
   import { Auth, API, graphqlOperation } from 'aws-amplify';
+  import { createSquad } from '../graphql/mutations';
   import { Hub } from 'aws-amplify';
 
   const EmailOTPScreen = () => {
@@ -33,7 +34,24 @@
       console.log(username)
       await Auth.confirmSignUp(username, authCode)
       //await Auth.confirmSignUp(username, authCode);
+
       console.log('✅ Code confirmed');
+      //once the confirmation is successful, we want to create the Squad for the user
+    //   const newSquad = await API.graphql({
+    //     query: createSquad,
+    //     variables: {
+    //         input: {
+    //     "Polls": [],
+    //     "latestPoll": /* Provide a Poll instance here */,
+    //     "adminUser": "Lorem ipsum dolor sit amet",
+    //     "User": /* Provide a User instance here */
+    //   }
+    //     }
+    // });
+    const authUser = await Auth.currentAuthenticatedUser();
+    const newSquad = await API.graphql(graphqlOperation(
+    createSquad, {input: newSquad}
+    ))
       listenToAutoSignInEvent() 
       //right here we create the squad for the user -- sweet 
       navigation.navigate("AgeGenderLocationScreen");

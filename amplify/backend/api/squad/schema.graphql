@@ -10,7 +10,7 @@ type Poll @model @auth(rules: [{allow: public}]) {
   id: ID!
   pollCaption: String!
   pollMedia: [String]
-  squadID: ID! @index(name: "bySquad")
+  squadID: ID @index(name: "bySquad")
   userID: ID! @index(name: "byUser")
   livePoll: Boolean!
   closedPoll: Boolean!
