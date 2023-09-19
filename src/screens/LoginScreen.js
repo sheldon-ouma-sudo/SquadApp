@@ -288,9 +288,7 @@ backgroundColor: "#F4F8FB"
 squadLogo:{
     width:221,
     height:85
-
-
-},
+}, 
 InputContainer:{
     width: 296,
     right: 16,

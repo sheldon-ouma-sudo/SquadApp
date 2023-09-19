@@ -41,29 +41,43 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   }
  
 const TestWorkScreen =() => {
-   const [numOfVotes, setNumOfVotes] = useState("")
+   const [numOfVotes, setNumOfVotes] = useState("0")
+   const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+   const [pollCaption, setPollCaption] = useState("CLB or Views?")
 
   const navigation = useNavigation()
-  
+  //fetch the poll
+  //fetch the Squad by the SquadID
+  //fetch the user from the squad 
+  //fetch the user profile picture
+  //
  
   return (
     <Pressable
     style={styles.container}
     behavior="padding"
     >
-   
+   <View
+    style={styles.userImageContainer}
+   >
+   <Image
+   //source={{uri: userImage}}
+   source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+   resizeMode='contain'
+   style={styles.userImage}
+   />
+   </View>
    <View
    style = {styles.votedTextContainer}
    >
+    
    <Text
     style = {styles.votedText}
    >
     Voted
    </Text>
    </View>
-      
-        
-      
+  
     </Pressable>
   )
   }
@@ -86,27 +100,37 @@ const TestWorkScreen =() => {
 
   },
   votedTextContainer:{
-   marginTop:50,
+   marginTop:0,
    flex:1,
-   marginStart: 190,
-   //marginEnd: 80,
+   //marginStart: 10,
+   marginEnd: 10,
    height: 50,
-   width: 190,
+   width: 100,
    backgroundColor: "#1145FD",
    alignItems: 'center',
    borderRadius: 27,
    borderColor: "#C2B960",
-   marginRight: 20,
+   //marginRight: 20,
    borderWidth: 3,
+   marginTop:150,
+   marginLeft:120
   },
   votedText:{
     color: "white",
     fontWeight: "bold",
     marginTop: 15,
     marginLeft:50
-    //borderRadius: 10,
+    
 
-  }
+  }, 
+  userImageContainer:{
+   marginStart:-10,
+   marginTop:120
+  },
+  userImage:{
+      width:140,
+      height:100
+  },
  
   },
   )

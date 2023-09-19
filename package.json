@@ -70,7 +70,9 @@
     "react-native-webview": "11.23.1",
     "react-navigation": "^4.4.4",
     "uuid": "^9.0.0",
-    "yarn": "^1.22.19"
+    "yarn": "^1.22.19",
+    "expo-splash-screen": "~0.17.5",
+    "expo-status-bar": "~1.4.2"
   },
   "name": "squad",
   "version": "1.0.0",
@@ -96,7 +98,8 @@
   "homepage": "https://github.com/sheldon-ouma-sudo/SquadApp#readme",
   "description": "",
   "devDependencies": {
-    "expo-module-scripts": "^3.0.4"
+    "expo-module-scripts": "^3.0.4",
+    "@babel/core": "^7.12.9"
   },
   "packageManager": "yarn@3.3.0"
 }
