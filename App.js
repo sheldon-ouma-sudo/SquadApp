@@ -183,11 +183,12 @@ export default function App() {
         interests:['undefined for now']
       };
       console.log(newUser)
-      await API.graphql(
+      const newUserData = await API.graphql(
         graphqlOperation(createUser, { input: newUser })
       );
+      console.log(newUserData)
     };
-
+    
     syncUser();
   }, []);
   return (
