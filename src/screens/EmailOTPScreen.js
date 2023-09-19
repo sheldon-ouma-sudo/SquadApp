@@ -49,9 +49,13 @@
     //     }
     // });
     const authUser = await Auth.currentAuthenticatedUser();
-    const newSquad = await API.graphql(graphqlOperation(
+    const newSquad = {
+    adminUser: authUser.attributes.sub,
+    }
+    const newSquadData = await API.graphql(graphqlOperation(
     createSquad, {input: newSquad}
     ))
+    console.log(newSquadData)
       listenToAutoSignInEvent() 
       //right here we create the squad for the user -- sweet 
       navigation.navigate("AgeGenderLocationScreen");
