@@ -108,7 +108,8 @@ const LoginScreen = () => {
           await Auth.signIn(username, password);
           console.log('✅ Success');
          // updateAuthState('loggedIn');
-         navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+         //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+         navigation.navigate('TestWorkScreen')
         } catch (error) {
           console.log('❌ Error signing in...', error); 
         }
