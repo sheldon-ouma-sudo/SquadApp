@@ -79,7 +79,7 @@ const TestWorkScreen =() => {
   marginTop: 80,
   marginVertical: 85,
   borderColor: "#C2B960",
-  height: 90,
+  height: 100,
   borderRadius: 15,
   backgroundColor: "white",
   borderWidth: 5
