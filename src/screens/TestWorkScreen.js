@@ -18,7 +18,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   
  
 const TestWorkScreen =() => {
-   const [numOfVotes, setNumOfVotes] = useState("1,000,000")
+   const [numOfVotes, setNumOfVotes] = useState("32")
    const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
    const [pollCaption, setPollCaption] = useState("dining hall with best food today")
    const [pollCreator, setPollCreator] = useState("Drake")
