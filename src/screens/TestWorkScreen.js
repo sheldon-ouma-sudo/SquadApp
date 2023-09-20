@@ -18,9 +18,9 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   
  
 const TestWorkScreen =() => {
-   const [numOfVotes, setNumOfVotes] = useState("10,000,000")
+   const [numOfVotes, setNumOfVotes] = useState("1,000,000")
    const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-   const [pollCaption, setPollCaption] = useState("should I drop this")
+   const [pollCaption, setPollCaption] = useState("dining hall with best food today")
    const [pollCreator, setPollCreator] = useState("Drake")
 
   const navigation = useNavigation()
@@ -89,9 +89,9 @@ const TestWorkScreen =() => {
   votedTextContainer:{
    //marginTop:0,
    flex:1,
-   marginStart: 40,
+   marginStart: 50,
    marginEnd: 10,
-   height: 35,
+   height: 25,
    width: 50,
    backgroundColor: "#1145FD",
    alignItems: 'center',
@@ -105,9 +105,9 @@ const TestWorkScreen =() => {
   votedText:{
     color: "white",
     fontWeight: "bold",
-    marginTop: 10,
-    marginLeft:10,
-    fontSize: 10
+    marginTop: 6,
+    //marginLeft:1,
+    fontSize: 7
     
 
   }, 
@@ -122,13 +122,13 @@ const TestWorkScreen =() => {
  pollCaption:{
   marginTop:45,
   fontWeight:'500',
-  fontSize:13,
+  fontSize:10,
   marginLeft:5
  },
  pollCreator:{
   marginTop: 15,
   marginLeft: 5,
-  fontSize: 13,
+  fontSize: 9,
   color: '#545454'
  }
   },
