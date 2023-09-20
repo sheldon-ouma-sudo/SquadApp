@@ -1,5 +1,5 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-  StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, Pressable, Button} from 'react-native'
+  StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, Pressable, Button,TextInput} from 'react-native'
   import React, { useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
   import { TouchableOpacity } from 'react-native';
@@ -14,36 +14,14 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Share from 'expo-sharing' ;
   
   //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
-  const{width,height} = Dimensions.get("window")
   //const[currentPosition, setCurrentPositon]=useState(0)
-  const customStyles = {
-    stepIndicatorSize: 25,
-    currentStepIndicatorSize:30,
-    separatorStrokeWidth: 2, 
-    currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: '#ffff',
-    stepStrokeWidth: 3,
-    stepStrokeFinishedColor: '#1764EF',
-    stepStrokeUnFinishedColor: '#aaaaaa',
-    separatorFinishedColor: '#1764EF',
-    separatorUnFinishedColor: '#aaaaaa',
-    stepIndicatorFinishedColor:  '#1764EF',
-    stepIndicatorUnFinishedColor: '#ffffff',
-    stepIndicatorCurrentColor: '#1764EF',
-    stepIndicatorLabelFontSize: 13,
-    currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: '#ffffff',
-    stepIndicatorLabelFinishedColor: '#ffffff',
-    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
-    //labelColor: '#999999',
-    labelSize: 13,
-    currentStepLabelColor: '#fffff'
-  }
+  
  
 const TestWorkScreen =() => {
-   const [numOfVotes, setNumOfVotes] = useState("0")
+   const [numOfVotes, setNumOfVotes] = useState("10,000,000")
    const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-   const [pollCaption, setPollCaption] = useState("CLB or Views?")
+   const [pollCaption, setPollCaption] = useState("should I drop this")
+   const [pollCreator, setPollCreator] = useState("Drake")
 
   const navigation = useNavigation()
   //fetch the poll
@@ -67,14 +45,24 @@ const TestWorkScreen =() => {
    style={styles.userImage}
    />
    </View>
+   
+   <View>
+      <Text
+      style = {styles.pollCaption}
+      >{pollCaption}</Text>
+      <Text
+      style = {styles.pollCreator}
+      >
+        Created by {pollCreator}
+      </Text>
+    </View>
+  
    <View
    style = {styles.votedTextContainer}
-   >
-    
+   > 
    <Text
-    style = {styles.votedText}
-   >
-    Voted
+    style = {styles.votedText}>
+    {numOfVotes} Voted
    </Text>
    </View>
   
@@ -91,47 +79,58 @@ const TestWorkScreen =() => {
   marginTop: 80,
   marginVertical: 85,
   borderColor: "#C2B960",
-  //height: 10,
+  height: 90,
   borderRadius: 15,
-  //width:120,
   backgroundColor: "white",
   borderWidth: 5
 
 
   },
   votedTextContainer:{
-   marginTop:0,
+   //marginTop:0,
    flex:1,
-   //marginStart: 10,
+   marginStart: 40,
    marginEnd: 10,
-   height: 50,
-   width: 100,
+   height: 35,
+   width: 50,
    backgroundColor: "#1145FD",
    alignItems: 'center',
-   borderRadius: 27,
+   borderRadius: 40,
    borderColor: "#C2B960",
    //marginRight: 20,
-   borderWidth: 3,
-   marginTop:150,
-   marginLeft:120
+   borderWidth: 2.5,
+   marginTop:60,
+   //marginLeft:-105
   },
   votedText:{
     color: "white",
     fontWeight: "bold",
-    marginTop: 15,
-    marginLeft:50
+    marginTop: 10,
+    marginLeft:10,
+    fontSize: 10
     
 
   }, 
   userImageContainer:{
-   marginStart:-10,
-   marginTop:120
+   marginStart:10,
+   marginTop:45
   },
   userImage:{
-      width:140,
-      height:100
+      width:50,
+      height:50
   },
- 
+ pollCaption:{
+  marginTop:45,
+  fontWeight:'500',
+  fontSize:13,
+  marginLeft:5
+ },
+ pollCreator:{
+  marginTop: 15,
+  marginLeft: 5,
+  fontSize: 13,
+  color: '#545454'
+ }
   },
   )
 export default TestWorkScreen
