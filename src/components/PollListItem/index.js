@@ -1,8 +1,11 @@
 
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, Pressable, Button,TextInput} from 'react-native'
-    import React, { useState } from 'react'
+    import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/native';
+    import {Auth, API, graphqlOperation} from "aws-amplify";
+    import {getPoll} from '../graphql/queries';
+
 
 
     const PollListItem =() => {
@@ -13,7 +16,17 @@
         
         const navigation = useNavigation()
         //fetch for the user's info from the poll being queried
-        //to do that first 
+            //get poll id 
+            useEffect(()=>{
+            const fetchUser = async() =>{
+                //response
+            }
+
+             fetchUser();
+            }, [])
+            //to do that first get the userID from the poll being queried
+            //then from the user's id let's try and find the user's info 
+            //
 
         return (
             <Pressable
@@ -102,7 +115,9 @@
           },
           userImage:{
               width:50,
-              height:50
+              height:50,
+              borderRadius: 25,
+
           },
          pollCaption:{
           marginTop:45,
