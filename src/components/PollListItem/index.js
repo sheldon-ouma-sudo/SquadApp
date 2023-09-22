@@ -30,7 +30,6 @@
             setUserImage(userProfilePic)
             const userName = user.name;
             setPollCreator(userName)
-
             }
            
 
