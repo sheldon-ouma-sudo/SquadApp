@@ -19,8 +19,20 @@
             //get poll id 
             useEffect(()=>{
             const fetchUser = async() =>{
-                //response
+                //fetch for the poll id -- not sure this is the right way of doing things
+                const pollQueryRes = API.graphql(graphqlOperation(getPoll, {id: pollId}))
+                 //console log the response
+            //fetch user from the poll
+            const user = pollQueryRes.userID;
+            const userProfilePic = user.imageUrl;
+            //update  the photos and the name of the user to be
+            //console.log(user, userProfile Pic) 
+            setUserImage(userProfilePic)
+            const userName = user.name;
+            setPollCreator(userName)
+
             }
+           
 
              fetchUser();
             }, [])
