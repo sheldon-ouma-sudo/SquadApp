@@ -145,8 +145,4 @@
           },
           )
 
-
-
-    
-
     export default PollListItem;
