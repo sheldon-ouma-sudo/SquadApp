@@ -32,8 +32,6 @@
                 const userName = user.name;
                 setPollCreator(userName)
             }
-           
-
              fetchUser();
             }, [])
             //to do that first get the userID from the poll being queried
