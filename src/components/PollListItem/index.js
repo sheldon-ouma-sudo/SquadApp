@@ -10,7 +10,7 @@
 
     const PollListItem =() => {
         const [numOfVotes, setNumOfVotes] = useState("32")
-        const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+        const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')//remember to use uri instead of the require when quering from the backend
         const [pollCaption, setPollCaption] = useState("dining hall with best food today")
         const [pollCreator, setPollCreator] = useState("Drake")
         
@@ -22,14 +22,15 @@
                 //fetch for the poll id -- not sure this is the right way of doing things
                 const pollQueryRes = API.graphql(graphqlOperation(getPoll, {id: pollId}))
                  //console log the response
-            //fetch user from the poll
-            const user = pollQueryRes.userID;
-            const userProfilePic = user.imageUrl;
-            //update  the photos and the name of the user to be
-            //console.log(user, userProfile Pic) 
-            setUserImage(userProfilePic)
-            const userName = user.name;
-            setPollCreator(userName)
+                //const numOfPollVotes = pollQueryRes.
+                //fetch user from the poll
+                const user = pollQueryRes.userID;
+                const userProfilePic = user.imageUrl;
+                //update  the photos and the name of the user to be
+                //console.log(user, userProfile Pic) 
+                setUserImage(userProfilePic)
+                const userName = user.name;
+                setPollCreator(userName)
             }
            
 
