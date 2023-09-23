@@ -34,7 +34,13 @@ import {Storage, API,graphqlOperation } from 'aws-amplify';
 import { useEffect } from "react";
 import {getUser} from './src/graphql/queries'
 import {createUser} from './src/graphql/mutations'
-import {MySquadPollScreen} from './src/screens/MySquadPollScreen'
+import AccountSettingScreen from "./src/screens/AccountSettingScreen";
+import ChangePasswordScreen from "./src/screens/ChangePasswordScreen";
+import DeleteProfileScreen from "./src/screens/DeleteProfileScreen";
+import DeleteProfileConfirmationScreen from "./src/screens/DeleteProfileConfirmationScreen";
+import EditProfileScreen from "./src/screens/EditProfileScreen";
+
+
 
 
 Amplify.configure(awsconfig);
@@ -214,6 +220,12 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="ChangeProfilePictureScreen" component={ChangeProfilePictureScreen}/>
         <Stack.Screen options={{headerShown: false}} name="PhoneNumberScreen" component={PhoneNumberScreen}/>
         <Stack.Screen options={{headerShown: false}} name="TestWorkScreen" component={TestWorkScreen}/>
+        <Stack.Screen options={{headerShown:false}} name = "AccountSettingScreen" component={AccountSettingScreen}/>
+        <Stack.Screen options={{headerShown:false}} name="ChangePasswordScreen" component={ChangePasswordScreen}/>
+        <Stack.Screen options= {{headerShown:false}} name="DeleteProfile" component={DeleteProfileScreen}/>
+        <Stack.Screen options={{headerShown:false}} name="DeleteProfileConfirmation" component={DeleteProfileConfirmationScreen}/>
+        <Stack.Screen options={{headerShown:false}} name="EditProfileScreen" component={EditProfileScreen}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
