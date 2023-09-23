@@ -15,7 +15,7 @@
 
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
-    const[userName, setUserName] =useState('User Profile Name')
+    const[userName, setUserName] =useState('Name')
     //const[userProfilePicture, setUserProfilePicture] = useState("")
     const[numOfUserPolls, setNumOfUserPolls] = useState("")
     const[numOfUserSways, setNumOfUserSways] = useState("0")
@@ -59,19 +59,21 @@
           <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
-            style={[{ height: 120 }, { width: 120 }, 
-            {overflow:'hidden'},{marginBottom:20}, {marginLeft:30}]} />
+            style={[{ height: 90 }, { width: 90 }, 
+            {overflow:'hidden'},{marginBottom:2}, {marginLeft:20},{marginTop:50}]} />
         </TouchableOpacity>
-        <View >
+        <View 
+         style = {[{marginTop: 30}, {marginLeft:10}]}
+        >
          <Text
-           style={[{fontSize:'24'}, {fontWeight:'600'}]}
+           style={[{fontSize:'15'}, {fontWeight:'700'}]}
           >
            {userName}
          </Text>
         </View>
        
         <View
-         style={[{marginLeft:-80},{marginTop:70}]}>
+         style={[{marginLeft:0},{marginTop:70, marginBottom:50}, {marginEnd:10}]}>
           <Text
           style={[{marginBottom:5}, {fontSize:18}, {fontWeight:'600'}, {marginLeft:-5}]}
           >{numOfUserPolls}</Text>
