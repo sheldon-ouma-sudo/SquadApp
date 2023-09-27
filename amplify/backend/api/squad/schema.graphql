@@ -1,19 +1,39 @@
+type Squadron @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Squads: [Squad] @hasMany(indexName: "bySquadron", fields: ["id"])
+  Users: [User] @manyToMany(relationName: "SquadronUser")
+}
+
+type PollComments @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  pollresponseID: ID! @index(name: "byPollResponse")
+  User: User @hasOne
+}
+
+type PollResponse @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  PollComments: [PollComments] @hasMany(indexName: "byPollResponse", fields: ["id"])
+  Poll: Poll @hasOne
+}
+
 type Squad @model @auth(rules: [{allow: public}]) {
   id: ID!
   Polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
-  latestPoll: Poll @hasOne
+  latestPoll: PollResponse @hasOne
   adminUser: String!
   User: User @hasOne
+  squadronID: ID! @index(name: "bySquadron")
 }
 
 type Poll @model @auth(rules: [{allow: public}]) {
   id: ID!
   pollCaption: String!
   pollMedia: [String]
-  squadID: ID @index(name: "bySquad")
+  squadID: ID! @index(name: "bySquad")
   userID: ID! @index(name: "byUser")
   livePoll: Boolean!
   closedPoll: Boolean!
+  PollResponse: PollResponse @belongsTo
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -25,4 +45,5 @@ type User @model @auth(rules: [{allow: public}]) {
   numOfPolls: Int
   numOfSquadron: Int
   Squad: Squad @belongsTo
+  squadrons: [Squadron] @manyToMany(relationName: "SquadronUser")
 } 
