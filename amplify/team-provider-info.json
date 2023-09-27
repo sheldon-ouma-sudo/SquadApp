@@ -17,6 +17,9 @@
       },
       "api": {
         "squad": {}
+      },
+      "storage": {
+        "s3squadstoragec4a7afa9": {}
       }
     }
   }

@@ -14,6 +14,7 @@ type PollResponse @model @auth(rules: [{allow: public}]) {
   id: ID!
   PollComments: [PollComments] @hasMany(indexName: "byPollResponse", fields: ["id"])
   Poll: Poll @hasOne
+  pollResponseOption: AWSJSON
 }
 
 type Squad @model @auth(rules: [{allow: public}]) {
@@ -34,6 +35,7 @@ type Poll @model @auth(rules: [{allow: public}]) {
   livePoll: Boolean!
   closedPoll: Boolean!
   PollResponse: PollResponse @belongsTo
+  pollOption: AWSJSON
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -46,4 +48,5 @@ type User @model @auth(rules: [{allow: public}]) {
   numOfSquadron: Int
   Squad: Squad @belongsTo
   squadrons: [Squadron] @manyToMany(relationName: "SquadronUser")
-} 
+}
+ 
