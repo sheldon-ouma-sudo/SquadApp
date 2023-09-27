@@ -1,23 +1,22 @@
-type Squadron @model @auth(rules: [{allow: public}]) {
+type Squadron @model @auth(rules: [{ allow: public }]) {
   id: ID!
   Squads: [Squad] @hasMany(indexName: "bySquadron", fields: ["id"])
   Users: [User] @manyToMany(relationName: "SquadronUser")
 }
 
-type PollComments @model @auth(rules: [{allow: public}]) {
+type PollComments @model @auth(rules: [{ allow: public }]) {
   id: ID!
   pollresponseID: ID! @index(name: "byPollResponse")
   User: User @hasOne
 }
 
-type PollResponse @model @auth(rules: [{allow: public}]) {
+type PollResponse @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  PollComments: [PollComments] @hasMany(indexName: "byPollResponse", fields: ["id"])
   Poll: Poll @hasOne
   pollResponseOption: AWSJSON
 }
 
-type Squad @model @auth(rules: [{allow: public}]) {
+type Squad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   Polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
   latestPoll: PollResponse @hasOne
@@ -26,7 +25,7 @@ type Squad @model @auth(rules: [{allow: public}]) {
   squadronID: ID! @index(name: "bySquadron")
 }
 
-type Poll @model @auth(rules: [{allow: public}]) {
+type Poll @model @auth(rules: [{ allow: public }]) {
   id: ID!
   pollCaption: String!
   pollMedia: [String]
@@ -38,7 +37,7 @@ type Poll @model @auth(rules: [{allow: public}]) {
   pollOption: AWSJSON
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   userName: String
@@ -49,4 +48,3 @@ type User @model @auth(rules: [{allow: public}]) {
   Squad: Squad @belongsTo
   squadrons: [Squadron] @manyToMany(relationName: "SquadronUser")
 }
- 

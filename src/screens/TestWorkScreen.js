@@ -57,14 +57,14 @@ const TestWorkScreen =() => {
       </Text>
     </View>
   
-   <View
-   style = {styles.votedTextContainer}
-   > 
-   <Text
-    style = {styles.votedText}>
-    {numOfVotes} Voted
-   </Text>
-   </View>
+      <View
+      style = {styles.votedTextContainer}
+      > 
+      <Text
+        style = {styles.votedText}>
+        {numOfVotes} Voted
+      </Text>
+      </View>
   
     </Pressable>
   )
