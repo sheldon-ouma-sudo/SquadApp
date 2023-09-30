@@ -109,7 +109,7 @@ const LoginScreen = () => {
           console.log('✅ Success');
          // updateAuthState('loggedIn');
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
-         navigation.navigate('TestWorkScreen')
+        navigation.navigate('TestWorkScreen')
         } catch (error) {
           console.log('❌ Error signing in...', error); 
         }

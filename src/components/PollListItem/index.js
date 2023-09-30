@@ -80,68 +80,58 @@
         
           
           const styles = StyleSheet.create({
-          container:{
-          flex:1,
-          flexDirection: "row",
-          marginHorizontal: 10,
-          marginTop: 80,
-          marginVertical: 85,
-          borderColor: "#C2B960",
-          height: 100,
-          borderRadius: 15,
-          backgroundColor: "white",
-          borderWidth: 5
-        
-        
-          },
-          votedTextContainer:{
-           //marginTop:0,
-           flex:1,
-           marginStart: 50,
-           marginEnd: 10,
-           height: 25,
-           width: 50,
-           backgroundColor: "#1145FD",
-           alignItems: 'center',
-           borderRadius: 40,
-           borderColor: "#C2B960",
-           //marginRight: 20,
-           borderWidth: 2.5,
-           marginTop:60,
-           //marginLeft:-105
-          },
-          votedText:{
-            color: "white",
-            fontWeight: "bold",
-            marginTop: 6,
-            //marginLeft:1,
-            fontSize: 7
-            
-        
-          }, 
-          userImageContainer:{
-           marginStart:10,
-           marginTop:45
-          },
-          userImage:{
-              width:50,
-              height:50,
-              borderRadius: 25,
-
-          },
-         pollCaption:{
-          marginTop:45,
-          fontWeight:'500',
-          fontSize:10,
-          marginLeft:5
-         },
-         pollCreator:{
-          marginTop: 15,
-          marginLeft: 5,
-          fontSize: 9,
-          color: '#545454'
-         }
-          },
-          )
+            container:{
+            flex:1,
+            flexDirection: "row",
+            marginHorizontal: 10,
+            marginTop: 80,
+            marginVertical: 85,
+            borderColor: "#C2B960",
+            height: 100,
+            borderRadius: 15,
+            backgroundColor: "white",
+            borderWidth: 5
+            },
+            pollCaptionContainer:{
+              height: 50,
+              width: 180,
+            },
+            numOfVotesContainer:{
+             height:30,
+             width: 95,
+             backgroundColor: "#1145FD",
+             borderRadius: 40,
+             borderColor: "#C2B960",
+             borderWidth: 2.5,
+             marginLeft:5,
+             
+            },
+            votedText:{
+              color: "white",
+              fontWeight: "bold",
+              marginBottom:7,
+              marginLeft:1,
+              fontSize: 8.5,
+              textAlignVertical:'center'
+            }, 
+            userImageContainer:{
+             marginStart:10,
+             marginTop:50
+            },
+            userImage:{
+                width:50,
+                height:70
+            },
+           pollCaption:{
+            fontWeight:'500',
+            marginLeft:5
+           },
+           pollCreator:{
+            marginTop: 5,
+            marginLeft: 5,
+            color: '#545454'
+           }
+            },
+            )
 
     export default PollListItem;

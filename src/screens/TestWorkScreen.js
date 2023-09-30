@@ -18,9 +18,9 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   
  
 const TestWorkScreen =() => {
-   const [numOfVotes, setNumOfVotes] = useState("32")
+   const [numOfVotes, setNumOfVotes] = useState("32000000")
    const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-   const [pollCaption, setPollCaption] = useState("dining hall with best food today")
+   const [pollCaption, setPollCaption] = useState("Hells Kitchen worth??")
    const [pollCreator, setPollCreator] = useState("Drake")
 
   const navigation = useNavigation()
@@ -45,27 +45,29 @@ const TestWorkScreen =() => {
    style={styles.userImage}
    />
    </View>
-   
-   <View>
-      <Text
-      style = {styles.pollCaption}
-      >{pollCaption}</Text>
-      <Text
-      style = {styles.pollCreator}
-      >
-        Created by {pollCreator}
-      </Text>
-    </View>
-  
-      <View
-      style = {styles.votedTextContainer}
-      > 
-      <Text
-        style = {styles.votedText}>
-        {numOfVotes} Voted
-      </Text>
+   <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
+    <View
+    style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
+    >
+        <Text
+         style = {styles.pollCaption}
+        >{pollCaption}
+        </Text>
+        <Text
+        style = {styles.pollCreator}
+        >
+          Created by {pollCreator}
+        </Text>
       </View>
-  
+      <View
+        style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
+        > 
+        <Text
+          style = {styles.votedText}>
+          {numOfVotes} Voted
+        </Text>
+        </View>
+   </View>
     </Pressable>
   )
   }
@@ -83,51 +85,44 @@ const TestWorkScreen =() => {
   borderRadius: 15,
   backgroundColor: "white",
   borderWidth: 5
-
-
   },
-  votedTextContainer:{
-   //marginTop:0,
-   flex:1,
-   marginStart: 50,
-   marginEnd: 10,
-   height: 25,
-   width: 50,
+  pollCaptionContainer:{
+    height: 50,
+    width: 180,
+  },
+  numOfVotesContainer:{
+   height:30,
+   width: 95,
    backgroundColor: "#1145FD",
-   alignItems: 'center',
    borderRadius: 40,
    borderColor: "#C2B960",
-   //marginRight: 20,
    borderWidth: 2.5,
-   marginTop:60,
-   //marginLeft:-105
+   marginLeft:5,
+   
   },
   votedText:{
     color: "white",
     fontWeight: "bold",
-    marginTop: 6,
-    //marginLeft:1,
-    fontSize: 7
-    
+    marginBottom:7,
+    marginLeft:1,
+    fontSize: 8.5,
+    textAlignVertical:'center'
   }, 
   userImageContainer:{
    marginStart:10,
-   marginTop:45
+   marginTop:50
   },
   userImage:{
       width:50,
-      height:50
+      height:70
   },
  pollCaption:{
-  marginTop:45,
   fontWeight:'500',
-  fontSize:10,
   marginLeft:5
  },
  pollCreator:{
-  marginTop: 15,
+  marginTop: 5,
   marginLeft: 5,
-  fontSize: 9,
   color: '#545454'
  }
   },
