@@ -11146,6 +11146,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-device@npm:~5.0.0":
+  version: 5.0.0
+  resolution: "expo-device@npm:5.0.0"
+  dependencies:
+    ua-parser-js: ^0.7.19
+  peerDependencies:
+    expo: "*"
+  checksum: 9f51e81e6a1ab4227e6faf397430a776fbdeca6ec719b738510320cc6d42784333f0a1b0d74a3a9e47261c8da07723a72df9b6ca006821a89878850d44e3d709
+  languageName: node
+  linkType: hard
+
 "expo-error-recovery@npm:~4.0.1":
   version: 4.0.1
   resolution: "expo-error-recovery@npm:4.0.1"
@@ -18016,7 +18027,9 @@ __metadata:
     expo-auth-session: ~3.8.0
     expo-blur: ~12.0.1
     expo-camera: ~13.1.0
+    expo-constants: ~14.0.2
     expo-dev-client: ~2.0.1
+    expo-device: ~5.0.0
     expo-facebook: ^12.2.0
     expo-firebase-recaptcha: ~2.3.1
     expo-image-picker: ~14.0.2
@@ -18961,6 +18974,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 07106822b4305de3f22835cbba949a2b35451cad50888759b6818421290ff95d522b38ef7919e70fb381c5fe9c1c643d7dea22c8b31652a717ddbd57b7f4d554
+  languageName: node
+  linkType: hard
+
+"ua-parser-js@npm:^0.7.19":
+  version: 0.7.36
+  resolution: "ua-parser-js@npm:0.7.36"
+  checksum: 04e18e7f6bf4964a10d74131ea9784c7f01d0c2d3b96f73340ac0a1f8e83d010b99fd7d425e7a2100fa40c58b72f6201408cbf4baa2df1103637f96fb59f2a30
   languageName: node
   linkType: hard
 
