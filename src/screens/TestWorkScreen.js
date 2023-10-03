@@ -59,11 +59,11 @@ const TestWorkScreen =() => {
           Created by {squadCreator}
         </Text>
       </View>
-      <View
+      <TouchableOpacity
         style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
         > 
         <Entypo name="add-user" size={24} color="black" />
-        </View>
+        </TouchableOpacity>
    </View>
     </Pressable>
   )
