@@ -2,7 +2,6 @@ import { Text, Image, StyleSheet, Pressable, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
