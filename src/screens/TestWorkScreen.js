@@ -20,8 +20,8 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
 const TestWorkScreen =() => {
    const [numOfVotes, setNumOfVotes] = useState("32000000")
    const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-   const [pollCaption, setPollCaption] = useState("Hells Kitchen worth??")
-   const [pollCreator, setPollCreator] = useState("Drake")
+   const [squadCreator, setSquadCreator] = useState("Oseas")
+   const [squadName, setSquadName] = useState("Oseas's Squad")
 
   const navigation = useNavigation()
   //fetch the poll
@@ -51,21 +51,18 @@ const TestWorkScreen =() => {
     >
         <Text
          style = {styles.pollCaption}
-        >{pollCaption}
+        > {squadName}
         </Text>
         <Text
         style = {styles.pollCreator}
         >
-          Created by {pollCreator}
+          Created by {squadCreator}
         </Text>
       </View>
       <View
         style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
         > 
-        <Text
-          style = {styles.votedText}>
-          {numOfVotes} Voted
-        </Text>
+        <AntDesign name="deleteusergroup" size={32} color="white" />
         </View>
    </View>
     </Pressable>
@@ -80,7 +77,7 @@ const TestWorkScreen =() => {
   marginHorizontal: 10,
   marginTop: 80,
   marginVertical: 85,
-  borderColor: "#C2B960",
+  borderColor: "#FFFF",
   height: 100,
   borderRadius: 15,
   backgroundColor: "white",
@@ -91,11 +88,11 @@ const TestWorkScreen =() => {
     width: 180,
   },
   numOfVotesContainer:{
-   height:30,
+   height:40,
    width: 95,
    backgroundColor: "#1145FD",
-   borderRadius: 40,
-   borderColor: "#C2B960",
+   borderRadius: 10,
+   borderColor: "#FFFF",
    borderWidth: 2.5,
    marginLeft:5,
    
@@ -123,7 +120,7 @@ const TestWorkScreen =() => {
  pollCreator:{
   marginTop: 5,
   marginLeft: 5,
-  color: '#545454'
+  color: '#545454',
  }
   },
   )

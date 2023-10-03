@@ -1,73 +1,118 @@
 import { Text, Image, StyleSheet, Pressable, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-const SquadListItem = ({
-  user,
-  onPress = () => {},
-  selectable = false,
-  isSelected = false,
-  //create a squad  -we don't want to do this here but at some point we want to add people into the squad 
-  // add the clicked user to the squad
-  //Add the auth user to the squad
-  //navigate the user to the newly created squad
+const SquadListItem =() => {
+  const [numOfVotes, setNumOfVotes] = useState("32000000")
+  const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+  const [squadCreator, setSquadCreator] = useState("Oseas")
+  const [squadName, setSquadName] = useState("Oseas's Squad")
 
-}) => {
-  const navigation = useNavigation();
+ const navigation = useNavigation()
+ //fetch the poll
+ //fetch the Squad by the SquadID
+ //fetch the user from the squad 
+ //fetch the user profile picture
+ //
 
-  return (
-    <Pressable onPress={onPress} style={styles.container}>
-      <Image source={{ uri: user.image }} style={styles.image} />
+ return (
+   <Pressable
+   style={styles.container}
+   behavior="padding"
+   >
+  <View
+   style={styles.userImageContainer}
+  >
+  <Image
+  //source={{uri: userImage}}
+  source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+  resizeMode='contain'
+  style={styles.userImage}
+  />
+  </View>
+  <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
+   <View
+   style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
+   >
+       <Text
+        style = {styles.pollCaption}
+       > {squadName}
+       </Text>
+       <Text
+       style = {styles.pollCreator}
+       >
+         Created by {squadCreator}
+       </Text>
+     </View>
+     <View
+       style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
+       > 
+       <AntDesign name="deleteusergroup" size={32} color="white" />
+       </View>
+  </View>
+   </Pressable>
+ )
+ }
 
-      <View style={styles.content}>
-        <Text style={styles.name} numberOfLines={1}>
-          {user.name}
-        </Text>
-
-        <Text numberOfLines={2} style={styles.subTitle}>
-          {user.status}
-        </Text>
-      </View>
-      {selectable &&
-        (isSelected ? (
-          <AntDesign name="checkcircle" size={24} color="royalblue" />
-        ) : (
-          <FontAwesome name="circle-thin" size={24} color="lightgray" />
-        ))}
-    </Pressable>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    marginHorizontal: 10,
-    marginVertical: 5,
-    height: 70,
-    alignItems: "center",
-  },
-  image: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 10,
-  },
-  content: {
-    flex: 1,
-    marginRight: 10,
-  },
-  name: {
-    fontWeight: "bold",
-  },
-  subTitle: {
-    color: "gray",
-  },
-});
-
+ 
+ const styles = StyleSheet.create({
+ container:{
+ flex:1,
+ flexDirection: "row",
+ marginHorizontal: 10,
+ marginTop: 80,
+ marginVertical: 85,
+ borderColor: "#FFFF",
+ height: 100,
+ borderRadius: 15,
+ backgroundColor: "white",
+ borderWidth: 5
+ },
+ pollCaptionContainer:{
+   height: 50,
+   width: 180,
+ },
+ numOfVotesContainer:{
+  height:40,
+  width: 95,
+  backgroundColor: "#1145FD",
+  borderRadius: 10,
+  borderColor: "#FFFF",
+  borderWidth: 2.5,
+  marginLeft:5,
+  
+ },
+ votedText:{
+   color: "white",
+   fontWeight: "bold",
+   marginBottom:7,
+   marginLeft:1,
+   fontSize: 8.5,
+   textAlignVertical:'center'
+ }, 
+ userImageContainer:{
+  marginStart:10,
+  marginTop:50
+ },
+ userImage:{
+     width:50,
+     height:70
+ },
+pollCaption:{
+ fontWeight:'500',
+ marginLeft:5
+},
+pollCreator:{
+ marginTop: 5,
+ marginLeft: 5,
+ color: '#545454',
+}
+ },
+ )
 export default SquadListItem;
