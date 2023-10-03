@@ -39,99 +39,100 @@
             //
 
         return (
-            <Pressable
-            style={styles.container}
-            behavior="padding"
-            >
-           <View
-            style={styles.userImageContainer}
-           >
-           <Image
-           //source={{uri: userImage}}
-           source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
-           resizeMode='contain'
-           style={styles.userImage}
-           />
-           </View>
-           
-           <View>
+          <Pressable
+          style={styles.container}
+          behavior="padding"
+          >
+         <View
+          style={styles.userImageContainer}
+         >
+         <Image
+         //source={{uri: userImage}}
+         source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+         resizeMode='contain'
+         style={styles.userImage}
+         />
+         </View>
+         <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
+          <View
+          style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
+          >
               <Text
-              style = {styles.pollCaption}
-              >{pollCaption}</Text>
+               style = {styles.pollCaption}
+              >{pollCaption}
+              </Text>
               <Text
               style = {styles.pollCreator}
               >
                 Created by {pollCreator}
               </Text>
             </View>
-          
-           <View
-           style = {styles.votedTextContainer}
-           > 
-           <Text
-            style = {styles.votedText}>
-            {numOfVotes} Voted
-           </Text>
-           </View>
-          
-            </Pressable>
-          )
-          }
+            <View
+              style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
+              > 
+              <Text
+                style = {styles.votedText}>
+                {numOfVotes} Voted
+              </Text>
+              </View>
+         </View>
+          </Pressable>
+        )
+        }
+      
         
-          
-          const styles = StyleSheet.create({
-            container:{
-            flex:1,
-            flexDirection: "row",
-            marginHorizontal: 10,
-            marginTop: 80,
-            marginVertical: 85,
-            borderColor: "#C2B960",
-            height: 100,
-            borderRadius: 15,
-            backgroundColor: "white",
-            borderWidth: 5
-            },
-            pollCaptionContainer:{
-              height: 50,
-              width: 180,
-            },
-            numOfVotesContainer:{
-             height:30,
-             width: 95,
-             backgroundColor: "#1145FD",
-             borderRadius: 40,
-             borderColor: "#C2B960",
-             borderWidth: 2.5,
-             marginLeft:5,
-             
-            },
-            votedText:{
-              color: "white",
-              fontWeight: "bold",
-              marginBottom:7,
-              marginLeft:1,
-              fontSize: 8.5,
-              textAlignVertical:'center'
-            }, 
-            userImageContainer:{
-             marginStart:10,
-             marginTop:50
-            },
-            userImage:{
-                width:50,
-                height:70
-            },
-           pollCaption:{
-            fontWeight:'500',
-            marginLeft:5
-           },
-           pollCreator:{
-            marginTop: 5,
-            marginLeft: 5,
-            color: '#545454'
-           }
-            },
-            )
-
+        const styles = StyleSheet.create({
+        container:{
+        flex:1,
+        flexDirection: "row",
+        marginHorizontal: 10,
+        marginTop: 80,
+        marginVertical: 85,
+        borderColor: "#C2B960",
+        height: 100,
+        borderRadius: 15,
+        backgroundColor: "white",
+        borderWidth: 5
+        },
+        pollCaptionContainer:{
+          height: 50,
+          width: 180,
+        },
+        numOfVotesContainer:{
+         height:30,
+         width: 95,
+         backgroundColor: "#1145FD",
+         borderRadius: 40,
+         borderColor: "#C2B960",
+         borderWidth: 2.5,
+         marginLeft:5,
+         
+        },
+        votedText:{
+          color: "white",
+          fontWeight: "bold",
+          marginBottom:7,
+          marginLeft:1,
+          fontSize: 8.5,
+          textAlignVertical:'center'
+        }, 
+        userImageContainer:{
+         marginStart:10,
+         marginTop:50
+        },
+        userImage:{
+            width:50,
+            height:70
+        },
+       pollCaption:{
+        fontWeight:'500',
+        marginLeft:5
+       },
+       pollCreator:{
+        marginTop: 5,
+        marginLeft: 5,
+        color: '#545454'
+       }
+        },
+        )
     export default PollListItem;
