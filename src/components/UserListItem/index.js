@@ -44,11 +44,11 @@ const UserListItem =() => {
            Created by {squadCreator}
          </Text>
        </View>
-       <View
+       <TouchableOpacity
          style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
          > 
          <AntDesign name="deleteusergroup" size={32} color="white" />
-         </View>
+         </TouchableOpacity>
     </View>
      </Pressable>
    )
