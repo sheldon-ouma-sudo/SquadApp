@@ -62,7 +62,7 @@ const TestWorkScreen =() => {
       <View
         style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
         > 
-        <AntDesign name="deleteusergroup" size={32} color="white" />
+        <Entypo name="add-user" size={24} color="black" />
         </View>
    </View>
     </Pressable>
@@ -90,7 +90,7 @@ const TestWorkScreen =() => {
   numOfVotesContainer:{
    height:40,
    width: 95,
-   backgroundColor: "#1145FD",
+   //backgroundColor: "#1145FD",
    borderRadius: 10,
    borderColor: "#FFFF",
    borderWidth: 2.5,

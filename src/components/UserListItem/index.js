@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { Entypo } from '@expo/vector-icons';
 
 const UserListItem =() => {
     const [numOfVotes, setNumOfVotes] = useState("32000000")
@@ -47,7 +48,7 @@ const UserListItem =() => {
        <TouchableOpacity
          style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
          > 
-         <AntDesign name="deleteusergroup" size={32} color="white" />
+            <Entypo name="add-user" size={24} color="black" />
          </TouchableOpacity>
     </View>
      </Pressable>
