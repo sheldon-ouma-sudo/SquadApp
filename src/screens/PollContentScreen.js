@@ -81,9 +81,10 @@ const PollContentScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
   const [selectedPollAudience, setSelectedPollAudience] = useState([]);
-  const[latest_media, setLatest_media] = useState(null)
+  const[latest_media, setLatest_media] = useState(null) //the latest_Media 
   const [loading, setLoading] = useState(false);
   const [mediArr, setMediArr] = useState([])
+
   const data=[ // rename the variable 
         {key:'1', value:"Fashion"},
         {key:'2', value:"Decor"},
@@ -103,17 +104,20 @@ const PollContentScreen = () => {
 ]
 const navigation = useNavigation()
 const route = useRoute();
-const latestMedia = route?.params.image
+const latestImage = route?.params.image
+//there is a difference between the latest_media and latestMedia 
+//try passing 
 
 useEffect(()=>{
-  setLatest_media(latestMedia)
+  console.log("the first console log in useEffect",latestImage)
+  setLatest_media(latestImage) ///sets the latest media to be the item received 
   console.log("this is the latest media",latest_media)
-  if(mediArr.length <4){
+  if(mediArr.length <4 && latest_media != null){
     mediArr.push(latest_media)
   }
 
     console.log(mediArr)
- },[latest_media, mediArr])
+ },[latest_media, mediArr, latestImage])
 
 // const mediaData = collectData(data)
 
@@ -146,16 +150,16 @@ const newPoll = {
   //creating a function that renders images from the user side by side
 }
 
-const renderImage = ({ source }) => (
-    <Image source={source} />
-  );
-//this flatlist is supposed to render images from the previous screen
-  const renderImages = ({ images }) => (
-    <FlatList
-      data={images}
-      renderItem={renderImage}
-    />
-  );
+// const renderImage = ({ source }) => (
+//     <Image source={source} />
+//   );
+// //this flatlist is supposed to render images from the previous screen
+//   const renderImages = ({ images }) => (
+//     <FlatList
+//       data={images}
+//       renderItem={renderImage}
+//     />
+//   );
 
   
   return (
@@ -183,6 +187,7 @@ const renderImage = ({ source }) => (
     horizontal={true}
     >
       {mediArr.map((image, i) => {
+        console.log("loading the image inside the scroll view", image)
             return (
               <View
                 style={{
