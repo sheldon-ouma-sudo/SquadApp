@@ -10,6 +10,7 @@
   //import { async } from '@firebase/util';
   import * as ImagePicker from 'expo-image-picker'
   import { Auth } from 'aws-amplify';
+  //import awsconfig from './src/aws-exports'
   import { Storage } from 'aws-amplify'; 
   import S3 from "aws-sdk/clients/s3";
   import { Credentials } from "aws-sdk";
@@ -85,23 +86,45 @@ const takePhotoFromCamera = async () =>{
   console.log(result.assets[0].uri);
   }
 }
-// //after getting the photo, we turn it into a blobl
-// const fetchResourceFromURI = async uri => {
-//   const response = await fetch(uri);
-//   console.log("response from the blob creation",response);
-//   const blob = await response.blob();
-//   return blob;
-// };
+//after getting the photo, we turn it into a blobl
+const fetchResourceFromURI = async uri => {
+  const response = await fetch(uri);
+  console.log("response from the blob creation",response);
+  const blob = await response.blob();
+  return blob;
+};
 // //upload the picture to the specific bucket
 const uploadUserImage = async () => {
   alert("uploading the photo attempt")
-  //   if (isLoading) return;
-  //   setisLoading(true);
-  //  const user = await Auth.currentAuthenticatedUser()
-  //  const userId = user.attributes.sub;
-  //  const filename = uuid();
-  //  const ref = `/@{useProfilePictures}/${filename}.jpg`
-  //  const blob = fetchResourceFromURI(image);
+    if (isLoading) return;
+    setisLoading(true);
+   const user = await Auth.currentAuthenticatedUser()
+   const userId = user.attributes.sub;
+   const filename = Math.random()
+   const ref = `/@{userProfilePictures}/${filename}.jpg`
+   const blob = fetchResourceFromURI(image);
+   try{
+      const response = await Storage.put(ref, blob, {
+        level:'protected',
+        contentType: "png/jpeg",
+        level:'protected',
+        metadata: {userId: userId},
+      });
+          console.log("✅successful picture upload",response)
+          try{
+            const userImgUrl = Storage.get(response.key)
+            console.log("the result of the image from db query is this", userImgUrl)
+            setUserImage(userImgUrl)
+          }catch(e){
+          console.log("there was an error saving the user profile picture after the upload",e)
+          }  
+          //updating user attributes before na  
+          await Auth.updateUserAttributes(user, {
+            'profile_pic': userImage})
+       navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+      }catch(e){
+       console.log("failure to upload the picture to the backend", e)
+     }
   //  return Storage.put(ref,blob, {
   //   level:'protected',
   //   contentType:image.type,
@@ -124,7 +147,7 @@ const uploadUserImage = async () => {
   //     }catch(e){
   //       console.log("error uploading the profile pic attribute")
   //     }
-     navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+   //  navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
   //   })
   //   .catch(e => {
   //     console.log(e);
