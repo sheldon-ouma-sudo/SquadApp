@@ -39,9 +39,9 @@ import ChangePasswordScreen from "./src/screens/ChangePasswordScreen";
 import DeleteProfileScreen from "./src/screens/DeleteProfileScreen";
 import DeleteProfileConfirmationScreen from "./src/screens/DeleteProfileConfirmationScreen";
 import EditProfileScreen from "./src/screens/EditProfileScreen";
-
-
-
+import ExploreUserScreen from "./src/screens/ExploreUserScreen";
+import ExploreSquadronScreen from "./src/screens/ExploreSquadronScreen";
+import ExplorePollScreen from "./src/screens/ExplorePollScreen";
 
 Amplify.configure(awsconfig);
  ///run this once when the app is opened
@@ -225,6 +225,9 @@ export default function App() {
         <Stack.Screen options= {{headerShown:false}} name="DeleteProfile" component={DeleteProfileScreen}/>
         <Stack.Screen options={{headerShown:false}} name="DeleteProfileConfirmation" component={DeleteProfileConfirmationScreen}/>
         <Stack.Screen options={{headerShown:false}} name="EditProfileScreen" component={EditProfileScreen}/>
+        <Stack.Screen options={{headerShown:false}} name="ExplorePollScreen" component={ExplorePollScreen}/>
+        <Stack.Screen options={{headerShown:false}} name="ExploreSquadronScreen" component={ExploreSquadronScreen}/>
+        <Stack.Screen options={{headerShown:false}} name="ExploreUserScreen" component={ExploreUserScreen}/>
 
       </Stack.Navigator>
     </NavigationContainer>

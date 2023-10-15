@@ -37,21 +37,22 @@
 
       console.log('✅ Code confirmed');
       //once the confirmation is successful, we want to create the Squad for the user
-    //   const newSquad = await API.graphql({
-    //     query: createSquad,
-    //     variables: {
-    //         input: {
-    //     "Polls": [],
-    //     "latestPoll": /* Provide a Poll instance here */,
-    //     "adminUser": "Lorem ipsum dolor sit amet",
-    //     "User": /* Provide a User instance here */
-    //   }
-    //     }
-    // });
-    const authUser = await Auth.currentAuthenticatedUser();
-    const newSquad = {
-    adminUser: authUser.attributes.sub,
-    }
+      const authUser = Auth.currentAuthenticatedUser();
+      const newSquad = await API.graphql({
+        query: createSquad,
+        variables: {
+            input: {
+        "Polls": [],
+        "latestPoll": null,
+        "adminUser": authUser,
+        "User": authUser,
+      }
+        }
+    });
+    //const authUser = await Auth.currentAuthenticatedUser();
+    // const newSquad = {
+    // adminUser: authUser.attributes.sub,
+    // }
     
     const newSquadData = await API.graphql(graphqlOperation(
     createSquad, {input: newSquad}
