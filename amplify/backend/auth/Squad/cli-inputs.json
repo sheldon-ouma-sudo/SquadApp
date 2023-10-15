@@ -3,7 +3,7 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "squad34b9057a",
+    "resourceNameTruncated": "squad62a63848",
     "userPoolName": "Squad",
     "autoVerifiedAttributes": [
       "email"
@@ -14,8 +14,8 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Squad Confirmation Message",
-    "emailVerificationMessage": "We are excited to have you be a part of the Squad,  your verification code is: {####}\n",
+    "emailVerificationSubject": "Verification code: {####}",
+    "emailVerificationMessage": "Welcom to the Squad! Your Sign Up Verification Code is: {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [
@@ -26,17 +26,17 @@
     ],
     "requiredAttributes": [
       "name",
-      "preferred_username",
-      "email"
+      "email",
+      "preferred_username"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "Squad34b9057a_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "Squad62a63848_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "34b9057a",
+    "sharedId": "62a63848",
     "resourceName": "Squad",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
@@ -61,7 +61,6 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": [],
-    "hostedUI": false
+    "dependsOn": []
   }
 }

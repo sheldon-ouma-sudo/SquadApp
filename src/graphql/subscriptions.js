@@ -147,13 +147,11 @@ export const onCreatePollResponse = /* GraphQL */ `
         userID
         livePoll
         closedPoll
-        pollOption
         createdAt
         updatedAt
         pollPollResponseId
         __typename
       }
-      pollResponseOption
       createdAt
       updatedAt
       pollResponsePollId
@@ -175,13 +173,11 @@ export const onUpdatePollResponse = /* GraphQL */ `
         userID
         livePoll
         closedPoll
-        pollOption
         createdAt
         updatedAt
         pollPollResponseId
         __typename
       }
-      pollResponseOption
       createdAt
       updatedAt
       pollResponsePollId
@@ -203,13 +199,11 @@ export const onDeletePollResponse = /* GraphQL */ `
         userID
         livePoll
         closedPoll
-        pollOption
         createdAt
         updatedAt
         pollPollResponseId
         __typename
       }
-      pollResponseOption
       createdAt
       updatedAt
       pollResponsePollId
@@ -227,7 +221,6 @@ export const onCreateSquad = /* GraphQL */ `
       }
       latestPoll {
         id
-        pollResponseOption
         createdAt
         updatedAt
         pollResponsePollId
@@ -265,7 +258,6 @@ export const onUpdateSquad = /* GraphQL */ `
       }
       latestPoll {
         id
-        pollResponseOption
         createdAt
         updatedAt
         pollResponsePollId
@@ -303,7 +295,6 @@ export const onDeleteSquad = /* GraphQL */ `
       }
       latestPoll {
         id
-        pollResponseOption
         createdAt
         updatedAt
         pollResponsePollId
@@ -343,13 +334,11 @@ export const onCreatePoll = /* GraphQL */ `
       closedPoll
       PollResponse {
         id
-        pollResponseOption
         createdAt
         updatedAt
         pollResponsePollId
         __typename
       }
-      pollOption
       createdAt
       updatedAt
       pollPollResponseId
@@ -369,13 +358,11 @@ export const onUpdatePoll = /* GraphQL */ `
       closedPoll
       PollResponse {
         id
-        pollResponseOption
         createdAt
         updatedAt
         pollResponsePollId
         __typename
       }
-      pollOption
       createdAt
       updatedAt
       pollPollResponseId
@@ -395,13 +382,11 @@ export const onDeletePoll = /* GraphQL */ `
       closedPoll
       PollResponse {
         id
-        pollResponseOption
         createdAt
         updatedAt
         pollResponsePollId
         __typename
       }
-      pollOption
       createdAt
       updatedAt
       pollPollResponseId
