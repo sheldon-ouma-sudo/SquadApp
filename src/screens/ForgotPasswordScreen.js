@@ -173,7 +173,8 @@ button:{
 buttonText:{
   color: 'white',
   fontWeight: '700',
-  fontSize: 12.5
+  fontSize: 12.5,
+  marginBottom: -10
   
 },
 textWrapper:{

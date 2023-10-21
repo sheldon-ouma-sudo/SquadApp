@@ -42,6 +42,8 @@ import EditProfileScreen from "./src/screens/EditProfileScreen";
 import ExploreUserScreen from "./src/screens/ExploreUserScreen";
 import ExploreSquadronScreen from "./src/screens/ExploreSquadronScreen";
 import ExplorePollScreen from "./src/screens/ExplorePollScreen";
+import WordPollCreationScreen from "./src/screens/WordPollCreationScreen"
+
 
 Amplify.configure(awsconfig);
  ///run this once when the app is opened
@@ -155,48 +157,48 @@ function BottomTabs() {
 }
 
 export default function App() {
-  useEffect(() => {
-    const syncUser = async () => {
-      // get Auth user
-      const authUser = await Auth.currentAuthenticatedUser({
-        bypassCache: true,
-      });
-        console.log(authUser)
-      // query the database using Auth user id (sub)
-      const userData = await API.graphql(
-        graphqlOperation(getUser, { id: authUser.attributes.sub })
-      );
+  // useEffect(() => {
+  //   const syncUser = async () => {
+  //     // get Auth user
+  //     const authUser = await Auth.currentAuthenticatedUser({
+  //       bypassCache: true,
+  //     });
+  //       console.log(authUser)
+  //     // query the database using Auth user id (sub)
+  //     const userData = await API.graphql(
+  //       graphqlOperation(getUser, { id: authUser.attributes.sub })
+  //     );
 
-      if (userData.data.getUser) {
-        console.log("This is the user data is:",userData)
-        // console.log("This is the user username is:",userData.data.getUser.username)
-        // console.log("This is the user's name is:",userData.data.getUser.name)
-        // console.log("This is the user's  squad is:",userData.data.getUser.squad)
-        // console.log("This is the user's number of polls is:",userData.data.getUser.numOfPolls)
-        // console.log("This is the user's interest is: ",userData.data.getUser.interests)
-        // console.log("This is the user's image is:",userData.data.getUser.imageUrl)
-        console.log("User already exists in DB");
-        return;
-      }
+  //     if (userData.data.getUser) {
+  //       console.log("This is the user data is:",userData)
+  //       // console.log("This is the user username is:",userData.data.getUser.username)
+  //       // console.log("This is the user's name is:",userData.data.getUser.name)
+  //       // console.log("This is the user's  squad is:",userData.data.getUser.squad)
+  //       // console.log("This is the user's number of polls is:",userData.data.getUser.numOfPolls)
+  //       // console.log("This is the user's interest is: ",userData.data.getUser.interests)
+  //       // console.log("This is the user's image is:",userData.data.getUser.imageUrl)
+  //       console.log("User already exists in DB");
+  //       return;
+  //     }
       
-      //if there is no users in db, create one
-      const newUser = {
-        id: authUser.attributes.sub,
-        username: authUser.attributes.preferred_username,
-        name: authUser.attributes.name,
-        numOfPolls:0,
-        numOfSquadron:0,
-        interests:['undefined for now']
-      };
-      console.log(newUser)
-      const newUserData = await API.graphql(
-        graphqlOperation(createUser, { input: newUser })
-      );
-      console.log(newUserData)
-    };
+  //     //if there is no users in db, create one
+  //     const newUser = {
+  //       id: authUser.attributes.sub,
+  //       username: authUser.attributes.preferred_username,
+  //       name: authUser.attributes.name,
+  //       numOfPolls:0,
+  //       numOfSquadron:0,
+  //       interests:['undefined for now']
+  //     };
+  //     console.log(newUser)
+  //     const newUserData = await API.graphql(
+  //       graphqlOperation(createUser, { input: newUser })
+  //     );
+  //     console.log(newUserData)
+  //   };
     
-    syncUser();
-  }, []);
+  //   syncUser();
+  // }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -228,6 +230,7 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name="ExplorePollScreen" component={ExplorePollScreen}/>
         <Stack.Screen options={{headerShown:false}} name="ExploreSquadronScreen" component={ExploreSquadronScreen}/>
         <Stack.Screen options={{headerShown:false}} name="ExploreUserScreen" component={ExploreUserScreen}/>
+        <Stack.Screen options={{headerShown:false}} name= "WordPollCreationScreen" component={WordPollCreationScreen}/>
 
       </Stack.Navigator>
     </NavigationContainer>

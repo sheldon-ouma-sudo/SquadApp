@@ -105,8 +105,8 @@ const LoginScreen = () => {
 
     async function signInWithAWS() {
         try {
-          await Auth.signIn(username, password);
-          console.log('✅ Success');
+        //   await Auth.signIn(username, password);
+        //   console.log('✅ Success');
          // updateAuthState('loggedIn');
          navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
         //navigation.navigate('TestWorkScreen')
@@ -259,7 +259,7 @@ return (
             <TouchableOpacity style={{marginTop:20}}>
                 <Text 
                 onPress={() =>
-                    navigation.navigate("UploadProfPictureScreen")}
+                    navigation.navigate("ForgotPasswordScreen")}
                 style={styles.forgotPasswordText}>
                     Forgot Password?
                 </Text> 

@@ -77,7 +77,7 @@ const PollCreation = () => {
         navigation.navigate('PollContentScreen',{image:image})
         //navigation.navigate('EmailOTPScreen',{username:username});
       }
-
+   
 
       if (hasCameraPermission === false) {
         return <Text>No access to camera</Text>;
@@ -100,7 +100,7 @@ const PollCreation = () => {
                   marginTop:10
                 }}
               >
-                  <TouchableOpacity
+              <TouchableOpacity
                   style={[{marginTop:-10},{ marginLeft: 10 }, { alignItems: 'center' }, { height: 70 }, { backgroundColor: '#1145FD' }, { borderRadius: 50 }, { width: 70 }]}
                   onPress={() => {
                     setType(
@@ -120,7 +120,6 @@ const PollCreation = () => {
                   }
                   icon="flash"
                   color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#fff'}
-                
                 />
               </View>
             </Camera>
@@ -157,7 +156,14 @@ const PollCreation = () => {
                     <TouchableOpacity style={[styles.cameraIconButtonContainer, { height: 70 }, { backgroundColor: '#1145FD' }, { borderRadius: 50 }]}
                       onPress={takePicture}>
                       <Octicons name="screen-full" size={34} color="white" style={[{ marginTop: 15 }]} />
-                    </TouchableOpacity></></> 
+                    </TouchableOpacity>
+                  
+                    <TouchableOpacity style={[styles.pollAddButton, { height: 70 }, { backgroundColor: '#1145FD' }, { borderRadius: 50 }]}
+                     onPress={() =>
+                      navigation.navigate("WordPollCreationScreen")}>
+                      <Octicons name="plus" size={34} color="white" style={[{ marginTop: 15 }]} />
+                    </TouchableOpacity>
+                    </></> 
             ) 
             }
           </View>
@@ -202,7 +208,7 @@ const PollCreation = () => {
         marginBottom:120,
         //height:40,
         width:70,
-        marginLeft:180,
+        marginLeft:170,
         //marginBottom:50
       },
       photosMedia:{
@@ -213,6 +219,16 @@ const PollCreation = () => {
         //height:40,
         //width:70,
         marginLeft:10
+      },
+      pollAddButton:{
+        marginTop:-180,
+        //marginRight:180,
+        alignItems:'center',
+        marginBottom:120,
+        //height:40,
+        width:70,
+        marginLeft:300,
+        //marginBottom:50
       },
       topControls: {
         flex: 1,

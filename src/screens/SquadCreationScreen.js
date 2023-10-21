@@ -48,6 +48,7 @@
     }
   
     const squadSquadCreation =async()=>{
+      navigation.navigate("")
       
     }
     const instagramSquadCreation =async()=>{

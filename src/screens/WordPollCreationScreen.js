@@ -12,7 +12,6 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 
-
 //setting up for the notification for the sender 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -77,7 +76,9 @@ async function registerForPushNotificationsAsync() {
 
 
 
-const PollContentScreen = () => {
+
+
+const WordPollCreationScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
   const [selectedPollAudience, setSelectedPollAudience] = useState([]);
@@ -104,7 +105,7 @@ const PollContentScreen = () => {
 ]
 const navigation = useNavigation()
 const route = useRoute();
-const latestImage = route?.params.image
+const latestImage = ""
 //there is a difference between the latest_media and latestMedia 
 //try passing 
 
@@ -175,44 +176,16 @@ const handlePoll =async ()=>{
     ></Image>
     </View>
     <View style={styles.pollContentStyles}>
-      <Text style={styles.pollContentText}>Poll Content</Text>
+      <Text style={styles.pollContentCaption}>Poll Caption</Text>
     </View>
-    <ScrollView
-    style={styles.ImageContainer}
-    contentContainerStyle={{
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "center",
-    }}
-    horizontal={true}
-    >
-      {mediArr.map((image, i) => {
-        console.log("loading the image inside the scroll view", image)
-            return (
-              <View
-                style={{
-                  padding: 5,
-                }}
-                key={i}
-              >
-                <Image
-                  source={{ uri: image }}
-                  style={[
-                    styles.Image,
-                    {
-                      width: i % 2 === 1 ? 150 : 95,
-                      height: i % 2 === 1 ? 150 : 95,
-                    },
-                  ]}
-                  resizeMode="center"
-                  onLoadStart={() => setLoading(true)}
-                  onLoadEnd={() => setLoading(false)}
-                />
-              </View>
-            );
-          })}
-    </ScrollView>
-    <View style={styles.pollLabelContainer}>
+    <TextInput
+      placeholder ="What team is going to win big this weekend"
+      value={caption}
+      onChangeText={text =>setCaption(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+      style={styles.input}
+      textAlignVertical={"top"}
+    ></TextInput>
+  <View style={styles.pollLabelContainer}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
     <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:70,marginLeft:30}}>
@@ -224,18 +197,45 @@ const handlePoll =async ()=>{
     search={true} 
     />
     </View>
-   
-
-    <View style={styles.pollContentStyles}>
-      <Text style={styles.pollContentCaption}>Poll Caption</Text>
+   {/* adding poll options */}
+     <View style={styles.pollContentStyles}>
+      <Text style={styles.pollContentCaption}>Poll Options</Text>
     </View>
-    <TextInput
-      placeholder ="Example: A Tesla or a Messeratti?"
-      value={caption}
-      onChangeText={text =>setCaption(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
-      style={styles.input}
-      textAlignVertical={"top"}
-    ></TextInput>
+
+    <MultiSelect
+        style={styles.dropdown}
+        placeholderStyle={styles.placeholderStyle}
+        selectedTextStyle={styles.selectedTextStyle}
+        inputSearchStyle={styles.inputSearchStyle}
+        iconStyle={styles.iconStyle}
+        data={DATA}
+        labelField="label"
+        valueField="value"
+        placeholder="Add Poll Options"
+        value={selectedPollAudience}
+        search
+        searchPlaceholder="Search..."
+        onChange={item => {
+            setSelectedPollAudience(item);
+        }}
+        renderLeftIcon={() => (
+            <AntDesign
+                style={styles.icon}
+                color="black"
+                name="Safety"
+                size={20}
+            />
+        )}
+      renderItem={renderDataItem}
+      renderSelectedItem={(item, unSelect) => (
+          <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+              <View style={styles.selectedStyle}>
+                  <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                  <AntDesign color="black" name="delete" size={17} />
+              </View>
+          </TouchableOpacity>
+                )}
+            />
     <View style={styles.pollAudience}>
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
       <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
@@ -274,7 +274,15 @@ const handlePoll =async ()=>{
           </TouchableOpacity>
                 )}
             />
-            <StatusBar />
+       
+
+
+
+
+
+
+
+
     <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handlePoll}
@@ -450,4 +458,5 @@ textSelectedStyle: {
   fontSize: 16,
 },
 })
-export default PollContentScreen
+
+export default WordPollCreationScreen

@@ -55,7 +55,7 @@
     "react-native-drawer-layout": "^3.2.1",
     "react-native-dropdown-select-list": "^2.0.2",
     "react-native-element-dropdown": "^2.4.0",
-    "react-native-elements": "^3.4.2",
+    "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-get-random-values": "^1.8.0",
     "react-native-google-places-autocomplete": "^2.5.1",
