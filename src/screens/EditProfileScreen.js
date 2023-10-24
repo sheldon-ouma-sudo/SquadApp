@@ -10,30 +10,6 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
 
   const{width,height} = Dimensions.get("window")
 
-  const customStyles = {
-    stepIndicatorSize: 25,
-    currentStepIndicatorSize:30,
-    separatorStrokeWidth: 2, 
-    currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: '#ffff',
-    stepStrokeWidth: 3,
-    stepStrokeFinishedColor: '#ffff',
-    stepStrokeUnFinishedColor: '#aaaaaa',
-    separatorFinishedColor: '#ffff',
-    separatorUnFinishedColor: '#aaaaaa',
-    stepIndicatorFinishedColor: '#fff',
-    stepIndicatorUnFinishedColor: '#ffffff',
-    stepIndicatorCurrentColor: '#1764EF',
-    stepIndicatorLabelFontSize: 13,
-    currentStepIndicatorLabelFontSize: 13,
-    stepIndicatorLabelCurrentColor: '#ffffff',
-    stepIndicatorLabelFinishedColor: '#ffffff',
-    stepIndicatorLabelUnFinishedColor: '#aaaaaa',
-    labelColor: '#999999',
-    labelSize: 13,
-    currentStepLabelColor: '#fffff'
-  }
-
 
 const EditProfileScreen = () => {
   return (
@@ -43,6 +19,18 @@ const EditProfileScreen = () => {
       <Text>EditProfile</Text>
     </SafeAreaView>
   )}
+
+
+
+
+
+
+
+
+
+
+
+
   const styles = StyleSheet.create({
     container:{
     flex:1,

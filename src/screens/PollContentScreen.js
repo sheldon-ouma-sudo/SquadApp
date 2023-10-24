@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
-  TextInput, TouchableOpacity, StatusBar, FlatList, ScrollView, SafeAreaView} from 'react-native'
+  TextInput, TouchableOpacity, StatusBar, FlatList, ScrollView, SafeAreaView, Button} from 'react-native'
 import { useState, useEffect } from 'react'
 import {SelectList} from 'react-native-dropdown-select-list'
 import { MultiSelect } from 'react-native-element-dropdown';
@@ -178,9 +178,48 @@ const newPoll = {
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>
-    <FlatList
-    
-    
+    <FlatList 
+        style= {{marginLeft:-60, marginTop: 10}}
+        horizontal
+        showsHorizontalScrollIndicator={true}
+        data={mediArr}
+        renderItem={({ item }) => (
+            <Image 
+                source={{ uri: item.src }}
+                style={{
+                    width:70,
+                    height:70,
+                    borderWidth:2,
+                    borderColor:'#d35647',
+                    resizeMode:'contain',
+                    margin:8
+                }}
+            />
+        )}
+        ListFooterComponent={() => (
+          <TouchableOpacity
+          style={{
+            width:70,
+            marginBottom: 10,
+            height:70,
+            borderWidth:5,
+            borderColor:'#F4F8FB',
+            resizeMode:'contain',
+            margin:8,
+            padding:15,
+            backgroundColor: 'white',
+            elevation: 5,
+            shadowColor: '#000',
+            shadowOffset: {width: 0, height: 0},
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            backgroundColor: "#F4F8FB"
+        }}
+         onPress={() => navigation.goBack()}
+          >
+         <AntDesign name="plus" size={30} color="#1764EF" />
+          </TouchableOpacity>
+        )}
     />
     {/* <ScrollView
     style={styles.ImageContainer}
@@ -317,7 +356,7 @@ const styles = StyleSheet.create({
   },
   pollLabelContainer:{
     marginRight:250,
-    marginTop:0
+    marginTop:10
 
   },
   pollContentText:{

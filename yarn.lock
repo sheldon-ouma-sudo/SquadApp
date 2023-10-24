@@ -5027,6 +5027,11 @@
 "async-limiter@~1.0.0":
   "version" "1.0.1"
 
+"async@^0.9.0":
+  "integrity" "sha512-l6ToIJIotphWahxxHyzK9bnLR6kM4jJIIgLShZeqLY7iboHoGkdgFl7W2/Ivi4SkMJYGKqW8vSuk0uKUj6qsSw=="
+  "resolved" "https://registry.npmjs.org/async/-/async-0.9.2.tgz"
+  "version" "0.9.2"
+
 "async@^3.2.2":
   "integrity" "sha512-iAB+JbDEGXhyIUavoDl9WP/Jj106Kz9DEn1DPgYw5ruDn0e3Wgi3sKFm55sASdGBNOQB8F59d9qQ7deqrHA8wQ=="
   "resolved" "https://registry.npmjs.org/async/-/async-3.2.4.tgz"
@@ -5281,6 +5286,11 @@
     "buffer" "^5.5.0"
     "inherits" "^2.0.4"
     "readable-stream" "^3.4.0"
+
+"bluebird@^2.6.0":
+  "integrity" "sha512-UfFSr22dmHPQqPP9XWHRhq+gWnHCYguQGkXQlbyPtW5qTnhFWA8/iXg765tH0cAjy7l/zPJ1aBTO0g5XgA7kvQ=="
+  "resolved" "https://registry.npmjs.org/bluebird/-/bluebird-2.11.0.tgz"
+  "version" "2.11.0"
 
 "blueimp-md5@^2.10.0":
   "version" "2.19.0"
@@ -6100,6 +6110,11 @@
     "is-callable" "^1.1.4"
     "is-date-object" "^1.0.1"
     "is-symbol" "^1.0.2"
+
+"es6-shim@^0.22.1":
+  "integrity" "sha512-gZIMpr6Xj8t2Ike+LIKidyB8kqAiZjRBToOMsfdgijevJqZWeDyqTzFX9fWrknCASmY6d5OeF1eAkjysCLKr7g=="
+  "resolved" "https://registry.npmjs.org/es6-shim/-/es6-shim-0.22.2.tgz"
+  "version" "0.22.2"
 
 "escalade@^3.1.1":
   "version" "3.1.1"
@@ -7971,6 +7986,11 @@
   dependencies:
     "js-tokens" "^3.0.0 || ^4.0.0"
 
+"lru-cache@^2.5.0":
+  "integrity" "sha512-WpibWJ60c3AgAz8a2iYErDrcT2C7OmKnsWhIcHOjkUHFjkXncJhtLxNSqUmxRxRunpb5I8Vprd7aNSd2NtksJQ=="
+  "resolved" "https://registry.npmjs.org/lru-cache/-/lru-cache-2.7.3.tgz"
+  "version" "2.7.3"
+
 "lru-cache@^6.0.0":
   "version" "6.0.0"
   dependencies:
@@ -8511,6 +8531,11 @@
   dependencies:
     "yallist" "^4.0.0"
 
+"minipass@^5.0.0":
+  "integrity" "sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ=="
+  "resolved" "https://registry.npmjs.org/minipass/-/minipass-5.0.0.tgz"
+  "version" "5.0.0"
+
 "minipass@3.1.6":
   "version" "3.1.6"
   dependencies:
@@ -8665,6 +8690,16 @@
   "integrity" "sha512-LN4fydt9TqhZhThkZIVQnF9cwjU3qmUH9h78Mx/K7d3VvfRqqwthLwJEUOEL0QPZ0XQmNN7be5Ggit5+4dq3Bw=="
   "resolved" "https://registry.npmjs.org/node-stream-zip/-/node-stream-zip-1.15.0.tgz"
   "version" "1.15.0"
+
+"node-wordnet@^0.1.12":
+  "integrity" "sha512-Gd21Ss5R6TrbQLsiBEtuePg9x1LLGBbf+xK4hheVv8/VzvxdrPButCWAsuS98nJpl6vEIuTmWeB4i4QWsn06Fg=="
+  "resolved" "https://registry.npmjs.org/node-wordnet/-/node-wordnet-0.1.12.tgz"
+  "version" "0.1.12"
+  dependencies:
+    "async" "^0.9.0"
+    "bluebird" "^2.6.0"
+    "es6-shim" "^0.22.1"
+    "lru-cache" "^2.5.0"
 
 "normalize-path@^2.1.1":
   "version" "2.1.1"
@@ -10271,12 +10306,14 @@
 "supports-preserve-symlinks-flag@^1.0.0":
   "version" "1.0.0"
 
-"tar@^6.0.2", "tar@^6.0.5":
-  "version" "6.1.12"
+"tar@^6.0.2", "tar@^6.0.5", "tar@latest":
+  "integrity" "sha512-/Wo7DcT0u5HUV486xg675HtjNd3BXZ6xDbzsCUZPt5iw8bTQ63bP0Raut3mvro9u+CUyq7YQd8Cx55fsZXxqLQ=="
+  "resolved" "https://registry.npmjs.org/tar/-/tar-6.2.0.tgz"
+  "version" "6.2.0"
   dependencies:
     "chownr" "^2.0.0"
     "fs-minipass" "^2.0.0"
-    "minipass" "^3.0.0"
+    "minipass" "^5.0.0"
     "minizlib" "^2.1.1"
     "mkdirp" "^1.0.3"
     "yallist" "^4.0.0"
@@ -10797,6 +10834,13 @@
   "version" "2.0.2"
   dependencies:
     "isexe" "^2.0.0"
+
+"wndb-with-exceptions@^3.0.2":
+  "integrity" "sha512-EErtrDAl7z1f0eG+XzomB+I6Kj6eYuFukBbmWvdbwcLbUN6qbjFHDEW+/PFWOGKlqxIfOWYBn1ANRm/1Z5OQiA=="
+  "resolved" "https://registry.npmjs.org/wndb-with-exceptions/-/wndb-with-exceptions-3.0.2.tgz"
+  "version" "3.0.2"
+  dependencies:
+    "tar" "latest"
 
 "wonka@^4.0.14":
   "version" "4.0.15"

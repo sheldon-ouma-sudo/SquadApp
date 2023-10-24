@@ -47,6 +47,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.39",
     "net": "^1.0.2",
+    "node-wordnet": "^0.1.12",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-moment": "^1.1.2",
@@ -78,6 +79,7 @@
     "react-navigation": "^4.4.4",
     "storage": "^0.2.0",
     "uuid": "^9.0.0",
+    "wndb-with-exceptions": "^3.0.2",
     "yarn": "^1.22.19"
   },
   "name": "squad",
