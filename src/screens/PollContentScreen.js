@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
-  TextInput, TouchableOpacity, StatusBar, FlatList, ScrollView} from 'react-native'
+  TextInput, TouchableOpacity, StatusBar, FlatList, ScrollView, SafeAreaView} from 'react-native'
 import { useState, useEffect } from 'react'
 import {SelectList} from 'react-native-dropdown-select-list'
 import { MultiSelect } from 'react-native-element-dropdown';
@@ -116,7 +116,7 @@ useEffect(()=>{
     mediArr.push(latest_media)
   }
 
-    console.log(mediArr)
+    console.log("this is the mediaArr",mediArr)
  },[latest_media, mediArr, latestImage])
 
 // const mediaData = collectData(data)
@@ -130,23 +130,24 @@ const renderDataItem = (item) => {
   );
 };
 const handlePoll =async ()=>{
- // alert("Attempts to create a  new poll")
-//define the data for the new poll 
-// const authUser = await Auth.currentAuthenticatedUser();
-// const newPoll = {
-//     closedPoll: false, 
-//     livePoll: true, 
-//     pollCaption: caption, 
-//     userID: authUser.attributes.sub,
-// };
-
-//   //create the poll, the user id is the creator's id ig
-//   const newPollData = await API.graphql(graphqlOperation(
-//     createPoll, {input: newPoll}
-//   ))
-//   console.log(newPollData)
-//   // the squad id is the user's squad
+  alert("Attempts to create a  new poll")
   navigation.navigate('RootNavigation', { screen: 'Profile' })
+//define the data for the new poll 
+const authUser = await Auth.currentAuthenticatedUser();
+const newPoll = {
+    closedPoll: false, 
+    livePoll: true, 
+    pollCaption: caption, 
+    userID: authUser.attributes.sub,
+};
+
+  //create the poll, the user id is the creator's id ig
+  const newPollData = await API.graphql(graphqlOperation(
+    createPoll, {input: newPoll}
+  ))
+  console.log(newPollData)
+  // the squad id is the user's squad
+  //navigation.navigate('RootNavigation', { screen: 'Profile' })
   //creating a function that renders images from the user side by side
 }
 
@@ -177,7 +178,11 @@ const handlePoll =async ()=>{
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>
-    <ScrollView
+    <FlatList
+    
+    
+    />
+    {/* <ScrollView
     style={styles.ImageContainer}
     contentContainerStyle={{
       flexDirection: "row",
@@ -211,7 +216,7 @@ const handlePoll =async ()=>{
               </View>
             );
           })}
-    </ScrollView>
+    </ScrollView> */}
     <View style={styles.pollLabelContainer}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
@@ -291,7 +296,7 @@ const handlePoll =async ()=>{
   )
 }
 
-
+export default PollContentScreen
 const styles = StyleSheet.create({
   container:{
   flex:1,
@@ -450,4 +455,3 @@ textSelectedStyle: {
   fontSize: 16,
 },
 })
-export default PollContentScreen
