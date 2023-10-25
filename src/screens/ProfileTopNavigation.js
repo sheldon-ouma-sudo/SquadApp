@@ -71,7 +71,7 @@
         >
         <TouchableOpacity
         style={{marginStart:150,marginBottom:15}}
-        onPress={() =>navigation.navigate('EditProfileScreen')}
+        onPress={() =>navigation.navigate('AccountSettingScreen')}
         >
         <AntDesign name="edit" size={24} color="black" />
         </TouchableOpacity>
