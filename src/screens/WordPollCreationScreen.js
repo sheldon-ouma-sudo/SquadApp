@@ -12,6 +12,8 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 
+
+
 //setting up for the notification for the sender 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -75,18 +77,17 @@ async function registerForPushNotificationsAsync() {
 }
 
 
-
-
-
 const WordPollCreationScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
   const [selectedPollAudience, setSelectedPollAudience] = useState([]);
+  const[selectedPollOption, setSelectedPollOptioin] = useState([])
   const[latest_media, setLatest_media] = useState(null) //the latest_Media 
   const [loading, setLoading] = useState(false);
   const [mediArr, setMediArr] = useState([])
+  const[pollOptionData, setPollOptionData] = useState([])
 
-  const data=[ // rename the variable 
+  const fashionData=[ // rename the variable 
         {key:'1', value:"Fashion"},
         {key:'2', value:"Decor"},
         {key:'3', value:"Food"},
@@ -103,22 +104,42 @@ const WordPollCreationScreen = () => {
     { label: 'Snapchat', value: '5' },
     { label: 'Tiktok', value: '6' },
 ]
+// const WordNet = require("node-wordnet")
+// const wordnet = new WordNet("../node_modules/wordnet-db/dict")
+// wordnet.lookup('dog', function(results) {
+//   results.forEach(function(result) {
+//     console.log(JSON.stringify(result, null, 2))
+//   })
+// })
+// const wordnet = require('node-wordnet');
+ 
+// wordnet.lookup('node', function(results) {
+//     results.forEach(function(result) {
+//         console.log('------------------------------------');
+//         console.log(result.synsetOffset);
+//         console.log(result.pos);
+//         console.log(result.lemma);
+//         console.log(result.synonyms);
+//         console.log(result.pos);
+//         console.log(result.gloss);
+//     });
+// });
 const navigation = useNavigation()
 const route = useRoute();
-const latestImage = ""
+// const latestImage = ""
 //there is a difference between the latest_media and latestMedia 
 //try passing 
 
-useEffect(()=>{
-  console.log("the first console log in useEffect",latestImage)
-  setLatest_media(latestImage) ///sets the latest media to be the item received 
-  console.log("this is the latest media",latest_media)
-  if(mediArr.length <4 && latest_media != null){
-    mediArr.push(latest_media)
-  }
+// useEffect(()=>{
+//   console.log("the first console log in useEffect",latestImage)
+//   setLatest_media(latestImage) ///sets the latest media to be the item received 
+//   console.log("this is the latest media",latest_media)
+//   if(mediArr.length <4 && latest_media != null){
+//     mediArr.push(latest_media)
+//   }
 
-    console.log(mediArr)
- },[latest_media, mediArr, latestImage])
+//     console.log(mediArr)
+//  },[latest_media, mediArr, latestImage])
 
 // const mediaData = collectData(data)
 
@@ -192,7 +213,7 @@ const handlePoll =async ()=>{
     <SelectList 
     setSelected={(val) => setSelected(val)} 
     value={selected}
-    data={data} 
+    data={fashionData} 
     save="value"
     search={true} 
     />
@@ -203,7 +224,7 @@ const handlePoll =async ()=>{
     </View>
 
     <MultiSelect
-        style={styles.dropdown}
+        style={styles.pollOptionDropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -241,7 +262,7 @@ const handlePoll =async ()=>{
       <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
     </View>
     <MultiSelect
-        style={styles.dropdown}
+        style={styles.pollAudienceDropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -274,15 +295,6 @@ const handlePoll =async ()=>{
           </TouchableOpacity>
                 )}
             />
-       
-
-
-
-
-
-
-
-
     <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handlePoll}
@@ -389,7 +401,7 @@ buttonContainer:{
     fontWeight: '600',
     fontSize: 14   
 },
-dropdown: {
+pollOptionDropdown: {
   height: 50,
   width:350,
   backgroundColor: '#1764EF',
@@ -403,6 +415,23 @@ dropdown: {
   shadowOpacity: 0.2,
   shadowRadius: 1.41,
   elevation: 2,
+  marginLeft:-20
+},
+pollAudienceDropdown: {
+  height: 50,
+  width:350,
+  backgroundColor: '#1764EF',
+  borderRadius: 12,
+  padding: 12,
+  shadowColor: '#000',
+  shadowOffset: {
+      width: 0,
+      height: 1,
+  },
+  shadowOpacity: 0.2,
+  shadowRadius: 1.41,
+  elevation: 2,
+  marginLeft:-10
 },
 
 placeholderStyle: {
