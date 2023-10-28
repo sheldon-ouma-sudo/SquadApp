@@ -1,18 +1,22 @@
-  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
+import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity, SafeAreaView} from 'react-native'
   import React, { useEffect, useState } from 'react'
+  import { MaterialIcons } from '@expo/vector-icons';
+  import { Ionicons } from '@expo/vector-icons'; 
   import StepIndicator from 'react-native-step-indicator';
   //import { Icon } from 'react-native-elements';
   //import Ionicons from '@expo/vector-icons/Ionicons';
   import { FontAwesome } from '@expo/vector-icons'; 
   import { Entypo } from '@expo/vector-icons'; 
   import { useNavigation } from '@react-navigation/native';
+  import { AntDesign } from '@expo/vector-icons';
 
   const{width,height} = Dimensions.get("window")
 
 
 const EditProfileScreen = () => {
   const[username, setUserName] = useState("User Name")
+  const navigation = useNavigation()
 
   return (
     <SafeAreaView
@@ -25,17 +29,19 @@ const EditProfileScreen = () => {
             resizeMode='contain'
           ></Image>
           </View>
+
+      <TouchableOpacity style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row", marginTop:30}]}
+      onPress={()=>navigation.goBack()}
+      >
+      <AntDesign name="arrowleft" size={24} color="#1764EF" style={{flex:1, marginLeft:30, justifyContent:'flex-start'}}/>
       <Text
-      style = {{fontWeight: '600'}}
-      >Account</Text>
+      style = {{fontWeight: '600', fontSize:15, flex:1, marginRight:150, justifyContent:'flex-end'}}
+      >Edit the basics</Text>
+   
+
+    </TouchableOpacity>
     <View style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row"}]}>
-        <View
-        style={{flex:1, justifyContent:'flex-start', marginTop:60, marginEnd:30,marginLeft:25}}
-        >
-          <Text
-          >{username}</Text>
-    </View>
-    <View style={{flex:1, justifyContent:'flex-end'}}>
+      <View style={{flex:1, justifyContent:'center', marginLeft:130, marginTop:-20}}>
           <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}

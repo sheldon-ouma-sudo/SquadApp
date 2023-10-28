@@ -223,7 +223,7 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="PhoneNumberScreen" component={PhoneNumberScreen}/>
         <Stack.Screen options={{headerShown: false}} name="TestWorkScreen" component={TestWorkScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "AccountSettingScreen" component={AccountSettingScreen}/>
-        <Stack.Screen options={{headerShown:false}} name="ChangePasswordScreen" component={ChangePasswordScreen}/>
+        <Stack.Screen options={{headerShown:false,}} name="ChangePasswordScreen" component={ChangePasswordScreen}/>
         <Stack.Screen options= {{headerShown:false}} name="DeleteProfile" component={DeleteProfileScreen}/>
         <Stack.Screen options={{headerShown:false}} name="DeleteProfileConfirmation" component={DeleteProfileConfirmationScreen}/>
         <Stack.Screen options={{headerShown:false}} name="EditProfileScreen" component={EditProfileScreen}/>

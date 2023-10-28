@@ -10,6 +10,8 @@
   import { Entypo } from '@expo/vector-icons'; 
   import { useNavigation } from '@react-navigation/native';
   import { AntDesign } from '@expo/vector-icons';
+  import {Auth} from 'aws-amplify'
+  
 
   const{width,height} = Dimensions.get("window")
 
@@ -17,6 +19,20 @@ const AccountSettingScreen = () => {
   const[userName, setUserName] =useState('User Name')
   const[userEmail, setUserEmail] = useState('john01@gmail.com')
   const navigation = useNavigation();
+  
+
+  async function handleLogout() {
+    try {
+    //  await Auth.signOut();
+    //   console.log('✅ Success');
+     // updateAuthState('loggedIn');
+     navigation.navigate('LoginScreen')
+    //navigation.navigate('TestWorkScreen')
+    } catch (error) {
+      console.log('❌ Error signing in...', error); 
+    }
+  }
+
   return (
     <SafeAreaView
     style={styles.container}
@@ -28,9 +44,17 @@ const AccountSettingScreen = () => {
             resizeMode='contain'
           ></Image>
           </View>
+      <TouchableOpacity style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row", marginTop:30}]}
+      onPress={()=>navigation.goBack()}
+      >
+      <AntDesign name="arrowleft" size={24} color="#1764EF" style={{flex:1, marginLeft:30, justifyContent:'flex-start'}}/>
       <Text
-      style = {{fontWeight: '600'}}
+      style = {{fontWeight: '600', fontSize:20, flex:1, marginRight:150, justifyContent:'flex-end'}}
       >Account</Text>
+   
+
+    </TouchableOpacity>
+
     <View style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row"}]}>
         <View
         style={{flex:1, justifyContent:'flex-start', marginTop:60, marginEnd:30,marginLeft:25}}
@@ -49,18 +73,20 @@ const AccountSettingScreen = () => {
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
             style={[{ height: 80 }, { width: 80 }, 
-            {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:50}, {borderRadius:50}, {borderWidth:5}, {borderColor:'#7399DE'}]} />
+            {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:50}, {borderRadius:50}, {borderWidth:4}, {borderColor:'#7399DE'}]} />
         </View> 
     </View>
-    <View style={{marginTop:40}}>
+
       <View
       style={{
         borderBottomColor: '#E4E4E4',
         borderBottomWidth: 1,
+        marginTop: 10,
+        marginBottom: 10,
       }}
       >
       <Text
-      style={{marginRight:270, fontWeight: '300', fontSize:11,marginBottom:10}}
+      style={{marginRight:320, fontWeight: '300', fontSize:11,marginBottom:10}}
       >SETTINGS</Text>
       </View>
       
@@ -69,60 +95,73 @@ const AccountSettingScreen = () => {
         borderBottomColor: '#E4E4E4',
         borderBottomWidth: 1,
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        flexDirection:'row'
       }}
-      //onPress={()=>}
+      onPress={()=>navigation.navigate("EditProfileScreen")}
       >
       {/* <Ionicons name="person-circle-outline" size={24} color="#1764EF" /> */}
+      <Ionicons name="person-circle-outline" size={24} color="#1764EF" style={{justifyContent:'flex-start', flex:1, marginBottom:10, marginLeft:5, marginRight:10}} />
       <Text
-      style={{marginRight:270, marginBottom:10}}
+      style={{marginStart:-320, justifyContent:'flex-end', flex:1, marginTop:5}}
       >Edit the basics</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-      style={{
-        borderBottomColor: '#E4E4E4',
-        borderBottomWidth: 1,
-      }}
-      >
-          <Text
-      style={{marginRight:270, marginBottom:10}}
-      >Change Password</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-      style={{
-        borderBottomColor: '#E4E4E4',
-        borderBottomWidth: 1,
-        marginTop: 10,
-        marginBottom: 10
-      }}
-      >
-          <Text
-      style={{marginRight:270, marginBottom:10}}
-      >Edit Preferences</Text>
-      </TouchableOpacity>
+
       <TouchableOpacity
       style={{
         borderBottomColor: '#E4E4E4',
         borderBottomWidth: 1,
         marginTop:10,
         marginBottom: 10,
-        flex:1
+        flexDirection:'row'
+      }}
+      onPress={()=>navigation.navigate("ChangePasswordScreen")}
+      >
+      <MaterialIcons name="lock" size={24} color="#1764EF" style={{justifyContent:'flex-start', flex:1, marginBottom:10, marginLeft:5, marginRight:10}} />
+      <Text
+      style={{marginStart:-320, justifyContent:'flex-end', flex:1, marginTop:5}}
+      >Change Password</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+      style={{
+        borderBottomColor: '#E4E4E4',
+        borderBottomWidth: 1,
+        marginTop:10,
+        marginBottom: 10,
+        flexDirection:'row'
       }}
       >
-      <AntDesign name="delete" size={24} color="black" style={{justifyContent:'flex-start'}} />
+      <Ionicons name="md-checkmark-circle" size={24} color="#1764EF" style={{justifyContent:'flex-start', flex:1, marginBottom:10, marginLeft:5, marginRight: 10}} />
       <Text
-      style={{marginRight:270, marginBottom:10, justifyContent:'flex-end'}}
+      style={{marginStart:-320, justifyContent:'flex-end', flex:1, marginTop:5}}
+      >Edit Preferences</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+      style={{
+        borderBottomColor: '#E4E4E4',
+        borderBottomWidth: 1,
+        marginTop:10,
+        marginBottom: 10,
+        flexDirection:'row'
+      }}
+      >
+      <AntDesign name="delete" size={24} color="#1764EF" style={{justifyContent:'flex-start', flex:1, marginBottom:10, marginLeft:5, marginRight:10}} />
+      <Text
+      style={{marginStart:-320, justifyContent:'flex-end', flex:1, marginTop:5}}
       >Delete Account</Text>
       </TouchableOpacity>
 
-    </View>
-    <View style = {[{flexDirection:"row"}, {marginTop:250}]}>
+    <View style = {[{flexDirection:"row"}, {marginTop:150}]}>
       <View style={{flex:1, justifyContent:'flex-start', marginLeft:30}}>
        <Text
        style={{fontWeight:'600'}}
        >Logout</Text>
       </View>
-      <TouchableOpacity style={{flex:1, justifyContent:'flex-end', marginEnd:-200}}>
+      <TouchableOpacity style={{flex:1, justifyContent:'flex-end', marginEnd:-200}}
+      onPress={handleLogout}
+      >
       <MaterialIcons name="logout" size={24} color="#1764EF" />
       </TouchableOpacity>
     </View>
