@@ -51,7 +51,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-moment": "^1.1.2",
-    "react-native": "0.70.8",
+    "react-native": "0.70.14",
     "react-native-calendars": "^1.1291.1",
     "react-native-drawer-layout": "^3.2.1",
     "react-native-dropdown-select-list": "^2.0.2",

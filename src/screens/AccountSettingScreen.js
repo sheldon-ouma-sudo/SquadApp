@@ -9,6 +9,7 @@
   import { FontAwesome } from '@expo/vector-icons'; 
   import { Entypo } from '@expo/vector-icons'; 
   import { useNavigation } from '@react-navigation/native';
+  import { AntDesign } from '@expo/vector-icons';
 
   const{width,height} = Dimensions.get("window")
 
@@ -59,7 +60,7 @@ const AccountSettingScreen = () => {
       }}
       >
       <Text
-      style={{marginRight:270, fontWeight: '100', fontSize:10}}
+      style={{marginRight:270, fontWeight: '300', fontSize:11,marginBottom:10}}
       >SETTINGS</Text>
       </View>
       
@@ -104,11 +105,13 @@ const AccountSettingScreen = () => {
         borderBottomColor: '#E4E4E4',
         borderBottomWidth: 1,
         marginTop:10,
-        marginBottom: 10
+        marginBottom: 10,
+        flex:1
       }}
       >
-          <Text
-      style={{marginRight:270, marginBottom:10}}
+      <AntDesign name="delete" size={24} color="black" style={{justifyContent:'flex-start'}} />
+      <Text
+      style={{marginRight:270, marginBottom:10, justifyContent:'flex-end'}}
       >Delete Account</Text>
       </TouchableOpacity>
 
