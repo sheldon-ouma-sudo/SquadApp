@@ -61,6 +61,14 @@
                   resizeMode='contain'
               ></Image>
               </View>
+
+            <View>
+              <Text
+               style={{fontSize:12, margin:15}}
+              >
+                Verification code was sent to your email, please check and verify your account below. 
+              </Text>
+            </View>
             <View>
               <TextInput
                   placeholder ="Enter the confirmation code"
@@ -174,6 +182,7 @@
     fontWeight:'500',
     marginRight:40,
     marginLeft:-20,
+    fontSize:11
   }
 
   })

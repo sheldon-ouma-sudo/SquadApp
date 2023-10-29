@@ -141,17 +141,18 @@
               Access Contacts
             </Text>
         </TouchableOpacity>
+
+
         <TouchableOpacity 
-        onPress={genSquadCreation}
+        onPress={()=>navigation.navigate('RootNavigation', { screen: 'Explore', params:{screen:'Find Users'} })}
         style= {[{fex:1}, styles.squadAddLogoContainer]}>
                 <Ionicons
                 name = 'person-add'
                 size={50}
                 color='#1977F3'
-                //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
                 style={[{justifyContent:'flex-end'},styles.squadAddLogo]}
                 >
-             </Ionicons>
+                </Ionicons>
              <Text style={styles.contactsTexts}>
                Squad Access
             </Text>
@@ -231,7 +232,7 @@
               <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
              </TouchableOpacity>
               <TouchableOpacity  onPress={() =>
-               navigation.navigate('RootNavigation', { screen: 'NotificationScreen' })}
+               navigation.navigate('RootNavigation', { screen:'NotificationScreen'})}
                 style={[{flex:1}, styles.button]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
              </TouchableOpacity>
