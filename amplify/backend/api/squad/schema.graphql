@@ -26,7 +26,7 @@ type Squad @model @auth(rules: [{ allow: public }]) {
   latestPoll: PollResponse @hasOne
   adminUser: String!
   User: User @hasOne
-  squadronID: ID! @index(name: "bySquadron")
+  squadronID: ID @index(name: "bySquadron")
 }
 
 type Poll @model @auth(rules: [{ allow: public }]) {
