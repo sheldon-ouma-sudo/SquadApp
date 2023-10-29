@@ -89,7 +89,7 @@ const takePhotoFromCamera = async () =>{
 //after getting the photo, we turn it into a blobl
 const fetchResourceFromURI = async uri => {
   const response = await fetch(uri);
-  console.log("response from the blob creation",response);
+  //console.log("response from the blob creation",response);
   const blob = await response.blob();
   return blob;
 };
@@ -120,7 +120,7 @@ const uploadUserImage = async () => {
           }  
           //updating user attributes before na  
           await Auth.updateUserAttributes(user, {
-            'profile_pic': userImage})
+            'picture': userImage})
        navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
       }catch(e){
        console.log("failure to upload the picture to the backend", e)

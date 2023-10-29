@@ -37,27 +37,27 @@
 
       console.log('✅ Code confirmed');
       //once the confirmation is successful, we want to create the Squad for the user
-      const authUser = Auth.currentAuthenticatedUser();
-      const newSquad = await API.graphql({
-        query: createSquad,
-        variables: {
-            input: {
-        "Polls": [],
-        "latestPoll": null,
-        "adminUser": authUser,
-        "User": authUser,
-      }
-        }
-    });
-    //const authUser = await Auth.currentAuthenticatedUser();
-    // const newSquad = {
-    // adminUser: authUser.attributes.sub,
-    // }
+      const authUser = await Auth.currentAuthenticatedUser();
+    //   const newSquad = await API.graphql({
+    //     query: createSquad,
+    //     variables: {
+    //         input: {
+    //     "Polls": [],
+    //     "latestPoll": null,
+    //     "adminUser": authUser,
+    //     "User": authUser,
+    //   }
+    //     }
+    // });
+    // //const authUser = await Auth.currentAuthenticatedUser();
+    // // const newSquad = {
+    // // adminUser: authUser.attributes.sub,
+    // // }
     
-    const newSquadData = await API.graphql(graphqlOperation(
-    createSquad, {input: newSquad}
-    ))
-    console.log(newSquadData)
+    // const newSquadData = await API.graphql(graphqlOperation(
+    // createSquad, {input: newSquad}
+    // ))
+    console.log(authUser)
       listenToAutoSignInEvent() 
       //right here we create the squad for the user -- sweet 
       navigation.navigate("AgeGenderLocationScreen");
