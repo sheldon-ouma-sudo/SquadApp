@@ -6,7 +6,10 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { useNavigation } from '@react-navigation/native';
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
-  import { Auth } from 'aws-amplify';
+ // import { Auth } from 'aws-amplify';
+  import { createSquad } from '../graphql/mutations';
+  import { API, graphqlOperation, Auth } from "aws-amplify";
+
 
   const{width,height} = Dimensions.get("window")
   const customStyles = {
@@ -104,45 +107,61 @@ const onSelect = useCallback(
     setSelected(newSelected);
   },
   [selected],
-  console.log("here is the map of user interests", selected),
+ // console.log("here is the map of user interests", selected),
   //console.log(userInterest)
 );
 
 //const getUserInterest= (selected) =>{}
  
 
-  useEffect(()=>{
- //check if the map is not empty   
-    const getUserInterest = ()=>{
-      console.log(selected.size)
-       if(selected.size !== 0){
-         for(let [key, value] of selected){
-          let obj = DATA.find(obj=>obj.id==key)
-          const  personalInterest = obj.title
-          if(value === true){
-        //console.log("this are the keys of the map and are true: ",key)
-          if(userInterest.includes(personalInterest) === false){
-            setUserInterest(userInterest => ([...userInterest,personalInterest]))
-           //console.log("here is the user Interest we are trying to find and this are the keys of the map and are true: ", personalInterest)
-           console.log("the following are the userInterests",userInterest)
-         }
-      }else {
-            console.log("these are the keys and the value are false: ", key)
-          //check to see if the key is in the array of the userInterests
-          if(userInterest.includes(personalInterest)===true){
-            console.log("the initial array of the userInterest with false values", userInterest)
-          //check if the item is in the array, find index and remove it from the array
-          let index = userInterest.indexOf(personalInterest)
-          userInterest.splice(index, 1)
-          console.log("this is the array without the false value", userInterest)
-          }
-        }
+//   useEffect(()=>{
+//  //check if the map is not empty   
+//     const getUserInterest = ()=>{
+//       console.log(selected.size)
+//        if(selected.size !== 0){
+//          for(let [key, value] of selected){
+//           let obj = DATA.find(obj=>obj.id==key)
+//           const  personalInterest = obj.title
+//           if(value === true){
+//         //console.log("this are the keys of the map and are true: ",key)
+//           if(userInterest.includes(personalInterest) === false){
+//             setUserInterest(userInterest => ([...userInterest,personalInterest]))
+//            //console.log("here is the user Interest we are trying to find and this are the keys of the map and are true: ", personalInterest)
+//            console.log("the following are the userInterests",userInterest)
+//          }
+//       }else {
+//             console.log("these are the keys and the value are false: ", key)
+//           //check to see if the key is in the array of the userInterests
+//           if(userInterest.includes(personalInterest)===true){
+//             console.log("the initial array of the userInterest with false values", userInterest)
+//           //check if the item is in the array, find index and remove it from the array
+//           let index = userInterest.indexOf(personalInterest)
+//           userInterest.splice(index, 1)
+//           console.log("this is the array without the false value", userInterest)
+//           }
+//         }
        
+//       }
+//     }
+//   }
+//    getUserInterest()
+// }, [selected, userInterest])
+useEffect(()=>{
+    const createUserSquad = async()=>{
+      const authUser = await Auth.currentAuthenticatedUser()
+      //create a Squad
+      const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
+      if(!newSquad.data?.createSquad){
+        console.log("Error creating a Squad")
       }
+      console.log("this is the new Squad",newSquad) 
     }
-  }
-   getUserInterest()
-}, [selected, userInterest])
+      
+    createUserSquad()
+  }, [])
+ 
+
+
 
 // useEffect(()=>{
 //     const saveUserInterest = async()=>{

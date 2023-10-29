@@ -23,9 +23,9 @@ const AccountSettingScreen = () => {
 
   async function handleLogout() {
     try {
-    //  await Auth.signOut();
-    //   console.log('✅ Success');
-     // updateAuthState('loggedIn');
+     await Auth.signOut();
+      console.log('✅ Success');
+     //updateAuthState('loggedIn');
      navigation.navigate('LoginScreen')
     //navigation.navigate('TestWorkScreen')
     } catch (error) {

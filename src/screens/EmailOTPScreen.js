@@ -30,47 +30,14 @@
 
   async function confirmSignUp() {
     try {
-      //console.log(authCode)
-      //console.log(username)
+     
       await Auth.confirmSignUp(username, authCode)
       //await Auth.confirmSignUp(username, authCode);
-
-      //console.log('✅ Code confirmed');
-      //once the confirmation is successful, we want to create the Squad for the user
-      const authUser = await Auth.currentAuthenticatedUser();
-
-      const newSquad = await API.graphql(createSquad,{input: {"Polls": [],"latestPoll": null, "adminUser": authUser, "User": authUser,}})
-      if(!newSquad.data?.createSquad){
-        console.log("error creating a Squad")
-      }
-   
-    // //const authUser = await Auth.currentAuthenticatedUser();
-    // // const newSquad = {
-    // // adminUser: authUser.attributes.sub,
-    // // }
-    
-    // const newSquadData = await API.graphql(graphqlOperation(
-    // createSquad, {input: newSquad}
-    // ))
-      // Create a new Chatroom
-      // const newChatRoomData = await API.graphql(
-      //   graphqlOperation(createChatRoom, { input: {} })
-      // );
-      // if (!newChatRoomData.data?.createChatRoom) {
-      //   console.log("Error creating the chat error");
-      // }
-      // const newChatRoom = newChatRoomData.data?.createChatRoom;
-  
-    console.log(authUser)
-      listenToAutoSignInEvent() 
-      //right here we create the squad for the user -- sweet 
-
       navigation.navigate("AgeGenderLocationScreen");
-    } catch (e) {
-      console.log(
-        'Verification unsuccessful.',
-        e.message
-      );
+      listenToAutoSignInEvent() 
+      navigation.navigate("AgeGenderLocationScreen");
+    }catch(error){
+      console.log('unsuccessful verification',error)
     }
   }
 
