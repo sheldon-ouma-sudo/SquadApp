@@ -8,6 +8,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { useCallback } from 'react';
  // import { Auth } from 'aws-amplify';
   import { createSquad } from '../graphql/mutations';
+  import {createUser} from '../graphql/mutations'
   import { API, graphqlOperation, Auth } from "aws-amplify";
 
 
@@ -107,8 +108,8 @@ const onSelect = useCallback(
     setSelected(newSelected);
   },
   [selected],
- // console.log("here is the map of user interests", selected),
-  //console.log(userInterest)
+ console.log("here is the map of user interests", selected),
+  console.log("here is the userInterest",userInterest)
 );
 
 //const getUserInterest= (selected) =>{}
@@ -146,6 +147,7 @@ const onSelect = useCallback(
 //   }
 //    getUserInterest()
 // }, [selected, userInterest])
+//create Squad 
 useEffect(()=>{
     const createUserSquad = async()=>{
       const authUser = await Auth.currentAuthenticatedUser()
@@ -159,7 +161,21 @@ useEffect(()=>{
       
     createUserSquad()
   }, [])
- 
+//create userSquad
+useEffect(()=>{
+  const createSquadUser = async () =>{
+    const authUser = await Auth.currentAuthenticatedUser()
+    const name = authUser.attributes.name
+    const username = authUser.attributes.username 
+    const userProfilePicture = authUser.attributes.picture
+    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username,imageUrl:userProfilePicture, userInterests:userInterest}}))
+    if(!newUserSquad.data?.createUser){
+      console.log("Error creating the user Squad")
+    }
+    console.log("this is the new user", newUserSquad)
+  }
+  createSquadUser()
+}, [])
 
 
 

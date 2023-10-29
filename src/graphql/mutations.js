@@ -79,6 +79,7 @@ export const createPollComments = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -106,6 +107,7 @@ export const updatePollComments = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -133,6 +135,7 @@ export const deletePollComments = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -252,6 +255,7 @@ export const createSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -292,6 +296,7 @@ export const updateSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -332,6 +337,7 @@ export const deleteSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -457,6 +463,7 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      userInterests
       createdAt
       updatedAt
       userSquadId
@@ -494,6 +501,7 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      userInterests
       createdAt
       updatedAt
       userSquadId
@@ -531,6 +539,7 @@ export const deleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      userInterests
       createdAt
       updatedAt
       userSquadId
@@ -560,6 +569,7 @@ export const createSquadronUser = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -593,6 +603,7 @@ export const updateSquadronUser = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -626,6 +637,7 @@ export const deleteSquadronUser = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId

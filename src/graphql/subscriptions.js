@@ -69,6 +69,7 @@ export const onCreatePollComments = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -95,6 +96,7 @@ export const onUpdatePollComments = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -121,6 +123,7 @@ export const onDeletePollComments = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -234,6 +237,7 @@ export const onCreateSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -271,6 +275,7 @@ export const onUpdateSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -308,6 +313,7 @@ export const onDeleteSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -421,6 +427,7 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      userInterests
       createdAt
       updatedAt
       userSquadId
@@ -455,6 +462,7 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      userInterests
       createdAt
       updatedAt
       userSquadId
@@ -489,6 +497,7 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      userInterests
       createdAt
       updatedAt
       userSquadId
@@ -517,6 +526,7 @@ export const onCreateSquadronUser = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -549,6 +559,7 @@ export const onUpdateSquadronUser = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -581,6 +592,7 @@ export const onDeleteSquadronUser = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId

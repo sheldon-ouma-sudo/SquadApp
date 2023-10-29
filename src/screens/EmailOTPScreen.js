@@ -30,7 +30,6 @@
 
   async function confirmSignUp() {
     try {
-     
       await Auth.confirmSignUp(username, authCode)
       //await Auth.confirmSignUp(username, authCode);
       navigation.navigate("AgeGenderLocationScreen");

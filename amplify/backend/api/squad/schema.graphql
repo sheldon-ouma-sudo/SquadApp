@@ -50,4 +50,5 @@ type User @model @auth(rules: [{ allow: public }]) {
   numOfSquadron: Int
   Squad: Squad @belongsTo
   squadrons: [Squadron] @manyToMany(relationName: "SquadronUser")
+  userInterests: [String]
 }

@@ -49,6 +49,7 @@ export const getPollComments = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -147,6 +148,7 @@ export const getSquad = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -259,6 +261,7 @@ export const getUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      userInterests
       createdAt
       updatedAt
       userSquadId
@@ -280,6 +283,7 @@ export const listUsers = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
@@ -309,6 +313,7 @@ export const getSquadronUser = /* GraphQL */ `
         imageUrl
         numOfPolls
         numOfSquadron
+        userInterests
         createdAt
         updatedAt
         userSquadId
