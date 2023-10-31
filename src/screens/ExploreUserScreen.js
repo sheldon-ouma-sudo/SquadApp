@@ -6,25 +6,52 @@ import { View, Text,
 import React, { useState, useEffect } from 'react';
 import SearchBar from "../components/SearchBar"
 import List from "../components/SearchList"
+import { API, graphqlOperation, Auth } from "aws-amplify";
+import { listUsers } from "../graphql/queries";
+import UserListItem from "../components/UserListItem"
 
 const ExploreUserScreen = () => {
   //const [search, setSearch] = useState('');
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
   const [fakeData, setFakeData] = useState();
+  const [users, setUsers] = useState([]);
   
 
-  // get data from the fake api
-  useEffect(() => {
-    const getData = async () => {
-      const apiResponse = await fetch(
-        "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
-      );
-      const data = await apiResponse.json();
-      setFakeData(data);
-    };
-    getData();
-  }, []);
+  // // get data from the fake api
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const apiResponse = await fetch(
+  //       "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
+  //     );
+  //     const data = await apiResponse.json();
+  //     setFakeData(data);
+  //   };
+  //   getData();
+  // }, []);
+
+  useEffect(()=>{
+    const fetchUsers = async() =>{
+      const results = await API.graphql(graphqlOperation(listUsers));
+      if(!results.data?.listUsers){
+        console.log("Error fetching users")
+      }
+      console.log("this is the list of the users",results.data.listUsers.items)
+        //setUsers(result.data?.listUsers?.items)
+        //console.log(result)
+       // const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
+        //   if(!newSquad.data?.createSquad){
+        //     console.log("Error creating a Squad")
+        //   }
+        //   console.log("this is the new Squad",newSquad) 
+        //  console.log("here is the id of the squad",newSquad.data.createSquad.id)
+        //  //return newSquad.id //check to see if this is working 
+        //  const squadID = newSquad.data.createSquad.id
+      
+    }
+    
+    fetchUsers()
+  }, [])
 
   // const [filteredDataSource, setFilteredDataSource] = useState([]);
   // const [masterDataSource, setMasterDataSource] = useState([]);
@@ -102,7 +129,7 @@ const ExploreUserScreen = () => {
         clicked={clicked}
         setClicked={setClicked}
       />
-      {!fakeData ? (
+      {/* {!fakeData ? (
         <ActivityIndicator size="large" />
       ) : (
         
@@ -111,7 +138,19 @@ const ExploreUserScreen = () => {
             data={fakeData}
             setClicked={setClicked}
           />
-      )}
+      )} */}
+       <FlatList
+       data = {users}
+       renderItem={({item})=>(
+        <UserListItem/>
+       )} 
+       
+       />
+
+
+
+
+
     </View>
      
     </SafeAreaView>

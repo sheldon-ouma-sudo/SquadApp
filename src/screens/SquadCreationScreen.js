@@ -62,8 +62,6 @@
       }catch(e){
        console.log("there was an error while trying to share the link",)
       }
-      
-      
     }
   
     const snapChatSquadCreation =async()=>{
@@ -141,8 +139,6 @@
               Access Contacts
             </Text>
         </TouchableOpacity>
-
-
         <TouchableOpacity 
         onPress={()=>navigation.navigate('RootNavigation', { screen: 'Explore', params:{screen:'Find Users'} })}
         style= {[{fex:1}, styles.squadAddLogoContainer]}>
@@ -190,8 +186,6 @@
                     </Text>
             </TouchableOpacity>       
         </View>
-
-  
          {/**Twitter and Snapchat Squad creation*/}
         <TouchableOpacity style= {[{flexDirection:"row"},]}>
             <TouchableOpacity 
@@ -225,8 +219,7 @@
                   </Text>
             </TouchableOpacity>  
 
-        </TouchableOpacity>
-        
+        </TouchableOpacity>    
         <View style={[{ flexDirection:"row" },{marginTop:-80}, {marginBottom:30},{marginLeft:30}]}>
           <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
@@ -237,10 +230,6 @@
               <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
              </TouchableOpacity>
      </View>
-    
-        
-          
-        
       </KeyboardAvoidingView>
     )
     }

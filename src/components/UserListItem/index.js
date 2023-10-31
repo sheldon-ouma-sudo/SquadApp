@@ -1,13 +1,17 @@
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
 
-const UserListItem =() => {
-    const [numOfVotes, setNumOfVotes] = useState("32000000")
-    const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-    const [squadCreator, setSquadCreator] = useState("Oseas")
-    const [squadName, setSquadName] = useState("Oseas's Squad")
+
+const UserListItem =({  user,
+  onPress = () => {},
+  selectable = false,
+  isSelected = false,})=>{
+    // const [numOfVotes, setNumOfVotes] = useState("32000000")
+    // const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+    // const [squadCreator, setSquadCreator] = useState("Oseas")
+    // const [squadName, setSquadName] = useState("Oseas's Squad")
  
    const navigation = useNavigation()
    //fetch the poll
@@ -20,37 +24,45 @@ const UserListItem =() => {
      <Pressable
      style={styles.container}
      behavior="padding"
+     onPress={onPress}
      >
     <View
-     style={styles.userImageContainer}
-    >
-    <Image
-    //source={{uri: userImage}}
-    source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
-    resizeMode='contain'
-    style={styles.userImage}
-    />
+      style={styles.userImageContainer}
+      >
+      <Image
+      source={{uri: user.image}}
+      //source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+      resizeMode='contain'
+      style={styles.userImage}
+      />
     </View>
     <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
-     <View
-     style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
-     >
-         <Text
-          style = {styles.pollCaption}
-         > {squadName}
-         </Text>
-         <Text
-         style = {styles.pollCreator}
-         >
-           Created by {squadCreator}
-         </Text>
-       </View>
-       <TouchableOpacity
-         style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
-         > 
-            <Entypo name="add-user" size={24} color="black" />
-         </TouchableOpacity>
-    </View>
+      <View
+      style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
+      >
+          <Text
+            style = {styles.userName}
+          > 
+          {user.name}
+          </Text>
+          <Text
+          style = {styles.userJoinPeriod}
+          >
+            joined on {user.createdAt}
+          </Text>
+        </View>
+        <TouchableOpacity
+          style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
+          > 
+              <Entypo name="add-user" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+      {selectable &&
+        (isSelected ? (
+          <AntDesign name="checkcircle" size={24} color="royalblue" />
+        ) : (
+          <FontAwesome name="circle-thin" size={24} color="lightgray" />
+        ))}
      </Pressable>
    )
    }
@@ -99,11 +111,11 @@ const UserListItem =() => {
        width:50,
        height:70
    },
-  pollCaption:{
+  userName:{
    fontWeight:'500',
    marginLeft:5
   },
-  pollCreator:{
+  userJoinPeriod:{
    marginTop: 5,
    marginLeft: 5,
    color: '#545454',

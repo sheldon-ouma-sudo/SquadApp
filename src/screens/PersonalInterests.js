@@ -171,7 +171,9 @@ useEffect(()=>{
     const name = authUser.attributes.name
     const username = authUser.attributes.username 
     const userProfilePicture = authUser.attributes.picture
-    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username,imageUrl:userProfilePicture, userInterests:userInterest}}))
+    const squad_id = createSquad()
+    console.log("this is the squad_id accessed in creatSquadUser", squad_id)
+    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username,imageUrl:userProfilePicture, userInterests:userInterest, userSquadId:squad_id}}))
     if(!newUserSquad.data?.createUser){
       console.log("Error creating the user Squad")
     }
