@@ -315,8 +315,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.Squad;
-				PRODUCT_NAME = Squad;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.squad";
+				PRODUCT_NAME = squad;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -338,8 +338,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.Squad;
-				PRODUCT_NAME = Squad;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.squad";
+				PRODUCT_NAME = squad;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

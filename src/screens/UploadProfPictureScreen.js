@@ -12,8 +12,8 @@
   import { Auth } from 'aws-amplify';
   //import awsconfig from './src/aws-exports'
   import { Storage } from 'aws-amplify'; 
-  import S3 from "aws-sdk/clients/s3";
-  import { Credentials } from "aws-sdk";
+ 
+ 
   
 
 
@@ -100,8 +100,8 @@ const uploadUserImage = async () => {
     setisLoading(true);
    const user = await Auth.currentAuthenticatedUser()
    const userId = user.attributes.sub;
-   const filename = Math.random()
-   const ref = `/@{userProfilePictures}/${filename}.jpg`
+ 
+   const ref = `/@{userProfilePictures}.jpg`
    const blob = fetchResourceFromURI(image);
    try{
       const response = await Storage.put(ref, blob, {
