@@ -121,7 +121,7 @@ const uploadUserImage = async () => {
           //updating user attributes before na  
           await Auth.updateUserAttributes(user, {
             'picture': userImage})
-       navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+       navigation.navigate("ChangeProfilePictureScreen",{userImage:userImage})
       }catch(e){
        console.log("failure to upload the picture to the backend", e)
      }
