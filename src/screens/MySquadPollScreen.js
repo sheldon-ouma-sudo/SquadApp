@@ -12,13 +12,13 @@ const MySquadPollScreen = () => {
   const [pollCreator, setPollCreator] = useState("Drake")
   const [polls, setPolls] = useState([])
 
-  //query for the polls
-  useEffect(() => {
-    API.graphql(
-      graphqlOperation(listPolls)
-    ).then((result) => {
-      setPolls(result.data?.listPolls?.items);
-    });})
+  // //query for the polls
+  // useEffect(() => {
+  //   API.graphql(
+  //     graphqlOperation(listPolls)
+  //   ).then((result) => {
+  //     setPolls(result.data?.listPolls?.items);
+  //   });})
 
 
   return (
@@ -26,7 +26,7 @@ const MySquadPollScreen = () => {
     style={styles.container}
     behavior="padding"
   >
-     <FlatList
+     {/* <FlatList
           data={polls}
           scrollEnabled={true}
           // renderItem={({ item }) => (
@@ -43,7 +43,7 @@ const MySquadPollScreen = () => {
           poll={item} />}
           style={styles.list}
           inverted
-        />
+        /> */}
   </KeyboardAvoidingView>
   )
 }

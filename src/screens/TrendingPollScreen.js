@@ -13,13 +13,13 @@ const TrendingPollScreen = () => {
   const [pollCreator, setPollCreator] = useState("Drake")
   const [polls, setPolls] = useState([])
 
-    // fetch Polls
-    useEffect(() => {
-      API.graphql(
-        graphqlOperation(listPolls)
-      ).then((result) => {
-        setPolls(result.data?.listPolls?.items);
-      });})
+    // // fetch Polls
+    // useEffect(() => {
+    //   API.graphql(
+    //     graphqlOperation(listPolls)
+    //   ).then((result) => {
+    //     setPolls(result.data?.listPolls?.items);
+    //   });})
   
   
   return (
@@ -27,7 +27,7 @@ const TrendingPollScreen = () => {
     style={styles.container}
     behavior="padding"
     >    
-    <FlatList
+    {/* <FlatList
           data={polls}
           scrollEnabled={true}
           // renderItem={({ item }) => (
@@ -44,7 +44,7 @@ const TrendingPollScreen = () => {
           poll={item} />}
           style={styles.list}
           inverted
-        />
+        /> */}
     </KeyboardAvoidingView>
   )
 }

@@ -95,7 +95,7 @@ const fetchResourceFromURI = async uri => {
 };
 // //upload the picture to the specific bucket
 const uploadUserImage = async () => {
-  alert("uploading the photo attempt")
+  //alert("uploading the photo attempt")
     if (isLoading) return;
     setisLoading(true);
    const user = await Auth.currentAuthenticatedUser()
