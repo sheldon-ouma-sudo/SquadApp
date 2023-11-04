@@ -1,26 +1,54 @@
-type Squadron @model @auth(rules: [{allow: public}]) {
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Squadron @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  Users: [User] @hasMany(indexName: "bySquadron", fields: ["id"])
   Squads: [Squad] @hasMany(indexName: "bySquadron", fields: ["id"])
+  Users: [User] @manyToMany(relationName: "SquadronUser")
 }
 
-type Squad @model @auth(rules: [{allow: public}]) {
+type PollComments @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  adminUser: String!
-  Users: [User] @hasMany(indexName: "bySquad", fields: ["id"])
-  squadronID: ID! @index(name: "bySquadron")
+  pollresponseID: ID! @index(name: "byPollResponse")
+  User: User @hasOne
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type PollResponse @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  Poll: Poll @hasOne
+}
+
+type Squad @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  Polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
+  latestPoll: PollResponse @hasOne
+  adminUser: String!
+  User: User @hasOne
+  squadronID: ID @index(name: "bySquadron")
+}
+
+type Poll @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  pollCaption: String!
+  pollMedia: [String]
+  squadID: ID! @index(name: "bySquad")
+  userID: ID! @index(name: "byUser")
+  livePoll: Boolean!
+  closedPoll: Boolean!
+  PollResponse: PollResponse @belongsTo
+}
+
+type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   userName: String
   imageUrl: String
-  userSquadId: String
+  Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
   numOfPolls: Int
   numOfSquadron: Int
+  Squad: Squad @belongsTo
+  squadrons: [Squadron] @manyToMany(relationName: "SquadronUser")
   userInterests: [String]
-  squadID: ID! @index(name: "bySquad")
-  squadronID: ID! @index(name: "bySquadron")
 }
- 
