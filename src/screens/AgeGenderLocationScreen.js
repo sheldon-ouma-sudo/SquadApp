@@ -127,8 +127,8 @@ const AgeGenderLocationScreen = () => {
       if(selectedGender){
         //let valueGender = array.map(value => value.key);
        let valueGender = dataGender.find(o => o.key === selectedGender);
-        console.log(valueGender)
-        setGender(valueGender)
+       // console.log("this is the value of the gender",valueGender.value)
+        setGender(valueGender.value)
        }
     }
   },);

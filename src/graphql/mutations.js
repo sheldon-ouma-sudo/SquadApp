@@ -8,10 +8,6 @@ export const createSquadron = /* GraphQL */ `
   ) {
     createSquadron(input: $input, condition: $condition) {
       id
-      Squads {
-        nextToken
-        __typename
-      }
       Users {
         nextToken
         __typename
@@ -29,10 +25,6 @@ export const updateSquadron = /* GraphQL */ `
   ) {
     updateSquadron(input: $input, condition: $condition) {
       id
-      Squads {
-        nextToken
-        __typename
-      }
       Users {
         nextToken
         __typename
@@ -50,181 +42,12 @@ export const deleteSquadron = /* GraphQL */ `
   ) {
     deleteSquadron(input: $input, condition: $condition) {
       id
-      Squads {
-        nextToken
-        __typename
-      }
       Users {
         nextToken
         __typename
       }
       createdAt
       updatedAt
-      __typename
-    }
-  }
-`;
-export const createPollComments = /* GraphQL */ `
-  mutation CreatePollComments(
-    $input: CreatePollCommentsInput!
-    $condition: ModelPollCommentsConditionInput
-  ) {
-    createPollComments(input: $input, condition: $condition) {
-      id
-      pollresponseID
-      User {
-        id
-        name
-        userName
-        imageUrl
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        userSquadId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollCommentsUserId
-      __typename
-    }
-  }
-`;
-export const updatePollComments = /* GraphQL */ `
-  mutation UpdatePollComments(
-    $input: UpdatePollCommentsInput!
-    $condition: ModelPollCommentsConditionInput
-  ) {
-    updatePollComments(input: $input, condition: $condition) {
-      id
-      pollresponseID
-      User {
-        id
-        name
-        userName
-        imageUrl
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        userSquadId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollCommentsUserId
-      __typename
-    }
-  }
-`;
-export const deletePollComments = /* GraphQL */ `
-  mutation DeletePollComments(
-    $input: DeletePollCommentsInput!
-    $condition: ModelPollCommentsConditionInput
-  ) {
-    deletePollComments(input: $input, condition: $condition) {
-      id
-      pollresponseID
-      User {
-        id
-        name
-        userName
-        imageUrl
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        userSquadId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollCommentsUserId
-      __typename
-    }
-  }
-`;
-export const createPollResponse = /* GraphQL */ `
-  mutation CreatePollResponse(
-    $input: CreatePollResponseInput!
-    $condition: ModelPollResponseConditionInput
-  ) {
-    createPollResponse(input: $input, condition: $condition) {
-      id
-      Poll {
-        id
-        pollCaption
-        pollMedia
-        squadID
-        userID
-        livePoll
-        closedPoll
-        createdAt
-        updatedAt
-        pollPollResponseId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollResponsePollId
-      __typename
-    }
-  }
-`;
-export const updatePollResponse = /* GraphQL */ `
-  mutation UpdatePollResponse(
-    $input: UpdatePollResponseInput!
-    $condition: ModelPollResponseConditionInput
-  ) {
-    updatePollResponse(input: $input, condition: $condition) {
-      id
-      Poll {
-        id
-        pollCaption
-        pollMedia
-        squadID
-        userID
-        livePoll
-        closedPoll
-        createdAt
-        updatedAt
-        pollPollResponseId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollResponsePollId
-      __typename
-    }
-  }
-`;
-export const deletePollResponse = /* GraphQL */ `
-  mutation DeletePollResponse(
-    $input: DeletePollResponseInput!
-    $condition: ModelPollResponseConditionInput
-  ) {
-    deletePollResponse(input: $input, condition: $condition) {
-      id
-      Poll {
-        id
-        pollCaption
-        pollMedia
-        squadID
-        userID
-        livePoll
-        closedPoll
-        createdAt
-        updatedAt
-        pollPollResponseId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollResponsePollId
       __typename
     }
   }
@@ -236,35 +59,22 @@ export const createSquad = /* GraphQL */ `
   ) {
     createSquad(input: $input, condition: $condition) {
       id
-      Polls {
-        nextToken
-        __typename
-      }
-      latestPoll {
-        id
-        createdAt
-        updatedAt
-        pollResponsePollId
-        __typename
-      }
       adminUser
       User {
         id
         name
         userName
         imageUrl
+        userSquadId
         numOfPolls
         numOfSquadron
         userInterests
         createdAt
         updatedAt
-        userSquadId
         __typename
       }
-      squadronID
       createdAt
       updatedAt
-      squadLatestPollId
       squadUserId
       __typename
     }
@@ -277,35 +87,22 @@ export const updateSquad = /* GraphQL */ `
   ) {
     updateSquad(input: $input, condition: $condition) {
       id
-      Polls {
-        nextToken
-        __typename
-      }
-      latestPoll {
-        id
-        createdAt
-        updatedAt
-        pollResponsePollId
-        __typename
-      }
       adminUser
       User {
         id
         name
         userName
         imageUrl
+        userSquadId
         numOfPolls
         numOfSquadron
         userInterests
         createdAt
         updatedAt
-        userSquadId
         __typename
       }
-      squadronID
       createdAt
       updatedAt
-      squadLatestPollId
       squadUserId
       __typename
     }
@@ -318,117 +115,23 @@ export const deleteSquad = /* GraphQL */ `
   ) {
     deleteSquad(input: $input, condition: $condition) {
       id
-      Polls {
-        nextToken
-        __typename
-      }
-      latestPoll {
-        id
-        createdAt
-        updatedAt
-        pollResponsePollId
-        __typename
-      }
       adminUser
       User {
         id
         name
         userName
         imageUrl
+        userSquadId
         numOfPolls
         numOfSquadron
         userInterests
         createdAt
         updatedAt
-        userSquadId
         __typename
       }
-      squadronID
       createdAt
       updatedAt
-      squadLatestPollId
       squadUserId
-      __typename
-    }
-  }
-`;
-export const createPoll = /* GraphQL */ `
-  mutation CreatePoll(
-    $input: CreatePollInput!
-    $condition: ModelPollConditionInput
-  ) {
-    createPoll(input: $input, condition: $condition) {
-      id
-      pollCaption
-      pollMedia
-      squadID
-      userID
-      livePoll
-      closedPoll
-      PollResponse {
-        id
-        createdAt
-        updatedAt
-        pollResponsePollId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollPollResponseId
-      __typename
-    }
-  }
-`;
-export const updatePoll = /* GraphQL */ `
-  mutation UpdatePoll(
-    $input: UpdatePollInput!
-    $condition: ModelPollConditionInput
-  ) {
-    updatePoll(input: $input, condition: $condition) {
-      id
-      pollCaption
-      pollMedia
-      squadID
-      userID
-      livePoll
-      closedPoll
-      PollResponse {
-        id
-        createdAt
-        updatedAt
-        pollResponsePollId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollPollResponseId
-      __typename
-    }
-  }
-`;
-export const deletePoll = /* GraphQL */ `
-  mutation DeletePoll(
-    $input: DeletePollInput!
-    $condition: ModelPollConditionInput
-  ) {
-    deletePoll(input: $input, condition: $condition) {
-      id
-      pollCaption
-      pollMedia
-      squadID
-      userID
-      livePoll
-      closedPoll
-      PollResponse {
-        id
-        createdAt
-        updatedAt
-        pollResponsePollId
-        __typename
-      }
-      createdAt
-      updatedAt
-      pollPollResponseId
       __typename
     }
   }
@@ -443,19 +146,14 @@ export const createUser = /* GraphQL */ `
       name
       userName
       imageUrl
-      Polls {
-        nextToken
-        __typename
-      }
+      userSquadId
       numOfPolls
       numOfSquadron
       Squad {
         id
         adminUser
-        squadronID
         createdAt
         updatedAt
-        squadLatestPollId
         squadUserId
         __typename
       }
@@ -466,7 +164,6 @@ export const createUser = /* GraphQL */ `
       userInterests
       createdAt
       updatedAt
-      userSquadId
       __typename
     }
   }
@@ -481,19 +178,14 @@ export const updateUser = /* GraphQL */ `
       name
       userName
       imageUrl
-      Polls {
-        nextToken
-        __typename
-      }
+      userSquadId
       numOfPolls
       numOfSquadron
       Squad {
         id
         adminUser
-        squadronID
         createdAt
         updatedAt
-        squadLatestPollId
         squadUserId
         __typename
       }
@@ -504,7 +196,6 @@ export const updateUser = /* GraphQL */ `
       userInterests
       createdAt
       updatedAt
-      userSquadId
       __typename
     }
   }
@@ -519,19 +210,14 @@ export const deleteUser = /* GraphQL */ `
       name
       userName
       imageUrl
-      Polls {
-        nextToken
-        __typename
-      }
+      userSquadId
       numOfPolls
       numOfSquadron
       Squad {
         id
         adminUser
-        squadronID
         createdAt
         updatedAt
-        squadLatestPollId
         squadUserId
         __typename
       }
@@ -542,7 +228,6 @@ export const deleteUser = /* GraphQL */ `
       userInterests
       createdAt
       updatedAt
-      userSquadId
       __typename
     }
   }
@@ -567,12 +252,12 @@ export const createSquadronUser = /* GraphQL */ `
         name
         userName
         imageUrl
+        userSquadId
         numOfPolls
         numOfSquadron
         userInterests
         createdAt
         updatedAt
-        userSquadId
         __typename
       }
       createdAt
@@ -601,12 +286,12 @@ export const updateSquadronUser = /* GraphQL */ `
         name
         userName
         imageUrl
+        userSquadId
         numOfPolls
         numOfSquadron
         userInterests
         createdAt
         updatedAt
-        userSquadId
         __typename
       }
       createdAt
@@ -635,12 +320,12 @@ export const deleteSquadronUser = /* GraphQL */ `
         name
         userName
         imageUrl
+        userSquadId
         numOfPolls
         numOfSquadron
         userInterests
         createdAt
         updatedAt
-        userSquadId
         __typename
       }
       createdAt
