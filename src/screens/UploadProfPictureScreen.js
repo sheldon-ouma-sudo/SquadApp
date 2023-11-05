@@ -103,15 +103,14 @@ const uploadUserImage = async () => {
    const userId = user.attributes.sub;
    const filename =  Crypto.randomUUID();
 
-   const ref = `${filename}.jpg`
+   const ref = `squad_profile_picture${filename}.jpg`
    //const ref = `/@{userProfilePictures}.jpg`
    const blob = fetchResourceFromURI(image);
   
    try{
       const response = await Storage.put(ref, blob, {
-        level:'protected',
+        level:'public',
         contentType: "png/jpeg",
-        level:'protected',
         metadata: {userId: userId},
       });
           console.log("✅successful picture upload",response)
