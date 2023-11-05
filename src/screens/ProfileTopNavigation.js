@@ -19,7 +19,7 @@
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
     const[userName, setUserName] =useState('User Name')
     const[numOfUserPolls, setNumOfUserPolls] = useState("1060")
-    const[numOfUserSquadron, setNumOfUserSways] = useState("1060")
+    const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
     const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
     const Tab = createMaterialTopTabNavigator();
     const navigation = useNavigation()

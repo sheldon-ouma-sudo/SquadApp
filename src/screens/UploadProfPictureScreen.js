@@ -12,6 +12,7 @@
   import { Auth } from 'aws-amplify';
   //import awsconfig from './src/aws-exports'
   import { Storage } from 'aws-amplify'; 
+  import * as Crypto from 'expo-crypto';
  
  
   
@@ -100,9 +101,12 @@ const uploadUserImage = async () => {
     setisLoading(true);
    const user = await Auth.currentAuthenticatedUser()
    const userId = user.attributes.sub;
- 
-   const ref = `/@{userProfilePictures}.jpg`
+   const filename =  Crypto.randomUUID();
+
+   const ref = `${filename}.jpg`
+   //const ref = `/@{userProfilePictures}.jpg`
    const blob = fetchResourceFromURI(image);
+  
    try{
       const response = await Storage.put(ref, blob, {
         level:'protected',
