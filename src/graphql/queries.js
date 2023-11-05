@@ -9,6 +9,10 @@ export const getSquadron = /* GraphQL */ `
         nextToken
         __typename
       }
+      Squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -38,22 +42,13 @@ export const getSquad = /* GraphQL */ `
     getSquad(id: $id) {
       id
       adminUser
-      User {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
+      Users {
+        nextToken
         __typename
       }
+      squadronID
       createdAt
       updatedAt
-      squadUserId
       __typename
     }
   }
@@ -68,9 +63,37 @@ export const listSquads = /* GraphQL */ `
       items {
         id
         adminUser
+        squadronID
         createdAt
         updatedAt
-        squadUserId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const squadsBySquadronID = /* GraphQL */ `
+  query SquadsBySquadronID(
+    $squadronID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    squadsBySquadronID(
+      squadronID: $squadronID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        adminUser
+        squadronID
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
@@ -88,19 +111,9 @@ export const getUser = /* GraphQL */ `
       userSquadId
       numOfPolls
       numOfSquadron
-      Squad {
-        id
-        adminUser
-        createdAt
-        updatedAt
-        squadUserId
-        __typename
-      }
-      squadrons {
-        nextToken
-        __typename
-      }
       userInterests
+      squadID
+      squadronID
       createdAt
       updatedAt
       __typename
@@ -123,6 +136,8 @@ export const listUsers = /* GraphQL */ `
         numOfPolls
         numOfSquadron
         userInterests
+        squadID
+        squadronID
         createdAt
         updatedAt
         __typename
@@ -132,19 +147,22 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
-export const getSquadronUser = /* GraphQL */ `
-  query GetSquadronUser($id: ID!) {
-    getSquadronUser(id: $id) {
-      id
-      squadronId
-      userId
-      squadron {
-        id
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
+export const usersBySquadID = /* GraphQL */ `
+  query UsersBySquadID(
+    $squadID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersBySquadID(
+      squadID: $squadID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
         id
         name
         userName
@@ -153,27 +171,8 @@ export const getSquadronUser = /* GraphQL */ `
         numOfPolls
         numOfSquadron
         userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listSquadronUsers = /* GraphQL */ `
-  query ListSquadronUsers(
-    $filter: ModelSquadronUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listSquadronUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        squadronId
-        userId
+        squadID
+        squadronID
         createdAt
         updatedAt
         __typename
@@ -183,16 +182,16 @@ export const listSquadronUsers = /* GraphQL */ `
     }
   }
 `;
-export const squadronUsersBySquadronId = /* GraphQL */ `
-  query SquadronUsersBySquadronId(
-    $squadronId: ID!
+export const usersBySquadronID = /* GraphQL */ `
+  query UsersBySquadronID(
+    $squadronID: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelSquadronUserFilterInput
+    $filter: ModelUserFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    squadronUsersBySquadronId(
-      squadronId: $squadronId
+    usersBySquadronID(
+      squadronID: $squadronID
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -200,36 +199,15 @@ export const squadronUsersBySquadronId = /* GraphQL */ `
     ) {
       items {
         id
-        squadronId
-        userId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const squadronUsersByUserId = /* GraphQL */ `
-  query SquadronUsersByUserId(
-    $userId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelSquadronUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    squadronUsersByUserId(
-      userId: $userId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        squadronId
-        userId
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadron
+        userInterests
+        squadID
+        squadronID
         createdAt
         updatedAt
         __typename

@@ -9,6 +9,10 @@ export const onCreateSquadron = /* GraphQL */ `
         nextToken
         __typename
       }
+      Squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -20,6 +24,10 @@ export const onUpdateSquadron = /* GraphQL */ `
     onUpdateSquadron(filter: $filter) {
       id
       Users {
+        nextToken
+        __typename
+      }
+      Squads {
         nextToken
         __typename
       }
@@ -37,6 +45,10 @@ export const onDeleteSquadron = /* GraphQL */ `
         nextToken
         __typename
       }
+      Squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -48,22 +60,13 @@ export const onCreateSquad = /* GraphQL */ `
     onCreateSquad(filter: $filter) {
       id
       adminUser
-      User {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
+      Users {
+        nextToken
         __typename
       }
+      squadronID
       createdAt
       updatedAt
-      squadUserId
       __typename
     }
   }
@@ -73,22 +76,13 @@ export const onUpdateSquad = /* GraphQL */ `
     onUpdateSquad(filter: $filter) {
       id
       adminUser
-      User {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
+      Users {
+        nextToken
         __typename
       }
+      squadronID
       createdAt
       updatedAt
-      squadUserId
       __typename
     }
   }
@@ -98,22 +92,13 @@ export const onDeleteSquad = /* GraphQL */ `
     onDeleteSquad(filter: $filter) {
       id
       adminUser
-      User {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
+      Users {
+        nextToken
         __typename
       }
+      squadronID
       createdAt
       updatedAt
-      squadUserId
       __typename
     }
   }
@@ -128,19 +113,9 @@ export const onCreateUser = /* GraphQL */ `
       userSquadId
       numOfPolls
       numOfSquadron
-      Squad {
-        id
-        adminUser
-        createdAt
-        updatedAt
-        squadUserId
-        __typename
-      }
-      squadrons {
-        nextToken
-        __typename
-      }
       userInterests
+      squadID
+      squadronID
       createdAt
       updatedAt
       __typename
@@ -157,19 +132,9 @@ export const onUpdateUser = /* GraphQL */ `
       userSquadId
       numOfPolls
       numOfSquadron
-      Squad {
-        id
-        adminUser
-        createdAt
-        updatedAt
-        squadUserId
-        __typename
-      }
-      squadrons {
-        nextToken
-        __typename
-      }
       userInterests
+      squadID
+      squadronID
       createdAt
       updatedAt
       __typename
@@ -186,118 +151,9 @@ export const onDeleteUser = /* GraphQL */ `
       userSquadId
       numOfPolls
       numOfSquadron
-      Squad {
-        id
-        adminUser
-        createdAt
-        updatedAt
-        squadUserId
-        __typename
-      }
-      squadrons {
-        nextToken
-        __typename
-      }
       userInterests
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onCreateSquadronUser = /* GraphQL */ `
-  subscription OnCreateSquadronUser(
-    $filter: ModelSubscriptionSquadronUserFilterInput
-  ) {
-    onCreateSquadronUser(filter: $filter) {
-      id
-      squadronId
-      userId
-      squadron {
-        id
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateSquadronUser = /* GraphQL */ `
-  subscription OnUpdateSquadronUser(
-    $filter: ModelSubscriptionSquadronUserFilterInput
-  ) {
-    onUpdateSquadronUser(filter: $filter) {
-      id
-      squadronId
-      userId
-      squadron {
-        id
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteSquadronUser = /* GraphQL */ `
-  subscription OnDeleteSquadronUser(
-    $filter: ModelSubscriptionSquadronUserFilterInput
-  ) {
-    onDeleteSquadronUser(filter: $filter) {
-      id
-      squadronId
-      userId
-      squadron {
-        id
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
+      squadID
+      squadronID
       createdAt
       updatedAt
       __typename
