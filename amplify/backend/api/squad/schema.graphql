@@ -1,17 +1,4 @@
-type Squadron @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  Users: [User] @hasMany(indexName: "bySquadron", fields: ["id"])
-  Squads: [Squad] @hasMany(indexName: "bySquadron", fields: ["id"])
-}
-
-type Squad @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  adminUser: String!
-  Users: [User] @hasMany(indexName: "bySquad", fields: ["id"])
-  squadronID: ID! @index(name: "bySquadron")
-}
-
-type User @model @auth(rules: [{ allow: public }]) {
+type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   userName: String
@@ -20,6 +7,4 @@ type User @model @auth(rules: [{ allow: public }]) {
   numOfPolls: Int
   numOfSquadron: Int
   userInterests: [String]
-  squadID: ID! @index(name: "bySquad")
-  squadronID: ID! @index(name: "bySquadron")
-}
+} 

@@ -7,7 +7,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
  // import { Auth } from 'aws-amplify';
-  import {createUser} from '../graphql/mutations'
+  //import {createUser} from '../graphql/mutations'
   import { API, graphqlOperation, Auth } from "aws-amplify";
 
 
@@ -165,23 +165,23 @@ useEffect(()=>{
   }
   createSquadUser()
 }, [])
-//create Squad 
-useEffect(()=>{
-    const createUserSquad = async()=>{
-      const authUser = await Auth.currentAuthenticatedUser()
-      //create a Squad
-      const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
-      if(!newSquad.data?.createSquad){
-        console.log("Error creating a Squad")
-      }
-      console.log("this is the new Squad",newSquad) 
-     console.log("here is the id of the squad",newSquad.data.createSquad.id)
-     //return newSquad.id //check to see if this is working 
-     const squadID = newSquad.data.createSquad.id
-     return squadID
-    }
-    createUserSquad()
-  }, [])
+// //create Squad 
+// useEffect(()=>{
+//     const createUserSquad = async()=>{
+//       const authUser = await Auth.currentAuthenticatedUser()
+//       //create a Squad
+//       const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
+//       if(!newSquad.data?.createSquad){
+//         console.log("Error creating a Squad")
+//       }
+//       console.log("this is the new Squad",newSquad) 
+//      console.log("here is the id of the squad",newSquad.data.createSquad.id)
+//      //return newSquad.id //check to see if this is working 
+//      const squadID = newSquad.data.createSquad.id
+//      return squadID
+//     }
+//     createUserSquad()
+//   }, [])
 
 // useEffect(()=>{
 //     const saveUserInterest = async()=>{
