@@ -11,6 +11,9 @@
     import { FontAwesome5 } from '@expo/vector-icons';//instagram and tiktok 
     import { FontAwesome } from '@expo/vector-icons'; //snapchat
     import { AntDesign } from '@expo/vector-icons'; //twitter
+    import { createSquad } from '../graphql/mutations';
+    import { Auth } from 'aws-amplify';
+    import { useEffect } from 'react';
    //import Share from 'react-native-share'
    //import { Share } from 'react-native';
     
@@ -44,6 +47,29 @@
   const SquadCreationScreen = () => {
     const navigation = useNavigation()
     const[currentPosition, setCurrentPositon] = useState(3)
+
+//create Squad 
+useEffect(()=>{
+    const createUserSquad = async()=>{
+      const authUser = await Auth.currentAuthenticatedUser()
+      //create a Squad
+      const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
+      if(!newSquad.data?.createSquad){
+        console.log("Error creating a Squad")
+      }
+      console.log("this is the new Squad",newSquad) 
+     console.log("here is the id of the squad",newSquad.data.createSquad.id)
+     //return newSquad.id //check to see if this is working 
+     const squadID = newSquad.data.createSquad.id
+     return squadID
+    }
+    createUserSquad()
+  }, [])
+
+
+
+
+
     const contactSquadCreation =async()=>{
     }
   

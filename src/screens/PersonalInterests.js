@@ -7,7 +7,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
  // import { Auth } from 'aws-amplify';
-  import {createSquad, createUser} from '../graphql/mutations'
+  import {createUser} from '../graphql/mutations'
   import { API, graphqlOperation, Auth } from "aws-amplify";
 
 
@@ -153,9 +153,9 @@ useEffect(()=>{
     const name = authUser.attributes.name
     const username = authUser.attributes.username 
     const userProfilePicture = authUser.attributes.picture
-    const squad_id = createSquad()
-    console.log("this is the squad_id accessed in creatSquadUser", squad_id)
-    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username,imageUrl:userProfilePicture, userInterests:userInterest, userSquadId:squad_id}}))
+    //const squad_id = createSquad()
+   // console.log("this is the squad_id accessed in creatSquadUser", squad_id)
+    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name}}))
     if(!newUserSquad.data?.createUser){
       console.log("Error creating the user Squad")
     }
