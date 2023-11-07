@@ -137,14 +137,15 @@ const onSelect = useCallback(
           if(userInterest.includes(personalInterest)===true){
             console.log("the initial array of the userInterest with false values", userInterest)
           //check if the item is in the array, find index and remove it from the array
-          let index = userInterest.indexOf(personalInterest)
-          userInterest.splice(index, 1)
-          console.log("this is the array without the false value", userInterest)
+          //let index = userInterest.indexOf(personalInterest)
+          //userInterest.splice(index, 1)
+          //console.log("this is the array without the false value", userInterest)
           }
         }
        
       }
     }
+    return userInterest
   }
    getUserInterest()
 }, [selected, userInterest])
@@ -156,6 +157,8 @@ useEffect(()=>{
     const username = authUser.attributes.preferred_username
     console.log("this is the attributes", authUser.attributes)
     const userProfilePicture = authUser.attributes.picture
+    const user_interest = getUserInterest()
+    console.log(user_interest)
     const newUser = await API.graphql(graphqlOperation(createUser,{
       input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
     }))
