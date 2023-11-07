@@ -32,6 +32,7 @@
     try {
       await Auth.confirmSignUp(username, authCode)
       //await Auth.confirmSignUp(username, authCode);
+      setAuthCode('')
       navigation.navigate("AgeGenderLocationScreen");
       listenToAutoSignInEvent() 
       navigation.navigate("AgeGenderLocationScreen");

@@ -32,11 +32,11 @@ const ExploreUserScreen = () => {
 
   useEffect(()=>{
     const fetchUsers = async() =>{
-      const results = await API.graphql(graphqlOperation(listUsers));
-      if(!results.data?.listUsers){
-        console.log("Error fetching users")
-      }
-      console.log("this is the list of the users",results.data.listUsers.items)
+      // const results = await API.graphql(graphqlOperation(listUsers));
+      // if(!results.data?.listUsers){
+      //   console.log("Error fetching users")
+      // }
+      // console.log("this is the list of the users",results.data.listUsers.items)
         //setUsers(result.data?.listUsers?.items)
         //console.log(result)
        // const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))

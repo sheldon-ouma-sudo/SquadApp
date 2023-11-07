@@ -7,9 +7,10 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
  // import { Auth } from 'aws-amplify';
-  import {createUser} from '../graphql/mutations'
+  // import {createUser} from '../graphql/mutations'
 //import { createUser } from './graphql/mutations';
   import { API, graphqlOperation, Auth } from "aws-amplify";
+  import {createUser} from '../graphql/mutations'
 
 
   const{width,height} = Dimensions.get("window")
@@ -152,8 +153,16 @@ useEffect(()=>{
   const createSquadUser = async () =>{
     const authUser = await Auth.currentAuthenticatedUser()
     const name = authUser.attributes.name
-    const username = authUser.attributes.username 
+    const username = authUser.attributes.preferred_username
+    console.log("this is the attributes", authUser.attributes)
     const userProfilePicture = authUser.attributes.picture
+    const newUser = await API.graphql(graphqlOperation(createUser,{
+      input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
+    }))
+    if(!newUser.data?.createUser){
+         console.log("Error creating the user Squad")
+      }
+      console.log("this is id the new user", newUser.data.createUser)
     //const squad_id = createSquad()
    // console.log("this is the squad_id accessed in creatSquadUser", squad_id)
 //    const newUser = await API.graphql({
@@ -170,14 +179,14 @@ useEffect(()=>{
 // 	}
 //     }
 // });
-    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username, imageUrl:userProfilePicture, userSqudId:"null_for_now", numOfPOlls:0, numOfSquadron:0, userInterests:userInterest}}))
-    if(!newUserSquad.data?.createUser){
-      console.log("Error creating the user Squad")
-    }
-   console.log("this is id the new user", newUserSquad.data.createUser.id)
-   const userID = newUserSquad.data.createUser.id;
-   return userID;
-  }
+  //   const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username, imageUrl:userProfilePicture, userSqudId:"null_for_now", numOfPOlls:0, numOfSquadron:0, userInterests:userInterest}}))
+  //   if(!newUserSquad.data?.createUser){
+  //     console.log("Error creating the user Squad")
+  //   }
+  //  console.log("this is id the new user", newUserSquad.data.createUser.id)
+  //  const userID = newUserSquad.data.createUser.id;
+  //  return userID;
+   }
   createSquadUser()
 }, [])
 // //create Squad 

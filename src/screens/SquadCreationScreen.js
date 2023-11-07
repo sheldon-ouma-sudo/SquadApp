@@ -50,20 +50,20 @@
 
 //create Squad 
 useEffect(()=>{
-    const createUserSquad = async()=>{
-      const authUser = await Auth.currentAuthenticatedUser()
-      //create a Squad
-      const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
-      if(!newSquad.data?.createSquad){
-        console.log("Error creating a Squad")
-      }
-      console.log("this is the new Squad",newSquad) 
-     console.log("here is the id of the squad",newSquad.data.createSquad.id)
-     //return newSquad.id //check to see if this is working 
-     const squadID = newSquad.data.createSquad.id
-     return squadID
-    }
-    createUserSquad()
+    // const createUserSquad = async()=>{
+    //   const authUser = await Auth.currentAuthenticatedUser()
+    //   //create a Squad
+    //   const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
+    //   if(!newSquad.data?.createSquad){
+    //     console.log("Error creating a Squad")
+    //   }
+    //   console.log("this is the new Squad",newSquad) 
+    //  console.log("here is the id of the squad",newSquad.data.createSquad.id)
+    //  //return newSquad.id //check to see if this is working 
+    //  const squadID = newSquad.data.createSquad.id
+    //  return squadID
+    // }
+    // createUserSquad()
   }, [])
 
 
