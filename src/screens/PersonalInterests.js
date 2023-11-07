@@ -7,7 +7,8 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
  // import { Auth } from 'aws-amplify';
-  //import {createUser} from '../graphql/mutations'
+  import {createUser} from '../graphql/mutations'
+//import { createUser } from './graphql/mutations';
   import { API, graphqlOperation, Auth } from "aws-amplify";
 
 
@@ -155,7 +156,21 @@ useEffect(()=>{
     const userProfilePicture = authUser.attributes.picture
     //const squad_id = createSquad()
    // console.log("this is the squad_id accessed in creatSquadUser", squad_id)
-    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name}}))
+//    const newUser = await API.graphql({
+//     query: createUser,
+//     variables: {
+//         input: {
+// 		"name": "Lorem ipsum dolor sit amet",
+// 		"userName": "Lorem ipsum dolor sit amet",
+// 		"imageUrl": "Lorem ipsum dolor sit amet",
+// 		"userSquadId": "Lorem ipsum dolor sit amet",
+// 		"numOfPolls": 1020,
+// 		"numOfSquadron": 1020,
+// 		"userInterests": []
+// 	}
+//     }
+// });
+    const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username, imageUrl:userProfilePicture, userSqudId:"null_for_now", numOfPOlls:0, numOfSquadron:0, userInterests:userInterest}}))
     if(!newUserSquad.data?.createUser){
       console.log("Error creating the user Squad")
     }
