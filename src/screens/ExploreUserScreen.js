@@ -2,7 +2,7 @@ import { View, Text,
   StyleSheet,FlatList, 
   SafeAreaView, KeyboardAvoidingView, 
   ActivityIndicator,
-  Image } from 'react-native'
+  Image, Pressable } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import SearchBar from "../components/SearchBar"
 import List from "../components/SearchList"
@@ -32,12 +32,12 @@ const ExploreUserScreen = () => {
 
   useEffect(()=>{
     const fetchUsers = async() =>{
-      // const results = await API.graphql(graphqlOperation(listUsers));
-      // if(!results.data?.listUsers){
-      //   console.log("Error fetching users")
-      // }
-      // console.log("this is the list of the users",results.data.listUsers.items)
-        //setUsers(result.data?.listUsers?.items)
+       const results = await API.graphql(graphqlOperation(listUsers));
+      if(!results.data?.listUsers){
+        console.log("Error fetching users")
+      }
+      console.log("this is the list of the users",results.data.listUsers.items)
+        setUsers(results.data?.listUsers?.items)
         //console.log(result)
        // const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
         //   if(!newSquad.data?.createSquad){
@@ -142,7 +142,9 @@ const ExploreUserScreen = () => {
        <FlatList
        data = {users}
        renderItem={({item})=>(
-        <UserListItem/>
+        <UserListItem
+         user={item}
+        />
        )} 
        
        />

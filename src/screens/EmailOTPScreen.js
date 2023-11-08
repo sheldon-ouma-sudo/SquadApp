@@ -3,8 +3,8 @@
   import { useState } from 'react';
   import { useNavigation } from '@react-navigation/native';
   import { useRoute } from '@react-navigation/native';
-  import { Auth, API, graphqlOperation } from 'aws-amplify';
-  import { createSquad } from '../graphql/mutations';
+  import { Auth} from 'aws-amplify';
+  
   import { Hub } from 'aws-amplify';
 
   const EmailOTPScreen = () => {

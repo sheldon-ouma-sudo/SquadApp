@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Pressable, Image} from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
@@ -30,8 +30,8 @@ const UserListItem =({  user,
       style={styles.userImageContainer}
       >
       <Image
-      source={{uri: user.image}}
-      //source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+      //source={{uri: user.image}}
+      source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
       resizeMode='contain'
       style={styles.userImage}
       />
