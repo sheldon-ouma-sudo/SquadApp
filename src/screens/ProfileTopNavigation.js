@@ -9,8 +9,8 @@
   import React from 'react'
   import { useState, useEffect } from 'react'
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
-  import { Auth, API } from 'aws-amplify'; 
-  import { graphqlOperation } from 'aws-amplify' 
+  import { API, graphqlOperation, Auth } from "aws-amplify";
+  //import { graphqlOperation } from 'aws-amplify' 
   import {getUser} from '../graphql/queries'
 
   
@@ -31,24 +31,37 @@
         // get Auth user
         const authUser = await Auth.currentAuthenticatedUser();
           console.log(authUser)
-        // query the database using Auth user id (sub)
-        const userData = await API.graphql(
-          graphqlOperation(getUser, { id: authUser.attributes.sub })
-        );
-        
-        if (userData.data.getUser) {
-          setUserName(userData.data.getUser.name)
-          setNumOfUserPolls(userData.data.getUser.numOfPolls)
-          console.log("This is the user data is:",userData)
-          console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
-          console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
-          console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
-          console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
-          console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
-          console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
-          console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
-        
+          const userID = authUser.attributes.profile
+          const name = authUser.attributes.name
+         console.log(userID)
+        // // query the database using Auth user id (sub)
+        // const result = await API.graphql(
+        //   graphqlOperation(getChatRoom, { id: chatroomID }));
+        try {
+          const userData = await API.graphql(
+          graphqlOperation(getUser, {input: {id: userID}}));
+          console.log(userData)
+        } catch (error) {
+          console.log( error)
+          
         }
+       
+      //   if(!userData.data?.getUser){
+      //     console.log("Error creating the user Data")
+      //  }
+        // 
+        //   setUserName(userData.data.getUser.name)
+        //   setNumOfUserPolls(userData.data.getUser.numOfPolls)
+        //   console.log("This is the user data is:",userData)
+        //   console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
+        //   console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
+        //   console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
+        //   console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
+        //   console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
+        //   console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
+        //   console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
+        
+        //}
     }
     queryUser()
      })

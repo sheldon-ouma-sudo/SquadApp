@@ -101,25 +101,23 @@
 //     }
 //   }
 // `;
-// export const getUser = /* GraphQL */ `
-//   query GetUser($id: ID!) {
-//     getUser(id: $id) {
-//       id
-//       name
-//       userName
-//       imageUrl
-//       userSquadId
-//       numOfPolls
-//       numOfSquadron
-//       userInterests
-//       squadID
-//       squadronID
-//       createdAt
-//       updatedAt
-//       __typename
-//     }
-//   }
-// `;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      name
+      userName
+      imageUrl
+      userSquadId
+      numOfPolls
+      numOfSquadron
+      userInterests
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const listUsers = /* GraphQL */ `
   query ListUsers(
     $filter: ModelUserFilterInput

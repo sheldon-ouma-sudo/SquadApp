@@ -164,8 +164,23 @@ useEffect(()=>{
     }))
     if(!newUser.data?.createUser){
          console.log("Error creating the user Squad")
+         
       }
-      console.log("this is id the new user", newUser.data.createUser)
+      console.log("this is id the new user id", newUser.data.createUser)
+      console.log("this is id the new user id", newUser.data.createUser.id)
+      const user_id = newUser.data.createUser.id
+      console.log("this is the recorded user_id",user_id)
+
+      try {
+        await Auth.updateUserAttributes(authUser, {
+          'profile': user_id
+        }).then(console.log(authUser.attributes.profile))
+        
+      } catch (error) {
+        console.log("error uploading user_id")
+      }
+
+
     //const squad_id = createSquad()
    // console.log("this is the squad_id accessed in creatSquadUser", squad_id)
 //    const newUser = await API.graphql({
