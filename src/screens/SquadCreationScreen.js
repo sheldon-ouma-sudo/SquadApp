@@ -3,7 +3,7 @@
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
    // import { TouchableOpacity } from 'react-native';
-    import { useNavigation } from '@react-navigation/native';
+    import { useNavigation, useRoute } from '@react-navigation/native';
     import { Icon } from 'react-native-elements';
     import { fontSize } from '@mui/system';
     import { Entypo } from '@expo/vector-icons'; //contacts
@@ -12,8 +12,8 @@
     import { FontAwesome } from '@expo/vector-icons'; //snapchat
     import { AntDesign } from '@expo/vector-icons'; //twitter
     import { createSquad } from '../graphql/mutations';
-    import { Auth } from 'aws-amplify';
     import { useEffect } from 'react';
+    import { graphqlOperation, Auth, API } from 'aws-amplify';
    //import Share from 'react-native-share'
    //import { Share } from 'react-native';
     
@@ -45,25 +45,42 @@
     }
    
   const SquadCreationScreen = () => {
-    const navigation = useNavigation()
     const[currentPosition, setCurrentPositon] = useState(3)
+    //const[]
 
+const navigation = useNavigation()
+const route = useRoute()
+ const authUserID = route.params?.authUserID
+ console.log(authUserID)
 //create Squad 
 useEffect(()=>{
-    // const createUserSquad = async()=>{
-    //   const authUser = await Auth.currentAuthenticatedUser()
-    //   //create a Squad
-    //   const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
-    //   if(!newSquad.data?.createSquad){
-    //     console.log("Error creating a Squad")
-    //   }
-    //   console.log("this is the new Squad",newSquad) 
-    //  console.log("here is the id of the squad",newSquad.data.createSquad.id)
-    //  //return newSquad.id //check to see if this is working 
-    //  const squadID = newSquad.data.createSquad.id
-    //  return squadID
-    // }
-    // createUserSquad()
+    const createUserSquad = async()=>{
+      const authUser = await Auth.currentAuthenticatedUser()
+      //const squad_name = authUser.attributes.na
+      //create a Squad
+      try {
+      const newSquad = await API.graphql(graphqlOperation(createSquad, {
+        input:{ authUserID:authUserID, squadName:"Main Squad", numOfPolls:0}}))
+      if(!newSquad.data?.createSquad){
+        console.log("Error creating a Squad")
+        
+        // const newUser = await API.graphql(graphqlOperation(createUser,{
+        //   input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
+
+
+
+      }
+      console.log("this is the new Squad",newSquad) 
+     console.log("here is the id of the squad",newSquad.data.createSquad.id)
+     //return newSquad.id //check to see if this is working 
+     const squadID = newSquad.data.createSquad.id
+     return squadID
+      } catch (error) {
+        console.log(error)
+      }
+      
+    }
+    createUserSquad()
   }, [])
 
 

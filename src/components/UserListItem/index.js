@@ -51,13 +51,14 @@ const UserListItem =({  user,
           > 
               <AntDesign name="addusergroup" size={23} color="white" style={{marginBottom:5}}/>
         </TouchableOpacity>
-      </View>
+     
       {selectable &&
         (isSelected ? (
           <AntDesign name="checkcircle" size={24} color="royalblue" />
         ) : (
           <FontAwesome name="circle-thin" size={24} color="lightgray" />
         ))}
+        </View>
      </Pressable>
    )
    }
@@ -68,23 +69,27 @@ const UserListItem =({  user,
    flex:1,
    flexDirection: "row",
    //marginHorizontal: 10,
-   marginTop: 10,
+   marginTop: 20,
    marginVertical: 65,
    borderColor: "#FFFF",
    height: 5,
    width: 600,
    borderRadius: 5,
+   //marginBottom:5,
    //backgroundColor: "white",
    borderWidth: 5,
-   shadowColor: '#000',
-  shadowOffset: {width: 1, height: 1},
-  elevation: 5,
+   //shadowColor: '#000',
+  shadowOffset: {width: 0, height: 0},
+  elevation: 1.5,
   shadowOpacity: 0.1,
   borderColor:'#F4F8FB',
   shadowRadius: 5,
   backgroundColor: "#F4F8FB"
-   },
-  pollCaptionContainer:{
+   
+},
+  
+  
+   pollCaptionContainer:{
      height: 50,
      width: 180,
    },

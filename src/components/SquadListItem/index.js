@@ -1,17 +1,17 @@
 import { Text, Image, StyleSheet, Pressable, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from '@react-navigation/native';
+//import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
 const SquadListItem =() => {
-  const [numOfVotes, setNumOfVotes] = useState("32000000")
-  const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-  const [squadCreator, setSquadCreator] = useState("Oseas")
-  const [squadName, setSquadName] = useState("Oseas's Squad")
+  // const [numOfVotes, setNumOfVotes] = useState("32000000")
+  // const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
+  // const [squadCreator, setSquadCreator] = useState("Oseas")
+  // const [squadName, setSquadName] = useState("Oseas's Squad")
 
  const navigation = useNavigation()
  //fetch the poll

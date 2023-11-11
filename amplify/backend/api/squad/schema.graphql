@@ -3,6 +3,7 @@ type Squad @model @auth(rules: [{allow: public}]) {
   Users: [User] @manyToMany(relationName: "SquadUser")
   authUserID: String!
   squadName: String!
+  numOfPolls: Int
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -15,5 +16,4 @@ type User @model @auth(rules: [{allow: public}]) {
   numOfSquadron: Int
   userInterests: [String]
   squads: [Squad] @manyToMany(relationName: "SquadUser")
-}
- 
+} 

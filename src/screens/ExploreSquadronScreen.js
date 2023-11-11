@@ -6,24 +6,40 @@ import { View, Text,
 import React, { useState, useEffect } from 'react';
 import SearchBar from "../components/SearchBar"
 import List from "../components/SearchList"
+import SquadListItem from "../components/SquadListItem"
+import { API, graphqlOperation, Auth } from "aws-amplify";
+import { listSquads } from '../graphql/queries';
 
-const ExploreSquadronScreen = () => {
+
+const ExploreSquadronScreen = () => { 
   //const [search, setSearch] = useState('');
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
   const [fakeData, setFakeData] = useState();
+  const [squads, setSquads] = useState([])
+  
   
 
   // get data from the fake api
   useEffect(() => {
-    const getData = async () => {
-      const apiResponse = await fetch(
-        "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
-      );
-      const data = await apiResponse.json();
-      setFakeData(data);
+    const fetchSquads = async () => {
+      // const apiResponse = await fetch(
+      //   "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
+      // );
+      // const data = await apiResponse.json();
+      // setFakeData(data);
+      try {
+        const results = await API.graphql(graphqlOperation(listSquads));
+        if(!results.data?.listSquads){
+          console.log("Error fetching users")
+        }
+        console.log("this is the list of the Squads",results.data.listSquads.items)
+          setSquads(results.data?.listSquads?.items)
+      } catch (error) {
+        console.log(error)
+      }
     };
-    getData();
+    fetchSquads();
   }, []);
 
   // const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -102,7 +118,7 @@ const ExploreSquadronScreen = () => {
         clicked={clicked}
         setClicked={setClicked}
       />
-      {!fakeData ? (
+      {/* {!fakeData ? (
         <ActivityIndicator size="large" />
       ) : (
         
@@ -111,7 +127,17 @@ const ExploreSquadronScreen = () => {
             data={fakeData}
             setClicked={setClicked}
           />
-      )}
+      )} */}
+       <FlatList
+       data = {squads}
+       renderItem={({item})=>(
+        <SquadListItem
+         user={item}
+        />
+       )} 
+       
+       />
+
     </View>
      
     </SafeAreaView>

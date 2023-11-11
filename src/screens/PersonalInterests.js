@@ -99,6 +99,7 @@ const PersonalInterests = () => {
 const [selected, setSelected] = useState(new Map());
 const [userInterest, setUserInterest] = useState([])
 const[currentPosition, setCurrentPositon] = useState(2)
+const[authUserID, setAuthUserID] = useState()
 const navigation = useNavigation()
 const onSelect = useCallback(
   id => {
@@ -159,22 +160,28 @@ useEffect(()=>{
     const userProfilePicture = authUser.attributes.picture
     //const user_interest = getUserInterest()
     //console.log(user_interest)
-    const newUser = await API.graphql(graphqlOperation(createUser,{
-      input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
-    }))
-    if(!newUser.data?.createUser){
-         console.log("Error creating the user Squad")
-         
-      }
-      console.log("this is id the new user id", newUser.data.createUser)
-      console.log("this is id the new user id", newUser.data.createUser.id)
-      const user_id = newUser.data.createUser.id
-      console.log("this is the recorded user_id",user_id)
-
+    try {
+      const newUser = await API.graphql(graphqlOperation(createUser,{
+        input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
+      }))
+    
+      if(!newUser.data?.createUser){
+           console.log("Error creating the user Squad")
+           
+        }
+       // console.log("this is id the new user id", newUser.data.createUser)
+        console.log("this is id the new user id", newUser.data.createUser.id)
+        const user_id = newUser.data.createUser.id
+        setAuthUserID(user_id)
+        console.log("this is the recorded user_id",authUserID)
+    } catch (error) {
+      console.log("error creating users")
+    }
       try {
         await Auth.updateUserAttributes(authUser, {
-          'profile': user_id
-        }).then(console.log(authUser.attributes.profile))
+          'profile': authUserID
+        })
+        console.log(authUser.attributes.profile)
         
       } catch (error) {
         console.log("error uploading user_id")
@@ -330,7 +337,13 @@ return (
     style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:70},{marginTop:-330},{marginRight:250},{width:160} ]}>
     <Text  style={[{justifyContent: 'flex-end'},styles.backText,]}> Back </Text>
     </TouchableOpacity>
-    <TouchableOpacity  onPress={() =>navigation.replace('SquadCreationScreen')}style={[ styles.button,{borderColor:'#1145FD'}, {marginBottom:80},{marginLeft:230},{marginRight:50},{width:160} ]}>
+    <TouchableOpacity  onPress={() =>navigation.navigate('SquadCreationScreen', {authUserID:authUserID})}
+    style={[ styles.button,
+    {borderColor:'#1145FD'}, 
+    {marginBottom:80},
+    {marginLeft:230},
+    {marginRight:50},
+    {width:160} ]}>
     <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
     </TouchableOpacity>
 
