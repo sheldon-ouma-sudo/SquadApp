@@ -26,34 +26,36 @@
     const insets = useSafeAreaInsets();  
     //query the user from the backend
     //set the values to what is in the backend 
-    //  useEffect(()=>{
-    //   const queryUser = async() =>{
-    //     // get Auth user
-    //     const authUser = await Auth.currentAuthenticatedUser({
-    //       bypassCache: true,
-    //     });
-    //       console.log(authUser)
-    //     // query the database using Auth user id (sub)
-    //     const userData = await API.graphql(
-    //       graphqlOperation(getUser, { id: authUser.attributes.sub })
-    //     );
-    //     if (userData.data.getUser) {
-    //       setUserName(userData.data.getUser.name)
-    //       setNumOfUserPolls(userData.data.getUser.numOfPolls)
-    //       console.log("This is the user data is:",userData)
-    //       console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
-    //       console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
-    //       console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
-    //       console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
-    //       console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
-    //       console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
-    //       console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
+     useEffect(()=>{
+      const queryUser = async() =>{
+        // get Auth user
+        const authUser = await Auth.currentAuthenticatedUser();
+          console.log(authUser)
+        // query the database using Auth user id (sub)
+        const userData = await API.graphql(
+          graphqlOperation(getUser, { id: authUser.attributes.sub })
+        );
         
-    //     }
-    // }
-    // queryUser()
-    //  })
+        if (userData.data.getUser) {
+          setUserName(userData.data.getUser.name)
+          setNumOfUserPolls(userData.data.getUser.numOfPolls)
+          console.log("This is the user data is:",userData)
+          console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
+          console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
+          console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
+          console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
+          console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
+          console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
+          console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
+        
+        }
+    }
+    queryUser()
+     })
    
+  
+
+
 
     return (
       <>

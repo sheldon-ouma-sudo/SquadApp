@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image} from 'react-native'
+import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity} from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
@@ -36,7 +36,7 @@ const UserListItem =({  user,
       style={styles.userImage}
       />
     </View>
-    <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
+    <View style={{flexDirection:"row", marginTop:20, marginLeft:5 }}>
       <View
       style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
       >
@@ -45,16 +45,11 @@ const UserListItem =({  user,
           > 
           {user.name}
           </Text>
-          <Text
-          style = {styles.userJoinPeriod}
-          >
-            joined on {user.createdAt}
-          </Text>
         </View>
-        <TouchableOpacity
+        <TouchableOpacity // rename and arrange this properly
           style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
           > 
-              <Entypo name="add-user" size={24} color="black" />
+              <AntDesign name="addusergroup" size={23} color="white" style={{marginBottom:5}}/>
         </TouchableOpacity>
       </View>
       {selectable &&
@@ -72,16 +67,24 @@ const UserListItem =({  user,
    container:{
    flex:1,
    flexDirection: "row",
-   marginHorizontal: 10,
-   marginTop: 80,
-   marginVertical: 85,
+   //marginHorizontal: 10,
+   marginTop: 10,
+   marginVertical: 65,
    borderColor: "#FFFF",
-   height: 100,
-   borderRadius: 15,
+   height: 10,
+   width: 600,
+   borderRadius: 5,
    backgroundColor: "white",
-   borderWidth: 5
+   borderWidth: 5,
+   shadowColor: '#000',
+  shadowOffset: {width: 0, height: 0},
+  elevation: 5,
+  shadowOpacity: 0.1,
+  borderColor:'#F4F8FB',
+  shadowRadius: 5,
+  backgroundColor: "#F4F8FB"
    },
-   pollCaptionContainer:{
+  pollCaptionContainer:{
      height: 50,
      width: 180,
    },
@@ -92,7 +95,7 @@ const UserListItem =({  user,
     borderRadius: 10,
     borderColor: "#FFFF",
     borderWidth: 2.5,
-    marginLeft:5,
+    marginLeft:25,
     
    },
    votedText:{
@@ -105,7 +108,7 @@ const UserListItem =({  user,
    }, 
    userImageContainer:{
     marginStart:10,
-    marginTop:50
+    //marginTop:20
    },
    userImage:{
        width:50,
