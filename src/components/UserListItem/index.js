@@ -66,25 +66,17 @@ const UserListItem =({  user,
    
    const styles = StyleSheet.create({
    container:{
-   flex:1,
-   flexDirection: "row",
-   //marginHorizontal: 10,
-   marginTop: 20,
-   marginVertical: 65,
-   borderColor: "#FFFF",
-   height: 5,
-   width: 600,
-   borderRadius: 5,
-   //marginBottom:5,
-   //backgroundColor: "white",
-   borderWidth: 5,
-   //shadowColor: '#000',
-  shadowOffset: {width: 0, height: 0},
-  elevation: 1.5,
-  shadowOpacity: 0.1,
-  borderColor:'#F4F8FB',
-  shadowRadius: 5,
-  backgroundColor: "#F4F8FB"
+    flex:1,
+    flexDirection: "row",
+    marginHorizontal: 10,
+    marginTop: 20,
+    //marginVertical: 65,
+    borderColor: "#FFFF",
+    //height: 100,
+    borderRadius: 15,
+    backgroundColor: "white",
+    borderWidth: 5,
+    marginRight:30
    
 },
   

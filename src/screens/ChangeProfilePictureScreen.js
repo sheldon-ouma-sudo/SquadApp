@@ -35,7 +35,7 @@ const customStyles = {
 
 const ChangeProfilePictureScreen = () => {
    const[currentPosition, setCurrentPositon] = useState(1)
-   const[image, setImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
+   const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/user_profile.jpg')
 
    const route = useRoute()
    const navigation = useNavigation()

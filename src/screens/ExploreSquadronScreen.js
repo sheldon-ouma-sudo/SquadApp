@@ -132,7 +132,7 @@ const ExploreSquadronScreen = () => {
        data = {squads}
        renderItem={({item})=>(
         <SquadListItem
-         user={item}
+         squad={item}
         />
        )} 
        
