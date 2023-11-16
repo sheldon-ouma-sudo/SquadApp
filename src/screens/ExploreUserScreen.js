@@ -149,11 +149,6 @@ const ExploreUserScreen = () => {
        )} 
        
        />
-
-
-
-
-
     </View>
      
     </SafeAreaView>
