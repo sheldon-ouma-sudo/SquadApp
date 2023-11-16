@@ -33,7 +33,8 @@
           console.log(authUser)
           const userID = authUser.attributes.profile
           const name = authUser.attributes.name
-         console.log("this is the user id ",name)
+         console.log("this is the user id ",userID)
+         setUserName(name)
         // // query the database using Auth user id (sub)
         // const result = await API.graphql(
         //   graphqlOperation(getChatRoom, { id: chatroomID }));
@@ -42,20 +43,15 @@
           graphqlOperation(getUser, {input: {id: userID}}));
           console.log(userData)
         } catch (error) {
-          //console.log( error) 
+          console.log( error) 
         }
     
     }
     queryUser()
   }, [])
-   
-  
-
-
-
     return (
       <>
-      <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"}]}>
+      <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:-30}]}>
 
         <View style={{flex:1, justifyContent:'flex-start'}}>
           <Image
@@ -65,10 +61,10 @@
             {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:50}, {borderRadius:50}, {borderWidth:5}, {borderColor:'#7399DE'}]} />
         </View> 
         <View
-        style={{flex:1, justifyContent:'flex-end', marginBottom:25, marginEnd:30,marginLeft:-55}}
+        style={{flex:1, justifyContent:'flex-end', marginBottom:25, marginEnd:30,marginLeft:-125}}
         >
         <TouchableOpacity
-        style={{marginStart:150,marginBottom:15}}
+        style={{marginStart:190,marginBottom:-15}}
         onPress={() =>navigation.navigate('AccountSettingScreen')}
         >
         <AntDesign name="edit" size={24} color="black" />
