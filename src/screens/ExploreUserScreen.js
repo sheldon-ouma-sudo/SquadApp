@@ -36,7 +36,7 @@ const ExploreUserScreen = () => {
       if(!results.data?.listUsers){
         console.log("Error fetching users")
       }
-      console.log("this is the list of the users",results.data.listUsers.items)
+     // console.log("this is the list of the users",results.data.listUsers.items)
         setUsers(results.data?.listUsers?.items)
         //console.log(result)
        // const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))

@@ -11,18 +11,7 @@ const SquadListItem =({ squad,
   onPress = () => {},
   selectable = false,
   isSelected = false,})=>{
-  // const [numOfVotes, setNumOfVotes] = useState("32000000")
-  // const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-  // const [squadCreator, setSquadCreator] = useState("Oseas")
-  // const [squadName, setSquadName] = useState("Oseas's Squad")
-
  const navigation = useNavigation()
- //fetch the poll
- //fetch the Squad by the SquadID
- //fetch the user from the squad 
- //fetch the user profile picture
- //
-
  return (
    <Pressable
    style={styles.container}
@@ -40,12 +29,12 @@ const SquadListItem =({ squad,
        <Text
         style = {styles.pollCaption}
        > 
-       squadName
+       {squad?.squadName}
        </Text>
        <Text
-       style = {styles.pollCreator}
+       style = {styles.squadCreator}
        >
-         Created by SquadCreator
+         Created by {squad?.authUserID}
        </Text>
      </View>
      <TouchableOpacity
@@ -165,10 +154,11 @@ pollCaption:{
  marginLeft:5,
  marginTop:-40
 },
-pollCreator:{
- marginTop: 5,
+squadCreator:{
+ marginTop: 15,
  marginLeft: 5,
  color: '#545454',
+ fontSize:10
 }
  },
  )

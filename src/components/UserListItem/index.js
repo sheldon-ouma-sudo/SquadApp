@@ -3,23 +3,11 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
 
-
 const UserListItem =({  user,
   onPress = () => {},
   selectable = false,
   isSelected = false,})=>{
-    // const [numOfVotes, setNumOfVotes] = useState("32000000")
-    // const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
-    // const [squadCreator, setSquadCreator] = useState("Oseas")
-    // const [squadName, setSquadName] = useState("Oseas's Squad")
- 
    const navigation = useNavigation()
-   //fetch the poll
-   //fetch the Squad by the SquadID
-   //fetch the user from the squad 
-   //fetch the user profile picture
-   //
-  
    return (
      <Pressable
      style={styles.container}
