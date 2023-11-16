@@ -14,7 +14,7 @@ const ExploreUserScreen = () => {
   //const [search, setSearch] = useState('');
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
-  const [fakeData, setFakeData] = useState();
+  //const [fakeData, setFakeData] = useState();
   const [users, setUsers] = useState([]);
   
 
@@ -141,6 +141,7 @@ const ExploreUserScreen = () => {
       )} */}
        <FlatList
        data = {users}
+       searchPhrase={searchPhrase}
        renderItem={({item})=>(
         <UserListItem
          user={item}
