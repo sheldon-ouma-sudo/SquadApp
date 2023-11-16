@@ -52,7 +52,6 @@
     return (
       <>
       <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:-30}]}>
-
         <View style={{flex:1, justifyContent:'flex-start'}}>
           <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}

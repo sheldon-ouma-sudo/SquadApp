@@ -187,8 +187,8 @@ const newPoll = {
             <Image 
                 source={{ uri: item.src }}
                 style={{
-                    width:70,
-                    height:70,
+                    width:190,
+                    height:190,
                     borderWidth:2,
                     borderColor:'#d35647',
                     resizeMode:'contain',
@@ -199,9 +199,9 @@ const newPoll = {
         ListFooterComponent={() => (
           <TouchableOpacity
           style={{
-            width:70,
+            width:170,
             marginBottom: 10,
-            height:70,
+            height:170,
             borderWidth:5,
             borderColor:'#F4F8FB',
             resizeMode:'contain',
@@ -213,11 +213,11 @@ const newPoll = {
             shadowOffset: {width: 0, height: 0},
             shadowOpacity: 0.1,
             shadowRadius: 5,
-            backgroundColor: "#F4F8FB"
+            backgroundColor: "#F4F8FB",
         }}
          onPress={() => navigation.goBack()}
           >
-         <AntDesign name="plus" size={30} color="#1764EF" />
+         <AntDesign name="plus" size={30} color="#1764EF" style={{marginTop:40, marginLeft:40}}/>
           </TouchableOpacity>
         )}
     />
