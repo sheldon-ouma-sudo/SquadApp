@@ -1,6 +1,57 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPolls = /* GraphQL */ `
+  mutation CreatePolls(
+    $input: CreatePollsInput!
+    $condition: ModelPollsConditionInput
+  ) {
+    createPolls(input: $input, condition: $condition) {
+      id
+      pollAudience
+      pollCaption
+      pollMedia
+      totalNumOfVotes
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePolls = /* GraphQL */ `
+  mutation UpdatePolls(
+    $input: UpdatePollsInput!
+    $condition: ModelPollsConditionInput
+  ) {
+    updatePolls(input: $input, condition: $condition) {
+      id
+      pollAudience
+      pollCaption
+      pollMedia
+      totalNumOfVotes
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePolls = /* GraphQL */ `
+  mutation DeletePolls(
+    $input: DeletePollsInput!
+    $condition: ModelPollsConditionInput
+  ) {
+    deletePolls(input: $input, condition: $condition) {
+      id
+      pollAudience
+      pollCaption
+      pollMedia
+      totalNumOfVotes
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createSquad = /* GraphQL */ `
   mutation CreateSquad(
     $input: CreateSquadInput!
