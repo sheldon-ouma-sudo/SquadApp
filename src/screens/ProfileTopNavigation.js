@@ -33,7 +33,7 @@
           console.log(authUser)
           const userID = authUser.attributes.profile
           const name = authUser.attributes.name
-         console.log(userID)
+         console.log("this is the user id ",name)
         // // query the database using Auth user id (sub)
         // const result = await API.graphql(
         //   graphqlOperation(getChatRoom, { id: chatroomID }));
@@ -42,29 +42,12 @@
           graphqlOperation(getUser, {input: {id: userID}}));
           console.log(userData)
         } catch (error) {
-          console.log( error)
-          
+          //console.log( error) 
         }
-       
-      //   if(!userData.data?.getUser){
-      //     console.log("Error creating the user Data")
-      //  }
-        // 
-        //   setUserName(userData.data.getUser.name)
-        //   setNumOfUserPolls(userData.data.getUser.numOfPolls)
-        //   console.log("This is the user data is:",userData)
-        //   console.log("This is the user username on the profile top navigation is:",userData.data.getUser.username)
-        //   console.log("This is the user's name the profile top navigation is:",userData.data.getUser.name)
-        //   console.log("This is the user's  squad the profile top navigation is:",userData.data.getUser.squad)
-        //   console.log("This is the user's number of polls the profile top navigation is:",userData.data.getUser.numOfPolls)
-        //   console.log("This is the user's number of sways the profile top navigation is:",userData.data.getUser.numOfUserSways)
-        //   console.log("This is the user's interest the profile top navigation is: ",userData.data.getUser.interests)
-        //   console.log("This is the user's image the profile top navigation is:",userData.data.getUser.imageUrl)
-        
-        //}
+    
     }
     queryUser()
-     })
+  }, [])
    
   
 

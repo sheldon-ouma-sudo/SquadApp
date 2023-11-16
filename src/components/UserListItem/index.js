@@ -1,13 +1,26 @@
 import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { Entypo, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { Entypo, FontAwesome, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 
 const UserListItem =({  user,
   onPress = () => {},
   selectable = false,
   isSelected = false,})=>{
    const navigation = useNavigation()
+   const[selected, setSelected] = useState(false)
+
+  const handleSquadCreation = () =>{
+    //alert("pressed")
+    if(selected==false){
+    setSelected(true)
+    //add the user into the Squad
+    }else{
+      setSelected(false)
+      //delete the user from the Squad
+    }
+  }
+
    return (
      <Pressable
      style={styles.container}
@@ -36,8 +49,13 @@ const UserListItem =({  user,
         </View>
         <TouchableOpacity // rename and arrange this properly
           style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
-          > 
-              <AntDesign name="addusergroup" size={23} color="white" style={{marginBottom:5}}/>
+         onPress={handleSquadCreation}
+          >
+          {!selected?(
+          <AntDesign name="addusergroup" size={23} color="white" style={{marginBottom:5}}/>
+          ):(
+            <SimpleLineIcons name="user-following" size={20} color="white" style={{marginBottom:6}} />
+          )}
         </TouchableOpacity>
      
       {selectable &&
