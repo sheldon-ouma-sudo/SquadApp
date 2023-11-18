@@ -9,6 +9,8 @@ export const getPolls = /* GraphQL */ `
       pollCaption
       pollMedia
       totalNumOfVotes
+      closed
+      opened
       createdAt
       updatedAt
       __typename
@@ -28,6 +30,8 @@ export const listPolls = /* GraphQL */ `
         pollCaption
         pollMedia
         totalNumOfVotes
+        closed
+        opened
         createdAt
         updatedAt
         __typename

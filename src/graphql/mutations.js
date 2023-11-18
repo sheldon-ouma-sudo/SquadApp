@@ -12,6 +12,8 @@ export const createPolls = /* GraphQL */ `
       pollCaption
       pollMedia
       totalNumOfVotes
+      closed
+      opened
       createdAt
       updatedAt
       __typename
@@ -29,6 +31,8 @@ export const updatePolls = /* GraphQL */ `
       pollCaption
       pollMedia
       totalNumOfVotes
+      closed
+      opened
       createdAt
       updatedAt
       __typename
@@ -46,6 +50,8 @@ export const deletePolls = /* GraphQL */ `
       pollCaption
       pollMedia
       totalNumOfVotes
+      closed
+      opened
       createdAt
       updatedAt
       __typename

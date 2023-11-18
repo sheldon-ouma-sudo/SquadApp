@@ -4,6 +4,8 @@ type Polls @model @auth(rules: [{ allow: public }]) {
   pollCaption: String!
   pollMedia: [String]
   totalNumOfVotes: Int
+  closed: Boolean
+  opened: Boolean
 }
 
 type Squad @model @auth(rules: [{ allow: public }]) {
