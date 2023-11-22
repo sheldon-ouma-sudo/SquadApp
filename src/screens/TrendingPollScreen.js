@@ -14,19 +14,40 @@ const TrendingPollScreen = () => {
   const [polls, setPolls] = useState([])
 
     // // fetch Polls
-    // useEffect(() => {
-    //   API.graphql(
-    //     graphqlOperation(listPolls)
-    //   ).then((result) => {
-    //     setPolls(result.data?.listPolls?.items);
-    //   });})
+    useEffect(() => {
+      const fetchPolls = async() =>{
+    
+      try {
+        const results = API.graphql(graphqlOperation(listPolls));
+        console.log("the polls are here",results)
+          if(!results.data?.listPolls){
+        
+          }
+      } catch (error) {
+        console.log(error, "Error fetching polls")
+      }
+      }
+      fetchPolls()
+    }, [])
   
   
   return (
     <KeyboardAvoidingView 
     style={styles.container}
     behavior="padding"
-    >    
+    >   
+
+
+    <FlatList
+       data = {polls}
+       //searchPhrase={searchPhrase}
+       renderItem={({item})=>(
+        <Poll
+         poll={item}
+        />
+       )} 
+       
+       /> 
     {/* <FlatList
           data={polls}
           scrollEnabled={true}

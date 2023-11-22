@@ -8,7 +8,10 @@
 
 
 
-    const PollListItem =() => {
+    const PollListItem =({  poll,
+      onPress = () => {},
+      selectable = false,
+      isSelected = false,})=>{
         const [numOfVotes, setNumOfVotes] = useState("32")
         const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')//remember to use uri instead of the require when quering from the backend
         const [pollCaption, setPollCaption] = useState("dining hall with best food today")
