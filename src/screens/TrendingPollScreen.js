@@ -13,22 +13,26 @@ const TrendingPollScreen = () => {
   const [pollCreator, setPollCreator] = useState("Drake")
   const [polls, setPolls] = useState([])
 
-    // // fetch Polls
     useEffect(() => {
-      const fetchPolls = async() =>{
-    
-      try {
-        const results = API.graphql(graphqlOperation(listPolls));
-        console.log("the polls are here",results)
+      const fetchSquads = async () => {
+        // const apiResponse = await fetch(
+        //   "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
+        // );
+        // const data = await apiResponse.json();
+        // setFakeData(data);
+        try {
+          const results = await API.graphql(graphqlOperation(listPolls));
           if(!results.data?.listPolls){
-        
+            console.log("Error fetching users")
           }
-      } catch (error) {
-        console.log(error, "Error fetching polls")
-      }
-      }
-      fetchPolls()
-    }, [])
+          console.log("this is the list of the Squads",results.data.listPolls.items)
+            setPolls(results.data?.listPolls?.items)
+        } catch (error) {
+          console.log(error)
+        }
+      };
+      fetchSquads();
+    }, []);
   
   
   return (

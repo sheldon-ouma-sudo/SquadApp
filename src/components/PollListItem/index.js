@@ -56,13 +56,15 @@
          style={styles.userImage}
          />
          </View>
-         <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
+         <View style={{flexDirection:"row", marginTop:20, marginLeft:5 }}>
           <View
           style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
           >
               <Text
                style = {styles.pollCaption}
-              >{pollCaption}
+              >
+                {poll.pollCaption}
+                {/* {pollCaption} */}
               </Text>
               <Text
               style = {styles.pollCreator}
@@ -75,7 +77,7 @@
               > 
               <Text
                 style = {styles.votedText}>
-                {numOfVotes} Voted
+                {poll.totalNumOfVotes} Voted
               </Text>
               </View>
          </View>
@@ -89,13 +91,28 @@
         flex:1,
         flexDirection: "row",
         marginHorizontal: 10,
-        marginTop: 80,
-        marginVertical: 85,
+        marginTop: 10,
+        marginVertical: 105,
         borderColor: "#C2B960",
-        height: 100,
-        borderRadius: 15,
-        backgroundColor: "white",
+        height: 600,
+        //width:400,
+        marginLeft:10,
+        borderRadius: 29,
+        backgroundColor: "#D8E8F3",
         borderWidth: 5
+//         flex:1,
+//  flexDirection: "row",
+//  marginHorizontal: 10,
+//  marginTop: 20,
+//  //marginVertical: 65,
+//  borderColor: "#FFFF",
+//  //height: 100,
+//  borderRadius: 15,
+//  backgroundColor: "white",
+//  borderWidth: 5,
+//  marginRight:30
+
+
         },
         pollCaptionContainer:{
           height: 50,
@@ -121,7 +138,7 @@
         }, 
         userImageContainer:{
          marginStart:10,
-         marginTop:50
+         marginTop:10
         },
         userImage:{
             width:50,

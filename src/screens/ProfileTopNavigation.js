@@ -38,13 +38,13 @@
         // // query the database using Auth user id (sub)
         // const result = await API.graphql(
         //   graphqlOperation(getChatRoom, { id: chatroomID }));
-        try {
-          const userData = await API.graphql(
-          graphqlOperation(getUser, {input: {id: userID}}));
-          console.log(userData)
-        } catch (error) {
-          console.log( error) 
-        }
+        // try {
+        //   const userData = await API.graphql(
+        //   graphqlOperation(getUser, {input: {id: userID}}));
+        //   console.log(userData)
+        // } catch (error) {
+        //   console.log( error) 
+        // }
     
     }
     queryUser()
