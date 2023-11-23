@@ -6,6 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@expo/webpack-config": "^0.17.4",
     "@mui/system": "^5.14.15",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/netinfo": "9.3.5",
@@ -230,6 +231,7 @@
     "expo-blur": "~12.0.1",
     "expo-camera": "~13.1.0",
     "expo-constants": "~14.0.2",
+    "expo-crypto": "~12.0.0",
     "expo-dev-client": "~2.0.1",
     "expo-dev-launcher": "^2.0.2",
     "expo-dev-menu": "^2.0.2",
@@ -655,6 +657,7 @@
     "react-native-tiktok": "^1.1.1",
     "react-native-url-polyfill": "^1.3.0",
     "react-native-video": "^5.2.1",
+    "react-native-web": "~0.18.9",
     "react-native-webview": "11.23.1",
     "react-navigation": "^4.4.4",
     "react-refresh": "^0.4.3",
@@ -865,10 +868,7 @@
     "yocto-queue": "^0.1.0",
     "zen-observable": "^0.8.15",
     "zen-observable-ts": "^0.8.19",
-    "zen-push": "^0.2.1",
-    "expo-crypto": "~12.0.0",
-    "react-native-web": "~0.18.9",
-    "@expo/webpack-config": "^0.17.2"
+    "zen-push": "^0.2.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
