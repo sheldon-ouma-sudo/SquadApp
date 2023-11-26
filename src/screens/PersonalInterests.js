@@ -6,9 +6,6 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { useNavigation } from '@react-navigation/native';
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
- // import { Auth } from 'aws-amplify';
-  // import {createUser} from '../graphql/mutations'
-//import { createUser } from './graphql/mutations';
   import { API, graphqlOperation, Auth } from "aws-amplify";
   import {createUser} from '../graphql/mutations'
 

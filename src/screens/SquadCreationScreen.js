@@ -2,20 +2,15 @@
     StatusBar,Dimensions,SafeAreaView,SectionList,FlatList,Share,TouchableOpacity } from 'react-native'
     import React, { useState } from 'react'
     import StepIndicator from 'react-native-step-indicator';
-   // import { TouchableOpacity } from 'react-native';
     import { useNavigation, useRoute } from '@react-navigation/native';
-    import { Icon } from 'react-native-elements';
-    import { fontSize } from '@mui/system';
-    import { Entypo } from '@expo/vector-icons'; //contacts
-    import { Ionicons } from '@expo/vector-icons'; 
-    import { FontAwesome5 } from '@expo/vector-icons';//instagram and tiktok 
-    import { FontAwesome } from '@expo/vector-icons'; //snapchat
-    import { AntDesign } from '@expo/vector-icons'; //twitter
+    import { FontAwesome5 } from '@expo/vector-icons';
+    import { FontAwesome } from '@expo/vector-icons'; 
     import { createSquad } from '../graphql/mutations';
     import { useEffect } from 'react';
     import { graphqlOperation, Auth, API } from 'aws-amplify';
-   //import Share from 'react-native-share'
-   //import { Share } from 'react-native';
+    import { createSquadUser } from '../graphql/mutations';
+    import { updateUser } from '../graphql/mutations';
+import { graphql } from 'graphql';
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -46,15 +41,17 @@
    
   const SquadCreationScreen = () => {
     const[currentPosition, setCurrentPositon] = useState(3)
+    const[userId, setUserId] = useState("")
+    const[mainSquadId, setMainSquadId] = useState("")
     //const[]
 
 const navigation = useNavigation()
 const route = useRoute()
  const authUserID = route.params?.authUserID
- console.log(authUserID)
+ console.log("here is the authUserID",authUserID)
 //create Squad 
 useEffect(()=>{
-    const createUserSquad = async()=>{
+    const createMainUserSquad = async()=>{
       const authUser = await Auth.currentAuthenticatedUser()
       //const squad_name = authUser.attributes.na
       //create a Squad
@@ -63,79 +60,45 @@ useEffect(()=>{
         input:{ authUserID:authUserID, squadName:"Main Squad", numOfPolls:0}}))
       if(!newSquad.data?.createSquad){
         console.log("Error creating a Squad")
-        
-        // const newUser = await API.graphql(graphqlOperation(createUser,{
-        //   input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
-
-
-
       }
-      console.log("this is the new Squad",newSquad) 
-     console.log("here is the id of the squad",newSquad.data.createSquad.id)
+    //   console.log("this is the new Squad",newSquad) 
+    //  console.log("here is the id of the squad",newSquad.data.createSquad.id)
      //return newSquad.id //check to see if this is working 
      const squadID = newSquad.data.createSquad.id
+     setMainSquadId(squadID)
      return squadID
       } catch (error) {
         console.log(error)
       }
       
     }
-    createUserSquad()
+    createMainUserSquad()
   }, [])
 
 
-
-
-
-    const contactSquadCreation =async()=>{
-    }
-  
-    const squadSquadCreation =async()=>{
-      navigation.navigate("")
-      
-    }
-    const instagramSquadCreation =async()=>{
-      try{
-        await onShareSingle({
-          title: "Share to Instagram",
-          message: "Check out my pic.",
-          social: Share.Social.INSTAGRAM,
-          url: file.pdf,
-        });
-      }catch(e){
-       console.log("there was an error while trying to share the link",)
-      }
-    }
-  
-    const snapChatSquadCreation =async()=>{
-      
-    }
-    const tiktokSquadCreation =async()=>{
-      
-    }
-    const twitterSquadCreation =async()=>{
-      
-    }
-  const genSquadCreation = async()=>{
+  const handleUserSquadCreation =async ()=>{
+    if(authUserID!=='undefined'){
+      const newSquadId = mainSquadId
       try {
-        const result = await Share.share({
-          message:
-            "Kindly join my squad to be part of to be part of the fun🥰"
-        });
-        if (result.action === Share.sharedAction) {
-          if (result.activityType) {
-            // shared with activity type of result.activityType
-          } else {
-            // shared
-          }
-        } else if (result.action === Share.dismissedAction) {
-          // dismissed
+         await API.graphql(graphqlOperation(updateUser,{
+          input:{userSquadId:newSquadId}
+          
         }
+
+        ))
+        console.log("successful user update")
+        navigation.navigate('RootNavigation', { screen: 'Explore', 
+        params:{screen:'Find Users',
+        params:{sqauad_id:mainSquadId}}})
       } catch (error) {
-        alert(error.message);
+        console.log("error updating userSquad", error)
       }
-    };
-  
+ }
+ navigation.navigate('RootNavigation', { screen: 'Explore', params:{screen:'Find Users', sqauad_id:mainSquadId}})
+}
+
+
+
     return (
       <KeyboardAvoidingView 
       style={styles.container}
@@ -162,42 +125,42 @@ useEffect(()=>{
       <View style={styles.squadTextContainer}>
         <Text style={styles.squadText}>
         Get feedback from those you know best:
-        Your Squad will be the default group of contacts 
-        that you will be able to share your polls with: 
+        Your Squad will be the default group of friends and family 
+        that you will be able to share your polls with, 
         you can always edit the Squad in your account page.
-        Grow your Squad through the following:
+        You can start by growing your squad or creating your first poll:
         </Text>
       </View>
       {/** Squad and contact Squad creation*/}
       <SafeAreaView></SafeAreaView>
       <View style= {[{flexDirection:"row"}]}>
         <TouchableOpacity style= {[{flex:1}, styles.contacts]}>
-            <Ionicons
-            name = "people"
+            <FontAwesome5
+            name = "poll"
             size = {50}
             color= '#1977F3'
             style= {[{justifyContent:'flex-start'}, styles.contactsLogo]}
-            ></Ionicons>
+            />
             <Text style={styles.contactsTexts}>
-              Access Contacts
+              Create your first poll
             </Text>
         </TouchableOpacity>
         <TouchableOpacity 
-        onPress={()=>navigation.navigate('RootNavigation', { screen: 'Explore', params:{screen:'Find Users'} })}
+        onPress={handleUserSquadCreation}
         style= {[{fex:1}, styles.squadAddLogoContainer]}>
-                <Ionicons
-                name = 'person-add'
+                <FontAwesome
+                name = 'group'
                 size={50}
                 color='#1977F3'
                 style={[{justifyContent:'flex-end'},styles.squadAddLogo]}
-                >
-                </Ionicons>
+               />
+              
              <Text style={styles.contactsTexts}>
-               Squad Access
+               Build your Squad
             </Text>
         </TouchableOpacity>       
     </View>
-   {/**Instagram and Tiktok Squad creation*/}
+   {/* *Instagram and Tiktok Squad creation
     <View style= {[{flexDirection:"row"}, ]}>
             <TouchableOpacity 
              onPress={genSquadCreation}
@@ -230,7 +193,7 @@ useEffect(()=>{
             </TouchableOpacity>       
         </View>
          {/**Twitter and Snapchat Squad creation*/}
-        <TouchableOpacity style= {[{flexDirection:"row"},]}>
+        {/* <TouchableOpacity style= {[{flexDirection:"row"},]}>
             <TouchableOpacity 
              onPress={genSquadCreation}
              style= {[{flex:1}, styles.SnapChateLogoContainer]}>
@@ -260,15 +223,17 @@ useEffect(()=>{
                     <Text style={styles.contactsTexts}>
                       Twitter Access
                   </Text>
-            </TouchableOpacity>  
+            </TouchableOpacity>   
 
-        </TouchableOpacity>    
+        </TouchableOpacity>   
+
+          */}
         <View style={[{ flexDirection:"row" },{marginTop:-80}, {marginBottom:30},{marginLeft:30}]}>
           <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
              </TouchableOpacity>
               <TouchableOpacity  onPress={() =>
-               navigation.navigate('RootNavigation', { screen:'NotificationScreen'})}
+               navigation.navigate('RootNavigation', { screen:'Home'})}
                 style={[{flex:1}, styles.button]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
              </TouchableOpacity>
@@ -276,25 +241,18 @@ useEffect(()=>{
       </KeyboardAvoidingView>
     )
     }
-  
-    
     const styles = StyleSheet.create({
     container:{
     flex:1,
     justifyContent:"flex-start",
     alignItems:"center",
     backgroundColor: "#F4F8FB",
-  
-  
     },
     squadLogo:{
         width:100,
         height:35,
         marginRight:250,
         marginTop:70
-        
-  
-    
     },
     header:{
       height: 55, 

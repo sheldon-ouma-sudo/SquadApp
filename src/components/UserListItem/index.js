@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity} from 'react
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
+import { useRoute } from '@react-navigation/native';
 
 const UserListItem =({  user,
   onPress = () => {},
@@ -9,6 +10,8 @@ const UserListItem =({  user,
   isSelected = false,})=>{
    const navigation = useNavigation()
    const[selected, setSelected] = useState(false)
+
+
 
   const handleSquadCreation = () =>{
     //alert("pressed")
@@ -48,7 +51,7 @@ const UserListItem =({  user,
           </Text>
         </View>
         <TouchableOpacity // rename and arrange this properly
-          style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
+          style = {[styles.addUserContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
          onPress={handleSquadCreation}
           >
           {!selected?(
@@ -91,7 +94,7 @@ const UserListItem =({  user,
      height: 50,
      width: 180,
    },
-   numOfVotesContainer:{
+   addUserContainer:{
     height:40,
     width: 95,
     backgroundColor: "#1145FD",

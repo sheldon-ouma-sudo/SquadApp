@@ -9,6 +9,7 @@ import List from "../components/SearchList"
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { listUsers } from "../graphql/queries";
 import UserListItem from "../components/UserListItem"
+import { useRoute } from '@react-navigation/native';
 
 const ExploreUserScreen = () => {
   //const [search, setSearch] = useState('');
@@ -16,8 +17,11 @@ const ExploreUserScreen = () => {
   const [clicked, setClicked] = useState(false);
   //const [fakeData, setFakeData] = useState();
   const [users, setUsers] = useState([]);
+  //const [parent_squadID, setParentSquadID] = useState("")
   
-
+  const route = useRoute();
+  const squadID = route.params?.squad_id
+  console.log("here's the parent userSquad",squadID)
   // // get data from the fake api
   // useEffect(() => {
   //   const getData = async () => {
@@ -36,7 +40,7 @@ const ExploreUserScreen = () => {
       if(!results.data?.listUsers){
         console.log("Error fetching users")
       }
-     // console.log("this is the list of the users",results.data.listUsers.items)
+      console.log("this is the list of the users",results.data.listUsers.items)
         setUsers(results.data?.listUsers?.items)
         //console.log(result)
        // const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
