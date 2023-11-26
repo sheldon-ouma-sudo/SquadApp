@@ -4,6 +4,9 @@
     import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/native';
     import {Auth, API, graphqlOperation} from "aws-amplify";
+    import { FontAwesome } from '@expo/vector-icons'; 
+    import RNAnimated from "react-native-animated-component";
+    import RNPoll, { IChoice } from "react-native-poll";
     //import {getPoll} from '../graphql/queries';
 
 
@@ -71,6 +74,7 @@
               >
                 Created by {pollCreator}
               </Text>
+              {/* <FontAwesome name="commenting-o" size={34} color="black" style={{marginTop:18, marginStart:-35}} /> */}
             </View>
             <View
               style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
@@ -151,7 +155,8 @@
        pollCreator:{
         marginTop: 5,
         marginLeft: 5,
-        color: '#545454'
+        color: '#545454',
+        marginBottom: 450
        }
         },
         )

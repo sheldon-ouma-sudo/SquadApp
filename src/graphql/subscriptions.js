@@ -1,60 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePolls = /* GraphQL */ `
-  subscription OnCreatePolls($filter: ModelSubscriptionPollsFilterInput) {
-    onCreatePolls(filter: $filter) {
-      id
-      pollAudience
-      pollCaption
-      pollMedia
-      totalNumOfVotes
-      closed
-      opened
-      userID
-      likes
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdatePolls = /* GraphQL */ `
-  subscription OnUpdatePolls($filter: ModelSubscriptionPollsFilterInput) {
-    onUpdatePolls(filter: $filter) {
-      id
-      pollAudience
-      pollCaption
-      pollMedia
-      totalNumOfVotes
-      closed
-      opened
-      userID
-      likes
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeletePolls = /* GraphQL */ `
-  subscription OnDeletePolls($filter: ModelSubscriptionPollsFilterInput) {
-    onDeletePolls(filter: $filter) {
-      id
-      pollAudience
-      pollCaption
-      pollMedia
-      totalNumOfVotes
-      closed
-      opened
-      userID
-      likes
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
 export const onCreateSquad = /* GraphQL */ `
   subscription OnCreateSquad($filter: ModelSubscriptionSquadFilterInput) {
     onCreateSquad(filter: $filter) {
@@ -121,10 +67,6 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      Polls {
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -146,10 +88,6 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      Polls {
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -168,10 +106,6 @@ export const onDeleteUser = /* GraphQL */ `
       numOfSquadron
       userInterests
       squads {
-        nextToken
-        __typename
-      }
-      Polls {
         nextToken
         __typename
       }
