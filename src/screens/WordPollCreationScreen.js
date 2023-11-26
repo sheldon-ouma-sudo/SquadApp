@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
-  TextInput, TouchableOpacity, StatusBar, FlatList, ScrollView} from 'react-native'
+  TextInput, TouchableOpacity, StatusBar, FlatList, Button, ScrollView} from 'react-native'
 import { useState, useEffect } from 'react'
 import {SelectList} from 'react-native-dropdown-select-list'
 import { MultiSelect } from 'react-native-element-dropdown';
@@ -80,14 +80,20 @@ async function registerForPushNotificationsAsync() {
 const WordPollCreationScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
-  const [selectedPollAudience, setSelectedPollAudience] = useState([]);
-  const[selectedPollOption, setSelectedPollOptioin] = useState([])
-  const[latest_media, setLatest_media] = useState(null) //the latest_Media 
-  const [loading, setLoading] = useState(false);
-  const [mediArr, setMediArr] = useState([])
+  const[pollOption, setPollOption] = useState('')
   const[pollOptionData, setPollOptionData] = useState([])
+  
 
-  const fashionData=[ // rename the variable 
+  const handleTextInputChange = (text) => {
+    setPollOption(text);
+  };
+
+  const handleAddButtonPress = () => {
+    setPollOptionData([...pollOptionData, pollOption]);
+    setPollOption("");
+  };
+
+  const pollLabelData=[ // rename the variable 
         {key:'1', value:"Fashion"},
         {key:'2', value:"Decor"},
         {key:'3', value:"Food"},
@@ -96,52 +102,17 @@ const WordPollCreationScreen = () => {
         {key:'6', value:"Health"},
         {key:'7', value:"Other"},
   ]
-  const DATA=[//rename this variable 
-    { label: 'Squad', value: '1' },
-    { label: 'Instagram', value: '2' },
-    { label: 'Twitter', value: '3' },
-    { label: 'Contancts', value: '4' },
-    { label: 'Snapchat', value: '5' },
-    { label: 'Tiktok', value: '6' },
-]
-// const WordNet = require("node-wordnet")
-// const wordnet = new WordNet("../node_modules/wordnet-db/dict")
-// wordnet.lookup('dog', function(results) {
-//   results.forEach(function(result) {
-//     console.log(JSON.stringify(result, null, 2))
-//   })
-// })
-// const wordnet = require('node-wordnet');
- 
-// wordnet.lookup('node', function(results) {
-//     results.forEach(function(result) {
-//         console.log('------------------------------------');
-//         console.log(result.synsetOffset);
-//         console.log(result.pos);
-//         console.log(result.lemma);
-//         console.log(result.synonyms);
-//         console.log(result.pos);
-//         console.log(result.gloss);
-//     });
-// });
+
+//   const DATA=[//rename this variable 
+//     { label: 'Squad', value: '1' },
+//     { label: 'Instagram', value: '2' },
+//     { label: 'Twitter', value: '3' },
+//     { label: 'Contancts', value: '4' },
+//     { label: 'Snapchat', value: '5' },
+//     { label: 'Tiktok', value: '6' },
+// ]
 const navigation = useNavigation()
 const route = useRoute();
-// const latestImage = ""
-//there is a difference between the latest_media and latestMedia 
-//try passing 
-
-// useEffect(()=>{
-//   console.log("the first console log in useEffect",latestImage)
-//   setLatest_media(latestImage) ///sets the latest media to be the item received 
-//   console.log("this is the latest media",latest_media)
-//   if(mediArr.length <4 && latest_media != null){
-//     mediArr.push(latest_media)
-//   }
-
-//     console.log(mediArr)
-//  },[latest_media, mediArr, latestImage])
-
-// const mediaData = collectData(data)
 
 const renderDataItem = (item) => {
   return (
@@ -152,50 +123,24 @@ const renderDataItem = (item) => {
   );
 };
 const handlePoll =async ()=>{
- // alert("Attempts to create a  new poll")
-//define the data for the new poll 
-// const authUser = await Auth.currentAuthenticatedUser();
-// const newPoll = {
-//     closedPoll: false, 
-//     livePoll: true, 
-//     pollCaption: caption, 
-//     userID: authUser.attributes.sub,
-// };
-
-//   //create the poll, the user id is the creator's id ig
-//   const newPollData = await API.graphql(graphqlOperation(
-//     createPoll, {input: newPoll}
-//   ))
-//   console.log(newPollData)
-//   // the squad id is the user's squad
-  navigation.navigate('RootNavigation', { screen: 'Profile' })
-  //creating a function that renders images from the user side by side
-}
-
-// const renderImage = ({ source }) => (
-//     <Image source={source} />
-//   );
-// //this flatlist is supposed to render images from the previous screen
-//   const renderImages = ({ images }) => (
-//     <FlatList
-//       data={images}
-//       renderItem={renderImage}
-//     />
-//   );
+  navigation.navigate('RootNavigation', { screen: 'Profile' })}
 
   
   return (
     <KeyboardAvoidingView
     style={styles.container}
     behavior="padding"
->
-<View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-    <Image
-        source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-        style={styles.squadLogo}
-        resizeMode='contain'
-    ></Image>
+    >
+    <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
+        <Image
+            source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+            style={styles.squadLogo}
+            resizeMode='contain'
+        >
+        </Image>
     </View>
+    
+   {/* Poll caption section */}
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Poll Caption</Text>
     </View>
@@ -209,54 +154,67 @@ const handlePoll =async ()=>{
   <View style={styles.pollLabelContainer}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
+
     <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:70,marginLeft:30}}>
-    <SelectList 
-    setSelected={(val) => setSelected(val)} 
-    value={selected}
-    data={fashionData} 
-    save="value"
-    search={true} 
-    />
+      <SelectList 
+      setSelected={(val) => setSelected(val)} 
+      value={selected}
+      data={pollLabelData} 
+      save="value"
+      search={true} 
+      />
     </View>
+
+
+
    {/* adding poll options */}
      <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Poll Options</Text>
     </View>
+    {/* poll option input  */}
+    <View>
+      <TextInput
+        placeholder="Enter Poll Option"
+        value={pollOption}
+        onChangeText={handleTextInputChange}
+      />
+      <Button title="Add" onPress={handleAddButtonPress} />
+      <FlatList data={pollOptionData} 
+      renderItem={({ item }) => <Text>{item}</Text>} />
+    </View>
+  
 
-    <MultiSelect
-        style={styles.pollOptionDropdown}
-        placeholderStyle={styles.placeholderStyle}
-        selectedTextStyle={styles.selectedTextStyle}
-        inputSearchStyle={styles.inputSearchStyle}
-        iconStyle={styles.iconStyle}
-        data={DATA}
-        labelField="label"
-        valueField="value"
-        placeholder="Add Poll Options"
-        value={selectedPollAudience}
-        search
-        searchPlaceholder="Search..."
-        onChange={item => {
-            setSelectedPollAudience(item);
-        }}
-        renderLeftIcon={() => (
-            <AntDesign
-                style={styles.icon}
-                color="black"
-                name="Safety"
-                size={20}
-            />
-        )}
-      renderItem={renderDataItem}
-      renderSelectedItem={(item, unSelect) => (
-          <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
-              <View style={styles.selectedStyle}>
-                  <Text style={styles.textSelectedStyle}>{item.label}</Text>
-                  <AntDesign color="black" name="delete" size={17} />
-              </View>
-          </TouchableOpacity>
-                )}
-            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <View style={styles.pollAudience}>
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
       <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
@@ -295,6 +253,22 @@ const handlePoll =async ()=>{
           </TouchableOpacity>
                 )}
             />
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <View style={styles.buttonContainer}>
         <TouchableOpacity
         onPress={handlePoll}
