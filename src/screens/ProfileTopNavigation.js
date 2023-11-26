@@ -33,6 +33,7 @@
           console.log(authUser)
           const userID = authUser.attributes.profile
           const name = authUser.attributes.name
+          
          console.log("this is the user id ",userID)
          setUserName(name)
         // // query the database using Auth user id (sub)

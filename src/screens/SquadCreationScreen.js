@@ -86,10 +86,10 @@ useEffect(()=>{
         }
 
         ))
-        console.log("successful user update✅")
+        console.log("successful user update")
         navigation.navigate('RootNavigation', { screen: 'Explore', 
-        params:{screen:'Find Users',
-        params:{sqauad_id:mainSquadId}}})
+        screen:{screen:'Find Users',
+        sqauad_id:mainSquadId}})
       } catch (error) {
         console.log("error updating userSquad", error)
       }
