@@ -1,4 +1,4 @@
-type Polls @model @auth(rules: [{allow: public}]) {
+type Polls @model @auth(rules: [{ allow: public }]) {
   id: ID!
   pollAudience: [String]
   pollCaption: String!
@@ -7,9 +7,10 @@ type Polls @model @auth(rules: [{allow: public}]) {
   closed: Boolean
   opened: Boolean
   userID: ID! @index(name: "byUser")
+  likes: Int
 }
 
-type Squad @model @auth(rules: [{allow: public}]) {
+type Squad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   Users: [User] @manyToMany(relationName: "SquadUser")
   authUserID: String
@@ -17,7 +18,7 @@ type Squad @model @auth(rules: [{allow: public}]) {
   numOfPolls: Int
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   userName: String
@@ -29,4 +30,3 @@ type User @model @auth(rules: [{allow: public}]) {
   squads: [Squad] @manyToMany(relationName: "SquadUser")
   Polls: [Polls] @hasMany(indexName: "byUser", fields: ["id"])
 }
- 

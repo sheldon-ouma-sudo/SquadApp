@@ -11,6 +11,8 @@ export const getPolls = /* GraphQL */ `
       totalNumOfVotes
       closed
       opened
+      userID
+      likes
       createdAt
       updatedAt
       __typename
@@ -32,6 +34,42 @@ export const listPolls = /* GraphQL */ `
         totalNumOfVotes
         closed
         opened
+        userID
+        likes
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollsByUserID = /* GraphQL */ `
+  query PollsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollAudience
+        pollCaption
+        pollMedia
+        totalNumOfVotes
+        closed
+        opened
+        userID
+        likes
         createdAt
         updatedAt
         __typename
@@ -91,6 +129,10 @@ export const getUser = /* GraphQL */ `
       numOfSquadron
       userInterests
       squads {
+        nextToken
+        __typename
+      }
+      Polls {
         nextToken
         __typename
       }

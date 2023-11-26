@@ -11,6 +11,8 @@ export const onCreatePolls = /* GraphQL */ `
       totalNumOfVotes
       closed
       opened
+      userID
+      likes
       createdAt
       updatedAt
       __typename
@@ -27,6 +29,8 @@ export const onUpdatePolls = /* GraphQL */ `
       totalNumOfVotes
       closed
       opened
+      userID
+      likes
       createdAt
       updatedAt
       __typename
@@ -43,6 +47,8 @@ export const onDeletePolls = /* GraphQL */ `
       totalNumOfVotes
       closed
       opened
+      userID
+      likes
       createdAt
       updatedAt
       __typename
@@ -115,6 +121,10 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      Polls {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -136,6 +146,10 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      Polls {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -154,6 +168,10 @@ export const onDeleteUser = /* GraphQL */ `
       numOfSquadron
       userInterests
       squads {
+        nextToken
+        __typename
+      }
+      Polls {
         nextToken
         __typename
       }
