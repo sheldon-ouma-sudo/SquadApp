@@ -81,12 +81,12 @@ useEffect(()=>{
       const newSquadId = mainSquadId
       try {
          await API.graphql(graphqlOperation(updateUser,{
-          input:{userSquadId:newSquadId}
+          input:{id:authUserID,userSquadId:newSquadId}
           
         }
 
         ))
-        console.log("successful user update")
+        console.log("successful user update✅")
         navigation.navigate('RootNavigation', { screen: 'Explore', 
         params:{screen:'Find Users',
         params:{sqauad_id:mainSquadId}}})
