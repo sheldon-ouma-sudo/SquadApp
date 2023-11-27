@@ -123,6 +123,18 @@ const renderDataItem = (item) => {
       </View>
   );
 };
+
+const renderPOllOptionDataItem = (item) => {
+  return (
+      <View style={styles.item}>
+          <Text style={styles.selectedTextStyle}>{item}</Text>
+          <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+      </View>
+  );
+};
+
+
+
 const handlePoll =async ()=>{
   navigation.navigate('RootNavigation', { screen: 'Profile' })}
 
@@ -166,56 +178,35 @@ const handlePoll =async ()=>{
       />
     </View>
 
-
-
    {/* adding poll options */}
      <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Poll Options</Text>
     </View>
     {/* poll option input  */}
-    <View>
+    
       <TextInput
         placeholder="Enter Poll Option"
         value={pollOption}
         onChangeText={handleTextInputChange}
+        style={styles.pollOptionInput}
       />
-      <Button title="Add" onPress={handleAddButtonPress} />
-      <FlatList data={pollOptionData} 
-      renderItem={({ item }) => <Text>{item}</Text>} />
-    </View>
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <TouchableOpacity
+      onPress={handleAddButtonPress}
+      style={styles.button}
+      >
+        <Text
+        style={{color:'#fff'}}
+        >Add Option</Text>
+      </TouchableOpacity> 
+      <FlatList
+       data={pollOptionData} 
+       horizontal={true}
+      renderItem={({ item }) => 
+      <Text
+      style={styles.item}
+      >{item}</Text>
+    } 
+    />
     <View style={styles.pollAudience}>
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
       <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
@@ -252,25 +243,9 @@ const handlePoll =async ()=>{
                   <AntDesign color="black" name="delete" size={17} />
               </View>
           </TouchableOpacity>
-                )}
+                )}  
             />
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <View style={styles.buttonContainer}>
+    <View style={styles.pollButtonContainer}>
         <TouchableOpacity
         onPress={handlePoll}
         style = {styles.button}
@@ -348,8 +323,9 @@ pollContentCaption:{
   fontSize:18
 },
 pollAudience:{
-  marginTop:20,
-  marginRight:250
+  //marginTop:20,
+  marginRight:250,
+  marginBottom:10
 },
 button:{
   backgroundColor: '#1764EF',
@@ -357,19 +333,19 @@ button:{
   height: 42,
   padding: 12,
   borderRadius: 5,
-  marginTop: 40,
+  marginTop: 10,
   alignItems: 'center',
   marginRight: 10,
   marginLeft:15,
 },
-buttonContainer:{
+pollButtonContainer:{
   width: 296,
   height:42,
   borderRadius:5,
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: 30,
-  marginBottom: 60
+  marginTop: 40,
+  marginBottom: 150
   },
   buttonText:{
     color: 'white',
@@ -406,7 +382,9 @@ pollAudienceDropdown: {
   shadowOpacity: 0.2,
   shadowRadius: 1.41,
   elevation: 2,
-  marginLeft:-10
+  marginLeft:-10,
+  marginBottom:20
+
 },
 
 placeholderStyle: {
@@ -434,6 +412,7 @@ item: {
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
+  marginLeft:15
 
 },
 selectedStyle: {
@@ -443,17 +422,17 @@ selectedStyle: {
   borderRadius: 14,
   backgroundColor: 'white',
   shadowColor: '#000',
-  marginTop: 8,
+  marginTop: 10,
   marginRight: 12,
   paddingHorizontal: 12,
-  paddingVertical: 8,
+  //paddingVertical: 8,
   shadowOffset: {
       width: 0,
       height: 1,
   },
   shadowOpacity: 0.2,
   shadowRadius: 1.41,
-  marginLeft:37,
+  marginLeft:57,
 
   elevation: 2,
 },
@@ -461,6 +440,22 @@ textSelectedStyle: {
   marginRight: 10,
   fontSize: 16,
 },
+pollOptionInput:{
+    backgroundColor: '#EAEAEA',
+    paddingHorizontal: 15,
+    paddingVertical:5,
+    borderRadius:5,
+    width:346,
+    height:45,
+    marginTop:10,
+    fontSize: 13,
+    marginRight:15,
+    marginLeft:20,
+// fontStyle:"Montserrat-Regular",
+    color:'#535353',
+    fontWeight:'400'  ,
+    backgroundColor: '#fff'
+}
 })
 
 export default WordPollCreationScreen
