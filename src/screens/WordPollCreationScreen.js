@@ -81,20 +81,11 @@ const WordPollCreationScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
   const[pollOption, setPollOption] = useState('')
-  const[selectedPollAudience, setSelectedPollAudience] = useState("")
   const[pollOptionData, setPollOptionData] = useState([])
+  const[selectedPollAudience, setSelectedPollAudience] = useState("")
   
-
-  const handleTextInputChange = (text) => {
-    setPollOption(text);
-  };
-
-  const handleAddButtonPress = () => {
-    setPollOptionData([...pollOptionData, pollOption]);
-    setPollOption("");
-  };
-
-  const pollLabelData=[ // rename the variable 
+  
+  const pollLabelData=[ 
         {key:'1', value:"Fashion"},
         {key:'2', value:"Decor"},
         {key:'3', value:"Food"},
@@ -104,7 +95,7 @@ const WordPollCreationScreen = () => {
         {key:'7', value:"Other"},
   ]
 
-  const DATA=[//rename this variable 
+  const pollAudienceData=[//rename this variable 
     { label: 'Squad', value: '1' },
     { label: 'Instagram', value: '2' },
     { label: 'Twitter', value: '3' },
@@ -124,13 +115,30 @@ const renderDataItem = (item) => {
   );
 };
 
-const renderPOllOptionDataItem = (item) => {
-  return (
-      <View style={styles.item}>
-          <Text style={styles.selectedTextStyle}>{item}</Text>
+const handleTextInputChange = (text) => {
+  setPollOption(text);
+};
+
+const handleAddButtonPress = () => {
+var pollOptionObject ={
+id: new Date(),
+title:pollOption
+  }
+  setPollOptionData([...pollOptionData,pollOptionObject]);
+  console.log("here is the new poll option",pollOptionData)
+ setPollOption("")
+};
+
+const renderPOllOptionDataItem = ({item}) => {
+  console.log(item)
+  return( 
+  <TouchableOpacity>
+<View style={styles.item}>
+          <Text style={{fontSize:24, color:"black"}}>{item.id}</Text>
           <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
       </View>
-  );
+  </TouchableOpacity>
+  )     
 };
 
 
@@ -185,28 +193,30 @@ const handlePoll =async ()=>{
     {/* poll option input  */}
     
       <TextInput
+        style={styles.pollOptionInput}
         placeholder="Enter Poll Option"
         value={pollOption}
-        onChangeText={handleTextInputChange}
-        style={styles.pollOptionInput}
+        onChangeText={value =>{
+          setPollOption(value)
+      }}
       />
       <TouchableOpacity
-      onPress={handleAddButtonPress}
+      onPress={()=>handleAddButtonPress()}
       style={styles.button}
       >
         <Text
         style={{color:'#fff'}}
         >Add Option</Text>
       </TouchableOpacity> 
+      
       <FlatList
        data={pollOptionData} 
        horizontal={true}
-      renderItem={({ item }) => 
-      <Text
-      style={styles.item}
-      >{item}</Text>
-    } 
+      renderItem={renderPOllOptionDataItem} 
+      keyExtractor={item=>item.id}
     />
+
+
     <View style={styles.pollAudience}>
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
       <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
@@ -217,7 +227,7 @@ const handlePoll =async ()=>{
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        data={DATA}
+        data={pollAudienceData}
         labelField="label"
         valueField="value"
         placeholder="Choose Poll Audience"
@@ -393,6 +403,7 @@ placeholderStyle: {
 },
 selectedTextStyle: {
   fontSize: 14,
+  color:'black'
 },
 iconStyle: {
   width: 20,
@@ -405,7 +416,7 @@ inputSearchStyle: {
 },
 icon: {
   marginRight: 5,
-  color:'white'
+  //color:'white'
 },
 item: {
   padding: 17,
