@@ -110,7 +110,7 @@ const renderDataItem = (item) => {
   return (
       <View style={styles.item}>
           <Text style={styles.selectedTextStyle}>{item.label}</Text>
-          <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+          <AntDesign style={styles.icon} color="black" name="delete" size={20} />
       </View>
   );
 };
@@ -119,29 +119,31 @@ const handleTextInputChange = (text) => {
   setPollOption(text);
 };
 
-const handleAddButtonPress = () => {
-var pollOptionObject ={
-id: new Date(),
-title:pollOption
-  }
-  setPollOptionData([...pollOptionData,pollOptionObject]);
-  console.log("here is the new poll option",pollOptionData)
- setPollOption("")
-};
 
 const renderPOllOptionDataItem = ({item}) => {
   console.log(item)
   return( 
-  <TouchableOpacity>
+  <TouchableOpacity
+  style={{marginTop:10}}
+  >
 <View style={styles.item}>
-          <Text style={{fontSize:24, color:"black"}}>{item.id}</Text>
-          <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+          <Text style={{fontSize:18, color:"black"}}>{item.title}</Text>
+          <AntDesign style={styles.icon} color="black" name="delete" size={20} />
       </View>
   </TouchableOpacity>
   )     
 };
 
-
+const handleAddButtonPress = () => {
+  var pollOptionObject = {
+  id: new Date(),
+  title:pollOption
+    }
+    setPollOptionData([...pollOptionData,pollOptionObject]);
+    console.log("here is the new poll option",pollOptionData)
+   setPollOption("")
+  };
+  
 
 const handlePoll =async ()=>{
   navigation.navigate('RootNavigation', { screen: 'Profile' })}
@@ -333,9 +335,9 @@ pollContentCaption:{
   fontSize:18
 },
 pollAudience:{
-  //marginTop:20,
+  //marginTop:10,
   marginRight:250,
-  marginBottom:10
+  marginBottom:5
 },
 button:{
   backgroundColor: '#1764EF',
@@ -354,8 +356,8 @@ pollButtonContainer:{
   borderRadius:5,
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: 40,
-  marginBottom: 150
+  //marginTop:,
+  marginBottom: 170
   },
   buttonText:{
     color: 'white',
@@ -419,11 +421,11 @@ icon: {
   //color:'white'
 },
 item: {
-  padding: 17,
+  padding: 5,
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
-  marginLeft:15
+  
 
 },
 selectedStyle: {
