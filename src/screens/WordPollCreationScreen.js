@@ -81,6 +81,7 @@ const WordPollCreationScreen = () => {
   const [selected, setSelected]  = useState("")
   const [caption, setCaption] = useState()
   const[pollOption, setPollOption] = useState('')
+  const[selectedPollAudience, setSelectedPollAudience] = useState("")
   const[pollOptionData, setPollOptionData] = useState([])
   
 
@@ -103,14 +104,14 @@ const WordPollCreationScreen = () => {
         {key:'7', value:"Other"},
   ]
 
-//   const DATA=[//rename this variable 
-//     { label: 'Squad', value: '1' },
-//     { label: 'Instagram', value: '2' },
-//     { label: 'Twitter', value: '3' },
-//     { label: 'Contancts', value: '4' },
-//     { label: 'Snapchat', value: '5' },
-//     { label: 'Tiktok', value: '6' },
-// ]
+  const DATA=[//rename this variable 
+    { label: 'Squad', value: '1' },
+    { label: 'Instagram', value: '2' },
+    { label: 'Twitter', value: '3' },
+    { label: 'Contancts', value: '4' },
+    { label: 'Snapchat', value: '5' },
+    { label: 'Tiktok', value: '6' },
+]
 const navigation = useNavigation()
 const route = useRoute();
 
@@ -139,7 +140,7 @@ const handlePoll =async ()=>{
         >
         </Image>
     </View>
-    
+
    {/* Poll caption section */}
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Poll Caption</Text>
