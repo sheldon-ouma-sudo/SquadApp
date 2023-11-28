@@ -1,6 +1,78 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPoll = /* GraphQL */ `
+  mutation CreatePoll(
+    $input: CreatePollInput!
+    $condition: ModelPollConditionInput
+  ) {
+    createPoll(input: $input, condition: $condition) {
+      id
+      totalNumOfVotes
+      pollMedia
+      closed
+      open
+      userID
+      numOfLikes
+      pollAudience
+      squadID
+      pollCaption
+      pollItemLabel
+      pollLabel
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePoll = /* GraphQL */ `
+  mutation UpdatePoll(
+    $input: UpdatePollInput!
+    $condition: ModelPollConditionInput
+  ) {
+    updatePoll(input: $input, condition: $condition) {
+      id
+      totalNumOfVotes
+      pollMedia
+      closed
+      open
+      userID
+      numOfLikes
+      pollAudience
+      squadID
+      pollCaption
+      pollItemLabel
+      pollLabel
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePoll = /* GraphQL */ `
+  mutation DeletePoll(
+    $input: DeletePollInput!
+    $condition: ModelPollConditionInput
+  ) {
+    deletePoll(input: $input, condition: $condition) {
+      id
+      totalNumOfVotes
+      pollMedia
+      closed
+      open
+      userID
+      numOfLikes
+      pollAudience
+      squadID
+      pollCaption
+      pollItemLabel
+      pollLabel
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createSquad = /* GraphQL */ `
   mutation CreateSquad(
     $input: CreateSquadInput!
@@ -15,6 +87,10 @@ export const createSquad = /* GraphQL */ `
       authUserID
       squadName
       numOfPolls
+      Polls {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -35,6 +111,10 @@ export const updateSquad = /* GraphQL */ `
       authUserID
       squadName
       numOfPolls
+      Polls {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -55,6 +135,10 @@ export const deleteSquad = /* GraphQL */ `
       authUserID
       squadName
       numOfPolls
+      Polls {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -76,6 +160,10 @@ export const createUser = /* GraphQL */ `
       numOfSquadron
       userInterests
       squads {
+        nextToken
+        __typename
+      }
+      Polls {
         nextToken
         __typename
       }
@@ -103,6 +191,10 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      Polls {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -124,6 +216,10 @@ export const deleteUser = /* GraphQL */ `
       numOfSquadron
       userInterests
       squads {
+        nextToken
+        __typename
+      }
+      Polls {
         nextToken
         __typename
       }

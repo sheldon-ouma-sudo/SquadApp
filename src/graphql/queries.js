@@ -1,6 +1,130 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getPoll = /* GraphQL */ `
+  query GetPoll($id: ID!) {
+    getPoll(id: $id) {
+      id
+      totalNumOfVotes
+      pollMedia
+      closed
+      open
+      userID
+      numOfLikes
+      pollAudience
+      squadID
+      pollCaption
+      pollItemLabel
+      pollLabel
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listPolls = /* GraphQL */ `
+  query ListPolls(
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPolls(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        squadID
+        pollCaption
+        pollItemLabel
+        pollLabel
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollsByUserID = /* GraphQL */ `
+  query PollsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        squadID
+        pollCaption
+        pollItemLabel
+        pollLabel
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollsBySquadID = /* GraphQL */ `
+  query PollsBySquadID(
+    $squadID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollsBySquadID(
+      squadID: $squadID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        squadID
+        pollCaption
+        pollItemLabel
+        pollLabel
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getSquad = /* GraphQL */ `
   query GetSquad($id: ID!) {
     getSquad(id: $id) {
@@ -12,6 +136,10 @@ export const getSquad = /* GraphQL */ `
       authUserID
       squadName
       numOfPolls
+      Polls {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -51,6 +179,10 @@ export const getUser = /* GraphQL */ `
       numOfSquadron
       userInterests
       squads {
+        nextToken
+        __typename
+      }
+      Polls {
         nextToken
         __typename
       }
