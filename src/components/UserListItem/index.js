@@ -11,6 +11,7 @@ const UserListItem =({  user,
   isSelected = false,})=>{
    const navigation = useNavigation()
    const[selected, setSelected] = useState(false)
+   const[squadToJoin, setSquadToJoin] = useState("")
 
 const route = useRoute()
 const squadToAddUser = route.params?.mainSquad
@@ -18,6 +19,10 @@ console.log("this is the squad we want to add users to", squadToAddUser)
 
   const handleSquadCreation = () =>{
     //alert("pressed")
+    if(squadToAddUser !== undefined){
+      setSquadToJoin(squadToAddUser)
+    }
+    console.log("here is the squad we want to add users", squadToJoin)
     if(selected==false){
     setSelected(true)
     //add the user into the Squad

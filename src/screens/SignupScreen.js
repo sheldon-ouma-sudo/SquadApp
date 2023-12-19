@@ -333,7 +333,7 @@ errorText:{
 
 },
     buttonContainer:{
-    width: 296,
+    width: 196,
     height:42,
     borderRadius:5,
     justifyContent: 'center',

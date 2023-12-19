@@ -53,11 +53,12 @@ const route = useRoute()
 useEffect(()=>{
     const createMainUserSquad = async()=>{
       const authUser = await Auth.currentAuthenticatedUser()
-      //const squad_name = authUser.attributes.na
+      const squad_name = authUser.attributes.name 
+      const squadName = squad_name + " Main Squad"
       //create a Squad
       try {
       const newSquad = await API.graphql(graphqlOperation(createSquad, {
-        input:{ authUserID:authUserID, squadName:"Main Squad", numOfPolls:0}}))
+        input:{ authUserID:authUserID, squadName:squadName, numOfPolls:0}}))
       if(!newSquad.data?.createSquad){
         console.log("Error creating a Squad")
       }
@@ -69,19 +70,20 @@ useEffect(()=>{
       }
       
     }
-    const handleSquadUser= async () =>{
-      try {
-       const adminSquadUser = await API.graphql(graphqlOperation(createSquadUser,{
-        input:{squadId:mainSquadId,userId:authUserID}
-       })) 
-       console.log("this is the admin Squad User id: ",adminSquadUser)
-      } catch (error) {
-        console.log(error)
+    //we have issues with this
+    // const handleSquadUser= async () =>{
+    //   try {
+    //    const adminSquadUser = await API.graphql(graphqlOperation(createSquadUser,{
+    //     input:{squadId:mainSquadId,userId:authUserID}
+    //    })) 
+    //    console.log("this is the admin Squad User id: ",adminSquadUser)
+    //   } catch (error) {
+    //     console.log(error)
         
-      }
-    }
+    //   }
+    // }
     createMainUserSquad()
-    handleSquadUser()
+    //handleSquadUser()
   }, [])
 
 
