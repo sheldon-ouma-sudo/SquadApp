@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
+import { createSquadUser } from '../../graphql/mutations';
 
 const UserListItem =({  user,
   onPress = () => {},
@@ -11,7 +12,9 @@ const UserListItem =({  user,
    const navigation = useNavigation()
    const[selected, setSelected] = useState(false)
 
-
+const route = useRoute()
+const squadToAddUser = route.params?.mainSquad
+console.log("this is the squad we want to add users to", squadToAddUser)
 
   const handleSquadCreation = () =>{
     //alert("pressed")

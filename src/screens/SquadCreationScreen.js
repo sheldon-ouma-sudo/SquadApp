@@ -61,9 +61,6 @@ useEffect(()=>{
       if(!newSquad.data?.createSquad){
         console.log("Error creating a Squad")
       }
-    //   console.log("this is the new Squad",newSquad) 
-    //  console.log("here is the id of the squad",newSquad.data.createSquad.id)
-     //return newSquad.id //check to see if this is working 
      const squadID = newSquad.data.createSquad.id
      setMainSquadId(squadID)
      return squadID
@@ -72,7 +69,19 @@ useEffect(()=>{
       }
       
     }
+    const handleSquadUser= async () =>{
+      try {
+       const adminSquadUser = await API.graphql(graphqlOperation(createSquadUser,{
+        input:{squadId:mainSquadId,userId:authUserID}
+       })) 
+       console.log("this is the admin Squad User id: ",adminSquadUser)
+      } catch (error) {
+        console.log(error)
+        
+      }
+    }
     createMainUserSquad()
+    handleSquadUser()
   }, [])
 
 
@@ -81,8 +90,7 @@ useEffect(()=>{
       const newSquadId = mainSquadId
       try {
          await API.graphql(graphqlOperation(updateUser,{
-          input:{id:authUserID,userSquadId:newSquadId}
-          
+          input:{id:authUserID,userSquadId:newSquadId}   
         }
 
         ))
@@ -160,74 +168,6 @@ useEffect(()=>{
             </Text>
         </TouchableOpacity>       
     </View>
-   {/* *Instagram and Tiktok Squad creation
-    <View style= {[{flexDirection:"row"}, ]}>
-            <TouchableOpacity 
-             onPress={genSquadCreation}
-            style= {[{flex:1},styles.InstagramLogoContainer ]}>
-            <FontAwesome5 
-            name="instagram-square" 
-            size={54} 
-            color='#1977F3' 
-            style= {[{justifyContent:'flex-start'}, styles.googleLogo]}
-              />
-              <Text style={styles.contactsTexts}>
-             Access Instagram
-            </Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity 
-             onPress={genSquadCreation}
-            style= {[{fex:1}, styles.TiktokLogoContainer]}>
-                    <FontAwesome5
-                    name='tiktok'
-                    size = {54}
-                    color='#1977F3' 
-                    //source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
-                    style={[{justifyContent:'flex-end'},styles.TiktokLogo]}
-                    >
-                    </FontAwesome5>
-                    <Text style={styles.contactsTexts}>
-                      Access Tiktok
-                    </Text>
-            </TouchableOpacity>       
-        </View>
-         {/**Twitter and Snapchat Squad creation*/}
-        {/* <TouchableOpacity style= {[{flexDirection:"row"},]}>
-            <TouchableOpacity 
-             onPress={genSquadCreation}
-             style= {[{flex:1}, styles.SnapChateLogoContainer]}>
-                <FontAwesome
-                name='snapchat-ghost'
-                size={54}
-                color= '#1977F3' 
-                //source={require('/Users/sheldonotieno/Squad/assets/google-logo.png')}
-                style= {[{justifyContent:'flex-start'}, styles.SnapChatLogo]}
-                ></FontAwesome>
-                <Text style={styles.contactsTexts}>
-                      Access SnapChat
-                    </Text>
-               </TouchableOpacity>
-
-                <TouchableOpacity 
-                 onPress={genSquadCreation}
-                style= {[{fex:1},styles.TwitterLogoContainer]}>
-                    <AntDesign
-                    name='twitter'
-                    size={54}
-                    color= '#1977F3' 
-                   // source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}
-                    style={[{justifyContent:'flex-end'},styles.facebookLogo]}
-                    >
-                    </AntDesign>
-                    <Text style={styles.contactsTexts}>
-                      Twitter Access
-                  </Text>
-            </TouchableOpacity>   
-
-        </TouchableOpacity>   
-
-          */}
         <View style={[{ flexDirection:"row" },{marginTop:-80}, {marginBottom:30},{marginLeft:30}]}>
           <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>

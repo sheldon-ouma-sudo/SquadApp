@@ -12,6 +12,9 @@ const SquadListItem =({ squad,
   selectable = false,
   isSelected = false,})=>{
  const navigation = useNavigation()
+
+
+ 
  return (
    <Pressable
    style={styles.container}

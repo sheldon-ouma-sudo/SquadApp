@@ -35,8 +35,8 @@ const customStyles = {
 
 const ChangeProfilePictureScreen = () => {
    const[currentPosition, setCurrentPositon] = useState(1)
-   const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/user_profile.jpg')
-
+   //const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/user_profile.jpg')
+   const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
    const route = useRoute()
    const navigation = useNavigation()
    const userImage = route?.params.userImage

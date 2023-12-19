@@ -111,9 +111,6 @@ const onSelect = useCallback(
   console.log("here is the userInterest",userInterest)
 );
 
-//const getUserInterest= (selected) =>{}
- 
-
   useEffect(()=>{
  //check if the map is not empty   
     const getUserInterest = ()=>{
@@ -155,8 +152,7 @@ useEffect(()=>{
     const username = authUser.attributes.preferred_username
     console.log("this is the attributes", authUser.attributes)
     const userProfilePicture = authUser.attributes.picture
-    //const user_interest = getUserInterest()
-    //console.log(user_interest)
+
     try {
       const newUser = await API.graphql(graphqlOperation(createUser,{
         input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
@@ -185,94 +181,10 @@ useEffect(()=>{
       }
 
 
-    //const squad_id = createSquad()
-   // console.log("this is the squad_id accessed in creatSquadUser", squad_id)
-//    const newUser = await API.graphql({
-//     query: createUser,
-//     variables: {
-//         input: {
-// 		"name": "Lorem ipsum dolor sit amet",
-// 		"userName": "Lorem ipsum dolor sit amet",
-// 		"imageUrl": "Lorem ipsum dolor sit amet",
-// 		"userSquadId": "Lorem ipsum dolor sit amet",
-// 		"numOfPolls": 1020,
-// 		"numOfSquadron": 1020,
-// 		"userInterests": []
-// 	}
-//     }
-// });
-  //   const newUserSquad = await API.graphql(graphqlOperation(createUser,{input:{name:name,userName:username, imageUrl:userProfilePicture, userSqudId:"null_for_now", numOfPOlls:0, numOfSquadron:0, userInterests:userInterest}}))
-  //   if(!newUserSquad.data?.createUser){
-  //     console.log("Error creating the user Squad")
-  //   }
-  //  console.log("this is id the new user", newUserSquad.data.createUser.id)
-  //  const userID = newUserSquad.data.createUser.id;
-  //  return userID;
    }
   createSquadUser()
 }, [])
-// //create Squad 
-// useEffect(()=>{
-//     const createUserSquad = async()=>{
-//       const authUser = await Auth.currentAuthenticatedUser()
-//       //create a Squad
-//       const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
-//       if(!newSquad.data?.createSquad){
-//         console.log("Error creating a Squad")
-//       }
-//       console.log("this is the new Squad",newSquad) 
-//      console.log("here is the id of the squad",newSquad.data.createSquad.id)
-//      //return newSquad.id //check to see if this is working 
-//      const squadID = newSquad.data.createSquad.id
-//      return squadID
-//     }
-//     createUserSquad()
-//   }, [])
 
-// useEffect(()=>{
-//     const saveUserInterest = async()=>{
-//       //get the authenicated users
-//       const userInfo = await Auth.currentAuthenticatedUser({bypassCache:false})
-//       console.log(userInfo)
-//       if(userInfo){
-//         //link the user on backend and the user on the appysnc
-//         const userData = await API.graphql(graphqlOperation(getUser, {id:userInfo.attributes.sub}))
-//         console.log(userData)
-//       }
-//       if(userData.data.getUser){
-//         console.log("user is already in the registered in the db");
-//         return 
-//       }
-//       //get the users from backend with the users id from the authentication 
-//       //if there is no user in our database with the Id
-//        const newUser = {
-//         id:userInfo.attributes.sub,
-//         username:userInfo.username,
-//         imageUrl:userInfo.profile_picture
-//        }
-//        await API.graphql(graphqlOperation(
-//         createUser,
-//         {input: newUser}
-//        ))
-//     }
-//     fetchUser()
-//   }, [])
- 
-
-
-// async function saveUserInterest(){
-//   try{
-//     const user = await Auth.currentAuthenticatedUser();
-//     await Auth.updateUserAttributes(user, {
-//       'custom:userInterest': userInterest
-//     });
-//     console.log("✅successful saved user interestes")
-//     navigation.navigate("SquadCreationScreen")
-//   }catch(e){
-//    console.log("❌failure on updating user custome attributes", e)
-//   }
-
-// }
 
 return (
   <SafeAreaView
