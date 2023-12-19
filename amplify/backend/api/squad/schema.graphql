@@ -8,9 +8,10 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   numOfLikes: Int
   pollAudience: [String]
   squadID: ID! @index(name: "bySquad")
-  pollCaption: String!
-  pollItemLabel: AWSJSON
+  pollCaption: String
   pollLabel: String
+  pollScore: Int
+  pollItems: AWSJSON
 }
 
 type Squad @model @auth(rules: [{ allow: public }]) {

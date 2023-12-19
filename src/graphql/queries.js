@@ -14,8 +14,9 @@ export const getPoll = /* GraphQL */ `
       pollAudience
       squadID
       pollCaption
-      pollItemLabel
       pollLabel
+      pollScore
+      pollItems
       createdAt
       updatedAt
       __typename
@@ -40,8 +41,9 @@ export const listPolls = /* GraphQL */ `
         pollAudience
         squadID
         pollCaption
-        pollItemLabel
         pollLabel
+        pollScore
+        pollItems
         createdAt
         updatedAt
         __typename
@@ -77,8 +79,9 @@ export const pollsByUserID = /* GraphQL */ `
         pollAudience
         squadID
         pollCaption
-        pollItemLabel
         pollLabel
+        pollScore
+        pollItems
         createdAt
         updatedAt
         __typename
@@ -114,8 +117,9 @@ export const pollsBySquadID = /* GraphQL */ `
         pollAudience
         squadID
         pollCaption
-        pollItemLabel
         pollLabel
+        pollScore
+        pollItems
         createdAt
         updatedAt
         __typename

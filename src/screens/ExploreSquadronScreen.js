@@ -9,6 +9,7 @@ import List from "../components/SearchList"
 import SquadListItem from "../components/SquadListItem"
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { listSquads } from '../graphql/queries';
+import { useRoute } from '@react-navigation/native';
 
 
 const ExploreSquadronScreen = () => { 

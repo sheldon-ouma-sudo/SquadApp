@@ -14,8 +14,9 @@ export const onCreatePoll = /* GraphQL */ `
       pollAudience
       squadID
       pollCaption
-      pollItemLabel
       pollLabel
+      pollScore
+      pollItems
       createdAt
       updatedAt
       __typename
@@ -35,8 +36,9 @@ export const onUpdatePoll = /* GraphQL */ `
       pollAudience
       squadID
       pollCaption
-      pollItemLabel
       pollLabel
+      pollScore
+      pollItems
       createdAt
       updatedAt
       __typename
@@ -56,8 +58,9 @@ export const onDeletePoll = /* GraphQL */ `
       pollAudience
       squadID
       pollCaption
-      pollItemLabel
       pollLabel
+      pollScore
+      pollItems
       createdAt
       updatedAt
       __typename

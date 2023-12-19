@@ -17,7 +17,7 @@ const ExploreUserScreen = () => {
   const [clicked, setClicked] = useState(false);
   //const [fakeData, setFakeData] = useState();
   const [users, setUsers] = useState([]);
-  //const [parent_squadID, setParentSquadID] = useState("")
+  const [parent_squadID, setParentSquadID] = useState("")
   
   const route = useRoute();
   const squadID = route.params?.squad_id
@@ -35,6 +35,9 @@ const ExploreUserScreen = () => {
   // }, []);
 
   useEffect(()=>{
+    if(parent_squadID!== undefined){
+      setParentSquadID(squadID)
+    }
     const fetchUsers = async() =>{
        const results = await API.graphql(graphqlOperation(listUsers));
       if(!results.data?.listUsers){
@@ -145,6 +148,7 @@ const ExploreUserScreen = () => {
       )} */}
        <FlatList
        data = {users}
+       parentSquad = {parent_squadID}
        searchPhrase={searchPhrase}
        renderItem={({item})=>(
         <UserListItem
