@@ -61,21 +61,22 @@
          </View>
          <View style={{flexDirection:"row", marginTop:20, marginLeft:5 }}>
           <View
-          style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
+          style = {[styles.pollCaptionContainer,]}
           >
               <Text
                style = {styles.pollCaption}
               >
                 {poll.pollCaption}
                 {/* {pollCaption} */}
-              </Text>
+            </Text>
+              {/* 
               <Text
               style = {styles.pollCreator}
               >
                 Created by {pollCreator}
               </Text>
               {/* <FontAwesome name="commenting-o" size={34} color="black" style={{marginTop:18, marginStart:-35}} /> */}
-            </View>
+            {/* </View>
             <View
               style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
               > 
@@ -83,7 +84,8 @@
                 style = {styles.votedText}>
                 {poll.totalNumOfVotes} Voted
               </Text>
-              </View>
+               */} 
+        </View>
          </View>
           </Pressable>
         )
@@ -150,7 +152,8 @@
         },
        pollCaption:{
         fontWeight:'500',
-        marginLeft:5
+        marginLeft:5,
+        marginTop:40,
        },
        pollCreator:{
         marginTop: 5,
