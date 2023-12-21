@@ -7,6 +7,7 @@
     import { FontAwesome } from '@expo/vector-icons'; 
     import RNAnimated from "react-native-animated-component";
     import RNPoll, { IChoice } from "react-native-poll";
+    import Poll from 'react-native-poll';
     //import {getPoll} from '../graphql/queries';
 
 
@@ -44,8 +45,10 @@
             //then from the user's id let's try and find the user's info 
             //
 
+
+
         return (
-          <Pressable
+        <Pressable
           style={styles.container}
           behavior="padding"
           >
@@ -59,35 +62,23 @@
          style={styles.userImage}
          />
          </View>
-         <View style={{flexDirection:"row", marginTop:20, marginLeft:5 }}>
-          <View
-          style = {[styles.pollCaptionContainer,]}
-          >
+         
+          {/* <View
+          style = {[styles.pollCaptionContainer,]}>
               <Text
-               style = {styles.pollCaption}
-              >
+              style = {styles.pollCaption}>
                 {poll.pollCaption}
-                {/* {pollCaption} */}
-            </Text>
-              {/* 
-              <Text
-              style = {styles.pollCreator}
-              >
-                Created by {pollCreator}
-              </Text>
-              {/* <FontAwesome name="commenting-o" size={34} color="black" style={{marginTop:18, marginStart:-35}} /> */}
-            {/* </View>
-            <View
-              style = {[styles.numOfVotesContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
-              > 
-              <Text
-                style = {styles.votedText}>
-                {poll.totalNumOfVotes} Voted
-              </Text>
-               */} 
-        </View>
-         </View>
-          </Pressable>
+                </Text>     
+           </View> */}
+           <Poll
+      question={poll.caption}
+      options={poll.pollItem}
+      onVote={(option) => {
+        // Handle the vote here
+      }}
+    />
+         
+      </Pressable>
         )
         }
       
@@ -101,7 +92,7 @@
         marginVertical: 105,
         borderColor: "#C2B960",
         height: 600,
-        //width:400,
+        width:400,
         marginLeft:10,
         borderRadius: 29,
         backgroundColor: "#D8E8F3",
@@ -122,7 +113,10 @@
         },
         pollCaptionContainer:{
           height: 50,
-          width: 180,
+          width: 320,
+          marginTop: 120,
+          flexDirection:'row'
+
         },
         numOfVotesContainer:{
          height:30,
@@ -151,9 +145,12 @@
             height:70
         },
        pollCaption:{
-        fontWeight:'500',
-        marginLeft:5,
-        marginTop:40,
+        fontWeight:'800',
+        marginRight:15,
+        fontSize:20,
+        marginLeft:-20,
+
+       
        },
        pollCreator:{
         marginTop: 5,
