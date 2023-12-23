@@ -24,23 +24,23 @@
         const navigation = useNavigation()
         //fetch for the user's info from the poll being queried
             //get poll id 
-            useEffect(()=>{
-            const fetchUser = async() =>{
-                //fetch for the poll id -- not sure this is the right way of doing things
-                const pollQueryRes = API.graphql(graphqlOperation(getPoll, {id: pollId}))
-                 //console log the response
-                //const numOfPollVotes = pollQueryRes.
-                //fetch user from the poll
-                const user = pollQueryRes.userID;
-                const userProfilePic = user.imageUrl;
-                //update  the photos and the name of the user to be
-                //console.log(user, userProfile Pic) 
-                setUserImage(userProfilePic)
-                const userName = user.name;
-                setPollCreator(userName)
-            }
-             fetchUser();
-            }, [])
+            // useEffect(()=>{
+            // const fetchUser = async() =>{
+            //     //fetch for the poll id -- not sure this is the right way of doing things
+            //     //const pollQueryRes = API.graphql(graphqlOperation(getPoll, {id: pollId}))
+            //      //console log the response
+            //     //const numOfPollVotes = pollQueryRes.
+            //     //fetch user from the poll
+            //     const user = pollQueryRes.userID;
+            //     const userProfilePic = user.imageUrl;
+            //     //update  the photos and the name of the user to be
+            //     //console.log(user, userProfile Pic) 
+            //     setUserImage(userProfilePic)
+            //     const userName = user.name;
+            //     setPollCreator(userName)
+            // }
+            //  fetchUser();
+            // }, [])
             //to do that first get the userID from the poll being queried
             //then from the user's id let's try and find the user's info 
             //
@@ -84,7 +84,7 @@
         marginHorizontal: 10,
         marginTop: 10,
         marginVertical: 105,
-        borderColor: "#C2B960",
+        borderColor: "#000000",
         height: 600,
         width:400,
         marginLeft:10,
