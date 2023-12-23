@@ -1,6 +1,6 @@
 
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, Pressable, Button,TextInput} from 'react-native'
+    StatusBar,Dimensions,SafeAreaView,SectionList,FlatList, Pressable, Button,TextInput, Animated} from 'react-native'
     import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/native';
     import {Auth, API, graphqlOperation} from "aws-amplify";
@@ -10,6 +10,24 @@
     import Poll from 'react-native-poll';
     //import {getPoll} from '../graphql/queries';
 
+    const ProgressBar = ({ progress }) => {
+      const [loaderValue, setLoaderValue] = useState(0);
+    
+      useEffect(() => {
+        Animated.timing(loaderValue, {
+          toValue: progress,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      }, [progress]);
+    
+      return (
+        <View style={styles.progressBar}>
+          <Animated.View style={[styles.loader, { width: loaderValue }]} />
+        </View>
+      );
+    };
+    
 
 
     const PollListItem =({  poll,
@@ -20,32 +38,39 @@
         const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')//remember to use uri instead of the require when quering from the backend
         const [pollCaption, setPollCaption] = useState("dining hall with best food today")
         const [pollCreator, setPollCreator] = useState("Drake")
+        const [data, setData] = useState([]);
         
         const navigation = useNavigation()
         //fetch for the user's info from the poll being queried
             //get poll id 
-            // useEffect(()=>{
-            // const fetchUser = async() =>{
-            //     //fetch for the poll id -- not sure this is the right way of doing things
-            //     //const pollQueryRes = API.graphql(graphqlOperation(getPoll, {id: pollId}))
-            //      //console log the response
-            //     //const numOfPollVotes = pollQueryRes.
-            //     //fetch user from the poll
-            //     const user = pollQueryRes.userID;
-            //     const userProfilePic = user.imageUrl;
-            //     //update  the photos and the name of the user to be
-            //     //console.log(user, userProfile Pic) 
-            //     setUserImage(userProfilePic)
-            //     const userName = user.name;
-            //     setPollCreator(userName)
-            // }
-            //  fetchUser();
-            // }, [])
+            useEffect(()=>{
+            const fetchData = async() =>{
+                // //fetch for the poll id -- not sure this is the right way of doing things
+                // //const pollQueryRes = API.graphql(graphqlOperation(getPoll, {id: pollId}))
+                //  //console log the response
+                // //const numOfPollVotes = pollQueryRes.
+                // //fetch user from the poll
+                // const user = pollQueryRes.userID;
+                // const userProfilePic = user.imageUrl;
+                // //update  the photos and the name of the user to be
+                // //console.log(user, userProfile Pic) 
+                // setUserImage(userProfilePic)
+                // const userName = user.name;
+                // setPollCreator(userName)
+                setData(poll.pollItem)
+            }
+             fetchData();
+            }, [])
             //to do that first get the userID from the poll being queried
             //then from the user's id let's try and find the user's info 
             //
-
-
+            const renderItem = ({ item }) => {
+              return (
+              <View key={item.id}>
+              <Text>{item.choice}</Text>
+      </View>
+              );
+            };
 
         return (
         <Pressable
@@ -63,14 +88,23 @@
          />
          </View>
          
-          {/* <View
-          style = {[styles.pollCaptionContainer,]}>
+          <View
+          style = {[styles.pollCaptionContainer]}>
               <Text
               style = {styles.pollCaption}>
                 {poll.pollCaption}
                 </Text>     
-           </View> */}
-           
+           </View>
+    <View style={styles.pollContainer}>
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        onScroll={(event) => {
+        setProgress(event.nativeEvent.contentOffset.y / 100);
+      }}
+    />
+    </View>
          
       </Pressable>
         )
@@ -91,20 +125,22 @@
         borderRadius: 29,
         backgroundColor: "#D8E8F3",
         borderWidth: 5
-//         flex:1,
-//  flexDirection: "row",
-//  marginHorizontal: 10,
-//  marginTop: 20,
-//  //marginVertical: 65,
-//  borderColor: "#FFFF",
-//  //height: 100,
-//  borderRadius: 15,
-//  backgroundColor: "white",
-//  borderWidth: 5,
-//  marginRight:30
-
-
+        // flex:1,
+        //  flexDirection: "row",
+        //  marginHorizontal: 10,
+        //  marginTop: 20,
+        //  //marginVertical: 65,
+        //  borderColor: "#FFFF",
+        //  //height: 100,
+        //  borderRadius: 15,
+        //  backgroundColor: "white",
+        //  borderWidth: 5,
+        //  marginRight:30
         },
+       pollContainer:{
+        flex: 1,
+        marginTop: 20,
+       },
         pollCaptionContainer:{
           height: 50,
           width: 320,
@@ -143,15 +179,24 @@
         marginRight:15,
         fontSize:20,
         marginLeft:-20,
-
-       
        },
        pollCreator:{
         marginTop: 5,
         marginLeft: 5,
         color: '#545454',
         marginBottom: 450
-       }
-        },
+       },
+       progressBar: {
+        height: 20,
+        backgroundColor: '#ccc',
+        borderRadius: 4,
+      },
+      loader: {
+        height: 20,
+        backgroundColor: '#000',
+        borderRadius: 4,
+      },
+        
+    },
         )
     export default PollListItem;

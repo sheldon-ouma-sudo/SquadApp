@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, ActivityIndicator,  ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, StatusBar, Dimensions, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
 import {listPolls} from "../graphql/queries"

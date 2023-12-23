@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
 import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
-import Poll from "../components/PollListItem";
+//import Poll from "../components/PollListItem";
 
 const MySquadPollScreen = () => {
   const [numOfVotes, setNumOfVotes] = useState("32")
