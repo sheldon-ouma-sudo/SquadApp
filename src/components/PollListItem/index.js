@@ -1,16 +1,43 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image } from 'react-native';
 import Animated, { EasingNode } from 'react-native-reanimated';
+import { getUser } from '../../graphql/queries';
+import { useEffect } from "react";
+import { API, graphqlOperation } from "aws-amplify";
 
 const { Value, timing } = Animated;
 
 const PollListItem = ({ poll, }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [animationValue, setAnimationValue] = useState(new Value(0));
+  const[pollCreator, setPollCreator] = useState("@testUSer")
   
+
+
+
+   // fetch Chat Room
+   useEffect(() => {
+    API.graphql(graphqlOperation(getUser, { id: poll.userID})).then(
+      (result) => setPollCreator("@" + result.data?.getUser)
+     
+    );
+    console.log(pollCreator)
+    // const subscription = API.graphql(
+    //   graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chatroomID } } })
+    // ).subscribe({
+    //   next: ({ value }) => {
+    //     setChatRoom((cr) => ({
+    //       ...(cr || {}),
+    //       ...value.data.onUpdateChatRoom,
+    //     }));
+    //   },
+    //   error: (err) => console.warn(err),
+    // });
+
+    // return () => subscription.unsubscribe();
+  }, []);
   const handleOptionPress = (index) => {
     setSelectedOption(index);
-
     try {
       const pollItem = JSON.parse(poll.pollItems[index]);
       console.log("pollItem is as follows: ", pollItem)
@@ -43,7 +70,10 @@ const PollListItem = ({ poll, }) => {
     const optionText = pollItem.text;
 
     return (
-      <><Text style={styles.optionText}>{optionText}</Text>
+      <View
+      //style={styles.userImage}
+      >
+     <Text style={styles.optionText}>{optionText}</Text>
       <TouchableOpacity
         style={[styles.optionContainer, isSelected && styles.selectedOption]}
         onPress={() => handleOptionPress(index)}
@@ -58,12 +88,27 @@ const PollListItem = ({ poll, }) => {
         <Text style={styles.percentageText}>
           {selectedOption === index ? 'Voted!' : `${((votes / poll.totalNumOfVotes) * 100).toFixed(2)}%`}
         </Text>
-      </TouchableOpacity></>
+      </TouchableOpacity>
+      </View>
+     
     );
   };
 
   return (
     <View style={styles.container}>
+      
+      <View
+          style={styles.userImageContainer}
+          >
+              <Image
+               source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+               resizeMode='contain'
+                style={styles.userImage}
+                />
+        </View>
+      <TouchableOpacity>
+      <Text>{pollCreator}</Text>
+      </TouchableOpacity>
       <Text style={styles.question}>{poll.pollCaption}</Text>
         <FlatList
         data={poll.pollItems}
@@ -83,6 +128,14 @@ const styles = StyleSheet.create({
     borderRadius: 29,
     marginVertical:135
   },
+  userImageContainer:{
+    marginStart:10,
+    marginTop:10
+   },
+   userImage:{
+       width:50,
+       height:70
+   },
   question: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -97,13 +150,13 @@ const styles = StyleSheet.create({
     backgroundColor:'#ffff'
   },
   selectedOption: {
-   backgroundColor: '#add8e6', // Light blue for selected option
+   //backgroundColor: '#add8e6', // Light blue for selected option
   },
   optionText: {
-    fontSize: 16,
+    fontSize: 19,
     marginBottom: 12,
     fontWeight:'700',
-    marginLeft:75,
+    marginLeft:125,
   },
   percentageBar: {
     height: 60,
@@ -115,10 +168,11 @@ const styles = StyleSheet.create({
 
   },
   percentageText: {
-    fontSize: 16,
+    fontSize: 12,
     color: '#ffff',
     fontWeight:'600',
-    marginTop: -35
+    marginTop: -36,
+    marginLeft:20
   },
 });
 
