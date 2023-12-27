@@ -161,11 +161,11 @@
           <Tab.Screen
             name="Polls"
             component={PersonalPollScreen} />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="My Squad"
-            component={MySquadScreen} />
+            component={MySquadScreen} /> */}
           <Tab.Screen
-            name="Squadron"
+            name="Squad"
             component={SwayingScreen} />
         </Tab.Navigator></>
     )

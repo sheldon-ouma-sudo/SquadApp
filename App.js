@@ -43,7 +43,8 @@ import ExploreUserScreen from "./src/screens/ExploreUserScreen";
 import ExploreSquadronScreen from "./src/screens/ExploreSquadronScreen";
 import ExplorePollScreen from "./src/screens/ExplorePollScreen";
 import WordPollCreationScreen from "./src/screens/WordPollCreationScreen"
-
+import SquadCreatedScreen from "./src/screens/SquadCreatedScreen";
+import SquadJoinedScreen from "./src/screens/SquadJoinedScreen";
 
 Amplify.configure(awsconfig);
  ///run this once when the app is opened
@@ -231,6 +232,8 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name="ExploreSquadronScreen" component={ExploreSquadronScreen}/>
         <Stack.Screen options={{headerShown:false}} name="ExploreUserScreen" component={ExploreUserScreen}/>
         <Stack.Screen options={{headerShown:false}} name= "WordPollCreationScreen" component={WordPollCreationScreen}/>
+        <Stack.Screen options={{headerShown:false}} name = "SquadCreatedScreen" component={SquadCreatedScreen}/>
+        <Stack.Screen options={{headerShown:false}} name = "SquadJoinedScreen" component={SquadJoinedScreen}/>
 
       </Stack.Navigator>
     </NavigationContainer>
