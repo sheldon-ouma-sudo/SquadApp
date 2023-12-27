@@ -1,6 +1,54 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPollComment = /* GraphQL */ `
+  mutation CreatePollComment(
+    $input: CreatePollCommentInput!
+    $condition: ModelPollCommentConditionInput
+  ) {
+    createPollComment(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      numOfLikes
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePollComment = /* GraphQL */ `
+  mutation UpdatePollComment(
+    $input: UpdatePollCommentInput!
+    $condition: ModelPollCommentConditionInput
+  ) {
+    updatePollComment(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      numOfLikes
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePollComment = /* GraphQL */ `
+  mutation DeletePollComment(
+    $input: DeletePollCommentInput!
+    $condition: ModelPollCommentConditionInput
+  ) {
+    deletePollComment(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      numOfLikes
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createPoll = /* GraphQL */ `
   mutation CreatePoll(
     $input: CreatePollInput!
@@ -20,6 +68,10 @@ export const createPoll = /* GraphQL */ `
       pollLabel
       pollScore
       pollItems
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -45,6 +97,10 @@ export const updatePoll = /* GraphQL */ `
       pollLabel
       pollScore
       pollItems
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -70,6 +126,10 @@ export const deletePoll = /* GraphQL */ `
       pollLabel
       pollScore
       pollItems
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -170,6 +230,10 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -198,6 +262,10 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -223,6 +291,10 @@ export const deleteUser = /* GraphQL */ `
         __typename
       }
       Polls {
+        nextToken
+        __typename
+      }
+      PollComments {
         nextToken
         __typename
       }

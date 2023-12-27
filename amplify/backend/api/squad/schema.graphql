@@ -1,4 +1,11 @@
-type Poll @model @auth(rules: [{allow: public}]) {
+type PollComment @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  pollID: ID! @index(name: "byPoll")
+  userID: ID! @index(name: "byUser")
+  numOfLikes: Int
+}
+
+type Poll @model @auth(rules: [{ allow: public }]) {
   id: ID!
   totalNumOfVotes: Int
   pollMedia: [String]
@@ -12,9 +19,10 @@ type Poll @model @auth(rules: [{allow: public}]) {
   pollLabel: String
   pollScore: Int
   pollItems: [AWSJSON]
+  PollComments: [PollComment] @hasMany(indexName: "byPoll", fields: ["id"])
 }
 
-type Squad @model @auth(rules: [{allow: public}]) {
+type Squad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   Users: [User] @manyToMany(relationName: "SquadUser")
   authUserID: String
@@ -23,7 +31,7 @@ type Squad @model @auth(rules: [{allow: public}]) {
   Polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   userName: String
@@ -34,5 +42,5 @@ type User @model @auth(rules: [{allow: public}]) {
   userInterests: [String]
   squads: [Squad] @manyToMany(relationName: "SquadUser")
   Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
+  PollComments: [PollComment] @hasMany(indexName: "byUser", fields: ["id"])
 }
- 

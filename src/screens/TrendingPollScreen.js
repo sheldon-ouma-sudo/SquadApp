@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
 import Poll from "../components/PollListItem";
+import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 
 
 const TrendingPollScreen = () => {
@@ -41,9 +42,11 @@ const TrendingPollScreen = () => {
        data = {polls}
        //searchPhrase={searchPhrase}
        renderItem={({item})=>(
+        <BottomSheetModalProvider>
         <Poll
          poll={item}
         />
+        </BottomSheetModalProvider>
        )} 
        
        /> 

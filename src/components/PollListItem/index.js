@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image } from 'react-native';
 import Animated, { EasingNode } from 'react-native-reanimated';
 import { getUser } from '../../graphql/queries';
 import { useEffect } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
+import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import CommentsList from '../PollCommentItem/index.js'
 
 const { Value, timing } = Animated;
 
@@ -17,11 +19,18 @@ const PollListItem = ({ poll, }) => {
   const [isLikeCommentIconClicked, setIsLikeCommentIconClicked,] = useState(false);
   //const[numOfPollLikes, setNumOfPollLikes]
   
+  const bottomSheetModalRef = useRef(null);
+
+  const handleCommentsPress = () => {
+    bottomSheetModalRef.current?.present();
+  };
+
 
   const handleLickedIconClick = () => {
     setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
     // Additional logic or state updates can be added here
   };
+  
 
    // fetch Chat Room
    useEffect(() => {
@@ -116,12 +125,22 @@ const PollListItem = ({ poll, }) => {
       />
       <TouchableOpacity
       style={styles.pollCommentContainer}
+      onPress={handleCommentsPress}
       >
       <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
       <Text
       style={styles.numOfpollComments}
       >{numOfpollComment}</Text>
       </TouchableOpacity>
+
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={['50%', '90%']}
+      >
+        {/* Render Comments */}
+         <CommentsList /> 
+      </BottomSheetModal>
 
       <TouchableOpacity
       style={styles.pollLikesContainer}

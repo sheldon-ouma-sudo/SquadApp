@@ -1,6 +1,98 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getPollComment = /* GraphQL */ `
+  query GetPollComment($id: ID!) {
+    getPollComment(id: $id) {
+      id
+      pollID
+      userID
+      numOfLikes
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listPollComments = /* GraphQL */ `
+  query ListPollComments(
+    $filter: ModelPollCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPollComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        pollID
+        userID
+        numOfLikes
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollCommentsByPollID = /* GraphQL */ `
+  query PollCommentsByPollID(
+    $pollID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollCommentsByPollID(
+      pollID: $pollID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        numOfLikes
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollCommentsByUserID = /* GraphQL */ `
+  query PollCommentsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollCommentsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        numOfLikes
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getPoll = /* GraphQL */ `
   query GetPoll($id: ID!) {
     getPoll(id: $id) {
@@ -17,6 +109,10 @@ export const getPoll = /* GraphQL */ `
       pollLabel
       pollScore
       pollItems
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -187,6 +283,10 @@ export const getUser = /* GraphQL */ `
         __typename
       }
       Polls {
+        nextToken
+        __typename
+      }
+      PollComments {
         nextToken
         __typename
       }
