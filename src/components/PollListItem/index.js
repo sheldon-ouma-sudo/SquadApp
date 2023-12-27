@@ -7,6 +7,8 @@ import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import CommentsList from '../PollCommentItem/index.js'
+import Modal from 'react-native-modal';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
 const { Value, timing } = Animated;
 
