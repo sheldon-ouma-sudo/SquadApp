@@ -647,6 +647,7 @@
     "react-native-phone-number-input": "^2.1.0",
     "react-native-poll": "^1.0.0",
     "react-native-progress": "^5.0.1",
+    "react-native-progress-bar": "^0.1.2",
     "react-native-randombytes": "^3.6.1",
     "react-native-ratings": "^8.0.4",
     "react-native-reanimated": "~2.12.0",

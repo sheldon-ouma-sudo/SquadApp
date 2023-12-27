@@ -1,65 +1,74 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
-import {Progress} from 'react-native-progress'
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList } from 'react-native';
+import Animated, { EasingNode } from 'react-native-reanimated';
+
+const { Value, timing } = Animated;
 
 const PollListItem = ({ poll, }) => {
-  // const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [animationValue, setAnimationValue] = useState(new Value(0));
+  
+  const handleOptionPress = (index) => {
+    setSelectedOption(index);
 
-  // const handleOptionPress = (index) => {
-  //   if (selectedOption === null) {
-  //     setSelectedOption(index);
-  //   }
-  // };
+    try {
+      const pollItem = JSON.parse(poll.pollItems[index]);
+      console.log("pollItem is as follows: ", pollItem)
+      if (pollItem.votes !== undefined && poll.totalNumOfVotes !== undefined) {
+        const percentage = poll.totalNumOfVotes > 0 ? pollItem.votes / poll.totalNumOfVotes : 0;
+        animateVotePercentage(percentage);
+        console.log("the perecentage is as follows: ", percentage)
+      } else {
+        console.log('Error: Votes data is undefined.');
+      }
+    } catch (error) {
+      console.log('Error parsing poll item:', error);
+    }
+  };
+  
+  const animateVotePercentage = (percentage) => {
+    timing(animationValue, {
+      toValue: percentage,
+      duration: 600,
+      easing: EasingNode.inOut(EasingNode.ease),
+    }).start();
+  };
 
-  // const calculatePercentage = (votes, totalVotes) => {
-  //   return totalVotes === 0 ? 0 : ((votes / totalVotes) * 100).toFixed(2);
-  // };
-  const renderItem = ({ item }) => {
-    const percentage = (item.votes / poll.totalNumOfVotes) * 100;
+  const renderOption = ({ item, index }) => {
+    const isSelected = selectedOption === index;
+     //console.log(item);
+     const pollItem = JSON.parse(item);
+    const percentage = selectedOption === index ? 100 : animationValue;
+    const votes = pollItem.votes;
+    const optionText = pollItem.text;
 
     return (
-      <View style={{ marginVertical: 10 }}>
-        <Text>{item.option}</Text>
-        <Progress.Bar progress={percentage / 100} width={200} />
-        <Text>{`${percentage.toFixed(2)}%`}</Text>
-      </View>
+      <><Text style={styles.optionText}>{optionText}</Text>
+      <TouchableOpacity
+        style={[styles.optionContainer, isSelected && styles.selectedOption]}
+        onPress={() => handleOptionPress(index)}
+      >
+        <Animated.View
+          style={[styles.percentageBar, {
+            width: animationValue.interpolate({
+              inputRange: [0, 0.3],
+              outputRange: ['0%', '100%'],
+            })
+          }]} />
+        <Text style={styles.percentageText}>
+          {selectedOption === index ? 'Voted!' : `${((votes / poll.totalNumOfVotes) * 100).toFixed(2)}%`}
+        </Text>
+      </TouchableOpacity></>
     );
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.question}>{poll.pollCaption}</Text>
-      {/* {poll.pollItems.map((option, index) => (
-        <TouchableOpacity
-          key={index}
-          style={[
-            styles.option,
-            selectedOption === index && styles.selectedOption,
-          ]}
-          onPress={() => handleOptionPress(index)}
-        >
-          <Text style={styles.optionText}>{poll.pollItems.pollOption}</Text>
-          {selectedOption !== null && (
-            <StatusBar
-              style={styles.statusBar}
-              translucent
-              backgroundColor="rgba(0, 0, 0, 0.2)"
-              animated
-            >
-              <Text style={styles.statusBarText}>
-                {poll.pollItems.pollOption}: {calculatePercentage(poll.pollItems.votes, poll.totalNumOfVotes)}%
-              </Text>
-            </StatusBar>
-          )}
-        </TouchableOpacity>
-      ))}
-      <Text style={styles.selectedText}>
-        {selectedOption !== null && `You selected: ${poll.pollItems[selectedOption].pollOption}`}
-      </Text> */}
-       <FlatList
+        <FlatList
         data={poll.pollItems}
-        keyExtractor={(item) => item.option}
-        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderOption}
       />
     </View>
   );
@@ -68,36 +77,48 @@ const PollListItem = ({ poll, }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+    backgroundColor: "#D8E8F3",
+    marginTop:20,
+    borderWidth: 5,
+    borderRadius: 29,
+    marginVertical:135
   },
   question: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  option: {
-    backgroundColor: '#eee',
+  optionContainer: {
+    marginBottom: 16,
     padding: 10,
-    borderRadius: 8,
-    marginBottom: 8,
+    //borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 28,
+    backgroundColor:'#ffff'
   },
   selectedOption: {
-    backgroundColor: '#3498db', // Change to your selected color
+   backgroundColor: '#add8e6', // Light blue for selected option
   },
   optionText: {
     fontSize: 16,
+    marginBottom: 12,
+    fontWeight:'700',
+    marginLeft:75,
   },
-  selectedText: {
-    marginTop: 10,
+  percentageBar: {
+    height: 60,
+    backgroundColor: '#1764EF', // Medium aquamarine for the percentage bar
+    borderRadius: 29,
+    marginBottom: 4,
+    marginLeft:-10,
+    marginTop:-8
+
+  },
+  percentageText: {
     fontSize: 16,
-    fontWeight: 'bold',
-  },
-  statusBar: {
-    height: 20,
-  },
-  statusBarText: {
-    color: 'white',
-    fontSize: 14,
-    textAlign: 'center',
+    color: '#ffff',
+    fontWeight:'600',
+    marginTop: -35
   },
 });
 
