@@ -4,37 +4,32 @@ import Animated, { EasingNode } from 'react-native-reanimated';
 import { getUser } from '../../graphql/queries';
 import { useEffect } from "react";
 import { API, graphqlOperation } from "aws-amplify";
+import { FontAwesome } from '@expo/vector-icons';
 
 const { Value, timing } = Animated;
 
 const PollListItem = ({ poll, }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [animationValue, setAnimationValue] = useState(new Value(0));
-  const[pollCreator, setPollCreator] = useState("@testUSer")
+  const[pollCreator, setPollCreator] = useState("@superDuperBostoner")
+  const[numOfpollComment, setNumOfPollComment] = useState("500")
+  const[numOfPollLikes, setNumOfPollLikes] = useState("")
+  const [isLikeCommentIconClicked, setIsLikeCommentIconClicked,] = useState(false);
+  //const[numOfPollLikes, setNumOfPollLikes]
   
 
-
+  const handleLickedIconClick = () => {
+    setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
+    // Additional logic or state updates can be added here
+  };
 
    // fetch Chat Room
    useEffect(() => {
-    API.graphql(graphqlOperation(getUser, { id: poll.userID})).then(
-      (result) => setPollCreator("@" + result.data?.getUser)
-     
-    );
-    console.log(pollCreator)
-    // const subscription = API.graphql(
-    //   graphqlOperation(onUpdateChatRoom, { filter: { id: { eq: chatroomID } } })
-    // ).subscribe({
-    //   next: ({ value }) => {
-    //     setChatRoom((cr) => ({
-    //       ...(cr || {}),
-    //       ...value.data.onUpdateChatRoom,
-    //     }));
-    //   },
-    //   error: (err) => console.warn(err),
-    // });
-
-    // return () => subscription.unsubscribe();
+    setNumOfPollLikes(poll.numOfLikes)
+    const user = API.graphql(graphqlOperation(getUser, { id: poll.userID}));
+    //console.log(pollCreator)
+    console.log(user)
+    console.log(poll.userID)
   }, []);
   const handleOptionPress = (index) => {
     setSelectedOption(index);
@@ -106,8 +101,12 @@ const PollListItem = ({ poll, }) => {
                 style={styles.userImage}
                 />
         </View>
-      <TouchableOpacity>
-      <Text>{pollCreator}</Text>
+      <TouchableOpacity
+      style={styles.userName}
+      >
+      <Text
+      style={styles.userNameText}
+      >{pollCreator}</Text>
       </TouchableOpacity>
       <Text style={styles.question}>{poll.pollCaption}</Text>
         <FlatList
@@ -115,6 +114,30 @@ const PollListItem = ({ poll, }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderOption}
       />
+      <TouchableOpacity
+      style={styles.pollCommentContainer}
+      >
+      <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
+      <Text
+      style={styles.numOfpollComments}
+      >{numOfpollComment}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+      style={styles.pollLikesContainer}
+      onPress={handleLickedIconClick}
+      >
+      {/* <FontAwesome name="heart-o" size={44} color="#1764EF" style={styles.pollCommentIcon} /> */}
+      <FontAwesome
+          name={isLikeCommentIconClicked? "heart-o"  : 'heart'}
+          size={50}
+          color={isLikeCommentIconClicked ? "#1764EF" : 'red'}
+          style={styles.pollCommentIcon}
+        />
+      <Text
+      style={styles.numOfpollLikes}
+      >{poll.numOfLikes}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -135,6 +158,15 @@ const styles = StyleSheet.create({
    userImage:{
        width:50,
        height:70
+   },
+   userName:{
+   marginLeft: 60,
+   marginTop:-45,
+   marginBottom:50
+   },
+   userNameText:{
+   fontSize:19,
+   fontWeight:'200'
    },
   question: {
     fontSize: 18,
@@ -174,6 +206,29 @@ const styles = StyleSheet.create({
     marginTop: -36,
     marginLeft:20
   },
+  pollCommentContainer:{
+   marginTop:20,
+  },
+  pollCommentIcon:{
+   marginLeft:20,
+  },
+  numOfpollComments:{
+    fontSize: 19,
+    marginLeft:18,
+    marginTop:5,
+    fontWeight:'700'
+  },
+  pollLikesContainer:{
+    marginLeft:250,
+    marginTop:-65
+  },
+  numOfpollLikes:{
+    marginLeft:30,
+    marginTop:5,
+    fontSize:20,
+    fontWeight:'700'
+  }
+  
 });
 
 export default PollListItem;
