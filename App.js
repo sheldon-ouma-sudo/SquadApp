@@ -45,6 +45,7 @@ import ExplorePollScreen from "./src/screens/ExplorePollScreen";
 import WordPollCreationScreen from "./src/screens/WordPollCreationScreen"
 import SquadCreatedScreen from "./src/screens/SquadCreatedScreen";
 import SquadJoinedScreen from "./src/screens/SquadJoinedScreen";
+import { UserProvider } from "./UserContext"
 
 Amplify.configure(awsconfig);
  ///run this once when the app is opened
@@ -201,6 +202,7 @@ export default function App() {
   //   syncUser();
   // }, []);
   return (
+    <UserProvider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
@@ -234,9 +236,10 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name= "WordPollCreationScreen" component={WordPollCreationScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "SquadCreatedScreen" component={SquadCreatedScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "SquadJoinedScreen" component={SquadJoinedScreen}/>
-
       </Stack.Navigator>
     </NavigationContainer>
+    </UserProvider>
+    
   );
 }
 

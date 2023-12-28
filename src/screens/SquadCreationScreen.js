@@ -10,7 +10,8 @@
     import { graphqlOperation, Auth, API } from 'aws-amplify';
     import { createSquadUser } from '../graphql/mutations';
     import { updateUser } from '../graphql/mutations';
-import { graphql } from 'graphql';
+    import { graphql } from 'graphql';
+    import { UserProvider } from '../../UserContext';
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -64,6 +65,7 @@ useEffect(()=>{
       }
      const squadID = newSquad.data.createSquad.id
      setMainSquadId(squadID)
+     updateUserProperty('userSquadId', squadID);
      return squadID
       } catch (error) {
         console.log(error)
@@ -82,6 +84,11 @@ useEffect(()=>{
         
     //   }
     // }
+
+  // Function to update userSquadId
+     // Replace with your logic to get the new value
+    
+  
     createMainUserSquad()
     //handleSquadUser()
   }, [])
