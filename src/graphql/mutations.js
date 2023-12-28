@@ -1,6 +1,156 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createPollResponse = /* GraphQL */ `
+  mutation CreatePollResponse(
+    $input: CreatePollResponseInput!
+    $condition: ModelPollResponseConditionInput
+  ) {
+    createPollResponse(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      score
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePollResponse = /* GraphQL */ `
+  mutation UpdatePollResponse(
+    $input: UpdatePollResponseInput!
+    $condition: ModelPollResponseConditionInput
+  ) {
+    updatePollResponse(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      score
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePollResponse = /* GraphQL */ `
+  mutation DeletePollResponse(
+    $input: DeletePollResponseInput!
+    $condition: ModelPollResponseConditionInput
+  ) {
+    deletePollResponse(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      score
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createPollRequest = /* GraphQL */ `
+  mutation CreatePollRequest(
+    $input: CreatePollRequestInput!
+    $condition: ModelPollRequestConditionInput
+  ) {
+    createPollRequest(input: $input, condition: $condition) {
+      id
+      Poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        squadID
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      userID
+      createdAt
+      updatedAt
+      pollRequestPollId
+      __typename
+    }
+  }
+`;
+export const updatePollRequest = /* GraphQL */ `
+  mutation UpdatePollRequest(
+    $input: UpdatePollRequestInput!
+    $condition: ModelPollRequestConditionInput
+  ) {
+    updatePollRequest(input: $input, condition: $condition) {
+      id
+      Poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        squadID
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      userID
+      createdAt
+      updatedAt
+      pollRequestPollId
+      __typename
+    }
+  }
+`;
+export const deletePollRequest = /* GraphQL */ `
+  mutation DeletePollRequest(
+    $input: DeletePollRequestInput!
+    $condition: ModelPollRequestConditionInput
+  ) {
+    deletePollRequest(input: $input, condition: $condition) {
+      id
+      Poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        squadID
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      userID
+      createdAt
+      updatedAt
+      pollRequestPollId
+      __typename
+    }
+  }
+`;
 export const createPollComment = /* GraphQL */ `
   mutation CreatePollComment(
     $input: CreatePollCommentInput!
@@ -72,8 +222,21 @@ export const createPoll = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollRequest {
+        id
+        userID
+        createdAt
+        updatedAt
+        pollRequestPollId
+        __typename
+      }
+      PollResponses {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      pollPollRequestId
       __typename
     }
   }
@@ -101,8 +264,21 @@ export const updatePoll = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollRequest {
+        id
+        userID
+        createdAt
+        updatedAt
+        pollRequestPollId
+        __typename
+      }
+      PollResponses {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      pollPollRequestId
       __typename
     }
   }
@@ -130,8 +306,21 @@ export const deletePoll = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollRequest {
+        id
+        userID
+        createdAt
+        updatedAt
+        pollRequestPollId
+        __typename
+      }
+      PollResponses {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      pollPollRequestId
       __typename
     }
   }
@@ -234,6 +423,14 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      PollResponses {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -266,6 +463,14 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      PollResponses {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -295,6 +500,14 @@ export const deleteUser = /* GraphQL */ `
         __typename
       }
       PollComments {
+        nextToken
+        __typename
+      }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      PollResponses {
         nextToken
         __typename
       }

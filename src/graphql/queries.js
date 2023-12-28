@@ -1,6 +1,177 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getPollResponse = /* GraphQL */ `
+  query GetPollResponse($id: ID!) {
+    getPollResponse(id: $id) {
+      id
+      pollID
+      userID
+      score
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listPollResponses = /* GraphQL */ `
+  query ListPollResponses(
+    $filter: ModelPollResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPollResponses(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        pollID
+        userID
+        score
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollResponsesByPollID = /* GraphQL */ `
+  query PollResponsesByPollID(
+    $pollID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollResponsesByPollID(
+      pollID: $pollID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        score
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollResponsesByUserID = /* GraphQL */ `
+  query PollResponsesByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollResponsesByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        score
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getPollRequest = /* GraphQL */ `
+  query GetPollRequest($id: ID!) {
+    getPollRequest(id: $id) {
+      id
+      Poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        squadID
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      userID
+      createdAt
+      updatedAt
+      pollRequestPollId
+      __typename
+    }
+  }
+`;
+export const listPollRequests = /* GraphQL */ `
+  query ListPollRequests(
+    $filter: ModelPollRequestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPollRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userID
+        createdAt
+        updatedAt
+        pollRequestPollId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollRequestsByUserID = /* GraphQL */ `
+  query PollRequestsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollRequestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollRequestsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        createdAt
+        updatedAt
+        pollRequestPollId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getPollComment = /* GraphQL */ `
   query GetPollComment($id: ID!) {
     getPollComment(id: $id) {
@@ -113,8 +284,21 @@ export const getPoll = /* GraphQL */ `
         nextToken
         __typename
       }
+      PollRequest {
+        id
+        userID
+        createdAt
+        updatedAt
+        pollRequestPollId
+        __typename
+      }
+      PollResponses {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      pollPollRequestId
       __typename
     }
   }
@@ -142,6 +326,7 @@ export const listPolls = /* GraphQL */ `
         pollItems
         createdAt
         updatedAt
+        pollPollRequestId
         __typename
       }
       nextToken
@@ -180,6 +365,7 @@ export const pollsByUserID = /* GraphQL */ `
         pollItems
         createdAt
         updatedAt
+        pollPollRequestId
         __typename
       }
       nextToken
@@ -218,6 +404,7 @@ export const pollsBySquadID = /* GraphQL */ `
         pollItems
         createdAt
         updatedAt
+        pollPollRequestId
         __typename
       }
       nextToken
@@ -287,6 +474,14 @@ export const getUser = /* GraphQL */ `
         __typename
       }
       PollComments {
+        nextToken
+        __typename
+      }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      PollResponses {
         nextToken
         __typename
       }
