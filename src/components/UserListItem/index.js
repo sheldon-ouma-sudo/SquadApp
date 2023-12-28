@@ -4,18 +4,18 @@ import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import { createSquadUser } from '../../graphql/mutations';
+//import {useUserContext} from '../../../UserContext';
 
-const UserListItem =({  user,
+const UserListItem =({  user, userInfo,
   onPress = () => {},
   selectable = false,
   isSelected = false,})=>{
    const navigation = useNavigation()
    const[selected, setSelected] = useState(false)
    const[squadToJoin, setSquadToJoin] = useState("")
+  // const { userInfo } = useUserContext();
 
-const route = useRoute()
-const squadToAddUser = route.params?.mainSquad
-console.log("this is the squad we want to add users to", squadToAddUser)
+//console.log("this is the squad we want to add users to", userInfo.userSquadId)
 
   const handleSquadCreation = () =>{
     //alert("pressed")

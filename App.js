@@ -31,7 +31,7 @@ import CalendarScreen from "./src/screens/CalendarScreen";
 import { Amplify, Auth, Hub } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
 import {Storage, API,graphqlOperation } from 'aws-amplify';
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {getUser} from './src/graphql/queries'
 import {createUser} from './src/graphql/mutations'
 import AccountSettingScreen from "./src/screens/AccountSettingScreen";
@@ -46,6 +46,7 @@ import WordPollCreationScreen from "./src/screens/WordPollCreationScreen"
 import SquadCreatedScreen from "./src/screens/SquadCreatedScreen";
 import SquadJoinedScreen from "./src/screens/SquadJoinedScreen";
 import { UserProvider } from "./UserContext"
+
 
 Amplify.configure(awsconfig);
  ///run this once when the app is opened
@@ -159,54 +160,30 @@ function BottomTabs() {
 }
 
 export default function App() {
-  // useEffect(() => {
-  //   const syncUser = async () => {
-  //     // get Auth user
-  //     const authUser = await Auth.currentAuthenticatedUser({
-  //       bypassCache: true,
-  //     });
-  //       console.log(authUser)
-  //     // query the database using Auth user id (sub)
-  //     const userData = await API.graphql(
-  //       graphqlOperation(getUser, { id: authUser.attributes.sub })
-  //     );
+  const [user, setUser] = useState(null);
 
-  //     if (userData.data.getUser) {
-  //       console.log("This is the user data is:",userData)
-  //       // console.log("This is the user username is:",userData.data.getUser.username)
-  //       // console.log("This is the user's name is:",userData.data.getUser.name)
-  //       // console.log("This is the user's  squad is:",userData.data.getUser.squad)
-  //       // console.log("This is the user's number of polls is:",userData.data.getUser.numOfPolls)
-  //       // console.log("This is the user's interest is: ",userData.data.getUser.interests)
-  //       // console.log("This is the user's image is:",userData.data.getUser.imageUrl)
-  //       console.log("User already exists in DB");
-  //       return;
-  //     }
-      
-  //     //if there is no users in db, create one
-  //     const newUser = {
-  //       id: authUser.attributes.sub,
-  //       username: authUser.attributes.preferred_username,
-  //       name: authUser.attributes.name,
-  //       numOfPolls:0,
-  //       numOfSquadron:0,
-  //       interests:['undefined for now']
-  //     };
-  //     console.log(newUser)
-  //     const newUserData = await API.graphql(
-  //       graphqlOperation(createUser, { input: newUser })
-  //     );
-  //     console.log(newUserData)
-  //   };
-    
-  //   syncUser();
-  // }, []);
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const authUser = await Auth.currentAuthenticatedUser();
+        setUser(authUser);
+      } catch (error) {
+        console.log("User not authenticated");
+      }
+    };
+
+    checkAuth();
+  }, []);
+
   return (
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen options={{headerShown : false}}   name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="RootNavigation" options={{headerShown: false}} component={BottomTabs} /> 
+        {user ? (
+            <Stack.Screen name="RootNavigation" options={{ headerShown: false }} component={BottomTabs}/>
+          ) : (
+            <Stack.Screen name="LoginScreen" options={{ headerShown: false }} component={LoginScreen} />
+          )}
         <Stack.Screen options={{headerShown : false}} name="NewTestWorkScreen" component={NewTestScreenWork}/>
         <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
         <Stack.Screen options={{headerShown:false}} name ="PollContentScreen" component={PollContentScreen}/>
@@ -257,6 +234,4 @@ const styles = StyleSheet.create({
     marginRight:250,
     marginTop:40  
 }
-
-
 });

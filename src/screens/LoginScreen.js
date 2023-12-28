@@ -9,6 +9,7 @@ import  * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowswer from 'expo-web-browser'
 import * as Facebook from 'expo-facebook'
 import { Auth } from 'aws-amplify';
+import { useUserContext } from '../../UserContext';
 
 //import  UserInfo  from 'firebase-admin/lib/auth/user-record';
 //import { GoogleSignin } from 'expo-google-sign-in';
@@ -24,151 +25,153 @@ const LoginScreen = () => {
     const [passwordError, setPasswordError] = useState("")
     const [userInfo, setUserInfo] = useState()
     const [initializing, setInitializing] = useState(true);
-    const [user, setUser] = useState();
+   // const [user, setUser] = useState();
     const [isLoggedIn, setLoggedInStatus] = useState(false)
     const [userData, setUserData] = useState(null)
     const [isImageLoading, setImageLoadingStatus] = useState(false)
+    const {user} = useUserContext();
     const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
     iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com', 
-    expoClientId: "32488750865-uqnbfbv424n1feumrc3lrtu0q42q4140.apps.googleusercontent.com",           
-    //scopes: ['profile', 'email']
+    expoClientId: "32488750865-uqnbfbv424n1feumrc3lrtu0q42q4140.apps.googleusercontent.com",           //scopes: ['profile', 'email']
+ })
 
-    })
+    // useEffect(()=>{
+    //     if(response?.type ==='success'){
+    //         setAccessToken(response.authentication.accessToken)
+    //     }
 
-    useEffect(()=>{
-        if(response?.type ==='success'){
-            setAccessToken(response.authentication.accessToken)
-        }
-
-    }, [response]);
-    async function getUserData(){
-        let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-            headers:{Authorization: `Bearer ${accessToken}`}
-        })
-        userInfoResponse.json().then(data =>{
-            setUserInfo(data)
-        });
-    }
-    function showUserInfo(){
-        if(userInfo){
-            return(
-            <View style ={styles.userInfo}>
-                <Image source={{uri: userInfo.picture}}style = {styles.profilePic}/>
-                <Text>Welcome {userInfo.name}</Text>
-                <Text>Welcome {userInfo.email}</Text>
-            </View>
-            );
-        }
-    }
+    // }, [response]);
+    // async function getUserData(){
+    //     let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+    //         headers:{Authorization: `Bearer ${accessToken}`}
+    //     })
+    //     userInfoResponse.json().then(data =>{
+    //         setUserInfo(data)
+    //     });
+    // }
+    // function showUserInfo(){
+    //     if(userInfo){
+    //         return(
+    //         <View style ={styles.userInfo}>
+    //             <Image source={{uri: userInfo.picture}}style = {styles.profilePic}/>
+    //             <Text>Welcome {userInfo.name}</Text>
+    //             <Text>Welcome {userInfo.email}</Text>
+    //         </View>
+    //         );
+    //     }
+    // }
 //this is the import to enable the navigation 
-    const navigation = useNavigation()
+  
     //the puropose of the following is to ensure that when the user has logged in and registered they get navigated to the home page and so on 
-    useEffect(()=>{
-    const unsubscribe = auth.onAuthStateChanged(user =>{
-    if(user){
-    navigation.replace("HomeScreen")
-    }
-    })
-    return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
+    // useEffect(()=>{
+    // const unsubscribe = auth.onAuthStateChanged(user =>{
+    // if(user){
+    // navigation.replace("HomeScreen")
+    // }
+    // })
+    // return unsubscribe //when we leave from this screen it is going to unsubscribe from this listener so that it does not keep pinging when it shouldn't 
 
-    }, [])
+    // }, [])
 
-    const signWithFacebook =async () => {
-    try{
-        await Facebook.initializeAsync({
-            appId:'546453377226490',
-        })
-        const{ type, token } = await Facebook.logInWithReadPermissionsAsync({permissions:['public_profile'], })
-        if(type === 'success'){
-        //we are using the facebook graph api
-        fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name, email, picture.height(500)`)
-        .then(response=>response.json)
-        .then(data =>{
-            setLoggedInStatus(true)
-            setUserData(data)
-        })
-        .catch(e=>console.log(e))
-        }else{
-        }
+    // const signWithFacebook =async () => {
+    // try{
+    //     await Facebook.initializeAsync({
+    //         appId:'546453377226490',
+    //     })
+    //     const{ type, token } = await Facebook.logInWithReadPermissionsAsync({permissions:['public_profile'], })
+    //     if(type === 'success'){
+    //     //we are using the facebook graph api
+    //     fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name, email, picture.height(500)`)
+    //     .then(response=>response.json)
+    //     .then(data =>{
+    //         setLoggedInStatus(true)
+    //         setUserData(data)
+    //     })
+    //     .catch(e=>console.log(e))
+    //     }else{
+    //     }
 
-    }catch({message}){
-        alert(`Facebook Login Error': ${message}`);
-    }
+    // }catch({message}){
+    //     alert(`Facebook Login Error': ${message}`);
+    // }
 
-    }
-    logout = () =>{
-        setLoggedInStatus(false)
-        setUserData(null)
-        setImageLoadingStatus(false)
-    }
+    // }
+    // logout = () =>{
+    //     setLoggedInStatus(false)
+    //     setUserData(null)
+    //     setImageLoadingStatus(false)
+    // }
+    //handle the login functionaility of the app with firebase
+// const handleLogin = () =>{
+//     //login form validation
+//     var emailValid = false;
+//     if(email.length == 0){
+//         setEmailError("Email is required");
+//     }        
+//     else if(email.length < 6){
+//         setEmailError("Email should be minimum 6 characters");
+//     }      
+//     else if(email.indexOf(' ') >= 0){        
+//         setEmailError('Email cannot contain spaces');                          
+//     } else if(email.indexOf('@') <= 0){        
+//         setEmailError('Email is invald, please key in the valid key');                          
+//     }      
+//     else{
+//         setEmailError("")
+//         emailValid = true
+//     }
+    
+//     //password validation 
+//     var passwordValid = false;
+//     if(password.length == 0){
+//         setPasswordError("Password is required");
+//     }        
+//     else if(password.length < 8){
+//         setPasswordError("Password should be minimum 8 characters");
+//     }      
+//     else if(password.indexOf(' ') >= 0){        
+//         setPasswordError('Password cannot contain spaces');                          
+//     }
+//     else if(password!=confirmPassword){
+//         setPasswordError('Password and confirm password do not match')
 
-    async function signInWithAWS() {
+//     }else if(!checkPassword){
+//         setPasswordError("the password should contain at least one special character and an uppercase letter")
+//     }
+//     else{
+//         setPasswordError("")
+//         passwordValid = true
+//     }        
+//     if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
+//         // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
+//         setEmail("");
+//         setPassword("");
+//         setUsername("")
+                
+//     auth.signInWithEmailAndPassword(email, password)
+//     .then(userCredentials =>{
+//         const user= userCredentials.user;
+//         console.log('Log in with ',user.email);
+    
+//     })
+// } 
+// }
+   console.log("this is the user info",user);
+   const navigation = useNavigation()
+   async function signInWithAWS() {
         try {
         //   await Auth.signIn(username, password);
         //   console.log('✅ Success');
          // updateAuthState('loggedIn');
-         navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
+         //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
          //navigation.navigate('RootNavigation', { screen:'Home'})
+         navigation.navigate("PersonalInterestScreen");
         } catch (error) {
           console.log('❌ Error signing in...', error); 
         }
       }
-//handle the login functionaility of the app with firebase
-const handleLogin = () =>{
-    //login form validation
-    var emailValid = false;
-    if(email.length == 0){
-        setEmailError("Email is required");
-    }        
-    else if(email.length < 6){
-        setEmailError("Email should be minimum 6 characters");
-    }      
-    else if(email.indexOf(' ') >= 0){        
-        setEmailError('Email cannot contain spaces');                          
-    } else if(email.indexOf('@') <= 0){        
-        setEmailError('Email is invald, please key in the valid key');                          
-    }      
-    else{
-        setEmailError("")
-        emailValid = true
-    }
-    
-    //password validation 
-    var passwordValid = false;
-    if(password.length == 0){
-        setPasswordError("Password is required");
-    }        
-    else if(password.length < 8){
-        setPasswordError("Password should be minimum 8 characters");
-    }      
-    else if(password.indexOf(' ') >= 0){        
-        setPasswordError('Password cannot contain spaces');                          
-    }
-    else if(password!=confirmPassword){
-        setPasswordError('Password and confirm password do not match')
-
-    }else if(!checkPassword){
-        setPasswordError("the password should contain at least one special character and an uppercase letter")
-    }
-    else{
-        setPasswordError("")
-        passwordValid = true
-    }        
-    if(emailValid && passwordValid&&userNameValid&&phoneNumberValid){            
-        // alert('Email: ' + email + '\nPassword: ' + password+ '\nPhone: ' + phoneNumber+ '\nusername: ' + username)
-        setEmail("");
-        setPassword("");
-        setUsername("")
-                
-    auth.signInWithEmailAndPassword(email, password)
-    .then(userCredentials =>{
-        const user= userCredentials.user;
-        console.log('Log in with ',user.email);
-    
-    })
-} 
-}
+      
 return (
     <KeyboardAvoidingView 
     style={styles.container}
@@ -233,7 +236,7 @@ return (
 
                 {/**this is the view with the google and the facebook icons */}
             <TouchableOpacity style= {[{flexDirection:"row"}, styles.logo]}>
-                {showUserInfo()}
+                
                 <TouchableOpacity 
                 style= {{flex:1}}
                 title = {accessToken?"Get User Data": "Login"}
@@ -245,7 +248,7 @@ return (
                 </TouchableOpacity>
                 <TouchableOpacity 
                 style= {{fex:1}}
-                onPress={signWithFacebook}
+                // onPress={signWithFacebook}
                 >
                         <Image
                         source={require('/Users/sheldonotieno/Squad/assets/facebooklogo.png')}

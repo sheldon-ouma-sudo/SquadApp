@@ -10,6 +10,7 @@ import { API, graphqlOperation, Auth } from "aws-amplify";
 import { listUsers } from "../graphql/queries";
 import UserListItem from "../components/UserListItem"
 import { useRoute } from '@react-navigation/native';
+import {useUserContext} from '../../UserContext';
 
 const ExploreUserScreen = () => {
   //const [search, setSearch] = useState('');
@@ -18,10 +19,11 @@ const ExploreUserScreen = () => {
   //const [fakeData, setFakeData] = useState();
   const [users, setUsers] = useState([]);
   const [parent_squadID, setParentSquadID] = useState("")
+  const {user} = useUserContext();
   
-  const route = useRoute();
-  const squadID = route.params?.squad_id
-  console.log("here's the parent userSquad",squadID)
+  // const route = useRoute();
+  // const squadID = route.params?.squad_id
+  // console.log("here's the parent userSquad",squadID)
   // // get data from the fake api
   // useEffect(() => {
   //   const getData = async () => {
@@ -33,11 +35,12 @@ const ExploreUserScreen = () => {
   //   };
   //   getData();
   // }, []);
-
+console.log("user",user);
   useEffect(()=>{
-    if(parent_squadID!== undefined){
-      setParentSquadID(squadID)
-    }
+    // if(parent_squadID!== undefined){
+    //   setParentSquadID(squadID)
+    // }
+    //console.log("here is the user info",parentUserData);
     const fetchUsers = async() =>{
        const results = await API.graphql(graphqlOperation(listUsers));
       if(!results.data?.listUsers){
@@ -45,7 +48,7 @@ const ExploreUserScreen = () => {
       }
       //console.log("this is the list of the users",results.data.listUsers.items)
         setUsers(results.data?.listUsers?.items)
-        //console.log(result)
+        //console.log(results[0].id)
        // const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
         //   if(!newSquad.data?.createSquad){
         //     console.log("Error creating a Squad")

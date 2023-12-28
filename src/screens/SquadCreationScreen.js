@@ -11,7 +11,7 @@
     import { createSquadUser } from '../graphql/mutations';
     import { updateUser } from '../graphql/mutations';
     import { graphql } from 'graphql';
-    import { UserProvider } from '../../UserContext';
+    import { useUserContext } from '../../UserContext';
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -44,7 +44,7 @@
     const[currentPosition, setCurrentPositon] = useState(3)
     const[userId, setUserId] = useState("")
     const[mainSquadId, setMainSquadId] = useState("")
-    //const[]
+    const { user, updateUserProperty } = useUserContext();
 
 const navigation = useNavigation()
 const route = useRoute()
@@ -66,6 +66,7 @@ useEffect(()=>{
      const squadID = newSquad.data.createSquad.id
      setMainSquadId(squadID)
      updateUserProperty('userSquadId', squadID);
+     console.log("this is the updated user information", user);
      return squadID
       } catch (error) {
         console.log(error)

@@ -8,7 +8,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { useCallback } from 'react';
   import { API, graphqlOperation, Auth } from "aws-amplify";
   import {createUser} from '../graphql/mutations'
-  import { UserProvider } from '../../UserContext';
+  import { useUserContext } from '../../UserContext';
 
 
   const{width,height} = Dimensions.get("window")
@@ -98,7 +98,7 @@ const [selected, setSelected] = useState(new Map());
 const [userInterest, setUserInterest] = useState([])
 const[currentPosition, setCurrentPositon] = useState(2)
 
-const { updateUser } = useUserContext();
+const { user, updateUser } = useUserContext();
 const[authUserID, setAuthUserID] = useState()
 const navigation = useNavigation()
 const onSelect = useCallback(
@@ -168,6 +168,7 @@ useEffect(()=>{
        // console.log("this is id the new user id", newUser.data.createUser)
         console.log("this is id the new user id", newUser.data.createUser.id)
         const user_id = newUser.data.createUser.id
+        console.log("the user id is as follows",user_id)
         setAuthUserID(user_id)
         console.log("this is the recorded user_id",authUserID)
         // Update the user context with the new user information
@@ -177,7 +178,7 @@ useEffect(()=>{
           userName: username,
           imageUrl: userProfilePicture,
           userSquadId: "null_for_now",
-          numOfPolls: 0,
+          numOfPolls: 0, 
           numOfSquadron: 0,
           userInterests: userInterest
         });
@@ -185,15 +186,16 @@ useEffect(()=>{
     } catch (error) {
       console.log("error creating users")
     }
-      try {
-        await Auth.updateUserAttributes(authUser, {
-          'profile': authUserID
-        })
-        console.log(authUser.attributes.profile)
+    console.log("the new user info is as follows", user.userSquadId)
+      // try {
+      //   await Auth.updateUserAttributes(authUser, {
+      //     'profile': authUserID
+      //   })
+      //   console.log(authUser.attributes.profile)
         
-      } catch (error) {
-        console.log("error uploading user_id")
-      }
+      // } catch (error) {
+      //   console.log("error uploading user_id")
+      // }
 
 
    }
