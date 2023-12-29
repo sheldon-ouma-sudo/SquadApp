@@ -33,8 +33,8 @@ const UserListItem = ({
   }, []);
 
   const handleSquadCreation = async () => {
-    console.log("here is the squad we want to add users", squadToJoin);
-    console.log("here is the user's id", user.id);
+    //console.log("here is the squad we want to add users", squadToJoin);
+    //console.log("here is the user's id", user.id);
     if (selected === false) {
       setSelected(true);
       try {
@@ -43,16 +43,17 @@ const UserListItem = ({
         }));
     
         if (!newSquadUser.data?.createSquadUser) {
-          console.log("Error creating the user Squad");
+         // console.log("Error creating the user Squad");
         } else {
-          console.log("User added to the squad:", newSquadUser.data.createSquadUser);
+          //console.log("User added to the squad:", newSquadUser.data.createSquadUser);
         }
       } catch (error) {
-        console.log("Error creating the squad user", error);
+        //console.log("Error creating the squad user", error);
       }
     }
    else{
    setSelected(false);
+   //delete user from the squad
    }
     
     
@@ -85,23 +86,23 @@ const UserListItem = ({
           {user.name}
           </Text>
         </View>
-        <TouchableOpacity // rename and arrange this properly
-          style = {[styles.addUserContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
-         onPress={handleSquadCreation}
+        <TouchableOpacity
+          style={[
+            selected ? styles.addedUserIcon : styles.unAddedUserIcon,
+            {
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            },
+          ]}
+          onPress={handleSquadCreation}
           >
-          {!selected?(
-          <AntDesign name="addusergroup" size={23} color="white" style={{marginBottom:5}}/>
-          ):(
-            <SimpleLineIcons name="user-following" size={20} color="white" style={{marginBottom:6}} />
+          {!selected ? (
+            // <AntDesign name="addusergroup" size={23} color="#1145FD" style={{ marginBottom: 5 }} />
+            <SimpleLineIcons name="user-following" size={20} color="#1145FD" style={{ marginBottom: 6 }} />
+          ) : (
+            <AntDesign name="addusergroup" size={23} color="white" style={{ marginBottom: 5 }} />
           )}
-        </TouchableOpacity>
-     
-      {selectable &&
-        (isSelected ? (
-          <AntDesign name="checkcircle" size={24} color="royalblue" />
-        ) : (
-          <FontAwesome name="circle-thin" size={24} color="lightgray" />
-        ))}
+      </TouchableOpacity>
         </View>
      </Pressable>
    )
@@ -129,16 +130,25 @@ const UserListItem = ({
      height: 50,
      width: 180,
    },
-   addUserContainer:{
-    height:40,
+   addedUserIcon: {
+    height: 40,
     width: 95,
     backgroundColor: "#1145FD",
     borderRadius: 10,
     borderColor: "#FFFF",
     borderWidth: 2.5,
-    marginLeft:25,
-    
-   },
+    marginLeft: 25,
+  },
+  
+  unAddedUserIcon: {
+    height: 40,
+    width: 95,
+    backgroundColor: "white",
+    borderRadius: 10,
+    borderColor: "#1145FD",
+    borderWidth: 2.5,
+    marginLeft: 25,
+  },
    votedText:{
      color: "white",
      fontWeight: "bold",
