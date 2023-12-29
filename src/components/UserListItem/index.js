@@ -63,6 +63,10 @@ const UserListItem = ({
         } else {
           console.log("User added to the squad:", newSquadUser.data.createSquadUser);
         }
+        //update the local user and the backend 
+
+
+
       } catch (error) {
         console.log("Error creating the squad user", error);
       }
