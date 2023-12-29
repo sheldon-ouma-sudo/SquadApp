@@ -15,10 +15,24 @@ const SquadListItem =({ squad,
   isSelected = false,})=>{
  const navigation = useNavigation()
  const[squadSelected, setSquadSelected] = useState(false)
+ const [userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
 
+
+useEffect(() => {
+  const fetchParentSquadJoinedArray = async () => {
+    if (userInfo) {
+      console.log("we have userInfo data",userInfo.squadJoined);
+      setUserSquadsJoinedArray(userInfo.squadJoined)
+       //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
+     }
+    }
+    fetchParentSquadJoinedArray()
+}, []);
+//add the squad selected to the user's joined squad array
 const handleSquadSelected=async() =>{
   if(squadSelected==false){
     setSquadSelected(true)
+    userSquadsJoinedArray.push(squad.id)
   }else{
     setSquadSelected(false)
   }

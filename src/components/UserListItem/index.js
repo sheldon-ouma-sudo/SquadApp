@@ -37,7 +37,7 @@ const UserListItem = ({
   useEffect(() => {
     const fetchParentSquadId = async () => {
       if(user.squadJoined.includes(userSquadsArray)){
-        console.log("the user from the backend is not in the primary user's squad")
+        console.log("the user from the backend is in the primary user's squad")
        }else{
         const squad_to_join = userSquadsArray[0]
         user.squadJoined.push(squad_to_join);
@@ -59,12 +59,12 @@ const UserListItem = ({
         }));
     
         if (!newSquadUser.data?.createSquadUser) {
-         // console.log("Error creating the user Squad");
+        console.log("Error getting the user Squad data");
         } else {
-          //console.log("User added to the squad:", newSquadUser.data.createSquadUser);
+          console.log("User added to the squad:", newSquadUser.data.createSquadUser);
         }
       } catch (error) {
-        //console.log("Error creating the squad user", error);
+        console.log("Error creating the squad user", error);
       }
     }
    else{
