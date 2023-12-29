@@ -17,26 +17,42 @@ const UserListItem = ({
 }) => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(false);
-  const [squadToJoin, setSquadToJoin] = useState("");
+  const [userSquadsArray, setUserSquadsArray] = useState([])
+  const [squadToJoin, setSquadToBeJoined] = useState("");
 
 
   //console.log("this is the squad we want to add users to", userInfo.userSquadId);
 
   useEffect(() => {
-    const fetchParentSquadId = async () => {
+    const fetchParentSquadArray = async () => {
       if (userInfo) {
-        //console.log("we have userInfo data",userInfo.userSquadId);
-         setSquadToJoin(userInfo.userSquadId); // Access userSquadId directly
+        console.log("we have userInfo data",userInfo.userSquadId);
+        setUserSquadsArray(userInfo.userSquadId)
+         //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
+       }
+      }
+      fetchParentSquadArray()
+  }, []);
+
+  useEffect(() => {
+    const fetchParentSquadId = async () => {
+      if(user.squadJoined.includes(userSquadsArray)){
+        console.log("the user from the backend is not in the primary user's squad")
+       }else{
+        const squad_to_join = userSquadsArray[0]
+        user.squadJoined.push(squad_to_join);
+        setSquadToBeJoined(squad_to_join); 
        }
       }
       fetchParentSquadId()
   }, []);
-
   const handleSquadCreation = async () => {
     //console.log("here is the squad we want to add users", squadToJoin);
     //console.log("here is the user's id", user.id);
+    console.log("here is the user's squad array", userSquadsArray)
     if (selected === false) {
       setSelected(true);
+    
       try {
         const newSquadUser = await API.graphql(graphqlOperation(createSquadUser, {
           input: { squadId: squadToJoin, userId: user.id }

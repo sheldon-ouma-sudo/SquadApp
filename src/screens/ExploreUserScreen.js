@@ -19,7 +19,6 @@ const ExploreUserScreen = () => {
   //const [fakeData, setFakeData] = useState();
   const [users, setUsers] = useState([]);
   const[userInfo, setUserInfo] = useState("")
-  const [parent_squadID, setParentSquadID] = useState("")
   const {user} = useUserContext();
   
   
@@ -36,7 +35,6 @@ useEffect(() => {
       setUserInfo(user);
       console.log("otherwise this the user info", user);
       console.log("here is the userSquadId", user.userSquadId);
-      setParentSquadID(user.userSquadId);
     }
   };
   fetchUsers();
@@ -53,16 +51,6 @@ useEffect(() => {
         clicked={clicked}
         setClicked={setClicked}
       />
-      {/* {!fakeData ? (
-        <ActivityIndicator size="large" />
-      ) : (
-        
-          <List
-            searchPhrase={searchPhrase}
-            data={fakeData}
-            setClicked={setClicked}
-          />
-      )} */}
        <FlatList
        data = {users}
        searchPhrase={searchPhrase}

@@ -9,6 +9,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 const SquadListItem =({ squad,
+  userInfo,
   onPress = () => {},
   selectable = false,
   isSelected = false,})=>{
