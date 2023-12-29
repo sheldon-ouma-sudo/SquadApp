@@ -483,7 +483,6 @@ export const getUser = /* GraphQL */ `
       }
       squadID
       squadJoined
-      userScore
       createdAt
       updatedAt
       __typename
@@ -508,7 +507,6 @@ export const listUsers = /* GraphQL */ `
         userInterests
         squadID
         squadJoined
-        userScore
         createdAt
         updatedAt
         __typename
@@ -544,7 +542,6 @@ export const usersBySquadID = /* GraphQL */ `
         userInterests
         squadID
         squadJoined
-        userScore
         createdAt
         updatedAt
         __typename

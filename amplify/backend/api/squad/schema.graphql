@@ -51,7 +51,7 @@ type User @model @auth(rules: [{ allow: public }]) {
   name: String!
   userName: String
   imageUrl: String
-  userSquadId: String
+  userSquadId: [String]
   numOfPolls: Int
   numOfSquadron: Int
   userInterests: [String]
@@ -61,5 +61,4 @@ type User @model @auth(rules: [{ allow: public }]) {
   PollResponses: [PollResponse] @hasMany(indexName: "byUser", fields: ["id"])
   squadID: ID! @index(name: "bySquad")
   squadJoined: [String]
-  userScore: Int
 }

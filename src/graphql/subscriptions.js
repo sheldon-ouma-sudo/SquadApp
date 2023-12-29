@@ -399,7 +399,6 @@ export const onCreateUser = /* GraphQL */ `
       }
       squadID
       squadJoined
-      userScore
       createdAt
       updatedAt
       __typename
@@ -435,7 +434,6 @@ export const onUpdateUser = /* GraphQL */ `
       }
       squadID
       squadJoined
-      userScore
       createdAt
       updatedAt
       __typename
@@ -471,7 +469,6 @@ export const onDeleteUser = /* GraphQL */ `
       }
       squadID
       squadJoined
-      userScore
       createdAt
       updatedAt
       __typename
