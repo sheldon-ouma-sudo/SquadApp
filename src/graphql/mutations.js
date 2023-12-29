@@ -409,7 +409,7 @@ export const createUser = /* GraphQL */ `
       imageUrl
       userSquadId
       numOfPolls
-      numOfSquadron
+      numOfSquadJoined
       userInterests
       Polls {
         nextToken
@@ -427,8 +427,11 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      squadID
       squadJoined
+      squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -447,7 +450,7 @@ export const updateUser = /* GraphQL */ `
       imageUrl
       userSquadId
       numOfPolls
-      numOfSquadron
+      numOfSquadJoined
       userInterests
       Polls {
         nextToken
@@ -465,8 +468,11 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      squadID
       squadJoined
+      squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -485,7 +491,7 @@ export const deleteUser = /* GraphQL */ `
       imageUrl
       userSquadId
       numOfPolls
-      numOfSquadron
+      numOfSquadJoined
       userInterests
       Polls {
         nextToken
@@ -503,8 +509,125 @@ export const deleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      squadID
       squadJoined
+      squads {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createSquadUser = /* GraphQL */ `
+  mutation CreateSquadUser(
+    $input: CreateSquadUserInput!
+    $condition: ModelSquadUserConditionInput
+  ) {
+    createSquadUser(input: $input, condition: $condition) {
+      id
+      squadId
+      userId
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateSquadUser = /* GraphQL */ `
+  mutation UpdateSquadUser(
+    $input: UpdateSquadUserInput!
+    $condition: ModelSquadUserConditionInput
+  ) {
+    updateSquadUser(input: $input, condition: $condition) {
+      id
+      squadId
+      userId
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteSquadUser = /* GraphQL */ `
+  mutation DeleteSquadUser(
+    $input: DeleteSquadUserInput!
+    $condition: ModelSquadUserConditionInput
+  ) {
+    deleteSquadUser(input: $input, condition: $condition) {
+      id
+      squadId
+      userId
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
       createdAt
       updatedAt
       __typename

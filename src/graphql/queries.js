@@ -463,7 +463,7 @@ export const getUser = /* GraphQL */ `
       imageUrl
       userSquadId
       numOfPolls
-      numOfSquadron
+      numOfSquadJoined
       userInterests
       Polls {
         nextToken
@@ -481,8 +481,11 @@ export const getUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      squadID
       squadJoined
+      squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -503,9 +506,8 @@ export const listUsers = /* GraphQL */ `
         imageUrl
         userSquadId
         numOfPolls
-        numOfSquadron
+        numOfSquadJoined
         userInterests
-        squadID
         squadJoined
         createdAt
         updatedAt
@@ -516,16 +518,71 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
-export const usersBySquadID = /* GraphQL */ `
-  query UsersBySquadID(
-    $squadID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelUserFilterInput
+export const getSquadUser = /* GraphQL */ `
+  query GetSquadUser($id: ID!) {
+    getSquadUser(id: $id) {
+      id
+      squadId
+      userId
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listSquadUsers = /* GraphQL */ `
+  query ListSquadUsers(
+    $filter: ModelSquadUserFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    usersBySquadID(
-      squadID: $squadID
+    listSquadUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        squadId
+        userId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const squadUsersBySquadId = /* GraphQL */ `
+  query SquadUsersBySquadId(
+    $squadId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSquadUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    squadUsersBySquadId(
+      squadId: $squadId
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -533,15 +590,36 @@ export const usersBySquadID = /* GraphQL */ `
     ) {
       items {
         id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        squadID
-        squadJoined
+        squadId
+        userId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const squadUsersByUserId = /* GraphQL */ `
+  query SquadUsersByUserId(
+    $userId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSquadUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    squadUsersByUserId(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        squadId
+        userId
         createdAt
         updatedAt
         __typename

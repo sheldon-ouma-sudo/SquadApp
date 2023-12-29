@@ -379,7 +379,7 @@ export const onCreateUser = /* GraphQL */ `
       imageUrl
       userSquadId
       numOfPolls
-      numOfSquadron
+      numOfSquadJoined
       userInterests
       Polls {
         nextToken
@@ -397,8 +397,11 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      squadID
       squadJoined
+      squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -414,7 +417,7 @@ export const onUpdateUser = /* GraphQL */ `
       imageUrl
       userSquadId
       numOfPolls
-      numOfSquadron
+      numOfSquadJoined
       userInterests
       Polls {
         nextToken
@@ -432,8 +435,11 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      squadID
       squadJoined
+      squads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -449,7 +455,7 @@ export const onDeleteUser = /* GraphQL */ `
       imageUrl
       userSquadId
       numOfPolls
-      numOfSquadron
+      numOfSquadJoined
       userInterests
       Polls {
         nextToken
@@ -467,8 +473,122 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      squadID
       squadJoined
+      squads {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateSquadUser = /* GraphQL */ `
+  subscription OnCreateSquadUser(
+    $filter: ModelSubscriptionSquadUserFilterInput
+  ) {
+    onCreateSquadUser(filter: $filter) {
+      id
+      squadId
+      userId
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateSquadUser = /* GraphQL */ `
+  subscription OnUpdateSquadUser(
+    $filter: ModelSubscriptionSquadUserFilterInput
+  ) {
+    onUpdateSquadUser(filter: $filter) {
+      id
+      squadId
+      userId
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteSquadUser = /* GraphQL */ `
+  subscription OnDeleteSquadUser(
+    $filter: ModelSubscriptionSquadUserFilterInput
+  ) {
+    onDeleteSquadUser(filter: $filter) {
+      id
+      squadId
+      userId
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      user {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
       createdAt
       updatedAt
       __typename

@@ -7,7 +7,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
   import { API, graphqlOperation, Auth } from "aws-amplify";
-  import {createUser} from '../graphql/mutations'
+  import { createUser } from '../graphql/mutations';
   import { useUserContext } from '../../UserContext';
 
 
@@ -150,59 +150,59 @@ const onSelect = useCallback(
 //create userSquad
 useEffect(()=>{
   const createSquadUser = async () =>{
-    console.log(user)
-    try {
-    await Auth.currentSession();
+    // console.log(user)
+    // try {
+     await Auth.currentSession();
     const authUser = await Auth.currentAuthenticatedUser();
     const name = authUser.attributes.name;
     const username = authUser.attributes.preferred_username
-    console.log("this is the attributes", authUser.attributes)
-    const userProfilePicture = authUser.attributes.picture
-    try {
-      const newUser = await API.graphql(graphqlOperation(createUser, {
-        input: {
-          name: name,
-          userName: username,
-          imageUrl: userProfilePicture,
-          userSquadId: [],  // Assuming this is a required field
-          numOfPolls: 0,
-          numOfSquadron: 0,
-          userInterests: userInterest,
-          squadJoined: []  // Ensure that 'squadJoined' is correctly defined in your schema
-        }
-      }));
+    //console.log("this is the attributes", authUser.attributes)
+
+     const userProfilePicture = authUser.attributes.picture
+     try {
       
-      if(!newUser.data?.createUser){
-           console.log("Error creating the user Squad")  
-        }
-      // console.log("this is id the new user id", newUser.data.createUser)
-    //     console.log("this is id the new user id", newUser.data.createUser.id)
-    //     const user_id = newUser.data.createUser.id
-    //     console.log("the user id is as follows",user_id)
-    //     setAuthUserID(user_id)
-    //     console.log("this is the recorded user_id",authUserID)
-    //     // Update the user context with the new user information
-    //     updateUser({
-    //       id: user_id,
+     } catch (error) {
+      
+     }
+     const createUserInput = {
+      name: name,
+      userName: username,
+      imageUrl: userProfilePicture,
+      userSquadId: [],
+      numOfPolls: 0,
+      numOfSquadJoined: 0,
+      userInterests: [],
+     //squadID: "",
+      squadJoined: []
+    };
+    
+    API.graphql(graphqlOperation(createUser, { input: createUserInput }))
+      .then(response => {
+        console.log("User created successfully:", response);
+      })
+      .catch(error => {
+        console.log("Error creating user:", error);
+      });
+    
+    // try {
+    //   const newUser = await API.graphql(graphqlOperation(createUser, {
+    //     input: {
     //       name: name,
     //       userName: username,
     //       imageUrl: userProfilePicture,
     //       userSquadId: [],
-    //       numOfPolls: 0, 
+    //       numOfPolls: 0,
     //       numOfSquadron: 0,
-    //       userInterests: userInterest
-    //     });
+    //       userInterests: userInterest,
+    //       squadJoined: []
+    //     }
+    //   }));
       
-    } catch (error) {
-      console.log("error creating users", error)
-    }
-    console.log("the new user info is as follows", user?.userSquadId)
-     
-    } catch (error) {
-      console.log("Error:", error);
-    }
+    // } catch (error) {
+    //   console.log("Error:", error);
+    // }
     
-   }
+  }
   createSquadUser()
 }, [])
 
