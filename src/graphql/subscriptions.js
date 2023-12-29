@@ -381,10 +381,6 @@ export const onCreateUser = /* GraphQL */ `
       numOfPolls
       numOfSquadron
       userInterests
-      squads {
-        nextToken
-        __typename
-      }
       Polls {
         nextToken
         __typename
@@ -401,6 +397,9 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      squadID
+      squadJoined
+      userScore
       createdAt
       updatedAt
       __typename
@@ -418,10 +417,6 @@ export const onUpdateUser = /* GraphQL */ `
       numOfPolls
       numOfSquadron
       userInterests
-      squads {
-        nextToken
-        __typename
-      }
       Polls {
         nextToken
         __typename
@@ -438,6 +433,9 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      squadID
+      squadJoined
+      userScore
       createdAt
       updatedAt
       __typename
@@ -455,10 +453,6 @@ export const onDeleteUser = /* GraphQL */ `
       numOfPolls
       numOfSquadron
       userInterests
-      squads {
-        nextToken
-        __typename
-      }
       Polls {
         nextToken
         __typename
@@ -475,114 +469,9 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onCreateSquadUser = /* GraphQL */ `
-  subscription OnCreateSquadUser(
-    $filter: ModelSubscriptionSquadUserFilterInput
-  ) {
-    onCreateSquadUser(filter: $filter) {
-      id
-      squadId
-      userId
-      squad {
-        id
-        authUserID
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateSquadUser = /* GraphQL */ `
-  subscription OnUpdateSquadUser(
-    $filter: ModelSubscriptionSquadUserFilterInput
-  ) {
-    onUpdateSquadUser(filter: $filter) {
-      id
-      squadId
-      userId
-      squad {
-        id
-        authUserID
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteSquadUser = /* GraphQL */ `
-  subscription OnDeleteSquadUser(
-    $filter: ModelSubscriptionSquadUserFilterInput
-  ) {
-    onDeleteSquadUser(filter: $filter) {
-      id
-      squadId
-      userId
-      squad {
-        id
-        authUserID
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
+      squadID
+      squadJoined
+      userScore
       createdAt
       updatedAt
       __typename

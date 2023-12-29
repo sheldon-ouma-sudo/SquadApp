@@ -150,6 +150,7 @@ const onSelect = useCallback(
 //create userSquad
 useEffect(()=>{
   const createSquadUser = async () =>{
+    console.log(user)
     try {
     await Auth.currentSession();
     const authUser = await Auth.currentAuthenticatedUser();
@@ -158,34 +159,44 @@ useEffect(()=>{
     console.log("this is the attributes", authUser.attributes)
     const userProfilePicture = authUser.attributes.picture
     try {
-      const newUser = await API.graphql(graphqlOperation(createUser,{
-        input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
-      }))
-      if(!newUser.data?.createUser){
-           console.log("Error creating the user Squad")  
-        }
-       // console.log("this is id the new user id", newUser.data.createUser)
-        console.log("this is id the new user id", newUser.data.createUser.id)
-        const user_id = newUser.data.createUser.id
-        console.log("the user id is as follows",user_id)
-        setAuthUserID(user_id)
-        console.log("this is the recorded user_id",authUserID)
-        // Update the user context with the new user information
-        updateUser({
-          id: user_id,
+      const newUser = await API.graphql(graphqlOperation(createUser, {
+        input: {
           name: name,
           userName: username,
           imageUrl: userProfilePicture,
-          userSquadId: [],
-          numOfPolls: 0, 
+          userSquadId: [],  // Assuming this is a required field
+          numOfPolls: 0,
           numOfSquadron: 0,
-          userInterests: userInterest
-        });
+          userInterests: userInterest,
+          squadJoined: []  // Ensure that 'squadJoined' is correctly defined in your schema
+        }
+      }));
+      
+      if(!newUser.data?.createUser){
+           console.log("Error creating the user Squad")  
+        }
+      // console.log("this is id the new user id", newUser.data.createUser)
+    //     console.log("this is id the new user id", newUser.data.createUser.id)
+    //     const user_id = newUser.data.createUser.id
+    //     console.log("the user id is as follows",user_id)
+    //     setAuthUserID(user_id)
+    //     console.log("this is the recorded user_id",authUserID)
+    //     // Update the user context with the new user information
+    //     updateUser({
+    //       id: user_id,
+    //       name: name,
+    //       userName: username,
+    //       imageUrl: userProfilePicture,
+    //       userSquadId: [],
+    //       numOfPolls: 0, 
+    //       numOfSquadron: 0,
+    //       userInterests: userInterest
+    //     });
       
     } catch (error) {
-      console.log("error creating users")
+      console.log("error creating users", error)
     }
-    console.log("the new user info is as follows", user.userSquadId)
+    console.log("the new user info is as follows", user?.userSquadId)
      
     } catch (error) {
       console.log("Error:", error);

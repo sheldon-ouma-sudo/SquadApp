@@ -411,10 +411,6 @@ export const createUser = /* GraphQL */ `
       numOfPolls
       numOfSquadron
       userInterests
-      squads {
-        nextToken
-        __typename
-      }
       Polls {
         nextToken
         __typename
@@ -431,6 +427,9 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      squadID
+      squadJoined
+      userScore
       createdAt
       updatedAt
       __typename
@@ -451,10 +450,6 @@ export const updateUser = /* GraphQL */ `
       numOfPolls
       numOfSquadron
       userInterests
-      squads {
-        nextToken
-        __typename
-      }
       Polls {
         nextToken
         __typename
@@ -471,6 +466,9 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      squadID
+      squadJoined
+      userScore
       createdAt
       updatedAt
       __typename
@@ -491,10 +489,6 @@ export const deleteUser = /* GraphQL */ `
       numOfPolls
       numOfSquadron
       userInterests
-      squads {
-        nextToken
-        __typename
-      }
       Polls {
         nextToken
         __typename
@@ -511,117 +505,9 @@ export const deleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const createSquadUser = /* GraphQL */ `
-  mutation CreateSquadUser(
-    $input: CreateSquadUserInput!
-    $condition: ModelSquadUserConditionInput
-  ) {
-    createSquadUser(input: $input, condition: $condition) {
-      id
-      squadId
-      userId
-      squad {
-        id
-        authUserID
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const updateSquadUser = /* GraphQL */ `
-  mutation UpdateSquadUser(
-    $input: UpdateSquadUserInput!
-    $condition: ModelSquadUserConditionInput
-  ) {
-    updateSquadUser(input: $input, condition: $condition) {
-      id
-      squadId
-      userId
-      squad {
-        id
-        authUserID
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const deleteSquadUser = /* GraphQL */ `
-  mutation DeleteSquadUser(
-    $input: DeleteSquadUserInput!
-    $condition: ModelSquadUserConditionInput
-  ) {
-    deleteSquadUser(input: $input, condition: $condition) {
-      id
-      squadId
-      userId
-      squad {
-        id
-        authUserID
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      user {
-        id
-        name
-        userName
-        imageUrl
-        userSquadId
-        numOfPolls
-        numOfSquadron
-        userInterests
-        createdAt
-        updatedAt
-        __typename
-      }
+      squadID
+      squadJoined
+      userScore
       createdAt
       updatedAt
       __typename
