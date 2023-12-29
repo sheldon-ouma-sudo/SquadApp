@@ -161,9 +161,9 @@ const LoginScreen = () => {
    const navigation = useNavigation()
    async function signInWithAWS() {
         try {
-        //   await Auth.signIn(username, password);
-        //   console.log('✅ Success');
-         // updateAuthState('loggedIn');
+          await Auth.signIn(username, password);
+          console.log('✅ Success');
+         //updateAuthState('loggedIn');
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
          //navigation.navigate('RootNavigation', { screen:'Home'})
          navigation.navigate("PersonalInterestScreen");

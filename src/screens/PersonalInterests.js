@@ -150,20 +150,19 @@ const onSelect = useCallback(
 //create userSquad
 useEffect(()=>{
   const createSquadUser = async () =>{
-    const authUser = await Auth.currentAuthenticatedUser()
-    const name = authUser.attributes.name
+    try {
+    await Auth.currentSession();
+    const authUser = await Auth.currentAuthenticatedUser();
+    const name = authUser.attributes.name;
     const username = authUser.attributes.preferred_username
     console.log("this is the attributes", authUser.attributes)
     const userProfilePicture = authUser.attributes.picture
-
     try {
       const newUser = await API.graphql(graphqlOperation(createUser,{
         input:{name:name, userName:username, imageUrl:userProfilePicture, userSquadId:"null_for_now", numOfPolls:0, numOfSquadron:0, userInterests:userInterest}
       }))
-    
       if(!newUser.data?.createUser){
-           console.log("Error creating the user Squad")
-           
+           console.log("Error creating the user Squad")  
         }
        // console.log("this is id the new user id", newUser.data.createUser)
         console.log("this is id the new user id", newUser.data.createUser.id)
@@ -187,17 +186,11 @@ useEffect(()=>{
       console.log("error creating users")
     }
     console.log("the new user info is as follows", user.userSquadId)
-      // try {
-      //   await Auth.updateUserAttributes(authUser, {
-      //     'profile': authUserID
-      //   })
-      //   console.log(authUser.attributes.profile)
-        
-      // } catch (error) {
-      //   console.log("error uploading user_id")
-      // }
-
-
+     
+    } catch (error) {
+      console.log("Error:", error);
+    }
+    
    }
   createSquadUser()
 }, [])

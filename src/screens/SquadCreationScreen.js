@@ -66,32 +66,14 @@ useEffect(()=>{
      const squadID = newSquad.data.createSquad.id
      setMainSquadId(squadID)
      updateUserProperty('userSquadId', squadID);
-     console.log("this is the updated user information", user);
+     
      return squadID
       } catch (error) {
         console.log(error)
       }
       
     }
-    //we have issues with this
-    // const handleSquadUser= async () =>{
-    //   try {
-    //    const adminSquadUser = await API.graphql(graphqlOperation(createSquadUser,{
-    //     input:{squadId:mainSquadId,userId:authUserID}
-    //    })) 
-    //    console.log("this is the admin Squad User id: ",adminSquadUser)
-    //   } catch (error) {
-    //     console.log(error)
-        
-    //   }
-    // }
-
-  // Function to update userSquadId
-     // Replace with your logic to get the new value
-    
-  
     createMainUserSquad()
-    //handleSquadUser()
   }, [])
 
 
@@ -112,7 +94,12 @@ useEffect(()=>{
         console.log("error updating userSquad", error)
       }
  }
- navigation.navigate('RootNavigation', { screen: 'Explore', params:{screen:'Find Users', sqauad_id:mainSquadId}})
+ console.log("this is the updated user information", user);
+ navigation.navigate('RootNavigation', { screen: 'Explore', params: { screen: 'Find Users' } });
+
+
+
+
 }
 
 

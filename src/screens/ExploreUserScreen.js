@@ -18,117 +18,31 @@ const ExploreUserScreen = () => {
   const [clicked, setClicked] = useState(false);
   //const [fakeData, setFakeData] = useState();
   const [users, setUsers] = useState([]);
+  const[userInfo, setUserInfo] = useState("")
   const [parent_squadID, setParentSquadID] = useState("")
   const {user} = useUserContext();
   
-  // const route = useRoute();
-  // const squadID = route.params?.squad_id
-  // console.log("here's the parent userSquad",squadID)
-  // // get data from the fake api
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const apiResponse = await fetch(
-  //       "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
-  //     );
-  //     const data = await apiResponse.json();
-  //     setFakeData(data);
-  //   };
-  //   getData();
-  // }, []);
-console.log("user",user);
-  useEffect(()=>{
-    // if(parent_squadID!== undefined){
-    //   setParentSquadID(squadID)
-    // }
-    //console.log("here is the user info",parentUserData);
-    const fetchUsers = async() =>{
-       const results = await API.graphql(graphqlOperation(listUsers));
-      if(!results.data?.listUsers){
-        console.log("Error fetching users")
-      }
-      //console.log("this is the list of the users",results.data.listUsers.items)
-        setUsers(results.data?.listUsers?.items)
-        //console.log(results[0].id)
-       // const newSquad = await API.graphql(graphqlOperation(createSquad, {input:{ adminUser:authUser}}))
-        //   if(!newSquad.data?.createSquad){
-        //     console.log("Error creating a Squad")
-        //   }
-        //   console.log("this is the new Squad",newSquad) 
-        //  console.log("here is the id of the squad",newSquad.data.createSquad.id)
-        //  //return newSquad.id //check to see if this is working 
-        //  const squadID = newSquad.data.createSquad.id
-      
+  
+useEffect(() => {
+  const fetchUsers = async () => {
+    const results = await API.graphql(graphqlOperation(listUsers));
+    if (!results.data?.listUsers) {
+      console.log("Error fetching users");
     }
-    
-    fetchUsers()
-  }, [])
+    setUsers(results.data?.listUsers?.items);
+    if (!user) {
+      console.log("the user is null for now", user);
+    } else {
+      setUserInfo(user);
+      console.log("otherwise this the user info", user);
+      console.log("here is the userSquadId", user.userSquadId);
+      setParentSquadID(user.userSquadId);
+    }
+  };
+  fetchUsers();
+}, [user]);
 
-  // const [filteredDataSource, setFilteredDataSource] = useState([]);
-  // const [masterDataSource, setMasterDataSource] = useState([]);
-  // useEffect(() => {
-  //   fetch('https://jsonplaceholder.typicode.com/posts')
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       setFilteredDataSource(responseJson);
-  //       setMasterDataSource(responseJson);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
-  // const searchFilterFunction = (text) => {
-  //   // Check if searched text is not blank
-  //   if (text) {
-  //     // Inserted text is not blank
-  //     // Filter the masterDataSource
-  //     // Update FilteredDataSource
-  //     const newData = masterDataSource.filter(function (item) {
-  //       const itemData = item.title
-  //         ? item.title.toUpperCase()
-  //         : ''.toUpperCase();
-  //       const textData = text.toUpperCase();
-  //       return itemData.indexOf(textData) > -1;
-  //     });
-  //     setFilteredDataSource(newData);
-  //     setSearch(text);
-  //   } else {
-  //     // Inserted text is blank
-  //     // Update FilteredDataSource with masterDataSource
-  //     setFilteredDataSource(masterDataSource);
-  //     setSearch(text);
-  //   }
-  // };
-
-  // const ItemView = ({ item }) => {
-  //   return (
-  //     // Flat List Item
-  //     <Text style={styles.itemStyle} onPress={() => getItem(item)}>
-  //       {item.id}
-  //       {'.'}
-  //       {item.title.toUpperCase()}
-  //     </Text>
-  //   );
-  // };
-
-  // const ItemSeparatorView = () => {
-  //   return (
-  //     // Flat List Item Separator
-  //     <View
-  //       style={{
-  //         height: 0.5,
-  //         width: '100%',
-  //         backgroundColor: '#C8C8C8',
-  //       }}
-  //     />
-  //   );
-  // };
-
-  // const getItem = (item) => {
-  //   // Function for click on an item
-  //   alert('Id : ' + item.id + ' Title : ' + item.title);
-  // };
-
+  
   return (
     <SafeAreaView
     style={styles.container}>
@@ -151,11 +65,11 @@ console.log("user",user);
       )} */}
        <FlatList
        data = {users}
-       parentSquad = {parent_squadID}
        searchPhrase={searchPhrase}
        renderItem={({item})=>(
         <UserListItem
          user={item}
+        userInfo={userInfo}
         />
        )} 
        

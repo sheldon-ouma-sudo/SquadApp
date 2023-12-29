@@ -31,7 +31,7 @@ import CalendarScreen from "./src/screens/CalendarScreen";
 import { Amplify, Auth, Hub } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
 import {Storage, API,graphqlOperation } from 'aws-amplify';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {getUser} from './src/graphql/queries'
 import {createUser} from './src/graphql/mutations'
 import AccountSettingScreen from "./src/screens/AccountSettingScreen";
@@ -46,7 +46,6 @@ import WordPollCreationScreen from "./src/screens/WordPollCreationScreen"
 import SquadCreatedScreen from "./src/screens/SquadCreatedScreen";
 import SquadJoinedScreen from "./src/screens/SquadJoinedScreen";
 import { UserProvider } from "./UserContext"
-
 
 Amplify.configure(awsconfig);
  ///run this once when the app is opened
@@ -159,6 +158,8 @@ function BottomTabs() {
   );
 }
 
+
+
 export default function App() {
   const [user, setUser] = useState(null);
 
@@ -174,16 +175,14 @@ export default function App() {
 
     checkAuth();
   }, []);
-
+  
   return (
     <UserProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        {user ? (
-            <Stack.Screen name="RootNavigation" options={{ headerShown: false }} component={BottomTabs}/>
-          ) : (
-            <Stack.Screen name="LoginScreen" options={{ headerShown: false }} component={LoginScreen} />
-          )}
+      <Stack.Screen name="Main" options={{ headerShown: false }} component={MainScreen}initialParams={{ user }} />
+       <Stack.Screen options={{headerShown : false}} name="LoginScreen" component={LoginScreen}/>
+       <Stack.Screen options={{headerShown : false}} name="RootNavigation" component={BottomTabs}/>
         <Stack.Screen options={{headerShown : false}} name="NewTestWorkScreen" component={NewTestScreenWork}/>
         <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
         <Stack.Screen options={{headerShown:false}} name ="PollContentScreen" component={PollContentScreen}/>
@@ -219,6 +218,17 @@ export default function App() {
     
   );
 }
+const MainScreen = ({ route }) => {
+  const { user } = route.params;
+
+  if (user) {
+    // User is authenticated, render BottomTabs
+    return <BottomTabs />;
+  } else {
+    // User is not authenticated, render LoginScreen
+    return <LoginScreen />;
+  }
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -234,4 +244,6 @@ const styles = StyleSheet.create({
     marginRight:250,
     marginTop:40  
 }
+
+
 });

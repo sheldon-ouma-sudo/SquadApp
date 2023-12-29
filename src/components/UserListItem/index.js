@@ -4,34 +4,54 @@ import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
 import { createSquadUser } from '../../graphql/mutations';
-//import {useUserContext} from '../../../UserContext';
+import {user} from '../../../UserContext'
+import { API, graphqlOperation } from 'aws-amplify';
+//import { createSquadUser } from '../../graphql/mutations';
 
-const UserListItem =({  user, userInfo,
+const UserListItem = ({
+  user,
+  userInfo,
   onPress = () => {},
   selectable = false,
-  isSelected = false,})=>{
-   const navigation = useNavigation()
-   const[selected, setSelected] = useState(false)
-   const[squadToJoin, setSquadToJoin] = useState("")
-  // const { userInfo } = useUserContext();
+  isSelected = false,
+}) => {
+  const navigation = useNavigation();
+  const [selected, setSelected] = useState(false);
+  const [squadToJoin, setSquadToJoin] = useState("");
 
-//console.log("this is the squad we want to add users to", userInfo.userSquadId)
 
-  const handleSquadCreation = () =>{
-    //alert("pressed")
-    if(squadToAddUser !== undefined){
-      setSquadToJoin(squadToAddUser)
+  //console.log("this is the squad we want to add users to", userInfo.userSquadId);
+
+   const handleSquadCreation = async () => {
+    if (userInfo) {
+     //console.log("we have userInfo data",userInfo.userSquadId);
+      setSquadToJoin(userInfo.userSquadId); // Access userSquadId directly
     }
-    console.log("here is the squad we want to add users", squadToJoin)
-    if(selected==false){
-    setSelected(true)
-    //add the user into the Squad
-    }else{
-      setSelected(false)
-      //delete the user from the Squad
-    }
-  }
 
+    console.log("here is the squad we want to add users", squadToJoin);
+
+    if (selected === false) {
+      setSelected(true);
+      // add the user into the Squad
+      try {
+        const newSquadUser = await API.graphql(graphqlOperation(createSquadUser,{
+          input:{squadId:squadToJoin, userId:user.id}
+       
+        }))
+        if(!newSquadUser.data?.createSquadUser){
+             console.log("Error creating the user Squad")  
+          }
+         // console.log("this is id the new user id", newSquadUser.data?.createSquadUser.id)
+          console.log("this is id the new user id", newSquadUser.data.createUser.id)
+      } catch (error) {
+        console.log("error creating the squad user",error)
+      }
+
+    } else {
+      setSelected(false);
+      // delete the user from the Squad
+    }
+  };
    return (
      <Pressable
      style={styles.container}
