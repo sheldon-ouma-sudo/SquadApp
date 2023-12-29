@@ -1,5 +1,6 @@
 import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { useState } from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 //import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
@@ -12,8 +13,15 @@ const SquadListItem =({ squad,
   selectable = false,
   isSelected = false,})=>{
  const navigation = useNavigation()
+ const[squadSelected, setSquadSelected] = useState(false)
 
-
+const handleSquadSelected=async() =>{
+  if(squadSelected==false){
+    setSquadSelected(true)
+  }else{
+    setSquadSelected(false)
+  }
+}
  
  return (
    <Pressable
@@ -42,6 +50,7 @@ const SquadListItem =({ squad,
      </View>
      <TouchableOpacity
        style = {[styles.joinSquadTextContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
+       onPress={handleSquadSelected}
        > 
        <Text
        style={{color:'white', marginBottom:10}}
