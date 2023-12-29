@@ -65,7 +65,9 @@ useEffect(()=>{
       }
      const squadID = newSquad.data.createSquad.id
      setMainSquadId(squadID)
-     updateUserProperty('userSquadId', squadID);
+     const userSquadArray = user.userSquadId
+     userSquadArray.push(squadID)
+     updateUserProperty('userSquadId', userSquadArray);
      
      return squadID
       } catch (error) {

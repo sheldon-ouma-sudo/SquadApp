@@ -176,7 +176,7 @@ useEffect(()=>{
           name: name,
           userName: username,
           imageUrl: userProfilePicture,
-          userSquadId: "null_for_now",
+          userSquadId: [],
           numOfPolls: 0, 
           numOfSquadron: 0,
           userInterests: userInterest
