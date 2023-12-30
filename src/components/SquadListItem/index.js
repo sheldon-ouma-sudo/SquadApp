@@ -1,6 +1,6 @@
 import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 //import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";

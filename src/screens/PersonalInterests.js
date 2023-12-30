@@ -150,61 +150,49 @@ const onSelect = useCallback(
 //create userSquad
 useEffect(()=>{
   const createSquadUser = async () =>{
-    // console.log(user)
-    // try {
-     await Auth.currentSession();
-    const authUser = await Auth.currentAuthenticatedUser();
-    const name = authUser.attributes.name;
-    const username = authUser.attributes.preferred_username
-    //console.log("this is the attributes", authUser.attributes)
-
-     const userProfilePicture = authUser.attributes.picture
-     try {
-      
-     } catch (error) {
-      
-     }
-     const createUserInput = {
-      name: name,
-      userName: username,
-      imageUrl: userProfilePicture,
-      userSquadId: [],
-      numOfPolls: 0,
-      numOfSquadJoined: 0,
-      userInterests: [],
-     //squadID: "",
-      squadJoined: []
-    };
-    
-    API.graphql(graphqlOperation(createUser, { input: createUserInput }))
-      .then(response => {
-        console.log("User created successfully:", response);
-      })
-      .catch(error => {
-        console.log("Error creating user:", error);
-      });
-    
-    // try {
-    //   const newUser = await API.graphql(graphqlOperation(createUser, {
-    //     input: {
-    //       name: name,
-    //       userName: username,
-    //       imageUrl: userProfilePicture,
-    //       userSquadId: [],
-    //       numOfPolls: 0,
-    //       numOfSquadron: 0,
-    //       userInterests: userInterest,
-    //       squadJoined: []
-    //     }
-    //   }));
-      
-    // } catch (error) {
-    //   console.log("Error:", error);
-    // }
-    
-  }
-  createSquadUser()
+      try {
+        await Auth.currentSession();
+      const authUser = await Auth.currentAuthenticatedUser();
+      const name = authUser.attributes.name;
+      const username = authUser.attributes.preferred_username;
+      const userProfilePicture = authUser.attributes.picture;
+      const createUserInput = {
+        name: name,
+        userName: username,
+        imageUrl: userProfilePicture,
+        userSquadId: [],
+        numOfPolls: 0,
+        numOfSquadJoined: 0,
+        userInterests: [],
+        squadJoined: [],
+      };
+      const response = await API.graphql(
+        graphqlOperation(createUser, { input: createUserInput })
+      );
+      //console.log(response)
+      const user_id = response.data?.createUser.id
+      console.log("here is the user id",user_id)
+      // Update the user context after creating the user
+      updateUser({
+              id: user_id,
+              imageUrl: userProfilePicture,
+              userSquadId: [],
+              numOfPolls: 0,
+              numOfSquadJoined: 0,
+              userInterests: [],
+              squadJoined: [],
+            });
+        
+      //updateUser(response);
+      console.log("here is the local user",user)
+      } catch (error) {
+        console.log('Error creating user:', error);
+      }
+    }
+    createSquadUser()
 }, [])
+ 
+
 
 
 return (
@@ -267,7 +255,7 @@ return (
     style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:70},{marginTop:-330},{marginRight:250},{width:160} ]}>
     <Text  style={[{justifyContent: 'flex-end'},styles.backText,]}> Back </Text>
     </TouchableOpacity>
-    <TouchableOpacity  onPress={() =>navigation.navigate('SquadCreationScreen', {authUserID:authUserID})}
+    <TouchableOpacity  onPress={() =>navigation.navigate('SquadCreationScreen')}
     style={[ styles.button,
     {borderColor:'#1145FD'}, 
     {marginBottom:80},

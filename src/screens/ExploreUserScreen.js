@@ -15,8 +15,6 @@ import {useUserContext} from '../../UserContext';
 const ExploreUserScreen = () => {
   //const [search, setSearch] = useState('');
   const [searchPhrase, setSearchPhrase] = useState("");
-  const [clicked, setClicked] = useState(false);
-  //const [fakeData, setFakeData] = useState();
   const [users, setUsers] = useState([]);
   const[userInfo, setUserInfo] = useState("")
   const {user} = useUserContext();
@@ -24,7 +22,8 @@ const ExploreUserScreen = () => {
   
 useEffect(() => {
   const fetchUsers = async () => {
-    const results = await API.graphql(graphqlOperation(listUsers));
+    try {
+      const results = await API.graphql(graphqlOperation(listUsers));
     if (!results.data?.listUsers) {
       console.log("Error fetching users");
     }
@@ -36,6 +35,10 @@ useEffect(() => {
       console.log("otherwise this the user info", user);
       console.log("here is the userSquadId", user.userSquadId);
     }
+    } catch (error) {
+      console.log("error getting users", error)
+    }
+    
   };
   fetchUsers();
 }, [user]);
@@ -45,12 +48,12 @@ useEffect(() => {
     <SafeAreaView
     style={styles.container}>
     <View style={styles.searchBarContainer}>
-        <SearchBar
+        {/* <SearchBar
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
+        //clicked={clicked}
         setClicked={setClicked}
-      />
+      /> */}
        <FlatList
        data = {users}
        searchPhrase={searchPhrase}

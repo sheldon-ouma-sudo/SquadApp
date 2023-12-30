@@ -52,12 +52,12 @@ const ExploreSquadronScreen = () => {
     <SafeAreaView
     style={styles.container}>
     <View style={styles.searchBarContainer}>
-        <SearchBar
+        {/* <SearchBar
         searchPhrase={searchPhrase}
         setSearchPhrase={setSearchPhrase}
         clicked={clicked}
         setClicked={setClicked}
-      />
+      /> */}
        <FlatList
        data = {squads}
        renderItem={({item})=>(

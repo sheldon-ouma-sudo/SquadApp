@@ -44,19 +44,24 @@
     const[currentPosition, setCurrentPositon] = useState(3)
     const[userId, setUserId] = useState("")
     const[mainSquadId, setMainSquadId] = useState("")
-    const { user, updateUserProperty } = useUserContext();
-
+    const{user, updateUserProperty } = useUserContext();
+//console.log("here is the local user first time print", user)
 const navigation = useNavigation()
-const route = useRoute()
- const authUserID = route.params?.authUserID
- console.log("here is the authUserID",authUserID)
+//const route = useRoute()
+////const authUserID = route.params?.authUserID
+//console.log("here is the authUserID",authUserID)
 //create Squad 
 useEffect(()=>{
     const createMainUserSquad = async()=>{
+      //user.userSquadId = []
       const authUser = await Auth.currentAuthenticatedUser()
+     //console.log("the user from cognito is: ", authUser)
+      console.log("here is the local user", user)
       const squad_name = authUser.attributes.name 
-      const squadName = squad_name + " Main Squad"
-      //create a Squad
+      const squadName = squad_name + "'s" + " first_squad"
+      const authUserID = user.id;
+      console.log("here is the user id",authUserID);
+    //create a Squad
       try {
       const newSquad = await API.graphql(graphqlOperation(createSquad, {
         input:{ authUserID:authUserID, squadName:squadName, numOfPolls:0}}))
@@ -72,30 +77,30 @@ useEffect(()=>{
      return squadID
       } catch (error) {
         console.log(error)
-      }
-      
+      } 
     }
     createMainUserSquad()
+    console.log("here is the updated squadid",user.userSquadId)
   }, [])
 
 
   const handleUserSquadCreation =async ()=>{
-    if(authUserID!=='undefined'){
-      const newSquadId = mainSquadId
-      try {
-         await API.graphql(graphqlOperation(updateUser,{
-          input:{id:authUserID,userSquadId:newSquadId}   
-        }
+//     if(authUserID!=='undefined'){
+//       const newSquadId = mainSquadId
+//       try {
+//          await API.graphql(graphqlOperation(updateUser,{
+//           input:{id:authUserID,userSquadId:newSquadId}   
+//         }
 
-        ))
-        console.log("successful user update")
-        navigation.navigate('RootNavigation', { screen: 'Explore', 
-        screen:{screen:'Find Users',
-        sqauad_id:mainSquadId}})
-      } catch (error) {
-        console.log("error updating userSquad", error)
-      }
- }
+//         ))
+//         console.log("successful user update")
+//         navigation.navigate('RootNavigation', { screen: 'Explore', 
+//         screen:{screen:'Find Users',
+//         sqauad_id:mainSquadId}})
+//       } catch (error) {
+//         console.log("error updating userSquad", error)
+//       }
+//  }
  console.log("this is the updated user information", user);
  navigation.navigate('RootNavigation', { screen: 'Explore', params: { screen: 'Find Users' } });
 
