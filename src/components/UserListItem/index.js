@@ -47,9 +47,9 @@ const UserListItem = ({
       fetchParentSquadId()
   }, []);
   const handleSquadCreation = async () => {
-    //console.log("here is the squad we want to add users", squadToJoin);
-    //console.log("here is the user's id", user.id);
-    console.log(user.squadJoined)
+    console.log("here is the squad we want to add users", squadToJoin);
+    console.log("here is the user's id", user.id);
+    console.log("here is the squads the user has joined", user.squadJoined)
     //console.log("here is the user's squad array", userSquadsArray)
     if (selected === false) {
       setSelected(true);

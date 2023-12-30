@@ -30,6 +30,8 @@ useEffect(() => {
 }, []);
 //add the squad selected to the user's joined squad array
 const handleSquadSelected=async() =>{
+  //console.log(squad)
+  console.log(userInfo)
   if(squadSelected==false){
     setSquadSelected(true)
     userSquadsJoinedArray.push(squad.id)
@@ -53,7 +55,7 @@ const handleSquadSelected=async() =>{
    style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}
    >
        <Text
-        style = {styles.pollCaption}
+        style = {styles.squadNameText}
        > 
        {squad?.squadName}
        </Text>
@@ -64,13 +66,17 @@ const handleSquadSelected=async() =>{
        </Text>
      </View>
      <TouchableOpacity
-       style = {[styles.joinSquadTextContainer, {justifyContent:'flex-end'},{alignItems:'center'},]}
-       onPress={handleSquadSelected}
-       > 
-       <Text
-       style={{color:'white', marginBottom:10}}
-       >Join Squad</Text>
-       </TouchableOpacity>
+          style={[
+            { justifyContent: "flex-end" },
+            { alignItems: "center" },
+            squadSelected ? styles.joinedSquadTextContainer : styles.joinSquadTextContainer, // Add this condition
+          ]}
+          onPress={handleSquadSelected}
+        >
+        <Text style={{ color: squadSelected ? "#1145FD" : "white", marginBottom: 10 }}>
+            {squadSelected ? "Joined!" : "Join Squad"}
+          </Text>
+        </TouchableOpacity>
   </View>
    </Pressable>
  )
@@ -90,31 +96,7 @@ const handleSquadSelected=async() =>{
  backgroundColor: "white",
  borderWidth: 5,
  marginRight:30
-
-
-//  flex:1,
-//  flexDirection: "row",
-//  //marginHorizontal: 10,
-//  marginTop: 20,
-//  marginVertical: 65,
-//  borderColor: "#FFFF",
-//  height: 5,
-//  width: 600,
-//  borderRadius: 5,
-//  //marginBottom:5,
-//  //backgroundColor: "white",
-//  borderWidth: 5,
-//  //shadowColor: '#000',
-// shadowOffset: {width: 0, height: 0},
-// elevation: 1.5,
-// shadowOpacity: 0.1,
-// borderColor:'#F4F8FB',
-// shadowRadius: 5,
-// backgroundColor: "#F4F8FB"
- 
 },
-
-
  pollCaptionContainer:{
    height: 50,
    width: 180,
@@ -130,22 +112,17 @@ const handleSquadSelected=async() =>{
   marginTop:-25
   
  },
- votedText:{
-   color: "white",
-   fontWeight: "bold",
-   marginBottom:7,
-   marginLeft:1,
-   fontSize: 8.5,
-   textAlignVertical:'center'
-
-
-
-
-
-
-
-
+ joinedSquadTextContainer:{
+  height:40,
+  width: 95,
+  backgroundColor: "#FFFF",
+  borderRadius: 10,
+  borderColor:"#1145FD",
+  borderWidth: 2.5,
+  marginLeft:25,
+  marginTop:-25
  },
+ 
  pollCaptionContainer:{
    height: 50,
    width: 180,
@@ -176,7 +153,7 @@ const handleSquadSelected=async() =>{
      width:50,
      height:70
  },
-pollCaption:{
+squadNameText:{
  fontWeight:'500',
  marginLeft:5,
  marginTop:-40

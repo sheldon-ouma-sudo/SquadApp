@@ -37,13 +37,14 @@ const ExploreSquadronScreen = () => {
       }
       if (!user) {
         console.log("the user is null for now", user);
-      } //else {
-      //   setUserInfo(user);
-      //   console.log("otherwise this the user info", user);
+      }else {
+       setUserInfo(user);
+       console.log("otherwise this the user info in the explore squad screen", user);
       //   console.log("here is the userSquadId", user.userSquadId);
       //   setParentSquadID(user.userSquadId);
-      // }
+       }
     };
+    console.log(userInfo)
     fetchSquads();
   }, []);
 
