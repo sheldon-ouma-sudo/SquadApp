@@ -21,7 +21,7 @@ const SquadListItem =({ squad,
 useEffect(() => {
   const fetchParentSquadJoinedArray = async () => {
     if (userInfo) {
-      console.log("we have userInfo data",userInfo.squadJoined);
+      //console.log("we have userInfo data",userInfo.squadJoined);
       setUserSquadsJoinedArray(userInfo.squadJoined)
        //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
      }
