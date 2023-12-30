@@ -26,13 +26,13 @@ const UserListItem = ({
   useEffect(() => {
     const fetchParentSquadArray = async () => {
       if (userInfo) {
-        console.log("we have userInfo data",userInfo.userSquadId);
+        //console.log("we have userInfo data",userInfo.userSquadId);
         setUserSquadsArray(userInfo.userSquadId)
          //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
        }
       }
       fetchParentSquadArray()
-  }, []);
+  }, [userInfo]);
 
   useEffect(() => {
     const fetchParentSquadId = async () => {
@@ -49,7 +49,8 @@ const UserListItem = ({
   const handleSquadCreation = async () => {
     //console.log("here is the squad we want to add users", squadToJoin);
     //console.log("here is the user's id", user.id);
-    console.log("here is the user's squad array", userSquadsArray)
+    console.log(user.squadJoined)
+    //console.log("here is the user's squad array", userSquadsArray)
     if (selected === false) {
       setSelected(true);
     
@@ -59,14 +60,11 @@ const UserListItem = ({
         }));
     
         if (!newSquadUser.data?.createSquadUser) {
-        console.log("Error getting the user Squad data");
+        //console.log("Error getting the user Squad data");
         } else {
-          console.log("User added to the squad:", newSquadUser.data.createSquadUser);
+          //console.log("User added to the squad:", newSquadUser.data.createSquadUser);
         }
-        //update the local user and the backend 
-
-
-
+        //update the local user and the backend
       } catch (error) {
         console.log("Error creating the squad user", error);
       }
@@ -108,7 +106,7 @@ const UserListItem = ({
         </View>
         <TouchableOpacity
           style={[
-            selected ? styles.addedUserIcon : styles.unAddedUserIcon,
+            !selected ? styles.addedUserIcon : styles.unAddedUserIcon,
             {
               justifyContent: 'flex-end',
               alignItems: 'center',
@@ -117,10 +115,10 @@ const UserListItem = ({
           onPress={handleSquadCreation}
           >
           {!selected ? (
-            // <AntDesign name="addusergroup" size={23} color="#1145FD" style={{ marginBottom: 5 }} />
-            <SimpleLineIcons name="user-following" size={20} color="#1145FD" style={{ marginBottom: 6 }} />
+           <AntDesign name="addusergroup" size={23} color="white" style={{ marginBottom: 5 }} />
+            
           ) : (
-            <AntDesign name="addusergroup" size={23} color="white" style={{ marginBottom: 5 }} />
+            <SimpleLineIcons name="user-following" size={20} color="#1145FD" style={{ marginBottom: 6 }} />
           )}
       </TouchableOpacity>
         </View>
