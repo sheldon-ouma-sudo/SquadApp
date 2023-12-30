@@ -47,69 +47,49 @@
     const{user, updateUserProperty } = useUserContext();
 //console.log("here is the local user first time print", user)
 const navigation = useNavigation()
-//const route = useRoute()
-////const authUserID = route.params?.authUserID
-//console.log("here is the authUserID",authUserID)
-//create Squad 
-useEffect(()=>{
-    const createMainUserSquad = async()=>{
-      //user.userSquadId = []
-      const authUser = await Auth.currentAuthenticatedUser()
-     //console.log("the user from cognito is: ", authUser)
-      console.log("here is the local user", user)
-      const squad_name = authUser.attributes.name 
-      const squadName = squad_name + "'s" + " first_squad"
+useEffect(() => {
+  const createMainUserSquad = async () => {
+    try {
+      const authUser = await Auth.currentAuthenticatedUser();
+      console.log('Auth User:', authUser);
+      const squadName = `${authUser.attributes.name}'s first_squad`;
       const authUserID = user.id;
-      console.log("here is the user id",authUserID);
-    //create a Squad
-      try {
-      const newSquad = await API.graphql(graphqlOperation(createSquad, {
-        input:{ authUserID:authUserID, squadName:squadName, numOfPolls:0}}))
-      if(!newSquad.data?.createSquad){
-        console.log("Error creating a Squad")
+      const newSquad = await API.graphql(
+        graphqlOperation(createSquad, { input: { authUserID, squadName, numOfPolls: 0 } })
+      );
+
+      if (!newSquad.data?.createSquad) {
+        console.log('Error creating a Squad');
+        return;
       }
-     const squadID = newSquad.data.createSquad.id
-     setMainSquadId(squadID)
-     const userSquadArray = user.userSquadId
-     userSquadArray.push(squadID)
-     updateUserProperty('userSquadId', userSquadArray);
-     
-     return squadID
-      } catch (error) {
-        console.log(error)
-      } 
+
+      const squadID = newSquad.data.createSquad.id;
+      setMainSquadId(squadID);
+
+      const userSquadArray = [...user.userSquadId, squadID];
+      updateUserProperty('userSquadId', userSquadArray);
+
+      await API.graphql(graphqlOperation(updateUser, { input: { id: user.id, userSquadId: userSquadArray } }));
+
+      console.log('Squad ID:', squadID);
+    } catch (error) {
+      console.error('Error in createMainUserSquad:', error);
     }
-    createMainUserSquad()
-    console.log("here is the updated squadid",user.userSquadId)
-  }, [])
+  };
 
+  createMainUserSquad();
+}, []);
 
-  const handleUserSquadCreation =async ()=>{
-//     if(authUserID!=='undefined'){
-//       const newSquadId = mainSquadId
-//       try {
-//          await API.graphql(graphqlOperation(updateUser,{
-//           input:{id:authUserID,userSquadId:newSquadId}   
-//         }
-
-//         ))
-//         console.log("successful user update")
-//         navigation.navigate('RootNavigation', { screen: 'Explore', 
-//         screen:{screen:'Find Users',
-//         sqauad_id:mainSquadId}})
-//       } catch (error) {
-//         console.log("error updating userSquad", error)
-//       }
-//  }
- console.log("this is the updated user information", user);
- navigation.navigate('RootNavigation', { screen: 'Explore', params: { screen: 'Find Users' } });
-
-
-
-
+const handleUserSquadCreation =async ()=>{
+    console.log("this is the updated user information", user);
+    navigation.navigate('RootNavigation', { screen: 'Explore', params: { screen: 'Find Users' } });
 }
 
+const handlesUserPollCreation = ()=>{
+ navigation.navigate("WordPollCreationScreen");
+}
 
+ 
 
     return (
       <KeyboardAvoidingView 
@@ -146,7 +126,9 @@ useEffect(()=>{
       {/** Squad and contact Squad creation*/}
       <SafeAreaView></SafeAreaView>
       <View style= {[{flexDirection:"row"}]}>
-        <TouchableOpacity style= {[{flex:1}, styles.contacts]}>
+        <TouchableOpacity style= {[{flex:1}, styles.contacts]}
+        onPress={handlesUserPollCreation}
+        >
             <FontAwesome5
             name = "poll"
             size = {50}

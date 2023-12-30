@@ -11,8 +11,9 @@ import { createPoll } from '../graphql/mutations';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
-
-
+import { useUserContext } from '../../UserContext';
+import { getSquad } from '../graphql/queries';
+import CustomDropdown from '../components/CustomDropDown'
 
 //setting up for the notification for the sender 
 Notifications.setNotificationHandler({
@@ -76,35 +77,54 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 
-
 const WordPollCreationScreen = () => {
-  const [selected, setSelected]  = useState("")
+  const [selected, setSelected] = useState(null);
   const [caption, setCaption] = useState()
   const[pollOption, setPollOption] = useState('')
   const[pollOptionData, setPollOptionData] = useState([])
   const[selectedPollAudience, setSelectedPollAudience] = useState("")
+  const[pollAudience, setPollAudience] = useState([])
+  const{user} = useUserContext();
   
   
   const pollLabelData=[ 
-        {key:'1', value:"Fashion"},
-        {key:'2', value:"Decor"},
-        {key:'3', value:"Food"},
-        {key:'4', value:"Travel"},
-        {key:'5', value:"Social"},
-        {key:'6', value:"Health"},
-        {key:'7', value:"Other"},
-  ]
-
-  const pollAudienceData=[//rename this variable 
-    { label: 'Squad', value: '1' },
-    { label: 'Instagram', value: '2' },
-    { label: 'Twitter', value: '3' },
-    { label: 'Contancts', value: '4' },
-    { label: 'Snapchat', value: '5' },
-    { label: 'Tiktok', value: '6' },
+    {key:'1', value:"Fashion"},
+    {key:'2', value:"Decor"},
+    {key:'3', value:"Food"},
+    {key:'4', value:"Travel"},
+    {key:'5', value:"Social"},
+    {key:'6', value:"Health"},
+    {key:'7', value:"Other"},
 ]
+//get the pollAudience 
+  useEffect(() => {
+    const fetchSquadInfo = async () => {
+      const array = user.userSquadId;
+      
+      try {
+        const promises = array.map(async (squadId, index) => {
+          try {
+            const response = await API.graphql(graphqlOperation(getSquad, { id: squadId }));
+            const label = response.data.getSquad.squadName; // Assuming `getSquad` returns an object with `data` property
+            return { label, value: index };
+          } catch (error) {
+            console.error('Error fetching squad:', error);
+            return null; // Handle the error as needed
+          }
+        });
+        const dataItemArr = await Promise.all(promises);
+        const filteredDataItemArr = dataItemArr.filter(item => item !== null);
+        console.log("here is the data item array", filteredDataItemArr);
+        setPollAudience(filteredDataItemArr);
+      } catch (error) {
+        console.error('Error in fetchSquadInfo:', error);
+      }
+    };
+    fetchSquadInfo();
+  }, [user.userSquadId]);
+  
 const navigation = useNavigation()
-const route = useRoute();
+
 
 const renderDataItem = (item) => {
   return (
@@ -119,20 +139,30 @@ const handleTextInputChange = (text) => {
   setPollOption(text);
 };
 
+const handleDeleteOption = (id) => {
+    // Filter out the option with the specified id
+    const updatedOptions = pollOptionData.filter(option => option.id !== id);
+    setPollOptionData(updatedOptions);
+  };
 
-const renderPOllOptionDataItem = ({item}) => {
-  console.log(item)
-  return( 
-  <TouchableOpacity
-  style={{marginTop:10}}
-  >
-<View style={styles.item}>
-          <Text style={{fontSize:18, color:"black"}}>{item.title}</Text>
-          <AntDesign style={styles.icon} color="black" name="delete" size={20} />
-      </View>
-  </TouchableOpacity>
-  )     
-};
+  const renderPOllOptionDataItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={{ marginTop: 10 }}
+        onPress={() => handleDeleteOption(item.id)}
+      >
+        <View style={styles.item}>
+          <Text style={{ fontSize: 18, color: "black" }}>{item.title}</Text>
+          <AntDesign
+            style={styles.icon}
+            color="black"
+            name="delete"
+            size={20}
+          />
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
 const handleAddButtonPress = () => {
   var pollOptionObject = {
@@ -146,9 +176,34 @@ const handleAddButtonPress = () => {
   
 
 const handlePoll =async ()=>{
-  navigation.navigate('RootNavigation', { screen: 'Profile' })}
-
+  console.log("Here is the selected value",selected)
+  // try {
+  //   // Prepare the input for the createPoll mutation
+  //   const pollInput = {
+  //     totalNumOfVotes: 0, // Set initial votes count
+  //     pollMedia: '', // Set your media URL if applicable
+  //     closed: false, // Set to false as the poll is open initially
+  //     open: true, // Set to true as the poll is open initially
+  //     userID: user.id, // Set the user ID
+  //     numOfLikes: 0, // Set initial likes count
+  //     pollAudience: selectedPollAudience, // Set your audience data
+  //     squadID: user.userSquadId, // Set the user's squad ID
+  //     pollCaption: caption, // Set your poll caption
+  //     pollLabel: selected.value, // Set your poll label
+  //     pollScore: 0, // Set initial poll score
+  //     pollItems: pollOptionData.map(option => option.title), // Extract titles from pollOptionData
+  //   };
+  //   // Call the createPoll mutation
+  //   const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
+  //   // Handle the response (you may want to navigate or perform other actions)
+  //   console.log('Poll created successfully:', response.data.createPoll);
+  //   navigation.navigate('RootNavigation', { screen: 'Profile' })
+  // } catch (error) {
+  //   console.log('Error creating poll:', error);
+  //   // Handle the error
+  // }
   
+}
   return (
     <KeyboardAvoidingView
     style={styles.container}
@@ -174,18 +229,13 @@ const handlePoll =async ()=>{
       style={styles.input}
       textAlignVertical={"top"}
     ></TextInput>
+
   <View style={styles.pollLabelContainer}>
       <Text style={styles.pollContentLabel}>Poll Label</Text>
     </View>
 
     <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:70,marginLeft:30}}>
-      <SelectList 
-      setSelected={(val) => setSelected(val)} 
-      value={selected}
-      data={pollLabelData} 
-      save="value"
-      search={true} 
-      />
+    <CustomDropdown data={pollLabelData} onSelect={(item) => setSelected(item)} />
     </View>
 
    {/* adding poll options */}
@@ -229,7 +279,7 @@ const handlePoll =async ()=>{
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
-        data={pollAudienceData}
+        data={pollAudience}
         labelField="label"
         valueField="value"
         placeholder="Choose Poll Audience"
@@ -267,12 +317,9 @@ const handlePoll =async ()=>{
             </Text>
         </TouchableOpacity>
         </View>
-
-    
     </KeyboardAvoidingView>
   )
 }
-
 
 const styles = StyleSheet.create({
   container:{
