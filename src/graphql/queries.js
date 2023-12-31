@@ -106,7 +106,6 @@ export const getPollRequest = /* GraphQL */ `
         userID
         numOfLikes
         pollAudience
-        squadID
         pollCaption
         pollLabel
         pollScore
@@ -275,7 +274,6 @@ export const getPoll = /* GraphQL */ `
       userID
       numOfLikes
       pollAudience
-      squadID
       pollCaption
       pollLabel
       pollScore
@@ -293,6 +291,10 @@ export const getPoll = /* GraphQL */ `
         __typename
       }
       PollResponses {
+        nextToken
+        __typename
+      }
+      squads {
         nextToken
         __typename
       }
@@ -319,7 +321,6 @@ export const listPolls = /* GraphQL */ `
         userID
         numOfLikes
         pollAudience
-        squadID
         pollCaption
         pollLabel
         pollScore
@@ -358,46 +359,6 @@ export const pollsByUserID = /* GraphQL */ `
         userID
         numOfLikes
         pollAudience
-        squadID
-        pollCaption
-        pollLabel
-        pollScore
-        pollItems
-        createdAt
-        updatedAt
-        pollPollRequestId
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const pollsBySquadID = /* GraphQL */ `
-  query PollsBySquadID(
-    $squadID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelPollFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    pollsBySquadID(
-      squadID: $squadID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        totalNumOfVotes
-        pollMedia
-        closed
-        open
-        userID
-        numOfLikes
-        pollAudience
-        squadID
         pollCaption
         pollLabel
         pollScore
@@ -509,6 +470,121 @@ export const listUsers = /* GraphQL */ `
         numOfSquadJoined
         userInterests
         squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getSquadPoll = /* GraphQL */ `
+  query GetSquadPoll($id: ID!) {
+    getSquadPoll(id: $id) {
+      id
+      pollId
+      squadId
+      poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listSquadPolls = /* GraphQL */ `
+  query ListSquadPolls(
+    $filter: ModelSquadPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSquadPolls(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        pollId
+        squadId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const squadPollsByPollId = /* GraphQL */ `
+  query SquadPollsByPollId(
+    $pollId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSquadPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    squadPollsByPollId(
+      pollId: $pollId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollId
+        squadId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const squadPollsBySquadId = /* GraphQL */ `
+  query SquadPollsBySquadId(
+    $squadId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelSquadPollFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    squadPollsBySquadId(
+      squadId: $squadId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollId
+        squadId
         createdAt
         updatedAt
         __typename

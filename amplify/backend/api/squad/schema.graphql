@@ -27,7 +27,6 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   userID: ID! @index(name: "byUser")
   numOfLikes: Int
   pollAudience: [String]
-  squadID: ID! @index(name: "bySquad")
   pollCaption: String
   pollLabel: String
   pollScore: Int
@@ -35,6 +34,7 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   PollComments: [PollComment] @hasMany(indexName: "byPoll", fields: ["id"])
   PollRequest: PollRequest @hasOne
   PollResponses: [PollResponse] @hasMany(indexName: "byPoll", fields: ["id"])
+  squads: [Squad] @manyToMany(relationName: "SquadPoll")
 }
 
 type Squad @model @auth(rules: [{ allow: public }]) {
@@ -43,7 +43,7 @@ type Squad @model @auth(rules: [{ allow: public }]) {
   authUserID: String
   squadName: String
   numOfPolls: Int
-  Polls: [Poll] @hasMany(indexName: "bySquad", fields: ["id"])
+  Polls: [Poll] @manyToMany(relationName: "SquadPoll")
 }
 
 type User @model @auth(rules: [{ allow: public }]) {

@@ -65,7 +65,6 @@ export const createPollRequest = /* GraphQL */ `
         userID
         numOfLikes
         pollAudience
-        squadID
         pollCaption
         pollLabel
         pollScore
@@ -99,7 +98,6 @@ export const updatePollRequest = /* GraphQL */ `
         userID
         numOfLikes
         pollAudience
-        squadID
         pollCaption
         pollLabel
         pollScore
@@ -133,7 +131,6 @@ export const deletePollRequest = /* GraphQL */ `
         userID
         numOfLikes
         pollAudience
-        squadID
         pollCaption
         pollLabel
         pollScore
@@ -213,7 +210,6 @@ export const createPoll = /* GraphQL */ `
       userID
       numOfLikes
       pollAudience
-      squadID
       pollCaption
       pollLabel
       pollScore
@@ -231,6 +227,10 @@ export const createPoll = /* GraphQL */ `
         __typename
       }
       PollResponses {
+        nextToken
+        __typename
+      }
+      squads {
         nextToken
         __typename
       }
@@ -255,7 +255,6 @@ export const updatePoll = /* GraphQL */ `
       userID
       numOfLikes
       pollAudience
-      squadID
       pollCaption
       pollLabel
       pollScore
@@ -273,6 +272,10 @@ export const updatePoll = /* GraphQL */ `
         __typename
       }
       PollResponses {
+        nextToken
+        __typename
+      }
+      squads {
         nextToken
         __typename
       }
@@ -297,7 +300,6 @@ export const deletePoll = /* GraphQL */ `
       userID
       numOfLikes
       pollAudience
-      squadID
       pollCaption
       pollLabel
       pollScore
@@ -315,6 +317,10 @@ export const deletePoll = /* GraphQL */ `
         __typename
       }
       PollResponses {
+        nextToken
+        __typename
+      }
+      squads {
         nextToken
         __typename
       }
@@ -512,6 +518,132 @@ export const deleteUser = /* GraphQL */ `
       squadJoined
       squads {
         nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createSquadPoll = /* GraphQL */ `
+  mutation CreateSquadPoll(
+    $input: CreateSquadPollInput!
+    $condition: ModelSquadPollConditionInput
+  ) {
+    createSquadPoll(input: $input, condition: $condition) {
+      id
+      pollId
+      squadId
+      poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateSquadPoll = /* GraphQL */ `
+  mutation UpdateSquadPoll(
+    $input: UpdateSquadPollInput!
+    $condition: ModelSquadPollConditionInput
+  ) {
+    updateSquadPoll(input: $input, condition: $condition) {
+      id
+      pollId
+      squadId
+      poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteSquadPoll = /* GraphQL */ `
+  mutation DeleteSquadPoll(
+    $input: DeleteSquadPollInput!
+    $condition: ModelSquadPollConditionInput
+  ) {
+    deleteSquadPoll(input: $input, condition: $condition) {
+      id
+      pollId
+      squadId
+      poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
         __typename
       }
       createdAt

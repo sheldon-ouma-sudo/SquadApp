@@ -57,12 +57,10 @@ useEffect(() => {
       const newSquad = await API.graphql(
         graphqlOperation(createSquad, { input: { authUserID, squadName, numOfPolls: 0 } })
       );
-
       if (!newSquad.data?.createSquad) {
         console.log('Error creating a Squad');
         return;
       }
-
       const squadID = newSquad.data.createSquad.id;
       setMainSquadId(squadID);
 
