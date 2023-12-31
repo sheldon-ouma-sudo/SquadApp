@@ -14,6 +14,8 @@ import { useUserContext } from '../../UserContext';
 import { getSquad } from '../graphql/queries';
 
 
+
+
 //setting up for the notification for the sender 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -83,6 +85,8 @@ const WordPollCreationScreen = () => {
   const[pollOptionData, setPollOptionData] = useState([])
   const[selectedPollAudience, setSelectedPollAudience] = useState("")
   const[pollAudience, setPollAudience] = useState([])
+  const[finalPollAudience, setfinalPollAudience] = useState([])
+  const [idCounter, setIdCounter] = useState(1);
   const{user} = useUserContext();
   const navigation = useNavigation()
   
@@ -169,52 +173,80 @@ const handleDeleteOption = (id) => {
   };
 
   const handleAddButtonPress = () => {
-    var pollOptionObject = {
-      id: new Date().toString(),
+    const pollOptionObject = {
+      id: idCounter,
       title: pollOption,
       votes: 0,
     };
+
+    console.log("clean pollOptionObject", pollOptionObject);
+
     console.log("Before updating pollOptionData:", pollOptionData);
+
     setPollOptionData([...pollOptionData, pollOptionObject]);
+
     console.log("After updating pollOptionData:", pollOptionData);
-  
+
     console.log("here is the new poll option", pollOptionData);
+
+    // Increment the counter for the next ID
+    setIdCounter(idCounter + 1);
+
     setPollOption("");
   };
   
-  
+  useEffect(() => {
+    const handleFinalPollAudience = async()=>{
+      let array = []
+      if(pollAudience){
+        for(let i= 0; i<pollAudience.length; i++){
+            let pollAudienceObj = pollAudience[i]
+             console.log("object extracted",pollAudienceObj["label"])
+             array.push(pollAudienceObj["label"]);
+        }
+      }
+      console.log("array with final poll audience",array)
+      setfinalPollAudience(array)
+    }
+  handleFinalPollAudience()
+  },[pollAudience])
+
+
 const handlePollCreation =async ()=>{
   console.log("Here is the selected value",selected)
   console.log("here is the poll options",pollOptionData)
   console.log("here is the pollAudience", pollAudience)
+  console.log("and here is the final poll audience", finalPollAudience)
   console.log("here is the caption", caption)
   console.log("here is the user id", user.id)
   // //i want create poll use createPoll from mutation.js
   try {
-    // Replace these values with the actual values you want to use for your poll
     const input = {
       totalNumOfVotes: 0,
-      pollMedia: [], // An array of strings representing media URLs
+      pollMedia: [],
       closed: false,
       open: true,
-      userID: user.id, // Replace with the actual user ID
-      numOfLikes: 0,
-      pollAudience: pollAudience, // Replace with the actual audience values
-      pollCaption: caption,
-      pollLabel: selected,
-      pollScore: 0,
-      pollItems: pollOptionData, // An array of objects representing poll items
+      pollAudience: ["testEighty's first_squad"],
+      pollCaption: "What do you think our Squad founders are doing?",
+      pollItems: pollOptionData,
+      pollLabel: 'Social',
+      userID: '171fac81-5a4a-4335-9c54-6fa5bf8e9245'
     };
 
-    const response = await API.graphql(graphqlOperation(createPoll, { input }));
-    console.log('Poll created successfully:', response.data.createPoll);
-    
-    // Additional logic if needed
+    console.log('GraphQL Input:', input); // Log the input for further inspection
 
+    const response = await API.graphql(graphqlOperation(createPoll, { input }));
+    console.log('GraphQL Response:', response); // Log the entire GraphQL response
+
+    if (response.data && response.data.createPoll) {
+      console.log('Poll created successfully:', response.data.createPoll);
+    } else {
+      console.log('Error creating poll - Unexpected response:', response);
+    }
   } catch (error) {
     console.log('Error creating poll:', error);
-    // Handle the error appropriately
   }
+
 }
   return (
     <KeyboardAvoidingView
