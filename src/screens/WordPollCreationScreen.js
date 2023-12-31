@@ -170,16 +170,18 @@ const handleDeleteOption = (id) => {
 
   const handleAddButtonPress = () => {
     var pollOptionObject = {
-      id: new Date().toISOString(), 
+      id: new Date().toString(),
       title: pollOption,
       votes: 0,
     };
-    // Store only the title in pollOptionData
-    setPollOptionData([...pollOptionData, pollOptionObject.title]);
+    console.log("Before updating pollOptionData:", pollOptionData);
+    setPollOptionData([...pollOptionData, pollOptionObject]);
+    console.log("After updating pollOptionData:", pollOptionData);
   
     console.log("here is the new poll option", pollOptionData);
     setPollOption("");
   };
+  
   
 const handlePollCreation =async ()=>{
   console.log("Here is the selected value",selected)
@@ -265,9 +267,7 @@ const handlePollCreation =async ()=>{
         style={styles.pollOptionInput}
         placeholder="Enter Poll Option"
         value={pollOption}
-        onChangeText={value =>{
-          setPollOption(value)
-      }}
+        onChangeText={handleTextInputChange}
       />
       <TouchableOpacity
       onPress={()=>handleAddButtonPress()}
