@@ -12,6 +12,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { useUserContext } from '../../UserContext';
 import { getSquad } from '../graphql/queries';
+import { updatePoll } from '../graphql/mutations';
 
 
 
@@ -211,7 +212,8 @@ const handleDeleteOption = (id) => {
   handleFinalPollAudience()
   },[pollAudience])
 
-
+  
+  
 const handlePollCreation =async ()=>{
   console.log("Here is the selected value",selected)
   console.log("here is the poll options",pollOptionData)
@@ -221,33 +223,64 @@ const handlePollCreation =async ()=>{
   console.log("here is the user id", user.id)
   // //i want create poll use createPoll from mutation.js
   try {
-    const input = {
+    // Create the poll
+    const pollInput = {
       totalNumOfVotes: 0,
       pollMedia: [],
       closed: false,
       open: true,
-      pollAudience: ["testEighty's first_squad"],
-      pollCaption: "What do you think our Squad founders are doing?",
-      pollItems: pollOptionData,
-      pollLabel: 'Social',
-      userID: '171fac81-5a4a-4335-9c54-6fa5bf8e9245'
+      pollAudience: finalPollAudience,
+      pollCaption: caption,
+      pollItems: [], // Start with an empty array
+      pollLabel: selected,
+      userID: user.id
     };
 
-    console.log('GraphQL Input:', input); // Log the input for further inspection
-
-    const response = await API.graphql(graphqlOperation(createPoll, { input }));
-    console.log('GraphQL Response:', response); // Log the entire GraphQL response
+    const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
 
     if (response.data && response.data.createPoll) {
+      const pollId = response.data.createPoll.id;
+
       console.log('Poll created successfully:', response.data.createPoll);
+
+      // Transform pollOptionData into the desired format
+      const updatedItems = JSON.stringify(pollOptionData.map((item, index) => ({
+        id: index + 1, // You can use any logic to generate unique IDs
+        title: item.title,
+        votes: 0
+      })));
+
+      // Update the poll with the correct pollItems
+      await updatePollItems(pollId, updatedItems);
+      navigation.navigate('RootNavigation', { screen: 'Profile' })
     } else {
       console.log('Error creating poll - Unexpected response:', response);
     }
   } catch (error) {
     console.log('Error creating poll:', error);
   }
-
 }
+
+
+const updatePollItems = async (pollId, items) => {
+  try {
+    const updateInput = {
+      id: pollId,
+      pollItems: items
+    };
+
+    const updateResponse = await API.graphql(graphqlOperation(updatePoll, { input: updateInput }));
+
+    console.log('Poll updated successfully:', updateResponse);
+    // Log the updated pollItems
+    const updatedPollItems = updateResponse.data.updatePoll.pollItems;
+    console.log('Updated Poll Items:', updatedPollItems);
+        
+  } catch (error) {
+    console.log('Error updating poll items:', error);
+  }
+};
+
   return (
     <KeyboardAvoidingView
     style={styles.container}
