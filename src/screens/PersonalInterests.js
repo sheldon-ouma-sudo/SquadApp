@@ -151,7 +151,7 @@ const onSelect = useCallback(
 useEffect(()=>{
   const createSquadUser = async () =>{
       try {
-        await Auth.currentSession();
+      await Auth.currentSession();
       const authUser = await Auth.currentAuthenticatedUser();
       const name = authUser.attributes.name;
       const username = authUser.attributes.preferred_username;
@@ -172,6 +172,17 @@ useEffect(()=>{
       //console.log(response)
       const user_id = response.data?.createUser.id
       console.log("here is the user id",user_id)
+
+      //Update Cognito User attribute 'sub' with the GraphQL user id
+      await Auth.updateUserAttributes(authUser, {
+      sub: user_id,
+     });
+     // Check updated Cognito Sub
+    const updatedCognitoSub = (await Auth.currentAuthenticatedUser()).attributes.sub;
+    console.log("Updated Cognito Sub:", updatedCognitoSub);
+    console.log("here is the user id", user_id);
+
+
       // Update the user context after creating the user
       updateUser({
               id: user_id,
