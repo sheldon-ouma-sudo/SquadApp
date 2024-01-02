@@ -98,7 +98,7 @@ const [selected, setSelected] = useState(new Map());
 const [userInterest, setUserInterest] = useState([])
 const[currentPosition, setCurrentPositon] = useState(2)
 
-const { user, updateUserProperty} = useUserContext();
+const { user, updateUser } = useUserContext();
 const[authUserID, setAuthUserID] = useState()
 const navigation = useNavigation()
 const onSelect = useCallback(
@@ -163,7 +163,7 @@ useEffect(()=>{
         userSquadId: [],
         numOfPolls: 0,
         numOfSquadJoined: 0,
-        userInterests: [],
+        userInterests: userInterest,
         squadJoined: [],
       };
       const response = await API.graphql(
@@ -180,17 +180,17 @@ useEffect(()=>{
      // Check updated Cognito Sub
     const updatedCognitoSub = (await Auth.currentAuthenticatedUser()).attributes.sub;
     console.log("Updated Cognito Sub:", updatedCognitoSub);
-    console.log("here is the user id", user_id);
+    console.log("here is the user id", user_id)
 
 
       // Update the user context after creating the user
-      updateUserProperty({
+      updateUser({
               id: user_id,
               imageUrl: userProfilePicture,
               userSquadId: [],
               numOfPolls: 0,
               numOfSquadJoined: 0,
-              userInterests: userInterest,
+              userInterests: [],
               squadJoined: [],
             });
         

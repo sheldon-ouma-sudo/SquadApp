@@ -1,24 +1,25 @@
-type PollResponse @model @auth(rules: [{ allow: public }]) {
+type PollResponse @model @auth(rules: [{allow: public}]) {
   id: ID!
   pollID: ID! @index(name: "byPoll")
   userID: ID! @index(name: "byUser")
   score: Int
 }
 
-type PollRequest @model @auth(rules: [{ allow: public }]) {
+type PollRequest @model @auth(rules: [{allow: public}]) {
   id: ID!
   Poll: Poll @belongsTo
   userID: ID! @index(name: "byUser")
+  pollRequestsId: [String]
 }
 
-type PollComment @model @auth(rules: [{ allow: public }]) {
+type PollComment @model @auth(rules: [{allow: public}]) {
   id: ID!
   pollID: ID! @index(name: "byPoll")
   userID: ID! @index(name: "byUser")
   numOfLikes: Int
 }
 
-type Poll @model @auth(rules: [{ allow: public }]) {
+type Poll @model @auth(rules: [{allow: public}]) {
   id: ID!
   totalNumOfVotes: Int
   pollMedia: [String]
@@ -37,7 +38,7 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   squads: [Squad] @manyToMany(relationName: "SquadPoll")
 }
 
-type Squad @model @auth(rules: [{ allow: public }]) {
+type Squad @model @auth(rules: [{allow: public}]) {
   id: ID!
   Users: [User] @manyToMany(relationName: "SquadUser")
   authUserID: String
@@ -46,7 +47,7 @@ type Squad @model @auth(rules: [{ allow: public }]) {
   Polls: [Poll] @manyToMany(relationName: "SquadPoll")
 }
 
-type User @model @auth(rules: [{ allow: public }]) {
+type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   userName: String
@@ -62,3 +63,4 @@ type User @model @auth(rules: [{ allow: public }]) {
   squadJoined: [String]
   squads: [Squad] @manyToMany(relationName: "SquadUser")
 }
+ 
