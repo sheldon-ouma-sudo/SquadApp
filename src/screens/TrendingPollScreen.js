@@ -36,8 +36,6 @@ const TrendingPollScreen = () => {
     style={styles.container}
     behavior="padding"
     >   
-
-
     <FlatList
        data = {polls}
        //searchPhrase={searchPhrase}

@@ -37,8 +37,10 @@ const PollListItem = ({ poll, }) => {
     setNumOfPollLikes(poll.numOfLikes);
   
     try {
-      const parsedPollItems = poll.pollItems || []; // Check for existence
+      const parsedPollItems = JSON.parse(poll.pollItems || "[]"); // Parse the string
+      console.log("here are the parsed poll items: ",parsedPollItems)
       setPollItems(parsedPollItems);
+
   
       setSelectedOption(0);
       const initialSelectedOption = parsedPollItems[0];
@@ -214,6 +216,7 @@ const styles = StyleSheet.create({
   },
   selectedOption: {
    //backgroundColor: '#add8e6', // Light blue for selected option
+   backgroundColor: '#1764EF'
   },
   optionText: {
     fontSize: 19,

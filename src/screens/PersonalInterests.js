@@ -98,7 +98,7 @@ const [selected, setSelected] = useState(new Map());
 const [userInterest, setUserInterest] = useState([])
 const[currentPosition, setCurrentPositon] = useState(2)
 
-const { user, updateUser } = useUserContext();
+const { user, updateUserProperty} = useUserContext();
 const[authUserID, setAuthUserID] = useState()
 const navigation = useNavigation()
 const onSelect = useCallback(
@@ -184,13 +184,13 @@ useEffect(()=>{
 
 
       // Update the user context after creating the user
-      updateUser({
+      updateUserProperty({
               id: user_id,
               imageUrl: userProfilePicture,
               userSquadId: [],
               numOfPolls: 0,
               numOfSquadJoined: 0,
-              userInterests: [],
+              userInterests: userInterest,
               squadJoined: [],
             });
         
