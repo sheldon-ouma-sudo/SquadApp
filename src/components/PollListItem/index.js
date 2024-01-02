@@ -35,14 +35,14 @@ const PollListItem = ({ poll, }) => {
  
   useEffect(() => {
     setNumOfPollLikes(poll.numOfLikes);
-
+  
     try {
-      const parsedPollItems = JSON.parse(poll.pollItems);
+      const parsedPollItems = poll.pollItems || []; // Check for existence
       setPollItems(parsedPollItems);
-
+  
       setSelectedOption(0);
       const initialSelectedOption = parsedPollItems[0];
-      animateVotePercentage(initialSelectedOption.votes / poll.totalNumOfVotes);
+      animateVotePercentage(initialSelectedOption?.votes / poll.totalNumOfVotes || 0);
     } catch (error) {
       console.log('Error parsing poll items:', error);
     }
@@ -79,8 +79,7 @@ const PollListItem = ({ poll, }) => {
   
   const renderOption = ({ item, index }) => {
     const isSelected = selectedOption === index;
-    const pollItemsArray = JSON.parse(item); // Parse only once
-    const pollItem = pollItemsArray[index];
+    const pollItem = item; // Each item is a poll option
     const votes = pollItem.votes;
     const optionText = pollItem.title;
   
@@ -111,7 +110,6 @@ const PollListItem = ({ poll, }) => {
       </View>
     );
   };
-  
   return (
     <View style={styles.container}>
       
@@ -132,11 +130,11 @@ const PollListItem = ({ poll, }) => {
       >{pollCreator}</Text>
       </TouchableOpacity>
       <Text style={styles.question}>{poll.pollCaption}</Text>
-        <FlatList
-        data={poll.pollItems}
+      <FlatList
+        data={pollItems} // Use pollItems instead of poll.pollItems
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderOption}
-      />
+     />
       <TouchableOpacity
       style={styles.pollCommentContainer}
       onPress={handleCommentsPress}

@@ -64,6 +64,7 @@ export const onCreatePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -95,6 +96,7 @@ export const onUpdatePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -126,6 +128,7 @@ export const onDeletePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -198,12 +201,7 @@ export const onCreatePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
-      pollItems {
-        id
-        title
-        votes
-        __typename
-      }
+      pollItems
       PollComments {
         nextToken
         __typename
@@ -245,12 +243,7 @@ export const onUpdatePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
-      pollItems {
-        id
-        title
-        votes
-        __typename
-      }
+      pollItems
       PollComments {
         nextToken
         __typename
@@ -292,12 +285,7 @@ export const onDeletePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
-      pollItems {
-        id
-        title
-        votes
-        __typename
-      }
+      pollItems
       PollComments {
         nextToken
         __typename
@@ -522,6 +510,7 @@ export const onCreateSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -562,6 +551,7 @@ export const onUpdateSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -602,6 +592,7 @@ export const onDeleteSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId

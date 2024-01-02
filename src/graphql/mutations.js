@@ -68,6 +68,7 @@ export const createPollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -100,6 +101,7 @@ export const updatePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -132,6 +134,7 @@ export const deletePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -210,12 +213,7 @@ export const createPoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
-      pollItems {
-        id
-        title
-        votes
-        __typename
-      }
+      pollItems
       PollComments {
         nextToken
         __typename
@@ -260,12 +258,7 @@ export const updatePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
-      pollItems {
-        id
-        title
-        votes
-        __typename
-      }
+      pollItems
       PollComments {
         nextToken
         __typename
@@ -310,12 +303,7 @@ export const deletePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
-      pollItems {
-        id
-        title
-        votes
-        __typename
-      }
+      pollItems
       PollComments {
         nextToken
         __typename
@@ -559,6 +547,7 @@ export const createSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -600,6 +589,7 @@ export const updateSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -641,6 +631,7 @@ export const deleteSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollItems
         createdAt
         updatedAt
         pollPollRequestId

@@ -252,12 +252,6 @@ const handlePollCreation =async ()=>{
 
       // Update the poll with the correct pollItems
       await updatePollItems(pollId, updatedItems);
-      setPollOptionData([]);
-      setPollOption("");
-      setPollAudience([]);
-      setfinalPollAudience([]);
-      setCaption("");
-      //setUser({});
       navigation.navigate('RootNavigation', { screen: 'Profile' })
     } else {
       console.log('Error creating poll - Unexpected response:', response);
