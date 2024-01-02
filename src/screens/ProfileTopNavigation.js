@@ -12,6 +12,7 @@
   import { API, graphqlOperation, Auth } from "aws-amplify";
   //import { graphqlOperation } from 'aws-amplify' 
   import {getUser} from '../graphql/queries'
+  import { useUserContext } from '../../UserContext'
 
   
 
@@ -21,39 +22,43 @@
     const[numOfUserPolls, setNumOfUserPolls] = useState("1060")
     const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
     const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
+    const{user, updateUserProperty} = useUserContext();
     const Tab = createMaterialTopTabNavigator();
     const navigation = useNavigation()
     const insets = useSafeAreaInsets();  
     //query the user from the backend
     //set the values to what is in the backend 
      useEffect(()=>{
-      const queryUser = async() =>{
-        // get Auth user
-        const authUser = await Auth.currentAuthenticatedUser();
-          console.log(authUser)
-          const userID = authUser.attributes.profile
-          const name = authUser.attributes.name
-          
-         console.log("this is the user id ",userID)
-         setUserName(name)
-        // // query the database using Auth user id (sub)
-        // const result = await API.graphql(
-        //   graphqlOperation(getChatRoom, { id: chatroomID }));
-        // try {
-        //   const userData = await API.graphql(
-        //   graphqlOperation(getUser, {input: {id: userID}}));
-        //   console.log(userData)
-        // } catch (error) {
-        //   console.log( error) 
-        // }
-    
-    }
-    queryUser()
+      console.log("here is the user", user.id)
+      const queryUser = async () => {
+        try {
+          const authUser = await Auth.currentAuthenticatedUser();
+          const userID = user.id; // Use sub instead of profile for the user ID
+          const name = authUser.attributes.name;
+  
+          // Query the user from the backend using Amplify API
+          const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+  
+          // Extract the user information from the query result
+          const userFromBackend = userData.data?.getUser;
+          console.log("here is the user from backend ", userFromBackend)
+          // Update state with the user information
+           setUserName(userFromBackend.userName);
+          setNumOfUserPolls(userFromBackend.numOfPolls);
+          setNumOfSquadron(userFromBackend.numOfSquadJoined);
+          setNumOfSquadUsers(userFromBackend.userSquadId.length);
+  
+        } catch (error) {
+          console.log('Error fetching user data:', error);
+        }
+      };
+  
+      queryUser();
   }, [])
     return (
       <>
-      <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:-30}]}>
-        <View style={{flex:1, justifyContent:'flex-start'}}>
+      <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:0}]}>
+        <View style={{flex:1, justifyContent:'flex-start', marginTop:-25}}>
           <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
@@ -64,7 +69,7 @@
         style={{flex:1, justifyContent:'flex-end', marginBottom:25, marginEnd:30,marginLeft:-125}}
         >
         <TouchableOpacity
-        style={{marginStart:190,marginBottom:-15}}
+        style={{marginStart:230, }}
         onPress={() =>navigation.navigate('AccountSettingScreen')}
         >
         <AntDesign name="edit" size={24} color="black" />
@@ -83,10 +88,10 @@
            style={{marginBottom:-15,marginLeft:-15,fontWeight:'bold'}}
            >{numOfUserPolls}</Text> 
            <Text
-           style={{marginLeft:50,fontWeight:'bold'}}
+           style={{marginLeft:80,fontWeight:'bold'}}
            >{numOfUsersInSquad}</Text>  
           <Text
-          style={{marginLeft:120,marginTop:-15,fontWeight:'bold'}}
+          style={{marginLeft:180,marginTop:-15,fontWeight:'bold'}}
           >{numOfUserSquadron}</Text>
          </View>
           {/**this view here is for the labelling */}
@@ -94,14 +99,14 @@
          style={{marginLeft:-20}}
          >
            <Text
-           style={{marginBottom:-15,marginLeft:7,color:'#707070',fontWeight:'400'}}
+           style={{marginBottom:-15,marginLeft:7,color:'#707070',fontWeight:'400', }}
            >Polls</Text> 
            <Text
-           style={{marginLeft:60,marginBottom:-15,color:'#707070',fontWeight:'400'}}
-           >Squad</Text>  
+           style={{marginLeft:60,marginBottom:-15,color:'#707070',fontWeight:'400', }}
+           >SquadCreated</Text>  
           <Text
-          style={{marginLeft:125,color:'#707070',fontWeight:'400'}}
-          >Squadron</Text>
+          style={{marginBottom:20,marginLeft:175,color:'#707070',fontWeight:'400'}}
+          >Squad Joined</Text>
          </View>
         </View>
         {/* 
