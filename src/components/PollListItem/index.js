@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image } from 'react-native';
 import Animated, { EasingNode } from 'react-native-reanimated';
 import { getUser } from '../../graphql/queries';
-import { useEffect } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
-import CommentsList from '../PollCommentItem/index.js'
+import PollCommentList from '../PollCommentItem/index.js'
 import Modal from 'react-native-modal';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
@@ -18,13 +17,33 @@ const PollListItem = ({ poll, }) => {
   const [pollItems, setPollItems] = useState([]);
   const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
   const [numOfPollComments, setNumOfPollComment] = useState('500');
+  const [isModalVisible, setModalVisible] = useState(false);
   const [numOfPollLikes, setNumOfPollLikes] = useState('');
   const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(false);
 
-  const bottomSheetModalRef = useRef(null);
+ 
+  const commentsData = [
+    {"id": 1, "comment": "This is a great comment."},
+    {"id": 2, "comment": "I really enjoyed reading this."},
+    {"id": 3, "comment": "Interesting perspective."},
+    {"id": 500, "comment": "Awesome conversation!"},
+    {'id': 15, 'comment': 'Velit dolore quisquam ut ut tempora porro sed.'}
+  ];
 
-  const handleCommentsPress = () => {
-    bottomSheetModalRef.current?.present();
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleCommentsIconPress = () => {
+    toggleModal();
+  };
+
+
+  const handlePanGesture = ({ nativeEvent }) => {
+    if (nativeEvent.state === State.END) {
+      // Close the modal when swiped down
+      toggleModal();
+    }
   };
 
   const handleLickedIconClick = () => {
@@ -139,23 +158,21 @@ const PollListItem = ({ poll, }) => {
      />
       <TouchableOpacity
       style={styles.pollCommentContainer}
-      onPress={handleCommentsPress}
+      onPress={handleCommentsIconPress}
       >
       <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
       <Text
       style={styles.numOfpollComments}
       >{numOfPollComments}</Text>
       </TouchableOpacity>
-
-      <BottomSheetModal
-        ref={bottomSheetModalRef}
-        index={0}
-        snapPoints={['50%', '90%']}
-      >
-        {/* Render Comments */}
-         <CommentsList /> 
-      </BottomSheetModal>
-
+      <Modal isVisible={isModalVisible} onBackdropPress={toggleModal} style={styles.modal}>
+        <PanGestureHandler onGestureEvent={handlePanGesture}>
+          <Animated.View style={styles.bottomSheet}>
+            {/* Render Comments */}
+            <PollCommentList commentsData={commentsData} />
+          </Animated.View>
+        </PanGestureHandler>
+      </Modal>
       <TouchableOpacity
       style={styles.pollLikesContainer}
       onPress={handleLickedIconClick}

@@ -8,10 +8,6 @@ import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from 
 
 
 const TrendingPollScreen = () => {
-  const [numOfVotes, setNumOfVotes] = useState("32")
-  const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')//remember to use uri instead of the require when quering from the backend
-  const [pollCaption, setPollCaption] = useState("dining hall with best food today")
-  const [pollCreator, setPollCreator] = useState("Drake")
   const [polls, setPolls] = useState([])
 
     useEffect(() => {
@@ -32,41 +28,18 @@ const TrendingPollScreen = () => {
    
   
   return (
-    <KeyboardAvoidingView 
-    style={styles.container}
-    behavior="padding"
-    >   
-    <FlatList
-       data = {polls}
-       //searchPhrase={searchPhrase}
-       renderItem={({item})=>(
-        <BottomSheetModalProvider>
-        <Poll
-         poll={item}
-        />
-        </BottomSheetModalProvider>
-       )} 
-       
-       /> 
-    {/* <FlatList
-          data={polls}
-          scrollEnabled={true}
-          // renderItem={({ item }) => (
-          //   <Item
-          //     id={item.id}
-          //     title={item.title}
-          //     url = {item.url}
-          //     selected={!!selected.get(item.id)}
-          //     onSelect={onSelect}
-          //   />
-          // )}
-          renderItem={ ({ item }) => 
-          <Poll 
-          poll={item} />}
-          style={styles.list}
-          inverted
-        /> */}
-    </KeyboardAvoidingView>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <BottomSheetModalProvider>
+      <FlatList
+        data={polls}
+        renderItem={({ item }) => (
+          <Poll poll={item} />
+        )}
+        keyExtractor={(item) => item.id}
+        style={styles.list}
+      />
+    </BottomSheetModalProvider>
+  </KeyboardAvoidingView>
   )
 }
 
