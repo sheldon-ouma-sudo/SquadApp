@@ -43,7 +43,7 @@
           const userFromBackend = userData.data?.getUser;
           console.log("here is the user from backend ", userFromBackend)
           // Update state with the user information
-           setUserName(userFromBackend.userName);
+          setUserName(userFromBackend.userName);
           setNumOfUserPolls(userFromBackend.numOfPolls);
           setNumOfSquadron(userFromBackend.numOfSquadJoined);
           setNumOfSquadUsers(userFromBackend.userSquadId.length);

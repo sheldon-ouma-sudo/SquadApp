@@ -29,7 +29,7 @@ const LoginScreen = () => {
     const [isLoggedIn, setLoggedInStatus] = useState(false)
     const [userData, setUserData] = useState(null)
     const [isImageLoading, setImageLoadingStatus] = useState(false)
-    const {user} = useUserContext();
+    const {user, updateUserProperty} = useUserContext();
     const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
     iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com', 
@@ -163,6 +163,7 @@ const LoginScreen = () => {
         try {
           await Auth.signIn(username, password);
           console.log('✅ Success');
+
          //updateAuthState('loggedIn');
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
          //navigation.navigate('RootNavigation', { screen:'Home'})

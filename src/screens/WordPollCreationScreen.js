@@ -174,11 +174,11 @@ const handleDeleteOption = (id) => {
   };
 
   const handleAddButtonPress = () => {
-    const pollOptionObject = {
+    const pollOptionObject = JSON.stringify({
       id: idCounter,
       title: pollOption,
       votes: 0,
-    };
+    });
 
     console.log("clean pollOptionObject", pollOptionObject);
 
@@ -231,7 +231,7 @@ const handlePollCreation =async ()=>{
       open: true,
       pollAudience: finalPollAudience,
       pollCaption: caption,
-      pollItems: [], // Start with an empty array
+      pollItems: pollOptionData, // Start with an empty array
       pollLabel: selected,
       userID: user.id
     };
@@ -241,17 +241,22 @@ const handlePollCreation =async ()=>{
     if (response.data && response.data.createPoll) {
       const pollId = response.data.createPoll.id;
 
-      console.log('Poll created successfully:', response.data.createPoll);
+      console.log('Poll created successfully, here is the pollId', pollId);
 
-      // Transform pollOptionData into the desired format
-      const updatedItems = JSON.stringify(pollOptionData.map((item, index) => ({
-        id: index + 1, // You can use any logic to generate unique IDs
-        title: item.title,
-        votes: 0
-      })));
+      // // Transform pollOptionData into the desired format
+      // const updatedItems = JSON.stringify(pollOptionData.map((item, index) => ({
+      //   id: index + 1, // You can use any logic to generate unique IDs
+      //   title: item.title,
+      //   votes: 0
+      // })));
 
-      // Update the poll with the correct pollItems
-      await updatePollItems(pollId, updatedItems);
+      // // Update the poll with the correct pollItems
+      // await updatePollItems(pollId, updatedItems);
+      setPollOptionData([]);
+      setPollOption("");
+      setPollAudience([]);
+      setfinalPollAudience([]);
+      setCaption("");
       navigation.navigate('RootNavigation', { screen: 'Profile' })
     } else {
       console.log('Error creating poll - Unexpected response:', response);
