@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
 import Poll from "../components/PollListItem";
-import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 
 const TrendingPollScreen = () => {
@@ -29,7 +29,7 @@ const TrendingPollScreen = () => {
   
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-    <BottomSheetModalProvider>
+     <BottomSheetModalProvider>
       <FlatList
         data={polls}
         renderItem={({ item }) => (
@@ -37,6 +37,7 @@ const TrendingPollScreen = () => {
         )}
         keyExtractor={(item) => item.id}
         style={styles.list}
+        contentContainerStyle={{ flexGrow: 1 }}
       />
     </BottomSheetModalProvider>
   </KeyboardAvoidingView>

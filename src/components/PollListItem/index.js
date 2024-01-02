@@ -5,7 +5,7 @@ import { getUser } from '../../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
-import PollCommentList from '../PollCommentItem/index.js'
+import CommentSheet from '../PollCommentItem/index.js';
 import Modal from 'react-native-modal';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
@@ -20,8 +20,10 @@ const PollListItem = ({ poll, }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [numOfPollLikes, setNumOfPollLikes] = useState('');
   const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(false);
+  const [bottomSheetModalVisible, setBottomSheetModalVisible] = useState(false);
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
 
- 
+
   const commentsData = [
     {"id": 1, "comment": "This is a great comment."},
     {"id": 2, "comment": "I really enjoyed reading this."},
@@ -34,10 +36,10 @@ const PollListItem = ({ poll, }) => {
     setModalVisible(!isModalVisible);
   };
 
-  const handleCommentsIconPress = () => {
-    toggleModal();
+  
+  const toggleBottomSheet = () => {
+    setBottomSheetVisible(!bottomSheetVisible);
   };
-
 
   const handlePanGesture = ({ nativeEvent }) => {
     if (nativeEvent.state === State.END) {
@@ -103,6 +105,7 @@ const PollListItem = ({ poll, }) => {
     const pollItem = item; // Each item is a poll option
     const votes = pollItem.votes;
     const optionText = pollItem.title;
+
   
     return (
       <View>
@@ -156,23 +159,49 @@ const PollListItem = ({ poll, }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderOption}
      />
-      <TouchableOpacity
-      style={styles.pollCommentContainer}
-      onPress={handleCommentsIconPress}
+    <TouchableOpacity
+        style={styles.pollCommentContainer}
+        onPress={toggleBottomSheet}
       >
-      <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
-      <Text
-      style={styles.numOfpollComments}
-      >{numOfPollComments}</Text>
+        <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
+        <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </TouchableOpacity>
-      <Modal isVisible={isModalVisible} onBackdropPress={toggleModal} style={styles.modal}>
+      <CommentSheet isVisible={bottomSheetVisible} onClose={toggleBottomSheet} />
+       {/* Bottom Sheet Modal */}
+       {/* <BottomSheetModal
+        index={0}
+        snapPoints={['0%', '60%']}
+        onChange={(index) => {
+          // Handle modal visibility changes if needed
+          console.log('Modal visibility changed:', index);
+        }}
+        backgroundComponent={() => (
+          <TouchableOpacity
+            style={styles.modalBackground}
+            activeOpacity={1}
+            onPress={toggleBottomSheetModal}
+          />
+        )}
+      >
+        <BottomSheetFlatList
+          data={commentsData} // Pass your comments data here
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.commentItem}>
+              <Text>{item.comment}</Text>
+            </View>
+          )}
+        />
+    </BottomSheetModal> */}
+
+      {/* <Modal isVisible={isModalVisible} onBackdropPress={toggleModal} style={styles.modal}>
         <PanGestureHandler onGestureEvent={handlePanGesture}>
           <Animated.View style={styles.bottomSheet}>
             {/* Render Comments */}
-            <PollCommentList commentsData={commentsData} />
+            {/* <PollCommentList commentsData={commentsData} />
           </Animated.View>
         </PanGestureHandler>
-      </Modal>
+      </Modal> */} 
       <TouchableOpacity
       style={styles.pollLikesContainer}
       onPress={handleLickedIconClick}
@@ -278,7 +307,28 @@ const styles = StyleSheet.create({
     marginTop:5,
     fontSize:20,
     fontWeight:'700'
-  }
+  },
+  pollCommentContainer: {
+    marginTop: 20,
+  },
+  pollCommentIcon: {
+    marginLeft: 20,
+  },
+  numOfpollComments: {
+    fontSize: 19,
+    marginLeft: 18,
+    marginTop: 5,
+    fontWeight: '700',
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the background color and opacity
+  },
+  commentItem: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
   
 });
 
