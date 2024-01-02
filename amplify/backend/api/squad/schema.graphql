@@ -30,11 +30,17 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   pollCaption: String
   pollLabel: String
   pollScore: Int
-  pollItems: [AWSJSON]
+  pollItems: [PollItem] # Change type to [PollItem]
   PollComments: [PollComment] @hasMany(indexName: "byPoll", fields: ["id"])
   PollRequest: PollRequest @hasOne
   PollResponses: [PollResponse] @hasMany(indexName: "byPoll", fields: ["id"])
   squads: [Squad] @manyToMany(relationName: "SquadPoll")
+}
+
+type PollItem {
+  id: ID!
+  title: String!
+  votes: Int!
 }
 
 type Squad @model @auth(rules: [{ allow: public }]) {

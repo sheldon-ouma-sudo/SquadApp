@@ -14,43 +14,49 @@ const { Value, timing } = Animated;
 
 const PollListItem = ({ poll, }) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [animationValue, setAnimationValue] = useState(new Value(0));
-  const[pollCreator, setPollCreator] = useState("@superDuperBostoner")
-  const[numOfpollComment, setNumOfPollComment] = useState("500")
-  const[numOfPollLikes, setNumOfPollLikes] = useState("")
-  const [isLikeCommentIconClicked, setIsLikeCommentIconClicked,] = useState(false);
-  //const[numOfPollLikes, setNumOfPollLikes]
-  
+  const [animationValue] = useState(new Value(0));
+  const [pollItems, setPollItems] = useState([]);
+  const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
+  const [numOfPollComments, setNumOfPollComment] = useState('500');
+  const [numOfPollLikes, setNumOfPollLikes] = useState('');
+  const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(false);
+
   const bottomSheetModalRef = useRef(null);
 
   const handleCommentsPress = () => {
     bottomSheetModalRef.current?.present();
   };
 
-
   const handleLickedIconClick = () => {
     setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
     // Additional logic or state updates can be added here
   };
-  
 
-   // fetch Chat Room
-   useEffect(() => {
-    setNumOfPollLikes(poll.numOfLikes)
-    const user = API.graphql(graphqlOperation(getUser, { id: poll.userID}));
-    //console.log(pollCreator)
-    console.log(user)
-    console.log(poll.userID)
-  }, []);
+ 
+  useEffect(() => {
+    setNumOfPollLikes(poll.numOfLikes);
+
+    try {
+      const parsedPollItems = JSON.parse(poll.pollItems);
+      setPollItems(parsedPollItems);
+
+      setSelectedOption(0);
+      const initialSelectedOption = parsedPollItems[0];
+      animateVotePercentage(initialSelectedOption.votes / poll.totalNumOfVotes);
+    } catch (error) {
+      console.log('Error parsing poll items:', error);
+    }
+  }, [poll]);
+
   const handleOptionPress = (index) => {
     setSelectedOption(index);
     try {
-      const pollItem = JSON.parse(poll.pollItems[index]);
-      console.log("pollItem is as follows: ", pollItem)
+      const pollItem = pollItems[index];
+      console.log('pollItem is as follows: ', pollItem);
       if (pollItem.votes !== undefined && poll.totalNumOfVotes !== undefined) {
         const percentage = poll.totalNumOfVotes > 0 ? pollItem.votes / poll.totalNumOfVotes : 0;
         animateVotePercentage(percentage);
-        console.log("the perecentage is as follows: ", percentage)
+        console.log('the percentage is as follows: ', percentage);
       } else {
         console.log('Error: Votes data is undefined.');
       }
@@ -58,48 +64,54 @@ const PollListItem = ({ poll, }) => {
       console.log('Error parsing poll item:', error);
     }
   };
-  
-  const animateVotePercentage = (percentage) => {
-    timing(animationValue, {
-      toValue: percentage,
-      duration: 600,
-      easing: EasingNode.inOut(EasingNode.ease),
-    }).start();
-  };
 
+  const animateVotePercentage = (percentage) => {
+    if (!isNaN(percentage)) {
+      timing(animationValue, {
+        toValue: percentage,
+        duration: 600,
+        easing: EasingNode.inOut(EasingNode.ease),
+      }).start();
+    } else {
+      console.log('Invalid percentage value:', percentage);
+    }
+  };
+  
   const renderOption = ({ item, index }) => {
     const isSelected = selectedOption === index;
-     //console.log(item);
-     const pollItem = JSON.parse(item);
-    const percentage = selectedOption === index ? 100 : animationValue;
+    const pollItemsArray = JSON.parse(item); // Parse only once
+    const pollItem = pollItemsArray[index];
     const votes = pollItem.votes;
-    const optionText = pollItem.text;
-
+    const optionText = pollItem.title;
+  
     return (
-      <View
-      //style={styles.userImage}
-      >
-     <Text style={styles.optionText}>{optionText}</Text>
-      <TouchableOpacity
-        style={[styles.optionContainer, isSelected && styles.selectedOption]}
-        onPress={() => handleOptionPress(index)}
-      >
-        <Animated.View
-          style={[styles.percentageBar, {
-            width: animationValue.interpolate({
-              inputRange: [0, 0.3],
-              outputRange: ['0%', '100%'],
-            })
-          }]} />
-        <Text style={styles.percentageText}>
-          {selectedOption === index ? 'Voted!' : `${((votes / poll.totalNumOfVotes) * 100).toFixed(2)}%`}
-        </Text>
-      </TouchableOpacity>
+      <View>
+        <Text style={styles.optionText}>{optionText}</Text>
+        <TouchableOpacity
+          style={[styles.optionContainer, isSelected && styles.selectedOption]}
+          onPress={() => handleOptionPress(index)}
+        >
+          <Animated.View
+            style={[
+              styles.percentageBar,
+              {
+                width: animationValue.interpolate({
+                  inputRange: [0, 0.3],
+                  outputRange: ['0%', '100%'],
+                }),
+              },
+            ]}
+          />
+          <Text style={styles.percentageText}>
+            {selectedOption === index
+              ? 'Voted!'
+              : `${((votes / poll.totalNumOfVotes) * 100).toFixed(2)}%`}
+          </Text>
+        </TouchableOpacity>
       </View>
-     
     );
   };
-
+  
   return (
     <View style={styles.container}>
       
@@ -132,7 +144,7 @@ const PollListItem = ({ poll, }) => {
       <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
       <Text
       style={styles.numOfpollComments}
-      >{numOfpollComment}</Text>
+      >{numOfPollComments}</Text>
       </TouchableOpacity>
 
       <BottomSheetModal

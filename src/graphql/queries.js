@@ -109,7 +109,6 @@ export const getPollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
-        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -277,7 +276,12 @@ export const getPoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
-      pollItems
+      pollItems {
+        id
+        title
+        votes
+        __typename
+      }
       PollComments {
         nextToken
         __typename
@@ -324,7 +328,6 @@ export const listPolls = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
-        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -362,7 +365,6 @@ export const pollsByUserID = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
-        pollItems
         createdAt
         updatedAt
         pollPollRequestId
@@ -497,7 +499,6 @@ export const getSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
-        pollItems
         createdAt
         updatedAt
         pollPollRequestId
