@@ -1,6 +1,52 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getNotification = /* GraphQL */ `
+  query GetNotification($id: ID!) {
+    getNotification(id: $id) {
+      id
+      pollRequestsArray
+      pollResponsesArray
+      pollCommentsArray
+      squadAddRequestsArray
+      SquadJoinRequestArray
+      PollComments {
+        nextToken
+        __typename
+      }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listNotifications = /* GraphQL */ `
+  query ListNotifications(
+    $filter: ModelNotificationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        pollRequestsArray
+        pollResponsesArray
+        pollCommentsArray
+        squadAddRequestsArray
+        SquadJoinRequestArray
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getPollResponse = /* GraphQL */ `
   query GetPollResponse($id: ID!) {
     getPollResponse(id: $id) {
@@ -116,6 +162,8 @@ export const getPollRequest = /* GraphQL */ `
         __typename
       }
       userID
+      pollRequestsId
+      notificationID
       createdAt
       updatedAt
       pollRequestPollId
@@ -133,6 +181,8 @@ export const listPollRequests = /* GraphQL */ `
       items {
         id
         userID
+        pollRequestsId
+        notificationID
         createdAt
         updatedAt
         pollRequestPollId
@@ -161,6 +211,38 @@ export const pollRequestsByUserID = /* GraphQL */ `
       items {
         id
         userID
+        pollRequestsId
+        notificationID
+        createdAt
+        updatedAt
+        pollRequestPollId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollRequestsByNotificationID = /* GraphQL */ `
+  query PollRequestsByNotificationID(
+    $notificationID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollRequestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollRequestsByNotificationID(
+      notificationID: $notificationID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        pollRequestsId
+        notificationID
         createdAt
         updatedAt
         pollRequestPollId
@@ -178,6 +260,7 @@ export const getPollComment = /* GraphQL */ `
       pollID
       userID
       numOfLikes
+      notificationID
       createdAt
       updatedAt
       __typename
@@ -196,6 +279,7 @@ export const listPollComments = /* GraphQL */ `
         pollID
         userID
         numOfLikes
+        notificationID
         createdAt
         updatedAt
         __typename
@@ -225,6 +309,7 @@ export const pollCommentsByPollID = /* GraphQL */ `
         pollID
         userID
         numOfLikes
+        notificationID
         createdAt
         updatedAt
         __typename
@@ -254,6 +339,37 @@ export const pollCommentsByUserID = /* GraphQL */ `
         pollID
         userID
         numOfLikes
+        notificationID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollCommentsByNotificationID = /* GraphQL */ `
+  query PollCommentsByNotificationID(
+    $notificationID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollCommentsByNotificationID(
+      notificationID: $notificationID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        numOfLikes
+        notificationID
         createdAt
         updatedAt
         __typename
@@ -285,6 +401,8 @@ export const getPoll = /* GraphQL */ `
       PollRequest {
         id
         userID
+        pollRequestsId
+        notificationID
         createdAt
         updatedAt
         pollRequestPollId

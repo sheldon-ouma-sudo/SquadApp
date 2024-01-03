@@ -1,6 +1,84 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createNotification = /* GraphQL */ `
+  mutation CreateNotification(
+    $input: CreateNotificationInput!
+    $condition: ModelNotificationConditionInput
+  ) {
+    createNotification(input: $input, condition: $condition) {
+      id
+      pollRequestsArray
+      pollResponsesArray
+      pollCommentsArray
+      squadAddRequestsArray
+      SquadJoinRequestArray
+      PollComments {
+        nextToken
+        __typename
+      }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateNotification = /* GraphQL */ `
+  mutation UpdateNotification(
+    $input: UpdateNotificationInput!
+    $condition: ModelNotificationConditionInput
+  ) {
+    updateNotification(input: $input, condition: $condition) {
+      id
+      pollRequestsArray
+      pollResponsesArray
+      pollCommentsArray
+      squadAddRequestsArray
+      SquadJoinRequestArray
+      PollComments {
+        nextToken
+        __typename
+      }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteNotification = /* GraphQL */ `
+  mutation DeleteNotification(
+    $input: DeleteNotificationInput!
+    $condition: ModelNotificationConditionInput
+  ) {
+    deleteNotification(input: $input, condition: $condition) {
+      id
+      pollRequestsArray
+      pollResponsesArray
+      pollCommentsArray
+      squadAddRequestsArray
+      SquadJoinRequestArray
+      PollComments {
+        nextToken
+        __typename
+      }
+      PollRequests {
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createPollResponse = /* GraphQL */ `
   mutation CreatePollResponse(
     $input: CreatePollResponseInput!
@@ -75,6 +153,8 @@ export const createPollRequest = /* GraphQL */ `
         __typename
       }
       userID
+      pollRequestsId
+      notificationID
       createdAt
       updatedAt
       pollRequestPollId
@@ -108,6 +188,8 @@ export const updatePollRequest = /* GraphQL */ `
         __typename
       }
       userID
+      pollRequestsId
+      notificationID
       createdAt
       updatedAt
       pollRequestPollId
@@ -141,6 +223,8 @@ export const deletePollRequest = /* GraphQL */ `
         __typename
       }
       userID
+      pollRequestsId
+      notificationID
       createdAt
       updatedAt
       pollRequestPollId
@@ -158,6 +242,7 @@ export const createPollComment = /* GraphQL */ `
       pollID
       userID
       numOfLikes
+      notificationID
       createdAt
       updatedAt
       __typename
@@ -174,6 +259,7 @@ export const updatePollComment = /* GraphQL */ `
       pollID
       userID
       numOfLikes
+      notificationID
       createdAt
       updatedAt
       __typename
@@ -190,6 +276,7 @@ export const deletePollComment = /* GraphQL */ `
       pollID
       userID
       numOfLikes
+      notificationID
       createdAt
       updatedAt
       __typename
@@ -221,6 +308,8 @@ export const createPoll = /* GraphQL */ `
       PollRequest {
         id
         userID
+        pollRequestsId
+        notificationID
         createdAt
         updatedAt
         pollRequestPollId
@@ -266,6 +355,8 @@ export const updatePoll = /* GraphQL */ `
       PollRequest {
         id
         userID
+        pollRequestsId
+        notificationID
         createdAt
         updatedAt
         pollRequestPollId
@@ -311,6 +402,8 @@ export const deletePoll = /* GraphQL */ `
       PollRequest {
         id
         userID
+        pollRequestsId
+        notificationID
         createdAt
         updatedAt
         pollRequestPollId
