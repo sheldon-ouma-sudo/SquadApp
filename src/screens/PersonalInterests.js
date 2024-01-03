@@ -197,7 +197,7 @@ useEffect(()=>{
             });
         
       //updateUser(response);
-      console.log("here is the local user",user)
+      console.log("here is the local user",user.id, "and sub: " ,updatedCognitoSub, "and user id: ", user_id)
       } catch (error) {
         console.log('Error creating user:', error);
       }
