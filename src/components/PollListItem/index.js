@@ -76,6 +76,11 @@ const PollListItem = ({ poll, }) => {
     }
   };
   
+
+  const handleLickedIconClick = () => {
+    setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
+    // Additional logic or state updates can be added here
+  };
   const renderOption = ({ item, index }) => {
     const isSelected = selectedOption === index;
     const pollItem = item; // Each item is a poll option

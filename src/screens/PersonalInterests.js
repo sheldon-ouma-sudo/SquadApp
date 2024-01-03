@@ -156,6 +156,7 @@ useEffect(()=>{
       const name = authUser.attributes.name;
       const username = authUser.attributes.preferred_username;
       const userProfilePicture = authUser.attributes.picture;
+      console.log("here is the user interest going to the backend on AWSGraphQl", userInterest)
       const createUserInput = {
         name: name,
         userName: username,
@@ -182,7 +183,7 @@ useEffect(()=>{
     console.log("Updated Cognito Sub:", updatedCognitoSub);
     console.log("here is the user id", user_id)
 
-
+    console.log("here is the userInterests", userInterest)
       // Update the user context after creating the user
       updateUser({
               id: user_id,
@@ -190,8 +191,9 @@ useEffect(()=>{
               userSquadId: [],
               numOfPolls: 0,
               numOfSquadJoined: 0,
-              userInterests: [],
+              userInterests: userInterest,
               squadJoined: [],
+              userSquadId:[]
             });
         
       //updateUser(response);
@@ -201,7 +203,7 @@ useEffect(()=>{
       }
     }
     createSquadUser()
-}, [])
+}, [userInterest])
  
 
 
