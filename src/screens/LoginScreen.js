@@ -1,15 +1,16 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, SafeAreaView, Image} from 'react-native'
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { auth } from '../firebase';
+//import { auth } from '../firebase';
 // import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import { async } from '@firebase/util';
+//import { async } from '@firebase/util';
 import  * as Google from 'expo-auth-session/providers/google'
 import * as WebBrowswer from 'expo-web-browser'
 import * as Facebook from 'expo-facebook'
-import { Auth } from 'aws-amplify';
+import { API, graphqlOperation, Auth } from "aws-amplify";
 import { useUserContext } from '../../UserContext';
+import { getUser } from '../graphql/queries';
 
 //import  UserInfo  from 'firebase-admin/lib/auth/user-record';
 //import { GoogleSignin } from 'expo-google-sign-in';
@@ -163,11 +164,24 @@ const LoginScreen = () => {
         try {
           await Auth.signIn(username, password);
           console.log('✅ Success');
-
+          //get the user sub
+          const authUser = await Auth.currentAuthenticatedUser();
+          console.log("here is the attributes",authUser.attributes.sub);
+          const userID = authUser.attributes.sub;
+          console.log("here is the user id: ",userID)
+          //const userID = authUser.attributes.id;
+          //const authUser = await Auth.currentAuthenticatedUser();
+          //const userID = user.id; // Use sub instead of profile for the user ID
+          //const name = authUser.attributes.name;
+          // Query the user from the backend using Amplify API
+          const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+          console.log("here is  the user data: ", userData)
+          // Extract the user information from the query result
+          //const userFromBackend = userData.data?.getUser;
          //updateAuthState('loggedIn');
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
          //navigation.navigate('RootNavigation', { screen:'Home'})
-         navigation.navigate("PersonalInterestScreen");
+         //navigation.navigate("PersonalInterestScreen");
         } catch (error) {
           console.log('❌ Error signing in...', error); 
         }

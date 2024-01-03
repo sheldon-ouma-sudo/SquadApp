@@ -258,7 +258,7 @@
     "expo-modules": "^0.0.0",
     "expo-modules-autolinking": "~1.0.0",
     "expo-modules-core": "~1.0.4 || ~1.1.1",
-    "expo-notifications": "^0.17.0",
+    "expo-notifications": "~0.17.0",
     "expo-random": "~13.0.0",
     "expo-sharing": "~11.0.1",
     "expo-sms": "~11.0.0",
