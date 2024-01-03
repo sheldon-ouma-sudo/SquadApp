@@ -32,37 +32,13 @@ const PollListItem = ({ poll, }) => {
     {'id': 15, 'comment': 'Velit dolore quisquam ut ut tempora porro sed.'}
   ];
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
-  
-  const toggleBottomSheet = () => {
-    setBottomSheetVisible(!bottomSheetVisible);
-  };
-
-  const handlePanGesture = ({ nativeEvent }) => {
-    if (nativeEvent.state === State.END) {
-      // Close the modal when swiped down
-      toggleModal();
-    }
-  };
-
-  const handleLickedIconClick = () => {
-    setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
-    // Additional logic or state updates can be added here
-  };
-
  
   useEffect(() => {
     setNumOfPollLikes(poll.numOfLikes);
-  
     try {
       const parsedPollItems = JSON.parse(poll.pollItems || "[]"); // Parse the string
       console.log("here are the parsed poll items: ",parsedPollItems)
       setPollItems(parsedPollItems);
-
-  
       setSelectedOption(0);
       const initialSelectedOption = parsedPollItems[0];
       animateVotePercentage(initialSelectedOption?.votes / poll.totalNumOfVotes || 0);
@@ -159,49 +135,15 @@ const PollListItem = ({ poll, }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderOption}
      />
+     {/* component holding for the comment icon */}
     <TouchableOpacity
         style={styles.pollCommentContainer}
-        onPress={toggleBottomSheet}
+        //onPress={toggleBottomSheet}
       >
         <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
         <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </TouchableOpacity>
-      <CommentSheet isVisible={bottomSheetVisible} onClose={toggleBottomSheet} />
-       {/* Bottom Sheet Modal */}
-       {/* <BottomSheetModal
-        index={0}
-        snapPoints={['0%', '60%']}
-        onChange={(index) => {
-          // Handle modal visibility changes if needed
-          console.log('Modal visibility changed:', index);
-        }}
-        backgroundComponent={() => (
-          <TouchableOpacity
-            style={styles.modalBackground}
-            activeOpacity={1}
-            onPress={toggleBottomSheetModal}
-          />
-        )}
-      >
-        <BottomSheetFlatList
-          data={commentsData} // Pass your comments data here
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.commentItem}>
-              <Text>{item.comment}</Text>
-            </View>
-          )}
-        />
-    </BottomSheetModal> */}
-
-      {/* <Modal isVisible={isModalVisible} onBackdropPress={toggleModal} style={styles.modal}>
-        <PanGestureHandler onGestureEvent={handlePanGesture}>
-          <Animated.View style={styles.bottomSheet}>
-            {/* Render Comments */}
-            {/* <PollCommentList commentsData={commentsData} />
-          </Animated.View>
-        </PanGestureHandler>
-      </Modal> */} 
+     
       <TouchableOpacity
       style={styles.pollLikesContainer}
       onPress={handleLickedIconClick}
