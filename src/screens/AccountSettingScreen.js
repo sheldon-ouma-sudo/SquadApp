@@ -1,6 +1,6 @@
   import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity, SafeAreaView} from 'react-native'
-  import React, { useEffect, useState } from 'react'
+  import React, { useContext, useEffect, useState } from 'react'
   import { MaterialIcons } from '@expo/vector-icons';
   import { Ionicons } from '@expo/vector-icons'; 
   import StepIndicator from 'react-native-step-indicator';
@@ -11,6 +11,10 @@
   import { useNavigation } from '@react-navigation/native';
   import { AntDesign } from '@expo/vector-icons';
   import {Auth} from 'aws-amplify'
+  import AsyncStorage from '@react-native-async-storage/async-storage';
+  import { useUserContext } from '../../UserContext';
+
+
   
 
   const{width,height} = Dimensions.get("window")
@@ -19,13 +23,26 @@ const AccountSettingScreen = () => {
   const[userName, setUserName] =useState('User Name')
   const[userEmail, setUserEmail] = useState('john01@gmail.com')
   const navigation = useNavigation();
+  const{user} = useUserContext();
   
+
+  useEffect(()=>{
+   console.log("here is the user: ",user)
+   //setUserName(user.userName)
+   const updateUser = async () => {
+    console.log("here is the userName",user)
+    setUserName(user.userName);
+    setUserEmail(user.email)
+   }
+   updateUser()
+  },[])
 
   async function handleLogout() {
     try {
      await Auth.signOut();
       console.log('✅ Success');
      //updateAuthState('loggedIn');
+     await AsyncStorage.clear();
      navigation.navigate('LoginScreen')
     //navigation.navigate('TestWorkScreen')
     } catch (error) {

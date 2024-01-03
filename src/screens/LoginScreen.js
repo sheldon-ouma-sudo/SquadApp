@@ -169,19 +169,9 @@ const LoginScreen = () => {
           console.log("here is the attributes",authUser.attributes.sub);
           const userID = authUser.attributes.sub;
           console.log("here is the user id: ",userID)
-          //const userID = authUser.attributes.id;
-          //const authUser = await Auth.currentAuthenticatedUser();
-          //const userID = user.id; // Use sub instead of profile for the user ID
-          //const name = authUser.attributes.name;
-          // Query the user from the backend using Amplify API
-          const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
-          console.log("here is  the user data: ", userData)
-          // Extract the user information from the query result
-          //const userFromBackend = userData.data?.getUser;
-         //updateAuthState('loggedIn');
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
          //navigation.navigate('RootNavigation', { screen:'Home'})
-         //navigation.navigate("PersonalInterestScreen");
+         navigation.navigate("PersonalInterestScreen");
         } catch (error) {
           console.log('❌ Error signing in...', error); 
         }

@@ -94,69 +94,112 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   }
    
 const PersonalInterests = () => {
-const [selected, setSelected] = useState(new Map());
-const [userInterest, setUserInterest] = useState([])
-const[currentPosition, setCurrentPositon] = useState(2)
-
-const { user, updateUser } = useUserContext();
-const[authUserID, setAuthUserID] = useState()
-const navigation = useNavigation()
-const onSelect = useCallback(
-  id => {
-    const newSelected = new Map(selected);
-    newSelected.set(id, !selected.get(id));
-    //const personalInterest = selected.get(title)
-   // console.log(personalInterest)
-    setSelected(newSelected);
-  },
-  [selected],
- console.log("here is the map of user interests", selected),
-  console.log("here is the userInterest",userInterest)
-);
-
-  useEffect(()=>{
- //check if the map is not empty   
-    const getUserInterest = ()=>{
-      console.log(selected.size)
-       if(selected.size !== 0){
-         for(let [key, value] of selected){
-          let obj = DATA.find(obj=>obj.id==key)
-          const  personalInterest = obj.title
-          if(value === true){
-        //console.log("this are the keys of the map and are true: ",key)
-          if(userInterest.includes(personalInterest) === false){
-            setUserInterest(userInterest => ([...userInterest,personalInterest]))
-           //console.log("here is the user Interest we are trying to find and this are the keys of the map and are true: ", personalInterest)
-           console.log("the following are the userInterests",userInterest)
-         }
-      }else {
-            console.log("these are the keys and the value are false: ", key)
-          //check to see if the key is in the array of the userInterests
-          if(userInterest.includes(personalInterest)===true){
-            console.log("the initial array of the userInterest with false values", userInterest)
-          //check if the item is in the array, find index and remove it from the array
-          //let index = userInterest.indexOf(personalInterest)
-          //userInterest.splice(index, 1)
-          //console.log("this is the array without the false value", userInterest)
+ const [selected, setSelected] = useState(new Map());
+  const [userInterest, setUserInterest] = useState([]);
+  const[currentPosition, setCurrentPositon] = useState(2)
+  const { user, updateUser } = useUserContext();
+  const navigation = useNavigation();
+  const onSelect = useCallback(
+    (id) => {
+      const newSelected = new Map(selected);
+      newSelected.set(id, !selected.get(id));
+      setSelected(newSelected);
+    },
+    [selected]
+  );
+useEffect(() => {
+  const getUserInterest = () => {
+    console.log(selected.size);
+    if (selected.size !== 0) {
+      for (let [key, value] of selected) {
+        let obj = DATA.find((obj) => obj.id == key);
+        const personalInterest = obj.title;
+        if (value === true) {
+          if (userInterest.includes(personalInterest) === false) {
+            setUserInterest((userInterest) => [...userInterest, personalInterest]);
+            console.log("the following are the userInterests", userInterest);
+          }
+        } else {
+          console.log("these are the keys and the value are false: ", key);
+          if (userInterest.includes(personalInterest) === true) {
+            console.log("the initial array of the userInterest with false values", userInterest);
           }
         }
-       
       }
     }
-    return userInterest
-  }
-   getUserInterest()
-}, [selected, userInterest])
+  };
+  getUserInterest();
+}, [selected, userInterest]);
+
 //create userSquad
 useEffect(()=>{
-  const createSquadUser = async () =>{
-      try {
+  // const createSquadUser = async () => {
+  //   try {
+  //     await Auth.currentSession();
+  //     const authUser = await Auth.currentAuthenticatedUser();
+  //     const name = authUser.attributes.name;
+  //     const username = authUser.attributes.preferred_username;
+  //     const userProfilePicture = authUser.attributes.picture;
+  //     const preUpdatedSub = authUser.attributes.sub;
+  //     console.log("this is sub before the update", preUpdatedSub)
+  //     const createUserInput = {
+  //       name: name,
+  //       userName: username,
+  //       imageUrl: userProfilePicture,
+  //       userSquadId: [],
+  //       numOfPolls: 0,
+  //       numOfSquadJoined: 0,
+  //       userInterests: userInterest,
+  //       squadJoined: [],
+  //     };
+  //     const response = await API.graphql(
+  //       graphqlOperation(createUser, { input: createUserInput })
+  //     );
+  
+  //     const user_id = response.data?.createUser.id;
+  //     console.log("here is the user id", user_id);
+  
+  //     // Update Cognito User attribute 'sub' with the GraphQL user id
+  //     await Auth.updateUserAttributes(authUser, {
+  //       'sub': user_id,
+  //     });
+  
+  //     // Check updated Cognito Sub
+  //     const updatedCognitoSub = (await Auth.currentAuthenticatedUser()).attributes.sub;
+  //     console.log("Updated Cognito Sub:", updatedCognitoSub);
+  //     console.log("here is the user id", user_id);
+  
+  //     console.log("here is the userInterests", userInterest);
+  
+  //     // Update the user context after creating the user
+  //     updateUser({
+  //       id: user_id,
+  //       imageUrl: userProfilePicture,
+  //       userSquadId: [],
+  //       numOfPolls: 0,
+  //       numOfSquadJoined: 0,
+  //       userInterests: userInterest,
+  //       squadJoined: [],
+  //       userSquadId: [],
+  //     });
+  
+  //     console.log("here is the sub: ", updatedCognitoSub, "and user id: ", user_id);
+  //   } catch (error) {
+  //     console.log('Error creating user:', error);
+  //   }
+  // };
+  const createSquadUser = async () => {
+    try {
       await Auth.currentSession();
       const authUser = await Auth.currentAuthenticatedUser();
       const name = authUser.attributes.name;
+      const email = authUser.attributes.email;
       const username = authUser.attributes.preferred_username;
       const userProfilePicture = authUser.attributes.picture;
-      console.log("here is the user interest going to the backend on AWSGraphQl", userInterest)
+      const preUpdatedSub = authUser.attributes.sub;
+  
+      console.log("this is sub before the update", preUpdatedSub);
+  
       const createUserInput = {
         name: name,
         userName: username,
@@ -167,41 +210,44 @@ useEffect(()=>{
         userInterests: userInterest,
         squadJoined: [],
       };
+  
       const response = await API.graphql(
         graphqlOperation(createUser, { input: createUserInput })
       );
-      //console.log(response)
-      const user_id = response.data?.createUser.id
-      console.log("here is the user id",user_id)
-
-      //Update Cognito User attribute 'sub' with the GraphQL user id
-      await Auth.updateUserAttributes(authUser, {
-      sub: user_id,
-     });
-     // Check updated Cognito Sub
-    const updatedCognitoSub = (await Auth.currentAuthenticatedUser()).attributes.sub;
-    console.log("Updated Cognito Sub:", updatedCognitoSub);
-    console.log("here is the user id", user_id)
-
-    console.log("here is the userInterests", userInterest)
-      // Update the user context after creating the user
+      const user_id = response.data?.createUser.id;
+      console.log("here is the user id", user_id);
+  
+       // Update the user context after creating the user
       updateUser({
-              id: user_id,
-              imageUrl: userProfilePicture,
-              userSquadId: [],
-              numOfPolls: 0,
-              numOfSquadJoined: 0,
-              userInterests: userInterest,
-              squadJoined: [],
-              userSquadId:[]
-            });
-        
-      //updateUser(response);
-      console.log("here is the local user",user.id, "and sub: " ,updatedCognitoSub, "and user id: ", user_id)
-      } catch (error) {
-        console.log('Error creating user:', error);
-      }
+        id: user_id,
+        imageUrl: userProfilePicture,
+        userName: username,
+
+        userSquadId: [],
+        numOfPolls: 0,
+        numOfSquadJoined: 0,
+        userInterests: userInterest,
+        email: email,
+        squadJoined: [],
+        userSquadId: [],
+      });
+      // Log user info before updating attributes
+      console.log("Before update - Auth user attributes:", authUser.attributes);
+  
+      // Update Cognito User attribute 'sub' with the GraphQL user id
+      await Auth.updateUserAttributes(authUser, {
+        'sub': user_id,
+      });
+  
+      // Log user info after updating attributes
+      console.log("After update - Auth user attributes:", authUser.attributes);
+  
+      // ... (rest of the code)
+    } catch (error) {
+      console.log('Error creating user:', error);
     }
+  };
+  
     createSquadUser()
 }, [userInterest])
  
