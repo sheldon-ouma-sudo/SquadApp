@@ -177,7 +177,7 @@ const handleNavigationToHomeScreen = async() =>{
       <SafeAreaView></SafeAreaView>
       <View style= {[{flexDirection:"row"}]}>
         <TouchableOpacity style= {[{flex:1}, styles.contacts]}
-        onPress={handleUserNavigationToExploreUserScreen}
+        onPress={handlesUserToPollCreationNavigation}
         >
             <FontAwesome5
             name = "poll"
