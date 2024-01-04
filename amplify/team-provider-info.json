@@ -24,6 +24,21 @@
       },
       "hosting": {
         "S3AndCloudFront": {}
+      },
+      "notifications": {
+        "Pinpoint": {
+          "Name": "squad-staging",
+          "Id": "25d6f1df5ba847fea983fba3002bd2ab",
+          "Region": "us-west-2"
+        }
+      },
+      "analytics": {
+        "Pinpoint": {
+          "Name": "squad-staging",
+          "Id": "25d6f1df5ba847fea983fba3002bd2ab",
+          "Region": "us-west-2"
+        },
+        "squad": {}
       }
     }
   }

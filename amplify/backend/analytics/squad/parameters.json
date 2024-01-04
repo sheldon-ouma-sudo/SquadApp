@@ -1,0 +1,22 @@
+{
+  "appName": "squad",
+  "roleName": "pinpointLambdaRole58fadd3e",
+  "cloudformationPolicyName": "cloudformationPolicy58fadd3e",
+  "cloudWatchPolicyName": "cloudWatchPolicy58fadd3e",
+  "pinpointPolicyName": "pinpointPolicy58fadd3e",
+  "authPolicyName": "pinpoint_amplify_58fadd3e",
+  "unauthPolicyName": "pinpoint_amplify_58fadd3e",
+  "authRoleName": {
+    "Ref": "AuthRoleName"
+  },
+  "unauthRoleName": {
+    "Ref": "UnauthRoleName"
+  },
+  "authRoleArn": {
+    "Fn::GetAtt": [
+      "AuthRole",
+      "Arn"
+    ]
+  },
+  "pinpointInAppMessagingPolicyName": "pinpointInAppMessagingPolicyName58fadd3e"
+}
