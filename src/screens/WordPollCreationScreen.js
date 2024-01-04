@@ -43,44 +43,51 @@ const WordPollCreationScreen = () => {
     {key:'7', value:"Other"},
 ]
 //get the pollAudience 
-  useEffect(() => {
-    console.log("here is the user",user)
-    const fetchSquadInfo = async () => {
-      const array = user.userSquadId;
-      console.log("here is the user",user)
-      console.log("here is the array",array)
-      try {
-        const promises = array.map(async (squadId, index) => {
-              try {
-                const response = await API.graphql(graphqlOperation(getSquad, { id: squadId }));
-                const { squadName, Users } = response.data.getSquad;
-      
-                // Modify this part to include the Users property in your data
-                const dataItem = {
-                  label: squadName,
-                  value: index,
-                  Users: Users, // This assumes Users is an array of user objects
-                };
-                console.log("this is the data item's users",dataItem.Users)
-                setSquadsData(dataItem);
-                return dataItem;
-                
-              } catch (error) {
-                console.log('Error fetching squad:', error);
-                return null;
-              }
-            });
-      
-            const dataItemArr = await Promise.all(promises);
-            const filteredDataItemArr = dataItemArr.filter(item => item !== null);
-      
-            setPollAudience(filteredDataItemArr);
-          } catch (error) {
-            console.error('Error in fetchSquadInfo:', error);
-          }
-    };
-    fetchSquadInfo();
-  }, [user.userSquadId]);
+useEffect(() => {
+  console.log("here is the user", user);
+  const fetchSquadInfo = async () => {
+    const array = user.userSquadId;
+    console.log("here is the array", array);
+
+    try {
+      const promises = array.map(async (squadId, index) => {
+        try {
+          const response = await API.graphql(graphqlOperation(getSquad, { id: squadId }));
+          const { squadName, Users } = response.data.getSquad;
+
+          // Modify this part to include the Users property in your data
+          const dataItem = {
+            label: squadName,
+            value: squadId,
+            Users: Users, // This assumes Users is an array of user objects
+          };
+
+          console.log("this is the data item's users", dataItem.Users);
+
+          return dataItem;
+        } catch (error) {
+          console.log('Error fetching squad:', error);
+          return null;
+        }
+      });
+
+      const dataItemArr = await Promise.all(promises);
+      const filteredDataItemArr = dataItemArr.filter(item => item !== null);
+
+      // Update SquadsData state with the fetched data
+      setSquadsData(filteredDataItemArr);
+
+      // Update PollAudience state with squad names
+      const squadNames = filteredDataItemArr.map(item => item.label);
+      setPollAudience(squadNames);
+    } catch (error) {
+      console.error('Error in fetchSquadInfo:', error);
+    }
+  };
+
+  fetchSquadInfo();
+}, [user.userSquadId]);
+
   
   const handleSelect = (val) => {
     console.log('Selected value:', val);
@@ -166,6 +173,95 @@ const handleDeleteOption = (id) => {
   },[pollAudience])
 
   
+  const updatePollItems = async (pollId, items) => {
+    try {
+      const updateInput = {
+        id: pollId,
+        pollItems: items
+      };
+      const updateResponse = await API.graphql(graphqlOperation(updatePoll, { input: updateInput }));
+      console.log('Poll updated successfully:', updateResponse);
+      // Log the updated pollItems
+      const updatedPollItems = updateResponse.data.updatePoll.pollItems;
+      console.log('Updated Poll Items:', updatedPollItems);  
+    } catch (error) {
+      console.log('Error updating poll items:', error);
+    }
+  };
+  
+  const incrementNumOfPollsForUser = async (userId) => {
+    try {
+      // Fetch the current user data
+      const userData = await API.graphql(graphqlOperation(getUser, { id: userId }));
+  
+      if (userData.data && userData.data.getUser) {
+        const currentUser = userData.data.getUser;
+        const updatedNumOfPolls = (currentUser.numOfPolls || 0) + 1;
+  
+        // Update the user with the incremented numOfPolls
+        await API.graphql(graphqlOperation(updateUser, {
+          input: {
+            id: userId,
+            numOfPolls: updatedNumOfPolls,
+          }
+        }));
+  
+        console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
+      } else {
+        console.log('Error fetching user data for updating numOfPolls.');
+      }
+    } catch (error) {
+      console.log('Error updating numOfPolls for user:', error);
+    }
+  };
+  
+  const handlePollRequestCreation = async (pollId) => {
+    const pollRequestIDArray = [];
+    for (const squadData of squadsData) {
+      const { squad, users } = squadData;
+      // Iterate over users to create poll requests
+      for (const squadMember of users) {
+        const pollRequestInput = {
+          Poll: { id: pollId },
+          userID: squadMember.id,
+        };
+        try {
+          const response = await API.graphql(graphqlOperation(createPollRequest, { input: pollRequestInput }));
+          console.log('Poll Request created successfully:', response.data?.createPollRequest.id);
+          const pollRequestID = response.data?.createPollRequest.id;
+          pollRequestIDArray.push(pollRequestID);
+        } catch (error) {
+          console.log('Error creating user poll requests', error);
+        }
+      }
+    }
+    return pollRequestIDArray;
+  };
+  
+  const handleNotificationCreation = async (pollRequestArray) => {
+    const notificationIDArray = [];
+    for (const squadData of squadsData) {
+      const { squad, users } = squadData;
+      for (const squadMember of users) {
+        const notificationInput = {
+          pollRequestsArray: pollRequestArray,
+          pollResponsesArray: [],
+          squadAddRequestsArray: [],
+          SquadJoinRequestArray: [],
+        };
+        try {
+          const response = await API.graphqlOperation(graphql(createNotification, { input: notificationInput }));
+          console.log('Notification created successfully', response.data?.createNotification.id);
+          const notificationID = response.data?.createNotification.id;
+          notificationIDArray.push(notificationID);
+        } catch (error) {
+          console.log('Error creating the notification item', error);
+        }
+      }
+    }
+    return notificationIDArray;
+  };
+  
   
 const handlePollCreation =async ()=>{
   console.log("Here is the selected value",selected)
@@ -222,95 +318,6 @@ const handlePollCreation =async ()=>{
 }
 
 
-const updatePollItems = async (pollId, items) => {
-  try {
-    const updateInput = {
-      id: pollId,
-      pollItems: items
-    };
-    const updateResponse = await API.graphql(graphqlOperation(updatePoll, { input: updateInput }));
-    console.log('Poll updated successfully:', updateResponse);
-    // Log the updated pollItems
-    const updatedPollItems = updateResponse.data.updatePoll.pollItems;
-    console.log('Updated Poll Items:', updatedPollItems);  
-  } catch (error) {
-    console.log('Error updating poll items:', error);
-  }
-};
-
-const incrementNumOfPollsForUser = async (userId) => {
-  try {
-    // Fetch the current user data
-    const userData = await API.graphql(graphqlOperation(getUser, { id: userId }));
-
-    if (userData.data && userData.data.getUser) {
-      const currentUser = userData.data.getUser;
-      const updatedNumOfPolls = (currentUser.numOfPolls || 0) + 1;
-
-      // Update the user with the incremented numOfPolls
-      await API.graphql(graphqlOperation(updateUser, {
-        input: {
-          id: userId,
-          numOfPolls: updatedNumOfPolls,
-        }
-      }));
-
-      console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
-    } else {
-      console.log('Error fetching user data for updating numOfPolls.');
-    }
-  } catch (error) {
-    console.log('Error updating numOfPolls for user:', error);
-  }
-};
-
-
-const handlePollRequestCreation = async(pollId)=>{
-  const pollRequestIDArray = []
-  for (const squadData of squadsData) {
-    const { squad, users } = squadData;
-    // Iterate over users to create poll requests
-    for (const squadMember of users) {
-         const pollRequestInput = {
-        Poll: { id: pollId },
-        userID: squadMember.id, // Change this to the actual user ID field in your schema
-      };
-      try {
-        const response = await API.graphql(graphqlOperation(createPollRequest, { input: pollRequestInput }));
-        console.log("this is the ids of the poll request", response.data?.createPollRequest.id);
-        const pollRequestID = response.data?.createPollRequest.id;
-        pollRequestIDArray.push(pollRequestID)
-      } catch (error) {
-        console.log("error creating user poll requests", error)
-      }
-    }
- }
- return pollRequestIDArray;
-}
-
-const handleNotificationCreation = async(poll_request_array)=>{
-  const notificationIDArray = []
-  for (const squadData of squadsData) {
-    const { squad, users } = squadData;
-    for (const squadMember of users) {
-    const notificationInput = {
-      pollRequestsArray:poll_request_array,
-      pollResponsesArray:[],
-      squadAddRequestsArray:[],
-      SquadJoinRequestArray:[]
-    }
-    try {
-      const response = await API.graphqlOperation(graphql(createNotification,{input:notificationInput}));
-      console.log("notification created successfully",response.data?.createNotification.id)
-      notificationIDArray.push(response.data?.createNotification.id)
-    } catch (error) {
-      console.log("error creating the notification item", error)
-    }
-    
-  }
-}
-return notificationIDArray;
-}
 
 
 
