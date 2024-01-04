@@ -40,18 +40,20 @@
       labelSize: 13,
       currentStepLabelColor: '#fffff'
     }
-   
+    
   const SquadCreationScreen = () => {
     const[currentPosition, setCurrentPositon] = useState(3)
     const[userId, setUserId] = useState("")
     const[mainSquadId, setMainSquadId] = useState("")
+    const [mainSquadCreated, setMainSquadCreated] = useState(false);
     const{user, updateUserProperty } = useUserContext();
 //console.log("here is the local user first time print", user)
 const navigation = useNavigation()
 useEffect(() => {
   const createMainUserSquad = async () => {
-    const userID = user.id;
-    console.log("here is the user id",userID)
+    if (!mainSquadCreated) { // Check if main squad is already created
+      const userID = user.id;
+      console.log("here is the user id", userID);
     try {
       const authUser = await Auth.currentAuthenticatedUser();
       console.log('Auth User:', authUser);
@@ -73,26 +75,58 @@ useEffect(() => {
       await API.graphql(graphqlOperation(updateUser, { input: { id: user.id, userSquadId: userSquadArray } }));
 
       console.log('Squad ID:', squadID);
+    setMainSquadCreated(true); // Set the flag to true after main squad creation
     } catch (error) {
       console.error('Error in createMainUserSquad:', error);
     }
   };
-
+}
   createMainUserSquad();
-}, []);
+}, [user.id, mainSquadCreated]); 
 
 const handleUserNavigationToExploreUserScreen =async ()=>{
-    console.log("this is the updated user information", user);
-    navigation.navigate('RootNavigation', { screen: 'Explore', params: { screen: 'Find Users' } });
+  if(user){
+    try {
+      const userID = user.id;
+      const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+      // Extract the user information from the query result
+      const userFromBackend = userData.data?.getUser;
+      if(userFromBackend.userSquadId.length ===0){
+        console.log("the userSquadId was not updated")
+      }else{
+        navigation.navigate('RootNavigation', { screen: 'Explore', params: { screen: 'Find Users' } });
+      }
+    } catch (error) {
+      console.log("error navigating to the main screen", error)
+    }
+ 
+  }
 }
 
-const handlesUserPollCreation = ()=>{
- navigation.navigate("WordPollCreationScreen");
+const handlesUserToPollCreationNavigation = async()=>{
+ //navigation.navigate("WordPollCreationScreen");
+ if(user){
+  try {
+    const userID = user.id;
+    const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+    // Extract the user information from the query result
+    const userFromBackend = userData.data?.getUser;
+    if(userFromBackend.userSquadId.length ===0){
+      console.log("the userSquadId was not updated")
+    }else{
+      navigation.navigate("WordPollCreationScreen");
+    }
+  } catch (error) {
+    console.log("error navigating to the main screen", error)
+  }
+
+}
 }
 
 const handleNavigationToHomeScreen = async() =>{
   if(user){
     try {
+      const userID = user.id;
       const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
       // Extract the user information from the query result
       const userFromBackend = userData.data?.getUser;
@@ -146,7 +180,7 @@ const handleNavigationToHomeScreen = async() =>{
       <SafeAreaView></SafeAreaView>
       <View style= {[{flexDirection:"row"}]}>
         <TouchableOpacity style= {[{flex:1}, styles.contacts]}
-        onPress={handlesUserPollCreation}
+        onPress={handleUserNavigationToExploreUserScreen}
         >
             <FontAwesome5
             name = "poll"
@@ -159,7 +193,7 @@ const handleNavigationToHomeScreen = async() =>{
             </Text>
         </TouchableOpacity>
         <TouchableOpacity 
-        onPress={handleUserSquadCreation}
+        onPress={handleUserNavigationToExploreUserScreen}
         style= {[{fex:1}, styles.squadAddLogoContainer]}>
                 <FontAwesome
                 name = 'group'

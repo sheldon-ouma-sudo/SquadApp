@@ -7,7 +7,7 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const updateUser = (newUserData) => {
+  const updateLocalUser = (newUserData) => {
     setUser(newUserData);
     AsyncStorage.setItem('userData', JSON.stringify(newUserData));
   };
@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
 
 
   return (
-    <UserContext.Provider value={{ user, updateUser, updateUserProperty }}>
+    <UserContext.Provider value={{ user, updateLocalUser, updateUserProperty }}>
       {children}
     </UserContext.Provider>
   );

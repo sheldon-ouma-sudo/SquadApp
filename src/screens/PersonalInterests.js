@@ -9,6 +9,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import { API, graphqlOperation, Auth } from "aws-amplify";
   import { createUser } from '../graphql/mutations';
   import { useUserContext } from '../../UserContext';
+  import { updateUser } from '../graphql/mutations';
 
 
   const{width,height} = Dimensions.get("window")
@@ -97,7 +98,8 @@ const PersonalInterests = () => {
  const [selected, setSelected] = useState(new Map());
   const [userInterest, setUserInterest] = useState([]);
   const[currentPosition, setCurrentPositon] = useState(2)
-  const { user, updateUser } = useUserContext();
+  const { user, updateLocalUser } = useUserContext();
+  const[userCreated, setUserCreated] = useState(false)
   const navigation = useNavigation();
   const onSelect = useCallback(
     (id) => {
@@ -189,7 +191,7 @@ useEffect(()=>{
   //   }
   // };
   const createSquadUser = async () => {
-    try {
+      try {
       await Auth.currentSession();
       const authUser = await Auth.currentAuthenticatedUser();
       const name = authUser.attributes.name;
@@ -199,7 +201,7 @@ useEffect(()=>{
       const preUpdatedSub = authUser.attributes.sub;
   
       console.log("this is sub before the update", preUpdatedSub);
-  
+     if(!userCreated){
       const createUserInput = {
         name: name,
         userName: username,
@@ -218,7 +220,7 @@ useEffect(()=>{
       console.log("here is the user id", user_id);
   
        // Update the user context after creating the user
-      updateUser({
+      updateLocalUser({
         id: user_id,
         imageUrl: userProfilePicture,
         userName: username,
@@ -241,15 +243,22 @@ useEffect(()=>{
   
       // Log user info after updating attributes
       console.log("After update - Auth user attributes:", authUser.attributes);
-  
-      // ... (rest of the code)
+      setUserCreated(true);
+     }
+     await API.graphql(graphqlOperation(updateUser, {
+      input: {
+        id: user.id,
+        userInterests: { add: userInterest }, // Add the new interests to the existing array
+      },
+    }));
     } catch (error) {
       console.log('Error creating user:', error);
     }
   };
   
+    
     createSquadUser()
-}, [userInterest])
+}, [userCreated, userInterest])
  
 
 
