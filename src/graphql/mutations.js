@@ -21,6 +21,7 @@ export const createNotification = /* GraphQL */ `
         nextToken
         __typename
       }
+      userID
       createdAt
       updatedAt
       __typename
@@ -47,6 +48,7 @@ export const updateNotification = /* GraphQL */ `
         nextToken
         __typename
       }
+      userID
       createdAt
       updatedAt
       __typename
@@ -73,6 +75,7 @@ export const deleteNotification = /* GraphQL */ `
         nextToken
         __typename
       }
+      userID
       createdAt
       updatedAt
       __typename
@@ -89,6 +92,10 @@ export const createPollResponse = /* GraphQL */ `
       pollID
       userID
       score
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -105,6 +112,10 @@ export const updatePollResponse = /* GraphQL */ `
       pollID
       userID
       score
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -121,6 +132,10 @@ export const deletePollResponse = /* GraphQL */ `
       pollID
       userID
       score
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -243,6 +258,7 @@ export const createPollComment = /* GraphQL */ `
       userID
       numOfLikes
       notificationID
+      pollresponseID
       createdAt
       updatedAt
       __typename
@@ -260,6 +276,7 @@ export const updatePollComment = /* GraphQL */ `
       userID
       numOfLikes
       notificationID
+      pollresponseID
       createdAt
       updatedAt
       __typename
@@ -277,6 +294,7 @@ export const deletePollComment = /* GraphQL */ `
       userID
       numOfLikes
       notificationID
+      pollresponseID
       createdAt
       updatedAt
       __typename
@@ -531,6 +549,10 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      Notifications {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -572,6 +594,10 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      Notifications {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -610,6 +636,10 @@ export const deleteUser = /* GraphQL */ `
       }
       squadJoined
       squads {
+        nextToken
+        __typename
+      }
+      Notifications {
         nextToken
         __typename
       }

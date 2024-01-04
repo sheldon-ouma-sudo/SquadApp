@@ -18,6 +18,7 @@ export const getNotification = /* GraphQL */ `
         nextToken
         __typename
       }
+      userID
       createdAt
       updatedAt
       __typename
@@ -38,6 +39,39 @@ export const listNotifications = /* GraphQL */ `
         pollCommentsArray
         squadAddRequestsArray
         SquadJoinRequestArray
+        userID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const notificationsByUserID = /* GraphQL */ `
+  query NotificationsByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelNotificationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    notificationsByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollRequestsArray
+        pollResponsesArray
+        pollCommentsArray
+        squadAddRequestsArray
+        SquadJoinRequestArray
+        userID
         createdAt
         updatedAt
         __typename
@@ -54,6 +88,10 @@ export const getPollResponse = /* GraphQL */ `
       pollID
       userID
       score
+      PollComments {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -261,6 +299,7 @@ export const getPollComment = /* GraphQL */ `
       userID
       numOfLikes
       notificationID
+      pollresponseID
       createdAt
       updatedAt
       __typename
@@ -280,6 +319,7 @@ export const listPollComments = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        pollresponseID
         createdAt
         updatedAt
         __typename
@@ -310,6 +350,7 @@ export const pollCommentsByPollID = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        pollresponseID
         createdAt
         updatedAt
         __typename
@@ -340,6 +381,7 @@ export const pollCommentsByUserID = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        pollresponseID
         createdAt
         updatedAt
         __typename
@@ -370,6 +412,38 @@ export const pollCommentsByNotificationID = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        pollresponseID
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollCommentsByPollresponseID = /* GraphQL */ `
+  query PollCommentsByPollresponseID(
+    $pollresponseID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollCommentsByPollresponseID(
+      pollresponseID: $pollresponseID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        numOfLikes
+        notificationID
+        pollresponseID
         createdAt
         updatedAt
         __typename
@@ -562,6 +636,10 @@ export const getUser = /* GraphQL */ `
       }
       squadJoined
       squads {
+        nextToken
+        __typename
+      }
+      Notifications {
         nextToken
         __typename
       }
