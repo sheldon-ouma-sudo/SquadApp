@@ -68,12 +68,9 @@ useEffect(() => {
       }
       const squadID = newSquad.data.createSquad.id;
       setMainSquadId(squadID);
-
       const userSquadArray = [...user.userSquadId, squadID];
       updateUserProperty('userSquadId', userSquadArray);
-
       await API.graphql(graphqlOperation(updateUser, { input: { id: user.id, userSquadId: userSquadArray } }));
-
       console.log('Squad ID:', squadID);
     setMainSquadCreated(true); // Set the flag to true after main squad creation
     } catch (error) {

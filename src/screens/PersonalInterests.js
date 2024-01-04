@@ -98,8 +98,9 @@ const PersonalInterests = () => {
  const [selected, setSelected] = useState(new Map());
   const [userInterest, setUserInterest] = useState([]);
   const[currentPosition, setCurrentPositon] = useState(2)
-  const { user, updateLocalUser } = useUserContext();
+  const { user, updateLocalUser, updateUserProperty} = useUserContext();
   const[userCreated, setUserCreated] = useState(false)
+  const[newUser, setNewUser] = useState("");
   const navigation = useNavigation();
   const onSelect = useCallback(
     (id) => {
@@ -244,23 +245,32 @@ useEffect(()=>{
       // Log user info after updating attributes
       console.log("After update - Auth user attributes:", authUser.attributes);
       setUserCreated(true);
+      setNewUser(user_id)
      }
-     await API.graphql(graphqlOperation(updateUser, {
-      input: {
-        id: user.id,
-        userInterests: { add: userInterest }, // Add the new interests to the existing array
-      },
-    }));
     } catch (error) {
       console.log('Error creating user:', error);
     }
-  };
-  
-    
+  }; 
     createSquadUser()
-}, [userCreated, userInterest])
+}, [userCreated])
  
-
+useEffect(()=>{
+ const updateUserInterest = async() =>{
+  if(newUser){
+    await API.graphql(graphqlOperation(updateUser, {
+      input: {
+        id: newUser,
+        userInterests:userInterest, // Add the new interests to the existing array
+      },
+    }));
+    updateUserProperty('userInterests', userInterest);
+  }else{
+    console.log("error updating the user interest")
+  }
+  
+ }
+updateUserInterest()
+},[newUser, userInterest])
 
 
 return (
