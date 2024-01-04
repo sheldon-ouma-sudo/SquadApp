@@ -1,21 +1,18 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
-  TextInput, TouchableOpacity, StatusBar, FlatList, Button, ScrollView} from 'react-native'
-import { useState, useEffect } from 'react'
-import {SelectList} from 'react-native-dropdown-select-list'
+import { View, Text, KeyboardAvoidingView, StyleSheet, Image, TextInput, TouchableOpacity, FlatList } from 'react-native';
+import { useState, useEffect } from 'react';
 import { MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import {API,graphqlOperation, Auth} from "aws-amplify"
+import { API, graphqlOperation } from 'aws-amplify';
 import { createNotification, createPoll } from '../graphql/mutations';
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
-import { useUserContext } from '../../UserContext';
 import { getSquad } from '../graphql/queries';
 import { updatePoll } from '../graphql/mutations';
-import { registerForPushNotificationsAsync, updateExpoPushToken, sendPollCreationNotification } from '../../notificationUtils'
+import { getUser } from '../graphql/queries';
+import { updateUser } from '../graphql/mutations';
+import { createPollRequest } from '../graphql/mutations';
 import { graphql } from 'graphql';
-
+import { useUserContext } from '../../UserContext';
+import { sendPollCreationNotification } from '../../notificationUtils'
 
 
 
@@ -214,110 +211,138 @@ const handleDeleteOption = (id) => {
       console.log('Error updating numOfPolls for user:', error);
     }
   };
-  
-  const handlePollRequestCreation = async (pollId) => {
-    const pollRequestIDArray = [];
-    for (const squadData of squadsData) {
-      const { squad, users } = squadData;
-      // Iterate over users to create poll requests
-      for (const squadMember of users) {
-        const pollRequestInput = {
-          Poll: { id: pollId },
-          userID: squadMember.id,
-        };
-        try {
-          const response = await API.graphql(graphqlOperation(createPollRequest, { input: pollRequestInput }));
-          console.log('Poll Request created successfully:', response.data?.createPollRequest.id);
-          const pollRequestID = response.data?.createPollRequest.id;
-          pollRequestIDArray.push(pollRequestID);
-        } catch (error) {
-          console.log('Error creating user poll requests', error);
-        }
+  // Function to get users from selected squads
+  const getUsersInSelectedSquads = async (selectedSquads) => {
+    const users = [];
+    for (const squadName of selectedSquads) {
+      try {
+        const response = await API.graphql(graphqlOperation(getSquad, { squadName }));
+        const squadUsers = response.data.getSquad.Users;
+        users.push(...squadUsers);
+      } catch (error) {
+        console.log('Error fetching squad:', error);
       }
     }
-    return pollRequestIDArray;
+    return users;
   };
   
-  const handleNotificationCreation = async (pollRequestArray) => {
-    const notificationIDArray = [];
-    for (const squadData of squadsData) {
-      const { squad, users } = squadData;
-      for (const squadMember of users) {
-        const notificationInput = {
-          pollRequestsArray: pollRequestArray,
-          pollResponsesArray: [],
-          squadAddRequestsArray: [],
-          SquadJoinRequestArray: [],
-        };
-        try {
-          const response = await API.graphqlOperation(graphql(createNotification, { input: notificationInput }));
-          console.log('Notification created successfully', response.data?.createNotification.id);
-          const notificationID = response.data?.createNotification.id;
-          notificationIDArray.push(notificationID);
-        } catch (error) {
-          console.log('Error creating the notification item', error);
-        }
-      }
-    }
-    return notificationIDArray;
-  };
-  
-  
-const handlePollCreation =async ()=>{
-  console.log("Here is the selected value",selected)
-  console.log("here is the poll options",pollOptionData)
-  console.log("here is the pollAudience", pollAudience)
-  console.log("and here is the final poll audience", finalPollAudience)
-  console.log("here is the caption", caption)
-  console.log("here is the user id", user.id)
-  // //i want create poll use createPoll from mutation.js
-  const pollReqeuestArr  = []
-  const pollNotificationArr = []
-  try {
-    // Create the poll
-    const pollInput = {
-      totalNumOfVotes: 0,
-      pollMedia: [],
-      closed: false,
-      open: true,
-      pollAudience: finalPollAudience,
-      pollCaption: caption,
-      pollItems: [], // Start with an empty array
-      pollLabel: selected,
-      userID: user.id
+  // Function to create poll requests for users in selected squads
+const handlePollRequestCreation = async (pollId, users) => {
+  const pollRequestIDArray = [];
+  for (const squadMember of users) {
+    const pollRequestInput = {
+      Poll: { id: pollId },
+      userID: squadMember.id,
     };
-
-    const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
-
-    if (response.data && response.data.createPoll) {
-      const pollId = response.data.createPoll.id;
-
-      console.log('Poll created successfully:', response.data.createPoll);
-
-      // Transform pollOptionData into the desired format
-      const updatedItems = JSON.stringify(pollOptionData.map((item, index) => ({
-        id: index + 1, // You can use any logic to generate unique IDs
-        title: item.title,
-        votes: 0
-      })));
-
-      // Update the poll with the correct pollItems
-      await updatePollItems(pollId, updatedItems);
-      await incrementNumOfPollsForUser(user.id);
-      //create the pollRequestArr
-      pollReqeuestArr = await handlePollRequestCreation(pollId);
-      //create the notification for each user in each of the squad in pollAudience array
-      pollNotificationArr = await handleNotificationCreation(pollReqeuestArr);
-      navigation.navigate('RootNavigation', { screen: 'Profile' })
-    } else {
-      console.log('Error creating poll - Unexpected response:', response);
+    try {
+      const response = await API.graphql(graphqlOperation(createPollRequest, { input: pollRequestInput }));
+      console.log('Poll Request created successfully:', response.data?.createPollRequest.id);
+      const pollRequestID = response.data?.createPollRequest.id;
+      pollRequestIDArray.push(pollRequestID);
+    } catch (error) {
+      console.log('Error creating user poll requests', error);
     }
-  } catch (error) {
-    console.log('Error creating poll:', error);
   }
-}
+  return pollRequestIDArray;
+};
 
+      // Function to create notifications for users in selected squads
+      const handleNotificationCreation = async (pollRequestArray, users) => {
+        const notificationIDArray = [];
+        for (const squadMember of users) {
+          const notificationInput = {
+            pollRequestsArray: pollRequestArray,
+            pollResponsesArray: [],
+            squadAddRequestsArray: [],
+            SquadJoinRequestArray: [],
+          };
+          try {
+            const response = await API.graphqlOperation(graphql(createNotification, { input: notificationInput }));
+            console.log('Notification created successfully', response.data?.createNotification.id);
+            const notificationID = response.data?.createNotification.id;
+            notificationIDArray.push(notificationID);
+          } catch (error) {
+            console.log('Error creating the notification item', error);
+          }
+        }
+        return notificationIDArray;
+      };
 
+  
+  
+      const handlePollCreation = async () => {
+        console.log("Here is the selected value", selected);
+        console.log("here is the poll options", pollOptionData);
+        console.log("here is the pollAudience", pollAudience);
+        console.log("and here is the final poll audience", finalPollAudience);
+        console.log("here is the caption", caption);
+        console.log("here is the user id", user.id);
+
+        try {
+          // Create the poll
+          const pollInput = {
+            totalNumOfVotes: 0,
+            pollMedia: [],
+            closed: false,
+            open: true,
+            pollAudience: finalPollAudience,
+            pollCaption: caption,
+            pollItems: [], // Start with an empty array
+            pollLabel: selected,
+            userID: user.id,
+          };
+
+          const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
+
+          if (response.data && response.data.createPoll) {
+            const pollId = response.data.createPoll.id;
+
+            console.log('Poll created successfully:', response.data.createPoll);
+
+            // Transform pollOptionData into the desired format
+            const updatedItems = JSON.stringify(
+              pollOptionData.map((item, index) => ({
+                id: index + 1, // You can use any logic to generate unique IDs
+                title: item.title,
+                votes: 0,
+              }))
+            );
+
+            // Update the poll with the correct pollItems
+            await updatePollItems(pollId, updatedItems);
+            await incrementNumOfPollsForUser(user.id);
+
+            // Iterate over selected squads
+            for (const squadName of pollAudience) {
+              try {
+                // Find the squad object in your state
+                const selectedSquad = squadsData.find((squad) => squad.label === squadName);
+
+                if (selectedSquad) {
+                  // Create poll requests and notifications for each user
+                  const pollRequestArr = await handlePollRequestCreation(pollId, selectedSquad.Users);
+                  const notificationIDArray = await handleNotificationCreation(pollRequestArr, selectedSquad.Users);
+
+                  // Send Expo push notifications (if you've implemented this)
+                  await sendPollCreationNotification(notificationIDArray);
+
+                  console.log(`Poll requests and notifications sent successfully for squad: ${squadName}`);
+                } else {
+                  console.log(`Squad not found for squadName: ${squadName}`);
+                }
+              } catch (error) {
+                console.log('Error creating notifications:', error);
+              }
+            }
+
+            navigation.navigate('RootNavigation', { screen: 'Profile' });
+          } else {
+            console.log('Error creating poll - Unexpected response:', response);
+          }
+        } catch (error) {
+          console.log('Error creating poll:', error);
+        }
+      };
 
 
 
