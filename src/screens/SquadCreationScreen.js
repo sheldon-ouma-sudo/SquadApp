@@ -12,6 +12,7 @@
     import { updateUser } from '../graphql/mutations';
     import { graphql } from 'graphql';
     import { useUserContext } from '../../UserContext';
+    import { getUser } from '../graphql/queries';
     
     //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
     const{width,height} = Dimensions.get("window")
@@ -49,6 +50,8 @@
 const navigation = useNavigation()
 useEffect(() => {
   const createMainUserSquad = async () => {
+    const userID = user.id;
+    console.log("here is the user id",userID)
     try {
       const authUser = await Auth.currentAuthenticatedUser();
       console.log('Auth User:', authUser);
@@ -78,7 +81,7 @@ useEffect(() => {
   createMainUserSquad();
 }, []);
 
-const handleUserSquadCreation =async ()=>{
+const handleUserNavigationToExploreUserScreen =async ()=>{
     console.log("this is the updated user information", user);
     navigation.navigate('RootNavigation', { screen: 'Explore', params: { screen: 'Find Users' } });
 }
@@ -87,6 +90,24 @@ const handlesUserPollCreation = ()=>{
  navigation.navigate("WordPollCreationScreen");
 }
 
+const handleNavigationToHomeScreen = async() =>{
+  if(user){
+    try {
+      const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+      // Extract the user information from the query result
+      const userFromBackend = userData.data?.getUser;
+      if(userFromBackend.userSquadId.length ===0){
+        console.log("the userSquadId was not updated")
+      }else{
+        navigation.navigate('RootNavigation', { screen:'Home'})
+      }
+    } catch (error) {
+      console.log("error navigating to the main screen", error)
+    }
+ 
+  }
+  
+}
  
 
     return (
@@ -156,8 +177,7 @@ const handlesUserPollCreation = ()=>{
           <TouchableOpacity  onPress={() =>navigation.replace('PersonalInterestScreen')}style={[{flex:1}, styles.backButton,{borderColor:'#1145FD'}]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.backText]}> Back </Text>
              </TouchableOpacity>
-              <TouchableOpacity  onPress={() =>
-               navigation.navigate('RootNavigation', { screen:'Home'})}
+              <TouchableOpacity  onPress={handleNavigationToHomeScreen }
                 style={[{flex:1}, styles.button]}>
               <Text  style={[{justifyContent: 'flex-end'},styles.buttonText]}> Next </Text>
              </TouchableOpacity>

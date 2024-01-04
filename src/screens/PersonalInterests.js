@@ -236,7 +236,7 @@ useEffect(()=>{
   
       // Update Cognito User attribute 'sub' with the GraphQL user id
       await Auth.updateUserAttributes(authUser, {
-        'sub': user_id,
+        'custom:graphQLUSerID': user_id,
       });
   
       // Log user info after updating attributes

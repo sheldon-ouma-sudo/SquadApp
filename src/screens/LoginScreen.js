@@ -165,10 +165,10 @@ const LoginScreen = () => {
           await Auth.signIn(username, password);
           console.log('✅ Success');
           //get the user sub
-          const authUser = await Auth.currentAuthenticatedUser();
-          console.log("here is the attributes",authUser.attributes.sub);
-          const userID = authUser.attributes.sub;
-          console.log("here is the user id: ",userID)
+        //   const authUser = await Auth.currentAuthenticatedUser();
+        //   console.log("here is the attributes",authUser.attributes.sub);
+        //   const userID = authUser.attributes.sub;
+        //   console.log("here is the user id: ",userID)
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
          //navigation.navigate('RootNavigation', { screen:'Home'})
          navigation.navigate("PersonalInterestScreen");

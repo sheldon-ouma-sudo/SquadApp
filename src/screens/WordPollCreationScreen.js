@@ -359,9 +359,6 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
                 console.log('Error creating poll:', error);
               }
       };
-
-
-
   return (
     <KeyboardAvoidingView
     style={styles.container}
