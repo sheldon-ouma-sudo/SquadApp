@@ -270,6 +270,7 @@ useEffect(()=>{
   
  }
 updateUserInterest()
+console.log("this is the local user",user)
 },[newUser, userInterest])
 
 

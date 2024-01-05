@@ -1,20 +1,20 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet, Image, TextInput, TouchableOpacity, FlatList } from 'react-native';
-import { useState, useEffect } from 'react';
+import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
+  TextInput, TouchableOpacity, StatusBar, FlatList, Button, ScrollView} from 'react-native'
+import { useState, useEffect } from 'react'
+import {SelectList} from 'react-native-dropdown-select-list'
 import { MultiSelect } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import { API, graphqlOperation } from 'aws-amplify';
+import {API,graphqlOperation, Auth} from "aws-amplify"
 import { createNotification, createPoll } from '../graphql/mutations';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import { useUserContext } from '../../UserContext';
 import { getSquad } from '../graphql/queries';
 import { updatePoll } from '../graphql/mutations';
-import { getUser } from '../graphql/queries';
-import { updateUser } from '../graphql/mutations';
-import { createPollRequest } from '../graphql/mutations';
-import { graphql } from 'graphql';
-import { useUserContext } from '../../UserContext';
 import { registerForPushNotificationsAsync, sendPushNotifications } from '../../notificationUtils';
-
-
+import { graphql } from 'graphql';
 
 
 const WordPollCreationScreen = () => {
@@ -681,3 +681,4 @@ pollOptionInput:{
 })
 
 export default WordPollCreationScreen
+
