@@ -30,7 +30,7 @@ const LoginScreen = () => {
     const [isLoggedIn, setLoggedInStatus] = useState(false)
     const [userData, setUserData] = useState(null)
     const [isImageLoading, setImageLoadingStatus] = useState(false)
-    const {user, updateUserProperty} = useUserContext();
+    const {user, updateLocalUser} = useUserContext();
     const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: '32488750865-mnucqr85cr6eca31439758a0rbggludq.apps.googleusercontent.com',
     iosClientId: '32488750865-fgokfk5e5lprc9uu2fd595iga5p79lp5.apps.googleusercontent.com', 
@@ -158,20 +158,36 @@ const LoginScreen = () => {
 //     })
 // } 
 // }
-   console.log("this is the user info",user);
+   //console.log("this is the user info",user);
    const navigation = useNavigation()
    async function signInWithAWS() {
         try {
           await Auth.signIn(username, password);
           console.log('✅ Success');
           //get the user sub
-        //   const authUser = await Auth.currentAuthenticatedUser();
-        //   console.log("here is the attributes",authUser.attributes.sub);
-        //   const userID = authUser.attributes.sub;
-        //   console.log("here is the user id: ",userID)
+         const authUser = await Auth.currentAuthenticatedUser();
+        console.log("here is the graphQL",authUser.attributes["custom:graphQLUSerID"]);
+        const userID = authUser.attributes["custom:graphQLUSerID"];
+        console.log("here is the user id: ",userID)// Query the user from the backend using Amplify API
+        const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+
+        // Extract the user information from the query result
+        const userFromBackend = userData.data?.getUser;
+        console.log("here is the user from backend ", userFromBackend)
+        updateLocalUser({
+            id: userID,
+            imageUrl: userFromBackend.userProfilePicture,
+            userName: username,
+            numOfPolls: userFromBackend.numOfPolls,
+            numOfSquadJoined: userFromBackend.squadJoined.length,
+            userInterests: userFromBackend.userInterests,
+            squadJoined: userFromBackend.squadJoined,
+            userSquadId: userFromBackend.userSquadId,
+        })
+        console.log("here is the updated user", user)
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
-         //navigation.navigate('RootNavigation', { screen:'Home'})
-         navigation.navigate("PersonalInterestScreen");
+         navigation.navigate('RootNavigation', { screen:'Home'})
+         //navigation.navigate("PersonalInterestScreen");
         } catch (error) {
           console.log('❌ Error signing in...', error); 
         }

@@ -2,6 +2,8 @@ import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "reac
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect} from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import { updateUser } from "../../graphql/mutations";
+import { graphqlOperation, Auth, API } from 'aws-amplify';
 //import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -30,11 +32,18 @@ useEffect(() => {
 }, []);
 //add the squad selected to the user's joined squad array
 const handleSquadSelected=async() =>{
-  //console.log(squad)
-  console.log(userInfo)
+  console.log("here is the squad name",squad)
+  console.log("here is the user squadJoined array",userSquadsJoinedArray)
+  console.log("here is the user info",userInfo)
   if(squadSelected==false){
     setSquadSelected(true)
     userSquadsJoinedArray.push(squad.id)
+    //update the user backend 
+    try {
+      await API.graphql(graphqlOperation(updateUser, {input:{id: userInfo.id, squadJoined: userSquadsJoinedArray}}));
+    } catch (error) {
+      console.log("error updating the user", error)
+    }
   }else{
     setSquadSelected(false)
   }

@@ -45,7 +45,7 @@
           // Update state with the user information
           setUserName(userFromBackend.userName);
           setNumOfUserPolls(userFromBackend.numOfPolls);
-          setNumOfSquadron(userFromBackend.numOfSquadJoined);
+          setNumOfSquadron(userFromBackend.squadJoined.length);
           setNumOfSquadUsers(userFromBackend.userSquadId.length);
   
         } catch (error) {
