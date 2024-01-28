@@ -5,7 +5,7 @@ import { getUser } from '../../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
-import CommentSheet from '../PollCommentItem/index.js';
+import PollCommentItem from '../PollCommentItem/index'
 import Modal from 'react-native-modal';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
@@ -19,18 +19,68 @@ const PollListItem = ({ poll, }) => {
   const [numOfPollComments, setNumOfPollComment] = useState('500');
   const [isModalVisible, setModalVisible] = useState(false);
   const [numOfPollLikes, setNumOfPollLikes] = useState('');
-  const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(false);
+  const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(true);
   const [bottomSheetModalVisible, setBottomSheetModalVisible] = useState(false);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [isCommentsVisible, setCommentsVisible] = useState(false);
+
 
 
   const commentsData = [
-    {"id": 1, "comment": "This is a great comment."},
-    {"id": 2, "comment": "I really enjoyed reading this."},
-    {"id": 3, "comment": "Interesting perspective."},
-    {"id": 500, "comment": "Awesome conversation!"},
-    {'id': 15, 'comment': 'Velit dolore quisquam ut ut tempora porro sed.'}
+    {
+      id: 1,
+      username: 'User1',
+      comment: 'This is a great comment.',
+      likes: 10,
+      replies: 5,
+    },
+    {
+      id: 2,
+      username: 'User2',
+      comment: 'I really enjoyed reading this.',
+      likes: 15,
+      replies: 3,
+    },
+    {
+      id: 3,
+      username: 'User3',
+      comment: 'Interesting perspective.',
+      likes: 8,
+      replies: 2,
+    },
+    {
+      id: 4,
+      username: 'User4',
+      comment: 'Awesome conversation!',
+      likes: 20,
+      replies: 7,
+    },
+    {
+      id: 5,
+      username: 'User5',
+      comment: 'Velit dolore quisquam ut ut tempora porro sed.',
+      likes: 12,
+      replies: 4,
+    },
   ];
+   
+  const toggleComments = () => {
+    setCommentsVisible(!isCommentsVisible);
+    // Set static comments data when the comments are made visible
+    if (!isCommentsVisible) {
+      setComments(commentsData);
+    } else {
+      setComments([]); // Reset comments when hiding the comments
+    }
+  };
+
+  const renderCommentItem = ({ item }) => (
+    <View style={styles.commentItem}>
+      <PollCommentItem comment={item}/>
+    </View>
+  );
 
  
   useEffect(() => {
@@ -117,7 +167,6 @@ const PollListItem = ({ poll, }) => {
   };
   return (
     <View style={styles.container}>
-      
       <View
           style={styles.userImageContainer}
           >
@@ -135,20 +184,22 @@ const PollListItem = ({ poll, }) => {
       >{pollCreator}</Text>
       </TouchableOpacity>
       <Text style={styles.question}>{poll.pollCaption}</Text>
+      <TouchableOpacity>
       <FlatList
         data={pollItems} // Use pollItems instead of poll.pollItems
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderOption}
      />
+      </TouchableOpacity>
+      
      {/* component holding for the comment icon */}
     <TouchableOpacity
         style={styles.pollCommentContainer}
-        //onPress={toggleBottomSheet}
+        onPress={toggleComments}
       >
         <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
         <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </TouchableOpacity>
-     
       <TouchableOpacity
       style={styles.pollLikesContainer}
       onPress={handleLickedIconClick}
@@ -164,6 +215,14 @@ const PollListItem = ({ poll, }) => {
       style={styles.numOfpollLikes}
       >{poll.numOfLikes}</Text>
       </TouchableOpacity>
+       {/* Comments Section */}
+       <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
+        <FlatList
+          data={comments}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderCommentItem}
+        />
+      </View>
     </View>
   );
 };
