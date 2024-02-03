@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "react-native";
+import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect} from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
@@ -39,6 +39,7 @@ const handleSquadSelected=async() =>{
     setSquadSelected(true)
     userSquadsJoinedArray.push(squad.id)
     //update the user backend 
+    alert("joined a new squad!")
     try {
       await API.graphql(graphqlOperation(updateUser, {input:{id: userInfo.id, squadJoined: userSquadsJoinedArray}}));
     } catch (error) {

@@ -289,8 +289,9 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
         try {
           // Create the poll
           const pollInput = {
-            totalNumOfVotes: 0,
+            totalNumOfVotes: 100,
             pollMedia: [],
+            numOfLikes: 200,
             closed: false,
             open: true,
             pollAudience: finalPollAudience,
@@ -301,7 +302,6 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
           };
 
           const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
-
           if (response.data && response.data.createPoll) {
             const pollId = response.data.createPoll.id;
 

@@ -85,6 +85,7 @@ const PollListItem = ({ poll, }) => {
  
   useEffect(() => {
     setNumOfPollLikes(poll.numOfLikes);
+    console.log("this is the number of poll likes",poll.numOfLikes)
     try {
       const parsedPollItems = JSON.parse(poll.pollItems || "[]"); // Parse the string
       console.log("here are the parsed poll items: ",parsedPollItems)
@@ -197,7 +198,7 @@ const PollListItem = ({ poll, }) => {
         style={styles.pollCommentContainer}
         onPress={toggleComments}
       >
-        <FontAwesome name="commenting-o" size={34} color="#black" style={styles.pollCommentIcon} />
+        <FontAwesome name="commenting-o" size={35} color="#black" style={styles.pollCommentIcon} />
         <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -207,7 +208,7 @@ const PollListItem = ({ poll, }) => {
       {/* <FontAwesome name="heart-o" size={44} color="#1764EF" style={styles.pollCommentIcon} /> */}
       <FontAwesome
           name={isLikeCommentIconClicked? "heart-o"  : 'heart'}
-          size={40}
+          size={36}
           color={isLikeCommentIconClicked ? "#1764EF" : 'red'}
           style={styles.pollCommentIcon}
         />
@@ -300,10 +301,10 @@ const styles = StyleSheet.create({
    marginLeft:20,
   },
   numOfpollComments:{
-    fontSize: 19,
+    fontSize: 15,
     marginLeft:18,
     marginTop:5,
-    fontWeight:'700'
+   // fontWeight:'400'
   },
   pollLikesContainer:{
     marginLeft:280,
@@ -313,7 +314,7 @@ const styles = StyleSheet.create({
     marginLeft:30,
     marginTop:5,
     fontSize:20,
-    fontWeight:'700'
+    fontWeight:'400'
   },
   pollCommentContainer: {
     marginTop: 20,
