@@ -49,10 +49,10 @@ const PollCommentList = ({comment }) => {
       {/* You can replace the placeholder image with the user's profile image */}
       {/* <Image source={require('/path/to/user-image.png')} style={styles.userImage} /> */}
       <Image
-               source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
-               resizeMode='contain'
-                style={styles.userImage}
-                />
+        source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+        resizeMode='contain'
+        style={styles.userImage}
+        />
       <Text style={styles.username}>{comment.username}</Text>
     </View>
 
