@@ -36,7 +36,7 @@ const PollCommentList = ({comment }) => {
     {
       id: 5,
       username: 'User5',
-      comment: 'Velit dolore quisquam ut ut tempora porro sed.',
+      comment: 'No woman no cry, me say you don know',
       likes: 12,
       replies: 4,
     },
@@ -77,8 +77,8 @@ const PollCommentList = ({comment }) => {
     const styles = StyleSheet.create({
       commentContainer: {
         padding: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        borderBottomWidth: 0.1,
+        //borderBottomColor: '#ccc',
       },
       userInfoContainer: {
         flexDirection: 'row',
@@ -99,16 +99,17 @@ const PollCommentList = ({comment }) => {
         marginTop: 5,
       },
       likesRepliesContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        // flexDirection: 'row',
+        // alignItems: 'center',
       },
       iconContainer: {
         //flexDirection: 'row',
         //alignItems: 'center',
         //marginRight: 30,
+        marginLeft: 10
       },
       likesCount: {
-        marginLeft: 25,
+        marginLeft: 259,
       },
       repliesCount: {
         marginLeft: 5,
