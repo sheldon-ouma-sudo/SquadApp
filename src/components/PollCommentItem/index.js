@@ -55,7 +55,10 @@ const PollCommentList = ({comment }) => {
         />
       <Text style={styles.username}>{comment.username}</Text>
     </View>
-
+  {/* view for the comment and the like button  */}
+  <TouchableOpacity>
+    
+  </TouchableOpacity>
     {/* Comment content */}
     <Text style={styles.commentText}>{comment.comment}</Text>
 
