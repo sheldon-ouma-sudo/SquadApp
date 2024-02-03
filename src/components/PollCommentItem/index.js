@@ -76,7 +76,7 @@ const PollCommentList = ({comment }) => {
 
     const styles = StyleSheet.create({
       commentContainer: {
-       // padding: 10,
+        padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
       },
