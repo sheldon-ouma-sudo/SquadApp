@@ -197,7 +197,7 @@ const PollListItem = ({ poll, }) => {
         style={styles.pollCommentContainer}
         onPress={toggleComments}
       >
-        <FontAwesome name="commenting-o" size={44} color="#black" style={styles.pollCommentIcon} />
+        <FontAwesome name="commenting-o" size={34} color="#black" style={styles.pollCommentIcon} />
         <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -207,7 +207,7 @@ const PollListItem = ({ poll, }) => {
       {/* <FontAwesome name="heart-o" size={44} color="#1764EF" style={styles.pollCommentIcon} /> */}
       <FontAwesome
           name={isLikeCommentIconClicked? "heart-o"  : 'heart'}
-          size={50}
+          size={40}
           color={isLikeCommentIconClicked ? "#1764EF" : 'red'}
           style={styles.pollCommentIcon}
         />
@@ -217,6 +217,7 @@ const PollListItem = ({ poll, }) => {
       </TouchableOpacity>
        {/* Comments Section */}
        <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
+       <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
         <FlatList
           data={comments}
           keyExtractor={(item) => item.id.toString()}
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
     fontWeight:'700'
   },
   pollLikesContainer:{
-    marginLeft:250,
+    marginLeft:280,
     marginTop:-65
   },
   numOfpollLikes:{
@@ -335,7 +336,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
-  
+  numOfCommentsText: {
+    fontSize: 18,
+    fontWeight: '400',
+    marginBottom: 20,
+    marginLeft: 130,
+    marginTop: 20
+    //color: '#1764EF', // Adjust the color based on your design
+  },
 });
 
 export default PollListItem;
