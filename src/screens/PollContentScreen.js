@@ -175,6 +175,11 @@ const newPoll = {
         resizeMode='contain'
     ></Image>
     </View>
+    <TouchableOpacity style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row", marginTop:30}]}
+      onPress={()=>navigation.goBack()}
+      >
+      <AntDesign name="arrowleft" size={24} color="#1764EF" style={{flex:1, marginLeft:30, justifyContent:'flex-start'}}/>
+      </TouchableOpacity>
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentText}>Poll Content</Text>
     </View>

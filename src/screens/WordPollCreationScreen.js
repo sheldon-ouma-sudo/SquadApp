@@ -39,6 +39,14 @@ const WordPollCreationScreen = () => {
     {key:'6', value:"Health"},
     {key:'7', value:"Other"},
 ]
+const DATA=[//rename this variable 
+{ label: 'SquadInstagramInstagramInstagram', value: '1' },
+{ label: 'InstagramInstagramInstagram', value: '2' },
+{ label: 'TwitterInstagramInstagram', value: '3' },
+{ label: 'Contancts', value: '4' },
+{ label: 'Snapchat', value: '5' },
+{ label: 'Tiktok', value: '6' },
+]
 
 const handleTextInputChange = (text) => {
   setPollOption(text);
@@ -53,7 +61,7 @@ const handleDeleteOption = (id) => {
   const renderPOllOptionDataItem = ({ item }) => {
     return (
       <TouchableOpacity
-        style={{ marginTop: 10 }}
+        style={{ marginTop: 10, }}
         onPress={() => handleDeleteOption(item.id)}
       >
         <View style={styles.item}>
@@ -73,7 +81,7 @@ const handleDeleteOption = (id) => {
     const pollOptionObject = {
       id: idCounter,
       title: pollOption,
-      votes: 0,
+      votes: 30,
     };
 
     console.log("clean pollOptionObject", pollOptionObject);
@@ -88,26 +96,34 @@ const handleDeleteOption = (id) => {
 
     // Increment the counter for the next ID
     setIdCounter(idCounter + 1);
-
+ 
     setPollOption("");
   };
   
-  useEffect(() => {
-    const handleFinalPollAudience = async()=>{
-      let array = []
-      console.log("here is the pollAudience",pollAudience)
-      if(pollAudience){
-        for(let i= 0; i<pollAudience.length; i++){
-            let pollAudienceObj = pollAudience[i]
-             console.log("object extracted",pollAudienceObj["label"])
-             array.push(pollAudienceObj["label"]);
-        }
-      }
-      console.log("array with final poll audience",array)
-      setfinalPollAudience(array)
-    }
-  handleFinalPollAudience()
-  },[pollAudience])
+  // useEffect(() => {
+  //   const handleFinalPollAudience = async()=>{
+//     const DATA=[//rename this variable 
+// { label: 'Squad', value: '1' },
+// { label: 'Instagram', value: '2' },
+// { label: 'Twitter', value: '3' },
+// { label: 'Contancts', value: '4' },
+// { label: 'Snapchat', value: '5' },
+// { label: 'Tiktok', value: '6' },
+// ]
+  //     let array = []
+  //     console.log("here is the pollAudience",pollAudience)
+  //     if(pollAudience){
+  //       for(let i= 0; i<pollAudience.length; i++){
+  //           let pollAudienceObj = pollAudience[i]
+  //            console.log("object extracted",pollAudienceObj["label"])
+  //            array.push(pollAudienceObj["label"]);
+  //       }
+  //     }
+  //     // console.log("array with final poll audience",array)
+  //     setfinalPollAudience(array)
+  //   }
+  // handleFinalPollAudience()
+  // },[pollAudience])
 
 
    
@@ -129,6 +145,7 @@ const renderDataItem = (item) => {
 //get the pollAudience 
 useEffect(() => {
   console.log("here is the user", user);
+  console.log("poll audience, either updated or not updated for the first time", pollAudience)
   const fetchSquadInfo = async () => {
     const array = user.userSquadId;
     console.log("here is the array", array);
@@ -161,16 +178,20 @@ useEffect(() => {
       console.log("here is the filteredDataItemArr", filteredDataItemArr)
       // Update SquadsData state with the fetched data
       setSquadsData(filteredDataItemArr);
-
       // Update PollAudience state with squad names
       const squadNames = filteredDataItemArr.map(item => item.label);
       console.log("here is the squadNames", squadNames)
-      setPollAudience(squadNames);
+      const final_pollAudience = []
+      for(let i=0; i<squadNames.length; i++){
+        const dataItem = { label: squadNames[i], value: i};
+        final_pollAudience.push(dataItem)
+      }
+      console.log("here is the final_poll audience",final_pollAudience)
+      setPollAudience(final_pollAudience);
     } catch (error) {
       console.log('Error in fetchSquadInfo:', error);
     }
   };
-
   fetchSquadInfo();
 }, [user.userSquadId]);
 
@@ -191,31 +212,6 @@ const updatePollItems = async (pollId, items) => {
     }
   };
   
-  const incrementNumOfPollsForUser = async (userId) => {
-    try {
-      // Fetch the current user data
-      const userData = await API.graphql(graphqlOperation(getUser, { id: userId }));
-  
-      if (userData.data && userData.data.getUser) {
-        const currentUser = userData.data.getUser;
-        const updatedNumOfPolls = (currentUser.numOfPolls || 0) + 1;
-  
-        // Update the user with the incremented numOfPolls
-        await API.graphql(graphqlOperation(updateUser, {
-          input: {
-            id: userId,
-            numOfPolls: updatedNumOfPolls,
-          }
-        }));
-  
-        console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
-      } else {
-        console.log('Error fetching user data for updating numOfPolls.');
-      }
-    } catch (error) {
-      console.log('Error updating numOfPolls for user:', error);
-    }
-  };
  
 //Function to create poll requests for users in selected squads
 const handlePollRequestCreation = async (pollId, users) => {
@@ -236,6 +232,8 @@ const handlePollRequestCreation = async (pollId, users) => {
   }
   return pollRequestIDArray;
 };
+
+
 
 //creation of users considering the connection to users
 // Function to create notifications for users in selected squads
@@ -278,23 +276,26 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
   }
  
 };
+
+
+
   
   const handlePollCreation = async () => {
         console.log("Here is the selected value", selected);
         console.log("here is the poll options", pollOptionData);
         console.log("here is the pollAudience", pollAudience);
-        console.log("and here is the final poll audience", finalPollAudience);
+        //console.log("and here is the final poll audience", finalPollAudience);
         console.log("here is the caption", caption);
         console.log("here is the user id", user.id);
         try {
           // Create the poll
           const pollInput = {
-            totalNumOfVotes: 100,
+            totalNumOfVotes: 90,
             pollMedia: [],
             numOfLikes: 200,
             closed: false,
             open: true,
-            pollAudience: finalPollAudience,
+            pollAudience: pollAudience,
             pollCaption: caption,
             pollItems: [], // Start with an empty array
             pollLabel: selected,
@@ -317,9 +318,10 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
             );
 
             // Update the poll with the correct pollItems
-            await updatePollItems(pollId, updatedItems);
-            await incrementNumOfPollsForUser(user.id);
+      const updatedNumOfPolls = (user.numOfPolls || 0) + 1;
+      await incrementNumOfPollsForUser(user.id, updatedNumOfPolls);
 
+          console.log()
             // Iterate over selected squads
             for (const squadName of pollAudience) {
               try {
@@ -351,6 +353,7 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
                       console.log('Error creating notifications:', error);
                     }
                     }
+                    console.log("here is the number of polls is: ", updatedNumOfPolls)
                   navigation.navigate('RootNavigation', { screen: 'Profile' });
                 } else {
                   console.log('Error creating poll - Unexpected response:', response);
@@ -359,11 +362,27 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
                 console.log('Error creating poll:', error);
               }
       };
+
+      const incrementNumOfPollsForUser = async (userId, updatedNumOfPolls) => {
+        try {
+          // Update the user with the incremented numOfPolls
+          await API.graphql(graphqlOperation(updateUser, {
+            input: {
+              id: userId,
+              numOfPolls: updatedNumOfPolls,
+            }
+          }));
+          console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
+        } catch (error) {
+          console.log('Error updating numOfPolls for user:', error);
+        }
+      };
+
   return (
     <KeyboardAvoidingView
     style={styles.container}
     behavior="padding"
-    >
+    > 
     <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
         <Image
             source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
@@ -372,7 +391,11 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
         >
         </Image>
     </View>
-
+    <TouchableOpacity style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row", marginTop:10}]}
+      onPress={()=>navigation.goBack()}
+      >
+      <AntDesign name="arrowleft" size={24} color="#1764EF" style={{flex:1, marginLeft:30, justifyContent:'flex-start'}}/>
+      </TouchableOpacity>
    {/* Poll caption section */}
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Poll Caption</Text>
@@ -431,7 +454,6 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
 
     <View style={styles.pollAudience}>
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
-      <View style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:-250}}></View>
     </View>
 
     <MultiSelect
@@ -498,11 +520,15 @@ const styles = StyleSheet.create({
   },
   pollContentStyles:{
     marginRight:250,
-    marginTop:30
+    marginTop:50,
+    marginBottom:-11.5,
     
   },
+   pollOptionTextContainer:{
+
+   },
   pollLabelContainer:{
-    marginRight:250,
+    marginRight:270,
     marginTop:0
 
   },
@@ -539,12 +565,12 @@ ImageContainer: {
   width: "90%",
 },
 pollContentCaption:{
-  marginTop:-10,
+  marginTop:-40,
   fontWeight:'700',
   fontSize:18
 },
 pollAudience:{
-  //marginTop:-20,
+  //marginTop:-0,
   marginRight:250,
   //marginBottom:25
 },
@@ -566,7 +592,7 @@ pollButtonContainer:{
   justifyContent: 'center',
   alignItems: 'center',
   //marginTop:,
-  marginBottom: 170
+  marginBottom: 150
   },
   buttonText:{
     color: 'white',
@@ -639,24 +665,24 @@ item: {
 },
 selectedStyle: {
   flexDirection: 'row',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: 14,
+  //justifyContent: 'center',
+  //alignItems: 'center',
+  //borderRadius: 14,
   backgroundColor: 'white',
-  shadowColor: '#000',
-  marginBottom: 30,
-  marginRight: 135,
+ // shadowColor: 'red',
+  marginBottom: 10,
+  marginRight: 15,
   paddingHorizontal: 12,
-  //paddingVertical: 8,
-  shadowOffset: {
-      width: 0,
-      height: 1,
-  },
-  shadowOpacity: 0.2,
-  shadowRadius: 1.41,
-  marginLeft:57,
+  paddingVertical: 2,
+  // shadowOffset: {
+  //     width: 0,
+  //     height: 1,
+  // },
+  // shadowOpacity: 0.2,
+  // shadowRadius: 1.41,
+   marginLeft:57,
 
-  elevation: 2,
+  //elevation: 2,
 },
 textSelectedStyle: {
   marginRight: 10,
