@@ -44,81 +44,72 @@ const PollCommentList = ({comment }) => {
 
   return (
     <View style={styles.commentContainer}>
-    {/* User image and username */}
-    <View style={styles.userInfoContainer}>
-      {/* You can replace the placeholder image with the user's profile image */}
-      {/* <Image source={require('/path/to/user-image.png')} style={styles.userImage} /> */}
-      <Image
-        source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
-        resizeMode='contain'
-        style={styles.userImage}
+      {/* User image and username */}
+      <View style={styles.userInfoContainer}>
+        <Image
+          source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+          resizeMode='contain'
+          style={styles.userImage}
         />
-      <Text style={styles.username}>{comment.username}</Text>
-    </View>
-  {/* view for the comment and the like button  */}
-  <TouchableOpacity>
-    {/* the comment component*/}
-   <TouchableOpacity>
+        <Text style={styles.username}>{comment.username}</Text>
+      </View>
 
-   </TouchableOpacity>
-  </TouchableOpacity>
-    {/* Comment content */}
-    <Text style={styles.commentText}>{comment.comment}</Text>
+      {/* Parent view for the comment and the like button */}
+      <View style={styles.commentAndLikeContainer}>
+        {/* Comment component and content */}
+        <View style={styles.commentContainer}>
+          <Text style={styles.commentText}>{comment.comment}</Text>
+        </View>
 
-    {/* Likes and Replies */}
-    <View style={styles.likesRepliesContainer}>
-      <TouchableOpacity style={styles.iconContainer}>
-        <FontAwesome name="heart-o"  size={20} color="black" style={{marginLeft:257, marginTop:-20}} />
-        <Text style={styles.likesCount}>{comment.likes}</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.iconContainer}>
-        <FontAwesome name="reply" size={20} color="#1764EF" />
-        <Text style={styles.repliesCount}>{comment.replies}</Text>
-      </TouchableOpacity> */}
+        {/* Like component */}
+        <TouchableOpacity style={styles.likeButtonContainer}>
+          <FontAwesome name="heart-o" size={20} color="black" />
+          <Text style={styles.likesCount}>{comment.likes}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  </View>
   );
-    };
+};
 
-    const styles = StyleSheet.create({
-      commentContainer: {
-        padding: 10,
-        borderBottomWidth: 0.1,
-        //borderBottomColor: '#ccc',
-      },
-      userInfoContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-      },
-      userImage: {
-        width: 30,
-        height: 30,
-        borderRadius: 15,
-        marginRight: 10,
-      },
-      username: {
-        fontSize: 16,
-        fontWeight: 'bold',
-      },
-      commentText: {
-        fontSize: 16,
-        marginTop: 5,
-      },
-      likesRepliesContainer: {
-        // flexDirection: 'row',
-        // alignItems: 'center',
-      },
-      iconContainer: {
-        //flexDirection: 'row',
-        //alignItems: 'center',
-        //marginRight: 30,
-        marginLeft: 10
-      },
-      likesCount: {
-        marginLeft: 259,
-      },
-      repliesCount: {
-        marginLeft: 5,
-      },
-    });
+   const styles = StyleSheet.create({
+  commentContainer: {
+    padding: 10,
+    borderBottomWidth: 0.1,
+    //borderBottomColor: '#ccc',
+  },
+  userInfoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  userImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginRight: 10,
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  commentAndLikeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Align items to each end
+    marginTop: 5,
+  },
+  commentContainer: {
+    flex: 1, // Take as much space as possible
+  },
+  commentText: {
+    fontSize: 16,
+  },
+  likeButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  likesCount: {
+    marginLeft: 5,
+  },
+});
+
 export default  PollCommentList

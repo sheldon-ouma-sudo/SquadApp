@@ -60,7 +60,7 @@ const PollListItem = ({ poll, }) => {
     {
       id: 5,
       username: 'User5',
-      comment: 'Velit dolore quisquam ut ut tempora porro sed.',
+      comment: 'No woman no cry, me say you don know',
       likes: 12,
       replies: 4,
     },
