@@ -318,9 +318,8 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
             );
 
             // Update the poll with the correct pollItems
-      const updatedNumOfPolls = (user.numOfPolls || 0) + 1;
-      await incrementNumOfPollsForUser(user.id, updatedNumOfPolls);
-
+            await updatePollItems(pollId, updatedItems);
+            await incrementNumOfPollsForUser(user.id);
           console.log()
             // Iterate over selected squads
             for (const squadName of pollAudience) {
@@ -353,7 +352,6 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
                       console.log('Error creating notifications:', error);
                     }
                     }
-                    console.log("here is the number of polls is: ", updatedNumOfPolls)
                   navigation.navigate('RootNavigation', { screen: 'Profile' });
                 } else {
                   console.log('Error creating poll - Unexpected response:', response);
@@ -363,21 +361,28 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
               }
       };
 
-      const incrementNumOfPollsForUser = async (userId, updatedNumOfPolls) => {
+      const incrementNumOfPollsForUser = async (userId) => {
         try {
-          // Update the user with the incremented numOfPolls
-          await API.graphql(graphqlOperation(updateUser, {
-            input: {
-              id: userId,
-              numOfPolls: updatedNumOfPolls,
-            }
-          }));
-          console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
+          // Fetch the current user data
+          const userData = await API.graphql(graphqlOperation(getUser, { id: userId }));
+          if (userData.data && userData.data.getUser) {
+            const currentUser = userData.data.getUser;
+            const updatedNumOfPolls = (currentUser.numOfPolls || 0) + 1;
+            // Update the user with the incremented numOfPolls
+            await API.graphql(graphqlOperation(updateUser, {
+              input: {
+                id: userId,
+                numOfPolls: updatedNumOfPolls,
+              }
+            }));
+            console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
+          } else {
+            console.log('Error fetching user data for updating numOfPolls.');
+          }
         } catch (error) {
           console.log('Error updating numOfPolls for user:', error);
         }
       };
-
   return (
     <KeyboardAvoidingView
     style={styles.container}
