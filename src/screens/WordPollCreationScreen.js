@@ -13,6 +13,7 @@ import Constants from 'expo-constants';
 import { useUserContext } from '../../UserContext';
 import { getSquad } from '../graphql/queries';
 import { updatePoll } from '../graphql/mutations';
+import { updateUser } from '../graphql/mutations';
 import { registerForPushNotificationsAsync, sendPushNotifications } from '../../notificationUtils';
 import { graphql } from 'graphql';
 
@@ -313,13 +314,16 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
               pollOptionData.map((item, index) => ({
                 id: index + 1, // You can use any logic to generate unique IDs
                 title: item.title,
-                votes: 0,
+                votes: 30,
               }))
             );
 
             // Update the poll with the correct pollItems
             await updatePollItems(pollId, updatedItems);
-            await incrementNumOfPollsForUser(user.id);
+            const updatedNumOfPolls = (user.numOfPolls || 0) + 1;
+            await incrementNumOfPollsForUser(user.id, updatedNumOfPolls);
+      
+           
           console.log()
             // Iterate over selected squads
             for (const squadName of pollAudience) {
@@ -361,24 +365,16 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
               }
       };
 
-      const incrementNumOfPollsForUser = async (userId) => {
+      const incrementNumOfPollsForUser = async (userId, updatedNumOfPolls) => {
         try {
-          // Fetch the current user data
-          const userData = await API.graphql(graphqlOperation(getUser, { id: userId }));
-          if (userData.data && userData.data.getUser) {
-            const currentUser = userData.data.getUser;
-            const updatedNumOfPolls = (currentUser.numOfPolls || 0) + 1;
-            // Update the user with the incremented numOfPolls
-            await API.graphql(graphqlOperation(updateUser, {
-              input: {
-                id: userId,
-                numOfPolls: updatedNumOfPolls,
-              }
-            }));
-            console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
-          } else {
-            console.log('Error fetching user data for updating numOfPolls.');
-          }
+          // Update the user with the incremented numOfPolls
+          await API.graphql(graphqlOperation(updateUser, {
+            input: {
+              id: userId,
+              numOfPolls: updatedNumOfPolls,
+            }
+          }));
+          console.log('User numOfPolls updated successfully:', updatedNumOfPolls);
         } catch (error) {
           console.log('Error updating numOfPolls for user:', error);
         }
