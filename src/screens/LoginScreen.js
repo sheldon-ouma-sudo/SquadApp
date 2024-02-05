@@ -200,7 +200,7 @@ return (
     >
     <View style={styles.squadLogoContainer}>
     <Image
-        source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+        source={require('/Users/sheldonotieno/Squad/assets/newSquadLog.png')}
         style={styles.squadLogo}
         resizeMode='contain'
     ></Image>

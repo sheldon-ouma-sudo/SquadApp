@@ -17,10 +17,11 @@ const PollListItem = ({ poll, }) => {
   const [pollItems, setPollItems] = useState([]);
   const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
   const [numOfPollComments, setNumOfPollComment] = useState('500');
-  const [numOfPollLikes, setNumOfPollLikes] = useState('');
+  const [numOfPollLikes, setNumOfPollLikes] = useState('0');
   const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(true);
   const [comments, setComments] = useState([]);
   const [isCommentsVisible, setCommentsVisible] = useState(false);
+  const [isOptionSelected, setIsOptionSelected] = useState(false);
  
 
 // Inside your component
@@ -86,6 +87,7 @@ const optionContainerRef = useRef(null);
 
   useEffect(() => {
     setNumOfPollLikes(poll.numOfLikes);
+    setNumOfPollComment(commentsData.length)
     try {
       const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
       setPollItems(parsedPollItems);
@@ -93,7 +95,7 @@ const optionContainerRef = useRef(null);
       const initialAnimationValues = parsedPollItems.map(() => new Value(0));
       setAnimationValues(initialAnimationValues);
 
-      setSelectedOption(0);
+      setSelectedOption(null);
       const initialSelectedOption = parsedPollItems[0];
       console.log('Parsed Poll Items:', parsedPollItems);
       console.log('Initial Animation Values:', initialAnimationValues);
@@ -111,9 +113,11 @@ const optionContainerRef = useRef(null);
   }, [poll]);
 
   const handleOptionPress = (index) => {
-    setSelectedOption(index);
-    animateAllOptions(index);
-  };
+  setSelectedOption(index);
+  animateAllOptions(index);
+  setIsOptionSelected(true);
+};
+
 
   const animateVotePercentage = (percentage, index, isSelected) => {
     console.log(`Animating percentage for option ${index}: ${percentage}`);
@@ -144,7 +148,8 @@ const optionContainerRef = useRef(null);
   };
   const handleLickedIconClick = () => {
     setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
-    // Additional logic or state updates can be added here
+    setNumOfPollLikes(prevLikes => (isLikeCommentIconClicked ? prevLikes +1 : prevLikes -1));
+
   };
 
   return (
@@ -166,7 +171,9 @@ const optionContainerRef = useRef(null);
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View>
+              <View>
               <Text style={styles.optionText}>{item.title}</Text>
+              </View>
           <TouchableOpacity
           style={[
             styles.optionContainer,
@@ -174,22 +181,20 @@ const optionContainerRef = useRef(null);
           ]}
           onPress={() => handleOptionPress(index)}
         >
-          <Animated.View
-            style={[
-              styles.percentageBar,
-              {
-                width: animationValues[index].interpolate({
-                  inputRange: [0, 10],
-                  outputRange: ['0%', '60%'],
-                }),
-              },
-            ]}
-          />
-          <Text style={styles.percentageText}>
-            {selectedOption === index
-              ? 'Voted!'
-              : `${calculatePercentage(item.votes, poll.totalNumOfVotes).toFixed(2)}%`}
-          </Text>
+         <Animated.View
+  style={[
+    styles.percentageBar,
+    {
+      width: animationValues[index].interpolate({
+        inputRange: [0, 10],
+        outputRange: ['0%', '60%'],
+      }),
+    },
+  ]}
+/>
+<Text style={styles.percentageText}>
+  {`${calculatePercentage(item.votes, poll.totalNumOfVotes).toFixed(2)}%`}
+</Text>
           </TouchableOpacity>
             
             </View>
@@ -208,8 +213,12 @@ const optionContainerRef = useRef(null);
           color="#black"
           style={styles.pollCommentIcon}
         />
-        <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </TouchableOpacity>
+      <View
+      style={{marginLeft:5}}
+      >
+      <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
+      </View>
       <TouchableOpacity
         style={styles.pollLikesContainer}
         onPress={handleLickedIconClick}
@@ -220,7 +229,7 @@ const optionContainerRef = useRef(null);
           color={isLikeCommentIconClicked ? '#1764EF' : 'red'}
           style={styles.pollCommentIcon}
         />
-        <Text style={styles.numOfpollLikes}>{poll.numOfLikes}</Text>
+        <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
       </TouchableOpacity>
 
       {/* Comments Section */}
@@ -247,26 +256,30 @@ const styles = StyleSheet.create({
     marginVertical:135
   },
   userImageContainer:{
-    marginStart:10,
-    marginTop:10
+    //marginStart:10,
+    marginTop:-20,
+    marginLeft: -10
    },
    userImage:{
        width:50,
        height:70
    },
    userName:{
-   marginLeft: 60,
+   marginLeft: 0,
    marginTop:-45,
    marginBottom:50
    },
    userNameText:{
    fontSize:19,
-   fontWeight:'200'
+   fontWeight:'200',
+   marginLeft: 40
    },
   question: {
-    fontSize: 18,
+    fontSize: 19.5,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
+    marginTop: -25
+    
   },
   optionContainer: {
     marginBottom: 16,
@@ -282,10 +295,16 @@ const styles = StyleSheet.create({
    //backgroundColor: '#1764EF'
   },
   optionText: {
-    fontSize: 19,
+    fontSize: 16,
     marginBottom: 12,
     fontWeight:'700',
     marginLeft:125,
+  },
+  selectedOptionText: {
+    position: 'absolute',
+    top: 0,
+    left: 10,
+    backgroundColor: 'transparent', // Make background transparent
   },
  percentageBar: {
   height: 50,
@@ -313,7 +332,7 @@ const styles = StyleSheet.create({
   },
   numOfpollComments:{
     fontSize: 15,
-    marginLeft:18,
+    marginLeft:12,
     marginTop:5,
    // fontWeight:'400'
   },
@@ -322,10 +341,10 @@ const styles = StyleSheet.create({
     marginTop:-65
   },
   numOfpollLikes:{
-    marginLeft:30,
+    marginLeft:20,
     marginTop:5,
     fontSize:20,
-    fontWeight:'400'
+    fontWeight:'700'
   },
   pollCommentContainer: {
     marginTop: 20,
@@ -352,7 +371,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
     marginBottom: 20,
-    marginLeft: 130,
+    marginLeft: 100,
     marginTop: 20
     //color: '#1764EF', // Adjust the color based on your design
   },

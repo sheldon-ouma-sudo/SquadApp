@@ -291,9 +291,9 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
         try {
           // Create the poll
           const pollInput = {
-            totalNumOfVotes: 90,
+            totalNumOfVotes: 0,
             pollMedia: [],
-            numOfLikes: 200,
+            numOfLikes: 0,
             closed: false,
             open: true,
             pollAudience: pollAudience,
@@ -314,7 +314,7 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
               pollOptionData.map((item, index) => ({
                 id: index + 1, // You can use any logic to generate unique IDs
                 title: item.title,
-                votes: 30,
+                votes: 0,
               }))
             );
 
