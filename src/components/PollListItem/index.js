@@ -112,15 +112,25 @@ const optionContainerRef = useRef(null);
     }
   }, [poll]);
 
+  useEffect(() => {
+    if (selectedOption !== null) { 
+      setIsOptionSelected(true);
+    } else {
+      setIsOptionSelected(false);
+    }
+  }, [selectedOption]);  
+
   const handleOptionPress = (index) => {
-  setSelectedOption(index);
-  animateAllOptions(index);
-  setIsOptionSelected(true);
-};
+    console.log("the initial selected option is : ", isOptionSelected);
+    setSelectedOption(index);
+   console.log("the post isSelectedOption is: ",isOptionSelected )
+    animateAllOptions(index);
+  };
+  
 
 
   const animateVotePercentage = (percentage, index, isSelected) => {
-    console.log(`Animating percentage for option ${index}: ${percentage}`);
+    //console.log(`Animating percentage for option ${index}: ${percentage}`);
     if (!isNaN(percentage)) {
       timing(animationValues[index], {
         toValue: percentage,
@@ -164,16 +174,23 @@ const optionContainerRef = useRef(null);
       <TouchableOpacity style={styles.userName}>
         <Text style={styles.userNameText}>{pollCreator}</Text>
       </TouchableOpacity>
-      <Text style={styles.question}>{poll.pollCaption}</Text>
+       <Text style={styles.question}>{poll.pollCaption}</Text>
       <TouchableOpacity>
         <FlatList
           data={pollItems}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View>
-              <View>
-              <Text style={styles.optionText}>{item.title}</Text>
-              </View>
+            <View>
+          {/* this is what I want to change the text color */}
+          <Text style={{
+          fontSize: 16,
+          marginBottom: 12,
+          fontWeight: '700',
+          marginLeft: 125,
+          color: isOptionSelected ? "black" : "#D8E8F3",
+          }}>{item.title}</Text> 
+        </View>
           <TouchableOpacity
           style={[
             styles.optionContainer,
@@ -181,25 +198,33 @@ const optionContainerRef = useRef(null);
           ]}
           onPress={() => handleOptionPress(index)}
         >
-         <Animated.View
-  style={[
-    styles.percentageBar,
-    {
-      width: animationValues[index].interpolate({
-        inputRange: [0, 10],
-        outputRange: ['0%', '60%'],
-      }),
-    },
-  ]}
-/>
-<Text style={styles.percentageText}>
-  {`${calculatePercentage(item.votes, poll.totalNumOfVotes).toFixed(2)}%`}
-</Text>
-          </TouchableOpacity>
-            
-            </View>
-          )}
-        />
+          <View>
+            {!isOptionSelected && (
+              <Text style={styles.optionText}>{item.title}</Text>
+            )}
+            <Animated.View
+              style={[
+                styles.percentageBar,
+                {
+                  width: animationValues[index].interpolate({
+                    inputRange: [0, 10],
+                    outputRange: ['0%', '60%'],
+                  }),
+                },
+              ]}
+            />
+          </View>
+          
+          {isOptionSelected && (
+            <Text style={styles.percentageText}>
+            {`${calculatePercentage(item.votes, poll.totalNumOfVotes).toFixed(2)}%`}
+          </Text>
+            )}
+        </TouchableOpacity>
+
+                </View>
+              )}
+            />
       </TouchableOpacity>
 
       {/* component holding for the comment icon */}
@@ -299,12 +324,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontWeight:'700',
     marginLeft:125,
+    color: "black"
   },
   selectedOptionText: {
-    position: 'absolute',
-    top: 0,
-    left: 10,
-    backgroundColor: 'transparent', // Make background transparent
+    fontSize: 16,
+    marginBottom: 12,
+    fontWeight:'700',
+    marginLeft:125,
+    color: "#D8E8F3"
   },
  percentageBar: {
   height: 50,
