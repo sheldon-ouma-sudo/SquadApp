@@ -22,6 +22,8 @@ const PollListItem = ({ poll, }) => {
   const [comments, setComments] = useState([]);
   const [isCommentsVisible, setCommentsVisible] = useState(false);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
+  const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
+
  
 
 // Inside your component
@@ -86,8 +88,10 @@ const optionContainerRef = useRef(null);
   );
 
   useEffect(() => {
+    console.log(poll)
     setNumOfPollLikes(poll.numOfLikes);
     setNumOfPollComment(commentsData.length)
+    setTotalNumOfVotes(poll.totalNumOfVotes || 0);
     try {
       const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
       setPollItems(parsedPollItems);
@@ -121,19 +125,27 @@ const optionContainerRef = useRef(null);
   }, [selectedOption]);  
 
   const handleOptionPress = (index) => {
-    console.log("the initial selected option is : ", isOptionSelected);
+    console.log("the initial selected option is: ", isOptionSelected);
+  
+    // Increment the votes for the selected option
+    const updatedPollItems = [...pollItems];
+    updatedPollItems[index].votes += 1;
+  
+    setPollItems(updatedPollItems);
+  
+    const newTotalNumOfVotes = totalNumOfVotes + 1;
+    console.log("New total number of votes:", newTotalNumOfVotes);
+    setTotalNumOfVotes(newTotalNumOfVotes);
     setSelectedOption(index);
-   console.log("the post isSelectedOption is: ",isOptionSelected )
+    console.log("the post isSelectedOption is: ", isOptionSelected);
     animateAllOptions(index);
   };
-  
 
 
   const animateVotePercentage = (percentage, index, isSelected) => {
-    //console.log(`Animating percentage for option ${index}: ${percentage}`);
     if (!isNaN(percentage)) {
       timing(animationValues[index], {
-        toValue: percentage,
+        toValue: percentage, // Use the calculated percentage directly
         duration: 600,
         easing: EasingNode.inOut(EasingNode.ease),
       }).start();
@@ -141,16 +153,15 @@ const optionContainerRef = useRef(null);
       console.log('Invalid percentage value:', percentage);
     }
   };
+  
 
   const animateAllOptions = (selectedOptionIndex) => {
     pollItems.forEach((pollItem, i) => {
-      const percentage = calculatePercentage(
-        pollItem.votes,
-        poll.totalNumOfVotes
-      );
+      const percentage = calculatePercentage(pollItem.votes, totalNumOfVotes);
       animateVotePercentage(percentage, i, i === selectedOptionIndex);
     });
   };
+  
 
   const calculatePercentage = (votes, totalVotes) => {
     console.log(`Votes: ${votes}, Total Votes: ${totalVotes}`);
