@@ -402,7 +402,7 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
       <Text style={styles.pollContentCaption}>Poll Question</Text>
     </View>
     <TextInput
-      placeholder ="What team is going to win big this weekend"
+      placeholder ="Type your poll caption here..."
       value={caption}
       onChangeText={text =>setCaption(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
       style={styles.input}
