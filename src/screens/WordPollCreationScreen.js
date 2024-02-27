@@ -399,7 +399,7 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
       </TouchableOpacity>
    {/* Poll caption section */}
     <View style={styles.pollContentStyles}>
-      <Text style={styles.pollContentCaption}>Poll Caption</Text>
+      <Text style={styles.pollContentCaption}>Poll Question</Text>
     </View>
     <TextInput
       placeholder ="What team is going to win big this weekend"
