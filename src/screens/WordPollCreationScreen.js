@@ -556,7 +556,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginRight:15,
     marginLeft:5,
-// fontStyle:"Montserrat-Regular",
     color:'black',
     fontWeight:'400'    
 },
@@ -571,9 +570,8 @@ pollContentCaption:{
   fontSize:18
 },
 pollAudience:{
-  //marginTop:-0,
   marginRight:250,
-  //marginBottom:25
+  
 },
 button:{
   backgroundColor: '#1764EF',
