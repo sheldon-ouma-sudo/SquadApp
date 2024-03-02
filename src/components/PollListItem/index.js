@@ -23,6 +23,8 @@ const PollListItem = ({ poll, }) => {
   const [isCommentsVisible, setCommentsVisible] = useState(false);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
+  const [prevSelectedOption, setPrevSelectedOption] = useState(null);
+
 
  
 
@@ -77,7 +79,7 @@ const optionContainerRef = useRef(null);
     if (!isCommentsVisible) {
       setComments(commentsData);
     } else {
-      setComments([]); // Reset comments when hiding the comments
+      setComments([]); 
     }
   };
 
@@ -88,10 +90,11 @@ const optionContainerRef = useRef(null);
   );
 
   useEffect(() => {
-    console.log(poll)
+    //console.log(poll)
     setNumOfPollLikes(poll.numOfLikes);
     setNumOfPollComment(commentsData.length)
     setTotalNumOfVotes(poll.totalNumOfVotes || 0);
+    //console.log("the total num of votes from the backend is: ",poll.totalNumOfVotes)
     try {
       const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
       setPollItems(parsedPollItems);
@@ -101,12 +104,12 @@ const optionContainerRef = useRef(null);
 
       setSelectedOption(null);
       const initialSelectedOption = parsedPollItems[0];
-      console.log('Parsed Poll Items:', parsedPollItems);
-      console.log('Initial Animation Values:', initialAnimationValues);
+      // console.log('Parsed Poll Items:', parsedPollItems);
+      // console.log('Initial Animation Values:', initialAnimationValues);
   
-      console.log('Initial Selected Option:', initialSelectedOption);
-      console.log('Initial Selected Option Votes:', initialSelectedOption.votes);
-      console.log('Total Votes:', poll.totalNumOfVotes);
+      // console.log('Initial Selected Option:', initialSelectedOption);
+      // console.log('Initial Selected Option Votes:', initialSelectedOption.votes);
+      // console.log('Total Votes:', poll.totalNumOfVotes);
       animateVotePercentage(
         initialSelectedOption.votes / poll.totalNumOfVotes || 0,
         0
@@ -125,21 +128,21 @@ const optionContainerRef = useRef(null);
   }, [selectedOption]);  
 
   const handleOptionPress = (index) => {
-    console.log("the initial selected option is: ", isOptionSelected);
-  
-    // Increment the votes for the selected option
-    const updatedPollItems = [...pollItems];
-    updatedPollItems[index].votes += 1;
-  
-    setPollItems(updatedPollItems);
-  
-    const newTotalNumOfVotes = totalNumOfVotes + 1;
-    console.log("New total number of votes:", newTotalNumOfVotes);
-    setTotalNumOfVotes(newTotalNumOfVotes);
-    setSelectedOption(index);
-    console.log("the post isSelectedOption is: ", isOptionSelected);
-    animateAllOptions(index);
+    // Check if the selected option is different from the previously selected one
+    if (index !== selectedOption) {
+      // Increment the votes for the selected option
+      const updatedPollItems = [...pollItems];
+      updatedPollItems[index].votes += 1;
+    
+      setPollItems(updatedPollItems);
+    
+      const newTotalNumOfVotes = totalNumOfVotes + 1;
+      setTotalNumOfVotes(newTotalNumOfVotes);
+      setSelectedOption(index);
+      animateAllOptions(index);
+    }
   };
+  
 
 
   const animateVotePercentage = (percentage, index, isSelected) => {
@@ -155,6 +158,7 @@ const optionContainerRef = useRef(null);
   };
   
 
+
   const animateAllOptions = (selectedOptionIndex) => {
     pollItems.forEach((pollItem, i) => {
       const percentage = calculatePercentage(pollItem.votes, totalNumOfVotes);
@@ -163,10 +167,11 @@ const optionContainerRef = useRef(null);
   };
   
 
-  const calculatePercentage = (votes, totalVotes) => {
-    console.log(`Votes: ${votes}, Total Votes: ${totalVotes}`);
-    return totalVotes > 0 ? (votes / totalVotes) * 100 : 0;
-  };
+  const calculatePercentage = (votes) => {
+  console.log(`Votes: ${votes}, Total Votes: ${totalNumOfVotes}`);
+  return totalNumOfVotes > 0 ? (votes / totalNumOfVotes) * 100 : 0;
+};
+
   const handleLickedIconClick = () => {
     setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
     setNumOfPollLikes(prevLikes => (isLikeCommentIconClicked ? prevLikes +1 : prevLikes -1));
@@ -185,57 +190,38 @@ const optionContainerRef = useRef(null);
       <TouchableOpacity style={styles.userName}>
         <Text style={styles.userNameText}>{pollCreator}</Text>
       </TouchableOpacity>
-       <Text style={styles.question}>{poll.pollCaption}</Text>
       <TouchableOpacity>
-        <FlatList
-          data={pollItems}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item, index }) => (
-            <View>
-            <View>
-          {/* this is what I want to change the text color */}
-          <Text style={{
-          fontSize: 16,
-          marginBottom: 12,
-          fontWeight: '700',
-          marginLeft: 125,
-          color: isOptionSelected ? "black" : "#D8E8F3",
-          }}>{item.title}</Text> 
-        </View>
-          <TouchableOpacity
+      <Text style={styles.question}>{poll.pollCaption}</Text>
+      {pollItems.map((item, index) => (
+         <TouchableOpacity
+          key={index}
           style={[
             styles.optionContainer,
             selectedOption === index && styles.selectedOption,
           ]}
           onPress={() => handleOptionPress(index)}
         >
-          <View>
-            {!isOptionSelected && (
-              <Text style={styles.optionText}>{item.title}</Text>
-            )}
+          <Text style={styles.optionText}>{item.title}</Text>
+          <View style={styles.percentageContainer}>
             <Animated.View
               style={[
                 styles.percentageBar,
                 {
                   width: animationValues[index].interpolate({
                     inputRange: [0, 10],
-                    outputRange: ['0%', '60%'],
+                    outputRange: ['0%', '28%'],
                   }),
                 },
               ]}
             />
-          </View>
-          
-          {isOptionSelected && (
-            <Text style={styles.percentageText}>
-            {`${calculatePercentage(item.votes, poll.totalNumOfVotes).toFixed(2)}%`}
-          </Text>
+            {isOptionSelected && (
+              <Text style={styles.percentageText}>
+                {`${calculatePercentage(item.votes).toFixed(2)}%`}
+              </Text>
             )}
+          </View>
         </TouchableOpacity>
-
-                </View>
-              )}
-            />
+      ))}
       </TouchableOpacity>
 
       {/* component holding for the comment icon */}
@@ -284,12 +270,13 @@ const optionContainerRef = useRef(null);
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     padding: 16,
     backgroundColor: "#D8E8F3",
     marginTop:20,
     borderWidth: 5,
     borderRadius: 29,
-    marginVertical:135
+    //marginVertical:135,
   },
   userImageContainer:{
     //marginStart:10,
@@ -318,14 +305,15 @@ const styles = StyleSheet.create({
     
   },
   optionContainer: {
-    marginBottom: 16,
+    marginBottom: 40,
     padding: 10,
-    //borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 28,
-    backgroundColor:'#ffff',
-    height: 50
+    backgroundColor: '#ffff',
+    height: 50,
+    width: 350, // Adjust the width as per your requirement
   },
+
   selectedOption: {
    backgroundColor: '#add8e6', // Light blue for selected option
    //backgroundColor: '#1764EF'
@@ -334,7 +322,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 12,
     fontWeight:'700',
-    marginLeft:125,
+    marginLeft:135,
     color: "black"
   },
   selectedOptionText: {
@@ -344,17 +332,21 @@ const styles = StyleSheet.create({
     marginLeft:125,
     color: "#D8E8F3"
   },
- percentageBar: {
-  height: 50,
-  backgroundColor: '#1764EF', // Medium aquamarine for the percentage bar
-  borderRadius: 29,
-  width: '10%', // Set the width to 60% of the option container
-  alignSelf: 'flex-start', // Align the percentage bar to the start of the container
-  marginBottom: 4,
-  marginTop: -10,
-  marginLeft: -10,
-  overflow: 'hidden', // Hide any overflow beyond the option container
-},
+  // percentageContainer:{
+  //   marginLeft:50
+  // },
+
+  percentageBar: {
+    height: 50,
+    backgroundColor: '#1764EF',
+    borderRadius: 29,
+    width: 30, // Adjust the width as per your requirement
+    alignSelf: 'flex-start',
+    marginBottom: 4,
+    marginTop: -40,
+    marginLeft: -10,
+    overflow: 'hidden',
+  },
   percentageText: {
     fontSize: 15,
     color: 'white',
