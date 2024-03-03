@@ -104,12 +104,6 @@ const optionContainerRef = useRef(null);
 
       setSelectedOption(null);
       const initialSelectedOption = parsedPollItems[0];
-      // console.log('Parsed Poll Items:', parsedPollItems);
-      // console.log('Initial Animation Values:', initialAnimationValues);
-  
-      // console.log('Initial Selected Option:', initialSelectedOption);
-      // console.log('Initial Selected Option Votes:', initialSelectedOption.votes);
-      // console.log('Total Votes:', poll.totalNumOfVotes);
       animateVotePercentage(
         initialSelectedOption.votes / poll.totalNumOfVotes || 0,
         0
