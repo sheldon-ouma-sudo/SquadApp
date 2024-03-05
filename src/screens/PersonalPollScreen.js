@@ -1,57 +1,85 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet, Image } from 'react-native'
-import React from 'react'
+import { View, Text, KeyboardAvoidingView, StyleSheet, Image, FlatList } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import PersonalClosedPollScreen from './PersonalClosedPollScreen'
 import PersonalOpenPOlls from './PersonalOpenPOlls'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { pollsByUserID } from '../graphql/queries'
+import { useUserContext } from '../../UserContext'
+import PollListItem from '../components/PollListItem'
+import { API, graphqlOperation } from 'aws-amplify'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+
 
   
 
 const PersonalPollScreen = () => {
+const{user} = useUserContext()
+const[userPolls, setUserPolls] = useState([])
+console.log("local user in personal polls screen",user)
+useEffect(()=>{
+  const userID = user.id
+  const fetchUserPolls = async (userID) => {
+    try {
+      const response = await API.graphql({
+        query: pollsByUserID, // Use the pollsByUserID query
+        variables: {
+          userID: userID // Pass the correct user ID here
+          //sortDirection: 'DESC', // You can specify the sort direction if needed
+          //limit: 10, // You can specify the limit of polls to fetch
+          // Add other variables as needed
+        },
+      });
+      
+      // Handle response.data as needed
+      console.log('User polls:', response.data.pollsByUserID.items);
+      setUserPolls(response.data?.pollsByUserID.items)
+    } catch (error) {
+      console.log('Error fetching user polls', error);
+    }
+  };
+  
+console.log(userID)
+fetchUserPolls(userID)
+}, [])
+
   const Tab = createMaterialTopTabNavigator();
   const insets = useSafeAreaInsets();
   return (
-    <><KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-    
-    </KeyboardAvoidingView>
-    <Tab.Navigator
-      style={[{ marginTop: 220 }, { marginEnd: 15 }, { marginStart: 15 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
-      screenOptions={{
-        tabBarLabelStyle: { color: '#ffff', fontWeight: '600' },
-        //tabBarItemStyle: { width: 100 },
-        tabBarStyle: { backgroundColor: '#1145FD' },
-        //color={tabInfo.focused ? '#1145FD' : "#8e8e93"}
-      }}
-    >
-        <Tab.Screen
-          name="Live Polls"
-          component={PersonalOpenPOlls} />
-          <Tab.Screen
-          name="Closed Polls"
-          component={PersonalClosedPollScreen} />
-      </Tab.Navigator></>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <BottomSheetModalProvider>
+     <FlatList
+       data={userPolls}
+       renderItem={({ item }) => (
+         <Poll poll={item} />
+       )}
+       keyExtractor={(item) => item.id}
+       style={styles.list}
+       contentContainerStyle={{ flexGrow: 1 }}
+     />
+   </BottomSheetModalProvider>
+ </KeyboardAvoidingView>
   )
   
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F4F8FB',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom:-690
+  container:{
+  flex:1,
+  justifyContent:"flex-start",
+  alignItems:"center",
+  backgroundColor: "#F4F8FB",
+
+
   },
   squadLogo:{
-    width:100,
-    height:35,
-    marginRight:250,
-    marginTop:70  
-}
+      width:100,
+      height:35,
+      marginRight:250,
+      marginTop:70  
+},
+list: {
+  padding: 10,
+},
 })
-
-
 export default PersonalPollScreen

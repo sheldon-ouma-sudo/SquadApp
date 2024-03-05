@@ -384,20 +384,6 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
     style={styles.container}
     behavior="padding"
     > 
-    <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-        <Image
-            source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-            style={styles.squadLogo}
-            resizeMode='contain'
-        >
-        </Image>
-    </View>
-    <TouchableOpacity style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row", marginTop:10}]}
-      onPress={()=>navigation.goBack()}
-      >
-      <AntDesign name="arrowleft" size={24} color="#1764EF" style={{flex:1, marginLeft:30, justifyContent:'flex-start'}}/>
-      </TouchableOpacity>
-   {/* Poll caption section */}
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Poll Question</Text>
     </View>
@@ -457,7 +443,7 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
       <Text style={styles.pollContentCaption}>Poll Audience</Text>
     </View>
 
-    <MultiSelect
+    {/* <MultiSelect
         style={styles.pollAudienceDropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
@@ -490,7 +476,19 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
               </View>
           </TouchableOpacity>
                 )}  
-            />
+            /> */}
+    
+    <TouchableOpacity
+    style={{paddingHorizontal:15,marginTop:15,width:350}}>
+      <SelectList 
+      setSelected={handleSelect} 
+      value={selected}
+      data={pollLabelData} 
+      save="value"
+      search={true} 
+      placeholder="Select squad" 
+      />
+    </TouchableOpacity>
 
     <View style={styles.pollButtonContainer}>
         <TouchableOpacity
@@ -521,8 +519,8 @@ const styles = StyleSheet.create({
   },
   pollContentStyles:{
     marginRight:250,
-    marginTop:50,
-    marginBottom:-11.5,
+    marginTop:20,
+    marginBottom:11.5,
     
   },
    pollOptionTextContainer:{
@@ -565,7 +563,7 @@ ImageContainer: {
   width: "90%",
 },
 pollContentCaption:{
-  marginTop:-40,
+  marginTop:20,
   fontWeight:'700',
   fontSize:18
 },

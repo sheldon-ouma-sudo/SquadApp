@@ -8,7 +8,7 @@ import { graphqlOperation, Auth, API } from 'aws-amplify';
 //import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { graphql } from "graphql";
+
 
 
 dayjs.extend(relativeTime);

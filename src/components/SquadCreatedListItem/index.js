@@ -70,7 +70,7 @@ const handleSquadSelected=async() =>{
         onPress={handleSquadSelected}
           >
         <Text style={{ color: squadSelected ? "#1145FD" : "white", marginBottom: 10 }}>
-            {squadSelected ? "Squad Left!" : "Delete Squad"}
+            {squadSelected ? "Squad Left!" : "Edit"}
         </Text>
 
     </TouchableOpacity>

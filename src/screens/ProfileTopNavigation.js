@@ -38,6 +38,7 @@
         try {
           const authUser = await Auth.currentAuthenticatedUser();
           const userID = user.id; // Use sub instead of profile for the user ID
+          console.log("user id in the profile top navigation: ", userID)
           const name = authUser.attributes.name;
   
           // Query the user from the backend using Amplify API
@@ -67,95 +68,86 @@
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
             style={[{ height: 80 }, { width: 80 }, 
-            {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:50}, {borderRadius:50}, {borderWidth:5}, {borderColor:'#7399DE'}]} />
+            {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:30}, {borderRadius:50}, {borderWidth:5}, {borderColor:'#7399DE'}]} />
         </View> 
         <View
         style={{flex:1, justifyContent:'flex-end', marginBottom:25, marginEnd:30,marginLeft:-125}}
         >
-        <TouchableOpacity
+        {/* <TouchableOpacity
         style={{marginStart:230, }}
         onPress={() =>navigation.navigate('AccountSettingScreen')}
         >
         <AntDesign name="edit" size={24} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <View
         style={{marginLeft:-10,marginBottom:12.5}}
         >
           <Text
-          style={{fontWeight:'bold'}}
-          >{userName}</Text>
+          style={{fontWeight:'bold', fontSize:22}}
+          >@{userName}</Text>
         </View>
        {/**this view here is for the numbers */}
          <View>
-           <Text
-           style={{marginBottom:-15,marginLeft:-15,fontWeight:'bold'}}
-           >{numOfUserPolls}</Text> 
-           <Text
-           style={{marginLeft:80,fontWeight:'bold'}}
-           >{numOfUsersInSquad}</Text>  
+           
+          <View>
           <Text
-          style={{marginLeft:180,marginTop:-15,fontWeight:'bold'}}
-          >{numOfUserSquadron}</Text>
+           style={{marginBottom:-15,marginLeft:2,fontWeight:'bold', color:'#A9A9A9'}}
+           >{numOfUserPolls}</Text> 
+          </View>
+            <View>
+            <Text
+              style={{marginLeft:80,fontWeight:'bold', color:'#A9A9A9'}}
+              >{numOfUsersInSquad}</Text>  
+            </View>
+
+           <View>
+           <Text
+                style={{marginLeft:190,marginTop:-15,fontWeight:'bold', color:'#A9A9A9'}}
+                >{numOfUserSquadron}</Text>
+           </View>
+          
          </View>
           {/**this view here is for the labelling */}
          <View
          style={{marginLeft:-20}}
          >
            <Text
-           style={{marginBottom:-15,marginLeft:7,color:'#707070',fontWeight:'400', }}
+           style={{marginBottom:-15,marginLeft:7,color:'#000',fontWeight:'600', }}
            >Polls</Text> 
+           <View>
+
+           </View>
            <Text
-           style={{marginLeft:60,marginBottom:-15,color:'#707070',fontWeight:'400', }}
+           style={{marginLeft:60,marginBottom:-15,color:'#000',fontWeight:'600', }}
            >SquadCreated</Text>  
+           <View>
+
+           </View>
           <Text
-          style={{marginBottom:20,marginLeft:175,color:'#707070',fontWeight:'400'}}
+          style={{marginBottom:20,marginLeft:175,color:'#000',fontWeight:'600'}}
           >Squad Joined</Text>
          </View>
         </View>
-        {/* 
-        <View 
-         style = {[{marginTop: 30}, {marginLeft:10}]}
-        >
-         <Text
-           style={[{fontSize:'15'}, {fontWeight:'700'}]}
-          >
-           {userName}
-         </Text>
-        </View>
-       
-        <View
-         style={[{marginLeft:0},{marginTop:70, marginBottom:50}, {marginEnd:10}]}>
-          <Text
-          style={[{marginBottom:5}, {fontSize:18}, {fontWeight:'600'}, {marginLeft:-5}]}
-          >{numOfUserPolls}</Text>
-           <Text
-           style={[{fontSize:16},{marginTop:5},{marginLeft:-85},{marginBottom:-5}]}
-           >Polls </Text> 
-           <Text
-           style={[{marginLeft:-70}, {marginTop:-46}, {marginBottom:26}, {fontWeight:'600'}, {fontSize:18}]}
-           >
-            0
-           </Text>
-           <Text
-           style={[{fontSize:16},{marginTop:-15},{marginLeft:-15}]}
-           >Squad</Text>
-            <Text
-           style={[{marginLeft:10},{marginTop:-48}, {marginBottom:29}, {fontWeight:'600'}, {fontSize:18}]}
-           >
-            0
-           </Text>
-           <Text
-           style={[{marginLeft:80},{marginTop:-48}, {marginBottom:29}, {fontWeight:'600'}, {fontSize:18}]}
-           >
-            0
-           </Text>
-         <Text
-           style={[{fontSize:16},{marginTop:-23.5},{marginLeft:65}]}
-           >Squadron
-           </Text>
-        </View> */}
       </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:-30, backgroundColor:"#F4F8FB" }}>
+                <TouchableOpacity 
+                style = {styles.editProfileButton}
+                //onPress={() => navigation.navigate('EditProfileScreen')}
+                >
+                  <Text
+                  style={{color:'#ffff', fontSize:12, marginTop:10, alignSelf:'center', fontWeight:'bold'}}
+                  >Edit Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                //onPress={() => navigation.navigate('CreateSquadScreen')}
+                style={styles.createSquadButton}
+                >
+                    <Text
+                        style={{color:'#ffff', fontSize:12, marginTop:10, alignSelf:'center', fontWeight:'bold'}}
+                    >Create Squad</Text>
+                </TouchableOpacity>
+            </View>
       <Tab.Navigator
     style={[{ marginBottom: -10 }, { marginEnd: 5 }, { marginStart: 5 }, { borderRadius: 9 }]}
     tabBarShowLabel={{
@@ -212,6 +204,42 @@
         height:35,
         marginRight:250,
         marginTop:70  
-    }
+    },
+    button:{
+      backgroundColor: '#1764EF',
+      width: 200,
+      height: 32,
+      //padding: 12,
+      borderRadius: 10,
+      marginTop: -20,
+      alignItems: 'center',
+      marginRight: 10,
+      marginLeft:15,
+      marginBottom:10
+    },
+    createSquadButton:{
+      backgroundColor: '#1764EF',
+      width: 180,
+      height: 32,
+      //padding: 12,
+      borderRadius: 10,
+      marginTop: -20,
+      alignItems: 'center',
+      marginRight: 10,
+      marginLeft:15,
+      marginBottom:10
+    },
+    editProfileButton:{
+      backgroundColor: '#1764EF',
+      width: 180,
+      height: 32,
+      //padding: 12,
+      borderRadius: 10,
+      marginTop: -20,
+      alignItems: 'center',
+      marginRight: 10,
+      marginLeft:5,
+      marginBottom:10
+    },
   })
 
