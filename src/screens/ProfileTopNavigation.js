@@ -5,6 +5,8 @@
   import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
   import { useNavigation } from '@react-navigation/native'
   import MySquadScreen from './MySquadScreen'
+  import SquadCreatedScreen from './SquadCreatedScreen'
+  import SquadJoinedScreen from './SquadJoinedScreen'
   import { AntDesign } from '@expo/vector-icons';
   import React from 'react'
   import { useState, useEffect } from 'react'
@@ -13,6 +15,8 @@
   //import { graphqlOperation } from 'aws-amplify' 
   import {getUser} from '../graphql/queries'
   import { useUserContext } from '../../UserContext'
+  import { MaterialIcons } from '@expo/vector-icons';
+  
 
   
 
@@ -152,26 +156,41 @@
            </Text>
         </View> */}
       </View>
-
-
-
       <Tab.Navigator
-        style={[{ marginTop: -10 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
-        screenOptions={{
-          tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
-          //tabBarItemStyle: { width: 100 },
-          tabBarStyle: { backgroundColor: "#F4F8FB" },
-        }}
-      >
+    style={[{ marginBottom: -10 }, { marginEnd: 5 }, { marginStart: 5 }, { borderRadius: 9 }]}
+    tabBarShowLabel={{
+      showLabel: false, // Hide the tab labels
+      style: { backgroundColor: "#F4F8FB", paddingTop: 5, paddingBottom: 5 }, // Add padding to the top and bottom of the tab bar
+      tabStyle: { padding: 0, width: '20' }, // Remove any additional padding from individual tabs and set width to auto
+      contentContainerStyle: { justifyContent: 'center', alignItems: 'center' }, // Center the tab bar content
+    }}
+    screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Polls') {
+                iconName = 'poll';
+            } else if (route.name === 'Squad Created' || route.name === 'Squad Joined') {
+                iconName = 'groups';
+            }
+
+            // Define the icon color when focused and not focused
+            const iconColor = focused ? '#1145FD' : '#707070';
+
+            // Return the MaterialIcons icon with the specified icon name, size, and color
+            return <MaterialIcons name={iconName} size={25} color={iconColor} />; // Increase the size of the icons
+        },
+    })}
+>
           <Tab.Screen
             name="Polls"
             component={PersonalPollScreen} />
-          {/* <Tab.Screen
-            name="My Squad"
-            component={MySquadScreen} /> */}
           <Tab.Screen
-            name="Squad"
-            component={SwayingScreen} />
+            name="Squad Created"
+            component={SquadCreatedScreen} />
+          <Tab.Screen
+            name="Squad Joined"
+            component={SquadJoinedScreen} />
         </Tab.Navigator></>
     )
   }
