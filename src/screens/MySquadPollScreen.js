@@ -2,8 +2,9 @@ import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, ActivityIndicat
 import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
 import {listPolls} from "../graphql/queries"
+import { listSquadPolls } from '../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
-//import Poll from "../components/PollListItem";
+import Poll from "../components/PollListItem";
 
 const MySquadPollScreen = () => {
   const [numOfVotes, setNumOfVotes] = useState("32")
@@ -12,14 +13,24 @@ const MySquadPollScreen = () => {
   const [pollCreator, setPollCreator] = useState("Drake")
   const [polls, setPolls] = useState([])
 
-  // //query for the polls
-  // useEffect(() => {
-  //   API.graphql(
-  //     graphqlOperation(listPolls)
-  //   ).then((result) => {
-  //     setPolls(result.data?.listPolls?.items);
-  //   });})
 
+    useEffect(() => {
+      const fetchPolls = async () => {
+        try {
+          const results = await API.graphql(graphqlOperation(listSquadPolls));
+          if(!results.data?.listSquadPolls?.items){
+            console.log("Error fetching users") 
+          }
+          console.log("this is the list of the Squad Polls",results)
+            setPolls(results.data?.listSquadPolls?.items)
+        } catch (error) {
+          console.log(error)
+        }
+      };
+      fetchPolls();
+    }, []);
+   
+  
 
   return (
     <KeyboardAvoidingView

@@ -479,7 +479,7 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
             /> */}
     
     <TouchableOpacity
-    style={{paddingHorizontal:15,marginTop:15,width:350}}>
+    style={{paddingHorizontal:15,marginTop:35,width:350}}>
       <SelectList 
       setSelected={handleSelect} 
       value={selected}
@@ -519,7 +519,7 @@ const styles = StyleSheet.create({
   },
   pollContentStyles:{
     marginRight:250,
-    marginTop:20,
+    marginTop:10,
     marginBottom:11.5,
     
   },
@@ -568,7 +568,8 @@ pollContentCaption:{
   fontSize:18
 },
 pollAudience:{
-  marginRight:250,
+  marginRight:230,
+  marginTop:-29
   
 },
 button:{
@@ -588,8 +589,8 @@ pollButtonContainer:{
   borderRadius:5,
   justifyContent: 'center',
   alignItems: 'center',
-  //marginTop:,
-  marginBottom: 150
+  marginTop:30,
+  marginBottom: 30
   },
   buttonText:{
     color: 'white',

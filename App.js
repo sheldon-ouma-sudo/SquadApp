@@ -106,7 +106,7 @@ function BottomTabs() {
         <Tab.Screen
           options={{
             headerShown: false,
-            tabBarLabel: "Poll Creation",
+            tabBarLabel: "Create",
             tabBarOptions: {
               activeTintColor: '#1145FD',
             },
