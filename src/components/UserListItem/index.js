@@ -17,56 +17,67 @@ import { API, graphqlOperation } from 'aws-amplify';
     }) => {
       const navigation = useNavigation();
       const [selected, setSelected] = useState(false);
-      const[localUserInfo, currentUserInfo] = useState()
-     const [localUserSquadCreatedArray, setLocalUserSquadCreatedArray] = useState([])
-     const [cureentUserSquadCreatedArray, setCurrentUserSquadCreatedArray] = useState([])
-//console.log("this is the squad we want to add users to", userInfo.userSquadId);
-//find the currently logged in user's array of squad they have created
-      // useEffect(() => {
-      //   const fetchLocalUserSquadArray = async () => {
-      //     if (userInfo) {
-      //       //console.log("we have userInfo data",userInfo.userSquadId);
-      //       setUserSquadsArray(userInfo.userSquadId)
-      //       //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
-      //     }
-      //     }
-      //     fetchLocalUserSquadArray()
-      // }, [userInfo]);
+      const[localUserInfo, setLocalUserInfo] = useState()
+      const [localUserSquadCreatedArray, setLocalUserSquadCreatedArray] = useState([])
+      const[localUserSquadJoinedArray, setLocalUserSquadJoinedArray] = useState([])
+      const[currentUserInfo, setCurrentUserInfo] = useState()
+      const [currentUserSquadCreatedArray, setCurrentUserSquadCreatedArray] = useState([])
+      const [currentUserSquadJoinedArray, setCurrentUserSquadJoinedArray] = useState([])
 
-      // useEffect(() => {
-      //   const fetchLocalUserSquadCreatedId = async () => {
-      //     //check if item users i.e displayed on a flatlist is in one of the local user's Squads/squad created by the local user
-      //     if(user.squadJoined.includes(userSquadsArray)){ 
-      //       console.log("the user from the backend is in the primary user's squad")
-      //     //if not
-      //     }else{
-      //       //for now we are going to assume the local user wants to add the users in their primary squad
-      //       const squad_to_join = userSquadsArray[0]
-      //       //now we add the squad id that the user in the list has been added to
-      //       user.squadJoined.push(squad_to_join);
-      //       setSquadToBeJoined(squad_to_join); 
-      //     }
-      //     }
-      //     fetchLocalUserSquadCreatedId()
-      // }, []);
+//fetch local user info data
+              useEffect(() => {
+                const fetchLocalUserData = async () =>{
+                   if(userInfo){
+                    //set local user info 
+                   setLocalUserInfo(userInfo)
+                   //get the local user info created squad array 
+                   setLocalUserSquadCreatedArray(userInfo.userSquadId)
+                   //get the local user squads joined array 
+                  setLocalUserSquadJoinedArray(userInfo.squadJoined)
+                 }else{
+                  console.log("there is an error getting the user info")
+                 }
 
-//fetch local user info.
+                }    
+                fetchLocalUserData()
+              }, []);
+              useEffect(() => {
+                const fetchCurrentUserData = async () =>{
+                   if(user){
+                    //set local user info 
+                   setCurrentUserInfo(user)
+                   //get the local user info created squad array 
+                   setCurrentUserSquadCreatedArray(user.userSquadId)
+                   //get the local user squads joined array 
+                   setCurrentUserSquadJoinedArray(user.squadJoined)
+                 }else{
+                  console.log("there is an error getting the user info")
+                 }
+
+                }    
+                fetchCurrentUserData()
+              }, []);
 
 
       const handleSquadCreation = async () => {
-      //   console.log("here is the squad we want to add users", squadToJoin);
-      //   console.log("here is the user in flatlist id", user.id);
-      //   console.log("here is the local user", userInfo)
-      //   console.log("here is the squads the user has joined", user.squadJoined)
-      //   //console.log("here is the user's squad array", userSquadsArray)
-      //   if (selected === false) {
-      //     setSelected(true);
-        
-      //     try {
-      //       const newSquadUser = await API.graphql(graphqlOperation(createSquadUser, {
-      //         input: { squadId: squadToJoin, userId: user.id }
-      //       }));
-        
+        console.log("here is the local user info", localUserInfo);
+        console.log("here is the current user info", currentUserInfo);
+        console.log("here is the array of the squads created by the local user", localUserSquadCreatedArray)
+        console.log("here is the  array of squads created  by the current user", currentUserSquadCreatedArray)
+        console.log("here is the  array of Squads joined by local  user", localUserSquadJoinedArray)
+        console.log("here is the array of squads joined by the current user", currentUserSquadJoinedArray)
+      
+        if (selected === false) {
+          setSelected(true);
+        }
+           try {
+            const results = await API.graphql(graphqlOperation(createSquadUser, {
+              input: { squadId: squadToJoin, userId: user.id }
+            }));
+            console.log("here is the squad user created",results)
+          }catch(error){
+            console.log("error creating a squadUser")
+          }
       //         user.squadJoined.push(squadToJoin)
       //         const response = await API.graphql(graphqlOperation(updateUser, {input:{userId: user.id}}))
       //         console.log("here is the response from the backend on creation", response)
