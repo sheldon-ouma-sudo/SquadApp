@@ -1,6 +1,168 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getRequestToBeAddedInASquad = /* GraphQL */ `
+  query GetRequestToBeAddedInASquad($id: ID!) {
+    getRequestToBeAddedInASquad(id: $id) {
+      id
+      User {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        superUser
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      notificationID
+      createdAt
+      updatedAt
+      requestToBeAddedInASquadUserId
+      __typename
+    }
+  }
+`;
+export const listRequestToBeAddedInASquads = /* GraphQL */ `
+  query ListRequestToBeAddedInASquads(
+    $filter: ModelRequestToBeAddedInASquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRequestToBeAddedInASquads(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        notificationID
+        createdAt
+        updatedAt
+        requestToBeAddedInASquadUserId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const requestToBeAddedInASquadsByNotificationID = /* GraphQL */ `
+  query RequestToBeAddedInASquadsByNotificationID(
+    $notificationID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRequestToBeAddedInASquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    requestToBeAddedInASquadsByNotificationID(
+      notificationID: $notificationID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        notificationID
+        createdAt
+        updatedAt
+        requestToBeAddedInASquadUserId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRequestToAJoinSquad = /* GraphQL */ `
+  query GetRequestToAJoinSquad($id: ID!) {
+    getRequestToAJoinSquad(id: $id) {
+      id
+      User {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        superUser
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      Squads {
+        nextToken
+        __typename
+      }
+      notificationID
+      createdAt
+      updatedAt
+      requestToAJoinSquadUserId
+      __typename
+    }
+  }
+`;
+export const listRequestToAJoinSquads = /* GraphQL */ `
+  query ListRequestToAJoinSquads(
+    $filter: ModelRequestToAJoinSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRequestToAJoinSquads(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        notificationID
+        createdAt
+        updatedAt
+        requestToAJoinSquadUserId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const requestToAJoinSquadsByNotificationID = /* GraphQL */ `
+  query RequestToAJoinSquadsByNotificationID(
+    $notificationID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRequestToAJoinSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    requestToAJoinSquadsByNotificationID(
+      notificationID: $notificationID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        notificationID
+        createdAt
+        updatedAt
+        requestToAJoinSquadUserId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const getNotification = /* GraphQL */ `
   query GetNotification($id: ID!) {
     getNotification(id: $id) {
@@ -19,6 +181,15 @@ export const getNotification = /* GraphQL */ `
         __typename
       }
       userID
+      new
+      RequestToBeAddedInASquads {
+        nextToken
+        __typename
+      }
+      RequestToAJoinSquads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -40,6 +211,7 @@ export const listNotifications = /* GraphQL */ `
         squadAddRequestsArray
         SquadJoinRequestArray
         userID
+        new
         createdAt
         updatedAt
         __typename
@@ -72,6 +244,7 @@ export const notificationsByUserID = /* GraphQL */ `
         squadAddRequestsArray
         SquadJoinRequestArray
         userID
+        new
         createdAt
         updatedAt
         __typename
@@ -300,6 +473,39 @@ export const getPollComment = /* GraphQL */ `
       numOfLikes
       notificationID
       pollresponseID
+      User {
+        id
+        name
+        userName
+        imageUrl
+        userSquadId
+        numOfPolls
+        numOfSquadJoined
+        superUser
+        userInterests
+        squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      Poll {
+        id
+        totalNumOfVotes
+        pollMedia
+        closed
+        open
+        userID
+        numOfLikes
+        pollAudience
+        pollCaption
+        pollLabel
+        pollScore
+        pollItems
+        createdAt
+        updatedAt
+        pollPollRequestId
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -580,6 +786,10 @@ export const getSquad = /* GraphQL */ `
         nextToken
         __typename
       }
+      requesttojoinsquads {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -617,6 +827,7 @@ export const getUser = /* GraphQL */ `
       userSquadId
       numOfPolls
       numOfSquadJoined
+      superUser
       userInterests
       Polls {
         nextToken
@@ -635,11 +846,11 @@ export const getUser = /* GraphQL */ `
         __typename
       }
       squadJoined
-      squads {
+      Notifications {
         nextToken
         __typename
       }
-      Notifications {
+      squads {
         nextToken
         __typename
       }
@@ -664,8 +875,118 @@ export const listUsers = /* GraphQL */ `
         userSquadId
         numOfPolls
         numOfSquadJoined
+        superUser
         userInterests
         squadJoined
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getRequestToAJoinSquadSquad = /* GraphQL */ `
+  query GetRequestToAJoinSquadSquad($id: ID!) {
+    getRequestToAJoinSquadSquad(id: $id) {
+      id
+      requestToAJoinSquadId
+      squadId
+      requestToAJoinSquad {
+        id
+        notificationID
+        createdAt
+        updatedAt
+        requestToAJoinSquadUserId
+        __typename
+      }
+      squad {
+        id
+        authUserID
+        squadName
+        numOfPolls
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listRequestToAJoinSquadSquads = /* GraphQL */ `
+  query ListRequestToAJoinSquadSquads(
+    $filter: ModelRequestToAJoinSquadSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRequestToAJoinSquadSquads(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        requestToAJoinSquadId
+        squadId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const requestToAJoinSquadSquadsByRequestToAJoinSquadId = /* GraphQL */ `
+  query RequestToAJoinSquadSquadsByRequestToAJoinSquadId(
+    $requestToAJoinSquadId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRequestToAJoinSquadSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    requestToAJoinSquadSquadsByRequestToAJoinSquadId(
+      requestToAJoinSquadId: $requestToAJoinSquadId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        requestToAJoinSquadId
+        squadId
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const requestToAJoinSquadSquadsBySquadId = /* GraphQL */ `
+  query RequestToAJoinSquadSquadsBySquadId(
+    $squadId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelRequestToAJoinSquadSquadFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    requestToAJoinSquadSquadsBySquadId(
+      squadId: $squadId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        requestToAJoinSquadId
+        squadId
         createdAt
         updatedAt
         __typename
@@ -813,6 +1134,7 @@ export const getSquadUser = /* GraphQL */ `
         userSquadId
         numOfPolls
         numOfSquadJoined
+        superUser
         userInterests
         squadJoined
         createdAt
