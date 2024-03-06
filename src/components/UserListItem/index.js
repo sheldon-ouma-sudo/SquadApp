@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native';
 import { createSquadUser, updateUser, createNotification,createRequestToBeAddedInASquad,updateNotification} from '../../graphql/mutations';
 import {useUserContext, user} from '../../../UserContext'
 import { API, graphqlOperation } from 'aws-amplify';
-import { listNotifications, getNotification} from '../../graphql/queries';
+import { notificationsByUserID} from '../../graphql/queries';
 //import { createSquadUser } from '../../graphql/mutations';
 
     const UserListItem = ({
@@ -26,6 +26,7 @@ import { listNotifications, getNotification} from '../../graphql/queries';
       const [currentUserSquadJoinedArray, setCurrentUserSquadJoinedArray] = useState([])
       const[currentUserHasNotification, setCurrentUserHasNotifications] = useState(false)
       const[currentUserNotificationID, setCurrentUserNotificationID] = useState()
+      const[newResquestToBeAddedInASquad,setNewResquestToBeAddedInASquad] = useState("")
       const[newResquestToBeAddedInASquadArr, setNewSquadAddRequestArr] = useState()
       const[currentUserNewNotificationID, setCurrentUserNewNotificationID] = useState("")
       const[existingSquadRequestsArr, setExistingSquadRequestsArr] = useState([])
@@ -40,7 +41,7 @@ import { listNotifications, getNotification} from '../../graphql/queries';
                   //console.log("here is the local user info for the first time", userInfo)
                    if(userInfo){
                     //set local user info 
-                    console.log("here is the local user info inside the if statement", userInfo.user.userSquadId)
+                    //console.log("here is the local user info inside the if statement", userInfo.user.userSquadId)
                    setLocalUserInfo(userInfo)
                    //get the local user info created squad array 
                    //console.log("here is the squads created by local user for the first time",userInfo.userSquadId)
@@ -58,7 +59,7 @@ import { listNotifications, getNotification} from '../../graphql/queries';
   //fetch current user info
               useEffect(() => {
                 const fetchCurrentUserData = async () =>{
-                  //console.log("here is the current user info", user)
+                 // console.log("here is the current user id", user.id)
                    if(user){
                     //set local user info 
                    setCurrentUserInfo(user)
@@ -68,29 +69,36 @@ import { listNotifications, getNotification} from '../../graphql/queries';
                    setCurrentUserSquadJoinedArray(user.squadJoined)
                    //check if user has notifications
                    // Define the filter for the query
-            const filter = {userID: { eq: user.id}};
-
-              // Perform the query
-              API.graphql(graphqlOperation(listNotifications, { filter: filter }))
-                .then(result => {
-                  console.log("result from notification query",result)
-                  const notifications = result.data.listNotifications.items;
+                try {
+                  const user_ID = user.id
+                  //console.log("here is the user id in try catch", user_ID)
+                  const notificationQueryResult = await API.graphql(
+                    graphqlOperation(notificationsByUserID, { userID: user_ID })
+                  );
+                    
+                  //console.log("result from notification query",notificationQueryResult)
+                  const notifications = notificationQueryResult.data?.notificationsByUserID.items;
+                  console.log("here are the notifications", notifications)
                   if (notifications.length > 0) {
                     console.log("User has notifications:", notifications);
-                    const notificationID = notifications.id
+                    const notificationID = notifications[0].id
                     setCurrentUserNotificationID(notificationID)
                     setExistingSquadRequestsArr(notifications.squadAddRequestsArray)
                   } else {
                         console.log("User has no notifications.");
                         setCurrentUserHasNotifications(false);
                    }
-                       })
-                      .catch(error => {
-                     console.error("Error fetching notifications:", error);
-                     });
-                      }else{
-                        console.log("there is an error getting the user info")
-                      }
+                } catch (error) {
+                  console.log("error getting current user notification", error)
+                }
+                  }
+                       //})
+                      //.catch(error => {
+                     //console.error("Error fetching notifications:", error);
+                    //  //});
+                    //   }else{
+                    //     console.log("there is an error getting the user info")
+                    //   }
 
                       }    
                 fetchCurrentUserData()
@@ -162,72 +170,53 @@ import { listNotifications, getNotification} from '../../graphql/queries';
                 setCurrentUserNewNotificationID(results.data?.createNotification?.id)
               }catch(error){
                 console.log("error creating a notification ❌", error)
-              }
-            
+              }   
      // 5. Create RequestToBeAddedInASquad for the current user
                 try {
                   const results = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
                        input: {notificationID: currentUserNewNotificationID}
                      }));
                      console.log("requestToBeAddedInASquad Created successfully✅",results.data?.createRequestToBeAddedInASquad.id)
-                     setNewSquadAddRequestArr([results.data?.createRequestToBeAddedInASquad.id])
+                     setNewResquestToBeAddedInASquad(results.data?.createRequestToBeAddedInASquad.id)
+                     const newArr = currentUserSquadJoinedArray.push(createRequestToBeAddedInASquad.id)
+                     setNewSquadAddRequestArr(newArr)
                   }catch(error){
                    console.log("error creating a requestToBeAddedInASquad  ❌", error)
                  }
-                
-            }else{
-
-              console.log("user has notifications")
-            }   
-    //6.update the notification after being created
-          try {
-            const newNotificationCreatedUpdateResult = await API.graphql(
-              graphqlOperation(updateNotification, {
-                input: { notificationID: currentUserNewNotificationID,   squadAddRequestsArray: currentUserSquadJoinedArray }
-              })
-            );
-            console.log("new notification update successfu✅", newNotificationCreatedUpdateResult)
-          } catch (error) {
-            console.log("error updating new notificationcreated❌",error)
-          }
- 
-  // //7. the user has notification so we are just going to update the notification that they have
-           
-  //         existingSquadRequestsArr.push(requestToBeAddedInASquadCreationID )
-  //         const existingNotificationUpdateInput = {
-  //             input: {
-  //             id: currentUserNotificationID, // Replace "notificationId" with the actual ID of the notification you want to update
-  //             squadAddRequestsArray: existingSquadRequestsArr
-  //           }
-  //         };
-  //         API.graphql(graphqlOperation(updateNotification, existingNotificationUpdateInput))
-  //           .then(result => {
-  //             console.log("Notification updated successfully✅:", result.data.updateNotification);
-  //         })
-  //           .catch(error => {
-  //             console.log("Error updating notification:", error);
-  //           });
-            }else{
-              setSelected(false)
+                //6.update the notification after being created
+                 try {
+                  const newNotificationCreatedUpdateResult = await API.graphql(
+                    graphqlOperation(updateNotification, {
+                      input: { id: currentUserNewNotificationID,   squadAddRequestsArray: currentUserSquadJoinedArray }
+                     
+                    })
+                  );
+                  console.log("new notification update successfu✅", newNotificationCreatedUpdateResult)
+                } catch (error) {
+                  console.log("error updating new notificationcreated❌",error)
+                }
+                  }else{
+                    console.log("user has notifications")
+            //7. the user has notification so we are just going to update the notification that they have
+                  existingSquadRequestsArr.push(newResquestToBeAddedInASquad )
+                  const existingNotificationUpdateInput = {
+                      input: {
+                      id: currentUserNotificationID, // Replace "notificationId" with the actual ID of the notification you want to update
+                      squadAddRequestsArray: existingSquadRequestsArr
+                    }
+                  };
+                  API.graphql(graphqlOperation(updateNotification, existingNotificationUpdateInput))
+                    .then(result => {
+                      console.log("Notification updated successfully✅:", result.data.updateNotification);
+                  })
+                    .catch(error => {
+                      console.log("Error updating notification:", error);
+                    });
+                  }
+                    }else{
+                      setSelected(false)
+                    }
             }
-          
-      //user.squadJoined.push(squadToJoin)
-      //         const response = await API.graphql(graphqlOperation(updateUser, {input:{userId: user.id}}))
-      //         console.log("here is the response from the backend on creation", response)
-      //       if (!newSquadUser.data?.createSquadUser) {
-      //       //console.log("Error getting the user Squad data");
-      //       } else {
-      //         //console.log("User added to the squad:", newSquadUser.data.createSquadUser);
-      //       }
-      //       //update the local user and the backend
-      //     } catch (error) {
-      //       console.log("Error creating the squad user", error);
-      //     }
-      //   }
-      // else{
-      // setSelected(false);
-      // //delete user from the squad
-      }
         
         
       
