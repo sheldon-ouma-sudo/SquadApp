@@ -6,6 +6,7 @@ import { listSquadPolls } from '../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
 import Poll from "../components/PollListItem";
 
+
 const MySquadPollScreen = () => {
   const [numOfVotes, setNumOfVotes] = useState("32")
   const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')//remember to use uri instead of the require when quering from the backend
