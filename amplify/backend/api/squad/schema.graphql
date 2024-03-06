@@ -1,3 +1,16 @@
+type RequestToBeAddedInASquad @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  User: User @hasOne
+  notificationID: ID! @index(name: "byNotification")
+}
+
+type RequestToAJoinSquad @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  User: User @hasOne
+  Squads: [Squad] @manyToMany(relationName: "RequestToAJoinSquadSquad")
+  notificationID: ID! @index(name: "byNotification")
+}
+
 type Notification @model @auth(rules: [{allow: public}]) {
   id: ID!
   pollRequestsArray: [String]
@@ -9,6 +22,8 @@ type Notification @model @auth(rules: [{allow: public}]) {
   PollRequests: [PollRequest] @hasMany(indexName: "byNotification", fields: ["id"])
   userID: ID! @index(name: "byUser")
   new: Boolean
+  RequestToBeAddedInASquads: [RequestToBeAddedInASquad] @hasMany(indexName: "byNotification", fields: ["id"])
+  RequestToAJoinSquads: [RequestToAJoinSquad] @hasMany(indexName: "byNotification", fields: ["id"])
 }
 
 type PollResponse @model @auth(rules: [{allow: public}]) {
@@ -64,6 +79,7 @@ type Squad @model @auth(rules: [{allow: public}]) {
   squadName: String
   numOfPolls: Int
   Polls: [Poll] @manyToMany(relationName: "SquadPoll")
+  requesttojoinsquads: [RequestToAJoinSquad] @manyToMany(relationName: "RequestToAJoinSquadSquad")
 }
 
 type User @model @auth(rules: [{allow: public}]) {
