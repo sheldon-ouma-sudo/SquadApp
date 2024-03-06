@@ -6,10 +6,15 @@ import { View, Text,
 import React, { useState, useEffect } from 'react';
 import SearchBar from "../components/SearchBar"
 import List from "../components/SearchList"
+import { listPolls } from '../graphql/queries';
+import { API, graphqlOperation } from 'aws-amplify';
+import Poll from "../components/PollListItem";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const ExplorePollScreen = () => {
   //const [search, setSearch] = useState('');
   const [searchPhrase, setSearchPhrase] = useState("");
+  const [polls, setPolls] = useState([])
   const [clicked, setClicked] = useState(false);
   const [fakeData, setFakeData] = useState();
   
@@ -17,11 +22,16 @@ const ExplorePollScreen = () => {
   // get data from the fake api
   useEffect(() => {
     const getData = async () => {
-      const apiResponse = await fetch(
-        "https://my-json-server.typicode.com/kevintomas1995/logRocket_searchBar/languages"
-      );
-      const data = await apiResponse.json();
-      setFakeData(data);
+      try {
+        const results = await API.graphql(graphqlOperation(listPolls));
+        if(!results.data?.listPolls){
+          console.log("Error fetching users") 
+        }
+        console.log("this is the list of the Polls",results.data.listPolls.items)
+          setPolls(results.data?.listPolls?.items)
+      } catch (error) {
+        console.log(error)
+      }
     };
     getData();
   }, []);
@@ -103,15 +113,20 @@ const ExplorePollScreen = () => {
         clicked={clicked}
         setClicked={setClicked}
       />
-      {!fakeData ? (
+      {!polls ? (
         <ActivityIndicator size="large" />
       ) : (
-        
-          <List
-            searchPhrase={searchPhrase}
-            data={fakeData}
-            setClicked={setClicked}
-          />
+        <BottomSheetModalProvider>
+        <FlatList
+          data={polls}
+          renderItem={({ item }) => (
+            <Poll poll={item} />
+          )}
+          keyExtractor={(item) => item.id}
+          style={styles.list}
+          contentContainerStyle={{ flexGrow: 1 }}
+        />
+      </BottomSheetModalProvider>
       )}
     </View>
      
@@ -142,7 +157,7 @@ searchBar:{
   backgroundColor: 'white'
 },
 itemStyle: {
-  padding: 10,
+  //padding: 10,
 },
 })
 

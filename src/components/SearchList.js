@@ -24,7 +24,7 @@ const List = (props) => {
     }
     // filter of the name
     if (item.name.toUpperCase().includes(props.searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
-      return <Item name={item.name} details={item.details} />;
+      return <Item name={item.pollCaption} details={item.details} />;
     }
     // filter of the description
     if (item.details.toUpperCase().includes(props.searchPhrase.toUpperCase().trim().replace(/\s/g, ""))) {
@@ -54,13 +54,16 @@ export default List;
 const styles = StyleSheet.create({
   list__container: {
     margin: 10,
-    height: "85%",
-    width: "100%",
+    height: "95%",
+    width: "90%",
+    
   },
   item: {
     margin: 30,
-    borderBottomWidth: 2,
-    borderBottomColor: "lightgrey"
+    borderWidth:2,
+    borderRadius:30,
+    backgroundColor:'#fff',
+    height:70
   },
   title: {
     fontSize: 20,

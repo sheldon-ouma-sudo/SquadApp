@@ -1,18 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image } from 'react-native';
-import Animated, { EasingNode } from 'react-native-reanimated';
-import { getUser } from '../../graphql/queries';
-import { API, graphqlOperation } from "aws-amplify";
-import { FontAwesome } from '@expo/vector-icons';
-import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
-import PollCommentItem from '../PollCommentItem/index'
-import { LinearGradient } from 'expo-linear-gradient';
-import Modal from 'react-native-modal';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { View, Text } from 'react-native'
+import React from 'react'
 
-const { Value, timing } = Animated;
-
-const PollListItem = ({ poll, }) => {
+const Poll = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [animationValues, setAnimationValues] = useState([]);
   const [pollItems, setPollItems] = useState([]);
@@ -24,7 +13,6 @@ const PollListItem = ({ poll, }) => {
   const [isCommentsVisible, setCommentsVisible] = useState(false);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
-  const[pollCreatorID, setPollCreatorID ] = useState("")
   const [prevSelectedOption, setPrevSelectedOption] = useState(null);
 
 
@@ -96,7 +84,6 @@ const optionContainerRef = useRef(null);
     setNumOfPollLikes(poll.numOfLikes);
     setNumOfPollComment(commentsData.length)
     setTotalNumOfVotes(poll.totalNumOfVotes || 0);
-    setPollCreatorID(poll.userID)
     //console.log("the total num of votes from the backend is: ",poll.totalNumOfVotes)
     try {
       const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
@@ -114,17 +101,6 @@ const optionContainerRef = useRef(null);
     } catch (error) {
       console.log('Error parsing poll items:', error);
     }
-   const getPollCreater = async () => {
-    try {
-      const pollCreatorInfo = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-      console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
-      setPollCreator(pollCreatorInfo.data?.getUser.userName)
-    } catch (error) {
-      console.log("error fetching the poll creator", error)
-    }
-
-   }
-  getPollCreater()
   }, [poll]);
 
   useEffect(() => {
@@ -136,8 +112,6 @@ const optionContainerRef = useRef(null);
   }, [selectedOption]);  
 
   const handleOptionPress = (index) => {
-    setTotalNumOfVotes(totalNumOfVotes + 1);
-
     // Check if the selected option is different from the previously selected one
     if (index !== selectedOption) {
       // Increment the votes for the selected option
@@ -146,8 +120,8 @@ const optionContainerRef = useRef(null);
     
       setPollItems(updatedPollItems);
     
-      // const newTotalNumOfVotes = totalNumOfVotes + 1;
-      // setTotalNumOfVotes(newTotalNumOfVotes);
+      const newTotalNumOfVotes = totalNumOfVotes + 1;
+      setTotalNumOfVotes(newTotalNumOfVotes);
       setSelectedOption(index);
       animateAllOptions(index);
     }
@@ -189,9 +163,7 @@ const optionContainerRef = useRef(null);
   };
 
   return (
-    
     <View style={styles.container}>
-      
       <View style={styles.userImageContainer}>
         <Image
           source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
@@ -200,7 +172,7 @@ const optionContainerRef = useRef(null);
         />
       </View>
       <TouchableOpacity style={styles.userName}>
-        <Text style={styles.userNameText}>@{pollCreator}</Text>
+        <Text style={styles.userNameText}>{pollCreator}</Text>
       </TouchableOpacity>
       <TouchableOpacity>
       <Text style={styles.question}>{poll.pollCaption}</Text>
@@ -284,11 +256,10 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     padding: 16,
-    backgroundColor: "#FFFF",
+    backgroundColor: "#D8E8F3",
     marginTop:20,
     borderWidth: 5,
     borderRadius: 29,
-   // borderColor: '#0038FF'
     //marginVertical:135,
   },
   userImageContainer:{
@@ -318,13 +289,11 @@ const styles = StyleSheet.create({
     
   },
   optionContainer: {
-    marginBottom: 30,
-    padding: 5,
+    marginBottom: 40,
+    padding: 10,
     borderColor: '#ccc',
     borderRadius: 28,
     backgroundColor: '#ffff',
-    borderColor: 'black',
-    borderWidth: 2,
     height: 50,
     width: 350, // Adjust the width as per your requirement
   },
@@ -335,12 +304,10 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
-    //marginBottom: -3,
+    marginBottom: 12,
     fontWeight:'700',
     marginLeft:135,
-    color: "black",
-    marginTop:10
-
+    color: "black"
   },
   selectedOptionText: {
     fontSize: 16,
@@ -360,8 +327,8 @@ const styles = StyleSheet.create({
     width: 30, // Adjust the width as per your requirement
     alignSelf: 'flex-start',
     marginBottom: 4,
-    marginTop: -35,
-    marginLeft: -7,
+    marginTop: -40,
+    marginLeft: -10,
     overflow: 'hidden',
   },
   percentageText: {
@@ -423,5 +390,4 @@ const styles = StyleSheet.create({
     //color: '#1764EF', // Adjust the color based on your design
   },
 });
-
-export default PollListItem;
+export default Poll
