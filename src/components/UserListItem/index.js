@@ -173,8 +173,9 @@ import { notificationsByUserID} from '../../graphql/queries';
               }   
      // 5. Create RequestToBeAddedInASquad for the current user
                 try {
+                  console.log("currentUserNewNotificationID", currentUserNewNotificationID)
                   const results = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
-                       input: {notificationID: currentUserNewNotificationID}
+                       input: { notificationID: currentUserNewNotificationID}
                      }));
                      console.log("requestToBeAddedInASquad Created successfully✅",results.data?.createRequestToBeAddedInASquad.id)
                      setNewResquestToBeAddedInASquad(results.data?.createRequestToBeAddedInASquad.id)
