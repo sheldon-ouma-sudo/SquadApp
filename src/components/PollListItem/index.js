@@ -125,7 +125,7 @@ const optionContainerRef = useRef(null);
 
    }
   getPollCreater()
-  }, [poll]);
+  }, [poll, pollCreatorID]);
 
   useEffect(() => {
     if (selectedOption !== null) { 
@@ -194,8 +194,14 @@ const optionContainerRef = useRef(null);
 
   };
 
+
   return (
-    
+    <LinearGradient
+    colors={['#EE8B94', '#0038FF']} // Adjust the gradient colors as per your preference
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.gradientContainer}
+    >
     <View style={styles.container}>
       
       <View style={styles.userImageContainer}>
@@ -282,18 +288,27 @@ const optionContainerRef = useRef(null);
         />
       </View>
     </View>
+    </LinearGradient>
   );
 };
 
 
 const styles = StyleSheet.create({
+  gradientContainer: {
+    //borderWidth: 2,
+    borderRadius: 20,
+    marginVertical:30
+  },
   container: {
     flex:1,
     padding: 16,
     backgroundColor: "#FFFF",
-    marginTop:20,
-    borderWidth: 5,
+    marginTop:10,
+    //borderWidth: 5,
     borderRadius: 29,
+    marginBottom:10,
+    marginStart:10,
+    marginEnd:10
    // borderColor: '#0038FF'
     //marginVertical:135,
   },

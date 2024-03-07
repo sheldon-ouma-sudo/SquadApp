@@ -8,8 +8,20 @@ const PollRequest = () => {
     style={styles.container}
     behavior="padding"
     >
-    <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-    
+    <View style={styles.pollRequestContainer}>
+    <Text
+     style={{fontWeight:'bold', fontSize:18}}
+    >Poll Requests</Text>
+    </View>   
+
+  <View
+  style={styles.pollResponseContainer}
+  >
+    <Text
+     style={{fontWeight:'bold',
+     fontSize:18
+     }}>
+      Poll Responses</Text>
     </View>     
     </KeyboardAvoidingView>
   )
@@ -30,5 +42,7 @@ const styles = StyleSheet.create({
       height:35,
       marginRight:250,
       marginTop:70  
-  }
+  },
+  pollRequestContainer:{},
+  pollResponseContainer:{}
 })

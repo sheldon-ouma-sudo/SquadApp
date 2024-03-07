@@ -100,17 +100,17 @@ const handleSquadSelected=async() =>{
  
  const styles = StyleSheet.create({
  container:{
- flex:1,
- flexDirection: "row",
- marginHorizontal: 10,
- marginTop: 20,
- //marginVertical: 65,
- borderColor: "#FFFF",
- //height: 100,
- borderRadius: 15,
- backgroundColor: "white",
- borderWidth: 5,
- marginRight:30
+  flex:1,
+  flexDirection: "row",
+  marginHorizontal: 10,
+  marginTop: 20,
+  //marginVertical: 65,
+  borderColor: "#9789EE",
+  //height: 100,
+  borderRadius: 15,
+  backgroundColor: "white",
+  borderWidth: 1.5,
+  marginRight:30
 },
  pollCaptionContainer:{
    height: 50,

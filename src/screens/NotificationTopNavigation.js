@@ -95,9 +95,9 @@ Notifications.scheduleNotificationAsync({
         tabBarStyle: { backgroundColor: "#F4F8FB" },
       }}
         >
-            <Tab.Screen name="Poll Requests" 
+            <Tab.Screen name="Poll Notifications" 
             component={PollRequest} />
-            <Tab.Screen name="Activity" 
+            <Tab.Screen name="Squad Notifications" 
             component={ActivityScreen} />
           </Tab.Navigator>
   )

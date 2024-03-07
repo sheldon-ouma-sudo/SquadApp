@@ -362,11 +362,11 @@ const handleUpdateUserAfterDeletion=async()=>{
         marginHorizontal: 10,
         marginTop: 20,
         //marginVertical: 65,
-        borderColor: "#FFFF",
+        //borderColor: "#FFFF",
         //height: 100,
         borderRadius: 15,
         backgroundColor: "white",
-        borderWidth: 5,
+        borderWidth: 1.5,
         marginRight:30
       
     },
