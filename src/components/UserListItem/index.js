@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native';
 import { createSquadUser, updateUser, createNotification,createRequestToBeAddedInASquad,updateNotification} from '../../graphql/mutations';
 import {useUserContext, user} from '../../../UserContext'
 import { API, graphqlOperation } from 'aws-amplify';
-import { notificationsByUserID} from '../../graphql/queries';
+import { getUser, notificationsByUserID} from '../../graphql/queries';
 import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/mutations';
 //import { createSquadUser } from '../../graphql/mutations';
 
@@ -33,6 +33,7 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
       const[currentUserNewNotificationID, setCurrentUserNewNotificationID] = useState("")
       const[currentUserNewRequestToBeAddedInSquad, setCurrentUserNewRequestToBeAddedInSquad] = useState([])
       const[existingRequestsToBeAddedInASquadArr, setExistingRequestsToBeAddedInASquadArr] = useState([])
+      const[currentUserName, setCurrentUserName] = useState("")
       
       const localUser = useUserContext()
 //fetch local user info data
@@ -61,8 +62,19 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
   //fetch current user info
               useEffect(() => {
                 const fetchCurrentUserData = async () =>{
-                 //console.log("here is the current user id", user.id)
-                 setCurrentUserID(user.id)
+                 console.log("here is the current user", user.userName)
+                 const currentUserUserName = user.userName
+                 setCurrentUserName(currentUserUserName)
+                 const userID = user.id
+                 console.log("here is the user ID", userID)
+                 setCurrentUserID(userID)
+                 try {
+                  const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+                  //console.log("results to confirm that the user is correct", userData)
+                 } catch (error) {
+                  console.log("error confirming that the user is real")
+                 }
+                
                    if(user){
                     //set local user info 
                    setCurrentUserInfo(user)
@@ -73,15 +85,15 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
                    //check if user has notifications
                    // Define the filter for the query
                 try {
-                  const user_ID = user.id
+                  //const user_ID = user.id
                   //console.log("here is the user id in try catch", user_ID)
                   const notificationQueryResult = await API.graphql(
-                    graphqlOperation(notificationsByUserID, { userID: user_ID })
+                    graphqlOperation(notificationsByUserID, { userID: userID })
                   );
                     
                   //console.log("result from notification query",notificationQueryResult)
                   const notifications = notificationQueryResult.data?.notificationsByUserID.items;
-                  //console.log("here are the notifications", notifications)
+                  console.log("here are the notifications", notifications)
                   if (notifications.length > 0) {
                     //console.log("User has notifications:", notifications);
                     const notificationID = notifications[0].id

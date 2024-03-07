@@ -70,6 +70,7 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   pollCaption: String
   pollLabel: String
   pollScore: Int
+  squadID: String
   pollItems: [AWSJSON]
   PollComments: [PollComment] @hasMany(indexName: "byPoll", fields: ["id"])
   PollRequest: PollRequest @hasOne

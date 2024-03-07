@@ -298,9 +298,9 @@ const styles = StyleSheet.create({
     //borderWidth: 2,
     borderRadius: 20,
     marginVertical:30,
-    marginHorizontal:10, 
-    marginEnd:10, 
-    
+    // marginHorizontal:10, 
+    // marginEnd:10, 
+
   },
   container: {
     flex:1,
