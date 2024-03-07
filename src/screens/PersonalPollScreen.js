@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { pollsByUserID } from '../graphql/queries'
 import { useUserContext } from '../../UserContext'
-import PollListItem from '../components/PollListItem'
+import Poll from '../components/PollListItem'
 import { API, graphqlOperation } from 'aws-amplify'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
