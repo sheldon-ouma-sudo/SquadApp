@@ -219,7 +219,7 @@
                     console.log('Poll updated successfully:', updateResponse);
                     // Log the updated pollItems
                     const updatedPollItems = updateResponse.data.updatePoll.pollItems;
-                    //console.log('Updated Poll Items:', updatedPollItems);  
+                    console.log('Updated Poll Items:', updatedPollItems);  
                   } catch (error) {
                     console.log('Error updating poll items:', error);
                   }
@@ -340,13 +340,16 @@
                 numOfLikes: 0,
                 closed: false,
                 open: true,
+                numOfLikes:0,
                 pollAudience: pollAudience,
                 pollCaption: caption,
                 pollItems: [], // Start with an empty array
                 pollLabel: selected,
+                pollScore: 0,
                 userID: user.id,
+                squadID:user.userSquadId
               };
-
+              
               const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
               if (response.data && response.data.createPoll) {
                 const pollId = response.data.createPoll.id;
@@ -361,15 +364,14 @@
                     votes: 0,
                   }))
                 );
-
+                //handle notifications
+                handleNotificationCreationAndUpdate(pollId);
                 // Update the poll with the correct pollItems
                 await updatePollItems(pollId, updatedItems);
                 const updatedNumOfPolls = (user.numOfPolls || 0) + 1;
                 await incrementNumOfPollsForUser(user.id, updatedNumOfPolls);
           
-              
-              
-                      navigation.navigate('RootNavigation', { screen: 'Profile' });
+                  navigation.navigate('RootNavigation', { screen: 'Profile' });
                     } else {
                       console.log('Error creating poll - Unexpected response:', response);
                     }
