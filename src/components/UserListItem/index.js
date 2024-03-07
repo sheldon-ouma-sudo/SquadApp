@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity} from 'react-native'
+import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity, Alert} from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, FontAwesome, AntDesign, SimpleLineIcons } from '@expo/vector-icons';
@@ -120,11 +120,13 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
             return true
           } catch (error) {
             console.log("error updating current user squadJoinedArr",error)
+            return false
           }
         }else{
           console.log("the user is already in your squad")
           return false;
         }
+
       }
        //3. create a new squaduser
           const handleCreateNewSquadUser = async()=>{
@@ -271,8 +273,8 @@ const handleUpdateUserAfterDeletion=async()=>{
         if (selected === false) {
             setSelected(true);
             //if the user is not in the squad already
-            if(handleCurrentUserSquadJoinedArrayUpdate()){
-              handleCreateNewSquadUser()  
+            if(handleCurrentUserSquadJoinedArrayUpdate()===true){
+               handleCreateNewSquadUser()  
               if(!currentUserHasNotification){
                 handleCreateNewNotification()
                 handleCreateRequestToBeAddedInASquad()
@@ -286,6 +288,9 @@ const handleUpdateUserAfterDeletion=async()=>{
 
                }else{
                 console.log("the user is already in your squad")
+                Alert.alert("user is already in your squad🫢, you can edit you squad in your squad page!☺️")
+                setSelected(false)
+                return
                }
             
             }else{

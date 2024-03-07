@@ -26,6 +26,7 @@
     const[numOfUserPolls, setNumOfUserPolls] = useState("1060")
     const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
     const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
+    const[name, setName] = useState("")
     const{user, updateUserProperty} = useUserContext();
     const Tab = createMaterialTopTabNavigator();
     const navigation = useNavigation()
@@ -48,6 +49,7 @@
           const userFromBackend = userData.data?.getUser;
           console.log("here is the user from backend ", userFromBackend)
           // Update state with the user information
+          setName(userFromBackend.name)
           setUserName(userFromBackend.userName);
           setNumOfUserPolls(userFromBackend.numOfPolls);
           setNumOfSquadron(userFromBackend.squadJoined.length);
@@ -130,17 +132,26 @@
          </View>
         </View>
       </View>
+      {/* <View
+      style={{marginLeft:30}}
+      
+      >
+        <Text
+           style={{marginLeft:10, marginTop:29}}
+        >{name}</Text>
+      </View> */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:-30, backgroundColor:"#F4F8FB" }}>
                 <TouchableOpacity 
                 style = {styles.editProfileButton}
-                //onPress={() => navigation.navigate('EditProfileScreen')}
+                onPress={() => navigation.navigate('EditProfileScreen')}
                 >
                   <Text
                   style={{color:'#ffff', fontSize:12, marginTop:10, alignSelf:'center', fontWeight:'bold'}}
                   >Edit Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                //onPress={() => navigation.navigate('CreateSquadScreen')}
+                onPress={() => navigation.navigate('RootNavigation', { screen: 'Poll Creation' })}
+                //navigation.navigate('RootNavigation', { screen:'Home'})
                 style={styles.createSquadButton}
                 >
                     <Text
