@@ -93,7 +93,7 @@ const optionContainerRef = useRef(null);
       setAnimationValues(initialAnimationValues);
 
       setSelectedOption(null);
-      const initialSelectedOption = parsedPollItems[0];
+      const initialSelectedOption = parsedPollItems[0]; 
       animateVotePercentage(
         initialSelectedOption.votes / poll.totalNumOfVotes || 0,
         0

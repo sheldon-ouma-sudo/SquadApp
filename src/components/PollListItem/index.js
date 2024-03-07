@@ -136,22 +136,28 @@ const optionContainerRef = useRef(null);
   }, [selectedOption]);  
 
   const handleOptionPress = (index) => {
-    setTotalNumOfVotes(totalNumOfVotes + 1);
-
     // Check if the selected option is different from the previously selected one
     if (index !== selectedOption) {
-      // Increment the votes for the selected option
+      // Increment the votes for the selected option and decrement for the previously selected option
       const updatedPollItems = [...pollItems];
       updatedPollItems[index].votes += 1;
-    
+      if (selectedOption !== null) {
+        updatedPollItems[selectedOption].votes -= 1;
+      }
+  
       setPollItems(updatedPollItems);
-    
-      // const newTotalNumOfVotes = totalNumOfVotes + 1;
-      // setTotalNumOfVotes(newTotalNumOfVotes);
+  
+      // Update total number of votes only if an option is selected for the first time
+      if (selectedOption === null) {
+        setTotalNumOfVotes(totalNumOfVotes + 1);
+      }
+  
       setSelectedOption(index);
       animateAllOptions(index);
     }
   };
+  
+  
   
 
 
@@ -221,7 +227,7 @@ const optionContainerRef = useRef(null);
                 {
                   width: animationValues[index].interpolate({
                     inputRange: [0, 10],
-                    outputRange: ['0%', '28%'],
+                    outputRange: ['0%', '35%'],
                   }),
                 },
               ]}
@@ -324,7 +330,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: '#ffff',
     borderColor: 'black',
-    borderWidth: 2,
+    borderWidth: 3,
     height: 50,
     width: 350, // Adjust the width as per your requirement
   },
@@ -360,7 +366,7 @@ const styles = StyleSheet.create({
     width: 30, // Adjust the width as per your requirement
     alignSelf: 'flex-start',
     marginBottom: 4,
-    marginTop: -35,
+    marginTop: -36,
     marginLeft: -7,
     overflow: 'hidden',
   },
