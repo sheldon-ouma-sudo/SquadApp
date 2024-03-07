@@ -1,7 +1,18 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,  } from 'react-native'
 import React from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { notificationsByUserID } from '../graphql/queries'
 
 const ActivityScreen = () => {
+  const[requestToJoinUserSquadsData,setRequestToJoinUserSquadData] = useState([])
+  const[requestToBeAddedToSquadsData, setRequestToBeAddedToSquadsData] = useState([])
+
+
+  
+
+
+
   return (
     <KeyboardAvoidingView 
     style={styles.container}

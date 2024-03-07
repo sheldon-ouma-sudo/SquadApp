@@ -1,8 +1,11 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
   StatusBar,Dimensions,TouchableOpacity} from 'react-native'
-import React from 'react'
+import React  from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const PollRequest = () => {
+
   return (
     <KeyboardAvoidingView 
     style={styles.container}
