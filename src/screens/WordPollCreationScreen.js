@@ -15,6 +15,7 @@
     import { updatePoll } from '../graphql/mutations';
     import { updateUser } from '../graphql/mutations';
     import { listSquadUsers } from '../graphql/queries';
+    import { createSquadPoll } from '../graphql/mutations';
     import { registerForPushNotificationsAsync, sendPushNotifications } from '../../notificationUtils';
     import { graphql } from 'graphql';
 
@@ -74,7 +75,7 @@
                 const pollOptionObject = {
                   id: idCounter,
                   title: pollOption,
-                  votes: 30,
+                  votes: 0,
                 };
 
                 console.log("clean pollOptionObject", pollOptionObject);
@@ -325,6 +326,18 @@
      
     };
 
+    const handleSquadPollCreation = async(pollID, SquadID) =>{
+     try {
+      const SquadPollCreationResults = await graphql(graphqlOperation(createSquadPoll, {input:{
+        pollId:pollID,
+        squadId:SquadID
+      }}))
+      console.log("here are the squad poll creation results", SquadPollCreationResults)
+     } catch (error) {
+       console.log("error creating a squad poll", error)
+     }
+    }
+
       const handlePollCreation = async () => {
             console.log("Here is the selected value", selected);
             console.log("here is the poll options", pollOptionData);
@@ -349,7 +362,7 @@
                 userID: user.id,
                 squadID:user.userSquadId
               };
-              
+              const squadId = user.userSquadId
               const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
               if (response.data && response.data.createPoll) {
                 const pollId = response.data.createPoll.id;
@@ -366,6 +379,8 @@
                 );
                 //handle notifications
                 handleNotificationCreationAndUpdate(pollId);
+                 //create squad poll
+                handleSquadPollCreation(pollid, squadId)
                 // Update the poll with the correct pollItems
                 await updatePollItems(pollId, updatedItems);
                 const updatedNumOfPolls = (user.numOfPolls || 0) + 1;
