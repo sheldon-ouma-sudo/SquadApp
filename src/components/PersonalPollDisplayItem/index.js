@@ -9,10 +9,11 @@ import PollCommentItem from '../PollCommentItem/index'
 import { LinearGradient } from 'expo-linear-gradient';
 import Modal from 'react-native-modal';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import PersonalPollDisplayScreen from '../../screens/PersonalPollDisplayScreen';
 
 const { Value, timing } = Animated;
 
-const PollListItem = ({ poll, }) => {
+const PersonalPollPostDisplayListItem = ({ poll, }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [animationValues, setAnimationValues] = useState([]);
   const [pollItems, setPollItems] = useState([]);
@@ -448,4 +449,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PollListItem;
+export default PersonalPollPostDisplayListItem;

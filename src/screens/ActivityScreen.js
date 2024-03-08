@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { notificationsByUserID } from '../graphql/queries'
+import { useContext } from 'react'
 
 const ActivityScreen = () => {
   const[requestToJoinUserSquadsData,setRequestToJoinUserSquadData] = useState([])
@@ -20,7 +21,7 @@ const ActivityScreen = () => {
     >
     <View style={styles.pollRequestContainer}>
     <Text
-     style={{fontWeight:'bold', fontSize:18}}
+     style={{fontWeight:'bold', fontSize:18, marginRight:200}}
     >Requests To Join Squads</Text>
     </View>   
 
@@ -29,7 +30,8 @@ const ActivityScreen = () => {
   >
     <Text
      style={{fontWeight:'bold',
-     fontSize:18
+     fontSize:18,
+     marginRight:200
      }}>
       Requests to Join Your Squad</Text>
     </View>     

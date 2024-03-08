@@ -3,15 +3,19 @@ import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
 import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
-import Poll from "../components/PollListItem";
+import Poll from "../components/PersonalPollDisplayItem"
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { useRoute } from '@react-navigation/native';
 
 
-const TrendingPollScreen = () => {
-  const [polls, setPolls] = useState([])
+const PersonalPollDisplayScreen = () => {
+    const [poll, setPoll] = useState([])
 
+const route = useRoute()
+const pollID = route?.params.pollID
+console.log("here is the poll id", pollID)
     useEffect(() => {
-      const fetchPolls = async () => {
+      const fetchPoll = async () => {
         try {
           const results = await API.graphql(graphqlOperation(listPolls));
           if(!results.data?.listPolls){
@@ -66,4 +70,5 @@ list: {
 },
 })
 
-export default TrendingPollScreen
+
+export default PersonalPollDisplayScreen
