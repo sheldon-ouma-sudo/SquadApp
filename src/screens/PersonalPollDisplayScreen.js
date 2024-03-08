@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
 import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
-import Poll from "../components/PersonalPollDisplayItem"
+import Poll from "../components/PollListItem"
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useRoute } from '@react-navigation/native';
+import PollListItem from '../components/PollListItem';
 
 
 const PersonalPollDisplayScreen = () => {
