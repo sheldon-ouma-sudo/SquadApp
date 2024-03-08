@@ -3,16 +3,52 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { notificationsByUserID } from '../graphql/queries'
-import { useContext } from 'react'
+import {listPolls} from "../graphql/queries"
+import { API, graphqlOperation } from "aws-amplify";
+import Poll from "../components/PollListItem";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import {useUserContext, user} from '../../../UserContext'
+
+
 
 const ActivityScreen = () => {
   const[requestToJoinUserSquadsData,setRequestToJoinUserSquadData] = useState([])
   const[requestToBeAddedToSquadsData, setRequestToBeAddedToSquadsData] = useState([])
 
 
-  
+  useEffect(() => {
+    const fetchRequestToJoinUserSquads = async () => {
+    //   try {
+    //     const results = await API.graphql(graphqlOperation(listPolls));
+    //     if(!results.data?.listPolls){
+    //       console.log("Error fetching users") 
+    //     }
+    //     console.log("this is the list of the Polls",results.data.listPolls.items)
+    //       setPolls(results.data?.listPolls?.items)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+     };
+    fetchRequestToJoinUserSquads();
+  }, []);
+ 
 
-
+  useEffect(() => {
+    const fetchRequestToBeAddedToSquadsData = async () => {
+    //   try {
+    //     const results = await API.graphql(graphqlOperation(listPolls));
+    //     if(!results.data?.listPolls){
+    //       console.log("Error fetching users") 
+    //     }
+    //     console.log("this is the list of the Polls",results.data.listPolls.items)
+    //       setPolls(results.data?.listPolls?.items)
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+     };
+     fetchRequestToBeAddedToSquadsData ();
+  }, []);
+ 
 
   return (
     <KeyboardAvoidingView 
