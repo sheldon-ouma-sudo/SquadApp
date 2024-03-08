@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
       marginTop:70  
   },
   pollRequestContainer:{},
-  pollResponseContainer:{}
+  pollResponseContainer:{
+  }
 })
 export default ActivityScreen
