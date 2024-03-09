@@ -232,8 +232,8 @@ const optionContainerRef = useRef(null);
                 styles.percentageBar,
                 {
                   width: animationValues[index].interpolate({
-                    inputRange: [0, 10],
-                    outputRange: ['0%', '35%'],
+                    inputRange: [0, 10.0],
+                    outputRange: ['0.0%', '35.0%'],
                   }),
                 },
               ]}

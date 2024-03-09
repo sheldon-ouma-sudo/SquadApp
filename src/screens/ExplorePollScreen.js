@@ -148,17 +148,8 @@ const styles = StyleSheet.create({
       marginRight:250,
       marginTop:70  
 },
-searchBarContainer:{
-marginTop:10,
-marginLeft: 30,
-width: 420
-},
-searchBar:{
-  backgroundColor: 'white'
-},
-itemStyle: {
-  //padding: 10,
+list: {
+  padding: 10,
 },
 })
-
 export default ExplorePollScreen

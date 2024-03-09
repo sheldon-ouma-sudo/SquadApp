@@ -259,7 +259,7 @@
           
         //console.log("result from notification query",notificationQueryResult)
         const notifications = notificationQueryResult.data?.notificationsByUserID.items;
-        console.log("here are the notifications", notifications)
+        console.log("here are the notificationsnotifications✅", notifications)
         if (notifications.length > 0) {
           console.log("User has notifications:", notifications);
           //const notificationID = notifications[0].id
@@ -284,21 +284,24 @@
       const notificationIDArray = [];
       for (const squadMemberID of squadsData){
         //check if the user has notifications
+        console.log("here is the squad member id", squadMemberID)
         if(checkIfUserHasNotification(squadMemberID) === true){
           //get the notification of the user
           try {
             const notificationQueryResult = await graphql(graphqlOperation(notificationsByUserID, {input:{userID:squadMemberID}}))
-            console.log("here is the notification query result", notificationQueryResult)
+            console.log("here is the notification query result✅", notificationQueryResult)
             const notificationID = notificationQueryResult.data?.notificationsByUserID.id
             //get the poll request of the user and update it
             const userPollRequestArray = notificationQueryResult.data?.notificationsByUserID.pollRequestsArray
-            console.log("here is the poll  request array", userPollRequestArray)
+            console.log("here is the poll  request array✅", userPollRequestArray)
             const userNewPollRequestID = handlePollRequestCreation(pollID, squadMemberID)
+            console.log("here is the new user poll request id", userNewPollRequestID)
             userPollRequestArray.push(userNewPollRequestID)
             //update the notification
+            console.log("here is the new poll request array✅",userPollRequestArray)
             try {
               const resultForUpdatingNotification = await graphql(graphqlOperation(updateNotification, {input:{id:notificationID, pollRequestsArray:userPollRequestArray }}))
-              console.log("here is the results from updating the notification", resultForUpdatingNotification)
+              console.log("here is the results from updating the notificationnotification✅", resultForUpdatingNotification)
             } catch (error) {
               console.log("error creating a new notification for the user", error)
             }
@@ -313,9 +316,9 @@
             const newuserPollRequestArray = [].push(newPollRequestID)
             try {
               const notificationCreationResult = await graphql(graphqlOperation(createNotification, {input:{userID: squadMemberID, pollRequestsArray: newuserPollRequestArray}}))
-              console.log("here is the notification creation result",notificationCreationResult)
+              console.log("here is the notification creation result✅",notificationCreationResult)
             } catch (error) {
-              
+              console.log("error creating notificationsnotifications❌", error)
             }
           } catch (error) {
             
@@ -332,9 +335,9 @@
         pollId:pollID,
         squadId:SquadID
       }}))
-      console.log("here are the squad poll creation results", SquadPollCreationResults)
+      console.log("here are the squad poll creation results✅", SquadPollCreationResults)
      } catch (error) {
-       console.log("error creating a squad poll", error)
+       console.log("error creating a squad poll❌", error)
      }
     }
 
