@@ -20,9 +20,7 @@ const ExploreSquadronScreen = () => {
   const {user} = useUserContext();
   
   
-  
 
-  // get data from the fake api
   useEffect(() => {
     const fetchSquads = async () => {
       try {
