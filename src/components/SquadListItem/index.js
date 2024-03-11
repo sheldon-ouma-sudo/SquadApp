@@ -22,6 +22,7 @@ const SquadListItem =({ squad,
  const[squadSelected, setSquadSelected] = useState(false)
  ///const [userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
  const [currentUserID, setCurrentUserID] = useState("")
+ const [currentUserName, setCurrentUserName] = useState("")
  const [currentUserHasNotification, setCurrentUserHasNotifications] = useState(false)
  const [currentUserNotificationID, setCurrentUserNotificationID] = useState("")
  const [existingJoinCurrentUserASquadArr, setExistingJoinCurrentUserASquadArr] = useState([])
@@ -39,12 +40,12 @@ const SquadListItem =({ squad,
                 if (userInfo) {
                   const localUSERID = userInfo.id
                   setLocalUserID(localUSERID)
-                  console.log("we have local user data",userInfo);
-                  console.log("here is the number of squads the local user has joined", userInfo.numOfSquadJoined)
+                  // console.log("we have local user data",userInfo);
+                  // console.log("here is the number of squads the local user has joined", userInfo.numOfSquadJoined)
                   const numOfSquadJoined = userInfo.numOfSquadJoined
-                  console.log("here is the number of squad joined by the user", numOfSquadJoined)
+                  //console.log("here is the number of squad joined by the user", numOfSquadJoined)
                   setLocalUserNumOfSquadJoined(numOfSquadJoined)
-                  console.log("here is the squads the local user has joined", userInfo.squadJoined)
+                  //console.log("here is the squads the local user has joined", userInfo.squadJoined)
                   const squadsJoinedByLocalArr = userInfo.squadJoined
                   setLocalUserSquadJoinedArray(squadsJoinedByLocalArr)
                   //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
@@ -59,14 +60,25 @@ const SquadListItem =({ squad,
                 if (userInfo) {
                   //console.log("here is the currentUser",squad.authUserID);
                   const currentUserSquadCreatedArray = [squad.id]
-                  console.log("here is the authuser squad created", currentUserSquadCreatedArray)
+                  //console.log("here is the authuser squad created", currentUserSquadCreatedArray)
                   const userID = squad.authUserID
                   setCurrentUserID(userID)
                   const squadID = squad.id
                   setCurrentUserSquadID(squadID)
 
-                  
+                  try {
+                    console.log("here is the ")
+                    const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+                    //console.log("successful getting the user✅",userData)
+                    const userFromBackend = userData.data?.getUser;
+                    //console.log("here is the user from backend ", userFromBackend)
+                    // Update state with the user information
+                    setCurrentUserName(userFromBackend.name)
+                  } catch (error) {
+                    console.log("error getting the squad creator", error)
+                  }
                 //check if the user has notifications 
+                console.log("here is current user name", currentUserName)
                 try {
                   //const user_ID = user.id
                   //console.log("here is the user id in try catch", user_ID)
@@ -78,14 +90,14 @@ const SquadListItem =({ squad,
                   const notifications = notificationQueryResult.data?.notificationsByUserID.items;
                   //console.log("here are the notifications", notifications)
                   if (notifications.length > 0) {
-                    console.log("User has notifications:", notifications);
+                    //console.log("User has notifications:", notifications);
                     //console.log("here is user's notification id:",notifications[0].id)
                     const notificationID = notifications[0].id
                     setCurrentUserNotificationID(notificationID)
                     setCurrentUserHasNotifications(true)
-                    console.log("here is the current user's squad join request array", notifications[0].SquadJoinRequestArray)
+                    //console.log("here is the current user's squad join request array", notifications[0].SquadJoinRequestArray)
                     const currentUserSquadJoinedList = notifications[0].SquadJoinRequestArray
-                    console.log("here is the current users SquadJoinRequestArray", currentUserSquadJoinedList)
+                    //console.log("here is the current users SquadJoinRequestArray", currentUserSquadJoinedList)
                     setExistingJoinCurrentUserASquadArr(currentUserSquadJoinedList)
                   } else {
                         console.log("User has no notifications.");
@@ -320,7 +332,7 @@ const SquadListItem =({ squad,
        <Text
        style = {styles.squadCreator}
        >
-         Created by {squad?.authUserID}
+         Created by {currentUserName}
        </Text>
      </View>
      <TouchableOpacity
