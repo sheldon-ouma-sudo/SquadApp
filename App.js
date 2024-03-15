@@ -163,7 +163,6 @@ function BottomTabs() {
 
 export default function App() {
   const [user, setUser] = useState(null);
-
   useEffect(() => {
     const checkAuth = async () => {
       try {

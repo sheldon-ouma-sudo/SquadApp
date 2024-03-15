@@ -26,12 +26,8 @@ const PersonalPollPostDisplayListItem = ({ poll, }) => {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
   const[pollCreatorID, setPollCreatorID ] = useState("")
-  const [prevSelectedOption, setPrevSelectedOption] = useState(null);
 
 
- 
-
-// Inside your component
 
 const optionContainerRef = useRef(null);
 
@@ -103,8 +99,8 @@ const optionContainerRef = useRef(null);
       const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
       setPollItems(parsedPollItems);
 
-      const initialAnimationValues = parsedPollItems.map(() => new Value(0));
-      setAnimationValues(initialAnimationValues);
+      // const initialAnimationValues = parsedPollItems.map(() => new Value(0));
+      // //setAnimationValues(initialAnimationValues);
 
       setSelectedOption(null);
       const initialSelectedOption = parsedPollItems[0];
@@ -159,41 +155,40 @@ const optionContainerRef = useRef(null);
   };
   
   
+  // const animateVotePercentage = (percentage, index, isSelected) => {
+  //   if (!isNaN(percentage) && index >= 0 && index < animationValues.length) {
+  //     timing(animationValues[index], {
+  //       toValue: percentage,
+  //       duration: 600,
+  //       easing: EasingNode.inOut(EasingNode.ease),
+  //     }).start();
+  //   } else {
+  //     console.log('Invalid percentage value or index:', percentage, index);
+  //   }
+  // };
+  
+  
   
 
 
-  const animateVotePercentage = (percentage, index, isSelected) => {
-    if (!isNaN(percentage)) {
-      timing(animationValues[index], {
-        toValue: percentage, // Use the calculated percentage directly
-        duration: 600,
-        easing: EasingNode.inOut(EasingNode.ease),
-      }).start();
-    } else {
-      console.log('Invalid percentage value:', percentage);
-    }
-  };
+//   const animateAllOptions = (selectedOptionIndex) => {
+//     pollItems.forEach((pollItem, i) => {
+//       const percentage = calculatePercentage(pollItem.votes, totalNumOfVotes);
+//       animateVotePercentage(percentage, i, i === selectedOptionIndex);
+//     });
+//   };
   
 
+//   const calculatePercentage = (votes) => {
+//   console.log(`Votes: ${votes}, Total Votes: ${totalNumOfVotes}`);
+//   return totalNumOfVotes > 0 ? (votes / totalNumOfVotes) * 100 : 0;
+// };
 
-  const animateAllOptions = (selectedOptionIndex) => {
-    pollItems.forEach((pollItem, i) => {
-      const percentage = calculatePercentage(pollItem.votes, totalNumOfVotes);
-      animateVotePercentage(percentage, i, i === selectedOptionIndex);
-    });
-  };
-  
+//   const handleLickedIconClick = () => {
+//     setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
+//     setNumOfPollLikes(prevLikes => (isLikeCommentIconClicked ? prevLikes +1 : prevLikes -1));
 
-  const calculatePercentage = (votes) => {
-  console.log(`Votes: ${votes}, Total Votes: ${totalNumOfVotes}`);
-  return totalNumOfVotes > 0 ? (votes / totalNumOfVotes) * 100 : 0;
-};
-
-  const handleLickedIconClick = () => {
-    setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
-    setNumOfPollLikes(prevLikes => (isLikeCommentIconClicked ? prevLikes +1 : prevLikes -1));
-
-  };
+//   };
 
 
   return (
@@ -228,7 +223,7 @@ const optionContainerRef = useRef(null);
         >
           <Text style={styles.optionText}>{item.title}</Text>
           <View style={styles.percentageContainer}>
-            <Animated.View
+            {/* <Animated.View
               style={[
                 styles.percentageBar,
                 {
@@ -243,13 +238,11 @@ const optionContainerRef = useRef(null);
               <Text style={styles.percentageText}>
                 {`${calculatePercentage(item.votes).toFixed(2)}%`}
               </Text>
-            )}
+            )} */}
           </View>
         </TouchableOpacity>
       ))}
       </TouchableOpacity>
-
-      {/* component holding for the comment icon */}
       <TouchableOpacity
         style={styles.pollCommentContainer}
         onPress={toggleComments}
@@ -296,28 +289,20 @@ const optionContainerRef = useRef(null);
 
 const styles = StyleSheet.create({
   gradientContainer: {
-    //borderWidth: 2,
     borderRadius: 29,
     marginVertical:30,
-    // marginHorizontal:10, 
-    // marginEnd:10, 
-
   },
   container: {
     flex:1,
     padding: 16,
     backgroundColor: "#FFFF",
     marginTop:5,
-    //borderWidth: 5,
     borderRadius: 29,
     marginBottom:5,
     marginStart:5,
     marginEnd:5
-   // borderColor: '#0038FF'
-    //marginVertical:135,
   },
   userImageContainer:{
-    //marginStart:10,
     marginTop:-20,
     marginLeft: -10
    },
@@ -340,7 +325,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 15,
     marginTop: -25
-    
   },
   optionContainer: {
     marginBottom: 30,
@@ -351,12 +335,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 3,
     height: 50,
-    width: 350, // Adjust the width as per your requirement
+    width: 350, 
   },
 
   selectedOption: {
-   backgroundColor: '#add8e6', // Light blue for selected option
-   //backgroundColor: '#1764EF'
+   backgroundColor: '#add8e6',
   },
   optionText: {
     fontSize: 16,
@@ -382,7 +365,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#1764EF',
     borderRadius: 29,
-    width: 30, // Adjust the width as per your requirement
+    width: 30,
     alignSelf: 'flex-start',
     marginBottom: 4,
     marginTop: -36,
@@ -432,7 +415,7 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the background color and opacity
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   commentItem: {
     padding: 16,

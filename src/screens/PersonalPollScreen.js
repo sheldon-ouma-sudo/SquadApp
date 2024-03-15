@@ -7,7 +7,7 @@
         import { pollsByUserID } from '../graphql/queries'
         import { useUserContext } from '../../UserContext'
         import Poll from '../components/PersonalPollPostListItem/index'
-        import { API, graphqlOperation } from 'aws-amplify'
+        import { API } from 'aws-amplify'
         import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
 
