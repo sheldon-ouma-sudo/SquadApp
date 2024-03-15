@@ -18,55 +18,55 @@ const ActivityScreen = () => {
   const[requestToBeAddedToSquadsData, setRequestToBeAddedToSquadsData] = useState([])
   const {user} = useUserContext()
   //console.log(user)
-  useEffect(() => {
-    const fetchRequestToAddUserToSquads = async () => {
-          //console.log(user)
-          //console.log("here is the user id", user.id)
-          const userID = user.id
-      try {
-        const notificationQueryResult = await API.graphql(
-          graphqlOperation(notificationsByUserID, { userID: userID })
-        );
-        if(!notificationQueryResult.data?.notificationsByUserID){
-          console.log("Error fetching users") 
-        }
-        console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
-          const notificationData = notificationQueryResult.data?.notificationsByUserID.items
-          const squadAddRequestsArray = notificationData[0].squadAddRequestsArray;
-          console.log("here is the squadAddRequestArray",squadAddRequestsArray)
-          setRequestToBeAddedToSquadsData(squadAddRequestsArray)
-      } catch (error) {
-        console.log("error fetching the notifications",error)
-      }
-     };
-     fetchRequestToAddUserToSquads();
-  }, []);
+  // useEffect(() => {
+  //   const fetchRequestToAddUserToSquads = async () => {
+  //         //console.log(user)
+  //         //console.log("here is the user id", user.id)
+  //         const userID = user.id
+  //     try {
+  //       const notificationQueryResult = await API.graphql(
+  //         graphqlOperation(notificationsByUserID, { userID: userID })
+  //       );
+  //       if(!notificationQueryResult.data?.notificationsByUserID){
+  //         console.log("Error fetching users") 
+  //       }
+  //       console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
+  //         const notificationData = notificationQueryResult.data?.notificationsByUserID.items
+  //         const squadAddRequestsArray = notificationData[0].squadAddRequestsArray;
+  //         console.log("here is the squadAddRequestArray",squadAddRequestsArray)
+  //         setRequestToBeAddedToSquadsData(squadAddRequestsArray)
+  //     } catch (error) {
+  //       console.log("error fetching the notifications",error)
+  //     }
+  //    };
+  //    fetchRequestToAddUserToSquads();
+  // }, []);
  
 
 
 
 
-  useEffect(() => {
-    const fetchToJoinUserSquads = async () => {
-      const userID = user.id
-      try {
-        const notificationQueryResult = await API.graphql(
-          graphqlOperation(notificationsByUserID, { userID: userID })
-        );
-        if(!notificationQueryResult.data?.notificationsByUserID){
-          console.log("Error fetching users") 
-        }
-        console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
-          const notificationData = notificationQueryResult.data?.notificationsByUserID.items
-          const userRequestToJoinSquads = notificationData[0].SquadJoinRequestArray;
-          console.log("here is the userRequestToJoinSquads",userRequestToJoinSquads)
-          setRequestToJoinUserSquadData(userRequestToJoinSquads)
-      } catch (error) {
-        console.log("error fetching the notifications",error)
-      }
-     };
-     fetchToJoinUserSquads  ();
-  }, []);
+  // useEffect(() => {
+  //   const fetchToJoinUserSquads = async () => {
+  //     const userID = user.id
+  //     try {
+  //       const notificationQueryResult = await API.graphql(
+  //         graphqlOperation(notificationsByUserID, { userID: userID })
+  //       );
+  //       if(!notificationQueryResult.data?.notificationsByUserID){
+  //         console.log("Error fetching users") 
+  //       }
+  //       console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
+  //         const notificationData = notificationQueryResult.data?.notificationsByUserID.items
+  //         const userRequestToJoinSquads = notificationData[0].SquadJoinRequestArray;
+  //         console.log("here is the userRequestToJoinSquads",userRequestToJoinSquads)
+  //         setRequestToJoinUserSquadData(userRequestToJoinSquads)
+  //     } catch (error) {
+  //       console.log("error fetching the notifications",error)
+  //     }
+  //    };
+  //    fetchToJoinUserSquads  ();
+  // }, []);
  
 
   return (

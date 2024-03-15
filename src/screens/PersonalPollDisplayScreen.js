@@ -14,28 +14,28 @@ const PersonalPollDisplayScreen = () => {
 
 const route = useRoute()
 const pollID = route?.params.pollID
-console.log("here is the poll id", pollID)
-    useEffect(() => {
-      const fetchPoll = async () => {
-        try {
-          const results = await API.graphql(graphqlOperation(listPolls));
-          if(!results.data?.listPolls){
-            console.log("Error fetching users") 
-          }
-          console.log("this is the list of the Polls",results.data.listPolls.items)
-            setPolls(results.data?.listPolls?.items)
-        } catch (error) {
-          console.log(error)
-        }
-      };
-      fetchPolls();
-    }, []);
+// console.log("here is the poll id", pollID)
+//     useEffect(() => {
+//       const fetchPoll = async () => {
+//         try {
+//           const results = await API.graphql(graphqlOperation(listPolls));
+//           if(!results.data?.listPolls){
+//             console.log("Error fetching users") 
+//           }
+//           console.log("this is the list of the Polls",results.data.listPolls.items)
+//             setPolls(results.data?.listPolls?.items)
+//         } catch (error) {
+//           console.log(error)
+//         }
+//       };
+//       fetchPolls();
+//     }, []);
    
   
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
      <BottomSheetModalProvider>
-      <FlatList
+      {/* <FlatList
         data={polls}
         renderItem={({ item }) => (
           <Poll poll={item} />
@@ -43,7 +43,10 @@ console.log("here is the poll id", pollID)
         keyExtractor={(item) => item.id}
         style={styles.list}
         contentContainerStyle={{ flexGrow: 1 }}
-      />
+      /> */}
+      <View>
+        <Text>Personal Poll Display screen</Text>
+      </View>
     </BottomSheetModalProvider>
   </KeyboardAvoidingView>
   )
