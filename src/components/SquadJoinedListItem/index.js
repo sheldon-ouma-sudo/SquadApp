@@ -26,11 +26,11 @@ const SquadJoinedListItem =({ squad,
 
 useEffect(() => {
   const fetchSquad = async () => {
-    // if (userInfo) {
-    //   //console.log("we have userInfo data",userInfo.squadJoined);
-    //   setUserSquadsJoinedArray(userInfo.squadJoined)
-    //    //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
-    //  }
+    if (userInfo) {
+      console.log("we have userInfo data",userInfo.squadJoined);
+      //setUserSquadsJoinedArray(userInfo.squadJoined)
+       //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
+     }
     try {
         //const result = API.graphqlOperation(graphql(getSquad))
         const squadData = await API.graphql(graphqlOperation(getSquad, { id: squad }));

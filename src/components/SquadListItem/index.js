@@ -184,7 +184,7 @@ const SquadListItem =({ squad,
                 setNewCurrentUserCreatedNotification(results.data?.createNotification?.id)
                 console.log("here is the new notification",newCurrentUserCreatedNotification)
               }catch(error){
-                console.log("error creating a notification ❌", error)
+                console.log("error creating a new notification ❌", error)
               }  
               }
 

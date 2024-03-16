@@ -373,6 +373,7 @@ export const getPollRequest = /* GraphQL */ `
         pollPollRequestId
         __typename
       }
+      ParentPollID
       userID
       pollRequestsId
       notificationID
@@ -392,6 +393,7 @@ export const listPollRequests = /* GraphQL */ `
     listPollRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        ParentPollID
         userID
         pollRequestsId
         notificationID
@@ -422,6 +424,7 @@ export const pollRequestsByUserID = /* GraphQL */ `
     ) {
       items {
         id
+        ParentPollID
         userID
         pollRequestsId
         notificationID
@@ -452,6 +455,7 @@ export const pollRequestsByNotificationID = /* GraphQL */ `
     ) {
       items {
         id
+        ParentPollID
         userID
         pollRequestsId
         notificationID
@@ -683,6 +687,7 @@ export const getPoll = /* GraphQL */ `
       }
       PollRequest {
         id
+        ParentPollID
         userID
         pollRequestsId
         notificationID
