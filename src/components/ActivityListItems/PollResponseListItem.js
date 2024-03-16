@@ -58,10 +58,10 @@
         <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
         <View style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}>
             <Text style = {styles.squadNameText}> 
-            {squadJoinedName}
+            {/* {squadJoinedName} */}
             </Text>
             <Text style = {styles.squadCreator}>
-              Created by {squad?.authUserID}
+              {/* Created by {squad?.authUserID} */}
             </Text>
           </View>
           <TouchableOpacity
@@ -69,8 +69,8 @@
       ]}
               onPress={handleSquadSelected}
                 >
-              <Text style={{ color: squadSelected ? "#1145FD" : "white", marginBottom: 10 }}>
-                  {squadSelected ? "Squad Left!" : "Leave Squad"}
+              <Text style={{ marginBottom: 10 }}>
+                  {/* {squadSelected ? "Squad Left!" : "Leave Squad"} */}
               </Text>
 
           </TouchableOpacity>

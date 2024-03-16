@@ -52,7 +52,7 @@ const PollRequest = () => {
   )
 }
 
-export default PollRequest
+
 const styles = StyleSheet.create({
   container:{
   flex:1,
@@ -71,3 +71,6 @@ const styles = StyleSheet.create({
   pollRequestContainer:{},
   pollResponseContainer:{}
 })
+
+
+export default PollRequest
