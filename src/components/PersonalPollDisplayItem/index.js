@@ -4,155 +4,152 @@ import Animated, { EasingNode } from 'react-native-reanimated';
 import { getUser } from '../../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
-import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import PollCommentItem from '../PollCommentItem/index'
 import { LinearGradient } from 'expo-linear-gradient';
-import Modal from 'react-native-modal';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import PersonalPollDisplayScreen from '../../screens/PersonalPollDisplayScreen';
+
+
 
 const { Value, timing } = Animated;
 
 const PersonalPollPostDisplayListItem = ({ poll, }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [animationValues, setAnimationValues] = useState([]);
-  const [pollItems, setPollItems] = useState([]);
-  const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
-  const [numOfPollComments, setNumOfPollComment] = useState('500');
-  const [numOfPollLikes, setNumOfPollLikes] = useState('0');
-  const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(true);
-  const [comments, setComments] = useState([]);
-  const [isCommentsVisible, setCommentsVisible] = useState(false);
-  const [isOptionSelected, setIsOptionSelected] = useState(false);
-  const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
-  const[pollCreatorID, setPollCreatorID ] = useState("")
-
-
-
-const optionContainerRef = useRef(null);
+  // const [selectedOption, setSelectedOption] = useState(null);
+  // const [animationValues, setAnimationValues] = useState([]);
+  // const [pollItems, setPollItems] = useState([]);
+  // const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
+  // const [numOfPollComments, setNumOfPollComment] = useState('500');
+  // const [numOfPollLikes, setNumOfPollLikes] = useState('0');
+  // const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(true);
+  // const [comments, setComments] = useState([]);
+  // const [isCommentsVisible, setCommentsVisible] = useState(false);
+  // const [isOptionSelected, setIsOptionSelected] = useState(false);
+  // const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
+  // const[pollCreatorID, setPollCreatorID ] = useState("")
 
 
 
 
-  const commentsData = [
-    {
-      id: 1,
-      username: 'User1',
-      comment: 'This is a great comment.',
-      likes: 10,
-      replies: 5,
-    },
-    {
-      id: 2,
-      username: 'User2',
-      comment: 'I really enjoyed reading this.',
-      likes: 15,
-      replies: 3,
-    },
-    {
-      id: 3,
-      username: 'User3',
-      comment: 'Interesting perspective.',
-      likes: 8,
-      replies: 2,
-    },
-    {
-      id: 4,
-      username: 'User4',
-      comment: 'Awesome conversation!',
-      likes: 20,
-      replies: 7,
-    },
-    {
-      id: 5,
-      username: 'User5',
-      comment: 'No woman no cry, me say you don know',
-      likes: 12,
-      replies: 4,
-    },
-  ];
+
+
+
+  // const commentsData = [
+  //   {
+  //     id: 1,
+  //     username: 'User1',
+  //     comment: 'This is a great comment.',
+  //     likes: 10,
+  //     replies: 5,
+  //   },
+  //   {
+  //     id: 2,
+  //     username: 'User2',
+  //     comment: 'I really enjoyed reading this.',
+  //     likes: 15,
+  //     replies: 3,
+  //   },
+  //   {
+  //     id: 3,
+  //     username: 'User3',
+  //     comment: 'Interesting perspective.',
+  //     likes: 8,
+  //     replies: 2,
+  //   },
+  //   {
+  //     id: 4,
+  //     username: 'User4',
+  //     comment: 'Awesome conversation!',
+  //     likes: 20,
+  //     replies: 7,
+  //   },
+  //   {
+  //     id: 5,
+  //     username: 'User5',
+  //     comment: 'No woman no cry, me say you don know',
+  //     likes: 12,
+  //     replies: 4,
+  //   },
+  // ];
    
-  const toggleComments = () => {
-    setCommentsVisible(!isCommentsVisible);
-    // Set static comments data when the comments are made visible
-    if (!isCommentsVisible) {
-      setComments(commentsData);
-    } else {
-      setComments([]); 
-    }
-  };
+  // const toggleComments = () => {
+  //   setCommentsVisible(!isCommentsVisible);
+  //   // Set static comments data when the comments are made visible
+  //   if (!isCommentsVisible) {
+  //     setComments(commentsData);
+  //   } else {
+  //     setComments([]); 
+  //   }
+  // };
 
-  const renderCommentItem = ({ item }) => (
-    <View style={styles.commentItem}>
-      <PollCommentItem comment={item} />
-    </View>
-  );
+  // const renderCommentItem = ({ item }) => (
+  //   <View style={styles.commentItem}>
+  //     <PollCommentItem comment={item} />
+  //   </View>
+  // );
 
-  useEffect(() => {
-    //console.log(poll)
-    setNumOfPollLikes(poll.numOfLikes);
-    setNumOfPollComment(commentsData.length)
-    setTotalNumOfVotes(poll.totalNumOfVotes || 0);
-    setPollCreatorID(poll.userID)
-    //console.log("the total num of votes from the backend is: ",poll.totalNumOfVotes)
-    try {
-      const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
-      setPollItems(parsedPollItems);
+  // // useEffect(() => {
+  // //   //console.log(poll)
+  // //   setNumOfPollLikes(poll.numOfLikes);
+  //   setNumOfPollComment(commentsData.length)
+  //   setTotalNumOfVotes(poll.totalNumOfVotes || 0);
+  //   setPollCreatorID(poll.userID)
+  //   //console.log("the total num of votes from the backend is: ",poll.totalNumOfVotes)
+  //   try {
+  //     const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
+  //     setPollItems(parsedPollItems);
 
-      // const initialAnimationValues = parsedPollItems.map(() => new Value(0));
-      // //setAnimationValues(initialAnimationValues);
+  //     // const initialAnimationValues = parsedPollItems.map(() => new Value(0));
+  //     // //setAnimationValues(initialAnimationValues);
 
-      setSelectedOption(null);
-      const initialSelectedOption = parsedPollItems[0];
-      animateVotePercentage(
-        initialSelectedOption.votes / poll.totalNumOfVotes || 0,
-        0
-      );
-    } catch (error) {
-      console.log('Error parsing poll items:', error);
-    }
-   const getPollCreater = async () => {
-    try {
-      const pollCreatorInfo = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-      console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
-      setPollCreator(pollCreatorInfo.data?.getUser.userName)
-    } catch (error) {
-      console.log("error fetching the poll creator", error)
-    }
+  //     setSelectedOption(null);
+  //     const initialSelectedOption = parsedPollItems[0];
+  //     animateVotePercentage(
+  //       initialSelectedOption.votes / poll.totalNumOfVotes || 0,
+  //       0
+  //     );
+  //   } catch (error) {
+  //     console.log('Error parsing poll items:', error);
+  //   }
+  //  const getPollCreater = async () => {
+  //   try {
+  //     const pollCreatorInfo = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
+  //     console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
+  //     setPollCreator(pollCreatorInfo.data?.getUser.userName)
+  //   } catch (error) {
+  //     console.log("error fetching the poll creator", error)
+  //   }
 
-   }
-  getPollCreater()
-  }, [poll, pollCreatorID]);
+  //  }
+  // getPollCreater()
+  // }, [poll, pollCreatorID]);
 
-  useEffect(() => {
-    if (selectedOption !== null) { 
-      setIsOptionSelected(true);
-    } else {
-      setIsOptionSelected(false);
-    }
-  }, [selectedOption]);  
+  // useEffect(() => {
+  //   if (selectedOption !== null) { 
+  //     setIsOptionSelected(true);
+  //   } else {
+  //     setIsOptionSelected(false);
+  //   }
+  // }, [selectedOption]);  
 
-  const handleOptionPress = (index) => {
-    // Check if the selected option is different from the previously selected one
-    if (index !== selectedOption) {
-      // Increment the votes for the selected option and decrement for the previously selected option
-      const updatedPollItems = [...pollItems];
-      updatedPollItems[index].votes += 1;
-      if (selectedOption !== null) {
-        updatedPollItems[selectedOption].votes -= 1;
-      }
+  // const handleOptionPress = (index) => {
+  //   // Check if the selected option is different from the previously selected one
+  //   if (index !== selectedOption) {
+  //     // Increment the votes for the selected option and decrement for the previously selected option
+  //     const updatedPollItems = [...pollItems];
+  //     updatedPollItems[index].votes += 1;
+  //     if (selectedOption !== null) {
+  //       updatedPollItems[selectedOption].votes -= 1;
+  //     }
   
-      setPollItems(updatedPollItems);
+  //     setPollItems(updatedPollItems);
   
-      // Update total number of votes only if an option is selected for the first time
-      if (selectedOption === null) {
-        setTotalNumOfVotes(totalNumOfVotes + 1);
-      }
+  //     // Update total number of votes only if an option is selected for the first time
+  //     if (selectedOption === null) {
+  //       setTotalNumOfVotes(totalNumOfVotes + 1);
+  //     }
   
-      setSelectedOption(index);
-      animateAllOptions(index);
-    }
-  };
+  //     setSelectedOption(index);
+  //     animateAllOptions(index);
+  //   }
+  // };
   
   
   // const animateVotePercentage = (percentage, index, isSelected) => {
@@ -192,14 +189,14 @@ const optionContainerRef = useRef(null);
 
 
   return (
-    <LinearGradient
-    colors={['#EE8B94', '#0038FF']} // Adjust the gradient colors as per your preference
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.gradientContainer}
-    >
+    // <LinearGradient
+    // colors={['#EE8B94', '#0038FF']} // Adjust the gradient colors as per your preference
+    //   start={{ x: 0, y: 0 }}
+    //   end={{ x: 1, y: 1 }}
+    //   style={styles.gradientContainer}
+    // >
     <View style={styles.container}>
-      
+{/*       
       <View style={styles.userImageContainer}>
         <Image
           source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
@@ -222,7 +219,7 @@ const optionContainerRef = useRef(null);
           onPress={() => handleOptionPress(index)}
         >
           <Text style={styles.optionText}>{item.title}</Text>
-          <View style={styles.percentageContainer}>
+          <View style={styles.percentageContainer}> */}
             {/* <Animated.View
               style={[
                 styles.percentageBar,
@@ -239,7 +236,7 @@ const optionContainerRef = useRef(null);
                 {`${calculatePercentage(item.votes).toFixed(2)}%`}
               </Text>
             )} */}
-          </View>
+          {/* </View>
         </TouchableOpacity>
       ))}
       </TouchableOpacity>
@@ -259,7 +256,7 @@ const optionContainerRef = useRef(null);
       >
       <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </View>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.pollLikesContainer}
         onPress={handleLickedIconClick}
       >
@@ -270,9 +267,9 @@ const optionContainerRef = useRef(null);
           style={styles.pollCommentIcon}
         />
         <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
-      {/* Comments Section */}
+      {/* Comments Section
       <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
         <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
         <FlatList
@@ -280,9 +277,9 @@ const optionContainerRef = useRef(null);
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderCommentItem}
         />
-      </View>
+      </View> */}
     </View>
-    </LinearGradient>
+    // </LinearGradient> */}
   );
 };
 

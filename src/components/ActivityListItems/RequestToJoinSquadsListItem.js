@@ -73,6 +73,7 @@ const handleSquadSelected=async() =>{
    <View style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}>
        <Text style = {styles.squadNameText}> 
        {/* {squadJoinedName} */}
+       Someone has asked to join your squad
        </Text>
        <Text style = {styles.squadCreator}>
          {/* Created by {squad?.authUserID} */}
