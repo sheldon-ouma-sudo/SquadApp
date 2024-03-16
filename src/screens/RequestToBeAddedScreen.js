@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, KeyboardAvoidingView, StyleSheet, FlatList } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -13,11 +13,15 @@ import { notificationsByUserID } from '../graphql/queries'
 const RequestToBeAddedToSquadsScreen = () => {
   const[requestToBeAddedToSquadsData, setRequestToBeAddedToSquadsData] = useState()
 
+
+   const {user} = useUserContext()
+
+
   //console.log(user)
   useEffect(() => {
     const fetchRequestToBeAddedToSquadsData = async () => {
-          // const userID = user.id
-          // console.log("here is the user id", userID)
+          const userID = user.id
+          console.log("here is the user id", userID)
             try {
               const notificationQueryResult = await API.graphql(
                 graphqlOperation(notificationsByUserID, { userID: userID })
@@ -45,10 +49,47 @@ const RequestToBeAddedToSquadsScreen = () => {
  
 
   return (
-    <View>
-      <Text>RequestToBeAddedScreen, we are here</Text>
+    <KeyboardAvoidingView
+    style={styles.container}
+    behavior="padding"
+  >
+    <View style={styles.pollRequestContainer}>
+      <Text style={{ fontWeight: 'bold', fontSize: 18, marginLeft: -200 }}>Poll Response</Text>
+      <FlatList
+        data={requestToBeAddedToSquadsData}
+        renderItem={({ item }) => 
+        <RequestToBeAddedToASquadListItem
+        item={item} 
+        />}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
+  </KeyboardAvoidingView>
   )
 }
+
+
+const styles = StyleSheet.create({
+  container:{
+  flex:1,
+  justifyContent:"flex-start",
+  alignItems:"center",
+  backgroundColor: "#F4F8FB",
+  
+  
+  },
+  squadLogo:{
+      width:100,
+      height:35,
+      marginRight:250,
+      marginTop:70  
+  },
+  pollRequestContainer:{
+  
+  },
+  pollResponseContainer:{}
+  })
+
+
 
 export default RequestToBeAddedToSquadsScreen
