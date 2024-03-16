@@ -1,7 +1,7 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet, FlatList } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
-import {useUserContext} from '../../UserContext'
+//import {useUserContext} from '../../UserContext'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import RequestToBeAddedToSquadScreen from './RequestToBeAddedScreen'
 import RequestToJoinSquads from './RequestToJoinSquadScreen'
@@ -9,23 +9,22 @@ import RequestToJoinSquads from './RequestToJoinSquadScreen'
 
 
 const SquadActivityScreen = () => {
-  const Tab = createMaterialTopTabNavigator();
-  // const insets = useSafeAreaInsets();
-  return (
-    <Tab.Navigator 
-    style={[{ marginTop:20 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
-    screenOptions={{
-    tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
-    tabBarStyle: { backgroundColor: "#F4F8FB" },
-  }}
-    >
-        <Tab.Screen name="Squad Addition Requests" 
-        component={RequestToBeAddedToSquadScreen} />
-        <Tab.Screen name="Requests To Join Your Squads" 
-        component={RequestToJoinSquads} />
-      </Tab.Navigator>
-)
-}
+const Tab = createMaterialTopTabNavigator()
+    return (
+      <Tab.Navigator 
+      style={[{ marginTop:20 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
+      screenOptions={{
+      tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
+      tabBarStyle: { backgroundColor: "#F4F8FB" },
+    }}
+      >
+          <Tab.Screen name="Squad Addition Requests" 
+          component={RequestToBeAddedToSquadScreen} />
+          <Tab.Screen name="Requests To Join Your Squads" 
+          component={RequestToJoinSquads} />
+        </Tab.Navigator>
+  )
+  }
 
 
 
