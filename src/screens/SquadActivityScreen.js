@@ -10,6 +10,8 @@ import RequestToBeAddedInSquadComponent from '../components/RequestsToJoinUserSq
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import {useUserContext, user} from '../../UserContext'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import RequestToBeAddedToSquadScreen from './RequestToBeAddedScreen'
+import RequestToJoinSquads from './RequestToJoinSquadScreen'
 import { ScrollView } from 'react-native-gesture-handler'
 
 

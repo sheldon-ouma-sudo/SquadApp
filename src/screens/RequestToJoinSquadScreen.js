@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const SquadScreen = () => {
+const RequestToJoinSquadScreen = () => {
   return (
     <View>
       <Text>SquadScreen</Text>
@@ -9,4 +9,4 @@ const SquadScreen = () => {
   )
 }
 
-export default SquadScreen
+export default RequestToJoinSquadScreen 
