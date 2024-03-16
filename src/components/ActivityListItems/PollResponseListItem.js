@@ -47,7 +47,7 @@
           <TouchableOpacity
                 style={[{ justifyContent: "flex-end" },{ alignItems: "center" },squadSelected ? styles.joinedSquadTextContainer : styles.joinSquadTextContainer, // Add this condition
       ]}
-              onPress={handleSquadSelected}
+              // onPress={handleSquadSelected}
                 >
               <Text style={{ marginBottom: 10 }}>
                   {/* {squadSelected ? "Squad Left!" : "Leave Squad"} */}
