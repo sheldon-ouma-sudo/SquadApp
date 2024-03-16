@@ -1,11 +1,5 @@
 import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import { useState, useEffect} from "react";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { updateUser } from "../../graphql/mutations";
-import { getSquad } from "../../graphql/queries";
-import { graphqlOperation, Auth, API } from 'aws-amplify';
-//import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -65,10 +59,8 @@ const PollRequestListItem =({poll})=>{
    behavior="padding"
    >
   <View
-   style={styles.userImageContainer}
-  >
-  {/* <FontAwesome name="group" size={34} color="#1145FD" style={{marginTop:-25}}/> */}
-
+   style={styles.userImageContainer}>
+  
 
   </View>
   <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
@@ -81,9 +73,8 @@ const PollRequestListItem =({poll})=>{
        </Text>
      </View>
      <TouchableOpacity
-       
         //onPress={handleSquadSelected}
-          >
+>
         <Text>
             {/* {squadSelected ? "Squad Left!" : "Leave Squad"} */}
         </Text>

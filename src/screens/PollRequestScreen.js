@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { notificationsByUserID } from '../graphql/queries'
 import { API, graphqlOperation } from "aws-amplify";
 import PollRequestComponent from './../components/ActivityListItems/PollRequestListItem.js'
-import {useUserContext, user} from './../../UserContext'
+import {useUserContext} from './../../UserContext'
 
 const PollRequest = () => {
 
@@ -14,8 +14,6 @@ const PollRequest = () => {
   //console.log(user)
   useEffect(() => {
     const fetchPollRequest = async () => {
-          //console.log(user)
-          //console.log("here is the user id", user.id)
           const userID = user.id
           console.log("here is the user id", userID)
       try {
@@ -37,9 +35,6 @@ const PollRequest = () => {
      fetchPollRequest();
   }, []);
  
-
-
-
   return (
     <KeyboardAvoidingView
       style={styles.container}

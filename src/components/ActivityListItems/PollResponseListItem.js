@@ -13,37 +13,19 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-const PollResponseListItem =({ squad,
-  userInfo,
-  onPress = () => {},
-  selectable = false,
-  isSelected = false,})=>{
+const PollResponseListItem =({})=>{
  const navigation = useNavigation()
- const[squadSelected, setSquadSelected] = useState(false)
- const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
- const[squadJoinedName, setSquadJoinedName] = useState("squad joined")
-
+ 
 
 useEffect(() => {
   const fetchSquad = async () => {
-    // if (userInfo) {
-    //   //console.log("we have userInfo data",userInfo.squadJoined);
-    //   setUserSquadsJoinedArray(userInfo.squadJoined)
-    //    //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
-    //  }
-    try {
-        //const result = API.graphqlOperation(graphql(getSquad))
-        const squadData = await API.graphql(graphqlOperation(getSquad, { id: squad }));
-        console.log("here is the squadData", squadData)
-        console.log("here is the squad name",squadData.data?.getSquad.squadName)
-        setSquadJoinedName(squadData.data?.getSquad.squadName)
-    } catch (error) {
-       console.log("error quering the squad",error) 
-    }
+   
     
     }
     fetchSquad()
 }, []);
+
+
 //add the squad selected to the user's joined squad array
 const handleSquadSelected=async() =>{
   console.log("here is the squad name",squad)
