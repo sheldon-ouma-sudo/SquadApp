@@ -101,7 +101,7 @@ Notifications.scheduleNotificationAsync({
   )
 }
 
-export default NotificationScreen
+
   
 const styles = StyleSheet.create({
     container:{
@@ -119,3 +119,5 @@ const styles = StyleSheet.create({
         marginTop:70  
     }
 })
+
+export default NotificationScreen

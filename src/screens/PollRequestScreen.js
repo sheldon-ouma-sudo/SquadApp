@@ -3,20 +3,13 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { notificationsByUserID } from '../graphql/queries'
-import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
-import Poll from "../components/PollListItem";
-import PollResponseComponent from './../components/ActivityListItems/PollRequestListItem.js'
 import PollRequestComponent from './../components/ActivityListItems/PollRequestListItem.js'
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import {useUserContext, user} from './../../UserContext'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import { ScrollView } from 'react-native-gesture-handler'
 
 const PollRequest = () => {
-  
+
   const[pollRequestData,setPollRequestData] = useState([])
-  const[pollResponseData, setPollResponseData] = useState([])
   const {user} = useUserContext()
   //console.log(user)
   useEffect(() => {
@@ -57,15 +50,6 @@ const PollRequest = () => {
         <FlatList
           data={pollRequestData}
           renderItem={({ item }) => <PollRequestComponent item={item} />}
-          keyExtractor={(item, index) => index.toString()}
-        />
-      </View>
-
-      <View style={styles.pollResponseContainer}>
-        <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Poll Responses</Text>
-        <FlatList
-          data={pollResponseData}
-          renderItem={({ item }) => <PollResponseComponent item={item} />}
           keyExtractor={(item, index) => index.toString()}
         />
       </View>
