@@ -84,7 +84,7 @@ Notifications.scheduleNotificationAsync({
 
    const NotificationScreen=()=>{
     const Tab = createMaterialTopTabNavigator();
-      const insets = useSafeAreaInsets();
+      //const insets = useSafeAreaInsets();
       return (
         <Tab.Navigator 
         style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
@@ -109,8 +109,6 @@ const styles = StyleSheet.create({
     justifyContent:"flex-start",
     alignItems:"center",
     backgroundColor: "#F4F8FB",
-  
-  
     },
     squadLogo:{
         width:100,

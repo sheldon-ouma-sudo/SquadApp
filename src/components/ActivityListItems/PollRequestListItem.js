@@ -74,11 +74,10 @@ const PollRequestListItem =({poll})=>{
      </View>
      <TouchableOpacity
         //onPress={handleSquadSelected}
->
+        >
         <Text>
             {/* {squadSelected ? "Squad Left!" : "Leave Squad"} */}
         </Text>
-
     </TouchableOpacity>
   </View>
    </Pressable>
@@ -99,7 +98,7 @@ const PollRequestListItem =({poll})=>{
   backgroundColor: "white",
   borderWidth: 1.5,
   marginRight:30,
-  width: 400
+  width: 350
 
 },
  pollCaptionContainer:{

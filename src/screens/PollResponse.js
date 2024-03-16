@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, StyleSheet } from 'react-native'
+import { View, Text, KeyboardAvoidingView, StyleSheet, FlatList } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
