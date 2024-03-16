@@ -175,14 +175,19 @@ const SquadListItem =({ squad,
 
             const handleCreateNewCurrentUserNotification = async()=>{
               try {
-                // console.log("before we start here is the current user ID", currentUserID)
+                console.log("before we start here is the current user ID", currentUserID)
+                if(!currentUserID){
+                  console.log("the current user id is still logging")
+                }else{
                 const results = await API.graphql(graphqlOperation(createNotification, {
                   input: { userID:currentUserID}
                 }));
+              
                 // console.log("here is the notification created successfully✅",results)
                 // console.log("here is the notification ID:", results.data?.createNotification?.id)
                 setNewCurrentUserCreatedNotification(results.data?.createNotification?.id)
                 console.log("here is the new notification",newCurrentUserCreatedNotification)
+              }
               }catch(error){
                 console.log("error creating a new notification ❌", error)
               }  

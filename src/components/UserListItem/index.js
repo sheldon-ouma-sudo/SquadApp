@@ -233,13 +233,14 @@ const handleExistingCreateRequestToBeAddedInASquad = async () => {
     }
   }
   const handleExistingNotificationUpdate=async()=>{
+  
     try {
       const existingNotificationUpdateResult = await API.graphql(
         graphqlOperation(updateNotification, {
-          input: { id: currentUserNotificationID,   squadAddRequestsArray: newCurrentUserResquestToBeAddedInASquadArr } 
+          input: { id: currentUserNotificationID,   squadAddRequestsArray: existingRequestsToBeAddedInASquadArr} 
         })
       );
-      console.log("existing notification update successfu✅", existingNotificationUpdateResult)
+      console.log("existing notification update successfu✅", existingNotificationUpdateResult.data?.updateNotification[0].squadAddRequestsArray)
     } catch (error) {
       console.log("error updating new notificationcreated❌",error)
     }
@@ -252,8 +253,10 @@ const handleExistingCreateRequestToBeAddedInASquad = async () => {
          }));
          console.log("existing new requestToBeAddedInASquad Created successfully✅",results.data?.createRequestToBeAddedInASquad.id)
          setCurrentUserNewRequestToBeAddedInSquad(results.data?.createRequestToBeAddedInASquad.id)
+         console.log("here is the existing requests to be added in a squad before addition", existingRequestsToBeAddedInASquadArr)
          existingRequestsToBeAddedInASquadArr.push(results.data?.createRequestToBeAddedInASquad.id)
          const newArr = [results.data?.createRequestToBeAddedInASquad.id]
+         console.log("here is tha new  array before updating", newArr)
          setNewCurrentUserResquestToBeAddedInASquadArr(newArr)
       }catch(error){
        console.log("error creating a existing notification requestToBeAddedInASquad  ❌", error)
