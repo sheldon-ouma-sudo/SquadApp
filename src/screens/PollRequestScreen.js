@@ -7,6 +7,9 @@ import { API, graphqlOperation } from "aws-amplify";
 import PollRequestComponent from './../components/ActivityListItems/PollRequestListItem.js'
 import {useUserContext} from './../../UserContext'
 
+
+
+//remember the to cojoin the poll request data and poll request in one useEffect
 const PollRequest = () => {
 
   const[pollRequestData,setPollRequestData] = useState([])

@@ -4,7 +4,7 @@ import React from 'react'
 const RequestToJoinSquadScreen = () => {
   return (
     <View>
-      <Text>SquadScreen</Text>
+      <Text>People want to join your one or more of your squads!</Text>
     </View>
   )
 }
