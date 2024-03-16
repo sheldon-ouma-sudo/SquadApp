@@ -30,7 +30,7 @@ const TrendingPollScreen = () => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
      <BottomSheetModalProvider>
-      <FlatList
+      <FlatList    
         data={polls}
         renderItem={({ item }) => (
           <Poll poll={item} />

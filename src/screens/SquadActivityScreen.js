@@ -9,6 +9,7 @@ import RequestToJoinSquads from './RequestToJoinSquadScreen'
 
 
 const SquadActivityScreen = () => {
+  
 const Tab = createMaterialTopTabNavigator()
     return (
       <Tab.Navigator 

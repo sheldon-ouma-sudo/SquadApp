@@ -24,7 +24,7 @@ const PollResponse = () => {
         }
         console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
           const notificationData = notificationQueryResult.data?.notificationsByUserID.items
-          const pollResponseArray = notificationData[0].pollResponseArray;
+          const pollResponseArray = notificationData[0].pollResponsesArray;
           console.log("here is the poll request array",pollResponseArray)
           setPollResponseData(pollResponseArray)
       } catch (error) {
