@@ -13,55 +13,48 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-const RequestToBeAddedToASquadListItem=({ squad,
-  userInfo,
-  onPress = () => {},
-  selectable = false,
-  isSelected = false,})=>{
+const RequestToBeAddedToASquadListItem=({ squad})=>{
  const navigation = useNavigation()
- const[squadSelected, setSquadSelected] = useState(false)
- const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
- const[squadJoinedName, setSquadJoinedName] = useState("squad joined")
+ 
 
-
-useEffect(() => {
-  const fetchSquad = async () => {
+  useEffect(() => {
+  //const fetchSquad = async () => {
     // if (userInfo) {
     //   //console.log("we have userInfo data",userInfo.squadJoined);
     //   setUserSquadsJoinedArray(userInfo.squadJoined)
     //    //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
     //  }
-    try {
-        //const result = API.graphqlOperation(graphql(getSquad))
-        const squadData = await API.graphql(graphqlOperation(getSquad, { id: squad }));
-        console.log("here is the squadData", squadData)
-        console.log("here is the squad name",squadData.data?.getSquad.squadName)
-        setSquadJoinedName(squadData.data?.getSquad.squadName)
-    } catch (error) {
-       console.log("error quering the squad",error) 
-    }
+    // try {
+    //     //const result = API.graphqlOperation(graphql(getSquad))
+    //     const squadData = await API.graphql(graphqlOperation(getSquad, { id: squad }));
+    //     console.log("here is the squadData", squadData)
+    //     console.log("here is the squad name",squadData.data?.getSquad.squadName)
+    //     setSquadJoinedName(squadData.data?.getSquad.squadName)
+    // } catch (error) {
+    //    console.log("error quering the squad",error) 
+    // }
     
-    }
-    fetchSquad()
-}, []);
-//add the squad selected to the user's joined squad array
-const handleSquadSelected=async() =>{
-  console.log("here is the squad name",squad)
-  console.log("here is the user squadJoined array",userSquadsJoinedArray)
-  console.log("here is the user info",userInfo)
-  if(squadSelected==false){
-    setSquadSelected(true)
-    //userSquadsJoinedArray.push(squad.id)
-    //update the user backend 
-    //try {
-     // await API.graphql(graphqlOperation(updateUser, {input:{id: userInfo.id, squadJoined: userSquadsJoinedArray}}));
-    //} catch (error) {
-     // console.log("error updating the user", error)
     //}
-  }else{
-    setSquadSelected(false)
-  }
-}
+    //fetchSquad()
+}, []);
+          //add the squad selected to the user's joined squad array
+          // const handleSquadSelected=async() =>{
+          //   console.log("here is the squad name",squad)
+          //   console.log("here is the user squadJoined array",userSquadsJoinedArray)
+          //   console.log("here is the user info",userInfo)
+          //   if(squadSelected==false){
+          //     setSquadSelected(true)
+          //     //userSquadsJoinedArray.push(squad.id)
+          //     //update the user backend 
+          //     //try {
+          //      // await API.graphql(graphqlOperation(updateUser, {input:{id: userInfo.id, squadJoined: userSquadsJoinedArray}}));
+          //     //} catch (error) {
+          //      // console.log("error updating the user", error)
+          //     //}
+          //   }else{
+          //     setSquadSelected(false)
+          //   }
+          // }
  
  return (
    <Pressable
@@ -76,10 +69,10 @@ const handleSquadSelected=async() =>{
   <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
    <View style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}>
        <Text style = {styles.squadNameText}> 
-       {squadJoinedName}
+       {/* {squadJoinedName} */}
        </Text>
        <Text style = {styles.squadCreator}>
-         Created by {squad?.authUserID}
+         {/* Created by {squad?.authUserID} */}
        </Text>
      </View>
      <TouchableOpacity
@@ -87,8 +80,8 @@ const handleSquadSelected=async() =>{
  ]}
         onPress={handleSquadSelected}
           >
-        <Text style={{ color: squadSelected ? "#1145FD" : "white", marginBottom: 10 }}>
-            {squadSelected ? "Squad Left!" : "Leave Squad"}
+        <Text style={{  marginBottom: 10 }}>
+            {/* {squadSelected ? "Squad Left!" : "Leave Squad"} */}
         </Text>
 
     </TouchableOpacity>

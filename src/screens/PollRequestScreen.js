@@ -42,22 +42,7 @@ const PollRequest = () => {
           const userID = user.id
           console.log(" here is poll request data", pollRequestData)
           console.log("here is the user id", userID)
-      // try {
-      //   const notificationQueryResult = await API.graphql(
-      //     graphqlOperation(notificationsByUserID, { userID: userID })
-      //   );
-      //   if(!notificationQueryResult.data?.notificationsByUserID){
-      //     console.log("Error fetching users") 
-      //   }
-      //   console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
-      //     const notificationData = notificationQueryResult.data?.notificationsByUserID.items
-      //     const pollRequestsArray = notificationData[0].pollRequestsArray;
-      //     console.log("here is the poll request array",pollRequestsArray)
-      //     setPollRequestData(pollRequestsArray)
-
-      // } catch (error) {
-      //   console.log("error fetching the notifications",error)
-      // }
+      
       for(const pollRequestID of pollRequestData){
         //retrieve the poll request info
         try {
