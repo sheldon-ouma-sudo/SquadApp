@@ -24,26 +24,6 @@
           }
           fetchSquad()
       }, []);
-
-
-      //add the squad selected to the user's joined squad array
-      // const handleSquadSelected=async() =>{
-      //   console.log("here is the squad name",squad)
-      //   console.log("here is the user squadJoined array",userSquadsJoinedArray)
-      //   console.log("here is the user info",userInfo)
-      //   if(squadSelected==false){
-      //     setSquadSelected(true)
-      //     //userSquadsJoinedArray.push(squad.id)
-      //     //update the user backend 
-      //     //try {
-      //     // await API.graphql(graphqlOperation(updateUser, {input:{id: userInfo.id, squadJoined: userSquadsJoinedArray}}));
-      //     //} catch (error) {
-      //     // console.log("error updating the user", error)
-      //     //}
-      //   }else{
-      //     setSquadSelected(false)
-      //   }
-      // }
       
       return (
         <Pressable

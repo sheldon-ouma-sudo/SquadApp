@@ -11,7 +11,7 @@ const PollActivityScreen = () => {
     // const insets = useSafeAreaInsets();
     return (
       <Tab.Navigator 
-      style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "black" }, {borderRadius:9}]}   
+      style={[{ marginTop:20 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "black" }, {borderRadius:9}]}   
       screenOptions={{
       tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
       tabBarStyle: { backgroundColor: "#F4F8FB" },
