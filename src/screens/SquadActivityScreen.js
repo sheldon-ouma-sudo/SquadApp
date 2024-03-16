@@ -6,17 +6,28 @@ import { notificationsByUserID } from '../graphql/queries'
 import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
 import Poll from "../components/PollListItem";
-import RequestToBeAddedInSquadComponent from './../components/RequestsToJoinUserSquadListItem'
+import RequestToBeAddedInSquadComponent from '../components/RequestsToJoinUserSquadListItem'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import {useUserContext, user} from './../../UserContext'
+import {useUserContext, user} from '../../UserContext'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { ScrollView } from 'react-native-gesture-handler'
 
 
 
-const ActivityScreen = () => {
+const SquadActivityScreen = () => {
   const[requestToJoinUserSquadsData,setRequestToJoinUserSquadData] = useState([])
   const[requestToBeAddedToSquadsData, setRequestToBeAddedToSquadsData] = useState([])
   const {user} = useUserContext()
+
+  const Tab = createMaterialTopTabNavigator();
+
+
+
+
+
+
+
+
   //console.log(user)
   // useEffect(() => {
   //   const fetchRequestToAddUserToSquads = async () => {
@@ -74,7 +85,7 @@ const ActivityScreen = () => {
     style={styles.container}
     behavior="padding"
     >
-    <View style={styles.pollRequestContainer}>
+    {/* <View style={styles.pollRequestContainer}>
     <Text
      style={{fontWeight:'bold', fontSize:12, marginRight:200}}
     >Requests To To Be Added To New Squads</Text>
@@ -108,7 +119,30 @@ const ActivityScreen = () => {
         style={styles.list}
         contentContainerStyle={{ flexGrow: 1 }}
       />
-  </View>
+  </View> */}
+
+<Tab.Navigator
+      style={[{ marginTop: -4 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
+      screenOptions={{
+        tabBarLabelStyle: { color: '#1145FD', fontWeight:'600' },
+        //tabBarItemStyle: { width: 100 },
+        tabBarStyle: { backgroundColor: "#F4F8FB" },
+      }}
+    >
+        <Tab.Screen 
+        name="Request to Add you to Squads" 
+        //component={TrendingPollScreen} 
+        />
+        <Tab.Screen 
+        name="Request To Join Your Squads" 
+        //component={MySquadPollScreen} 
+        />
+      </Tab.Navigator>
+
+
+
+
+
     </KeyboardAvoidingView>
   )
 }
@@ -132,4 +166,4 @@ const styles = StyleSheet.create({
   pollResponseContainer:{
   }
 })
-export default ActivityScreen
+export default SquadActivityScreen

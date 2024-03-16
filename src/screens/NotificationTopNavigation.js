@@ -1,8 +1,8 @@
     import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
     StatusBar,Dimensions,TouchableOpacity} from 'react-native'
     import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-    import ActivityScreen from './ActivityScreen';
-    import PollRequest from './PollRequestScreen';
+    import SquadActivityScreen from './SquadActivityScreen';
+    import PollActivityScreen from './PollActivityScreen';
     import React from 'react'
     import { useSafeAreaInsets } from 'react-native-safe-area-context';
     import * as Device from 'expo-device';
@@ -86,19 +86,17 @@ Notifications.scheduleNotificationAsync({
     const Tab = createMaterialTopTabNavigator();
       const insets = useSafeAreaInsets();
       return (
-        <Tab.Navigator
-        //initialRouteName='ActivityScreen'
+        <Tab.Navigator 
         style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
-      screenOptions={{
+        screenOptions={{
         tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
-        //tabBarItemStyle: { width: 100 },
         tabBarStyle: { backgroundColor: "#F4F8FB" },
       }}
         >
             <Tab.Screen name="Poll Notifications" 
-            component={PollRequest} />
+            component={PollActivityScreen} />
             <Tab.Screen name="Squad Notifications" 
-            component={ActivityScreen} />
+            component={SquadActivityScreen} />
           </Tab.Navigator>
   )
 }
