@@ -41,7 +41,7 @@ const PollResponse = () => {
     behavior="padding"
   >
     <View style={styles.pollRequestContainer}>
-      <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Poll Requests</Text>
+      <Text style={{ fontWeight: 'bold', fontSize: 18, marginLeft: -200 }}>Poll Response</Text>
       <FlatList
         data={pollResponseData}
         renderItem={({ item }) => <PollResponseActivityItem item={item} />}
@@ -68,7 +68,9 @@ squadLogo:{
     marginRight:250,
     marginTop:70  
 },
-pollRequestContainer:{},
+pollRequestContainer:{
+
+},
 pollResponseContainer:{}
 })
 
