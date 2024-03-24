@@ -118,6 +118,7 @@ export const createRequestToAJoinSquad = /* GraphQL */ `
         __typename
       }
       notificationID
+      message
       createdAt
       updatedAt
       requestToAJoinSquadUserId
@@ -152,6 +153,7 @@ export const updateRequestToAJoinSquad = /* GraphQL */ `
         __typename
       }
       notificationID
+      message
       createdAt
       updatedAt
       requestToAJoinSquadUserId
@@ -186,6 +188,7 @@ export const deleteRequestToAJoinSquad = /* GraphQL */ `
         __typename
       }
       notificationID
+      message
       createdAt
       updatedAt
       requestToAJoinSquadUserId
@@ -1009,6 +1012,7 @@ export const createRequestToAJoinSquadSquad = /* GraphQL */ `
       requestToAJoinSquad {
         id
         notificationID
+        message
         createdAt
         updatedAt
         requestToAJoinSquadUserId
@@ -1041,6 +1045,7 @@ export const updateRequestToAJoinSquadSquad = /* GraphQL */ `
       requestToAJoinSquad {
         id
         notificationID
+        message
         createdAt
         updatedAt
         requestToAJoinSquadUserId
@@ -1073,6 +1078,7 @@ export const deleteRequestToAJoinSquadSquad = /* GraphQL */ `
       requestToAJoinSquad {
         id
         notificationID
+        message
         createdAt
         updatedAt
         requestToAJoinSquadUserId

@@ -104,6 +104,7 @@ export const getRequestToAJoinSquad = /* GraphQL */ `
         __typename
       }
       notificationID
+      message
       createdAt
       updatedAt
       requestToAJoinSquadUserId
@@ -125,6 +126,7 @@ export const listRequestToAJoinSquads = /* GraphQL */ `
       items {
         id
         notificationID
+        message
         createdAt
         updatedAt
         requestToAJoinSquadUserId
@@ -153,6 +155,7 @@ export const requestToAJoinSquadsByNotificationID = /* GraphQL */ `
       items {
         id
         notificationID
+        message
         createdAt
         updatedAt
         requestToAJoinSquadUserId
@@ -906,6 +909,7 @@ export const getRequestToAJoinSquadSquad = /* GraphQL */ `
       requestToAJoinSquad {
         id
         notificationID
+        message
         createdAt
         updatedAt
         requestToAJoinSquadUserId

@@ -9,6 +9,7 @@ type RequestToAJoinSquad @model @auth(rules: [{ allow: public }]) {
   User: User @hasOne
   Squads: [Squad] @manyToMany(relationName: "RequestToAJoinSquadSquad")
   notificationID: ID! @index(name: "byNotification")
+  message: String
 }
 
 type Notification @model @auth(rules: [{ allow: public }]) {

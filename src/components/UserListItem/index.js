@@ -194,6 +194,7 @@ const handleNewCreateRequestToBeAddedInASquad = async () => {
     const newArr = [results.data?.createRequestToBeAddedInASquad.id];
     console.log("here is the updated array in handleCreateRequestToBeAddedInASquad", newArr);
     setNewCurrentUserResquestToBeAddedInASquadArr(newArr);
+    setExistingRequestsToBeAddedInASquadArr(newArr)
   } catch (error) {
     console.log("error creating a requestToBeAddedInASquad ❌", error);
   }
@@ -232,36 +233,61 @@ const handleExistingCreateRequestToBeAddedInASquad = async () => {
       console.log("error updating new notificationcreated❌",error)
     }
   }
+  const handleExistingNotificationNewRequestToBeAddedInASquad =async()=>{
+    try {
+     // console.log("currentUserNewNotificationID", currentUserNewNotificationID)
+      const results = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
+           input: { notificationID: currentUserNotificationID}
+         }));
+         console.log("existing new requestToBeAddedInASquad Created successfully✅✅✅✅✅",results.data?.createRequestToBeAddedInASquad.id)
+         const newRequestID = results.data?.createRequestToBeAddedInASquad.id
+         console.log("this is the new request ID",newRequestID)
+         setCurrentUserNewRequestToBeAddedInSquad(results.data?.createRequestToBeAddedInASquad.id)
+        if(existingRequestsToBeAddedInASquadArr === null || existingRequestsToBeAddedInASquadArr === undefined){
+          let newArr  = []
+          console.log("here is the new request ID inside the if statement", newRequestID)
+          newArr.push(newRequestID)
+          console.log("here is the new array", newArr)
+          setExistingRequestsToBeAddedInASquadArr(newArr)
+          console.log("this should be the update array", existingRequestsToBeAddedInASquadArr)
+          return true
+        }else{
+          console.log("here is the existing requests to be added in a squad before addition", existingRequestsToBeAddedInASquadArr)
+          console.log("here is the new request ID inside the else statement", newRequestID)
+         const newExistingArr = existingRequestsToBeAddedInASquadArr.push(newRequestID)
+         setExistingRequestsToBeAddedInASquadArr(newExistingArr)
+         const newArr = [newRequestID]
+         console.log("here is tha new  array before updating", newArr)
+         setNewCurrentUserResquestToBeAddedInASquadArr(newArr)
+         return true
+        }
+         
+      }catch(error){
+       console.log("error creating a existing notification requestToBeAddedInASquad  ❌", error)
+     }
+}
+
+
+
   const handleExistingNotificationUpdate=async()=>{
-  
+  if(existingRequestsToBeAddedInASquadArr === null || existingRequestsToBeAddedInASquadArr === undefined){
+    console.log("the existing request to be added in other squads is still empty: ", existingRequestsToBeAddedInASquadArr)
+  }else{
+    console.log("here is the previoulsy existing squad joined array", existingRequestsToBeAddedInASquadArr)
     try {
       const existingNotificationUpdateResult = await API.graphql(
         graphqlOperation(updateNotification, {
           input: { id: currentUserNotificationID,   squadAddRequestsArray: existingRequestsToBeAddedInASquadArr} 
         })
       );
-      console.log("existing notification update successfu✅", existingNotificationUpdateResult.data?.updateNotification[0].squadAddRequestsArray)
+      console.log("existing notification update successfu✅✅✅", existingNotificationUpdateResult.data?.updateNotification)
     } catch (error) {
       console.log("error updating new notificationcreated❌",error)
     }
   }
-  const handleExistingNotificationNewRequestToBeAddedInASquad =async()=>{
-    try {
-      console.log("currentUserNewNotificationID", currentUserNewNotificationID)
-      const results = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
-           input: { notificationID: currentUserNewNotificationID}
-         }));
-         console.log("existing new requestToBeAddedInASquad Created successfully✅",results.data?.createRequestToBeAddedInASquad.id)
-         setCurrentUserNewRequestToBeAddedInSquad(results.data?.createRequestToBeAddedInASquad.id)
-         console.log("here is the existing requests to be added in a squad before addition", existingRequestsToBeAddedInASquadArr)
-         existingRequestsToBeAddedInASquadArr.push(results.data?.createRequestToBeAddedInASquad.id)
-         const newArr = [results.data?.createRequestToBeAddedInASquad.id]
-         console.log("here is tha new  array before updating", newArr)
-         setNewCurrentUserResquestToBeAddedInASquadArr(newArr)
-      }catch(error){
-       console.log("error creating a existing notification requestToBeAddedInASquad  ❌", error)
-     }
-}
+  }
+
+ 
  const handleDeletingRequestToBeAddedToASquad=async()=>{
     const requestToBeAddedInASquadID = newCurrentUserResquestToBeAddedInASquadArr.pop()
     console.log("here is the requestToBeAddedInASquadID that was deleted",requestToBeAddedInASquadID)
@@ -341,8 +367,12 @@ const handleExistingCreateRequestToBeAddedInASquad = async () => {
                     handleNewNotificationUpdate()
                   }else{
                     //create the request
-                    handleExistingCreateRequestToBeAddedInASquad()
-                    handleExistingNotificationUpdate()
+                    //handleExistingCreateRequestToBeAddedInASquad()
+                    const canUpdate = await handleExistingNotificationNewRequestToBeAddedInASquad()
+                    if(canUpdate===true){
+                      handleExistingNotificationUpdate()
+                    }
+                    
                   }
             } else {
               //console.log("the user is already in your squad")
@@ -351,7 +381,6 @@ const handleExistingCreateRequestToBeAddedInASquad = async () => {
         } else {
             setSelected(false);
             handleDeletingRequestToBeAddedToASquad()
-            handleExistingNotificationNewRequestToBeAddedInASquad()
             handleNotificationAfterDeleteUpdate()
             handleSquadUserDelete()
             handleUpdateUserAfterDeletion()

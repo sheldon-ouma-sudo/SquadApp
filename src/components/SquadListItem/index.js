@@ -40,7 +40,7 @@ const SquadListItem =({ squad,
                 if (userInfo) {
                   const localUSERID = userInfo.id
                   setLocalUserID(localUSERID)
-                  // console.log("we have local user data",userInfo);
+                  //console.log("we have local user data",userInfo);
                   // console.log("here is the number of squads the local user has joined", userInfo.numOfSquadJoined)
                   const numOfSquadJoined = userInfo.numOfSquadJoined
                   //console.log("here is the number of squad joined by the user", numOfSquadJoined)
@@ -67,7 +67,7 @@ const SquadListItem =({ squad,
                   setCurrentUserSquadID(squadID)
 
                   try {
-                    console.log("here is the ")
+                    //console.log("here is the ")
                     const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
                     //console.log("successful getting the user✅",userData)
                     const userFromBackend = userData.data?.getUser;
@@ -78,7 +78,7 @@ const SquadListItem =({ squad,
                     console.log("error getting the squad creator", error)
                   }
                 //check if the user has notifications 
-                console.log("here is current user name", currentUserName)
+                //console.log("here is current user name", currentUserName)
                 try {
                   //const user_ID = user.id
                   //console.log("here is the user id in try catch", user_ID)
@@ -97,8 +97,15 @@ const SquadListItem =({ squad,
                     setCurrentUserHasNotifications(true)
                     //console.log("here is the current user's squad join request array", notifications[0].SquadJoinRequestArray)
                     const currentUserSquadJoinedList = notifications[0].SquadJoinRequestArray
+                    if(currentUserSquadJoinedList == null || currentUserSquadJoinedList === undefined){
+                      const newArrCreated = []
+                      setExistingJoinCurrentUserASquadArr(newArrCreated)
+                    }else{
+                      console.log("the user existing squad joined request is not undefined or empty", currentUserSquadJoinedList)
+                      setExistingJoinCurrentUserASquadArr(currentUserSquadJoinedList)
+                    }
                     //console.log("here is the current users SquadJoinRequestArray", currentUserSquadJoinedList)
-                    setExistingJoinCurrentUserASquadArr(currentUserSquadJoinedList)
+                   
                   } else {
                         console.log("User has no notifications.");
                         setCurrentUserHasNotifications(false);
@@ -110,13 +117,16 @@ const SquadListItem =({ squad,
                 }
                 }
                 fetchCurrentSquadAuthUserData()
-            }, []);
+            }, [squad]);
           
 
+        
 
 
-        // //1. check if it is possible to add current users to the local user squad
-        const possibleToJoinCurrentUserSquad = async () => {
+
+
+    //2. check if it is possible to add current users to the local user squad
+        const possibleToJoinCurrentSquad = async () => {
           console.log("here is the local user squad joined array before checking", localUserSquadJoinedArray)
           if (localUserSquadJoinedArray.includes(squad.id)) {
               console.log("No, the local user is already in this squad!");
@@ -127,186 +137,234 @@ const SquadListItem =({ squad,
           }
             };
 
-            const handleLocalUserRequestToJoinCurrentUserSquadrray = async () => {
-             console.log("here is the local user joined array before addition", localUserSquadJoinedArray)
-             console.log("current user squad Id", currentUserSquadID)
-             localUserSquadJoinedArray.push(currentUserSquadID)
-             const newSquadJoined = localUserSquadJoinedArray
-             const numOfSquadJoined = localUserNumOfSquadJoined + 1
-             console.log("here is the new number of local squad user has joined", numOfSquadJoined)
-             setLocalUserNumOfSquadJoined(numOfSquadJoined)
-             console.log("here is the local user new joined array aftern addition", localUserSquadJoinedArray)
-             console.log("here is the new squad joined", newSquadJoined)
-             setLocalUserSquadJoinedArray(newSquadJoined)
-            }
+    //         const handleLocalUserRequestToJoinCurrentUserSquadrray = async () => {
+    //          console.log("here is the local user joined array before addition", localUserSquadJoinedArray)
+    //          console.log("current user squad Id", currentUserSquadID)
+    //          localUserSquadJoinedArray.push(currentUserSquadID)
+    //          const newSquadJoined = localUserSquadJoinedArray
+    //          const numOfSquadJoined = localUserNumOfSquadJoined + 1
+    //          console.log("here is the new number of local squad user has joined", numOfSquadJoined)
+    //          setLocalUserNumOfSquadJoined(numOfSquadJoined)
+    //          console.log("here is the local user new joined array aftern addition", localUserSquadJoinedArray)
+    //          console.log("here is the new squad joined", newSquadJoined)
+    //          setLocalUserSquadJoinedArray(newSquadJoined)
+    //         }
          
 
-            const handleLocalUserUpdateInfo = async()=>{
-              console.log("here is the new local user squadJoined", localUserSquadJoinedArray)
-              console.log("here is the local user id", localUserID)
-              console.log("here is the number of squads the user has joined", userInfo.numOfSquadJoined)
-              console.log("here is the number of squads the user has joined", localUserNumOfSquadJoined)
-              try {
-                const result = await API.graphql(graphqlOperation(updateUser, {input:{id: localUserID, squadJoined: localUserSquadJoinedArray, numOfSquadJoined:localUserNumOfSquadJoined}}))
-                console.log("local user update info successful✅", result)
-              } catch (error) {
-                console.log("error updating the local user", error)
-              }
-            }
+    //         const handleLocalUserUpdateInfo = async()=>{
+    //           console.log("here is the new local user squadJoined", localUserSquadJoinedArray)
+    //           console.log("here is the local user id", localUserID)
+    //           console.log("here is the number of squads the user has joined", userInfo.numOfSquadJoined)
+    //           console.log("here is the number of squads the user has joined", localUserNumOfSquadJoined)
+    //           try {
+    //             const result = await API.graphql(graphqlOperation(updateUser, {input:{id: localUserID, squadJoined: localUserSquadJoinedArray, numOfSquadJoined:localUserNumOfSquadJoined}}))
+    //             console.log("local user update info successful✅", result)
+    //           } catch (error) {
+    //             console.log("error updating the local user", error)
+    //           }
+    //         }
 
 
-            //create new userSquad
-            const handleCreateUserSquad=async()=>{
-              console.log("here is the local user ID", localUserID)
-              console.log("here is the squad id", currentUserSquadID)
-              try {
-                const results = await API.graphql(graphqlOperation(createSquadUser,
-                   {input:{
-                    userId:localUserID,
-                    squadId: currentUserSquadID
-                   }}))
-                   console.log("creating new squad user successful✅", results)
-              } catch (error) {
+    //         //create new userSquad
+    //         const handleCreateUserSquad=async()=>{
+    //           console.log("here is the local user ID", localUserID)
+    //           console.log("here is the squad id", currentUserSquadID)
+    //           try {
+    //             const results = await API.graphql(graphqlOperation(createSquadUser,
+    //                {input:{
+    //                 userId:localUserID,
+    //                 squadId: currentUserSquadID
+    //                }}))
+    //                console.log("creating new squad user successful✅", results)
+    //           } catch (error) {
                 
-              }
+    //           }
 
-            }
+    //         }
 
 
-            const handleCreateNewCurrentUserNotification = async()=>{
+            const handleCurrentSquadAuthUserNotificationCreation = async()=>{
               try {
                 console.log("before we start here is the current user ID", currentUserID)
                 if(!currentUserID){
-                  console.log("the current user id is still logging")
+                  console.log("the current user id is still loading")
                 }else{
                 const results = await API.graphql(graphqlOperation(createNotification, {
                   input: { userID:currentUserID}
                 }));
               
-                // console.log("here is the notification created successfully✅",results)
-                // console.log("here is the notification ID:", results.data?.createNotification?.id)
-                setNewCurrentUserCreatedNotification(results.data?.createNotification?.id)
+               // console.log("here is the notification created successfully✅",results)
+                //  console.log("here is the notification ID:", results.data?.createNotification?.id)
+                const newNotificationCreatedID = results.data?.createNotification?.id
+                console.log("the new notification ID created is the following: ",newNotificationCreatedID)
+                setNewCurrentUserCreatedNotification(newNotificationCreatedID)
+                setCurrentUserNotificationID(newNotificationCreatedID)
                 console.log("here is the new notification",newCurrentUserCreatedNotification)
+                return newNotificationCreatedID;
               }
               }catch(error){
                 console.log("error creating a new notification ❌", error)
+              return false;
               }  
               }
 
 
-           const handleCreateNewRequestToJoinCurrentUserSquad=async()=>{
+           const handleRequestToJoinCurrentSquadCreation=async(notification_ID)=>{
             try {
               const results = await API.graphql(graphqlOperation(createRequestToAJoinSquad, 
                 {input:{
-                  notificationID : newCurrentUserCreatedNotification
+                  notificationID : notification_ID
                 }}
                 ))
                 console.log("success creating new request to join current user squad✅", results)
-                const array = newRequestToJoinCurrentSquadArr.push(results.data?.createRequestToAJoinSquad.id)
+                const requestToJoinSquadID = results.data?.createRequestToAJoinSquad.id;
+                console.log("here is the request to join squad", requestToJoinSquadID)
+                const array = newRequestToJoinCurrentSquadArr.push(requestToJoinSquadID)
                 setNewRequestToJoinCurrentUserSquadArr(array)
                 console.log("here is the new current user requests to join the squads", newRequestToJoinCurrentSquadArr)
+                return requestToJoinSquadID; 
             } catch (error) {
               console.log("error creating the notification", error)
+              return false;
             }
            }
 
 
 
-      //existing notification
-      const handleNewUserNotificationUpdate=async()=>{
+    //RequestToJoinSquadArrayUpdate
+      const handleCurrentSquadAuthUserRequestToJoinSquadArrayUpdate=async(createdRequestToJoinSquadID)=>{
         console.log("here is the existing user notification ID",newCurrentUserCreatedNotification)
-        try {
-          const results = await API.graphql(graphqlOperation(updateNotification, {input:{
-            notificationID: newCurrentUserCreatedNotification,
-            SquadJoinRequestArray: newRequestToJoinCurrentSquadArr
-          }}))
-          console.log("update new user notification update successful✅",results)
-        } catch (error) {
-          console.log("error updating the new current user notification",error)
+        console.log("here is the new ID of the createdNotificationID", createdRequestToJoinSquadID)
+        console.log("the existing requestToJoinSquadArray", existingJoinCurrentUserASquadArr )
+        if(existingJoinCurrentUserASquadArr !== null || existingJoinCurrentUserASquadArr !== undefined){
+          console.log("here is the existing request to join squads array", existingJoinCurrentUserASquadArr)
+         const newArray = existingJoinCurrentUserASquadArr.push(createdRequestToJoinSquadID)
+         console.log("here is the new array", newArray)
+         setExistingJoinCurrentUserASquadArr(newArray)
+         return newArray;
+        }else{
+          console.log("existing joint squad array locally is undefined or null")
+          const newArray = []
+          newArray.push(createdRequestToJoinSquadID)
+          return newArray;
         }
+        
+        //update notification 
+        const handleUpdateNotification=async()=>{
+
+        }
+        // try {
+        //   const results = await API.graphql(graphqlOperation(updateNotification, {input:{
+        //     notificationID: newCurrentUserCreatedNotification,
+        //     SquadJoinRequestArray: newRequestToJoinCurrentSquadArr
+        //   }}))
+        //   console.log("update new user notification update successful✅",results)
+        // } catch (error) {
+        //   console.log("error updating the new current user notification",error)
+        // }
 
       }
     
    
 
-    const handleCurrentUserExistingNotificationRequestToJoinSquadArray = async()=>{
-      console.log("here is the existing current user notificationId", currentUserNotificationID)
-      try {
-        const results = await API.graphql(graphqlOperation(createRequestToAJoinSquad, {input:{
-          notificationID: currentUserNotificationID
-        }}))
-        console.log("success in creating ExistingNotificationRequestToJoinSquadArray squad✅", results)
-        const resultsID = results.data?.createRequestToAJoinSquad.id
-        console.log("here is the new results ID", resultsID)
-        console.log("existingUserJointCurrent before the if statement", existingJoinCurrentUserASquadArr)
-        if (existingJoinCurrentUserASquadArr === null || existingJoinCurrentUserASquadArr === undefined) {
-          console.log("the array is still empty");
-         const newArr = []
-          newArr.push(resultsID);
-          console.log("here is the new array", newArr);
-          setExistingJoinCurrentUserASquadArr(newArr);
-          console.log("attempt to change the array just before returning")
-          return newArr
-        } else {
-          existingJoinCurrentUserASquadArr.push(resultsID)
-          console.log("Here is the existing current user squad join request array before addition of the new existing request", existingJoinCurrentUserASquadArr)
-          const newArr = existingJoinCurrentUserASquadArr
-          console.log("here is the existing current request update before setting ", newArr);
-          setExistingJoinCurrentUserASquadArr(newArr);
-          return newArr
-        }
-      } catch (error) {
-        console.log("error creating a new squad join request❌", error)
-      }
-    }
+    // const handleCurrentUserAuthUserNotificationUpdate = async()=>{
+    //   console.log("here is the existing current user notificationId", currentUserNotificationID)
+    //   try {
+    //     const results = await API.graphql(graphqlOperation(createRequestToAJoinSquad, {input:{
+    //       notificationID: currentUserNotificationID
+    //     }}))
+    //     console.log("success in creating ExistingNotificationRequestToJoinSquadArray squad✅", results)
+    //     const resultsID = results.data?.createRequestToAJoinSquad.id
+    //     console.log("here is the new results ID", resultsID)
+    //     console.log("existingUserJointCurrent before the if statement", existingJoinCurrentUserASquadArr)
+    //     if (existingJoinCurrentUserASquadArr === null || existingJoinCurrentUserASquadArr === undefined) {
+    //       console.log("the array is still empty");
+    //      const newArr = []
+    //       newArr.push(resultsID);
+    //       console.log("here is the new array", newArr);
+    //       setExistingJoinCurrentUserASquadArr(newArr);
+    //       console.log("attempt to change the array just before returning")
+    //       return newArr
+    //     } else {
+    //       existingJoinCurrentUserASquadArr.push(resultsID)
+    //       console.log("Here is the existing current user squad join request array before addition of the new existing request", existingJoinCurrentUserASquadArr)
+    //       const newArr = existingJoinCurrentUserASquadArr
+    //       console.log("here is the existing current request update before setting ", newArr);
+    //       setExistingJoinCurrentUserASquadArr(newArr);
+    //       return newArr
+    //     }
+    //   } catch (error) {
+    //     console.log("error creating a new squad join request❌", error)
+    //   }
+    // }
 
-    const handleExistingNotificationRequestToJoinSquadUpdate=async(arr)=>{
+    // const handleExistingNotificationRequestToJoinSquadUpdate=async(arr)=>{
 
-       console.log("here is the existing current user notificationId", currentUserNotificationID)
-       if(existingJoinCurrentUserASquadArr===undefined){
-        console.log("here is the existing current user notification requestToJoin array is empty", existingJoinCurrentUserASquadArr)
-        console.log("so instead we will use this", arr)
-        try {
-          const resultFromDeletedRequestToBeAddedInAsquadNotification = await API.graphql(graphqlOperation(updateNotification, {input:{id: currentUserNotificationID, SquadJoinRequestArray:arr}}))
-          console.log("updating existing user notification successful✅", resultFromDeletedRequestToBeAddedInAsquadNotification)
-         } catch (error) {
-          console.log("error updating existing user notifications request to join❌", error)
-         }
-       }else{
+    //    console.log("here is the existing current user notificationId", currentUserNotificationID)
+    //    if(existingJoinCurrentUserASquadArr===undefined){
+    //     console.log("here is the existing current user notification requestToJoin array is empty", existingJoinCurrentUserASquadArr)
+    //     console.log("so instead we will use this", arr)
+    //     try {
+    //       const resultFromDeletedRequestToBeAddedInAsquadNotification = await API.graphql(graphqlOperation(updateNotification, {input:{id: currentUserNotificationID, SquadJoinRequestArray:arr}}))
+    //       console.log("updating existing user notification successful✅", resultFromDeletedRequestToBeAddedInAsquadNotification)
+    //      } catch (error) {
+    //       console.log("error updating existing user notifications request to join❌", error)
+    //      }
+    //    }else{
       
-       try {
-        const result = await API.graphql(graphqlOperation(updateNotification, {input:{
-          id: currentUserNotificationID,
-          SquadJoinRequestArray: existingJoinCurrentUserASquadArr
-        }}))
-        console.log("updating existing user notification successful✅", result)
-       } catch (error) {
-        console.log("error updating existing user notificationsnotifications❌", error)
-       }
-      }
-      }
+    //    try {
+    //     const result = await API.graphql(graphqlOperation(updateNotification, {input:{
+    //       id: currentUserNotificationID,
+    //       SquadJoinRequestArray: existingJoinCurrentUserASquadArr
+    //     }}))
+    //     console.log("updating existing user notification successful✅", result)
+    //    } catch (error) {
+    //     console.log("error updating existing user notificationsnotifications❌", error)
+    //    }
+    //   }
+    //   }
 
     //add the squad selected to the user's joined squad array
       const handleSquadSelected=async() =>{
         console.log("here is the squad name",squad.squadName)
         console.log("here is the user squadJoined array",localUserSquadJoinedArray)
     
-            const canAddToSquad = await possibleToJoinCurrentUserSquad();
-            if(canAddToSquad == true){
+            const canAddToSquad = await possibleToJoinCurrentSquad();
+            if(canAddToSquad === true){
              console.log("yes you can join this squad")
-             handleLocalUserRequestToJoinCurrentUserSquadrray()
-             handleLocalUserUpdateInfo()
-             handleCreateUserSquad()
+             //handleLocalUserRequestToJoinCurrentUserSquadrray()
+             //handleLocalUserUpdateInfo()
+             //handleCreateUserSquad()
              if(squadSelected==false){
               setSquadSelected(true)
               if(currentUserHasNotification===false){
-                handleCreateNewCurrentUserNotification()
-                handleCreateNewRequestToJoinCurrentUserSquad()
-                handleNewUserNotificationUpdate()
+                
+                const notificationID = await handleCurrentSquadAuthUserNotificationCreation()
+                if(notificationID !==false){
+                  //if successfully created the notification, create a new request to join squad
+                  const requestToJoinSquadID = await handleRequestToJoinCurrentSquadCreation(notificationID)
+                  if(requestToJoinSquadID !== false){
+                    console.log("successfully created the request to join request id", requestToJoinSquadID)
+                    const locallyUpdatedCurrentSquadAuthUserRequestToJoinSquadArray = await handleCurrentSquadAuthUserRequestToJoinSquadArrayUpdate(requestToJoinSquadID)
+                    if(locallyUpdatedCurrentSquadAuthUserRequestToJoinSquadArray !== false){
+                      console.log("request to join squad array update successful")
+                      //update the notification
+                     
+                    }else{
+                      console.log("request to join squad array update unsuccessful")
+                    }
+
+                  }else{
+                    console.log("Error creating the requestToJoinSquad")
+                  }
+                }
+                //handleCreateNewRequestToJoinCurrentUserSquad()
+                //handleNewUserNotificationUpdate()
               }else{
-                const resultArr = await handleCurrentUserExistingNotificationRequestToJoinSquadArray()
-                console.log("passed succesfully", resultArr)
-                handleExistingNotificationRequestToJoinSquadUpdate(resultArr)
+                console.log("the current squad auth user already has notification", currentUserNotificationID)
+                //const resultArr = await handleCurrentUserExistingNotificationRequestToJoinSquadArray()
+                //console.log("passed succesfully", resultArr)
+                //handleExistingNotificationRequestToJoinSquadUpdate(resultArr)
               }
             }else{
               Alert.alert("You have already joined this squad!")
