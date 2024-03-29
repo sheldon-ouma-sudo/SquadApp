@@ -215,10 +215,10 @@
                       pollItems: items
                     };
                     const updateResponse = await API.graphql(graphqlOperation(updatePoll, { input: updateInput }));
-                    //console.log('Poll updated successfully✅:', updateResponse);
+                    console.log('Poll updated successfully✅:', updateResponse);
                     // Log the updated pollItems
                     const updatedPollItems = updateResponse.data.updatePoll.pollItems;
-                    //console.log('Updated Poll Items:', updatedPollItems);  
+                    console.log('Updated Poll Items:', updatedPollItems);  
                     return true
                   } catch (error) {
                     console.log('Error updating poll items:', error);
@@ -460,6 +460,7 @@
                       );
                     const updatePollItemResults = await updatePollItems(pollId, updatedItems);
                     if(updatePollItemResults !==false){
+                      console.log("here is the updated poll results", updatePollItemResults)
                       const squadPollCreationResults = await handleSquadPollCreation(pollId, squadId)
                       if(squadPollCreationResults !== false){
                         const updatedNumOfPolls = (user.numOfPolls || 0) + 1;

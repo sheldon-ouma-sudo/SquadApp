@@ -191,7 +191,11 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
                       return newArr;
                   } else {
                       console.log("the current notification is not null");
-                      let array = JSON.parse(currentUserNotification[0].squadAddRequestsArray);
+                      let notificationStringify = JSON.stringify(currentUserNotification)
+                      let notificationParsed = JSON.parse(notificationStringify)
+                      console.log("here is the notification parsed", notificationParsed)
+                      let array = notificationParsed [0].squadAddRequestsArray;
+                      console.log("here is the array" ,array)
                       if (!array) {
                           array = [requestID]; // If array is null or undefined, initialize it as a new array with requestID
                       } else {
