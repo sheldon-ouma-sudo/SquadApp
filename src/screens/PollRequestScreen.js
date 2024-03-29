@@ -42,34 +42,49 @@ const PollRequest = () => {
  
   useEffect(() => {
     const fetchPollRequestInfo = async () => {
-          const userID = user.id
-          console.log(" here is poll request data", pollRequestData)
-          console.log("here is the user id", userID)
-      
-      for(const pollRequestID of pollRequestData){
-        //retrieve the poll request info
-        try {
-          console.log("here is the pollRequestID", pollRequestID)
-          const pollRequestQueryResults = await API.graphql(graphqlOperation(getPollRequest, { id: pollRequestID}));
+      const userID = user.id;
+      console.log("User ID:", userID);
   
-          console.log("here are the poll requests results", pollRequestQueryResults.data?.getPollRequest)
-          const pollItem = pollRequestID.data?.getPollRequest
-          if(pollItem){
-            setPoll(pollItem)
-          }else{
-            console.log("the polls are still null")
-          }
+      for (const pollRequestID of pollRequestData) {
+        try {
+          console.log("Poll Request ID:", pollRequestID);
           
+          // Retrieve the poll request info
+          const pollRequestQueryResults = await API.graphql(graphqlOperation(getPollRequest, { id: pollRequestID }));
+          const pollRequest = pollRequestQueryResults.data?.getPollRequest;
+  
+          console.log("Poll Request:", pollRequest);
+  
+          if (pollRequest) {
+            // Extract the poll ID from the poll request
+            const pollID = pollRequest.pollRequestPollId;
+  
+            if (pollID) {
+              // Fetch the associated poll using the poll ID
+              const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollID }));
+              const poll = pollQueryResults.data?.getPoll;
+  
+              console.log("Associated Poll:", poll);
+  
+              // Handle the fetched poll as needed (e.g., store it in state)
+              // For example:
+              // setPoll(poll);
+            } else {
+              console.log("Poll ID not found for the poll request:", pollRequestID);
+            }
+          } else {
+            console.log("Poll request not found:", pollRequestID);
+          }
         } catch (error) {
-          console.log("error getting poll request Info", error)
+          console.log("Error getting poll request info:", error);
         }
       }
-
-
-
-     };
-     fetchPollRequestInfo();
-  }, [pollRequestData]);
+    };
+  
+    // Call the fetchPollRequestInfo function
+    fetchPollRequestInfo();
+  }, [pollRequestData, user.id]); // Add dependencies if needed
+  
  
   return (
     <KeyboardAvoidingView

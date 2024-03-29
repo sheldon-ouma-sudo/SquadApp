@@ -13,7 +13,7 @@ const PollRequestListItem =({poll})=>{
       //  const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
       //  const[squadJoinedName, setSquadJoinedName] = useState("squad joined")
 
-       console.log("here is the poll", poll)
+       //console.log("here is the poll", poll)
       // useEffect(() => {
       //   const fetchSquad = async () => {
       //     // if (userInfo) {
@@ -52,7 +52,20 @@ const PollRequestListItem =({poll})=>{
       //     setSquadSelected(false)
       //   }
       // }
- 
+          const handleIgnore = () => {
+            // Handle ignore button press
+        };
+
+        const handleRespond = () => {
+            // Handle respond button press
+        };
+
+
+
+
+
+
+
  return (
         <Pressable
         style={styles.container}
@@ -70,13 +83,32 @@ const PollRequestListItem =({poll})=>{
               Created by poll creator
             </Text>
           </View>
-          <TouchableOpacity
-              //onPress={handleSquadSelected}
-              >
-              <Text>
-                  {/* {squadSelected ? "Squad Left!" : "Leave Squad"} */}
-              </Text>
+          <TouchableOpacity 
+          style={{marginTop:-35,
+            marginRight:-45, 
+            backgroundColor:'#1145FD',
+            height:25,
+            borderRadius:6,
+            width:70,
+            marginLeft:75}}
+          onPress={handleRespond}>
+            <Text
+             style={{color:'#FFFF', marginLeft:10, marginTop:5}}
+            >Respond</Text>
           </TouchableOpacity>
+          <TouchableOpacity 
+          style={{marginRight:-15, 
+            backgroundColor:'#1145FD',
+            height:25,
+            borderRadius:6,
+            width: 70,
+            marginLeft:-25}}
+          onPress={handleIgnore}>
+            <Text
+            style={{color:'#FFFF', marginLeft:15, marginTop:4}}
+            >Ignore</Text>
+          </TouchableOpacity>
+         
         </View>
         </Pressable>
  )
@@ -84,88 +116,85 @@ const PollRequestListItem =({poll})=>{
 
  
  const styles = StyleSheet.create({
- container:{
-  flex:1,
-  flexDirection: "row",
-  marginHorizontal: 10,
-  marginTop: 20,
-  //marginVertical: 65,
-  borderColor: "#9789EE",
-  //height: 100,
-  borderRadius: 15,
-  backgroundColor: "white",
-  borderWidth: 1.5,
-  marginRight:30,
-  width: 350
+  container: {
+      flex: 1,
+      flexDirection: "row",
+      marginHorizontal: 10,
+      marginTop: 20,
+      borderColor: "#9789EE",
+      borderRadius: 15,
+      backgroundColor: "white",
+      borderWidth: 1.5,
+      marginRight: 30,
+      width: 350
+  },
+  pollCaptionContainer: {
+      height: 50,
+      width: 180,
+  },
+  joinSquadTextContainer: {
+      height: 40,
+      width: 95,
+      backgroundColor: "#1145FD",
+      borderRadius: 10,
+      borderColor: "#FFFF",
+      borderWidth: 2.5,
+      marginLeft: 25,
+      marginTop: -25
 
-},
- pollCaptionContainer:{
-   height: 50,
-   width: 180,
- },
- joinSquadTextContainer:{
-  height:40,
-  width: 95,
-  backgroundColor: "#1145FD",
-  borderRadius: 10,
-  borderColor: "#FFFF",
-  borderWidth: 2.5,
-  marginLeft:25,
-  marginTop:-25
-  
- },
- joinedSquadTextContainer:{
-  height:40,
-  width: 95,
-  backgroundColor: "#FFFF",
-  borderRadius: 10,
-  borderColor:"#1145FD",
-  borderWidth: 2.5,
-  marginLeft:25,
-  marginTop:-25
- },
- 
- pollCaptionContainer:{
-   height: 50,
-   width: 180,
- },
- numOfVotesContainer:{
-  height:40,
-  width: 95,
-  backgroundColor: "#1145FD",
-  borderRadius: 10,
-  borderColor: "#FFFF",
-  borderWidth: 2.5,
-  marginLeft:5,
-  
- },
- votedText:{
-   color: "white",
-   fontWeight: "bold",
-   marginBottom:7,
-   marginLeft:1,
-   fontSize: 8.5,
-   textAlignVertical:'center'
- }, 
- userImageContainer:{
-  marginStart:10,
-  marginTop:50
- },
- userImage:{
-     width:50,
-     height:70
- },
-squadNameText:{
- fontWeight:'500',
- marginLeft:5,
- marginTop:-40
-},
-squadCreator:{
- marginTop: 15,
- marginLeft: 5,
- color: '#545454',
- fontSize:10
-}
- },
- )
+  },
+  joinedSquadTextContainer: {
+      height: 40,
+      width: 95,
+      backgroundColor: "#FFFF",
+      borderRadius: 10,
+      borderColor: "#1145FD",
+      borderWidth: 2.5,
+      marginLeft: 25,
+      marginTop: -25
+  },
+
+  pollCaptionContainer: {
+      height: 50,
+      width: 180,
+  },
+  numOfVotesContainer: {
+      height: 40,
+      width: 95,
+      backgroundColor: "#1145FD",
+      borderRadius: 10,
+      borderColor: "#FFFF",
+      borderWidth: 2.5,
+      marginLeft: 5,
+
+  },
+  votedText: {
+      color: "white",
+      fontWeight: "bold",
+      marginBottom: 7,
+      marginLeft: 1,
+      fontSize: 8.5,
+      textAlignVertical: 'center'
+  },
+  userImageContainer: {
+      marginStart: 10,
+      marginTop: 50
+  },
+  userImage: {
+      width: 50,
+      height: 70
+  },
+  squadNameText: {
+      fontWeight: '500',
+      marginLeft: 5,
+      marginTop: -40
+  },
+  squadCreator: {
+      marginTop: 15,
+      marginLeft: 5,
+      color: '#545454',
+      fontSize: 10
+  }
+});
+
 export default PollRequestListItem 
