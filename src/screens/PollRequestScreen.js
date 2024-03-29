@@ -53,7 +53,7 @@ const PollRequest = () => {
           const pollRequestQueryResults = await API.graphql(graphqlOperation(getPollRequest, { id: pollRequestID}));
   
           console.log("here are the poll requests results", pollRequestQueryResults.data?.getPollRequest)
-          const pollItem = pollRequestID.data?.getPollRequest.poll
+          const pollItem = pollRequestID.data?.getPollRequest
           if(pollItem){
             setPoll(pollItem)
           }else{

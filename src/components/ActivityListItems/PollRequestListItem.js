@@ -13,7 +13,7 @@ const PollRequestListItem =({poll})=>{
       //  const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
       //  const[squadJoinedName, setSquadJoinedName] = useState("squad joined")
 
-
+       console.log("here is the poll", poll)
       // useEffect(() => {
       //   const fetchSquad = async () => {
       //     // if (userInfo) {

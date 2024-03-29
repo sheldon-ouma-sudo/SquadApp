@@ -99,7 +99,7 @@ Notifications.scheduleNotificationAsync({
             component={SquadActivityScreen} />
           </Tab.Navigator>
   )
-}
+} 
 
 
   

@@ -239,6 +239,7 @@
                     
           //Function to create poll requests for users in selected squads
           const handlePollRequestCreation = async (notificationID, userID, pollID) => {
+            console.log("here is the parent poll ID",pollID )
               const pollRequestInput = {
                 userID: userID,
                 notificationID:notificationID, 
