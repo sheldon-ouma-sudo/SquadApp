@@ -84,25 +84,27 @@ const PollRequestListItem =({poll})=>{
             </Text>
           </View>
           <TouchableOpacity 
-          style={{marginTop:-35,
-            marginRight:-45, 
+          style={{
+            marginTop:-35,
+            marginRight:-10, 
             backgroundColor:'#1145FD',
             height:25,
             borderRadius:6,
             width:70,
-            marginLeft:75}}
+            marginLeft:105}}
           onPress={handleRespond}>
             <Text
              style={{color:'#FFFF', marginLeft:10, marginTop:5}}
             >Respond</Text>
           </TouchableOpacity>
           <TouchableOpacity 
-          style={{marginRight:-15, 
+          style={{
+            marginRight:-25, 
             backgroundColor:'#1145FD',
             height:25,
             borderRadius:6,
             width: 70,
-            marginLeft:-25}}
+            marginLeft:-55}}
           onPress={handleIgnore}>
             <Text
             style={{color:'#FFFF', marginLeft:15, marginTop:4}}
@@ -126,7 +128,7 @@ const PollRequestListItem =({poll})=>{
       backgroundColor: "white",
       borderWidth: 1.5,
       marginRight: 30,
-      width: 350
+      width: 390
   },
   pollCaptionContainer: {
       height: 50,
