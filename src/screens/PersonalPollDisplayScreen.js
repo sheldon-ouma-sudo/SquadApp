@@ -10,6 +10,7 @@ import { getPoll } from '../graphql/queries';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 
@@ -53,6 +54,7 @@ const PersonalPollDisplayScreen = () => {
           
         useEffect(()=>{
           const fetchPollInfo=async()=>{
+            setNumOfPollLikes(poll.numOfLikes);
             try {
               const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
               console.log("here is the parsed poll Items", parsedPollItems)
@@ -67,6 +69,7 @@ const PersonalPollDisplayScreen = () => {
       
       
     return (
+      
             <KeyboardAvoidingView style={styles.container} behavior="padding">
             <LinearGradient
           colors={['#EE8B94', '#0038FF']} // Adjust the gradient colors as per your preference
@@ -74,7 +77,7 @@ const PersonalPollDisplayScreen = () => {
             end={{ x: 1, y: 1 }}
             style={styles.gradientContainer}
            >
-            <View style={styles.innerContainer}>
+          <View style={styles.innerContainer}>
           <TouchableOpacity>
           <Text style={styles.question}>{poll.pollCaption}</Text>
           {pollItems.map((item, index)=>(
@@ -86,12 +89,35 @@ const PersonalPollDisplayScreen = () => {
             </TouchableOpacity>
           ))}
           </TouchableOpacity>
-          
-            </View>
-
-            </LinearGradient>
-
-          </KeyboardAvoidingView>
+          <TouchableOpacity
+          style={styles.pollCommentContainer}
+           >
+        <FontAwesome
+          name="commenting-o"
+          size={35}
+          color="#black"
+          style={styles.pollCommentIcon}
+        />
+      </TouchableOpacity>
+      <View
+      style={{marginLeft:5}}
+      >
+      <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
+      </View>
+      <TouchableOpacity
+      style={styles.pollLikesContainer}
+      >
+        <FontAwesome
+          name='heart-o'
+          size={36}
+          color='#black'
+          style={styles.pollCommentIcon}
+        />
+        <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
+      </TouchableOpacity>
+      </View>
+   </LinearGradient>
+  </KeyboardAvoidingView>
           )
         }
 
@@ -99,12 +125,8 @@ const PersonalPollDisplayScreen = () => {
 
         const styles = StyleSheet.create({
           gradientContainer: {
-            //borderWidth: 2,
             borderRadius: 29,
-            marginVertical:30,
-            // marginHorizontal:10, 
-            // marginEnd:10, 
-        
+            marginVertical:30
           },
           container: {
             flex:1,
@@ -167,9 +189,58 @@ const PersonalPollDisplayScreen = () => {
           marginLeft:135,
           color: "black",
           marginTop:10
-      
         },
-      
+        pollCommentContainer:{
+          marginTop:20,
+         },
+         pollCommentIcon:{
+          marginLeft:20,
+         },
+         numOfpollComments:{
+           fontSize: 15,
+           marginLeft:12,
+           marginTop:5,
+          // fontWeight:'400'
+         },
+         pollLikesContainer:{
+           marginLeft:280,
+           marginTop:-65
+         },
+         numOfpollLikes:{
+           marginLeft:35,
+           marginTop:5,
+           fontSize:20,
+           fontWeight:'700'
+         },
+         pollCommentContainer: {
+           marginTop: 20,
+         },
+         pollCommentIcon: {
+           marginLeft: 20,
+         },
+         numOfpollComments: {
+           fontSize: 19,
+           marginLeft: 18,
+           marginTop: 5,
+           fontWeight: '700',
+         },
+         modalBackground: {
+           flex: 1,
+           backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the background color and opacity
+         },
+         commentItem: {
+           padding: 16,
+           borderBottomWidth: 1,
+           borderBottomColor: '#ccc',
+         },
+         numOfCommentsText: {
+           fontSize: 18,
+           fontWeight: '400',
+           marginBottom: 20,
+           marginLeft: 100,
+           marginTop: 20
+           //color: '#1764EF', // Adjust the color based on your design
+         },
         })
 
 

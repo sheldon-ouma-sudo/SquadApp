@@ -47,6 +47,8 @@ import SquadCreatedScreen from "./src/screens/SquadCreatedScreen";
 import SquadJoinedScreen from "./src/screens/SquadJoinedScreen";
 import PersonalPollDisplayScreen from './src/screens/PersonalPollDisplayScreen'
 import ResponsePollScreen from './src/screens/ResponsePollScreen'
+import PersonalSquadDisplayScreen from './src/screens/PersonalSquadsDisplayScreen'
+import SquadDisplayScreen from './src/screens/SquadDisplayScreen'
 import { UserProvider } from "./UserContext"
 
 Amplify.configure(awsconfig);
@@ -215,6 +217,8 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "SquadJoinedScreen" component={SquadJoinedScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "PersonalPollDisplayScreen" component={PersonalPollDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "ResponsePollScreen" component={ResponsePollScreen}/>
+        <Stack.Screen options={{headerShown:false}} name = "PersonalSquadDisplayScreen" component={PersonalSquadDisplayScreen}/>
+        <Stack.Screen options={{headerShown:false}} name = "SquadDisplayScreen" component={SquadDisplayScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
     </UserProvider>

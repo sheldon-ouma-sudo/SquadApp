@@ -44,11 +44,16 @@
         setSquadSelected(false)
       }
     }
+    const handleSquadCreatedListItemPress = () => {
+      // Navigate to the screen with the poll
+      navigation.navigate('PersonalSquadDisplayScreen');
+    };
     
     return (
-      <Pressable
+      <TouchableOpacity
       style={styles.container}
       behavior="padding"
+      onPress={handleSquadCreatedListItemPress}
       >
       <View
       style={styles.userImageContainer}
@@ -75,7 +80,7 @@
 
         </TouchableOpacity>
       </View>
-      </Pressable>
+      </TouchableOpacity>
     )
     }
 

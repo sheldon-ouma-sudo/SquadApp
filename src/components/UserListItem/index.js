@@ -649,9 +649,9 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
         //marginVertical: 65,
         //borderColor: "#FFFF",
         //height: 100,
-        borderRadius: 15,
+        borderRadius: 28,
         backgroundColor: "white",
-        borderWidth: 1.5,
+        borderWidth: 1,
         marginRight:30
       
     },
@@ -665,10 +665,11 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
         height: 40,
         width: 95,
         backgroundColor: "#1145FD",
-        borderRadius: 10,
+        borderRadius: 17,
         borderColor: "#FFFF",
         borderWidth: 2.5,
         marginLeft: 25,
+        marginTop:-5
       },
       
       unAddedUserIcon: {

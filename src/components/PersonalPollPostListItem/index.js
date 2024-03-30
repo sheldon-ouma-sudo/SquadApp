@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   gradientContainer: {
     //borderWidth: 2,
     borderRadius: 29,
-    marginVertical:30,
+    marginVertical:10,
     //marginEnd:10
 
   },
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     marginBottom:4,
     marginStart:5,
     marginEnd:4,
-    width:390
+    width:390,
+    height:80
    // borderColor: '#0038FF'
     //marginVertical:135,
   },
@@ -119,11 +120,11 @@ const styles = StyleSheet.create({
   },
   pollLikesContainer:{
     marginLeft:320,
-    //marginTop:15
+    marginTop:-25
   },
   numOfpollLikes:{
     marginLeft:10,
-    marginTop:5,
+    //marginTop:5,
     fontSize:20,
     fontWeight:'700'
   },
