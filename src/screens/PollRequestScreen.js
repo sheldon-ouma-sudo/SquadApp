@@ -6,6 +6,7 @@ import { getPollRequest, notificationsByUserID } from '../graphql/queries'
 import { API, graphqlOperation } from "aws-amplify";
 import PollRequestComponent from './../components/ActivityListItems/PollRequestListItem.js'
 import {useUserContext} from './../../UserContext'
+import { getPoll } from '../graphql/queries'
 
 
 
@@ -57,11 +58,11 @@ const PollRequest = () => {
   
           if (pollRequest) {
             // Extract the poll ID from the poll request
-            const pollID = pollRequest.Poll;
-            console.log("here is the poll ID", pollID)
-            if (pollID) {
+            const pollIDPollRequestDirectly = pollRequest.Poll?.id;
+            console.log("here is the poll ID", pollIDPollRequestDirectly)
+            if (pollIDPollRequestDirectly) {
               // Fetch the associated poll using the poll ID
-              const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollID }));
+              const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollIDPollRequestDirectly }));
               const poll = pollQueryResults.data?.getPoll;
   
               console.log("Associated Poll:", poll);
@@ -69,11 +70,23 @@ const PollRequest = () => {
               // Handle the fetched poll as needed (e.g., store it in state)
               // For example:
               // setPoll(poll);
-            } else {
-              console.log("Poll ID not found for the poll request:", pollRequestID);
-            }
-          } else {
-            console.log("Poll request not found:", pollRequestID);
+            }else if(pollIDPollRequestDirectly === undefined || pollIDPollRequestDirectly === null) {
+              console.log("Poll ID not found directly from poll request:", pollRequestID);
+              const pollIDByParentPollID = pollRequest.ParentPollID
+              console.log("here is the pollIDByParentPollID", pollIDByParentPollID)
+              if(pollIDByParentPollID){
+                console.log("we have the poll by ID from parent poll ID", pollIDByParentPollID)
+                try {
+                  const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollIDPollRequestDirectly }));
+                  const poll = pollQueryResults.data?.getPoll;
+                  console.log("Associated Poll:", poll);
+                } catch (error) {
+                 console.log("error querying for the poll", error) 
+                }
+              }else{
+                console.log("Poll request not found:", pollRequestID);
+              }
+            }  
           }
         } catch (error) {
           console.log("Error getting poll request info:", error);

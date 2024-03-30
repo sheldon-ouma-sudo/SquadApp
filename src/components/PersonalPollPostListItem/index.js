@@ -11,6 +11,7 @@ const PersonalPollListItem = ({ poll }) => {
   const navigation = useNavigation(); // Get navigation object
 
   useEffect(() => {
+    console.log(poll)
     setNumOfPollLikes(poll.numOfLikes);
     // Assuming you have some method to fetch poll creator
     // setPollCreator(poll.creator); 
@@ -117,11 +118,11 @@ const styles = StyleSheet.create({
    // fontWeight:'400'
   },
   pollLikesContainer:{
-    marginLeft:240,
+    marginLeft:320,
     //marginTop:15
   },
   numOfpollLikes:{
-    marginLeft:20,
+    marginLeft:10,
     marginTop:5,
     fontSize:20,
     fontWeight:'700'
