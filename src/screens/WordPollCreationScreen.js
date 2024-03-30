@@ -16,6 +16,7 @@
           import { updateUser } from '../graphql/mutations';
           import { listSquadUsers } from '../graphql/queries';
           import { createSquadPoll } from '../graphql/mutations';
+          import { updatePollRequest } from '../graphql/mutations';
           import { registerForPushNotificationsAsync, sendPushNotifications } from '../../notificationUtils';
 
 
@@ -298,6 +299,25 @@
              }
           }
 
+        const handlePollRequestUpdate = async(pollRequestID, pollID)=>{
+          if (pollRequestID) {
+            // Update the Poll field in the PollRequest with the pollId
+            const updatePollRequestInput = {id: pollRequestID,Poll: {id: pollID}};
+            try {
+             const results =  await API.graphql(graphqlOperation(updatePollRequest,{ input: updatePollRequestInput}));
+             console.log("here is the results of updating the pollRequest", results)
+             return results
+            } catch (error) {
+              console.log("there has been an error updating the poll request", error)
+              return false;
+            }
+        }else{
+          console.log("Poll request ID faulty")
+          return false;
+        }
+       
+
+      }
           // // Function to create notifications for users in selected squads
           const handleNotificationCreationAndUpdate = async (userID, pollID) => {
             //console.log(squadsData)
@@ -309,7 +329,15 @@
                   //console.log("here is the results fron notification production", notification)
                   console.log("here is the notification", notification)
                   const notification_id = notification[0].id
+                  //create the poll request ID 
                   const pollRequestID = await handlePollRequestCreation(notification_id, userID,pollID)
+                  //handle the poll request update
+                  const resultFromUpdate = await handlePollRequestUpdate(pollRequestID, pollID)
+                  if(resultFromUpdate !== false){
+                    console.log("everything ok, everything great")
+                  }else{
+                    console.log("the result from the update is false", resultFromUpdate)
+                  }
                   //retrieve notification poll request creation array
                   const pollRequestArray = notification[0].pollRequestsArray
                   //console.log("here is the poll request array", pollRequestArray)
@@ -322,6 +350,13 @@
                     //console.log("here is the notification", notification_id)
                     const resultUpdate = handleNotificationUpdate(newPollRequestArray, notification_id);
                     //console.log("here are the results", resultUpdate)
+                    return resultUpdate
+                  }else{
+                    console.log("here is the poll request array before update", pollRequestArray)
+                    pollRequestArray.push(pollRequestID)
+                    console.log("here is the updadated poll request array after update", pollRequestArray)
+                    const resultUpdate = handleNotificationUpdate(pollRequestArray, notification_id);
+                    console.log("here is the result update", resultUpdate)
                     return resultUpdate
                   }
                 } catch (error) {

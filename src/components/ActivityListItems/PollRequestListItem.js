@@ -58,6 +58,7 @@ const PollRequestListItem =({poll})=>{
 
         const handleRespond = () => {
             // Handle respond button press
+            
         };
 
 

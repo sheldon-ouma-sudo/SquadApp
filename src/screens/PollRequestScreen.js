@@ -57,8 +57,8 @@ const PollRequest = () => {
   
           if (pollRequest) {
             // Extract the poll ID from the poll request
-            const pollID = pollRequest.pollRequestPollId;
-  
+            const pollID = pollRequest.Poll;
+            console.log("here is the poll ID", pollID)
             if (pollID) {
               // Fetch the associated poll using the poll ID
               const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollID }));
