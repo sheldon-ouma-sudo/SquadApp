@@ -369,6 +369,7 @@ export const getPollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -508,6 +509,7 @@ export const getPollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -682,6 +684,7 @@ export const getPoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      pollCommentArray
       squadID
       pollItems
       PollComments {
@@ -733,6 +736,7 @@ export const listPolls = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -772,6 +776,7 @@ export const pollsByUserID = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -793,6 +798,9 @@ export const getSquad = /* GraphQL */ `
         __typename
       }
       authUserID
+      authUserName
+      bio
+      public
       squadName
       numOfPolls
       Polls {
@@ -819,6 +827,9 @@ export const listSquads = /* GraphQL */ `
       items {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -918,6 +929,9 @@ export const getRequestToAJoinSquadSquad = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1028,6 +1042,7 @@ export const getSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -1038,6 +1053,9 @@ export const getSquadPoll = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1135,6 +1153,9 @@ export const getSquadUser = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt

@@ -72,6 +72,7 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   pollCaption: String
   pollLabel: String
   pollScore: Int
+  pollCommentArray: [String]
   squadID: String
   pollItems: [AWSJSON]
   PollComments: [PollComment] @hasMany(indexName: "byPoll", fields: ["id"])
@@ -84,6 +85,9 @@ type Squad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   Users: [User] @manyToMany(relationName: "SquadUser")
   authUserID: String
+  authUserName: String
+  bio: String
+  public: Boolean
   squadName: String
   numOfPolls: Int
   Polls: [Poll] @manyToMany(relationName: "SquadPoll")

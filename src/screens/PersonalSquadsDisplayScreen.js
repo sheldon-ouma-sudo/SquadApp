@@ -16,6 +16,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
     import {getUser} from '../graphql/queries'
     import { useUserContext } from '../../UserContext'
     import { MaterialIcons } from '@expo/vector-icons';
+    import { Entypo } from '@expo/vector-icons';
     
 const PersonalSquadDisplayScreen = () => {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
@@ -61,7 +62,17 @@ const PersonalSquadDisplayScreen = () => {
   }, [])
     return (
       <>
-      <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:0}]}>
+      <KeyboardAvoidingView 
+    //   style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:90}]}
+        style={styles.container}
+        behavior='contain'
+      >
+        <TouchableOpacity
+        style={{marginTop:-120}}
+        onPress={()=>navigation.goBack()}
+        >
+        <Entypo name="chevron-left" size={24} color="black" />
+        </TouchableOpacity>
         <View style={{flex:1, justifyContent:'flex-start', marginTop:-25}}>
           <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
@@ -80,7 +91,7 @@ const PersonalSquadDisplayScreen = () => {
         </TouchableOpacity> */}
 
         <View
-        style={{marginLeft:-10,marginBottom:12.5}}
+        style={{marginLeft:-10, marginTop:30}}
         >
           <Text
           style={{fontWeight:'bold', fontSize:22}}
@@ -88,47 +99,28 @@ const PersonalSquadDisplayScreen = () => {
         </View>
        {/**this view here is for the numbers */}
          <View>
-           
+           {/* number of polls */}
           <View>
-          <Text
-           style={{marginBottom:-15,marginLeft:2,fontWeight:'bold', color:'#A9A9A9'}}
-           >{numOfUserPolls}</Text> 
+          <Text style={{
+            marginLeft:-2,
+            marginBottom:-15,
+            marginTop:20,
+            fontWeight:'900',
+             fontSize:'20'}}>1200</Text> 
           </View>
-            <View>
-            <Text
-              style={{marginLeft:80,fontWeight:'bold', color:'#A9A9A9'}}
-              >{numOfUsersInSquad}</Text>  
-            </View>
-
+       {/* number of users */}
            <View>
-           <Text
-                style={{marginLeft:190,marginTop:-15,fontWeight:'bold', color:'#A9A9A9'}}
-                >{numOfUserSquadron}</Text>
+           <Text style={{marginLeft:170,marginTop:-15,fontWeight:'900', fontSize:'28'}}>25</Text>
            </View>
           
          </View>
           {/**this view here is for the labelling */}
-         <View
-         style={{marginLeft:-20}}
-         >
-           <Text
-           style={{marginBottom:-15,marginLeft:7,color:'#000',fontWeight:'600', }}
-           >Polls</Text> 
-           <View>
-
-           </View>
-           <Text
-           style={{marginLeft:60,marginBottom:-15,color:'#000',fontWeight:'600', }}
-           >SquadCreated</Text>  
-           <View>
-
-           </View>
-          <Text
-          style={{marginBottom:20,marginLeft:175,color:'#000',fontWeight:'600'}}
-          >Squad Joined</Text>
+         <View style={{marginLeft:-20}}>
+           <Text style={{marginBottom:-17,marginLeft:30,color:'#000',fontWeight:'600', }}>Polls</Text> 
+          <Text style={{marginBottom:20,marginLeft:175,color:'#000',fontWeight:'600'}}>Members</Text>
          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
       {/* <View
       style={{marginLeft:30}}
       
@@ -183,20 +175,22 @@ const PersonalSquadDisplayScreen = () => {
     })}
 >
           <Tab.Screen
-            name="Polls"
+            name=" Poll"
             component={PersonalPollScreen} />
           <Tab.Screen
-            name="Squad Created"
+            name="Members"
             component={SquadCreatedScreen} />
         </Tab.Navigator></>
     )
   }
   const styles = StyleSheet.create({
     container:{
-    flex:1,
+    //flex:1,
+    flexDirection:"row",
     justifyContent:"flex-start",
     alignItems:"center",
     backgroundColor: "#F4F8FB",
+    marginTop:70
     },
 
     squadLogo:{
@@ -206,7 +200,7 @@ const PersonalSquadDisplayScreen = () => {
         marginTop:70  
     },
     button:{
-      backgroundColor: '#1764EF',
+      backgroundColor: '#0038FF',
       width: 200,
       height: 32,
       //padding: 12,
@@ -218,7 +212,7 @@ const PersonalSquadDisplayScreen = () => {
       marginBottom:10
     },
     createSquadButton:{
-      backgroundColor: '#1764EF',
+      backgroundColor: '#0038FF',
       width: 180,
       height: 32,
       //padding: 12,
@@ -230,7 +224,7 @@ const PersonalSquadDisplayScreen = () => {
       marginBottom:10
     },
     editProfileButton:{
-      backgroundColor: '#1764EF',
+      backgroundColor: '#0038FF',
       width: 180,
       height: 32,
       //padding: 12,

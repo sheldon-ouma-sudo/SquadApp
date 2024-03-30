@@ -383,6 +383,7 @@ export const createPollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -420,6 +421,7 @@ export const updatePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -457,6 +459,7 @@ export const deletePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -514,6 +517,7 @@ export const createPollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -566,6 +570,7 @@ export const updatePollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -618,6 +623,7 @@ export const deletePollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -648,6 +654,7 @@ export const createPoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      pollCommentArray
       squadID
       pollItems
       PollComments {
@@ -697,6 +704,7 @@ export const updatePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      pollCommentArray
       squadID
       pollItems
       PollComments {
@@ -746,6 +754,7 @@ export const deletePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      pollCommentArray
       squadID
       pollItems
       PollComments {
@@ -790,6 +799,9 @@ export const createSquad = /* GraphQL */ `
         __typename
       }
       authUserID
+      authUserName
+      bio
+      public
       squadName
       numOfPolls
       Polls {
@@ -818,6 +830,9 @@ export const updateSquad = /* GraphQL */ `
         __typename
       }
       authUserID
+      authUserName
+      bio
+      public
       squadName
       numOfPolls
       Polls {
@@ -846,6 +861,9 @@ export const deleteSquad = /* GraphQL */ `
         __typename
       }
       authUserID
+      authUserName
+      bio
+      public
       squadName
       numOfPolls
       Polls {
@@ -1021,6 +1039,9 @@ export const createRequestToAJoinSquadSquad = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1054,6 +1075,9 @@ export const updateRequestToAJoinSquadSquad = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1087,6 +1111,9 @@ export const deleteRequestToAJoinSquadSquad = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1120,6 +1147,7 @@ export const createSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -1130,6 +1158,9 @@ export const createSquadPoll = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1163,6 +1194,7 @@ export const updateSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -1173,6 +1205,9 @@ export const updateSquadPoll = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1206,6 +1241,7 @@ export const deleteSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        pollCommentArray
         squadID
         pollItems
         createdAt
@@ -1216,6 +1252,9 @@ export const deleteSquadPoll = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1240,6 +1279,9 @@ export const createSquadUser = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1279,6 +1321,9 @@ export const updateSquadUser = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
@@ -1318,6 +1363,9 @@ export const deleteSquadUser = /* GraphQL */ `
       squad {
         id
         authUserID
+        authUserName
+        bio
+        public
         squadName
         numOfPolls
         createdAt
