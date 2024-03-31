@@ -381,6 +381,7 @@ export const onCreatePollRequest = /* GraphQL */ `
       ParentPollID
       userID
       pollRequestsId
+      responseStatus
       notificationID
       createdAt
       updatedAt
@@ -418,6 +419,7 @@ export const onUpdatePollRequest = /* GraphQL */ `
       ParentPollID
       userID
       pollRequestsId
+      responseStatus
       notificationID
       createdAt
       updatedAt
@@ -455,6 +457,7 @@ export const onDeletePollRequest = /* GraphQL */ `
       ParentPollID
       userID
       pollRequestsId
+      responseStatus
       notificationID
       createdAt
       updatedAt
@@ -645,6 +648,7 @@ export const onCreatePoll = /* GraphQL */ `
         ParentPollID
         userID
         pollRequestsId
+        responseStatus
         notificationID
         createdAt
         updatedAt
@@ -692,6 +696,7 @@ export const onUpdatePoll = /* GraphQL */ `
         ParentPollID
         userID
         pollRequestsId
+        responseStatus
         notificationID
         createdAt
         updatedAt
@@ -739,6 +744,7 @@ export const onDeletePoll = /* GraphQL */ `
         ParentPollID
         userID
         pollRequestsId
+        responseStatus
         notificationID
         createdAt
         updatedAt

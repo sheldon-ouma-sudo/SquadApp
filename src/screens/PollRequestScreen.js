@@ -73,19 +73,27 @@ const PollRequest = () => {
             }else if(pollIDPollRequestDirectly === undefined || pollIDPollRequestDirectly === null) {
               console.log("Poll ID not found directly from poll request:", pollRequestID);
               const pollIDByParentPollID = pollRequest.ParentPollID
-              console.log("here is the pollIDByParentPollID", pollIDByParentPollID)
-              if(pollIDByParentPollID){
-                console.log("we have the poll by ID from parent poll ID", pollIDByParentPollID)
+              console.log(" poll ID is available through parent poll ID, here is the pollIDByParentPollID", pollIDByParentPollID)
+              if (pollIDByParentPollID) {
+                console.log("we have the poll by ID from parent poll ID", pollIDByParentPollID);
                 try {
-                  const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollIDPollRequestDirectly }));
+                  // Ensure pollIDByParentPollID is used here instead of pollIDPollRequestDirectly
+                  const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollIDByParentPollID }));
                   const poll = pollQueryResults.data?.getPoll;
                   console.log("Associated Poll:", poll);
+                  if (poll) {
+                    // Set the poll state only if poll exists
+                    setPoll(poll);
+                  } else {
+                    console.log("Poll not found or null");
+                  }
                 } catch (error) {
-                 console.log("error querying for the poll", error) 
+                  console.log("Error querying for the poll", error);
                 }
-              }else{
+              } else {
                 console.log("Poll request not found:", pollRequestID);
               }
+              
             }  
           }
         } catch (error) {
@@ -100,20 +108,12 @@ const PollRequest = () => {
   
  
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.pollRequestContainer}>
         <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Poll Requests</Text>
         <FlatList
           data={pollRequestData}
-          renderItem={({ item }) =>
-           <PollRequestComponent 
-          item={item} 
-          poll = {poll}
-          
-          />}
+          renderItem={({ item }) => <PollRequestComponent item={item} poll={poll} />} // Pass poll as prop
           keyExtractor={(item, index) => index.toString()}
         />
       </View>

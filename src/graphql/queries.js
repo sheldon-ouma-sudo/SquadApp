@@ -380,6 +380,7 @@ export const getPollRequest = /* GraphQL */ `
       ParentPollID
       userID
       pollRequestsId
+      responseStatus
       notificationID
       createdAt
       updatedAt
@@ -400,6 +401,7 @@ export const listPollRequests = /* GraphQL */ `
         ParentPollID
         userID
         pollRequestsId
+        responseStatus
         notificationID
         createdAt
         updatedAt
@@ -431,6 +433,7 @@ export const pollRequestsByUserID = /* GraphQL */ `
         ParentPollID
         userID
         pollRequestsId
+        responseStatus
         notificationID
         createdAt
         updatedAt
@@ -462,6 +465,7 @@ export const pollRequestsByNotificationID = /* GraphQL */ `
         ParentPollID
         userID
         pollRequestsId
+        responseStatus
         notificationID
         createdAt
         updatedAt
@@ -696,6 +700,7 @@ export const getPoll = /* GraphQL */ `
         ParentPollID
         userID
         pollRequestsId
+        responseStatus
         notificationID
         createdAt
         updatedAt

@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "react-native";
+import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -54,10 +54,24 @@ const PollRequestListItem =({poll})=>{
       // }
           const handleIgnore = () => {
             // Handle ignore button press
+            //update the response status locally for the poll request
+            //update the res
+            //Delete it locally from the squad request data by removing it from the pollRequest Data array
+            //update the user notification with the new array
+
+            //Delete the poll request
         };
 
         const handleRespond = () => {
             // Handle respond button press
+            if(poll){
+              console.log("here is the associated poll")
+              navigation.navigate("ResponsePollScreen", {poll:poll})
+            }else{
+              console.log("the poll is undefined", poll)
+              Alert.alert("The poll does no longer exists")
+            }
+           
             
         };
 
@@ -125,7 +139,7 @@ const PollRequestListItem =({poll})=>{
       marginHorizontal: 10,
       marginTop: 20,
       borderColor: "#9789EE",
-      borderRadius: 15,
+      borderRadius: 25,
       backgroundColor: "white",
       borderWidth: 1.5,
       marginRight: 30,

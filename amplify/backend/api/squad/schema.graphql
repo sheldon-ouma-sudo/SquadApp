@@ -46,6 +46,7 @@ type PollRequest @model @auth(rules: [{ allow: public }]) {
   ParentPollID: String
   userID: ID! @index(name: "byUser")
   pollRequestsId: [String]
+  responseStatus: Boolean
   notificationID: ID! @index(name: "byNotification")
 }
 

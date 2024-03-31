@@ -24,32 +24,21 @@ const ResponsePollScreen = () => {
      const navigation = useNavigation()
 
       const route = useRoute()
-       const pollID = route?.params.pollID
-       console.log("here is the poll ID", pollID)
+       const pollReception = route?.params.poll
+       console.log("here is the poll ID", pollReception)
     //     // console.log("here is the poll id", pollID)
         useEffect(() => {
           const fetchPoll = async () => {
-            if (pollID) {
-              try {
-                const results = await API.graphql(graphqlOperation(getPoll, { id: pollID }));
-                if (!results.data?.getPoll) {
-                  console.log("Error fetching poll:", results);
-                } else {
-                  console.log("Fetched poll:", results.data.getPoll);
-                  const queryResults = results.data.getPoll
-                  console.log("here is the poll query results", queryResults)
-                  setPoll(queryResults)
-                }
-              } catch (error) {
-                console.error("Error fetching poll:", error);
-              }
+            if (pollReception) {
+              console.log("here is the poll received", pollReception)
+              setPoll(pollReception)
             } else {
-              console.log("Poll ID is null or undefined");
+              console.log("Poll ID is null or undefined", pollReception);
             }
           };
         
           fetchPoll();
-        }, [pollID]); // Make sure to include pollID in the dependencies array
+        }, [pollReception]); // Make sure to include pollID in the dependencies array
           
           
         useEffect(()=>{
@@ -147,9 +136,9 @@ const ResponsePollScreen = () => {
         question: {
           fontSize: 19.5,
           fontWeight: 'bold',
-          marginBottom: 15,
+          marginBottom: 25,
           marginTop: 75,
-          marginLeft:105
+          marginLeft:45
           
         },
         optionContainer: {
