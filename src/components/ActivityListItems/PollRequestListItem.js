@@ -2,6 +2,7 @@ import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity, Alert } fro
 import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import {useUserContext} from '../../../UserContext';
 
 
 
@@ -74,10 +75,6 @@ const PollRequestListItem =({poll})=>{
            
             
         };
-
-
-
-
 
 
 
