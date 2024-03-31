@@ -199,6 +199,7 @@ export const onCreateNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
       PollComments {
@@ -234,6 +235,7 @@ export const onUpdateNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
       PollComments {
@@ -269,6 +271,7 @@ export const onDeleteNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
       PollComments {

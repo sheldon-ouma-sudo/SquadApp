@@ -173,6 +173,7 @@ export const getNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
       PollComments {
@@ -211,6 +212,7 @@ export const listNotifications = /* GraphQL */ `
         pollRequestsArray
         pollResponsesArray
         pollCommentsArray
+        pollLikeResponseArray
         squadAddRequestsArray
         SquadJoinRequestArray
         userID
@@ -244,6 +246,7 @@ export const notificationsByUserID = /* GraphQL */ `
         pollRequestsArray
         pollResponsesArray
         pollCommentsArray
+        pollLikeResponseArray
         squadAddRequestsArray
         SquadJoinRequestArray
         userID

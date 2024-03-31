@@ -17,6 +17,7 @@ type Notification @model @auth(rules: [{ allow: public }]) {
   pollRequestsArray: [String]
   pollResponsesArray: [String]
   pollCommentsArray: [String]
+  pollLikeResponseArray: [String]
   squadAddRequestsArray: [String]
   SquadJoinRequestArray: [String]
   PollComments: [PollComment]
