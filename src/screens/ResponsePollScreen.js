@@ -22,6 +22,7 @@ const ResponsePollScreen = () => {
      const [poll, setPoll] = useState([])
      const [pollItems, setPollItems] = useState([]);
      const [numOfPollLikes, setNumOfPollLikes] = useState(0)
+     const [totalNumOfVotes, setTotalNumOfVotes] = useState(0)
      const [comment, setComment] = useState("")
      const [isLikeIconClicked, setIsLikeIconClicked] = useState(true);
      const [pollCreator, setPollCreator] = useState("")
@@ -37,14 +38,15 @@ const ResponsePollScreen = () => {
      const [pollItemUpdateStatus, setPollItemUpdateStatus] = useState(false)
      const [pollCommentArray, setPollCommentArray] = useState([])
      const [pollResponseCommentID, setPollResponseCommentID] = useState("")
+     const [updatedPollCommentResponseArray,setUpdatedPollCommentResponseArray] = useState([])
      const [newPollCommentID, setNewPollCommentID] = useState("")
      const [pollLikeNotificationUpdateStatus, setPollLikeNotificationUpdateStatus] = useState(true)
      const [pollCommentsNotificationUpdateStatus, setPollCommentNotificationUpdateStatus] = useState(true)
      const [pollItemNotificationUpdateStatus, setPollItemNotificationUpdateStatus] = useState(true)
-    //const[pollItemNotificationUpdateStatus, setPollItemUpddateStatus] = useState(true)
-     const[pollCommentUpdateStatus, setPollCommentUpdateStatus] = useState(true)
-     const [totalNumOfVotes, setTotalNumOfVotes] = useState(0)
-     const [numOfPollComments, setNumOfPollComment] = useState(0)
+     const [pollResponseStatus, setPollResponseStatus] = useState(false)
+  
+    
+   
 
      const navigation = useNavigation()
     const {user} = useUserContext()
@@ -147,7 +149,7 @@ const ResponsePollScreen = () => {
       const handleLickedIconClick = () => {
           setIsLikeIconClicked(!isLikeIconClicked);
           setNumOfPollLikes(prevLikes => (isLikeIconClicked ? prevLikes +1 : prevLikes -1));
-      
+          setPollResponseStatus(true)
         };
         useEffect(()=>{
           //handle poll likes num  global update
@@ -170,7 +172,7 @@ const ResponsePollScreen = () => {
             //create poll response 
             if(pollID){
               console.log("here is the poll ID for the poll", pollID)
-              const string = localUserName + "has liked your poll"
+              const string = localUserName + "has liked your poll!"
               console.log(console.log("here is the caption for the poll like response", string))
               try {
                 const newPollResponseCreated = await API.graphql(graphqlOperation(createPollResponse, {
@@ -194,7 +196,7 @@ const ResponsePollScreen = () => {
           handlePollLikeResponseUpdate()
         },[numOfPollLikes])
 
-      //update the poll notification 
+      //update the poll notification ✅
       useEffect(()=>{
         const handleLikeResponseNotificationUpdate=async()=>{
           console.log('here is the poll creator notification', pollCreatorNotification)
@@ -266,12 +268,42 @@ const ResponsePollScreen = () => {
             }
         
             setSelectedOption(index);
-            //animateAllOptions(index);
+            setPollResponseStatus(true)
           }
         }
 
 
       //handling everything poll comment
+      const handlePollCommentOnSubmit= async() =>{
+        console.log("here is the comment", comment)
+        console.log("here is the poll comment array",pollCommentArray)
+        let newArr = pollCommentArray.push(comment)
+        setPollCommentArray(newArr)
+       setComment("")
+       setPollResponseStatus(true)
+      }
+
+      //local poll comment update
+      useEffect(()=>{
+        const localPollCommentArrayUpdate=async()=>{
+          if(comment){
+            if(!originalPollCommentArray){
+              const newArray = []
+               const newPollCommentArray = pollCommentArray.concat[newArray]
+               console.log("here is the updated new poll comment array", newPollCommentArray)
+              setPollCommentArray(newPollCommentArray)
+            }else{
+              const newPollCommentArray = originalPollCommentArray.concat(pollCommentArray)
+               console.log("here is the updated comment array with the new array", newPollCommentArray)
+               setPollCommentArray(newPollCommentArray)
+            }
+          }else{
+            console.log("something went wrong with updating poll comment locally")
+          }
+          }
+          localPollCommentArrayUpdate()
+      }, [pollCommentArray])
+
 
       //create poll response based on comment
       useEffect(async ()=>{
@@ -297,21 +329,32 @@ const ResponsePollScreen = () => {
       }
       handlePollCommentResponseCreation
       }, [comment])
-//local poll comment update
+      
+  //update notification with the new poll comment✅
+      //update the poll notification ✅
       useEffect(()=>{
-        const localPollCommentArrayUpdate=async()=>{
-          if(comment){
-            const newPollCommentArray = pollCommentArray.push(comment)
-            setPollCommentArray(newPollCommentArray)
-            //now create the poll Comment
-          
-            //setComment("")
-          }else{
-            console.log("something went wrong with updating poll comment locally")
+        const handlePollCommentArrayNotificationUpdate=async()=>{
+          console.log('here is the poll creator notification', pollCreatorNotification)
+          if(pollCreatorNotification && pollResponseCommentID){
+            //get poll like response array
+            const pollCommentResponseArr = pollCreatorNotification[0].pollCommentsArray
+            if(pollCommentResponseArr  === null || pollCommentResponseArr === undefined){
+              const newPollCommentResponseArray = []
+              newPollCommentResponseArray.push(pollResponseCommentID)
+              console.log("this is the new pollLike response array", newPollCommentResponseArray)
+              setUpdatedPollCommentResponseArray(newPollCommentResponseArray)
+            }else{
+              console.log("here is the pollLikes response array",pollCommentResponseArr)
+              pollCommentResponseArr.push(pollResponseCommentID)
+              console.log("here is the updated poll like response array", pollCommentResponseArr)
+              setUpdatedPollCommentResponseArray(pollCommentResponseArr)
+            }
           }
           }
-          localPollCommentArrayUpdate()
-      }, [comment])
+          handlePollCommentArrayNotificationUpdate() 
+      }, [pollResponseCommentID])
+
+
 
 
      //createPollComment in the backend
@@ -354,21 +397,19 @@ const ResponsePollScreen = () => {
       useEffect(()=>{
         console.log("here is the update poll comment array", pollCommentArray)
         const handlePollCommentGlobalPollUpdate=async()=>{
-          let newPollCommentsArray = []
-          if(!originalPollCommentArray){
-            newPollCommentsArray.push(comment)
-            console.log("here is the updated poll comment array", newPollCommentsArray)
-          }else{
-            newPollCommentsArray = backendPollCommentsArray.push(comment)
-          }
+         try {
           const pollCommentArrayUpdateResults = await API.graphql(graphqlOperation(updatePoll, {
             id:pollID, 
             pollCommentArray:pollCommentArray
 
           }))
+          console.log("here is the results for updating the poll comment array in the poll", pollCommentArrayUpdateResults)
+         } catch (error) {
+          console.log("error updating the poll with the new poll comment array")
+         }  
         }
-
-      })
+        handlePollCommentGlobalPollUpdate()
+      },[pollCommentArray])
      
       //the big update heavywork
       useEffect(()=>{
@@ -404,77 +445,42 @@ const ResponsePollScreen = () => {
           setPollLikeNotificationUpdateStatus(false)
         }
        }
+
+       const notificationPollCommentUpdate=async()=>{
+        if(notificationID){
+          try {
+            const notificationResultUpdate = await API.graphql(graphqlOperation(updateNotification,{
+              id:notificationID, 
+              pollCommentsArray:updatedPollCommentResponseArray
+            }))
+            console.log("here is the results for updating the notification's pollCommentsArray with the new poll comment ID", notificationResultUpdate)
+            setPollCommentNotificationUpdateStatus(true)
+          } catch (error) {
+            console.log("error updating the notification's pollCommentsArray with the new poll comment response ID", error)
+            setPollCommentNotificationUpdateStatus(false)
+          }
+        }
+       }
        notificationPollLikeResponseUpdate()
        notificationPollItemUpdate()
-        
-      }, [updatedPollLikeResponseArray, pollItemUpdateStatus])
+       notificationPollCommentUpdate()      
+      }, [updatedPollLikeResponseArray, pollItemUpdateStatus, updatedPollCommentResponseArray])
 
-
-
-        const handlePollResponse=async()=>{
-           //1. create the poll response
-              //2. Attach the poll response to the user
-              //3. Attach the poll response to the poll 
-              //4. update the poll response with the info from 2 and 3
-              //5. Update the poll notification with this info
-                    //1. get the user notification and acquire its poll response array
-                    //2. add the new poll comment response to the poll response array
-                    //3. update this data to the backend 
-              //6. return true if everything is successful
-        }
-
-      const handlePollCommentOnSubmit= async() =>{
-        //handle the comment
-        //1. create the poll comment
-        //2. Attach the poll comment to the user
-        //3. Attach the poll commment to the poll 
-        //4. update the poll comment with this info
-        //5. Update the notification poll commment array with the new comment ID 
-              //1. get the user notification and acquire its poll comment array
-              //2. add the new comment ID to the notification poll comment array
-              //3. update this data to the backend 
-        //6.handle the  poll response for the poll comment
-         //7. return true if everything is successful
-      }
-      const handleLocalPollUpdate= async()=>{
-        //locally 
-              //includes incrementing the number of votes of the choice selected
-              //includes incerementing the number of total votes by one
-              //returns the update json poll item object when everything is successful otherwise return false
-
-      }
-
-      const handlePollOnUpdateResponse = async()=>{}
-      const handleNotificationOnPollItemUpdate = async()=>{}
-       
-      const handleGlobalPollUpdate= async()=>{
-        //globally
-          //1. makes sure that the update poll items are valid
-          //2. update the poll on the backend 
-          //3. create the poll response for the updated poll items. 
-              //1. create the poll response
-              //2. Attach the poll response to the poll 
-              //3. Attach the poll response to the user 
-              //4. update the notification with the poll response
-                  //1. get the poll response array from the notification
-                  //2. add the poll response to the poll response array in the notification
-                  //3. update this info on the backend 
-                  //return true if everything is okay
-          //5. return true if everything is successful, false otherwise
-
-      }
-
-
+     
        const handleSubmitPollResponse = async()=>{
-       //handle the poll item update
-          //1. locally 
-              //includes incrementing the number of votes of the choice selected
-              //includes incerementing the number of total votes by one
-          //2. globally, i.e backend 
-          //3. go back()
-      //update the poll likes
-        //1. locally
-        //2. globally
+       if(pollLikeNotificationUpdateStatus === true){
+          if(pollItemNotificationUpdateStatus=== true){
+            if(pollCommentsNotificationUpdateStatus === true){
+              navigation.goBack({pollResponseStatus:pollResponseStatus})
+            }else{
+              console.log("there was an error with poll comment response")
+            }
+          }else{
+            console.log("there was an error with polling response")
+          }
+       }else{
+        console.log("there was an error with the poll liking response")
+       }
      
 
        }
@@ -522,14 +528,17 @@ const ResponsePollScreen = () => {
             </TouchableOpacity>
           ))}
           </TouchableOpacity>
-          <TouchableOpacity>
-           <TextInput
+         
+          <TextInput
           placeholder ="Add a comment here..."
           value={comment}
           onChangeText={text =>setComment(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
           style={styles.input}
           textAlignVertical={"top"}
          />
+          <TouchableOpacity
+           onPress={handlePollCommentOnSubmit}
+          >
           <MaterialCommunityIcons name="send-circle" size={40} color='#545454'
            style={{marginLeft:308, marginTop:-38}}
           />
