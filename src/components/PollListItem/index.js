@@ -250,33 +250,40 @@ const optionContainerRef = useRef(null);
 
       {/* component holding for the comment icon */}
       <TouchableOpacity
-        style={styles.pollCommentContainer}
-        onPress={toggleComments}
-      >
-        <FontAwesome
-          name="commenting-o"
-          size={35}
-          color="#black"
-          style={styles.pollCommentIcon}
+          style={styles.pollCommentContainer}
+          onPress={toggleComments}
+        >
+          {/* <FontAwesome
+            name="commenting-o"
+            size={35}
+            color="#black"
+            style={styles.pollCommentIcon}
+          /> */}
+        <View style={styles.commentIconImageContainer}>
+         <Image
+          source={require('/Users/sheldonotieno/Squad/assets/comments.png')}
+          resizeMode="contain"
+          style={styles.commentIconImage}
         />
-      </TouchableOpacity>
+         </View>
+        </TouchableOpacity>
       <View
       style={{marginLeft:5}}
       >
       <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
       </View>
       <TouchableOpacity
-        style={styles.pollLikesContainer}
-        onPress={handleLickedIconClick}
-      >
-        <FontAwesome
-          name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
-          size={36}
-          color={isLikeCommentIconClicked ? '#1764EF' : 'red'}
-          style={styles.pollCommentIcon}
-        />
-        <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
-      </TouchableOpacity>
+          style={styles.pollLikesContainer}
+          onPress={handleLickedIconClick}
+        >
+          <FontAwesome
+            name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
+            size={56}
+            color={isLikeCommentIconClicked ? '#1764EF' : 'red'}
+            style={styles.pollLikeIcon}
+          />
+          <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
+        </TouchableOpacity>
 
       {/* Comments Section */}
       <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
@@ -324,6 +331,16 @@ const styles = StyleSheet.create({
        width:50,
        height:70
    },
+   commentIconImageContainer:{
+    //marginStart:10,
+    marginBottom:-20,
+    marginLeft: 10,
+    marginTop:20
+   },
+   commentIconImage:{
+       width:60,
+       height:80
+   },
    userName:{
    marginLeft: 0,
    marginTop:-45,
@@ -348,7 +365,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: '#ffff',
     borderColor: 'black',
-    borderWidth: 1.5,
+    borderWidth: 1,
     height: 50,
     width: 350, // Adjust the width as per your requirement
   },
@@ -376,7 +393,10 @@ const styles = StyleSheet.create({
   // percentageContainer:{
   //   marginLeft:50
   // },
-
+  pollLikeIcon:{
+    marginLeft:-3,
+    //size:44
+   },
   percentageBar: {
     height: 50,
     backgroundColor: '#1764EF',
@@ -409,7 +429,7 @@ const styles = StyleSheet.create({
   },
   pollLikesContainer:{
     marginLeft:280,
-    marginTop:-65
+    marginTop:-85
   },
   numOfpollLikes:{
     marginLeft:20,

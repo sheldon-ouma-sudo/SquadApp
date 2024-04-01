@@ -277,11 +277,11 @@ const SqaudPollListItem = ({ poll,squadID }) => {
             color="#black"
             style={styles.pollCommentIcon}
           /> */}
-        <View style={styles.userImageContainer}>
+        <View style={styles.commentIconImageContainer}>
          <Image
           source={require('/Users/sheldonotieno/Squad/assets/comments.png')}
           resizeMode="contain"
-          style={styles.userImage}
+          style={styles.commentIconImage}
         />
          </View>
         </TouchableOpacity>
@@ -296,9 +296,9 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         >
           <FontAwesome
             name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
-            size={36}
+            size={56}
             color={isLikeCommentIconClicked ? '#1764EF' : 'red'}
-            style={styles.pollCommentIcon}
+            style={styles.pollLikeIcon}
           />
           <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
         </TouchableOpacity>
@@ -340,12 +340,13 @@ const SqaudPollListItem = ({ poll,squadID }) => {
      // borderColor: '#0038FF'
       //marginVertical:135,
     },
-    userImageContainer:{
+    commentIconImageContainer:{
       //marginStart:10,
-      marginTop:-20,
-      marginLeft: 10
+      marginBottom:-20,
+      marginLeft: 10,
+      marginTop:20
      },
-     userImage:{
+     commentIconImage:{
          width:60,
          height:80
      },
@@ -378,7 +379,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
       borderRadius: 28,
       backgroundColor: '#ffff',
       borderColor: 'black',
-      borderWidth: 1.5,
+      borderWidth: 1,
       height: 50,
       width: 350, // Adjust the width as per your requirement
     },
@@ -428,17 +429,18 @@ const SqaudPollListItem = ({ poll,squadID }) => {
     pollCommentContainer:{
      marginTop:20,
     },
-    pollCommentIcon:{
-     marginLeft:20,
+    pollLikeIcon:{
+     marginLeft:-2.5,
+     //size:44
     },
     numOfpollComments:{
       fontSize: 15,
       marginLeft:12,
-      marginTop:5,
+     //marginTop:5,
      // fontWeight:'400'
     },
     pollLikesContainer:{
-      marginLeft:280,
+      marginLeft:270,
       marginTop:-65
     },
     numOfpollLikes:{

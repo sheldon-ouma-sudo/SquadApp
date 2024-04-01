@@ -28,17 +28,14 @@ const CreateSquadScreen = () => {
   const[finalPollAudience, setfinalPollAudience] = useState([])
   const [idCounter, setIdCounter] = useState(1);
   const [squadsData, setSquadsData] = useState([]);
+  const [squadName, setSquadName] = useState("")
   const{user} = useUserContext();
   const navigation = useNavigation()
   
-  const pollLabelData=[ 
-    {key:'1', value:"Fashion"},
-    {key:'2', value:"Decor"},
-    {key:'3', value:"Food"},
-    {key:'4', value:"Travel"},
-    {key:'5', value:"Social"},
-    {key:'6', value:"Health"},
-    {key:'7', value:"Other"},
+  const SquadPrivacyOptions=[ 
+    {key:'1', value:"Public"},
+    {key:'2', value:"Private"},
+    
 ]
 const DATA=[//rename this variable 
 { label: 'SquadInstagramInstagramInstagram', value: '1' },
@@ -385,10 +382,21 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
     behavior="padding"
     > 
     <View style={styles.pollContentStyles}>
-      <Text style={styles.pollContentCaption}>Squad Name</Text>
+      <Text style={styles.pollContentCaption}>Squad Name</Text> 
     </View>
     <TextInput
-      placeholder ="Type your poll caption here..."
+        placeholder ="Enter Your Squad Name"
+        value={squadName}
+        //autoComplete='none'
+        autoCapitalize='none'
+        onChangeText={text => setSquadName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
+        style={styles.squadNameInput}
+        />
+    <View style={styles.pollContentStyles}>
+      <Text style={styles.pollContentCaption}>Squad Bio</Text>
+    </View>
+    <TextInput
+      placeholder ="Type your Squad Bio here..."
       value={caption}
       onChangeText={text =>setCaption(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
       style={styles.input}
@@ -404,7 +412,7 @@ const sendPollCreationNotification = async (expoPushToken, notificationIDArray) 
       <SelectList 
       setSelected={handleSelect} 
       value={selected}
-      data={pollLabelData} 
+      data={SquadPrivacyOptions} 
       save="value"
       search={true} 
       />
@@ -550,12 +558,27 @@ const styles = StyleSheet.create({
       width:350,
       height:80,
       marginTop:10,
-      fontSize: 13,
+      fontSize: 15,
       marginRight:15,
       marginLeft:5,
       color:'black',
       fontWeight:'400'    
   },
+  squadNameInput:{
+    backgroundColor: '#fff',
+    paddingHorizontal: 15,
+    paddingVertical:5,
+    borderRadius:5,
+    width:296,
+    height:40,
+    marginTop:10,
+    fontSize: 15,
+    //marginRight:15,
+    marginLeft:-50,
+// fontStyle:"Montserrat-Regular",
+    color:'#535353',
+    fontWeight:'400'    
+},
   ImageContainer: {
     marginHorizontal: 16,
     marginTop: 20,
