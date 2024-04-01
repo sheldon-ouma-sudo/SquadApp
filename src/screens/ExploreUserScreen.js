@@ -1,100 +1,72 @@
-import { View, Text, 
-  StyleSheet,FlatList, 
-  SafeAreaView, KeyboardAvoidingView, 
-  ActivityIndicator,
-  Image, Pressable } from 'react-native'
-import React, { useState, useEffect } from 'react';
-import SearchBar from "../components/SearchBar"
-import List from "../components/SearchList"
-import { API, graphqlOperation, Auth } from "aws-amplify";
-import { listUsers } from "../graphql/queries";
-import UserListItem from "../components/UserListItem"
-import { useRoute } from '@react-navigation/native';
-import {useUserContext} from '../../UserContext';
+import React, { useState, useEffect, useMemo } from 'react';
+import { View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { API, graphqlOperation } from 'aws-amplify';
+import SearchBar from '../components/SearchBar';
+import UserListItem from '../components/UserListItem';
+import { listUsers } from '../graphql/queries';
 
 const ExploreUserScreen = () => {
-  //const [search, setSearch] = useState('');
-  const [searchPhrase, setSearchPhrase] = useState("");
+  const [searchPhrase, setSearchPhrase] = useState('');
   const [users, setUsers] = useState([]);
-  const[userInfo, setUserInfo] = useState("")
-  const {user} = useUserContext();
-  
-  
-useEffect(() => {
-  const fetchUsers = async () => {
-    try {
-      const results = await API.graphql(graphqlOperation(listUsers));
-    if (!results.data?.listUsers) {
-      console.log("Error fetching users");
-    }
-    setUsers(results.data?.listUsers?.items);
-    if (!user) {
-      console.log("the user is null for now", user);
-    } else {
-      setUserInfo(user);
-      console.log("otherwise this the user info", user);
-      console.log("here is the userSquadId", user.userSquadId);
-    }
-    } catch (error) {
-      console.log("error getting users", error)
-    }
-    
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const results = await API.graphql(graphqlOperation(listUsers));
+        if (!results.data?.listUsers) {
+          console.log('Error fetching users');
+          return;
+        }
+        setUsers(results.data?.listUsers?.items);
+      } catch (error) {
+        console.log('Error getting users', error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const filteredUsers = useMemo(() => {
+    if (!searchPhrase) return users;
+    return users.filter((item) => {
+      return item.userName && item.userName.toLowerCase().includes(searchPhrase.toLowerCase());
+    });
+  }, [searchPhrase, users]);
+
+  const handleSearchBarClick = () => {
+    // Handle click event for the search bar here
+    console.log('Search bar clicked');
   };
-  fetchUsers();
-}, [user]);
 
-  
   return (
-    <SafeAreaView
-    style={styles.container}>
-    <View style={styles.searchBarContainer}>
-        {/* <SearchBar
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-        //clicked={clicked}
-        setClicked={setClicked}
-      /> */}
-       <FlatList
-       data = {users}
-       searchPhrase={searchPhrase}
-       renderItem={({item})=>(
-        <UserListItem
-         user={item}
-        userInfo={userInfo}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.searchBarContainer}>
+        <SearchBar
+          searchPhrase={searchPhrase}
+          setSearchPhrase={setSearchPhrase}
+          setClicked={handleSearchBarClick} // Pass the function to handle search bar click
         />
-       )} 
-       
-       />
-    </View>
-     
+        <FlatList
+          data={filteredUsers}
+          renderItem={({ item }) => <UserListItem user={item} />}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      </View>
     </SafeAreaView>
-  )
-}
+  );
+};
+
 const styles = StyleSheet.create({
-  container:{
-  flex:1,
-  justifyContent:"flex-start",
-  alignItems:"center",
-  backgroundColor: "#F4F8FB",
-
-
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#F4F8FB',
   },
-  squadLogo:{
-      width:100,
-      height:35,
-      marginRight:250,
-      marginTop:70  
-},
-searchBarContainer:{
-marginTop:10,
-marginLeft: 30,
-width: 420
-},
-searchBar:{
-  backgroundColor: 'white'
-},
-itemStyle: {
-  padding: 10,
-},
-})
-export default ExploreUserScreen
+  searchBarContainer: {
+    marginTop: 10,
+    marginLeft: 30,
+    width: 420,
+  },
+});
+
+export default ExploreUserScreen;

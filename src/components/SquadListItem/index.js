@@ -121,7 +121,7 @@ const SquadListItem =({ squad,
                 }
                 }
                 fetchCurrentSquadAuthUserData()
-            }, [squad]);
+            }, [squad, userInfo]);
           
 
         
@@ -444,7 +444,7 @@ const SquadListItem =({ squad,
           onPress={handleSquadSelected}
         >
         <Text style={{ color: squadSelected ? "#1145FD" : "white", marginBottom: 10 }}>
-            {squadSelected ? "Joined!" : "Join Squad"}
+            {squadSelected ? "Request Sent!" : "Join Squad"}
           </Text>
         </TouchableOpacity>
   </View>
@@ -484,7 +484,7 @@ const SquadListItem =({ squad,
  },
  joinedSquadTextContainer:{
   height:40,
-  width: 95,
+  width: 105,
   backgroundColor: "#FFFF",
   borderRadius: 10,
   borderColor:"#1145FD",
