@@ -1,62 +1,104 @@
 import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, ActivityIndicator,  ImageBackground } from 'react-native'
 import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
-import {listPolls} from "../graphql/queries"
-import { listSquadPolls } from '../graphql/queries';
+import {getPoll, squadPollsBySquadId} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
-import Poll from "../components/PollListItem";
+import Poll from "../components/SquadPollListItem/index";
+import { useUserContext } from '../../UserContext';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 
 const MySquadPollScreen = () => {
-  const [numOfVotes, setNumOfVotes] = useState("32")
-  const [userImage, setUserImage] = useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')//remember to use uri instead of the require when quering from the backend
-  const [pollCaption, setPollCaption] = useState("dining hall with best food today")
-  const [pollCreator, setPollCreator] = useState("Drake")
-  const [polls, setPolls] = useState([])
+  const [squadPollData, setSquadPollData] = useState([])
+  const [pollIDArray, setPollIDArray] = useState([])
+  const [userSquadJoinedArray, setUserSquadJoinedArray] = useState([])
+  const [squadID, setSquadID] = useState()
+  const{user} = useUserContext()
+  //console.log("here is the user", user)
+    
 
+//get all the squads the user has joined
+    useEffect(()=>{
+    if(user){
+      console.log("here is the squad the user has joined", user.squadJoined)
+      const userSquads = user.squadJoined
+      setUserSquadJoinedArray(userSquads)
+    }
 
-    useEffect(() => {
-      const fetchPolls = async () => {
-        try {
-          const results = await API.graphql(graphqlOperation(listSquadPolls));
-          if(!results.data?.listSquadPolls?.items){
-            console.log("Error fetching users") 
+    },[user])
+   //get the squadPoll associated with the squads
+   useEffect(() => {
+    //get squads poll
+    const handleSquadPollDataQuery = async () => {
+      if (userSquadJoinedArray) {
+        for (const squadID of userSquadJoinedArray) {
+          //console.log("here is the squad ID", squadID)
+          if (squadID) {
+            setSquadID(squadID)
+            try {
+              //console.log("Squad ID:", squadID);
+              const results = await API.graphql(graphqlOperation(squadPollsBySquadId, {
+                squadId: squadID
+              }))
+              //console.log("here are the results for query", results.data?.squadPollsBySquadId)
+              
+              // Extract pollId from each squad poll
+              const squadPolls = results.data?.squadPollsBySquadId;
+              if (squadPolls) {
+                const pollIds = squadPolls.items.map(item => item.pollId);
+                //console.log("Poll IDs:", pollIds);
+                setPollIDArray(pollIds)
+              }
+              
+            } catch (error) {
+              console.log("error querying for the squadpolls", error)
+            }
           }
-          console.log("this is the list of the Squad Polls",results)
-            setPolls(results.data?.listSquadPolls?.items)
-        } catch (error) {
-          console.log(error)
         }
-      };
-      fetchPolls();
-    }, []);
-   
+      }
+    }
+    handleSquadPollDataQuery()
+  }, [userSquadJoinedArray])
   
+   useEffect(()=>{
+    const handleSquadPollData=async()=>{
+      console.log(pollIDArray)
+      let array = []
+      for(const pollID of pollIDArray){
+        //console.log(pollID)
+        try {
+          const queryResults = await API.graphql(graphqlOperation(getPoll, {
+            id:pollID
+          }))
+          //console.log("here is the poll results from the poll result query", queryResults.data?.getPoll)
+          array.push(queryResults.data?.getPoll)
+        } catch (error) {
+          console.log("error querying for the poll")
+        }
+      }
+     //console.log("the final array is as follows", array)
+     setSquadPollData(array)
+    }
+    handleSquadPollData()
+   }, [pollIDArray])
+
 
   return (
-    <KeyboardAvoidingView
-    style={styles.container}
-    behavior="padding"
-  >
-     {/* <FlatList
-          data={polls}
-          scrollEnabled={true}
-          // renderItem={({ item }) => (
-          //   <Item
-          //     id={item.id}
-          //     title={item.title}
-          //     url = {item.url}
-          //     selected={!!selected.get(item.id)}
-          //     onSelect={onSelect}
-          //   />
-          // )}
-          renderItem={ ({ item }) => 
-          <Poll 
-          poll={item} />}
-          style={styles.list}
-          inverted
-        /> */}
-  </KeyboardAvoidingView>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <BottomSheetModalProvider>
+     <FlatList    
+       data={squadPollData}
+       renderItem={({ item }) => (
+         <Poll poll={item} 
+          squadID = {squadID}
+         />
+       )}
+       keyExtractor={(item) => item.id}
+       style={styles.list}
+       contentContainerStyle={{ flexGrow: 1 }}
+     />
+   </BottomSheetModalProvider>
+ </KeyboardAvoidingView>
   )
 }
 

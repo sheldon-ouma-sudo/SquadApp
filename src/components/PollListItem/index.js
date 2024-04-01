@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: '#ffff',
     borderColor: 'black',
-    borderWidth: 3,
+    borderWidth: 1.5,
     height: 50,
     width: 350, // Adjust the width as per your requirement
   },
