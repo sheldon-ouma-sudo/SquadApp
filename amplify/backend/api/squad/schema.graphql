@@ -36,6 +36,7 @@ type PollResponse @model @auth(rules: [{ allow: public }]) {
   id: ID!
   pollID: ID! @index(name: "byPoll")
   userID: ID! @index(name: "byUser")
+  caption: String
   score: Int
   PollComments: [PollComment]
     @hasMany(indexName: "byPollResponse", fields: ["id"])
