@@ -10,6 +10,7 @@ import { getPoll } from '../graphql/queries';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
 
@@ -71,6 +72,12 @@ const PersonalPollDisplayScreen = () => {
     return (
       
             <KeyboardAvoidingView style={styles.container} behavior="padding">
+              <TouchableOpacity
+              onPress={()=>navigation.goBack()}
+              >
+              <Ionicons name="arrow-back" size={24} color="black" />
+              
+              </TouchableOpacity>
             <LinearGradient
           colors={['#EE8B94', '#0038FF']} // Adjust the gradient colors as per your preference
             start={{ x: 0, y: 0 }}

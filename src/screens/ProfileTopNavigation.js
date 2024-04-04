@@ -13,9 +13,10 @@
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
   import { API, graphqlOperation, Auth } from "aws-amplify";
   //import { graphqlOperation } from 'aws-amplify' 
-  import {getUser} from '../graphql/queries'
+  import {getUser, pollsByUserID} from '../graphql/queries'
   import { useUserContext } from '../../UserContext'
   import { MaterialIcons } from '@expo/vector-icons';
+import { updateUser } from '../graphql/mutations'
   
 
   
@@ -28,6 +29,7 @@
     const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
     const[name, setName] = useState("")
     const{user, updateUserProperty} = useUserContext();
+    const[userPolls, setUserPolls] = useState([])
     const Tab = createMaterialTopTabNavigator();
     const navigation = useNavigation()
     const insets = useSafeAreaInsets();  
@@ -61,7 +63,63 @@
       };
   
       queryUser();
-  }, [])
+  }, [user])
+
+   useEffect(()=>{
+    const getUserPoll=async()=>{
+      if(user){
+        try {
+          const userID = user.id
+          console.log("here is the user ID", userID)
+          const results = await API.graphql(graphqlOperation(pollsByUserID,{userID:userID}))
+          console.log("here is the user results items",results.data?.pollsByUserID.items)
+          const userPollArray = results.data?.pollsByUserID.items
+          setUserPolls(userPollArray)
+          // const numOfUserPolls = userPollArray.length
+          // console.log("here is the number of the poll for the user", numOfUserPolls)
+          // setNumOfUserPolls(numOfUserPolls)
+        } catch (error) {
+          console.log("error getting the user polls", error)
+        }
+       
+      }
+      
+    }
+
+   getUserPoll()
+   },[])
+   useEffect(() => {
+    const updateUserInfo = async () => {
+      if (userPolls) {
+        console.log("here is the user polls", userPolls);
+        try {
+          const userID = user.id;
+          console.log("here is the user ID", userID);
+          if (userPolls.length > numOfUserPolls) {
+            const newNumOfUserPoll = userPolls.length;
+            setNumOfUserPolls(newNumOfUserPoll);
+            // Update the user info
+            try {
+              const results = await API.graphql(graphqlOperation(updateUser, {
+                id: userID,
+                numOfPolls: newNumOfUserPoll,
+              }));
+              console.log("here are the results for updating the num of user Polls", results);
+            } catch (error) {
+              console.log("Error updating user info:", error);
+            }
+          }
+        } catch (error) {
+          console.log("Error getting the user polls", error);
+        }
+      }
+    };
+    updateUserInfo();
+  }, [userPolls, numOfUserPolls]); // Include userPolls and numOfUserPolls in the dependency array
+  
+
+
+   
     return (
       <>
       <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:0}]}>
@@ -94,18 +152,18 @@
            
           <View>
           <Text
-           style={{marginBottom:-15,marginLeft:2,fontWeight:'bold', color:'#A9A9A9'}}
+           style={{marginBottom:-15,marginLeft:2,fontWeight:'bold', color:'black'}}
            >{numOfUserPolls}</Text> 
           </View>
             <View>
             <Text
-              style={{marginLeft:80,fontWeight:'bold', color:'#A9A9A9'}}
+              style={{marginLeft:80,fontWeight:'bold', color:'black'}}
               >{numOfUsersInSquad}</Text>  
             </View>
 
            <View>
            <Text
-                style={{marginLeft:190,marginTop:-15,fontWeight:'bold', color:'#A9A9A9'}}
+                style={{marginLeft:190,marginTop:-15,fontWeight:'bold', color:'black'}}
                 >{numOfUserSquadron}</Text>
            </View>
           
@@ -122,7 +180,7 @@
            </View>
            <Text
            style={{marginLeft:60,marginBottom:-15,color:'#000',fontWeight:'600', }}
-           >SquadCreated</Text>  
+           >Squad Created</Text>  
            <View>
 
            </View>

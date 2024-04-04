@@ -1,21 +1,15 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
     TextInput, TouchableOpacity, StatusBar, FlatList, Button, ScrollView} from 'react-native'
-  import { useState, useEffect } from 'react'
+  import { useState, useEffect, useCallback, useMemo, useRef  } from 'react'
   import {SelectList} from 'react-native-dropdown-select-list'
-  import { MultiSelect } from 'react-native-element-dropdown';
-  import AntDesign from 'react-native-vector-icons/AntDesign';
   import { useNavigation } from '@react-navigation/native';
   import {API,graphqlOperation, Auth} from "aws-amplify"
-  import { createNotification, createPoll } from '../graphql/mutations';
-  import * as Device from 'expo-device';
-  import * as Notifications from 'expo-notifications';
-  import Constants from 'expo-constants';
   import { useUserContext } from '../../UserContext';
-  import { getSquad } from '../graphql/queries';
-  import { updatePoll } from '../graphql/mutations';
-  import { updateUser } from '../graphql/mutations';
-  import { registerForPushNotificationsAsync, sendPushNotifications } from '../../notificationUtils';
+  import { listUsers } from '../graphql/queries';
   import { FontAwesome } from '@expo/vector-icons';
+  import {BottomSheetModal,BottomSheetView,BottomSheetModalProvider, } from '@gorhom/bottom-sheet';
+  import SearchBar from '../components/SearchBar';
+  import UserListItem from '../components/UserListItem';
   
 
 
@@ -24,9 +18,12 @@ const CreateSquadScreen = () => {
   const [squadImage, setSquadImage] = useState("")
   const [squadName, setSquadName] = useState("")
   const [squadBio, SetSquadBio]  = useState("")
-  const [privacyOption, setPrivacyOption] = useState("")
+  const [privacyOption, setPrivacyOption] = useState(null)
+  const [searchPhrase, setSearchPhrase] = useState('');
+  const [users, setUsers] = useState([]);
   const{user} = useUserContext();
   const navigation = useNavigation()
+  const bottomSheetModalRef = useRef(null);
   
   const SquadPrivacyOptions=[ 
     {key:'1', value:"Public"},
@@ -34,7 +31,49 @@ const CreateSquadScreen = () => {
     
 ]
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const results = await API.graphql(graphqlOperation(listUsers));
+        if (!results.data?.listUsers) {
+          console.log('Error fetching users');
+          return;
+        }
+        setUsers(results.data?.listUsers?.items);
+      } catch (error) {
+        console.log('Error getting users', error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  const filteredUsers = useMemo(() => {
+    if (!searchPhrase) return users;
+    return users.filter((item) => {
+      return item.userName && item.userName.toLowerCase().includes(searchPhrase.toLowerCase());
+    });
+  }, [searchPhrase, users]);
+
+  const handleSearchBarClick = () => {
+    // Handle click event for the search bar here
+    console.log('Search bar clicked');
+  };
+
+
+    // variables
+    const snapPoints = useMemo(() => ['25%', '50%', '75%', '100'], []);
+
+    // callbacks
+    const handlePresentModalPress = useCallback(() => {
+      bottomSheetModalRef.current?.present();
+    }, []);
+
+    const handleSheetChanges = useCallback((index) => {
+      console.log('handleSheetChanges', index);
+    }, []);
+
   return (
+    <BottomSheetModalProvider>
     <KeyboardAvoidingView
     style={styles.container}
     behavior="padding"
@@ -74,7 +113,9 @@ const CreateSquadScreen = () => {
    {/* */}
    </TouchableOpacity>
    {/* when the user clicks this, I want the bottom sheet navigation with a list of users */}
-  <TouchableOpacity>
+  <TouchableOpacity
+  onPress={handlePresentModalPress}
+  >
   <FontAwesome name="plus-square"
    style={{marginLeft:250, marginTop:-50}}
    size={54} color='#1764EF' /> 
@@ -102,7 +143,27 @@ const CreateSquadScreen = () => {
             </Text>
         </TouchableOpacity>
         </View>
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+          <SearchBar
+          searchPhrase={searchPhrase}
+          setSearchPhrase={setSearchPhrase}
+          setClicked={handleSearchBarClick} // Pass the function to handle search bar click
+        />
+          <FlatList
+           data={filteredUsers} // Assuming users is an array containing user objects
+          renderItem={({ item }) => <UserListItem user={item} />}
+          keyExtractor={(item) => item.id.toString()} // Assuming each user has a unique ID
+        />
+          </BottomSheetView>
+        </BottomSheetModal>
     </KeyboardAvoidingView>
+    </BottomSheetModalProvider>
   )
 }
 const styles = StyleSheet.create({
@@ -111,6 +172,10 @@ const styles = StyleSheet.create({
     justifyContent:"flex-start",
     alignItems:"center",
     backgroundColor: "#F4F8FB"
+    },
+    contentContainer: {
+      flex: 1,
+      alignItems: 'center',
     },
     userImageContainer:{
       //marginStart:10,
