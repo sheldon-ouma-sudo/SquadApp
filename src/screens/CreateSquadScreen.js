@@ -21,10 +21,10 @@ import { View, Text, KeyboardAvoidingView, StyleSheet,Image,
 
 const CreateSquadScreen = () => {
   const [selected, setSelected] = useState(null);
-  const [caption, setCaption] = useState()
-  
-  const[userImage, setUserImage] =useState('https://squadmaindb55805-staging.s3.us-west-2.amazonaws.com/SquadInAppImages/logos/userProfilePlaceholder.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEE8aCXVzLXdlc3QtMSJIMEYCIQCAlMMtLCTHKdfQhT%2FwPQpRyQUzonKKtUaxFaSmcD%2BB%2BgIhAKcJUW120TLC7tb3T6ikcIC%2BRpiV9cnmcc4UNzVHFaSIKu0CCMj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQARoMNzUzMTk1MzE4NjU3IgyxoVbUq1BmOwDrVg8qwQKIgAXZeGYOL8tNp9np0dCcA%2FrEROmqu4gttbtgpEB5s1ZMNs7w16NNguaeALWV66pmCpGHaYBTzi8rRSK1DyguhF%2FGjRWfUfi08HBq5Ch4f71y%2FtKHcaGJX7zIEJC2hG9DWexPSF3MHS7lHb5PczASaX%2FzPNhmWfo7PVCFPqgfVilmGMcPQKd4TRLDu66g%2BGSePaChAUJMVwWrcIzSxdtXBQ90WMry8%2BlyU3NIIu3HqU7xKU%2FB2uySFEme3LRb6ARk78Uilx0PSh%2BMV%2BdNqytGOzzHMOX14JNaIqEBul6hLANlYEG5uWZOaP8wrWhlh8%2FeHAuMHRsMJzbRXLfe7nsfHpTZbqp%2FuOo21%2B8GOdm6n%2BbMTc5%2ByEhFbwwI7t4X2LwN1loiMzY%2FjRiqSrSRhYPWgvTlFtk8Nm%2FGW0yXiBsOCXQwg5aDrAY6sgKJKv4ykpltW%2FJAMJVZG9Sq18wmqADBuWbuyNPzr47gi8GXAdKoXmDPr%2FmP9DHq3J8ydMn9mPPcSyLKSnn7JqdG7%2BBXp5cS%2FrJPqpZOyv1uyS%2B6gnsyOQ7zWhSfUs3RLI0xxKrEdNUR%2F4XzUG%2FScT22eRn9DnMWt3kDeKYkzMpeNOyMqMlQA%2FC%2BHRKtWy%2BToGTubT1RbGPWPlByKoFRNxCUdjWz0wvqaBhGoUYd3CQ%2F5haoe0yLTKi%2BwPDEYxBG9%2Fy1ukgQA3Ld%2B%2BXc9c2TEYUGgjgXndmHxFL3n9yRQppFthpPZcMRroo9bje4kG6fTL%2FwOMnOmIz7k2lQQvBk2wqCfFNMlO9QiB1sIwRoMWOC2ChQlju5yxXKDinldBFc48%2FEFQCVXiFeIUReokiCfVRijEo%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20231218T232702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA26XPQPWATK7JSXEC%2F20231218%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=76b2e2e063ea528d95c8195b12c7248aab466306fecf5a18805f30e4de9ac2e0')
+  const [squadImage, setSquadImage] = useState("")
   const [squadName, setSquadName] = useState("")
+  const [squadBio, SetSquadBio]  = useState("")
+  const [privacyOption, setPrivacyOption] = useState("")
   const{user} = useUserContext();
   const navigation = useNavigation()
   
@@ -58,8 +58,8 @@ const CreateSquadScreen = () => {
     </View>
     <TextInput
       placeholder ="Type your Squad Bio here..."
-      value={caption}
-      onChangeText={text =>setCaption(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
+      value={squadBio}
+      onChangeText={text =>SetSquadBio(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
       style={styles.input}
       textAlignVertical={"top"}
     ></TextInput>
@@ -73,6 +73,7 @@ const CreateSquadScreen = () => {
 
    {/* */}
    </TouchableOpacity>
+   {/* when the user clicks this, I want the bottom sheet navigation with a list of users */}
   <TouchableOpacity>
   <FontAwesome name="plus-square"
    style={{marginLeft:250, marginTop:-50}}
