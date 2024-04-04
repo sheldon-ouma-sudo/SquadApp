@@ -26,7 +26,7 @@ const PollListItem = ({ poll, }) => {
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
   const[pollCreatorID, setPollCreatorID ] = useState("")
   const [prevSelectedOption, setPrevSelectedOption] = useState(null);
-
+  const animations = useRef([]);
 
  
 
@@ -157,7 +157,17 @@ const optionContainerRef = useRef(null);
     }
   };
   
-  
+  useEffect(() => {
+    return () => {
+      // Stop and reset all animations
+      animationValues.forEach((value, index) => {
+        if (animations[index]) {
+          animations[index].stop();
+        }
+        value.setValue(0);
+      });
+    };
+  }, [animationValues]);
   
 
 
