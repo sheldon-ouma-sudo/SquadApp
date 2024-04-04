@@ -43,7 +43,7 @@ useEffect(() => {
     
     }
     fetchSquad()
-}, []);
+}, [userInfo]);
 //add the squad selected to the user's joined squad array
 const handleSquadSelected=async() =>{
   console.log("here is the squad name",squad)

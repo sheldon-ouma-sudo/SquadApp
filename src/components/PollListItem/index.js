@@ -288,8 +288,8 @@ const optionContainerRef = useRef(null);
         >
           <FontAwesome
             name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
-            size={56}
-            color={isLikeCommentIconClicked ? '#1764EF' : 'red'}
+            size={46}
+            color={isLikeCommentIconClicked ? 'black' : 'red'}
             style={styles.pollLikeIcon}
           />
           <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
@@ -442,9 +442,9 @@ const styles = StyleSheet.create({
     marginTop:-85
   },
   numOfpollLikes:{
-    marginLeft:20,
+    marginLeft:15,
     marginTop:5,
-    fontSize:20,
+    fontSize:25,
     fontWeight:'700'
   },
   pollCommentContainer: {
