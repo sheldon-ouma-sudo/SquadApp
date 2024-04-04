@@ -124,12 +124,21 @@ import { updateUser } from '../graphql/mutations'
       <>
       <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:0}]}>
         <View style={{flex:1, justifyContent:'flex-start', marginTop:-25}}>
+        <View
+        style={{marginLeft:500}}
+        >
+          <Text
+          style={{fontWeight:'bold', fontSize:22}}
+          >@{userName}</Text>
+        </View>
+
           <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
             style={[{ height: 80 }, { width: 80 }, 
-            {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:30}, {borderRadius:50}, {borderWidth:5}, {borderColor:'#7399DE'}]} />
+            {overflow:'hidden'}, {marginLeft:20},{marginTop:0}, {borderRadius:50}]} />
         </View> 
+       
         <View
         style={{flex:1, justifyContent:'flex-end', marginBottom:25, marginEnd:30,marginLeft:-125}}
         >
@@ -140,13 +149,7 @@ import { updateUser } from '../graphql/mutations'
         <AntDesign name="edit" size={24} color="black" />
         </TouchableOpacity> */}
 
-        <View
-        style={{marginLeft:-10,marginBottom:12.5}}
-        >
-          <Text
-          style={{fontWeight:'bold', fontSize:22}}
-          >@{userName}</Text>
-        </View>
+       
        {/**this view here is for the numbers */}
          <View>
            
