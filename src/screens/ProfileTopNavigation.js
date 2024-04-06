@@ -189,7 +189,7 @@ import { updateUser } from '../graphql/mutations'
           >Squad Joined</Text>
          </View>
         </View>
-      </View>
+      </View> 
       {/* <View
       style={{marginLeft:30}}
       

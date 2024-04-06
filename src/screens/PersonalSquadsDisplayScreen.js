@@ -17,6 +17,8 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
     import { useUserContext } from '../../UserContext'
     import { MaterialIcons } from '@expo/vector-icons';
     import { Entypo } from '@expo/vector-icons';
+    import PersonalSquadMemberScreens from './PersonalSquadMemberScreens'
+    import PersonalSquadPollDisplayScreen from './PersonalSquadPollDisplayScreen.js'
     
 const PersonalSquadDisplayScreen = () => {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
@@ -176,10 +178,10 @@ const PersonalSquadDisplayScreen = () => {
 >
           <Tab.Screen
             name=" Poll"
-            component={PersonalPollScreen} />
+            component={PersonalSquadPollDisplayScreen} />
           <Tab.Screen
             name="Members"
-            component={SquadCreatedScreen} />
+            component={PersonalSquadMemberScreens} /> 
         </Tab.Navigator></>
     )
   }

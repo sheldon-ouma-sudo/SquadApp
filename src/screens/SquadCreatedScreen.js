@@ -10,7 +10,6 @@ import SquadCreatedListItem from '../components/SquadCreatedListItem'
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { listSquads } from '../graphql/queries';
 import { useRoute } from '@react-navigation/native';
-import SquadListItem from "../components/SquadListItem"
 import {useUserContext} from '../../UserContext';
 import { getSquad } from '../graphql/queries';
 

@@ -104,7 +104,7 @@ const PollRequestListItem =({poll})=>{
             borderRadius:6,
             width:70,
             marginLeft:105}}
-          onPress={handleRespond}>
+          onPress={handleRespond}>  
             <Text
              style={{color:'#FFFF', marginLeft:10, marginTop:5}}
             >Respond</Text>

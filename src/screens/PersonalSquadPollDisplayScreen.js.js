@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
 import {getPoll, squadPollsBySquadId} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
-import Poll from "../components/SquadPollListItem/index";
+import Poll from "../components/PersonalPollPostListItem/index";
 import { useUserContext } from '../../UserContext';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 
-const MySquadPollScreen = () => {
+const PersonalSquadPollDisplayScreen = () => {
   const [squadPollData, setSquadPollData] = useState([])
   const [pollIDArray, setPollIDArray] = useState([])
   const [userSquadJoinedArray, setUserSquadJoinedArray] = useState([])
@@ -20,8 +20,8 @@ const MySquadPollScreen = () => {
 //get all the squads the user has joined
     useEffect(()=>{
     if(user){
-      console.log("here is the squad the user has joined", user.squadJoined)
-      const userSquads = user.squadJoined
+      console.log("here is the squad the user has joined", user)
+      const userSquads = user.userSquadId
       setUserSquadJoinedArray(userSquads)
     }
 
@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
       marginTop:70  
   }
 })
-export default MySquadPollScreen
+export default PersonalSquadPollDisplayScreen
