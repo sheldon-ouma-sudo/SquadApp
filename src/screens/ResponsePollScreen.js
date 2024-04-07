@@ -12,10 +12,11 @@ import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons'
 import { getUser } from '../graphql/queries';
 import { createPollComment, createPollResponse, updateNotification, updatePoll } from '../graphql/mutations';
 import { useUserContext } from '../../UserContext';
-import { Ionicons } from '@expo/vector-icons';
+import { not } from 'react-native-reanimated';
 
 
 
@@ -25,10 +26,12 @@ const ResponsePollScreen = () => {
      const [numOfPollLikes, setNumOfPollLikes] = useState(0)
      const [totalNumOfVotes, setTotalNumOfVotes] = useState(0)
      const [comment, setComment] = useState("")
-     const [isLikeIconClicked, setIsLikeIconClicked] = useState(true);
+     const [isLikeIconClicked, setIsLikeIconClicked] = useState(false);
      const [pollCreator, setPollCreator] = useState("")
+     const [initialNumOfLikes, setInitialNumOfLikes] = useState(0);
      const [pollCreatorUserID,setPollCreatorUserID] = useState("")
      const [pollID, setPollID] = useState()
+     const [pollCreatorNotificationID, setPollCreatorNotificationID] =  useState("")
      const [originalPollCommentArray, setOriginalPollCommentArray] = useState([])
      const [localUserName, setLocalUserName] = useState()
      const [pollCreatorNotification, setPollCreatorNotication] = useState()
@@ -36,6 +39,7 @@ const ResponsePollScreen = () => {
      const [localUserID, setLocalUserID] = useState()
      const [updatedPollLikeResponseArray, setUpdatedPollLikeResponseArray] = useState([])
      const [selectedOption, setSelectedOption] = useState(null);
+     const [isOptionSelected, setIsOptionSelected] = useState(false);
      const [pollItemUpdateStatus, setPollItemUpdateStatus] = useState(false)
      const [pollCommentArray, setPollCommentArray] = useState([])
      const [pollResponseCommentID, setPollResponseCommentID] = useState("")
@@ -55,14 +59,20 @@ const ResponsePollScreen = () => {
 
       const route = useRoute()
        const pollReception = route?.params.poll
-       //console.log("here is the poll", pollReception)
-    //     // console.log("here is the poll id", pollID) 
-    //fetch the poll ✅
+      //  console.log("here is the poll ID", pollReception)
+    //     // console.log("here is the poll id", pollID)
+    //fetch the poll 
         useEffect(() => {
           const fetchPoll = async () => {
             if (pollReception) {
-              //console.log("here is the poll received", pollReception)
+              // console.log("here is the poll received", pollReception)
               setPoll(pollReception)
+              const initialNumberOfLikes = pollReception.numOfLikes
+              // console.log("here is the initial number of likes", initialNumberOfLikes)
+              setInitialNumOfLikes(initialNumberOfLikes)
+              const numOfVotes = pollReception.totalNumOfVotes
+              // console.log("here is the record the total number of votes for the first time", numOfVotes)
+              setTotalNumOfVotes(numOfVotes)
             } else {
               console.log("Poll ID is null or undefined", pollReception);
             }
@@ -71,18 +81,15 @@ const ResponsePollScreen = () => {
           fetchPoll();
         }, [pollReception]); // Make sure to include pollID in the dependencies array
           
-          //fetch the poll datadata✅✅
+          //fetch the poll data
         useEffect(()=>{
           const fetchPollInfo=async()=>{
             setNumOfPollLikes(poll.numOfLikes);
-            console.log(poll.numOfLikes)
             setPollID(poll.id)
-            //console.log("here is the poll ID", poll.id)
             setOriginalPollCommentArray(poll.pollCommentArray)
-            //console.log("here is the poll original comment array", poll.pollCommentArray) //this is null initially
             try {
               const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
-              //console.log("here is the parsed poll Items", parsedPollItems)
+              // console.log("here is the parsed poll Items", parsedPollItems)
               setPollItems(parsedPollItems);
             } catch (error) {
               console.log("error fetching the poll info", error)
@@ -91,10 +98,10 @@ const ResponsePollScreen = () => {
           fetchPollInfo()
         }, [poll])
       
-      //fetch the local user DataData✅✅
+      //fetch the local user Data
       useEffect(()=>{
         if(user){
-          //console.log("here is the local user data", user)
+          // console.log("here is the local user data", user)
           const localUserUserName = user.userName
           const localUserUserID = user.id
           // console.log("here is the local user ID", localUserUserID)
@@ -111,383 +118,238 @@ const ResponsePollScreen = () => {
         const getPollCreater = async () => {
           const pollCreatorID = poll.userID
           if(pollCreatorID){
-            console.log("here is the poll creator", pollCreatorID)
+            // console.log("here is the poll creator", pollCreatorID)
             setPollCreatorUserID(pollCreatorID)
             try {
               const pollCreatorInfo = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-              console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
+              // console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
               setPollCreator(pollCreatorInfo.data?.getUser.userName)
             } catch (error) {
               console.log("error fetching the poll creator", error)
             }
           }
-         } 
+         }
         getPollCreater()
       }, [poll])
 
-      //get poll creator notification 
+
+
+      const handleLikedIconClick = () => {
+        setIsLikeIconClicked(prevState => !prevState); // Use callback form of setState
+    };
+
+    //fetch poll creator notification data
       useEffect(()=>{
-        const getPollCreatorNotification = async()=>{
-         if(pollCreatorUserID){
-          // console.log("here is the poll creator user ID", pollCreatorUserID)
+      const getPollCreatorNotification = async () =>{
+        if(pollCreatorUserID){
+          console.log("we have poll creator user id, we are good to go", pollCreatorUserID)
           try {
-            const notifcationQuery = await API.graphql(graphqlOperation(notificationsByUserID, {
-              userID: pollCreatorUserID
-            }))
-            // console.log("here is the user notification query results", notifcationQuery.data?.notificationsByUserID)
-            const notificationQueryResultUnstringified = notifcationQuery.data?.notificationsByUserID
-            const notifcationQueryStringifiedUnparsed = JSON.stringify(notificationQueryResultUnstringified)
-            const notificationQueryResult = JSON.parse(notifcationQueryStringifiedUnparsed)
-            // console.log("here is the notification query result", notificationQueryResult)
-            setPollCreatorNotication(notificationQueryResult)
+            const notificationQueryResult = await API.graphql(graphqlOperation(notificationsByUserID, {
+                      userID: pollCreatorUserID
+                    }))
+            console.log("notification query success✅")
+            // console.log("here is the notification items", notificationQueryResult.data?.notificationsByUserID.items)
+            // console.log("here is the notification id", notificationQueryResult.data?.notificationsByUserID.items[0].id)
+            const userNotID = notificationQueryResult.data?.notificationsByUserID.items[0].id
+            console.log("here is the userNotID", userNotID)
+            setPollCreatorNotificationID(userNotID)
           } catch (error) {
-            console.log("error creating and querying the user notification", error)
+            console.log("error querying for notification from the poll creator",error)
           }
-         }else{
-          console.log("pollCreatorUserID is not valid")
-         }
-        }
-        getPollCreatorNotification()
-      },[pollCreator])
-
-      const handleLickedIconClick = () => {
-          setIsLikeIconClicked(!isLikeIconClicked);
-          setNumOfPollLikes(prevLikes => (isLikeIconClicked ? prevLikes +1 : prevLikes -1));
-          setPollResponseStatus(true)
-        };
-        useEffect(()=>{
-          //handle poll likes num  global update
-          const handleGlobalPollLikes = async()=>{
-            // console.log("here are the updated number of poll likes", numOfPollLikes)
-            // console.log("here is the poll ID", pollID)
-            try {
-              const numOfPollLikeUpdateResults = await API.graphql(graphqlOperation(updatePoll,{
-                id:pollID, 
-                numOfLikes:numOfPollLikes
-              }))
-              // console.log("here are the results for the poll like", numOfPollLikeUpdateResults)
-            } catch (error) {
-              console.log("error updating the number of the poll likes", error)
-              
-            }
-          }
-           //handle Poll like response update
-           const handlePollLikeResponseUpdate=async()=>{
-            //create poll response 
-            if(pollID){
-              console.log("here is the poll ID for the poll", pollID)
-              const string = localUserName + "has liked your poll!"
-              //(console.log("here is the caption for the poll like response", string))
-              try {
-                const newPollResponseCreated = await API.graphql(graphqlOperation(createPollResponse, {
-                  pollID: pollID, 
-                  userID: pollCreatorUserID, 
-                  caption: string
-                }
-                  ))
-               console.log("Here is the newPollResponse created results", newPollResponseCreated)
-               console.log("here is the poll new poll response ID", newPollResponseCreated.data?.createPollResponse.id)
-               const pollLikeResponseCreatedID  = newPollResponseCreated.data?.createPollResponse.id
-               setPollLikeResponseLikeID(pollLikeResponseCreatedID)
-              } catch (error) {
-                console.log("error creating the poll like response", error)
-              }
-            }
-            //add the poll response ID to the notification array
-            //globally update the info
-           }
-          handleGlobalPollLikes()
-          handlePollLikeResponseUpdate()
-        },[numOfPollLikes])
-
-      //update the poll notification ✅
-      useEffect(()=>{
-        const handleLikeResponseNotificationUpdate=async()=>{
-          // console.log('here is the poll creator notification', pollCreatorNotification)
-          if(pollCreatorNotification && pollLikeResponseID){
-            //get poll like response array
-            const pollLikeResponseArr = pollCreatorNotification
-            if(pollLikeResponseArr === null || pollLikeResponseArr === undefined){
-              const newPollLikeResponseArray = []
-              newPollLikeResponseArray.push(pollLikeResponseID)
-              // console.log("this is the new pollLike response array", newPollLikeResponseArray)
-              setUpdatedPollLikeResponseArray(newPollLikeResponseArray)
-            }else{
-              console.log("here is the pollLikes response array", pollLikeResponseArr)
-              pollLikeResponseArr.push(pollLikeResponseID)
-              // console.log("here is the updated poll like response array", pollLikeResponseArr)
-              setUpdatedPollLikeResponseArray(pollLikeResponseArr)
-            }
-          }
-          }
-          handleLikeResponseNotificationUpdate() 
-      }, [pollLikeResponseID])
-
-        //handle the poll item update status 
-        useEffect(()=>{
-          //console.log("here is the updated poll items", pollItems)
-          const handleUpdatePollItems=async()=>{
-          const updatedItems = JSON.stringify(pollItems)
-          // console.log("here is the updated and stringify poll items", updatedItems)
-          try {
-            const updateInput = {
-              id: pollID,
-              pollItems: updatedItems
-            };
-            const updateResponse = await API.graphql(graphqlOperation(updatePoll, { input: updateInput }));
-            // console.log('Poll updated successfully✅:', updateResponse);
-            // Log the updated pollItems
-            const updatedPollItems = updateResponse.data.updatePoll.pollItems;
-            //console.log('Updated Poll Items:', updatedPollItems);  
-            if(updatedPollItems){
-              setPollItemUpdateStatus(true)
-            }else{
-              setPollItemUpdateStatus(false)
-            }
-          } catch (error) {
-            console.log('Error updating poll items:', error);
-            setPollItemUpdateStatus(false)
-          }
-          }
-          handleUpdatePollItems()
-          }, [pollItems])
-  
-  
-  
-        const handleOptionPress = (index) => {
-          // Check if the selected option is different from the previously selected one
-          if (index !== selectedOption) {
-            // Increment the votes for the selected option and decrement for the previously selected option
-            const updatedPollItems = [...pollItems];
-            updatedPollItems[index].votes += 1;
-            if (selectedOption !== null) {
-              updatedPollItems[selectedOption].votes -= 1;
-            }
-        
-            setPollItems(updatedPollItems);
-        
-            // Update total number of votes only if an option is selected for the first time
-            if (selectedOption === null) {
-              setTotalNumOfVotes(totalNumOfVotes + 1);
-            }
-        
-            setSelectedOption(index);
-            setPollResponseStatus(true)
-          }
+        }else{
+          console.log("poll creator user ID is still not available", pollCreatorUserID)
         }
 
-
-      //handling everything poll comment
-      const handlePollCommentOnSubmit= async() =>{
-        // console.log("here is the comment", comment)
-        // console.log("here is the poll comment array",pollCommentArray)
-        let newArr = pollCommentArray.push(comment)
-        setPollCommentArray(newArr)
-       setComment("")
-       setPollResponseStatus(true)
       }
-
-      //local poll comment update
-      useEffect(()=>{
-        const localPollCommentArrayUpdate=async()=>{
-          if(comment){
-            if(!originalPollCommentArray){
-              const newArray = []
-               const newPollCommentArray = pollCommentArray.concat[newArray]
-              //  console.log("here is the updated new poll comment array", newPollCommentArray)
-              setPollCommentArray(newPollCommentArray)
-            }else{
-              const newPollCommentArray = originalPollCommentArray.concat(pollCommentArray)
-              //  console.log("here is the updated comment array with the new array", newPollCommentArray)
-               setPollCommentArray(newPollCommentArray)
-            }
-          }else{
-            console.log("something went wrong with updating poll comment locally")
-          }
-          }
-          localPollCommentArrayUpdate()
-      }, [pollCommentArray])
-
-
-  //     //create poll response based on comment
-  //     useEffect(async ()=>{
-  //       //create poll response for the poll comment created
-  //       console.log("here is the comment", comment)
-  //       const notificationID = pollCreatorNotification[0].id
-  //       console.log("here is the notificationID", notificationID)
-  //       const string = localUserName + "has commented on your poll"  
-  //     const handlePollCommentResponseCreation=async()=>{
-  //       try {
-  //         const pollCommentResponseCreationResult = await API.graphql(graphqlOperation(createPollResponse, {
-  //           pollID:pollID, 
-  //           userID: localUserID, 
-  //           caption: string,
-  //         }))
-  //         console.log("here are the results for creating poll comment response", pollCommentResponseCreationResult)
-  //         const pollCommentResponseCreatedID  = pollCommentResponseCreationResult.data?.createPollResponse.id
-  //         console.log("here is the poll comment response ID", pollCommentResponseCreatedID)
-  //         setPollResponseCommentID(pollCommentResponseCreatedID)
-  //       } catch (error) {
-  //         console.log("error creating the poll response", error)
-  //       }
-  //     }
-  //     handlePollCommentResponseCreation
-  //     }, [comment])
+      getPollCreatorNotification()
+      },[pollCreatorUserID])
       
-  // //update notification with the new poll comment✅
-  //     //update the poll notification ✅
-  //     useEffect(()=>{
-  //       const handlePollCommentArrayNotificationUpdate=async()=>{
-  //         console.log('here is the poll creator notification', pollCreatorNotification)
-  //         if(pollCreatorNotification && pollResponseCommentID){
-  //           //get poll like response array
-  //           const pollCommentResponseArr = pollCreatorNotification[0].pollCommentsArray
-  //           if(pollCommentResponseArr  === null || pollCommentResponseArr === undefined){
-  //             const newPollCommentResponseArray = []
-  //             newPollCommentResponseArray.push(pollResponseCommentID)
-  //             console.log("this is the new pollLike response array", newPollCommentResponseArray)
-  //             setUpdatedPollCommentResponseArray(newPollCommentResponseArray)
-  //           }else{
-  //             console.log("here is the pollLikes response array",pollCommentResponseArr)
-  //             pollCommentResponseArr.push(pollResponseCommentID)
-  //             console.log("here is the updated poll like response array", pollCommentResponseArr)
-  //             setUpdatedPollCommentResponseArray(pollCommentResponseArr)
-  //           }
-  //         }
-  //         }
-  //         handlePollCommentArrayNotificationUpdate() 
-  //     }, [pollResponseCommentID])
+    useEffect(() => {
+        // Check if the like icon is clicked
+        if (isLikeIconClicked) {
+            // Increment the number of likes
+            setNumOfPollLikes(prevLikes => prevLikes + 1);
+        } else {
+            // Decrement the number of likes
+            setNumOfPollLikes(prevLikes => prevLikes - 1);
+        }
+    }, [isLikeIconClicked]);
+    
+    
+    useEffect(() => {
+      // Define a function to update the number of likes in the database
+      const updateLikesInDatabase = async () => {
+        if(numOfPollLikes){
+          // console.log("Number of likes in useEffect in the updateLikesInDatabase", numOfPollLikes)
+          try {
+            // Call the updatePoll mutation to update the number of likes
+            const response = await API.graphql(graphqlOperation(updatePoll, {
+              input: {
+                id: pollID,
+                numOfLikes: numOfPollLikes,
+              },
+            }));
+            // Log the response or handle it as needed
+            // console.log('Poll likes updated successfully:✅✅✅', response);
+          } catch (error) {
+            console.log('Error updating poll likes:', error);
+          }
+        }
+       
+      };
+  
+     updateLikesInDatabase()
+    }, [numOfPollLikes]); // Run the effect when isLikeIconClicked changes
+  
 
-
-
-
-  //    //createPollComment in the backend
-  //    useEffect(()=>{
-  //     //handle poll comment creation
-  //     console.log("here is the poll response comment ID before we start",pollResponseCommentID)
-  //     const notificationID = pollCreatorNotification[0].id
-  //     console.log("here is the notification Id")
-  //     const handlePollCommentCreation=async()=>{
-  //       try {
-  //         const newPollCommentInput = {
-  //           userID:localUserID, 
-  //           numOfLikes:0,
-  //           notificationID:notificationID,
-  //           pollresponseID:pollResponseCommentID, 
-  //           Poll:{
-  //             id:pollID
-  //           }, 
-  //          User:{
-  //           id:localUserID
-  //          }
-
-  //         }
-  //         const pollCommentCreationResults = await API.graphql(graphqlOperation(createPollComment,{
-  //           input: newPollCommentInput
-  //         } 
-  //           ))
-  //         console.log("here is the poll creationResults", pollCommentCreationResults)
-  //         const pollCommentCreatedID = pollCommentCreationResults.data?.createPollComment.id
-  //         console.log("here is the poll comment created Id", pollCommentCreatedID)
-  //         setNewPollCommentID(pollCommentCreatedID)
-  //       } catch (error) {
-  //         console.log("error creating the poll comment", error)
-  //       }
-  //     }
-  //     handlePollCommentCreation()
-  //    }, [pollResponseCommentID])
-
-  //   //update the poll with the comment in the backend
-  //     useEffect(()=>{
-  //       console.log("here is the update poll comment array", pollCommentArray)
-  //       const handlePollCommentGlobalPollUpdate=async()=>{
-  //        try {
-  //         const pollCommentArrayUpdateResults = await API.graphql(graphqlOperation(updatePoll, {
-  //           id:pollID, 
-  //           pollCommentArray:pollCommentArray
-
-  //         }))
-  //         console.log("here is the results for updating the poll comment array in the poll", pollCommentArrayUpdateResults)
-  //        } catch (error) {
-  //         console.log("error updating the poll with the new poll comment array")
-  //        }  
-  //       }
-  //       handlePollCommentGlobalPollUpdate()
-  //     },[pollCommentArray])
-     
-  //     //the big update heavywork
-  //     useEffect(()=>{
-  //      //we start with updating the poll Like response Array
-  //      const notificationID = pollCreatorNotification[0].id
-  //      const notificationPollLikeResponseUpdate=async()=>{
-  //       console.log("here is the update poll like response array", updatedPollLikeResponseArray)
-  //       console.log("here is the poll creator notification", pollCreatorNotification)
-  //       // const notificationID = pollCreatorNotification[0].id
-  //       console.log("here is the notification ID", notificationID)
-  //       if(notificationID){
-  //         try {
-  //           const results = await API.graphql(graphqlOperation(updateNotification, 
-  //             {id:notificationID,
-  //             pollLikeResponseArray:updatedPollLikeResponseArray, 
-  //             }
-  //             ))
-  //             console.log("poll like response array update success", results)
-  //            setPollLikeNotificationUpdateStatus(true)
-  //         } catch (error) {
-  //           console.log("error in updating the poll like response array", error)
-  //           setPollLikeNotificationUpdateStatus(false)
-  //         }
-  //       }else{
-  //         console.log("error in acquiring the notification ID for the user")
-  //         setPollLikeNotificationUpdateStatus(false)
-  //        }
-  //      }
-  //      const notificationPollItemUpdate=async()=>{
-  //       if(pollItemUpdateStatus === true){
-  //         setPollItemNotificationUpdateStatus(true)
-  //       }else{
-  //         setPollLikeNotificationUpdateStatus(false)
-  //       }
-  //      }
-
-  //      const notificationPollCommentUpdate=async()=>{
-  //       if(notificationID){
-  //         try {
-  //           const notificationResultUpdate = await API.graphql(graphqlOperation(updateNotification,{
-  //             id:notificationID, 
-  //             pollCommentsArray:updatedPollCommentResponseArray
-  //           }))
-  //           console.log("here is the results for updating the notification's pollCommentsArray with the new poll comment ID", notificationResultUpdate)
-  //           setPollCommentNotificationUpdateStatus(true)
-  //         } catch (error) {
-  //           console.log("error updating the notification's pollCommentsArray with the new poll comment response ID", error)
-  //           setPollCommentNotificationUpdateStatus(false)
-  //         }
-  //       }
-  //      }
-  //      notificationPollLikeResponseUpdate()
-  //      notificationPollItemUpdate()
-  //      notificationPollCommentUpdate()      
-  //     }, [updatedPollLikeResponseArray, pollItemUpdateStatus, updatedPollCommentResponseArray])
-
-     
-  //      const handleSubmitPollResponse = async()=>{
-  //      if(pollLikeNotificationUpdateStatus === true){
-  //         if(pollItemNotificationUpdateStatus=== true){
-  //           if(pollCommentsNotificationUpdateStatus === true){
-  //             navigation.goBack({pollResponseStatus:pollResponseStatus})
-  //           }else{
-  //             console.log("there was an error with poll comment response")
-  //           }
-  //         }else{
-  //           console.log("there was an error with polling response")
-  //         }
-  //      }else{
-  //       console.log("there was an error with the poll liking response")
-  //      }
+             
+    const handleOptionPress = (index) => {
+      // Check if the selected option is different from the previously selected one
+      if (index !== selectedOption) {
+        // Increment the votes for the selected option and decrement for the previously selected option
+        const updatedPollItems = [...pollItems];
+        updatedPollItems[index].votes += 1;
+        // console.log("Here is the poll data after update in the handleOptionPRess", updatedPollItems)
+        if (selectedOption !== null) {
+          updatedPollItems[selectedOption].votes -= 1;
+        }
+    
+        setPollItems(updatedPollItems);
+    
+        // Update total number of votes only if an option is selected for the first time
+        if (selectedOption === null) {
+          setTotalNumOfVotes(totalNumOfVotes + 1);
+        }
+    
+        setSelectedOption(index);
+      }
+    };
      
 
-  //      }
+    useEffect(() => {
+          if (selectedOption !== null) { 
+            setIsOptionSelected(true);
+            // console.log("here is the poll items in the useEffect on true statement condition", pollItems)
+            // console.log("here is the number of total number of votes in the use effects", totalNumOfVotes)
+            // console.log("the update poll items in the use effects", pollItems)
+          } else {
+            setIsOptionSelected(false);
+            console.log("here is the poll items in the useEffect on false statement condition", pollItems)
+          }
+      }, [selectedOption, isOptionSelected]);  
+      
+
+      useEffect(() => {
+        const updatePollItemInTheBackend = async () => {
+          if (isOptionSelected) { // Only update when an option is selected
+            // console.log("here is the updated poll items ready to go", pollItems);
+            // console.log("here is the number of total number of votes ready to go", totalNumOfVotes);
+            const updatedPollItem = JSON.stringify(pollItems)
+            // console.log("print of the stringified poll Items", updatedPollItem)
+            try {
+              // Call the updatePoll mutation to update the poll items and total number of votes
+              const response = await API.graphql(graphqlOperation(updatePoll, {
+                input: {
+                  id: pollID,
+                  totalNumOfVotes: totalNumOfVotes,
+                  pollItems:updatedPollItem
+                },
+              }));
+              // Log the response or handle it as needed
+              // console.log('Poll items and total num of votes updated successfully: with stringification ✅✅✅', response);
+            } catch (error) {
+              console.log('Error updating poll items:', error);
+            }
+          } else {
+            console.log("No option selected yet.");
+          }
+        };
+      
+        updatePollItemInTheBackend();
+      }, [pollItems, totalNumOfVotes, isOptionSelected]);
+      
+
+     //create a comment function
+     const handleCreateCommentOnTheBackend = async () => {
+      console.log('here is the poll ID', pollID);
+      console.log("here is the local user ID", localUserID);
+      console.log("here is the poll creator notification ID", pollCreatorNotificationID);
+      
+      if (pollCreatorNotificationID) {
+        const createNotificationInput = {
+          pollID: pollID,
+          userID: localUserID, 
+          notificationID: pollCreatorNotificationID
+        };
+    
+        try {
+          const pollCommentCreationResults = await API.graphql(graphqlOperation(createPollComment, { input: createNotificationInput }));
+          console.log("poll comment creation successful✅✅✅", pollCommentCreationResults);
+          return pollCommentCreationResults;
+        } catch (error) {
+          console.log("error creating poll comment", error);
+          return false;
+        }
+      } else {
+        return false;
+      }
+    };
+    
+
+
+      const handlePollCommentOnSubmit = async () => {
+        console.log("the comment button pressed");
+        console.log("here is the comment", comment);
+        console.log("here is the poll comment array before update", pollCommentArray);
+        
+        // Create a new array by concatenating the existing comments with the new comment
+        const updatedComments = [...pollCommentArray, comment];
+        
+        // Set the state with the updated array
+        setPollCommentArray(updatedComments);
+        const pollCommentCreationResults = await handleCreateCommentOnTheBackend()
+        if(pollCommentCreationResults !== false){
+          setComment("");
+        }else{
+          console.log("error in creating the comment")
+        }
+        
+        // Clear the comment input field
+        //setComment("");
+        // Perform any other actions you need after adding the comment
+        console.log("here is the poll comment array after update", pollCommentArray)
+      };
+      
+        
+     
+     
+       const handleSubmitPollResponse = async()=>{
+        //const newNumOfLikes = await handleLickedIconClick()
+        // console.log("here is the new number of likes", newNumOfLikes)
+        // if(isLikeIconClicked){
+        //   const results = await updateLikesInDatabase(numOfPollLikes);
+        //   if(results){
+        //     console.log("successfully updated the number of polls✅✅")
+        //   }else{
+        //     console.log("error updating the number of likes")
+        //   }
+        // }
+        // if(newNumOfLikes){
+        //   if(pollID){
+        //     updatePollLikes(pollID,newNumOfLikes)
+        //   }else{
+        //     console.log("invalid poll ID", pollID)
+        //   }
+        
+        // }else{
+        //   console.log("invalid num of likes", newNumOfLikes)
+        // }
+    
+       }
+
+
+
+
     return (
             <KeyboardAvoidingView style={styles.container} behavior="padding">
               <TouchableOpacity
@@ -505,13 +367,13 @@ const ResponsePollScreen = () => {
           <View style={styles.innerContainer}>
           <TouchableOpacity
             style={styles.pollLikesContainer} 
-            onPress={handleLickedIconClick}
+            onPress={handleLikedIconClick}
           > 
           <Text style={styles.userNameText}>@{pollCreator}</Text>
             <FontAwesome
-              name={isLikeIconClicked ? 'heart-o' : 'heart'}
+              name={isLikeIconClicked ? 'heart' : 'heart-o'}
               size={36}
-              color={isLikeIconClicked ? '#1764EF' : 'red'}
+              color={isLikeIconClicked ? 'red' : '#1764EF'}
               style={styles.pollLikeIcon}
             />
             <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>       
@@ -539,22 +401,41 @@ const ResponsePollScreen = () => {
           ))}
           </TouchableOpacity>
          
-          <TextInput
-          placeholder ="Add a comment here..."
-          value={comment}
-          onChangeText={text =>setComment(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
-          style={styles.input}
-          textAlignVertical={"top"}
-         />
-          <TouchableOpacity
-           onPress={handlePollCommentOnSubmit}
+        <View style={{flexDirection:"row"}}>
+
+          <View
+          style= {styles.outerInputContainer}
           >
-          <MaterialCommunityIcons name="send-circle" size={40} color='#545454'
-           style={{marginLeft:308, marginTop:-38}}
-          />
-          </TouchableOpacity>
+          <View
+          style={{justifyContent:'flex-start', marginLeft:10}}
+          >
+            <TextInput
+          placeholder="Add a comment here..."
+          value={comment}
+          onChangeText={text => setComment(text)}
+          style={styles.input}
+          textAlignVertical="top"
+        />
+            </View>
+          
+          </View>
+        
+        <TouchableOpacity 
+         style= {{fex:1}}
+         >
           <TouchableOpacity
-          //onPress={handleSubmitPollResponse}
+          onPress={handlePollCommentOnSubmit}
+          style={{justifyContent:'flex-end'}}
+          >
+          <MaterialCommunityIcons name="send-circle" size={40} color="#545454" />
+         </TouchableOpacity>
+        
+        </TouchableOpacity>
+      </View>
+
+
+          <TouchableOpacity
+          onPress={handleSubmitPollResponse}
           style = {styles.button}
           >
           <Text style={styles.buttonText}>
@@ -571,7 +452,7 @@ const ResponsePollScreen = () => {
         }
 
 
-    const styles = StyleSheet.create({ 
+    const styles = StyleSheet.create({
           gradientContainer: {
             borderRadius: 29,
           },
@@ -586,6 +467,7 @@ const ResponsePollScreen = () => {
             marginEnd: 5,
             marginTop: 200,
             marginBottom: 200,
+            
           },
           innerContainer: {
             height: 450,
@@ -619,9 +501,9 @@ const ResponsePollScreen = () => {
           question: {
             fontSize: 19.5,
             fontWeight: 'bold',
-            marginBottom: 25,
-            marginTop: 10,
-            marginLeft: 35,
+            marginBottom: 10,
+            marginTop: 4,
+            marginLeft: 15,
           },
           optionContainer: {
             marginBottom: 15,
@@ -632,7 +514,7 @@ const ResponsePollScreen = () => {
             borderColor: 'black',
             borderWidth: 1.5,
             height: 50,
-            width: 350, // Adjust the width as per your requirement
+            width: 330, // Adjust the width as per your requirement
           },
           optionText: {
             fontSize: 16,
@@ -641,26 +523,41 @@ const ResponsePollScreen = () => {
             color: "black",
             marginTop: 10
           },
-          input: {
+          outerInputContainer: {
+            // flexDirection: 'row',
+            // alignItems: 'center', // Center items vertically
+            // justifyContent: 'space-between', // Add space between input and icon
+            // paddingHorizontal: 15, // Add padding to create space on the sides
             backgroundColor: '#EAEAEA',
+            borderRadius: 12,
+            
+            // marginTop: 5,
+            // marginRight: 45,
+            marginLeft:10,
+            width:280,
+            fex:1 
+          },
+          
+          input: {
+            //backgroundColor: '#EAEAEA',
             paddingHorizontal: 15,
             paddingVertical: 10,
             borderRadius: 12,
-            width: 290,
             height: 40,
             marginTop:5,
             fontSize: 13,
             marginRight: 15,
-            marginLeft: 15,
+            // marginLeft: 5,
             color: 'black',
-            fontWeight: '400'
+            fontWeight: '400',
+            // justifyContent:'flex-start'
           },
           pollLikesContainer: {
             flexDirection: 'row', // Align children horizontally
             alignItems: 'center', // Align items vertically
           },
           pollLikeIcon: {
-            marginLeft: 160, // Adjust the marginLeft to create spacing
+            marginLeft: 100, // Adjust the marginLeft to create spacing
           },
           numOfpollLikes: {
             marginLeft: -25, // Adjust the marginLeft to create spacing
