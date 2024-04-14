@@ -117,88 +117,92 @@ import { updateUser } from '../graphql/mutations'
     updateUserInfo();
   }, [userPolls, numOfUserPolls]); // Include userPolls and numOfUserPolls in the dependency array
   
-
+  const handleOnSettingPress=async()=>{
+   navigation.navigate("AccountSettingScreen")
+  } 
 
    
     return (
       <>
-      <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:0}]}>
-        <View style={{flex:1, justifyContent:'flex-start', marginTop:-25}}>
-          <Image
+      <TouchableOpacity
+      style={{backgroundColor:"#F4F8FB"}}
+      onPress={handleOnSettingPress}
+
+      >
+       <MaterialIcons name="settings" size={30} color="black" style={{marginLeft:380}} />
+      </TouchableOpacity>
+      <View
+      style={{backgroundColor:"#F4F8FB"}}
+      >
+      <View>
+      <Text
+          style={{fontWeight:'bold', fontSize:22, marginLeft:130}}
+          >@{userName}</Text>
+      </View>
+      <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
-            style={[{ height: 80 }, { width: 80 }, 
-            {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:30}, {borderRadius:50}]} />
-        </View> 
+            style={[{ height: 100 }, { width: 100 }, 
+            {overflow:'hidden'},{marginBottom:15}, {marginLeft:20},{marginTop:-50}, {borderRadius:50}]} 
+        />
+        {/* poll and poll number text */}
         <View
-        style={{flex:1, justifyContent:'flex-end', marginBottom:25, marginEnd:30,marginLeft:-125}}
+         style={{marginLeft:140, marginTop:-60}}
         >
-        {/* <TouchableOpacity
-        style={{marginStart:230, }}
-        onPress={() =>navigation.navigate('AccountSettingScreen')}
-        >
-        <AntDesign name="edit" size={24} color="black" />
-        </TouchableOpacity> */}
-
+         <Text
+         style={{marginLeft:10, fontSize:15, fontWeight:'800'}}
+         >{numOfUserPolls}</Text>
+         <Text
+         style={{fontSize:15, fontWeight:'400'}}
+         >Polls</Text>
+        </View>
+        {/* squad createad and numbers text */}
         <View
-        style={{marginLeft:-10,marginBottom:12.5}}
+         style={{marginLeft:200, marginTop:-36}}
         >
-          <Text
-          style={{fontWeight:'bold', fontSize:22}}
-          >@{userName}</Text>
+         <Text
+         style={{marginLeft:30, fontSize:15, fontWeight:'800'}}
+         >{numOfUsersInSquad}</Text>
+         <Text
+         style={{fontSize:15, fontWeight:'400'}}
+         >Squad Created</Text>
         </View>
-       {/**this view here is for the numbers */}
-         <View>
-           
-          <View>
-          <Text
-           style={{marginBottom:-15,marginLeft:2,fontWeight:'bold', color:'black'}}
-           >{numOfUserPolls}</Text> 
-          </View>
-            <View>
-            <Text
-              style={{marginLeft:80,fontWeight:'bold', color:'black'}}
-              >{numOfUsersInSquad}</Text>  
-            </View>
-
-           <View>
-           <Text
-                style={{marginLeft:190,marginTop:-15,fontWeight:'bold', color:'black'}}
-                >{numOfUserSquadron}</Text>
-           </View>
-          
-         </View>
-          {/**this view here is for the labelling */}
-         <View
-         style={{marginLeft:-20}}
-         >
-           <Text
-           style={{marginBottom:-15,marginLeft:7,color:'#000',fontWeight:'600', }}
-           >Polls</Text> 
-           <View>
-
-           </View>
-           <Text
-           style={{marginLeft:60,marginBottom:-15,color:'#000',fontWeight:'600', }}
-           >Squad Created</Text>  
-           <View>
-
-           </View>
-          <Text
-          style={{marginBottom:20,marginLeft:175,color:'#000',fontWeight:'600'}}
-          >Squad Joined</Text>
-         </View>
-        </View>
-      </View> 
-      {/* <View
-      style={{marginLeft:30}}
       
+      {/* the squad joined text and numbers */}
+        <View
+         style={{marginLeft:320, marginTop:-36}}
+        >
+         <Text
+         style={{marginLeft:30, fontSize:15, fontWeight:'800'}}
+         >{numOfUserSquadron}</Text>
+         <Text
+         style={{fontSize:15, fontWeight:'400'}}
+         >Squad Joined</Text>
+        </View>
+      
+      </View>
+      <View
+      style={{backgroundColor:"#F4F8FB", marginTop:1}}
       >
-        <Text
-           style={{marginLeft:10, marginTop:29}}
-        >{name}</Text>
-      </View> */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:-30, backgroundColor:"#F4F8FB" }}>
+      <Text
+       style={{marginLeft:20, marginTop:40}}
+       >{name}</Text>
+      </View>
+
+
+    <View 
+    style={{marginTop:0, backgroundColor:"#F4F8FB"}}
+    >
+      <Text
+      style={{marginLeft:150}}
+      >
+        My Bio: Stay cool forever
+        link: www.squadByMe.com
+      </Text>
+    </View>
+
+    {/* edit and squad creation button */}
+ <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:0, backgroundColor:"#F4F8FB" }}>
                 <TouchableOpacity 
                 style = {styles.editProfileButton}
                 onPress={() => navigation.navigate('EditProfileScreen')}
@@ -217,6 +221,102 @@ import { updateUser } from '../graphql/mutations'
                     >Create Squad</Text>
                 </TouchableOpacity>
             </View>
+       
+      {/* <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:0}]}>
+        <View style={{flex:1, justifyContent:'flex-start', marginTop:-25}}>
+          <Image
+            source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+            resizeMode={'contain'}
+            style={[{ height: 80 }, { width: 80 }, 
+            {overflow:'hidden'},{marginBottom:12}, {marginLeft:20},{marginTop:30}, {borderRadius:50}]} />
+        </View> 
+        <View
+        style={{flex:1, justifyContent:'flex-end', marginBottom:25, marginEnd:30,marginLeft:-125}}
+        >
+        {/* <TouchableOpacity
+        style={{marginStart:230, }}
+        onPress={() =>navigation.navigate('AccountSettingScreen')}
+        >
+        <AntDesign name="edit" size={24} color="black" />
+        </TouchableOpacity> */}
+
+        {/* <View
+        style={{marginLeft:-10,marginBottom:12.5}}
+        >
+          <Text
+          style={{fontWeight:'bold', fontSize:22}}
+          >@{userName}</Text>
+        </View>
+       {/**this view here is for the numbers */}
+         {/* <View>
+           
+          <View>
+          <Text
+           style={{marginBottom:-15,marginLeft:2,fontWeight:'bold', color:'black'}}
+           >{numOfUserPolls}</Text> 
+          </View>
+            <View>
+            <Text
+              style={{marginLeft:80,fontWeight:'bold', color:'black'}}
+              >{numOfUsersInSquad}</Text>  
+            </View> */}
+
+           {/* <View> 
+           <Text
+                style={{marginLeft:190,marginTop:-15,fontWeight:'bold', color:'black'}}
+                >{numOfUserSquadron}</Text>
+           </View>
+          
+         </View>
+          {/**this view here is for the labelling */}
+         {/* <View
+         style={{marginLeft:-20}}
+         >
+           <Text
+           style={{marginBottom:-15,marginLeft:7,color:'#000',fontWeight:'600', }}
+           >Polls</Text> 
+           <View>
+
+           </View>
+           <Text
+           style={{marginLeft:60,marginBottom:-15,color:'#000',fontWeight:'600', }}
+           >Squad Created</Text>  
+           <View>
+
+           </View>
+          <Text
+          style={{marginBottom:20,marginLeft:175,color:'#000',fontWeight:'600'}}
+          >Squad Joined</Text>
+         </View> */}
+        {/* </View>
+      </View>   */}
+      {/* <View
+      style={{marginLeft:30}}
+      
+      >
+        <Text
+           style={{marginLeft:10, marginTop:29}}
+        >{name}</Text>
+      </View> */}
+      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:-30, backgroundColor:"#F4F8FB" }}>
+                <TouchableOpacity 
+                style = {styles.editProfileButton}
+                onPress={() => navigation.navigate('EditProfileScreen')}
+                >
+                  <Text
+                  style={{color:'#ffff', fontSize:12, marginTop:10, alignSelf:'center', fontWeight:'bold'}}
+                  >Edit Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                onPress={() => navigation.navigate('RootNavigation', { screen: 'Poll Creation' })}
+                //navigation.navigate('RootNavigation', { screen:'Home'})
+                style={styles.createSquadButton}
+                >
+                    <Text
+                        style={{color:'#ffff', fontSize:12, marginTop:10, alignSelf:'center', fontWeight:'bold'}}
+                    >Create Squad</Text>
+                </TouchableOpacity>
+            </View> */}
       <Tab.Navigator
     style={[{ marginBottom: -10 }, { marginEnd: 5 }, { marginStart: 5 }, { borderRadius: 9 }]}
     tabBarShowLabel={{
