@@ -306,7 +306,7 @@ export const onCreatePollResponse = /* GraphQL */ `
       id
       pollID
       userID
-      score
+      caption
       PollComments {
         nextToken
         __typename
@@ -325,7 +325,7 @@ export const onUpdatePollResponse = /* GraphQL */ `
       id
       pollID
       userID
-      score
+      caption
       PollComments {
         nextToken
         __typename
@@ -344,7 +344,7 @@ export const onDeletePollResponse = /* GraphQL */ `
       id
       pollID
       userID
-      score
+      caption
       PollComments {
         nextToken
         __typename

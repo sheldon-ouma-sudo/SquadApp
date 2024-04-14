@@ -266,7 +266,7 @@ export const getPollResponse = /* GraphQL */ `
       id
       pollID
       userID
-      score
+      caption
       PollComments {
         nextToken
         __typename
@@ -288,7 +288,7 @@ export const listPollResponses = /* GraphQL */ `
         id
         pollID
         userID
-        score
+        caption
         createdAt
         updatedAt
         __typename
@@ -317,7 +317,7 @@ export const pollResponsesByPollID = /* GraphQL */ `
         id
         pollID
         userID
-        score
+        caption
         createdAt
         updatedAt
         __typename
@@ -346,7 +346,7 @@ export const pollResponsesByUserID = /* GraphQL */ `
         id
         pollID
         userID
-        score
+        caption
         createdAt
         updatedAt
         __typename

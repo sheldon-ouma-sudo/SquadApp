@@ -316,7 +316,7 @@ export const createPollResponse = /* GraphQL */ `
       id
       pollID
       userID
-      score
+      caption
       PollComments {
         nextToken
         __typename
@@ -336,7 +336,7 @@ export const updatePollResponse = /* GraphQL */ `
       id
       pollID
       userID
-      score
+      caption
       PollComments {
         nextToken
         __typename
@@ -356,7 +356,7 @@ export const deletePollResponse = /* GraphQL */ `
       id
       pollID
       userID
-      score
+      caption
       PollComments {
         nextToken
         __typename

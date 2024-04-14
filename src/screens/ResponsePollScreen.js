@@ -191,6 +191,19 @@ const ResponsePollScreen = () => {
             }));
             // Log the response or handle it as needed
             // console.log('Poll likes updated successfully:✅✅✅', response);
+            if(response){
+              const str = localUserName + "has liked your poll!"
+              try {
+                const pollLikeResponseCreatedID = await API.graphql(graphqlOperation(createPollResponse, {input:{
+                  pollID: pollID, 
+                  userID: localUserID, 
+                  caption: str
+                }}))
+                console.log("success creating the poll response for poll likeslikes✅✅✅✅")
+              } catch (error) {
+                console.log("error creating the poll response for the likes", error)
+              }
+            }
           } catch (error) {
             console.log('Error updating poll likes:', error);
           }
@@ -257,6 +270,19 @@ const ResponsePollScreen = () => {
               }));
               // Log the response or handle it as needed
               // console.log('Poll items and total num of votes updated successfully: with stringification ✅✅✅', response);
+              if(response){
+                const str = localUserName + "has added a vote to your poll"
+                try {
+                  const pollResponseCreated = await API.graphql(graphqlOperation(createPollResponse, {input:{
+                    pollID : pollID, 
+                    userID: localUserID, 
+                    caption : str
+                  }}))
+                  console.log("the poll item response creation created success full✅✅✅✅")
+                } catch (error) {
+                  console.log("error creation a poll response on poll Item update", error)
+                }
+              }
             } catch (error) {
               console.log('Error updating poll items:', error);
             }
