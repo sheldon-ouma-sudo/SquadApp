@@ -101,7 +101,7 @@ Notifications.scheduleNotificationAsync({
   )
 } 
 
-
+  
   
 const styles = StyleSheet.create({
     container:{

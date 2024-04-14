@@ -14,7 +14,9 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 const RequestToBeAddedToASquadListItem=({ squad})=>{
+  
 const navigation = useNavigation()
+
  
 
           useEffect(() => {
@@ -105,10 +107,8 @@ const navigation = useNavigation()
                     borderRadius:6,
                     width:70,
                     marginLeft:105}}
-                  onPress={handleRespond}>  
-                    <Text
-                     style={{color:'#FFFF', marginLeft:10, marginTop:5}}
-                    >Respond</Text>
+                  onPress={handleRespond}>   
+                    <Text style={{color:'#FFFF', marginLeft:10, marginTop:5}}>Accept</Text>
                   </TouchableOpacity>
                   <TouchableOpacity 
                   style={{

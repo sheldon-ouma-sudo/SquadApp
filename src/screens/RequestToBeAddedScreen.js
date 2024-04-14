@@ -5,13 +5,14 @@ import { useEffect } from 'react'
 import RequestToBeAddedToASquadListItem from '../components/ActivityListItems/RequestToBeAddedToASquadListItem'
 import { API, graphqlOperation } from "aws-amplify";
 import {useUserContext} from './../../UserContext'
-import { notificationsByUserID } from '../graphql/queries'
+import { getRequestToBeAddedInASquad, notificationsByUserID } from '../graphql/queries'
 
 
 
 
 const RequestToBeAddedToSquadsScreen = () => {
   const[requestToBeAddedToSquadsData, setRequestToBeAddedToSquadsData] = useState()
+  const[requestParent, setRequestParent] = useState()
 
 
    const {user} = useUserContext()
@@ -47,6 +48,32 @@ const RequestToBeAddedToSquadsScreen = () => {
      fetchRequestToBeAddedToSquadsData();
   }, []);
  
+  useEffect(() => {
+    const handleRequestToBeAddedSquad = async () => {
+      if (requestToBeAddedToSquadsData) {
+        console.log("here is the requestToBeAdded ID Array", requestToBeAddedToSquadsData);
+        for (const squadRequestToBeAddedID of requestToBeAddedToSquadsData) {
+          console.log("here is the current ID", squadRequestToBeAddedID);
+          try {
+            const squadRequestToBeAddedResults = await API.graphql(graphqlOperation(getRequestToBeAddedInASquad, {
+              id: squadRequestToBeAddedID
+            }));
+            console.log("here is the squad request result", squadRequestToBeAddedResults.data?.getRequestToBeAddedInASquad);
+          } catch (error) {
+            console.log("error getting the squad request", error);
+          }
+        }
+      }
+    };
+  
+    handleRequestToBeAddedSquad();
+  }, [requestToBeAddedToSquadsData]);
+  
+
+
+
+
+
 
   return (
     <KeyboardAvoidingView
