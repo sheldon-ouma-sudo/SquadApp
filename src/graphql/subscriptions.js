@@ -307,10 +307,6 @@ export const onCreatePollResponse = /* GraphQL */ `
       pollID
       userID
       caption
-      PollComments {
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -326,10 +322,6 @@ export const onUpdatePollResponse = /* GraphQL */ `
       pollID
       userID
       caption
-      PollComments {
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -345,10 +337,6 @@ export const onDeletePollResponse = /* GraphQL */ `
       pollID
       userID
       caption
-      PollComments {
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -479,7 +467,6 @@ export const onCreatePollComment = /* GraphQL */ `
       userID
       numOfLikes
       notificationID
-      pollresponseID
       User {
         id
         name
@@ -531,7 +518,6 @@ export const onUpdatePollComment = /* GraphQL */ `
       userID
       numOfLikes
       notificationID
-      pollresponseID
       User {
         id
         name
@@ -583,7 +569,6 @@ export const onDeletePollComment = /* GraphQL */ `
       userID
       numOfLikes
       notificationID
-      pollresponseID
       User {
         id
         name

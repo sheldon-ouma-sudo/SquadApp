@@ -302,14 +302,14 @@ const ResponsePollScreen = () => {
       console.log("here is the poll creator notification ID", pollCreatorNotificationID);
       
       if (pollCreatorNotificationID) {
-        const createNotificationInput = {
+        const createCommentInput = {
           pollID: pollID,
           userID: localUserID, 
           notificationID: pollCreatorNotificationID
         };
     
         try {
-          const pollCommentCreationResults = await API.graphql(graphqlOperation(createPollComment, { input: createNotificationInput }));
+          const pollCommentCreationResults = await API.graphql(graphqlOperation(createPollComment, { input: createCommentInput }));
           console.log("poll comment creation successful✅✅✅", pollCommentCreationResults);
           return pollCommentCreationResults;
         } catch (error) {
