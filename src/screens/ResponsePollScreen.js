@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Image, FlatList, StatusBar, Dimensions, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput, Image, FlatList, StatusBar, Dimensions, SafeAreaView, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
 import { API, graphqlOperation } from "aws-amplify";
@@ -34,21 +34,19 @@ const ResponsePollScreen = () => {
      const [pollCreatorNotificationID, setPollCreatorNotificationID] =  useState("")
      const [originalPollCommentArray, setOriginalPollCommentArray] = useState([])
      const [localUserName, setLocalUserName] = useState()
-     const [pollCreatorNotification, setPollCreatorNotication] = useState()
-     const [pollLikeResponseID,   setPollLikeResponseLikeID] = useState("")
      const [localUserID, setLocalUserID] = useState()
-     const [updatedPollLikeResponseArray, setUpdatedPollLikeResponseArray] = useState([])
      const [selectedOption, setSelectedOption] = useState(null);
      const [isOptionSelected, setIsOptionSelected] = useState(false);
-     const [pollItemUpdateStatus, setPollItemUpdateStatus] = useState(false)
      const [pollCommentArray, setPollCommentArray] = useState([])
-     const [pollResponseCommentID, setPollResponseCommentID] = useState("")
-     const [updatedPollCommentResponseArray,setUpdatedPollCommentResponseArray] = useState([])
-     const [newPollCommentID, setNewPollCommentID] = useState("")
-     const [pollLikeNotificationUpdateStatus, setPollLikeNotificationUpdateStatus] = useState(true)
-     const [pollCommentsNotificationUpdateStatus, setPollCommentNotificationUpdateStatus] = useState(true)
-     const [pollItemNotificationUpdateStatus, setPollItemNotificationUpdateStatus] = useState(true)
+     const [notificationPollItemResponseArray, setNotificationPollItemResponseArray] = useState([])
+     const [notificationPollLikeResponseArray, setNotificationPollLikeResponseArray] = useState([])
+     const [notificationPollCommentResponseArray, setNotificationPollCommentPollResponseArray] = useState([])
+     const [notificationPollNotificationCommentArray, setNotificationPollCommentArray] = useState([])
+     const [pollLikeNotificationUpdateStatus, setPollLikeNotificationUpdateStatus] = useState(false)
+     const [pollCommentsNotificationUpdateStatus, setPollCommentNotificationUpdateStatus] = useState(false)
+     const [pollItemNotificationUpdateStatus, setPollItemNotificationUpdateStatus] = useState(false)
      const [pollResponseStatus, setPollResponseStatus] = useState(false)
+    
   
     
    
@@ -133,11 +131,6 @@ const ResponsePollScreen = () => {
       }, [poll])
 
 
-
-      const handleLikedIconClick = () => {
-        setIsLikeIconClicked(prevState => !prevState); // Use callback form of setState
-    };
-
     //fetch poll creator notification data
       useEffect(()=>{
       const getPollCreatorNotification = async () =>{
@@ -151,6 +144,44 @@ const ResponsePollScreen = () => {
             // console.log("here is the notification items", notificationQueryResult.data?.notificationsByUserID.items)
             // console.log("here is the notification id", notificationQueryResult.data?.notificationsByUserID.items[0].id)
             const userNotID = notificationQueryResult.data?.notificationsByUserID.items[0].id
+            const pollItemResponseArray = notificationQueryResult.data?.notificationsByUserID.items[0].pollResponsesArray
+            if(pollItemResponseArray){
+              console.log(pollItemResponseArray)
+              setNotificationPollItemResponseArray(pollItemResponseArray)
+            }else{
+              console.log("Poll Item Response array is null", pollItemResponseArray)
+              const newArr = []
+              setNotificationPollItemResponseArray(newArr)
+            }
+            const pollLikeResponseArray = notificationQueryResult.data?.notificationsByUserID.items[0].pollLikeResponseArray
+            if(pollLikeResponseArray){
+              console.log("here is the notification poll Response from the backend", pollLikeResponseArray)
+              setNotificationPollLikeResponseArray(pollLikeResponseArray)
+            }else{
+              console.log("the notification poll Like Response array is still null", pollLikeResponseArray)
+              const newArr = []
+              setNotificationPollLikeResponseArray(newArr)
+            }
+            const pollCommentResponseArray = notificationQueryResult.data?.notificationsByUserID.items[0].pollCommentsArray
+            if(pollCommentResponseArray){
+              console.log("here is the notification poll response comment array", pollCommentResponseArray)
+              setNotificationPollCommentPollResponseArray(pollCommentResponseArray)
+            }else{
+              console.log("the poll notification comment array is still null", pollCommentResponseArray)
+               const newArr = []
+               setNotificationPollCommentPollResponseArray(newArr)
+              
+
+            }
+            const pollNotificationCommentArray = notificationQueryResult.data?.notificationsByUserID.items[0].PollComments
+            if(pollNotificationCommentArray){
+              console.log("here is the poll notification comment array", pollNotificationCommentArray)
+              setNotificationPollCommentArray(pollNotificationCommentArray)
+            }else{
+              console.log("the notification from the poll comment array is still null", pollNotificationCommentArray)
+              const newArr = []
+              setNotificationPollCommentArray(newArr)
+            }
             console.log("here is the userNotID", userNotID)
             setPollCreatorNotificationID(userNotID)
           } catch (error) {
@@ -164,6 +195,11 @@ const ResponsePollScreen = () => {
       getPollCreatorNotification()
       },[pollCreatorUserID])
       
+
+      const handleLikedIconClick = () => {
+        setIsLikeIconClicked(prevState => !prevState); // Use callback form of setState
+    };
+
     useEffect(() => {
         // Check if the like icon is clicked
         if (isLikeIconClicked) {
@@ -194,12 +230,14 @@ const ResponsePollScreen = () => {
             if(response){
               const str = localUserName + "has liked your poll!"
               try {
-                const pollLikeResponseCreatedID = await API.graphql(graphqlOperation(createPollResponse, {input:{
+                const pollLikeResponseCreated = await API.graphql(graphqlOperation(createPollResponse, {input:{
                   pollID: pollID, 
                   userID: localUserID, 
                   caption: str
                 }}))
                 console.log("success creating the poll response for poll likeslikes✅✅✅✅")
+                const pollLikeResponseCreatedID = pollLikeResponseCreated.data?.createPollResponse.id
+                setNotificationPollLikeResponseArray(prevState => [...prevState, pollLikeResponseCreatedID]);
               } catch (error) {
                 console.log("error creating the poll response for the likes", error)
               }
@@ -278,7 +316,10 @@ const ResponsePollScreen = () => {
                     userID: localUserID, 
                     caption : str
                   }}))
-                  console.log("the poll item response creation created success full✅✅✅✅")
+                  console.log("the poll item response creation created successfull✅✅✅✅")
+                  const newPollItemResponseID = pollResponseCreated.data?.createPollResponse.id
+                  // Update the state here
+                 setNotificationPollItemResponseArray(prevState => [...prevState, newPollItemResponseID]);
                 } catch (error) {
                   console.log("error creation a poll response on poll Item update", error)
                 }
@@ -310,7 +351,23 @@ const ResponsePollScreen = () => {
     
         try {
           const pollCommentCreationResults = await API.graphql(graphqlOperation(createPollComment, { input: createCommentInput }));
-          console.log("poll comment creation successful✅✅✅", pollCommentCreationResults);
+          // console.log("poll comment creation successful✅✅✅", pollCommentCreationResults.data?.createPollComment.id);
+          if(pollCommentCreationResults){
+            const str = localUserName + "has commented on your poll!"
+            try {
+              const pollResponseCommentCreationResult = await API.graphql(graphqlOperation(createPollResponse, {input:{
+                pollID:pollID, 
+                userID: localUserID, 
+                caption: str
+              }}))
+              console.log("success creating the poll comment respnse✅✅✅", pollResponseCommentCreationResult.data?.createPollResponse.id)
+              const newPollCommentResponseID = pollResponseCommentCreationResult.data?.createPollResponse.id
+                  // Update the state here
+              setNotificationPollCommentPollResponseArray(prevState => [...prevState, newPollCommentResponseID]);
+            } catch (error) {
+              console.log("error creating the poll comment response", error)
+            }
+          }
           return pollCommentCreationResults;
         } catch (error) {
           console.log("error creating poll comment", error);
@@ -321,8 +378,7 @@ const ResponsePollScreen = () => {
       }
     };
     
-
-
+    
       const handlePollCommentOnSubmit = async () => {
         console.log("the comment button pressed");
         console.log("here is the comment", comment);
@@ -347,30 +403,112 @@ const ResponsePollScreen = () => {
       };
       
         
-     
+      //handle poll like notification update
+    useEffect(()=>{
+      const handlePollLikeResponseNotificationUpdate = async () =>{
+        if(notificationPollLikeResponseArray){
+          console.log("here is the poll like notification array", notificationPollLikeResponseArray)
+          try {
+            const notificationUpdateResults = await API.graphql(graphqlOperation(updateNotification, {input:{
+             id: pollCreatorNotificationID,
+             pollLikeResponseArray: notificationPollLikeResponseArray
+  
+            }}))
+            console.log("success updating notification", notificationUpdateResults)
+            setPollLikeNotificationUpdateStatus(true)
+          } catch (error) {
+            console.log("error in updating the notification", error)
+          }
+         
+        }
+  
+      }
+      handlePollLikeResponseNotificationUpdate()
+      }, [notificationPollLikeResponseArray])
+  //handle poll like notification update
+      useEffect(()=>{
+      const handlePollItemResponseNotificationUpdate = async () =>{
+        if(notificationPollItemResponseArray){
+          console.log("here is the upated poll item response array notificaiton")
+          try {
+            const notificationUpdateResults = await API.graphql(graphqlOperation(updateNotification, {input:{
+              id: pollCreatorNotificationID, 
+              pollResponsesArray: notificationPollItemResponseArray
+            }}))
+            console.log("success updating notification",notificationUpdateResults )
+            setPollItemNotificationUpdateStatus(true)
+            
+          } catch (error) {
+            console.log("error updating notification", error)
+          }
+        }
+        
+      }
+      handlePollItemResponseNotificationUpdate()
+      }, [notificationPollItemResponseArray])
+  //handle poll like notification update
+  useEffect(()=>{
+    const handlePolCommentResponseNotificationUpdate = async () =>{
+      if(notificationPollCommentResponseArray){
+        try {
+          const notificationUpdateResults = await API.graphql(graphqlOperation(updateNotification, {input:{
+            id: pollCreatorNotificationID, 
+            pollCommentsArray: notificationPollCommentResponseArray
+  
+          }}))
+          console.log("success in updating notificationnotification✅✅")
+          setPollCommentNotificationUpdateStatus(true)
+
+        } catch (error) {
+          console.log("error updating the notification", error)
+        }
+      }
+      
+    }
+    handlePolCommentResponseNotificationUpdate()
+    }, [notificationPollCommentResponseArray])
+    //handle poll like notification update
+    useEffect(()=>{
+      const handlePollCommentNotificationUpdate = async () =>{
+        if(notificationPollNotificationCommentArray){
+          console.log("here is the notification poll comment array")
+          try {
+            const notificationUpdateResults = await API.graphql(graphqlOperation(updateNotification, {input:{
+              id: pollCreatorNotificationID, 
+              pollComments: [notificationPollNotificationCommentArray]
+            }}))
+          } catch (error) {
+            console.log("error upadating the notification", error)
+            
+          }
+        }
+        
+      }
+      handlePollCommentNotificationUpdate()
+      }, [notificationPollNotificationCommentArray])
+  
+      const handleValidatePollResponse=async()=>{
+        if(pollLikeNotificationUpdateStatus){
+          if(pollItemNotificationUpdateStatus){
+            if(pollCommentsNotificationUpdateStatus){
+              setPollResponseStatus(true)
+              return true
+            }else{
+              return false
+            }
+          }
+        }
+      }
      
        const handleSubmitPollResponse = async()=>{
-        //const newNumOfLikes = await handleLickedIconClick()
-        // console.log("here is the new number of likes", newNumOfLikes)
-        // if(isLikeIconClicked){
-        //   const results = await updateLikesInDatabase(numOfPollLikes);
-        //   if(results){
-        //     console.log("successfully updated the number of polls✅✅")
-        //   }else{
-        //     console.log("error updating the number of likes")
-        //   }
-        // }
-        // if(newNumOfLikes){
-        //   if(pollID){
-        //     updatePollLikes(pollID,newNumOfLikes)
-        //   }else{
-        //     console.log("invalid poll ID", pollID)
-        //   }
+        const validationResponse = await handleValidatePollResponse()
+          if(validationResponse === true){
+            navigation.goBack()
+          }else{
+            Alert.alert(" For you to submit a response, you must like, vote and comment on the poll")
+          }
         
-        // }else{
-        //   console.log("invalid num of likes", newNumOfLikes)
-        // }
-    
+        
        }
 
 
