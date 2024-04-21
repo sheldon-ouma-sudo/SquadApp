@@ -46,7 +46,7 @@
     }
     const handleSquadCreatedListItemPress = () => {
       // Navigate to the screen with the poll
-      navigation.navigate('PersonalSquadDisplayScreen',{squad:squad});
+      navigation.navigate('GeneralSquadScreen',{squad:squad});
     };
     
     return (
@@ -92,11 +92,11 @@
       marginHorizontal: 10,
       marginTop: 20,
       //marginVertical: 65,
-      borderColor: "#9789EE",
+      borderColor: "#C2B960",
       //height: 100,
-      borderRadius: 15,
+      borderRadius: 35,
       backgroundColor: "white",
-      borderWidth: 1.5,
+      borderWidth: 3.5,
       marginRight:30
     },
     pollCaptionContainer:{
@@ -107,7 +107,7 @@
       height:40,
       width: 95,
       backgroundColor: "#1145FD",
-      borderRadius: 10,
+      borderRadius: 16,
       borderColor: "#FFFF",
       borderWidth: 2.5,
       marginLeft:25,
@@ -118,7 +118,7 @@
       height:40,
       width: 95,
       backgroundColor: "#FFFF",
-      borderRadius: 10,
+      borderRadius: 15,
       borderColor:"#1145FD",
       borderWidth: 2.5,
       marginLeft:25,

@@ -353,11 +353,11 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
         marginHorizontal: 10,
         marginTop: 20,
         //marginVertical: 65,
-        //borderColor: "#FFFF",
+        borderColor: "#C2B960",
         //height: 100,
         borderRadius: 28,
         backgroundColor: "white",
-        borderWidth: 1,
+        borderWidth: 4,
         marginRight:30
       
     },
@@ -382,7 +382,7 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
         height: 40,
         width: 95,
         backgroundColor: "white",
-        borderRadius: 10,
+        borderRadius: 17,
         borderColor: "#1145FD",
         borderWidth: 2.5,
         marginLeft: 25,

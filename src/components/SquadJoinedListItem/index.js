@@ -99,86 +99,86 @@ const handleSquadSelected=async() =>{
 
  
  const styles = StyleSheet.create({
- container:{
-  flex:1,
-  flexDirection: "row",
-  marginHorizontal: 10,
-  marginTop: 20,
-  //marginVertical: 65,
-  borderColor: "#9789EE",
-  //height: 100,
-  borderRadius: 15,
-  backgroundColor: "white",
-  borderWidth: 1.5,
-  marginRight:30
-},
- pollCaptionContainer:{
-   height: 50,
-   width: 180,
- },
- joinSquadTextContainer:{
-  height:40,
-  width: 95,
-  backgroundColor: "#1145FD",
-  borderRadius: 10,
-  borderColor: "#FFFF",
-  borderWidth: 2.5,
-  marginLeft:25,
-  marginTop:-25
+  container:{
+    flex:1,
+    flexDirection: "row",
+    marginHorizontal: 10,
+    marginTop: 20,
+    //marginVertical: 65,
+    borderColor: "#C2B960",
+    //height: 100,
+    borderRadius: 35,
+    backgroundColor: "white",
+    borderWidth: 3.5,
+    marginRight:30
+  },
+  pollCaptionContainer:{
+    height: 50,
+    width: 180,
+  },
+  joinSquadTextContainer:{
+    height:40,
+    width: 125,
+    backgroundColor: "#1145FD",
+    borderRadius: 15,
+    borderColor: "#C2B960",
+    borderWidth: 2.5,
+    marginLeft:5,
+    marginTop:-25
+    
+  },
+  joinedSquadTextContainer:{
+    height:40,
+    width: 125,
+    backgroundColor: "#FFFF",
+    borderRadius: 15,
+    borderColor:"#1145FD",
+    borderWidth: 2.5,
+    marginLeft:5,
+    marginTop:-25
+  },
   
- },
- joinedSquadTextContainer:{
-  height:40,
-  width: 95,
-  backgroundColor: "#FFFF",
-  borderRadius: 10,
-  borderColor:"#1145FD",
-  borderWidth: 2.5,
-  marginLeft:25,
-  marginTop:-25
- },
- 
- pollCaptionContainer:{
-   height: 50,
-   width: 180,
- },
- numOfVotesContainer:{
-  height:40,
-  width: 95,
-  backgroundColor: "#1145FD",
-  borderRadius: 10,
-  borderColor: "#FFFF",
-  borderWidth: 2.5,
+  pollCaptionContainer:{
+    height: 50,
+    width: 180,
+  },
+  numOfVotesContainer:{
+    height:40,
+    width: 95,
+    backgroundColor: "#1145FD",
+    borderRadius: 10,
+    borderColor: "#FFFF",
+    borderWidth: 2.5,
+    marginLeft:5,
+    
+  },
+  votedText:{
+    color: "white",
+    fontWeight: "bold",
+    marginBottom:7,
+    marginLeft:1,
+    fontSize: 8.5,
+    textAlignVertical:'center'
+  }, 
+  userImageContainer:{
+    marginStart:10,
+    marginTop:50
+  },
+  userImage:{
+      width:50,
+      height:70
+  },
+  squadNameText:{
+  fontWeight:'500',
   marginLeft:5,
-  
- },
- votedText:{
-   color: "white",
-   fontWeight: "bold",
-   marginBottom:7,
-   marginLeft:1,
-   fontSize: 8.5,
-   textAlignVertical:'center'
- }, 
- userImageContainer:{
-  marginStart:10,
-  marginTop:50
- },
- userImage:{
-     width:50,
-     height:70
- },
-squadNameText:{
- fontWeight:'500',
- marginLeft:5,
- marginTop:-40
-},
-squadCreator:{
- marginTop: 15,
- marginLeft: 5,
- color: '#545454',
- fontSize:10
-}
- },
- )
+  marginTop:-40
+  },
+  squadCreator:{
+  marginTop: 15,
+  marginLeft: 5,
+  color: '#545454',
+  fontSize:10
+  }
+  },
+  )
 export default SquadJoinedListItem;

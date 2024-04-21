@@ -1,5 +1,5 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-    StatusBar,Dimensions,TouchableOpacity, StyleSheet} from 'react-native'
+    StatusBar,Dimensions,TouchableOpacity} from 'react-native'
     import PersonalPollScreen from './PersonalPollScreen'
     import SwayingScreen from './SwayingScreen'
     import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
