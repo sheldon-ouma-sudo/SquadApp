@@ -51,6 +51,7 @@ import PersonalSquadDisplayScreen from './src/screens/PersonalSquadsDisplayScree
 import SquadDisplayScreen from './src/screens/SquadDisplayScreen'
 import EditSquadScreen from './src/screens/EditSquadScreen'
 import GeneralSquadScreen from './src/screens/GeneralSquadPage'
+import GeneralUserProfileScreen from './src/screens/GeneralUserProfileScreenPage'
 import { UserProvider } from "./UserContext"
 
 Amplify.configure(awsconfig);
@@ -222,7 +223,8 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "PersonalSquadDisplayScreen" component={PersonalSquadDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "SquadDisplayScreen" component={SquadDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "EditSquadScreen" component={EditSquadScreen }/>
-        <Stack.Screen option={{headerShown:false}} name = "GeneralSquadScreen" component={GeneralSquadScreen}/>
+        <Stack.Screen options={{headerShown:false}} name = "GeneralSquadScreen" component={GeneralSquadScreen}/>
+        <Stack.Screen options= {{headerShown:false}} name = "GeneralUserProfileScreenPage" component={GeneralUserProfileScreen}/>
         
       </Stack.Navigator>
     </NavigationContainer>
