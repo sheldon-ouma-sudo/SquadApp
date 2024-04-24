@@ -14,10 +14,14 @@
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
   import { API, graphqlOperation, Auth } from "aws-amplify";
   //import { graphqlOperation } from 'aws-amplify' 
+  import { Entypo } from '@expo/vector-icons';
   import {getUser, pollsByUserID} from '../graphql/queries'
   import { useUserContext } from '../../UserContext'
   import { MaterialIcons } from '@expo/vector-icons';
   import { updateUser } from '../graphql/mutations'
+  import GeneralProfileUserSquadCreatedTab from './GeneralProfileUserSquadCreatedTab'
+  import GeneralUserProfilePollTab from './GeneralUserProfilePollTab'
+  import GeneralUserProfileSquadJoinedTab from './GeneralUserProfileSquadJoinedTab'
   
 
 
@@ -28,33 +32,34 @@ const GeneralUserProfileScreenPage = () => {
   const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
   const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
   const[name, setName] = useState("")
-  const{user, updateUserProperty} = useUserContext();
+  const{userInfo, updateUserProperty} = useUserContext();
   const[userPolls, setUserPolls] = useState([])
-  const Tab = createMaterialTopTabNavigator();
+  const Tab  = createMaterialTopTabNavigator();
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();  
   //query the user from the backend
   //set the values to what is in the backend 
 
-  const route = useRoute(); // Get the route object
-  const { userInfo } = route?.params; // Retrieve the passed userID
+ // Get the route object
+  const route = useRoute();
+  const user = route.params?.userInfo; // Retrieve the passed userID
  
    useEffect(()=>{
     console.log("here is the user received from the poll item", userInfo)
     const queryUser = async () => {
       try {
-        const authUser = await Auth.currentAuthenticatedUser();
-        const userID = user.id; // Use sub instead of profile for the user ID
-        console.log("user id in the profile top navigation: ", userID)
-        const name = authUser.attributes.name;
+        // const authUser = await Auth.currentAuthenticatedUser();
+        // const userID = user.id; // Use sub instead of profile for the user ID
+        // console.log("user id in the profile top navigation: ", userID)
+        // const name = authUser.attributes.name;
 
-        // Query the user from the backend using Amplify API
-        const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+        // // Query the user from the backend using Amplify API
+        // const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
 
-        // Extract the user information from the query result
-        const userFromBackend = userData.data?.getUser;
-        console.log("here is the user from backend ", userFromBackend)
-        // Update state with the user information
+        // // Extract the user information from the query result
+         const userFromBackend = user;
+        // console.log("here is the user from backend ", userFromBackend)
+        // // Update state with the user information
         setName(userFromBackend.name)
         setUserName(userFromBackend.userName);
         setNumOfUserPolls(userFromBackend.numOfPolls);
@@ -121,16 +126,17 @@ const GeneralUserProfileScreenPage = () => {
   updateUserInfo();
 }, [userPolls, numOfUserPolls]); // Include userPolls and numOfUserPolls in the dependency array
 
-const handleOnSettingPress=async()=>{
- navigation.navigate("AccountSettingScreen")
-} 
 
- 
   return (
     <>
-  
+      <TouchableOpacity
+        style={{marginTop:70, marginBottom:-10}}
+        onPress={()=>navigation.goBack()}
+        >
+        <Entypo name="chevron-left" size={34} color="black" />
+        </TouchableOpacity>
     <View
-    style={{backgroundColor:"#F4F8FB", marginTop:80}}
+    style={{backgroundColor:"#F4F8FB", marginTop:30}}
     >
     <View>
     <Text
@@ -341,16 +347,23 @@ const handleOnSettingPress=async()=>{
       },
   })}
 >
-        <Tab.Screen
+<Tab.Screen
           name="Polls"
-          component={PersonalPollScreen} />
+          component={GeneralUserProfilePollTab}
+          initialParams={{ userID: user.id }}
+        />
         <Tab.Screen
           name="Squad Created"
-          component={SquadCreatedScreen} />
+          component={GeneralProfileUserSquadCreatedTab}
+          initialParams={{ squadJoined: user.squadJoined }}
+        />
         <Tab.Screen
           name="Squad Joined"
-          component={SquadJoinedScreen} />
-      </Tab.Navigator></>
+          component={GeneralUserProfileSquadJoinedTab}
+          initialParams={{ squadCreated: user.userSquadId }}
+        />
+      </Tab.Navigator>
+      </>
   )
 }
 

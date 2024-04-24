@@ -118,10 +118,11 @@ const optionContainerRef = useRef(null);
     }
    const getPollCreater = async () => {
     try {
-      const pollCreatorInfo = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-      console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
-      setPollCreatorInfo(pollCreatorInfo.data?.getUser)
-      setPollCreator(pollCreatorInfo.data?.getUser.userName)
+      const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
+      console.log("this is the poll creator username",pollCreatorInfoQuery.data?.getUser.userName)
+      console.log("this is the poll creator full info",pollCreatorInfoQuery.data?.getUser)
+    // setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser)
+      setPollCreator(pollCreatorInfoQuery.data?.getUser.userName)
     } catch (error) {
       console.log("error fetching the poll creator", error)
     }
@@ -208,11 +209,26 @@ const optionContainerRef = useRef(null);
   };
     // Function to handle navigation when the username is clicked
     const handleUsernamePress = () => {
-      // Navigate to the General Profile screen, passing the pollCreatorID
-      //Alert.alert("I have been pressed")
-      navigation.navigate('GeneralUserProfileScreenPage', { userInfo: pollCreatorInfo });
+      // Ensure pollCreatorInfo is defined before navigating
+      if (pollCreatorInfo) {
+        navigation.navigate('GeneralUserProfileScreenPage', { userInfo: pollCreatorInfo });
+      }
     };
-    
+
+    useEffect(() => {
+      // Fetch poll creator info (ensure pollCreatorID is correct)
+      const fetchPollCreatorInfo = async () => {
+        try {
+          const result = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
+          const userInfo = result.data?.getUser;
+          setPollCreatorInfo(userInfo);
+        } catch (error) {
+          console.error('Error fetching poll creator info:', error);
+        }
+      };
+  
+      fetchPollCreatorInfo();
+    }, [pollCreatorID]);
 
   return (
     <LinearGradient

@@ -52,6 +52,9 @@ import SquadDisplayScreen from './src/screens/SquadDisplayScreen'
 import EditSquadScreen from './src/screens/EditSquadScreen'
 import GeneralSquadScreen from './src/screens/GeneralSquadPage'
 import GeneralUserProfileScreen from './src/screens/GeneralUserProfileScreenPage'
+import GeneralUserProfilePollTab from './src/screens/GeneralUserProfilePollTab'
+import GeneralUserProfileSquadJoinedTab from './src/screens/GeneralUserProfileSquadJoinedTab'
+import GeneralProfileUserSquadCreatedTab from './src/screens/GeneralProfileUserSquadCreatedTab'
 import { UserProvider } from "./UserContext"
 
 Amplify.configure(awsconfig);
@@ -225,7 +228,9 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "EditSquadScreen" component={EditSquadScreen }/>   
         <Stack.Screen options={{headerShown:false}} name = "GeneralSquadScreen" component={GeneralSquadScreen}/>
         <Stack.Screen options= {{headerShown:false}} name = "GeneralUserProfileScreenPage" component={GeneralUserProfileScreen}/>
-         
+        <Stack.Screen options={{headerShown:false}} name = "GeneralUserProfilePollTab" component={GeneralUserProfilePollTab}/>
+        <Stack.Screen options={{headerShown:false}} name = "GeneralUserProfileSquadJoinedTab" component={GeneralUserProfileSquadJoinedTab}/>
+        <Stack.Screen options={{headerShown:false}} name = "GeneralProfileUserSquadCreatedTab" component={GeneralProfileUserSquadCreatedTab}/>
       </Stack.Navigator>
     </NavigationContainer>
     </UserProvider>
