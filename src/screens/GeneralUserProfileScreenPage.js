@@ -7,6 +7,7 @@
   //import MySquadScreen from './MySquadScreen'
   import SquadCreatedScreen from './SquadCreatedScreen'
   import SquadJoinedScreen from './SquadJoinedScreen'
+  import { useRoute } from '@react-navigation/native';
   //import { AntDesign } from '@expo/vector-icons';
   import React from 'react'
   import { useState, useEffect } from 'react'
@@ -34,8 +35,12 @@ const GeneralUserProfileScreenPage = () => {
   const insets = useSafeAreaInsets();  
   //query the user from the backend
   //set the values to what is in the backend 
+
+  const route = useRoute(); // Get the route object
+  const { userInfo } = route?.params; // Retrieve the passed userID
+ 
    useEffect(()=>{
-    console.log("here is the user", user.id)
+    console.log("here is the user received from the poll item", userInfo)
     const queryUser = async () => {
       try {
         const authUser = await Auth.currentAuthenticatedUser();
@@ -123,15 +128,9 @@ const handleOnSettingPress=async()=>{
  
   return (
     <>
-    <TouchableOpacity
-    style={{backgroundColor:"#F4F8FB"}}
-    onPress={handleOnSettingPress}
-
-    >
-     <MaterialIcons name="settings" size={30} color="black" style={{marginLeft:380}} />
-    </TouchableOpacity>
+  
     <View
-    style={{backgroundColor:"#F4F8FB"}}
+    style={{backgroundColor:"#F4F8FB", marginTop:80}}
     >
     <View>
     <Text

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, Alert } from 'react-native';
 import Animated, { EasingNode } from 'react-native-reanimated';
 import { getUser } from '../../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
@@ -8,6 +8,7 @@ import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from 
 import PollCommentItem from '../PollCommentItem/index'
 import { LinearGradient } from 'expo-linear-gradient';
 import Modal from 'react-native-modal';
+import { useNavigation } from '@react-navigation/native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
 const { Value, timing } = Animated;
@@ -25,9 +26,10 @@ const PollListItem = ({ poll, }) => {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
   const[pollCreatorID, setPollCreatorID ] = useState("")
+  const [pollCreatorInfo, setPollCreatorInfo] = useState()
   const [prevSelectedOption, setPrevSelectedOption] = useState(null);
   const animations = useRef([]);
-
+const navigation  = useNavigation()
  
 
 // Inside your component
@@ -118,6 +120,7 @@ const optionContainerRef = useRef(null);
     try {
       const pollCreatorInfo = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
       console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
+      setPollCreatorInfo(pollCreatorInfo.data?.getUser)
       setPollCreator(pollCreatorInfo.data?.getUser.userName)
     } catch (error) {
       console.log("error fetching the poll creator", error)
@@ -203,7 +206,13 @@ const optionContainerRef = useRef(null);
     setNumOfPollLikes(prevLikes => (isLikeCommentIconClicked ? prevLikes +1 : prevLikes -1));
 
   };
-
+    // Function to handle navigation when the username is clicked
+    const handleUsernamePress = () => {
+      // Navigate to the General Profile screen, passing the pollCreatorID
+      //Alert.alert("I have been pressed")
+      navigation.navigate('GeneralUserProfileScreenPage', { userInfo: pollCreatorInfo });
+    };
+    
 
   return (
     <LinearGradient
@@ -221,7 +230,9 @@ const optionContainerRef = useRef(null);
           style={styles.userImage}
         />
       </View>
-      <TouchableOpacity style={styles.userName}>
+      <TouchableOpacity 
+      onPress={handleUsernamePress}
+      style={styles.userName}>
         <Text style={styles.userNameText}>@{pollCreator}</Text>
       </TouchableOpacity>
       <TouchableOpacity>

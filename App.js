@@ -222,10 +222,10 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "ResponsePollScreen" component={ResponsePollScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "PersonalSquadDisplayScreen" component={PersonalSquadDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "SquadDisplayScreen" component={SquadDisplayScreen}/>
-        <Stack.Screen options={{headerShown:false}} name = "EditSquadScreen" component={EditSquadScreen }/>
+        <Stack.Screen options={{headerShown:false}} name = "EditSquadScreen" component={EditSquadScreen }/>   
         <Stack.Screen options={{headerShown:false}} name = "GeneralSquadScreen" component={GeneralSquadScreen}/>
         <Stack.Screen options= {{headerShown:false}} name = "GeneralUserProfileScreenPage" component={GeneralUserProfileScreen}/>
-        
+         
       </Stack.Navigator>
     </NavigationContainer>
     </UserProvider>
