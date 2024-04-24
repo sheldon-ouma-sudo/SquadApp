@@ -68,7 +68,6 @@ const SquadListItem =({ squad,
                   setCurrentUserID(userID)
                   const squadID = squad.id
                   setCurrentUserSquadID(squadID)
-
                   try {
                     //console.log("here is the ")
                     const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
