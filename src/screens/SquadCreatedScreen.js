@@ -57,7 +57,6 @@ useEffect(() => {
           console.log("there is an error", error);
       }
   };
-
   fetchData();
 }, [user]); // Dependency array to trigger useEffect when user changes
 
