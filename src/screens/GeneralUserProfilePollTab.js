@@ -10,33 +10,8 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 
-const GeneralUserProfilePollTab = () => {
-  const route = useRoute()
-  const userID = route?.params; // Destructure userID from route.params
-  const [userPolls, setUserPolls] = useState([])
-
-  useEffect(() => {
-      const fetchUserPolls = async () => {
-          if (userID) {
-              try {
-                  const response = await API.graphql({
-                      query: pollsByUserID,
-                      variables: {
-                          userID: userID
-                      },
-                  });
-                  console.log('User polls:', response.data.pollsByUserID.items);
-                  setUserPolls(response.data?.pollsByUserID.items)
-              } catch (error) {
-                  console.log('Error fetching user polls', error);
-              }
-          }
-      };
-
-      console.log("here is the user ID is:", userID)
-      fetchUserPolls()
-  }, [userID]) // Include userID as a dependency to re-run effect when it changes
-
+const GeneralUserProfilePollTab = ({ userPolls }) => {
+  
   return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
           <BottomSheetModalProvider>

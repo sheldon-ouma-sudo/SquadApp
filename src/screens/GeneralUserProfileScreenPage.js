@@ -15,7 +15,7 @@
   import { API, graphqlOperation, Auth } from "aws-amplify";
   //import { graphqlOperation } from 'aws-amplify' 
   import { Entypo } from '@expo/vector-icons';
-  import {getUser, pollsByUserID} from '../graphql/queries'
+  import {getSquad, getUser, pollsByUserID} from '../graphql/queries'
   import { useUserContext } from '../../UserContext'
   import { MaterialIcons } from '@expo/vector-icons';
   import { updateUser } from '../graphql/mutations'
@@ -34,6 +34,8 @@ const GeneralUserProfileScreenPage = () => {
   const[name, setName] = useState("")
   const[pollCreatorID, setPollCreatorID] = useState()
  const[pollCreatorSquadJoined,setPollCreatorSquadJoined] = useState([])
+ const[pollCreatorSquadCreatedIDArray, setPollCreatorSquadCreatedIDArray] = useState([])
+ const[pollCreatorSquadJoinedIDArray, setPollCreatorSquadJoinedIDArray] = useState([])
  const[pollCreatorSquadCreated, setPollCreatorSquadCreated] = useState([])
   const[userPolls, setUserPolls] = useState([])
   const Tab  = createMaterialTopTabNavigator();
@@ -50,16 +52,17 @@ const GeneralUserProfileScreenPage = () => {
 
     const fetchUserInfo = async () => {
       if(user){
-        console.log("user data of the user clicked passed to the general user proilfe successfully✅")
+        // console.log("user data of the user clicked passed to the general user proilfe successfully✅")
         try {
           const userFromBackend = user;
           setName(userFromBackend.name)
           setUserName(userFromBackend.userName);
           setNumOfUserPolls(userFromBackend.numOfPolls);
           setNumOfSquadron(userFromBackend.squadJoined.length);
-          setPollCreatorSquadJoined(userFromBackend.squadJoined)
+          // setPollCreatorSquadJoined(userFromBackend.squadJoined)
+          setPollCreatorSquadJoinedIDArray(userFromBackend.squadJoined)
           setNumOfSquadUsers(userFromBackend.userSquadId.length);
-          setPollCreatorSquadCreated(userFromBackend.userSquadId)
+          setPollCreatorSquadCreatedIDArray(userFromBackend.userSquadId)
         } catch (error) {
           console.log('Error fetching user data:', error);
         }
@@ -93,6 +96,53 @@ const GeneralUserProfileScreenPage = () => {
 
  getUserPoll()
  },[])
+
+
+
+  useEffect(()=>{
+   const getSquadCreated = async () =>{
+   if(user){
+    const squadCreatedArray = []
+    for(const squadCreatedID of pollCreatorSquadCreatedIDArray){
+      console.log("here are the squadID", squadCreatedID)
+   try {
+    const results = await API.graphql(graphqlOperation(getSquad, { id: squadCreatedID }));
+    console.log("here are the results for querying the squad created", results.data?.getSquad)
+    const queryResults = results.data?.getSquad
+    squadCreatedArray.push(queryResults)
+   } catch (error) {
+    console.log("error querying for the squad created by the user",error)
+   }
+   }
+   setPollCreatorSquadCreated(squadCreatedArray)
+  }
+   }
+    getSquadCreated()
+  
+  }, [pollCreatorSquadCreatedIDArray])
+
+  useEffect(()=>{
+    const getSquadJoined = async () =>{
+    if(user){
+     const squadJoinedArray = []
+     for(const squadJoinedID of pollCreatorSquadJoinedIDArray){
+       console.log("here are the squadID", squadJoinedID)
+    try {
+     const results = await API.graphql(graphqlOperation(getSquad, { id: squadJoinedID }));
+     console.log("here are the results for querying the squad created", results.data?.getSquad)
+     const queryResults = results.data?.getSquad
+     squadJoinedArray.push(queryResults)
+    } catch (error) {
+     console.log("error querying for the squad created by the user",error)
+    }
+    }
+    setPollCreatorSquadJoined(squadJoinedArray)
+   }
+    }
+     getSquadJoined()
+   
+   }, [pollCreatorSquadJoinedIDArray])
+ 
  useEffect(() => {
   const updateUserInfo = async () => {
     if (userPolls) { 
@@ -105,13 +155,16 @@ const GeneralUserProfileScreenPage = () => {
           setNumOfUserPolls(newNumOfUserPoll);
           // Update the user info
           try {
-            console.log("here is the new number of poll", newNumOfUserPoll)
+            // console.log("here is the new number of poll", newNumOfUserPoll)
             const results = await API.graphql(graphqlOperation(updateUser, {input:{
               id: userID,
              numOfPolls: newNumOfUserPoll,
             }}))
-          
-            console.log("here are the results for updating the num of user Polls", results);
+            // const results = await API.graphql(graphqlOperation(updateUser, {
+            //   id: userID,
+            //   numOfPolls: newNumOfUserPoll,
+            // }));
+            // console.log("here are the results for updating the num of user Polls", results);
           } catch (error) {
             console.log("Error updating user info:", error);
           }
@@ -204,7 +257,7 @@ const GeneralUserProfileScreenPage = () => {
   </View>
 
   {/* edit and squad creation button */}
-<View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:0, backgroundColor:"#F4F8FB" }}>
+{/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:0, backgroundColor:"#F4F8FB" }}>
               <TouchableOpacity 
               style = {styles.editProfileButton}
               onPress={() => navigation.navigate('EditProfileScreen')}
@@ -222,7 +275,7 @@ const GeneralUserProfileScreenPage = () => {
                       style={{color:'#ffff', fontSize:12, marginTop:10, alignSelf:'center', fontWeight:'bold'}}
                   >Create Squad</Text>
               </TouchableOpacity>
-          </View>
+          </View> */}
      
     {/* <View style={[{backgroundColor:"#F4F8FB"},{flexDirection:"row"},{marginTop:0}]}>
       <View style={{flex:1, justifyContent:'flex-start', marginTop:-25}}>
@@ -346,20 +399,19 @@ const GeneralUserProfileScreenPage = () => {
   })}
 > 
 <Tab.Screen
-          name="Polls"
-          component={GeneralUserProfilePollTab}
-          initialParams={{ userID: pollCreatorID}}
-        />
-        <Tab.Screen
-          name="Squad Created"
-          component={GeneralProfileUserSquadCreatedTab}
-          initialParams={{ squadJoined: pollCreatorSquadJoined }}
-        />
-        <Tab.Screen
-          name="Squad Joined"
-          component={GeneralUserProfileSquadJoinedTab}
-          initialParams={{ squadCreated: pollCreatorSquadCreated}}
-        />
+        name="Polls"
+        children={() => <GeneralUserProfilePollTab userPolls={userPolls} />}
+      />
+<Tab.Screen
+  name="Squad Created"
+  children={() => <GeneralProfileUserSquadCreatedTab  squadCreated={pollCreatorSquadCreated} />}
+/>
+<Tab.Screen
+//pollCreatorSquadJoined
+  name="Squad Joined"
+  children={() => < GeneralUserProfileSquadJoinedTab  squadJoined={pollCreatorSquadJoined} />}
+/>
+
       </Tab.Navigator>
       </>
   )

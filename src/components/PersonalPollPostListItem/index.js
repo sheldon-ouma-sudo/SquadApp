@@ -11,7 +11,7 @@ const PersonalPollListItem = ({ poll }) => {
   const navigation = useNavigation(); // Get navigation object
 
   useEffect(() => {
-    console.log(poll)
+    // console.log(poll)
     setNumOfPollLikes(poll.numOfLikes);
     // Assuming you have some method to fetch poll creator
     // setPollCreator(poll.creator); 

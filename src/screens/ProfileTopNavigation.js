@@ -358,7 +358,7 @@ import { updateUser } from '../graphql/mutations'
 
  
 
-
+  
 
   const styles = StyleSheet.create({
     container:{

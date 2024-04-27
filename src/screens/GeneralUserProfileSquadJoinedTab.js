@@ -11,45 +11,18 @@ import { View, Text,
   import { listSquads } from '../graphql/queries';
   import { useRoute } from '@react-navigation/native';
 
-const GeneralUserProfileSquadJoinedTab = () => {
-    const [squads, setSquads] = useState([])
-    const route = useRoute();
+const GeneralUserProfileSquadJoinedTab = ({squadJoined}) => {
   
-  // Retrieve the passed squad joined data
-  const squadJoined = route.params?.squadJoined;
-
-    useEffect(() => {
-        const fetchSquadsUserJoined = async () => {
-            if(squadJoined){
-                setSquads(squadJoined)
-            }
-        
-           console.log("error with the user", squadJoined);
-          //   console.log("here is the userSquadId", user.userSquadId);
-          //   setParentSquadID(user.userSquadId);
-           
-        }
-        fetchSquadsUserJoined();
-    
-      }, [squadJoined]);
-    
-    
       return (
         <SafeAreaView
         style={styles.container}>
         <View style={styles.searchBarContainer}>
-            {/* <SearchBar
-            searchPhrase={searchPhrase}
-            setSearchPhrase={setSearchPhrase}
-            clicked={clicked}
-            setClicked={setClicked}
-          /> */}
            <FlatList
-           data = {squads}
+           data = {squadJoined}
            renderItem={({item})=>(
             <SquadJoinedListItem
              squad={item}
-             userInfo={userInfo}
+            //  userInfo={userInfo}
             />
            )} />
         </View>

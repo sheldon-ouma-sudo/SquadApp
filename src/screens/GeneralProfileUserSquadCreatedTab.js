@@ -15,53 +15,53 @@ import { View, Text,
  
 
 
-const GeneralProfileUserSquadCreatedTab = () => {
-    const route = useRoute();
-    const [squads, setSquads] = useState([])
+const GeneralProfileUserSquadCreatedTab = ({squadCreated}) => {
+  //   const route = useRoute();
+  //   const [squads, setSquads] = useState([])
   
-  // Retrieve the passed squad created data
-  const squadCreated = route.params?.squadCreated;
-  useEffect(() => {
-    console.log("here is the squads from the main page", squadCreated)
-    const fetchData = async () => {
+  // // Retrieve the passed squad created data
+  // const squadCreated = route.params?.squadCreated;
+  // useEffect(() => {
+  //   console.log("here is the squads from the main page", squadCreated)
+  //   const fetchData = async () => {
         
-        try {
-            if (squadCreated) {
-                const squadCreatedArray = squadCreated;
-                console.log("here is the squad created array",squadCreatedArray);
-                if (squadCreatedArray.length !== 0) {
-                    // Create an array of promises for each async operation
-                    const squadPromises = squadCreatedArray.map(async (squadCreatedID) => {
-                        console.log("here is the Squad id from the loop: ", squadCreatedID);
-                        try {
-                            const results = await API.graphql(graphqlOperation(getSquad, { id: squadCreatedID }));
-                            console.log("squad from backend: ", results.data?.getSquad);
+  //       try {
+  //           if (squadCreated) {
+  //               const squadCreatedArray = squadCreated;
+  //               console.log("here is the squad created array",squadCreatedArray);
+  //               if (squadCreatedArray.length !== 0) {
+  //                   // Create an array of promises for each async operation
+  //                   const squadPromises = squadCreatedArray.map(async (squadCreatedID) => {
+  //                       console.log("here is the Squad id from the loop: ", squadCreatedID);
+  //                       try {
+  //                           const results = await API.graphql(graphqlOperation(getSquad, { id: squadCreatedID }));
+  //                           console.log("squad from backend: ", results.data?.getSquad);
   
-                            if (!results.data?.getSquad) {
-                                console.log("Error fetching Squad");
-                            } else {
-                                console.log("this is one of the squad created by the user: ", results.data.getSquad);
+  //                           if (!results.data?.getSquad) {
+  //                               console.log("Error fetching Squad");
+  //                           } else {
+  //                               console.log("this is one of the squad created by the user: ", results.data.getSquad);
                                 
-                            }
-                        } catch (error) {
-                            console.log("error querying Squads: ", error);
-                        }
-                    });
+  //                           }
+  //                       } catch (error) {
+  //                           console.log("error querying Squads: ", error);
+  //                       }
+  //                   });
   
-                    // Wait for all promises to resolve
-                    await Promise.all(squadPromises);
+  //                   // Wait for all promises to resolve
+  //                   await Promise.all(squadPromises);
   
-                    console.log("here are the extracted Squads: ", userSquadCreated);
-                    setSquads(squadCreated);
-                }
-            }
-        } catch (error) {
-            console.log("there is an error", error);
-        }
-    };
+  //                   console.log("here are the extracted Squads: ", userSquadCreated);
+  //                   setSquads(squadCreated);
+  //               }
+  //           }
+  //       } catch (error) {
+  //           console.log("there is an error", error);
+  //       }
+  //   };
   
-    fetchData();
-  }, [squadCreated]); // Dependency array to trigger useEffect when user changes
+  //   fetchData();
+  // }, [squadCreated]); // Dependency array to trigger useEffect when user changes
   
 
 
@@ -71,11 +71,11 @@ const GeneralProfileUserSquadCreatedTab = () => {
     <View style={styles.searchBarContainer}>
       
        <FlatList
-       data = {squads}
+       data = {squadCreated}
        renderItem={({item})=>(
         <SquadCreatedListItem
          squad={item}
-         userInfo={userInfo}
+        //  userInfo={userInfo}
         />
        )} />
     </View>
