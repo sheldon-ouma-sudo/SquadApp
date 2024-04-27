@@ -119,8 +119,8 @@ const optionContainerRef = useRef(null);
    const getPollCreater = async () => {
     try {
       const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-      console.log("this is the poll creator username",pollCreatorInfoQuery.data?.getUser.userName)
-      console.log("this is the poll creator full info",pollCreatorInfoQuery.data?.getUser)
+      // console.log("this is the poll creator username",pollCreatorInfoQuery.data?.getUser.userName)
+      // console.log("this is the poll creator full info",pollCreatorInfoQuery.data?.getUser)
     // setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser)
       setPollCreator(pollCreatorInfoQuery.data?.getUser.userName)
     } catch (error) {
@@ -223,7 +223,7 @@ const optionContainerRef = useRef(null);
           const userInfo = result.data?.getUser;
           setPollCreatorInfo(userInfo);
         } catch (error) {
-          console.error('Error fetching poll creator info:', error);
+          console.log('Error fetching poll creator info:', error);
         }
       };
   

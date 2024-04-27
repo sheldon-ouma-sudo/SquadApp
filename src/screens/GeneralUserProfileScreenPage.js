@@ -32,7 +32,9 @@ const GeneralUserProfileScreenPage = () => {
   const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
   const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
   const[name, setName] = useState("")
-  const{userInfo, updateUserProperty} = useUserContext();
+  const[pollCreatorID, setPollCreatorID] = useState()
+ const[pollCreatorSquadJoined,setPollCreatorSquadJoined] = useState([])
+ const[pollCreatorSquadCreated, setPollCreatorSquadCreated] = useState([])
   const[userPolls, setUserPolls] = useState([])
   const Tab  = createMaterialTopTabNavigator();
   const navigation = useNavigation()
@@ -43,35 +45,28 @@ const GeneralUserProfileScreenPage = () => {
  // Get the route object
   const route = useRoute();
   const user = route.params?.userInfo; // Retrieve the passed userID
- 
+
    useEffect(()=>{
-    console.log("here is the user received from the poll item", userInfo)
-    const queryUser = async () => {
-      try {
-        // const authUser = await Auth.currentAuthenticatedUser();
-        // const userID = user.id; // Use sub instead of profile for the user ID
-        // console.log("user id in the profile top navigation: ", userID)
-        // const name = authUser.attributes.name;
 
-        // // Query the user from the backend using Amplify API
-        // const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
-
-        // // Extract the user information from the query result
-         const userFromBackend = user;
-        // console.log("here is the user from backend ", userFromBackend)
-        // // Update state with the user information
-        setName(userFromBackend.name)
-        setUserName(userFromBackend.userName);
-        setNumOfUserPolls(userFromBackend.numOfPolls);
-        setNumOfSquadron(userFromBackend.squadJoined.length);
-        setNumOfSquadUsers(userFromBackend.userSquadId.length);
-
-      } catch (error) {
-        console.log('Error fetching user data:', error);
-      }
+    const fetchUserInfo = async () => {
+      if(user){
+        console.log("user data of the user clicked passed to the general user proilfe successfully✅")
+        try {
+          const userFromBackend = user;
+          setName(userFromBackend.name)
+          setUserName(userFromBackend.userName);
+          setNumOfUserPolls(userFromBackend.numOfPolls);
+          setNumOfSquadron(userFromBackend.squadJoined.length);
+          setPollCreatorSquadJoined(userFromBackend.squadJoined)
+          setNumOfSquadUsers(userFromBackend.userSquadId.length);
+          setPollCreatorSquadCreated(userFromBackend.userSquadId)
+        } catch (error) {
+          console.log('Error fetching user data:', error);
+        }
+      }  
     };
 
-    queryUser();
+    fetchUserInfo();
 }, [user])
 
  useEffect(()=>{
@@ -80,8 +75,9 @@ const GeneralUserProfileScreenPage = () => {
       try {
         const userID = user.id
         console.log("here is the user ID", userID)
+        setPollCreatorID(userID)
         const results = await API.graphql(graphqlOperation(pollsByUserID,{userID:userID}))
-        console.log("here is the user results items",results.data?.pollsByUserID.items)
+        // console.log("here is the user results items",results.data?.pollsByUserID.items)
         const userPollArray = results.data?.pollsByUserID.items
         setUserPolls(userPollArray)
         // const numOfUserPolls = userPollArray.length
@@ -99,20 +95,22 @@ const GeneralUserProfileScreenPage = () => {
  },[])
  useEffect(() => {
   const updateUserInfo = async () => {
-    if (userPolls) {
-      console.log("here is the user polls", userPolls);
+    if (userPolls) { 
+      // console.log("here is the user polls", userPolls);
       try {
         const userID = user.id;
-        console.log("here is the user ID", userID);
+        // console.log("here is the user ID", userID);
         if (userPolls.length > numOfUserPolls) {
           const newNumOfUserPoll = userPolls.length;
           setNumOfUserPolls(newNumOfUserPoll);
           // Update the user info
           try {
-            const results = await API.graphql(graphqlOperation(updateUser, {
+            console.log("here is the new number of poll", newNumOfUserPoll)
+            const results = await API.graphql(graphqlOperation(updateUser, {input:{
               id: userID,
-              numOfPolls: newNumOfUserPoll,
-            }));
+             numOfPolls: newNumOfUserPoll,
+            }}))
+          
             console.log("here are the results for updating the num of user Polls", results);
           } catch (error) {
             console.log("Error updating user info:", error);
@@ -346,21 +344,21 @@ const GeneralUserProfileScreenPage = () => {
           return <MaterialIcons name={iconName} size={25} color={iconColor} />; // Increase the size of the icons
       },
   })}
->
+> 
 <Tab.Screen
           name="Polls"
           component={GeneralUserProfilePollTab}
-          initialParams={{ userID: user.id }}
+          initialParams={{ userID: pollCreatorID}}
         />
         <Tab.Screen
           name="Squad Created"
           component={GeneralProfileUserSquadCreatedTab}
-          initialParams={{ squadJoined: user.squadJoined }}
+          initialParams={{ squadJoined: pollCreatorSquadJoined }}
         />
         <Tab.Screen
           name="Squad Joined"
           component={GeneralUserProfileSquadJoinedTab}
-          initialParams={{ squadCreated: user.userSquadId }}
+          initialParams={{ squadCreated: pollCreatorSquadCreated}}
         />
       </Tab.Navigator>
       </>

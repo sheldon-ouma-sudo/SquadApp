@@ -11,47 +11,46 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const GeneralUserProfilePollTab = () => {
-    const route = useRoute()
-    const userId = route.params?.userId; 
-    const[userPolls, setUserPolls] = useState([])
+  const route = useRoute()
+  const userID = route?.params; // Destructure userID from route.params
+  const [userPolls, setUserPolls] = useState([])
 
-
-    useEffect(()=>{
-       
+  useEffect(() => {
       const fetchUserPolls = async () => {
-        if(userId){
-            try {
-                const response = await API.graphql({
-                  query: pollsByUserID, 
-                  variables: {
-                    userID: userID
-                  },
-                });
-                console.log('User polls:', response.data.pollsByUserID.items);
-                setUserPolls(response.data?.pollsByUserID.items)
+          if (userID) {
+              try {
+                  const response = await API.graphql({
+                      query: pollsByUserID,
+                      variables: {
+                          userID: userID
+                      },
+                  });
+                  console.log('User polls:', response.data.pollsByUserID.items);
+                  setUserPolls(response.data?.pollsByUserID.items)
               } catch (error) {
-                console.log('Error fetching user polls', error);
+                  console.log('Error fetching user polls', error);
               }
-        }
+          }
       };
-    
-    console.log("here is the user ID", userId)
-    fetchUserPolls()
-}, [])
+
+      console.log("here is the user ID is:", userID)
+      fetchUserPolls()
+  }, [userID]) // Include userID as a dependency to re-run effect when it changes
+
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-    <BottomSheetModalProvider>
-    <FlatList
-      data={userPolls}
-      renderItem={({ item }) => (
-        <Poll poll={item} />
-      )}
-      keyExtractor={(item) => item.id}
-      style={styles.list}
-      contentContainerStyle={{ flexGrow: 1 }}
-    />
-  </BottomSheetModalProvider>
-</KeyboardAvoidingView>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+          <BottomSheetModalProvider>
+              <FlatList
+                  data={userPolls}
+                  renderItem={({ item }) => (
+                      <Poll poll={item} />
+                  )}
+                  keyExtractor={(item) => item.id}
+                  style={styles.list}
+                  contentContainerStyle={{ flexGrow: 1 }}
+              />
+          </BottomSheetModalProvider>
+      </KeyboardAvoidingView>
   )
 }
 const styles = StyleSheet.create({

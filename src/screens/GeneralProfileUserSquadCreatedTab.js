@@ -12,9 +12,8 @@ import { View, Text,
   import { useRoute } from '@react-navigation/native';
   import {useUserContext} from '../../UserContext';
   import { getSquad } from '../graphql/queries';
-  import React from 'react'
+ 
 
-import { useRoute } from '@react-navigation/native';
 
 const GeneralProfileUserSquadCreatedTab = () => {
     const route = useRoute();
@@ -23,7 +22,9 @@ const GeneralProfileUserSquadCreatedTab = () => {
   // Retrieve the passed squad created data
   const squadCreated = route.params?.squadCreated;
   useEffect(() => {
+    console.log("here is the squads from the main page", squadCreated)
     const fetchData = async () => {
+        
         try {
             if (squadCreated) {
                 const squadCreatedArray = squadCreated;
