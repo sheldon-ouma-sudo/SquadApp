@@ -550,35 +550,32 @@ export const listPollComments = /* GraphQL */ `
   }
 `;
 export const pollCommentsByPollID = /* GraphQL */ `
-  query PollCommentsByPollID(
-    $pollID: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelPollCommentFilterInput
-    $limit: Int
-    $nextToken: String
+ query PollCommentsByPollID(
+  $pollID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelPollCommentFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  pollCommentsByPollID(
+    pollID: $pollID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
   ) {
-    pollCommentsByPollID(
-      pollID: $pollID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        pollID
-        userID
-        numOfLikes
-        notificationID
-        comment
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
+    items {
+      id
+      pollID
+      userID
+      numOfLikes
+      comment
+      createdAt
+      updatedAt
     }
+    nextToken
   }
+}
 `;
 export const pollCommentsByUserID = /* GraphQL */ `
   query PollCommentsByUserID(

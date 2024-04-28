@@ -6,7 +6,6 @@ import { FontAwesome } from '@expo/vector-icons';
 const PollCommentList = ({comment }) => {
   const [isLikeIconClicked, setIsLikeIconClicked] = useState(false); // Track whether the comment is liked
   const [numOfCommentLikes, setNumOfCommentLikes] = useState(0);
-  const [pollCommentResponses, setPollCommentResponses] = useState([])
 
   const handleLikeClick = () => {
     setIsLikeIconClicked(!isLikeIconClicked);
@@ -39,13 +38,6 @@ const PollCommentList = ({comment }) => {
         <FontAwesome name={isLikeIconClicked ? 'heart' : 'heart-o'} size={20} color={isLikeIconClicked ? 'red' : 'black'} />
           <Text style={styles.likesCount}>{numOfCommentLikes}</Text>
         </TouchableOpacity>
-
-          {/* Reply button */}
-          <TouchableOpacity  style={styles.replyButtonContainer}>
-            {/* <FontAwesome name="reply" size={5} color="black" /> */}
-            <Text style={styles.replyText}>Reply</Text>
-          </TouchableOpacity>
-          
       </View>
     </View>
   );
@@ -89,15 +81,6 @@ const PollCommentList = ({comment }) => {
   },
   likesCount: {
     marginLeft: 5,
-  },
-  replyButtonContainer: {
-    // flexDirection: 'row',
-    alignItems: 'center',
-    marginTop:30, 
-  },
-  replyText: {
-    marginLeft: -575,
-    marginTop:10
   },
 });
 

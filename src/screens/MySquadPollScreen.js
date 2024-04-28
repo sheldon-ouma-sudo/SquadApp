@@ -39,7 +39,7 @@ const MySquadPollScreen = () => {
               //console.log("Squad ID:", squadID);
               const results = await API.graphql(graphqlOperation(squadPollsBySquadId, {
                 squadId: squadID
-              }))
+              })) 
               //console.log("here are the results for query", results.data?.squadPollsBySquadId)
               
               // Extract pollId from each squad poll

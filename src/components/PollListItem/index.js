@@ -27,6 +27,7 @@ const PollListItem = ({ poll, }) => {
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
   const[pollCreatorID, setPollCreatorID ] = useState("")
   const [pollCreatorInfo, setPollCreatorInfo] = useState()
+  const[optionClicked, setOptionClicked] = useState(false)
   const[pollID, setPollID] = useState()
   const [prevSelectedOption, setPrevSelectedOption] = useState(null);
   const [newComment, setNewComment] = useState('');
@@ -116,6 +117,7 @@ const PollListItem = ({ poll, }) => {
           try {
             const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
             setPollCreator(pollCreatorInfoQuery.data?.getUser.userName)
+            setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser)
           } catch (error) {
             console.log("error fetching the poll creator", error)
           }
@@ -124,22 +126,29 @@ const PollListItem = ({ poll, }) => {
         getPollCreater()
         }, [poll, pollCreatorID]);
 
-      useEffect(()=>{
-         const fetchPollComment=async()=>{
-          if(pollID){
-            // console.log("here is the poll ")
+        useEffect(() => {
+          // Fetch comments when component mounts or when pollID changes
+          const fetchComments = async () => {
             try {
-              const results = await API.graphql(graphqlOperation(pollCommentsByPollID, {input:{id:pollID}}))
-              console.log("here is the results for the poll comments query", results)
+              if (pollID) {
+                console.log("here is the pollID", pollID)
+                // const response = await API.graphql(graphqlOperation(pollCommentsByPollID, {
+                //   pollID: pollID
+                // }));
+                const results = await API.graphql(graphqlOperation(pollCommentsByPollID, {
+                  pollID: pollID
+                }))
+                //setComments(response.data?.pollCommentsByPollID?.items || []);
+                console.log(results)
+              }
             } catch (error) {
-              console.log("error getting the poll comments", error)
+              console.log('Error fetching comments:', error);
             }
-          }else{
-            console.log("the pollID is null")
-          }
-         }
-         fetchPollComment()
-      }, [pollID])
+          };
+      
+          fetchComments(); // Fetch comments initially
+        }, [pollID]);
+      
 
 
         useEffect(() => {
@@ -150,7 +159,26 @@ const PollListItem = ({ poll, }) => {
           }
         }, [selectedOption]);  
 
+        const getOptionTextStyle = () => ({
+          color: optionClicked ? 'black' : 'white',
+          fontSize: 16,
+          marginBottom: 20,
+          fontWeight:'700',
+          marginLeft:135,
+          // color: "black",
+          marginTop:-30
+        });
+      
+        const getSelectedOptionTextStyle = () => ({
+          color: optionClicked ? 'white' : 'black',
+          fontSize: 16,
+          marginBottom: 12,
+          fontWeight:'700',
+          marginLeft:125,
+          // color: "white"
+        });
         const handleOptionPress = (index) => {
+          setOptionClicked(true)
           // Check if the selected option is different from the previously selected one
           if (index !== selectedOption) {
             // Increment the votes for the selected option and decrement for the previously selected option
@@ -223,20 +251,7 @@ const PollListItem = ({ poll, }) => {
             }
           };
 
-          useEffect(() => {
-            // Fetch poll creator info (ensure pollCreatorID is correct)
-            const fetchPollCreatorInfo = async () => {
-              try {
-                const result = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-                const userInfo = result.data?.getUser;
-                setPollCreatorInfo(userInfo);
-              } catch (error) {
-                console.log('Error fetching poll creator info:', error);
-              }
-            };
-        
-            fetchPollCreatorInfo();
-          }, [pollCreatorID]);
+       
 
 
 
@@ -288,7 +303,9 @@ const PollListItem = ({ poll, }) => {
                 ]}
                 onPress={() => handleOptionPress(index)}
               >
-                <Text style={styles.optionText}>{item.title}</Text>
+
+                <Text style={getOptionTextStyle()}>{item.title}</Text>
+                <Text style={getSelectedOptionTextStyle() }>{item.title}</Text>
                 <View style={styles.percentageContainer}>
                   <Animated.View
                     style={[
@@ -423,7 +440,7 @@ const PollListItem = ({ poll, }) => {
         question: {
           fontSize: 19.5,
           fontWeight: 'bold',
-          marginBottom: 15,
+          marginBottom: 35,
           marginTop: -25
           
         },
@@ -443,13 +460,13 @@ const PollListItem = ({ poll, }) => {
         backgroundColor: '#add8e6', // Light blue for selected option
         //backgroundColor: '#1764EF'
         },
-        optionText: {
+         optionText: {
           fontSize: 16,
-          //marginBottom: -3,
+          marginBottom: 20,
           fontWeight:'700',
           marginLeft:135,
           color: "black",
-          marginTop:10
+          marginTop:-30
 
         },
         selectedOptionText: {
@@ -457,7 +474,7 @@ const PollListItem = ({ poll, }) => {
           marginBottom: 12,
           fontWeight:'700',
           marginLeft:125,
-          color: "#D8E8F3"
+          color: "white"
         },
         // percentageContainer:{
         //   marginLeft:50
@@ -473,7 +490,7 @@ const PollListItem = ({ poll, }) => {
           width: 30, // Adjust the width as per your requirement
           alignSelf: 'flex-start',
           marginBottom: 4,
-          marginTop: -36,
+          marginTop: -48,
           marginLeft: -7,
           overflow: 'hidden',
         },
