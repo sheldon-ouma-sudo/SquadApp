@@ -28,18 +28,12 @@ const SqaudPollListItem = ({ poll,squadID }) => {
     const[optionClicked, setOptionClicked] = useState(false)
     const [prevSelectedOption, setPrevSelectedOption] = useState(null);
     const [newComment, setNewComment] = useState('');
-  const navigation = useNavigation()
+    const animations = useRef([]);
+    const navigation = useNavigation()
   
    
-  
-  // Inside your component
-  
   const optionContainerRef = useRef(null);
-  
-  
-  
-  
-    const commentsData = [
+  const commentsData = [
       {
         id: 1,
         username: 'User1',
@@ -92,6 +86,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         <PollCommentItem comment={item} />
       </View>
     );
+
     useEffect(()=>{
         //get the poll squad
         const handleSquadPollQuery=async()=>{
@@ -111,12 +106,12 @@ const SqaudPollListItem = ({ poll,squadID }) => {
          } catch (error) {
             console.log("error querying for squad",error)
          }
-
         }
-
         }
         handleSquadPollQuery()
     },[squadID])
+
+
     useEffect(() => {
       //console.log(poll)
       setNumOfPollLikes(poll.numOfLikes);
@@ -127,16 +122,12 @@ const SqaudPollListItem = ({ poll,squadID }) => {
       try {
         const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
         setPollItems(parsedPollItems);
-  
         const initialAnimationValues = parsedPollItems.map(() => new Value(0));
         setAnimationValues(initialAnimationValues);
-  
         setSelectedOption(null);
         const initialSelectedOption = parsedPollItems[0];
         animateVotePercentage(
-          initialSelectedOption.votes / poll.totalNumOfVotes || 0,
-          0
-        );
+          initialSelectedOption.votes / poll.totalNumOfVotes || 0,0);
       } catch (error) {
         console.log('Error parsing poll items:', error);
       }
@@ -159,7 +150,25 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         setIsOptionSelected(false);
       }
     }, [selectedOption]);  
-  
+        const getOptionTextStyle = () => ({
+          color: optionClicked ? 'black' : 'white',
+          fontSize: 16,
+          marginBottom: 20,
+          fontWeight:'700',
+          marginLeft:135,
+          // color: "black",
+          marginTop:-30
+        });
+      
+        const getSelectedOptionTextStyle = () => ({
+          color: optionClicked ? 'white' : 'black',
+          fontSize: 16,
+          marginBottom: 12,
+          fontWeight:'700',
+          marginLeft:125,
+          // color: "white"
+        });
+
     const handleOptionPress = (index) => {
       setOptionClicked(true)
       // Check if the selected option is different from the previously selected one
@@ -179,25 +188,19 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         animateAllOptions(index);
       }
     };
-    const getOptionTextStyle = () => ({
-      color: optionClicked ? 'black' : 'white',
-      fontSize: 16,
-      marginBottom: 20,
-      fontWeight:'700',
-      marginLeft:135,
-      // color: "black",
-      marginTop:-30
-    });
-  
-    const getSelectedOptionTextStyle = () => ({
-      color: optionClicked ? 'white' : 'black',
-      fontSize: 16,
-      marginBottom: 12,
-      fontWeight:'700',
-      marginLeft:125,
-      // color: "white"
-    });
-    
+   
+    useEffect(() => {
+      return () => {
+        // Stop and reset all animations
+        animationValues.forEach((value, index) => {
+          if (animations[index]) {
+            animations[index].stop();
+          }
+          value.setValue(0);
+        });
+      };
+    }, [animationValues]);
+
     const animateVotePercentage = (percentage, index, isSelected) => {
       if (!isNaN(percentage)) {
         timing(animationValues[index], {
@@ -209,9 +212,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         console.log('Invalid percentage value:', percentage);
       }
     };
-    
-  
-  
+
     const animateAllOptions = (selectedOptionIndex) => {
       pollItems.forEach((pollItem, i) => {
         const percentage = calculatePercentage(pollItem.votes, totalNumOfVotes);
@@ -324,12 +325,6 @@ const SqaudPollListItem = ({ poll,squadID }) => {
           style={styles.pollCommentContainer}
           onPress={toggleComments}
         >
-          {/* <FontAwesome
-            name="commenting-o"
-            size={35}
-            color="#black"
-            style={styles.pollCommentIcon}
-          /> */}
         <View style={styles.commentIconImageContainer}>
          <Image
           source={require('/Users/sheldonotieno/Squad/assets/comments.png')}
@@ -350,21 +345,12 @@ const SqaudPollListItem = ({ poll,squadID }) => {
           <FontAwesome
             name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
             size={53}
-            color={isLikeCommentIconClicked ? '#1764EF' : 'red'}
+            color={isLikeCommentIconClicked ? 'black' : 'red'}
             style={styles.pollLikeIcon}
           />
           <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
         </TouchableOpacity>
-  
-        {/* Comments Section */}
-        <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
-          <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
-          <FlatList
-            data={comments}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderCommentItem}
-          />
-        </View>
+
          {/* Comments Section */}
          <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
               <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>

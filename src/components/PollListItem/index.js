@@ -4,16 +4,12 @@ import Animated, { EasingNode } from 'react-native-reanimated';
 import { getUser, pollCommentsByPollID } from '../../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
-import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import PollCommentItem from '../PollCommentItem/index'
 import { LinearGradient } from 'expo-linear-gradient';
-import Modal from 'react-native-modal';
 import { useUserContext } from '../../../UserContext';
 import { useNavigation } from '@react-navigation/native';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
 const { Value, timing } = Animated;
-
 const PollListItem = ({ poll, }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [animationValues, setAnimationValues] = useState([]);
@@ -35,11 +31,9 @@ const PollListItem = ({ poll, }) => {
   const [newComment, setNewComment] = useState('');
   const animations = useRef([]);
   const navigation  = useNavigation()
-
   const {user} = useUserContext()
 
-
-        const commentsData = [
+  const commentsData = [
           {
             id: 1,
             username: 'User1',
@@ -78,7 +72,7 @@ const PollListItem = ({ poll, }) => {
         ];
         
       const toggleComments = () => {
-          setCommentsVisible(!isCommentsVisible);
+        setCommentsVisible(!isCommentsVisible);
           // Set static comments data when the comments are made visible
           if (!isCommentsVisible) {
             setComments(commentsData);
@@ -106,16 +100,12 @@ const PollListItem = ({ poll, }) => {
           try {
             const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
             setPollItems(parsedPollItems);
-
             const initialAnimationValues = parsedPollItems.map(() => new Value(0));
             setAnimationValues(initialAnimationValues);
-
             setSelectedOption(null);
             const initialSelectedOption = parsedPollItems[0];
             animateVotePercentage(
-              initialSelectedOption.votes / poll.totalNumOfVotes || 0,
-              0
-            );
+              initialSelectedOption.votes / poll.totalNumOfVotes || 0,0);
           } catch (error) {
             console.log('Error parsing poll items:', error);
           }
@@ -151,7 +141,6 @@ const PollListItem = ({ poll, }) => {
               console.log('Error fetching comments:', error);
             }
           };
-      
           fetchComments(); // Fetch comments initially
         }, [pollID]);
       
@@ -215,8 +204,6 @@ const PollListItem = ({ poll, }) => {
           };
         }, [animationValues]);
         
-
-
         const animateVotePercentage = (percentage, index, isSelected) => {
           if (!isNaN(percentage)) {
             timing(animationValues[index], {
@@ -229,8 +216,6 @@ const PollListItem = ({ poll, }) => {
           }
         };
         
-
-
         const animateAllOptions = (selectedOptionIndex) => {
           pollItems.forEach((pollItem, i) => {
             const percentage = calculatePercentage(pollItem.votes, totalNumOfVotes);
