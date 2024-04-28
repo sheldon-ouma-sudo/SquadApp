@@ -41,8 +41,7 @@ const GeneralUserProfileScreenPage = () => {
   const Tab  = createMaterialTopTabNavigator();
   const navigation = useNavigation()
   const insets = useSafeAreaInsets();  
-  //query the user from the backend
-  //set the values to what is in the backend 
+ 
 
  // Get the route object
   const route = useRoute();

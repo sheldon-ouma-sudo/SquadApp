@@ -13,7 +13,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
     import { useSafeAreaInsets } from 'react-native-safe-area-context';
     import { API, graphqlOperation, Auth } from "aws-amplify";
     //import { graphqlOperation } from 'aws-amplify' 
-    import {getUser} from '../graphql/queries'
+    import {getUser, listSquadUsers, squadPollsBySquadId, squadUsersBySquadId} from '../graphql/queries'
     import { useUserContext } from '../../UserContext'
     import { MaterialIcons } from '@expo/vector-icons';
     import { Entypo } from '@expo/vector-icons';
@@ -24,10 +24,14 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
 const GeneralSquadPage = () => {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
     const[userName, setUserName] =useState('User Name')
-    const[numOfUserPolls, setNumOfUserPolls] = useState("1060")
-    const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
-    const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
-    const[name, setName] = useState("")
+    // const[numOfUserPolls, setNumOfUserPolls] = useState("1060")
+    // const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
+    // const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
+    // const[name, setName] = useState("")
+    const[squadPolls, setSquadPolls] = useState([])
+    const[numOfPolls, setNUmOfPolls] = useState(0)
+    const[squadID, setSquadID] = useState()
+    const[squadUsers, setSquadUsers] = useState()
     const{user, updateUserProperty} = useUserContext();
     const Tab = createMaterialTopTabNavigator();
     const navigation = useNavigation()
@@ -42,35 +46,77 @@ const GeneralSquadPage = () => {
     }else{
         console.log("gen squad undefined")
     }
+
      useEffect(()=>{
       console.log("here is the user", user.id)
-      const queryUser = async () => {
-        try {
-          const authUser = await Auth.currentAuthenticatedUser();
-          const userID = user.id; // Use sub instead of profile for the user ID
-          console.log("user id in the profile top navigation: ", userID)
-          const name = authUser.attributes.name;
+      const querySquadCreator = async () => {
+        // try {
+        //   const authUser = await Auth.currentAuthenticatedUser();
+        //   const userID = user.id; // Use sub instead of profile for the user ID
+        //   console.log("user id in the profile top navigation: ", userID)
+        //   const name = authUser.attributes.name;
   
-          // Query the user from the backend using Amplify API
-          const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+        //   // Query the user from the backend using Amplify API
+        //   const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
   
-          // Extract the user information from the query result
-          const userFromBackend = userData.data?.getUser;
-          console.log("here is the user from backend ", userFromBackend)
-          // Update state with the user information
-          setName(userFromBackend.name)
-          setUserName(userFromBackend.userName);
-          setNumOfUserPolls(userFromBackend.numOfPolls);
-          setNumOfSquadron(userFromBackend.squadJoined.length);
-          setNumOfSquadUsers(userFromBackend.userSquadId.length);
+        //   // Extract the user information from the query result
+        //   const userFromBackend = userData.data?.getUser;
+        //   console.log("here is the user from backend ", userFromBackend)
+        //   // Update state with the user information
+        //   setName(userFromBackend.name)
+        //   setUserName(userFromBackend.userName);
+        //   setNumOfUserPolls(userFromBackend.numOfPolls);
+        //   setNumOfSquadron(userFromBackend.squadJoined.length);
+        //   setNumOfSquadUsers(userFromBackend.userSquadId.length);
   
-        } catch (error) {
-          console.log('Error fetching user data:', error);
-        }
+        // } catch (error) {
+        //   console.log('Error fetching user data:', error);
+        // }
       };
   
-      queryUser();
+      querySquadCreator();
   }, [])
+
+  //query squad poll
+  useEffect(()=>{
+    const querySquadPoll = async() =>{
+    if(genSquad){
+      const genSquadID = genSquad.id
+      setSquadID(genSquadID)
+      try {
+        const results = await API.graphql(graphqlOperation(squadPollsBySquadId, {
+          squadId: genSquadID
+        })) 
+        console.log("here is the results for the squad poll query", results)
+        const squadPollsQuery = results.data?.squadPollsBySquadId.items;
+        const numOfSquadPolls = squadPollsQuery.length
+        setNUmOfPolls(numOfSquadPolls)
+        setSquadPolls(squadPollsQuery)
+      } catch (error) {
+        console.log("error querying the squad poll",error)
+      }
+    }
+    }
+    querySquadPoll()
+  },[])
+  
+//query for the squad members
+useEffect(()=>{
+  const querySquadMembers = async() =>{
+  const results = await API.graphql(graphqlOperation(squadUsersBySquadId,{
+    squadId: squadID
+  }))
+  console.log("here are the results for the query for the squad", results.data?.squadUsersBySquadId)
+  const squadUserQuery = results.data?.squadUsersBySquadId
+  setSquadUsers(squadUserQuery)
+  }
+  querySquadMembers()
+},[])
+  
+
+
+
+
     return (
       <>
       <KeyboardAvoidingView 
@@ -187,12 +233,14 @@ const GeneralSquadPage = () => {
         },
     })}
 >
-          <Tab.Screen
-            name=" Poll"
-            component={PersonalSquadPollDisplayScreen} />
-          <Tab.Screen
-            name="Members"
-            component={PersonalSquadMemberScreens} /> 
+<Tab.Screen
+        name="Polls"
+        children={() => <PersonalSquadPollDisplayScreen  squadPolls={squadPolls} />}
+      />
+        <Tab.Screen
+        name="Members"
+        children={() => <PersonalSquadMemberScreens  squadUsers={squadUsers} />}
+      />
         </Tab.Navigator></>
     )
   }
