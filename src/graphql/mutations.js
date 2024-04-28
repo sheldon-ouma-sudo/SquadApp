@@ -518,6 +518,7 @@ export const createPollComment = /* GraphQL */ `
         pollPollRequestId
         __typename
       }
+      comment
       createdAt
       updatedAt
       __typename
@@ -570,6 +571,7 @@ export const updatePollComment = /* GraphQL */ `
         pollPollRequestId
         __typename
       }
+      comment
       createdAt
       updatedAt
       __typename
@@ -622,6 +624,7 @@ export const deletePollComment = /* GraphQL */ `
         pollPollRequestId
         __typename
       }
+      comment
       createdAt
       updatedAt
       __typename

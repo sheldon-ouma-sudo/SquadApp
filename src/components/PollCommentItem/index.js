@@ -4,44 +4,15 @@ import { BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { FontAwesome } from '@expo/vector-icons';
 
 const PollCommentList = ({comment }) => {
-  const commentsData = [
-    {
-      id: 1,
-      username: 'User1',
-      comment: 'This is a great comment.',
-      likes: 10,
-      replies: 5,
-    },
-    {
-      id: 2,
-      username: 'User2',
-      comment: 'I really enjoyed reading this.',
-      likes: 15,
-      replies: 3,
-    },
-    {
-      id: 3,
-      username: 'User3',
-      comment: 'Interesting perspective.',
-      likes: 8,
-      replies: 2,
-    },
-    {
-      id: 4,
-      username: 'User4',
-      comment: 'Awesome conversation!',
-      likes: 20,
-      replies: 7,
-    },
-    {
-      id: 5,
-      username: 'User5',
-      comment: 'No woman no cry, me say you don know',
-      likes: 12,
-      replies: 4,
-    },
-  ];
+  const [isLikeIconClicked, setIsLikeIconClicked] = useState(false); // Track whether the comment is liked
+  const [numOfCommentLikes, setNumOfCommentLikes] = useState(0);
+  const [pollCommentResponses, setPollCommentResponses] = useState([])
 
+  const handleLikeClick = () => {
+    setIsLikeIconClicked(!isLikeIconClicked);
+    setNumOfCommentLikes(prevLikes => (isLikeIconClicked ? prevLikes -1 : prevLikes +1));
+  };
+  
   return (
     <View style={styles.commentContainer}>
       {/* User image and username */}
@@ -62,10 +33,19 @@ const PollCommentList = ({comment }) => {
         </View>
 
         {/* Like component */}
-        <TouchableOpacity style={styles.likeButtonContainer}>
-          <FontAwesome name="heart-o" size={20} color="black" />
-          <Text style={styles.likesCount}>{comment.likes}</Text>
+        <TouchableOpacity 
+        onPress={handleLikeClick}
+        style={styles.likeButtonContainer}>
+        <FontAwesome name={isLikeIconClicked ? 'heart' : 'heart-o'} size={20} color={isLikeIconClicked ? 'red' : 'black'} />
+          <Text style={styles.likesCount}>{numOfCommentLikes}</Text>
         </TouchableOpacity>
+
+          {/* Reply button */}
+          <TouchableOpacity  style={styles.replyButtonContainer}>
+            {/* <FontAwesome name="reply" size={5} color="black" /> */}
+            <Text style={styles.replyText}>Reply</Text>
+          </TouchableOpacity>
+          
       </View>
     </View>
   );
@@ -109,6 +89,15 @@ const PollCommentList = ({comment }) => {
   },
   likesCount: {
     marginLeft: 5,
+  },
+  replyButtonContainer: {
+    // flexDirection: 'row',
+    alignItems: 'center',
+    marginTop:30, 
+  },
+  replyText: {
+    marginLeft: -575,
+    marginTop:10
   },
 });
 

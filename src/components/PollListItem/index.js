@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, Alert, TextInput } from 'react-native';
 import Animated, { EasingNode } from 'react-native-reanimated';
-import { getUser } from '../../graphql/queries';
+import { getUser, pollCommentsByPollID } from '../../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
@@ -20,14 +20,16 @@ const PollListItem = ({ poll, }) => {
   const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
   const [numOfPollComments, setNumOfPollComment] = useState('500');
   const [numOfPollLikes, setNumOfPollLikes] = useState('0');
-  const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(true);
+  const [isLikeIconClicked, setIsLikeIconClicked] = useState(true);
   const [comments, setComments] = useState([]);
   const [isCommentsVisible, setCommentsVisible] = useState(false);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
   const[pollCreatorID, setPollCreatorID ] = useState("")
   const [pollCreatorInfo, setPollCreatorInfo] = useState()
+  const[pollID, setPollID] = useState()
   const [prevSelectedOption, setPrevSelectedOption] = useState(null);
+  const [newComment, setNewComment] = useState('');
   const animations = useRef([]);
   const navigation  = useNavigation()
 
@@ -92,6 +94,7 @@ const PollListItem = ({ poll, }) => {
           setNumOfPollComment(commentsData.length)
           setTotalNumOfVotes(poll.totalNumOfVotes || 0);
           setPollCreatorID(poll.userID)
+          setPollID(poll.id)
           //console.log("the total num of votes from the backend is: ",poll.totalNumOfVotes)
           try {
             const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
@@ -120,6 +123,24 @@ const PollListItem = ({ poll, }) => {
         }
         getPollCreater()
         }, [poll, pollCreatorID]);
+
+      useEffect(()=>{
+         const fetchPollComment=async()=>{
+          if(pollID){
+            // console.log("here is the poll ")
+            try {
+              const results = await API.graphql(graphqlOperation(pollCommentsByPollID, {input:{id:pollID}}))
+              console.log("here is the results for the poll comments query", results)
+            } catch (error) {
+              console.log("error getting the poll comments", error)
+            }
+          }else{
+            console.log("the pollID is null")
+          }
+         }
+         fetchPollComment()
+      }, [pollID])
+
 
         useEffect(() => {
           if (selectedOption !== null) { 
@@ -190,8 +211,8 @@ const PollListItem = ({ poll, }) => {
       };
 
         const handleLickedIconClick = () => {
-          setIsLikeCommentIconClicked(!isLikeCommentIconClicked);
-          setNumOfPollLikes(prevLikes => (isLikeCommentIconClicked ? prevLikes +1 : prevLikes -1));
+          setIsLikeIconClicked(!isLikeIconClicked);
+          setNumOfPollLikes(prevLikes => (isLikeIconClicked ? prevLikes +1 : prevLikes -1));
 
         };
           // Function to handle navigation when the username is clicked
@@ -216,6 +237,24 @@ const PollListItem = ({ poll, }) => {
         
             fetchPollCreatorInfo();
           }, [pollCreatorID]);
+
+
+
+  const handleAddComment = () => {
+    if (newComment.trim() === '') {
+      return; // Don't add empty comments
+    }
+
+    const newCommentObj = {
+      id: comments.length + 1,
+      username: 'CurrentUser', // Change this to the current user's username
+      comment: newComment,
+      likes: 0,
+    };
+
+    setComments([...comments, newCommentObj]); // Add new comment
+    setNewComment(''); // Clear the input
+  };
 
         return (
           <LinearGradient
@@ -295,9 +334,9 @@ const PollListItem = ({ poll, }) => {
                 onPress={handleLickedIconClick}
               >
                 <FontAwesome
-                  name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
+                  name={isLikeIconClicked ? 'heart-o' : 'heart'}
                   size={46}
-                  color={isLikeCommentIconClicked ? 'black' : 'red'}
+                  color={isLikeIconClicked ? 'black' : 'red'}
                   style={styles.pollLikeIcon}
                 />
                 <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
@@ -310,7 +349,19 @@ const PollListItem = ({ poll, }) => {
                 data={comments}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderCommentItem}
+                contentContainerStyle={{ paddingBottom: 10 }} 
               />
+              <View style={styles.addCommentContainer}>
+              <TextInput
+                style={styles.commentInput}
+                value={newComment}
+                onChangeText={setNewComment}
+                placeholder="Add a comment..."
+              />
+              <TouchableOpacity onPress={handleAddComment} style={styles.addCommentButton}>
+                <FontAwesome name="send" size={20} color="black" />
+              </TouchableOpacity>
+            </View>
             </View>
           </View>
           </LinearGradient>
@@ -483,6 +534,31 @@ const PollListItem = ({ poll, }) => {
           marginLeft: 100,
           marginTop: 20
           //color: '#1764EF', // Adjust the color based on your design
+        },
+        commentsSection: {
+          height: 200, // Set a fixed height to ensure scrollability
+          overflow: 'hidden',
+        },
+        addCommentContainer: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginLeft:-10,
+          width:360,
+          padding: 10,
+        },
+
+        commentInput: {
+          flex: 1,
+          borderWidth: 1,
+          borderColor: '#ccc',
+          borderRadius: 10,
+          padding: 10,
+        },
+        addCommentButton: {
+          backgroundColor: '#f0f0f0',
+          padding: 10,
+          borderRadius: 10,
+          marginLeft: 10,
         },
       });
 export default PollListItem;

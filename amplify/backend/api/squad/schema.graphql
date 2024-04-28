@@ -57,6 +57,7 @@ type PollComment @model @auth(rules: [{ allow: public }]) {
   notificationID: ID! @index(name: "byNotification")
   User: User @belongsTo(fields: ["userID"])
   Poll: Poll @belongsTo(fields: ["pollID"])
+  comment: String
 }
 
 type Poll @model @auth(rules: [{ allow: public }]) {

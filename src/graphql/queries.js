@@ -519,6 +519,7 @@ export const getPollComment = /* GraphQL */ `
         pollPollRequestId
         __typename
       }
+      comment
       createdAt
       updatedAt
       __typename
@@ -538,6 +539,7 @@ export const listPollComments = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        comment
         createdAt
         updatedAt
         __typename
@@ -568,6 +570,7 @@ export const pollCommentsByPollID = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        comment
         createdAt
         updatedAt
         __typename
@@ -598,6 +601,7 @@ export const pollCommentsByUserID = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        comment
         createdAt
         updatedAt
         __typename
@@ -628,6 +632,7 @@ export const pollCommentsByNotificationID = /* GraphQL */ `
         userID
         numOfLikes
         notificationID
+        comment
         createdAt
         updatedAt
         __typename

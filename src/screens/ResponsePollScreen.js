@@ -346,7 +346,9 @@ const ResponsePollScreen = () => {
         const createCommentInput = {
           pollID: pollID,
           userID: localUserID, 
-          notificationID: pollCreatorNotificationID
+          notificationID: pollCreatorNotificationID, 
+          comment: comment
+
         };
     
         try {
