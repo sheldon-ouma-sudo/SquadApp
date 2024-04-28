@@ -48,10 +48,10 @@
       // Navigate to the screen with the poll
       navigation.navigate('GeneralSquadScreen',{squad:squad});
     };
-    
+     
     return (
       <TouchableOpacity
-      style={styles.container}
+      style={styles.container}  
       behavior="padding"
       onPress={handleSquadCreatedListItemPress}
       >

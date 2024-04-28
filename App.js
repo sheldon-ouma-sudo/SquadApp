@@ -234,7 +234,7 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
     </UserProvider>
-    
+     
   );
 }
 const MainScreen = ({ route }) => {

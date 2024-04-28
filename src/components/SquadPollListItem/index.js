@@ -24,6 +24,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
     const[pollCreatorID, setPollCreatorID ] = useState("")
     const [pollCreatorInfo, setPollCreatorInfo] = useState()
     const [squadName, setSquadName] = useState("")
+    const [currSquad, setCurrSquad] = useState()
     const[optionClicked, setOptionClicked] = useState(false)
     const [prevSelectedOption, setPrevSelectedOption] = useState(null);
     const [newComment, setNewComment] = useState('');
@@ -104,6 +105,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
             const squad = squadQueryResults.data?.getSquad
             if(squad){
                 console.log("here is the squad name", squad.squadName)
+                setCurrSquad(squad)
                 setSquadName(squad.squadName)
             }
          } catch (error) {
@@ -239,7 +241,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
       const handleSquadNamePress = () => {
         // Ensure pollCreatorInfo is defined before navigating
         if (pollCreatorInfo) {
-          navigation.navigate('GeneralUserProfileScreenPage', { userInfo: pollCreatorInfo });
+          navigation.navigate('GeneralSquadScreen',{squad:currSquad});
         }
       };
       const handleAddComment = () => {
@@ -367,11 +369,11 @@ const SqaudPollListItem = ({ poll,squadID }) => {
          <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
               <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
               <FlatList
-                data={comments}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={renderCommentItem}
-                contentContainerStyle={{ paddingBottom: 10 }} 
-              />
+              data={comments}
+              keyExtractor={(item) => `comment-${item.id}`}
+              renderItem={renderCommentItem}
+              contentContainerStyle={{ paddingBottom: 10 }}
+          />
               <View style={styles.addCommentContainer}>
               <TextInput
                 style={styles.commentInput}

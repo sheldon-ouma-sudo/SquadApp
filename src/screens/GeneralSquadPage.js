@@ -36,7 +36,7 @@ const GeneralSquadPage = () => {
     //set the values to what is in the backend 
     const route = useRoute()
 
-    const genSquad = route?.params
+    const genSquad = route?.params.squad
     if(genSquad){
         console.log("here is the squad requested info", genSquad)
     }else{
@@ -104,9 +104,11 @@ const GeneralSquadPage = () => {
         <View
         style={{marginLeft:-10, marginTop:30}}
         >
+         
           <Text
           style={{fontWeight:'bold', fontSize:22}}
           >@{userName}</Text>
+          <Text>SquadBio: Welcome to my life</Text>
         </View>
        {/**this view here is for the numbers */}
          <View>

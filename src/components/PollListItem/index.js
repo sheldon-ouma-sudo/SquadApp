@@ -8,6 +8,7 @@ import { BottomSheetModalProvider, BottomSheetModal, BottomSheetFlatList } from 
 import PollCommentItem from '../PollCommentItem/index'
 import { LinearGradient } from 'expo-linear-gradient';
 import Modal from 'react-native-modal';
+import { useUserContext } from '../../../UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 
@@ -29,10 +30,13 @@ const PollListItem = ({ poll, }) => {
   const [pollCreatorInfo, setPollCreatorInfo] = useState()
   const[optionClicked, setOptionClicked] = useState(false)
   const[pollID, setPollID] = useState()
+  const[localUserName, setLocalUserName] = useState()
   const [prevSelectedOption, setPrevSelectedOption] = useState(null);
   const [newComment, setNewComment] = useState('');
   const animations = useRef([]);
   const navigation  = useNavigation()
+
+  const {user} = useUserContext()
 
 
         const commentsData = [
@@ -91,6 +95,8 @@ const PollListItem = ({ poll, }) => {
 
         useEffect(() => {
           //console.log(poll)
+          const username = user.userName
+          setLocalUserName(username)
           setNumOfPollLikes(poll.numOfLikes);
           setNumOfPollComment(commentsData.length)
           setTotalNumOfVotes(poll.totalNumOfVotes || 0);
@@ -258,7 +264,7 @@ const PollListItem = ({ poll, }) => {
 
           const newCommentObj = {
             id: comments.length + 1,
-            username: 'CurrentUser', // Change this to the current user's username
+            username: localUserName,
             comment: newComment,
             likes: 0,
           };
@@ -359,11 +365,11 @@ const PollListItem = ({ poll, }) => {
             <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
               <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
               <FlatList
-                data={comments}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={renderCommentItem}
-                contentContainerStyle={{ paddingBottom: 10 }} 
-              />
+              data={comments}
+              keyExtractor={(item) => `comment-${item.id}`}
+              renderItem={renderCommentItem}
+              contentContainerStyle={{ paddingBottom: 10 }}
+          />
               <View style={styles.addCommentContainer}>
               <TextInput
                 style={styles.commentInput}
