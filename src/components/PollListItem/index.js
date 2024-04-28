@@ -251,25 +251,21 @@ const PollListItem = ({ poll, }) => {
             }
           };
 
-       
+        const handleAddComment = () => {
+          if (newComment.trim() === '') {
+            return; // Don't add empty comments
+          }
 
+          const newCommentObj = {
+            id: comments.length + 1,
+            username: 'CurrentUser', // Change this to the current user's username
+            comment: newComment,
+            likes: 0,
+          };
 
-
-  const handleAddComment = () => {
-    if (newComment.trim() === '') {
-      return; // Don't add empty comments
-    }
-
-    const newCommentObj = {
-      id: comments.length + 1,
-      username: 'CurrentUser', // Change this to the current user's username
-      comment: newComment,
-      likes: 0,
-    };
-
-    setComments([...comments, newCommentObj]); // Add new comment
-    setNewComment(''); // Clear the input
-  };
+          setComments([...comments, newCommentObj]); // Add new comment
+          setNewComment(''); // Clear the input
+        };
 
         return (
           <LinearGradient

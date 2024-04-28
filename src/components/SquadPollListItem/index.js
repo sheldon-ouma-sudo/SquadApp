@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, TextInput} from 'react-native';
 import Animated, { EasingNode } from 'react-native-reanimated';
 import { getSquad, getUser } from '../../graphql/queries';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import PollCommentItem from '../PollCommentItem/index'
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 
 const { Value, timing } = Animated;
 const SqaudPollListItem = ({ poll,squadID }) => {
@@ -21,9 +22,12 @@ const SqaudPollListItem = ({ poll,squadID }) => {
     const [isOptionSelected, setIsOptionSelected] = useState(false);
     const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
     const[pollCreatorID, setPollCreatorID ] = useState("")
+    const [pollCreatorInfo, setPollCreatorInfo] = useState()
     const [squadName, setSquadName] = useState("")
+    const[optionClicked, setOptionClicked] = useState(false)
     const [prevSelectedOption, setPrevSelectedOption] = useState(null);
-  
+    const [newComment, setNewComment] = useState('');
+  const navigation = useNavigation()
   
    
   
@@ -136,13 +140,12 @@ const SqaudPollListItem = ({ poll,squadID }) => {
       }
      const getPollCreater = async () => {
       try {
-        const pollCreatorInfo = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-        console.log("this is the poll creator info",pollCreatorInfo.data?.getUser.userName)
-        setPollCreator(pollCreatorInfo.data?.getUser.userName)
+        const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
+        setPollCreator(pollCreatorInfoQuery.data?.getUser.userName)
+        setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser)
       } catch (error) {
         console.log("error fetching the poll creator", error)
       }
-  
      }
     getPollCreater()
     }, [poll, pollCreatorID]);
@@ -156,6 +159,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
     }, [selectedOption]);  
   
     const handleOptionPress = (index) => {
+      setOptionClicked(true)
       // Check if the selected option is different from the previously selected one
       if (index !== selectedOption) {
         // Increment the votes for the selected option and decrement for the previously selected option
@@ -164,23 +168,34 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         if (selectedOption !== null) {
           updatedPollItems[selectedOption].votes -= 1;
         }
-    
         setPollItems(updatedPollItems);
-    
         // Update total number of votes only if an option is selected for the first time
         if (selectedOption === null) {
           setTotalNumOfVotes(totalNumOfVotes + 1);
         }
-    
         setSelectedOption(index);
         animateAllOptions(index);
       }
     };
-    
-    
-    
+    const getOptionTextStyle = () => ({
+      color: optionClicked ? 'black' : 'white',
+      fontSize: 16,
+      marginBottom: 20,
+      fontWeight:'700',
+      marginLeft:135,
+      // color: "black",
+      marginTop:-30
+    });
   
-  
+    const getSelectedOptionTextStyle = () => ({
+      color: optionClicked ? 'white' : 'black',
+      fontSize: 16,
+      marginBottom: 12,
+      fontWeight:'700',
+      marginLeft:125,
+      // color: "white"
+    });
+    
     const animateVotePercentage = (percentage, index, isSelected) => {
       if (!isNaN(percentage)) {
         timing(animationValues[index], {
@@ -214,6 +229,34 @@ const SqaudPollListItem = ({ poll,squadID }) => {
   
     };
   
+      // Function to handle navigation when the username is clicked
+      const handleUsernamePress = () => {
+        // Ensure pollCreatorInfo is defined before navigating
+        if (pollCreatorInfo) {
+          navigation.navigate('GeneralUserProfileScreenPage', { userInfo: pollCreatorInfo });
+        }
+      };
+      const handleSquadNamePress = () => {
+        // Ensure pollCreatorInfo is defined before navigating
+        if (pollCreatorInfo) {
+          navigation.navigate('GeneralUserProfileScreenPage', { userInfo: pollCreatorInfo });
+        }
+      };
+      const handleAddComment = () => {
+        if (newComment.trim() === '') {
+          return; // Don't add empty comments
+        }
+    
+        const newCommentObj = {
+          id: comments.length + 1,
+          username: 'CurrentUser', // Change this to the current user's username
+          comment: newComment,
+          likes: 0,
+        };
+    
+        setComments([...comments, newCommentObj]); // Add new comment
+        setNewComment(''); // Clear the input
+      };
   
     return (
       <LinearGradient
@@ -228,8 +271,14 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         <View style={styles.userImageContainer}>
         <FontAwesome name="group" size={34} color="#1145FD" style={{marginTop:25}}/>
         </View>
-        <TouchableOpacity style={styles.userName}>
+        <TouchableOpacity
+        onPress={handleSquadNamePress}
+        style={styles.squadNameContainer}>
         <Text style={styles.squadNameText}>{squadName}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+        onPress={handleUsernamePress}
+        style={styles.userName}>
           <Text style={styles.userNameText}>Created by @{pollCreator}</Text>
         </TouchableOpacity>
         <TouchableOpacity>
@@ -243,7 +292,9 @@ const SqaudPollListItem = ({ poll,squadID }) => {
             ]}
             onPress={() => handleOptionPress(index)}
           >
-            <Text style={styles.optionText}>{item.title}</Text>
+            
+            <Text style={getOptionTextStyle()}>{item.title}</Text>
+            <Text style={getSelectedOptionTextStyle()}>{item.title}</Text>
             <View style={styles.percentageContainer}>
               <Animated.View
                 style={[
@@ -296,7 +347,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
         >
           <FontAwesome
             name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
-            size={56}
+            size={53}
             color={isLikeCommentIconClicked ? '#1764EF' : 'red'}
             style={styles.pollLikeIcon}
           />
@@ -312,6 +363,27 @@ const SqaudPollListItem = ({ poll,squadID }) => {
             renderItem={renderCommentItem}
           />
         </View>
+         {/* Comments Section */}
+         <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
+              <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
+              <FlatList
+                data={comments}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={renderCommentItem}
+                contentContainerStyle={{ paddingBottom: 10 }} 
+              />
+              <View style={styles.addCommentContainer}>
+              <TextInput
+                style={styles.commentInput}
+                value={newComment}
+                onChangeText={setNewComment}
+                placeholder="Add a comment..."
+              />
+              <TouchableOpacity onPress={handleAddComment} style={styles.addCommentButton}>
+                <FontAwesome name="send" size={20} color="black" />
+              </TouchableOpacity>
+            </View>
+            </View>
       </View>
       </LinearGradient>
     );
@@ -350,9 +422,12 @@ const SqaudPollListItem = ({ poll,squadID }) => {
          width:60,
          height:80
      },
+     squadNameContainer:{
+     marginTop:-35
+     },
      userName:{
      marginLeft: 0,
-     marginTop:-45,
+     marginTop:5,
      marginBottom:50
      },
      squadNameText:{
@@ -368,7 +443,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
     question: {
       fontSize: 19.5,
       fontWeight: 'bold',
-      marginBottom: 15,
+      marginBottom: 35,
       marginTop: 5
       
     },
@@ -415,7 +490,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
       width: 30, // Adjust the width as per your requirement
       alignSelf: 'flex-start',
       marginBottom: 4,
-      marginTop: -36,
+      marginTop: -48,
       marginLeft: -7,
       overflow: 'hidden',
     },
@@ -431,7 +506,7 @@ const SqaudPollListItem = ({ poll,squadID }) => {
     },
     pollLikeIcon:{
      marginLeft:-2.5,
-     //size:44
+     size:24
     },
     numOfpollComments:{
       fontSize: 15,
@@ -477,6 +552,44 @@ const SqaudPollListItem = ({ poll,squadID }) => {
       marginLeft: 100,
       marginTop: 20
       //color: '#1764EF', // Adjust the color based on your design
+    },
+    commentItem: {
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+    },
+    numOfCommentsText: {
+      fontSize: 18,
+      fontWeight: '400',
+      marginBottom: 20,
+      marginLeft: 100,
+      marginTop: 20
+      //color: '#1764EF', // Adjust the color based on your design
+    },
+    commentsSection: {
+      height: 200, // Set a fixed height to ensure scrollability
+      overflow: 'hidden',
+    },
+    addCommentContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginLeft:-10,
+      width:360,
+      padding: 10,
+    },
+
+    commentInput: {
+      flex: 1,
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 10,
+      padding: 10,
+    },
+    addCommentButton: {
+      backgroundColor: '#f0f0f0',
+      padding: 10,
+      borderRadius: 10,
+      marginLeft: 10,
     },
   });
   

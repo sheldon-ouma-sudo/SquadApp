@@ -22,7 +22,7 @@ const HomeScreen=()=>{
         name="My Feed" 
         component={TrendingPollScreen} />
         <Tab.Screen 
-        name="My Squad Polls" 
+        name="Squad Polls" 
         component={MySquadPollScreen} />
       </Tab.Navigator>
   );
