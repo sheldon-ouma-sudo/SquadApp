@@ -169,6 +169,7 @@ const LoginScreen = () => {
         console.log("here is the graphQL",authUser.attributes["custom:graphQLUSerID"]);
         const userID = authUser.attributes["custom:graphQLUSerID"];
         console.log("here is the user id: ",userID)// Query the user from the backend using Amplify API
+
         const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
 
         // Extract the user information from the query result
