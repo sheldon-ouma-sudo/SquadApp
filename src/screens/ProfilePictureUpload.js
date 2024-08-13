@@ -1,18 +1,16 @@
-  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-  StatusBar,Dimensions,TouchableOpacity} from 'react-native'
-  import React, { useState } from 'react'
-  import StepIndicator from 'react-native-step-indicator';
-  import { Icon } from 'react-native-elements';
-  import Ionicons from '@expo/vector-icons/Ionicons';
-  import { useNavigation } from '@react-navigation/native';
+import { View, Text, KeyboardAvoidingView, Image, StyleSheet, StatusBar, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
+import StepIndicator from 'react-native-step-indicator';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 
- //const labels = ["Cart","Delivery Address","Order Summary","Payment Method","Track"];
-const{width,height} = Dimensions.get("window")
-//const[currentPosition, setCurrentPositon]=useState(0)
+const { width, height } = Dimensions.get("window");
+
 const customStyles = {
   stepIndicatorSize: 25,
-  currentStepIndicatorSize:30,
-  separatorStrokeWidth: 2, 
+  currentStepIndicatorSize: 30,
+  separatorStrokeWidth: 2,
   currentStepStrokeWidth: 3,
   stepStrokeCurrentColor: '#ffff',
   stepStrokeWidth: 3,
@@ -20,7 +18,7 @@ const customStyles = {
   stepStrokeUnFinishedColor: '#aaaaaa',
   separatorFinishedColor: '#1764EF',
   separatorUnFinishedColor: '#aaaaaa',
-  stepIndicatorFinishedColor:  '#1764EF',
+  stepIndicatorFinishedColor: '#1764EF',
   stepIndicatorUnFinishedColor: '#ffffff',
   stepIndicatorCurrentColor: '#1764EF',
   stepIndicatorLabelFontSize: 13,
@@ -31,191 +29,160 @@ const customStyles = {
   labelColor: '#999999',
   labelSize: 13,
   currentStepLabelColor: '#fffff'
-}
+};
+
 const ProfilePictureUpload = () => {
-  const navigation = useNavigation()
-  const[currentPosition, setCurrentPositon] = useState(1)
-  async function navigate(){
-    // alert("saving user attributes now")
-      try{
-     //   const user = await Auth.currentAuthenticatedUser();
-     //   await Auth.updateUserAttributes(user, {
-     //   'address': location,
-     //   'birthdate': age,
-     //   'gender': selectedGender
-     // });
-     // console.log(location,age,selectedGender)
-     // console.log("✅successfully updated users attributes")
-     navigation.navigate("UploadProfPictureScreen")
-     }catch(e){
-      console.log("failed to update the additional attributes",)
-     }
-     }
-    
- 
-   
+  const navigation = useNavigation();
+  const [currentPosition, setCurrentPositon] = useState(1);
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // Ask for permission to access the camera roll
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission to access camera roll is required!');
+      return;
+    }
+
+    // Launch the image picker
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  async function navigate() {
+    try {
+      navigation.navigate("UploadProfPictureScreen");
+    } catch (e) {
+      console.log("failed to update the additional attributes",);
+    }
+  }
 
   return (
     <KeyboardAvoidingView 
-    style={styles.container}
-    behavior="padding"
+      style={styles.container}
+      behavior="padding"
     >
-    <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-      <Image
-        source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-        style={styles.squadLogo}
-        resizeMode='contain'
-      ></Image>
-    </View>      
-    <StatusBar backgroundColor={'black'} barStyle="light-content" />
-    <View style={styles.header}>
-      <Text style={styles.headerText}> Sign Up Progress</Text>
-    </View>
-    <View style={styles.indicatiorWindow}>
-    <StepIndicator
-     customStyles={customStyles}
-     currentPosition={currentPosition}
-     //labels={labels}
-     />
-    </View>  
-    
-    <View style={styles.profilePictureContainer}>
-        <TouchableOpacity>
-        <Ionicons
-        name='camera'
-        size={100}
-        style={[{marginLeft:20},{justifyContent:"center"},{marginTop:20}]}
+      <View style={[styles.squadLogoContainer, { flexDirection: 'column' }]}>
+        <Image
+          source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
+          style={styles.squadLogo}
+          resizeMode='contain'
         />
+      </View>
+      <StatusBar backgroundColor={'black'} barStyle="light-content" />
+      <View style={styles.header}>
+        <Text style={styles.headerText}> Sign Up Progress</Text>
+      </View>
+      <View style={styles.indicatiorWindow}>
+        <StepIndicator
+          customStyles={customStyles}
+          currentPosition={currentPosition}
+        />
+      </View>
+
+      <View style={styles.profilePictureContainer}>
+        <TouchableOpacity onPress={pickImage}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.profileImage} />
+          ) : (
+            <Ionicons
+              name='camera'
+              size={100}
+              style={[{ marginLeft: 20 }, { justifyContent: "center" }, { marginTop: 20 }]}
+            />
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>
-            <TouchableOpacity
-            onPress={navigate}
-            //onPress={handleLogin}
-            style = {styles.profilePictureButton}
-                >
-                <Text style={styles.buttonText}>
-                    Add Profile Picture
-                </Text>
-
-            </TouchableOpacity>
-    </View>
-
-     
-
+        <TouchableOpacity
+          onPress={navigate}
+          style={styles.profilePictureButton}
+        >
+          <Text style={styles.buttonText}>
+            Add Profile Picture
+          </Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   )
 }
 
-export default ProfilePictureUpload
+export default ProfilePictureUpload;
+
 const styles = StyleSheet.create({
-  container:{
-  flex:1,
-  justifyContent:"flex-start",
-  alignItems:"center",
-  backgroundColor: "#F4F8FB"
-
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#F4F8FB"
   },
-  squadLogo:{
-    width:100,
-    height:35,
-    marginRight:250,
-    marginTop:70
-    
-
- 
-},
-header:{
-  height: 55, 
-  //padding:10, 
-  width:'50%',
-  //backgroundColor:"#000",
-  //elevation:10,
-  justifyContent:"center",
-  alignItems:'center',
-  marginRight:200,
-  marginTop: 10,
-  marginLeft:35
-},
-  headerText:{
-    //color:'red',
-    fontSize:22,
-    fontWeight:'bold'
+  squadLogo: {
+    width: 100,
+    height: 35,
+    marginRight: 250,
+    marginTop: 70
   },
-  indicatiorWindow:{
-    //height:height-170,
-    width:width-30,
-    padding:20,
-    margin:15,
-    //elevation:10,
-    borderRadius:20,
-    //backgroundColor:'blue'
+  header: {
+    height: 55,
+    width: '50%',
+    justifyContent: "center",
+    alignItems: 'center',
+    marginRight: 200,
+    marginTop: 10,
+    marginLeft: 35
   },
-  profilePictureContainer:{
-            height: 150, 
-            width:150,
-            borderRadius:90,
-            overflow:'hidden',
-            borderWidth:3,
-            borderColor: '#1764EF',
-            marginRight:170,
-            marginLeft:170,
-            marginTop:30
+  headerText: {
+    fontSize: 22,
+    fontWeight: 'bold'
   },
-  button:{
+  indicatiorWindow: {
+    width: width - 30,
+    padding: 20,
+    margin: 15,
+    borderRadius: 20,
+  },
+  profilePictureContainer: {
+    height: 150,
+    width: 150,
+    borderRadius: 90,
+    overflow: 'hidden',
+    borderWidth: 3,
+    borderColor: '#1764EF',
+    marginRight: 170,
+    marginLeft: 170,
+    marginTop: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  profileImage: {
+    height: 150,
+    width: 150,
+    borderRadius: 90,
+  },
+  buttonContainer: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  profilePictureButton: {
     backgroundColor: '#1145FD',
-    width: 120,
+    width: 256,
     height: 42,
     padding: 10,
     borderRadius: 5,
-    marginTop: 130,
     alignItems: 'center',
-    marginRight: 50,
-    marginLeft:20,
-
-},
-
-backButton:{
-  backgroundColor: '#EAEAEA',
-  width: 120,
-  height: 42,
-  padding: 10,
-  borderRadius: 5,
-  marginTop: 130,
-  alignItems: 'center',
-  marginRight: 5,
-  marginLeft:15,
-  borderColor:'#1145FD'
-
-
-},
-buttonText:{
-  color: 'white',
-  fontWeight: '700',
-  fontSize: 15,
-  alignItems:"center"
-  
-  
-},
-backText:{
-  color: '#1145FD',
-  fontWeight: '700',
-  fontSize: 15,
-  alignItems:"center"
-  
-  
-},
-  
-profilePictureButton:{
-  backgroundColor: '#1145FD',
-  width: 256,
-  height: 42,
-  padding: 10,
-  borderRadius: 5,
-  marginTop: 30,
-  alignItems: 'center',
-  marginRight: 50,
-  marginLeft:50,
-
-},
-})
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 15,
+    alignItems: "center"
+  }
+});
