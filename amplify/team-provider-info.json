@@ -15,9 +15,6 @@
       "auth": {
         "Squad": {}
       },
-      "api": {
-        "squad": {}
-      },
       "storage": {
         "s3squadstoragec4a7afa9": {},
         "s3squadmaindb": {}
@@ -39,6 +36,9 @@
           "Region": "us-west-2"
         },
         "squad": {}
+      },
+      "api": {
+        "SquadAPI": {}
       }
     }
   }

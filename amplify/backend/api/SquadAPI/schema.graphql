@@ -4,10 +4,10 @@ type RequestToBeAddedInASquad @model @auth(rules: [{ allow: public }]) {
   notificationID: ID! @index(name: "byNotification")
 }
 
-type RequestToAJoinSquad @model @auth(rules: [{ allow: public }]) {
+type RequestToJoinASquad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   User: User @hasOne
-  Squads: [Squad] @manyToMany(relationName: "RequestToAJoinSquadSquad")
+  Squads: [Squad] @manyToMany(relationName: "RequestToJoinASquadSquad")
   notificationID: ID! @index(name: "byNotification")
   message: String
 }
@@ -28,7 +28,7 @@ type Notification @model @auth(rules: [{ allow: public }]) {
   new: Boolean
   RequestToBeAddedInASquads: [RequestToBeAddedInASquad]
     @hasMany(indexName: "byNotification", fields: ["id"])
-  RequestToAJoinSquads: [RequestToAJoinSquad]
+  RequestToJoinASquads: [RequestToJoinASquad]
     @hasMany(indexName: "byNotification", fields: ["id"])
 }
 
@@ -91,8 +91,8 @@ type Squad @model @auth(rules: [{ allow: public }]) {
   squadName: String
   numOfPolls: Int
   Polls: [Poll] @manyToMany(relationName: "SquadPoll")
-  requesttojoinsquads: [RequestToAJoinSquad]
-    @manyToMany(relationName: "RequestToAJoinSquadSquad")
+  requesttojoinsquads: [RequestToJoinASquad]
+    @manyToMany(relationName: "RequestToJoinASquadSquad")
 }
 
 type User @model @auth(rules: [{ allow: public }]) {
@@ -100,9 +100,10 @@ type User @model @auth(rules: [{ allow: public }]) {
   name: String!
   userName: String
   imageUrl: String
-  userSquadId: [String]
+  userPrimarySquad: [String]
   numOfPolls: Int
   numOfSquadJoined: Int
+  numSquadCreated: Int
   superUser: Boolean
   userInterests: [String]
   Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])

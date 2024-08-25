@@ -101,6 +101,7 @@ const PersonalInterests = () => {
   const { user, updateLocalUser, updateUserProperty} = useUserContext();
   const[userCreated, setUserCreated] = useState(false)
   const[newUser, setNewUser] = useState("");
+  const[userID, setUserID] = useState("")
   const navigation = useNavigation();
   const onSelect = useCallback(
     (id) => {
@@ -110,6 +111,8 @@ const PersonalInterests = () => {
     },
     [selected]
   );
+
+// get user interest 
 useEffect(() => {
   const getUserInterest = () => {
     console.log(selected.size);
@@ -134,127 +137,112 @@ useEffect(() => {
   getUserInterest();
 }, [selected, userInterest]);
 
-//create userSquad
-useEffect(()=>{
-  // const createSquadUser = async () => {
-  //   try {
-  //     await Auth.currentSession();
-  //     const authUser = await Auth.currentAuthenticatedUser();
-  //     const name = authUser.attributes.name;
-  //     const username = authUser.attributes.preferred_username;
-  //     const userProfilePicture = authUser.attributes.picture;
-  //     const preUpdatedSub = authUser.attributes.sub;
-  //     console.log("this is sub before the update", preUpdatedSub)
-  //     const createUserInput = {
-  //       name: name,
-  //       userName: username,
-  //       imageUrl: userProfilePicture,
-  //       userSquadId: [],
-  //       numOfPolls: 0,
-  //       numOfSquadJoined: 0,
-  //       userInterests: userInterest,
-  //       squadJoined: [],
-  //     };
-  //     const response = await API.graphql(
-  //       graphqlOperation(createUser, { input: createUserInput })
-  //     );
-  
-  //     const user_id = response.data?.createUser.id;
-  //     console.log("here is the user id", user_id);
-  
-  //     // Update Cognito User attribute 'sub' with the GraphQL user id
-  //     await Auth.updateUserAttributes(authUser, {
-  //       'sub': user_id,
-  //     });
-  
-  //     // Check updated Cognito Sub
-  //     const updatedCognitoSub = (await Auth.currentAuthenticatedUser()).attributes.sub;
-  //     console.log("Updated Cognito Sub:", updatedCognitoSub);
-  //     console.log("here is the user id", user_id);
-  
-  //     console.log("here is the userInterests", userInterest);
-  
-  //     // Update the user context after creating the user
-  //     updateUser({
-  //       id: user_id,
-  //       imageUrl: userProfilePicture,
-  //       userSquadId: [],
-  //       numOfPolls: 0,
-  //       numOfSquadJoined: 0,
-  //       userInterests: userInterest,
-  //       squadJoined: [],
-  //       userSquadId: [],
-  //     });
-  
-  //     console.log("here is the sub: ", updatedCognitoSub, "and user id: ", user_id);
-  //   } catch (error) {
-  //     console.log('Error creating user:', error);
-  //   }
-  // };
+
+useEffect(() => {
   const createSquadUser = async () => {
-      try {
-      await Auth.currentSession();
-      const authUser = await Auth.currentAuthenticatedUser();
+    try {
+       const authUser = await Auth.currentAuthenticatedUser();
+      // console.log('Authenticated User:', authUser);
       const name = authUser.attributes.name;
-      const email = authUser.attributes.email;
       const username = authUser.attributes.preferred_username;
       const userProfilePicture = authUser.attributes.picture;
-      const preUpdatedSub = authUser.attributes.sub;
-  
-      console.log("this is sub before the update", preUpdatedSub);
-      
-     if(!userCreated){
-      const createUserInput = {
-        name: name,
-        userName: username,
-        imageUrl: userProfilePicture,
-        userSquadId: [],
-        numOfPolls: 0,
-        numOfSquadJoined: 0,
-        userInterests: userInterest,
-        squadJoined: [],
-      };
-  
-      const response = await API.graphql(
-        graphqlOperation(createUser, { input: createUserInput })
-      );
-      const user_id = response.data?.createUser.id;
-      console.log("here is the user id", user_id);
-  
-       // Update the user context after creating the user
-      updateLocalUser({
-        id: user_id,
-        imageUrl: userProfilePicture,
-        userName: username,
 
-        userSquadId: [],
-        numOfPolls: 0,
-        numOfSquadJoined: 0,
-        userInterests: userInterest,
-        email: email,
-        squadJoined: [],
-        userSquadId: [],
-      });
-      // Log user info before updating attributes
-      console.log("Before update - Auth user attributes:", authUser.attributes);
-  
-      // Update Cognito User attribute 'sub' with the GraphQL user id
-      await Auth.updateUserAttributes(authUser, {
-        'custom:graphQLUSerID': user_id,
-      });
-  
-      // Log user info after updating attributes
-      console.log("After update - Auth user attributes:", authUser.attributes);
-      setUserCreated(true);
-      setNewUser(user_id)
-     }
+      if (!userCreated) {
+        const createUserInput = {
+          name: name,
+          userName: username,
+          imageUrl: userProfilePicture,
+          userSquadId: [],
+          numOfPolls: 0,
+          numOfSquadJoined: 0,
+          userInterests: userInterest,
+          squadJoined: [],
+        };
+
+        const response = await API.graphql(
+          graphqlOperation(createUser, { input: createUserInput })
+        );
+
+        const userId = response.data.createUser.id;
+        setNewUser(userId);
+        updateLocalUser({
+          id: userId,
+          imageUrl: userProfilePicture,
+          userName: username,
+          userSquadId: [],
+          numOfPolls: 0,
+          numOfSquadJoined: 0,
+          userInterests: userInterest,
+          email: authUser.attributes.email,
+          squadJoined: [],
+        });
+
+        // Update Cognito User attribute 'custom:graphQLUSerID' with the GraphQL user id
+        // await Auth.updateUserAttributes(authUser, {
+        //   'custom:graphQLUSerID': userId,
+        // });
+
+        setUserCreated(true);
+      }
     } catch (error) {
-      console.log('Error creating user:', error);
+      console.log('Error creating user:', JSON.stringify(error, null, 2));
     }
-  }; 
-    createSquadUser()
-}, [userCreated])
+  };
+
+  createSquadUser();
+}, [userInterest]);
+
+useEffect(() => {
+  const updateUserInterest = async () => {
+    if (newUser) {
+      try {
+        await API.graphql(graphqlOperation(updateUser, {
+          input: {
+            id: newUser,
+            userInterests: userInterest,
+          },
+        }));
+        updateUserProperty('userInterests', userInterest);
+      } catch (error) {
+        console.log("Error updating the user interests:", error);
+      }
+    }
+  };
+
+  updateUserInterest();
+}, [newUser, userInterest]);
+
+    //   const response = await API.graphql(
+    //     graphqlOperation(createUser, { input: createUserInput })
+    //   );
+    //   const user_id = response.data?.createUser.id;
+    //   console.log("here is the user id", user_id);
+     
+    //   // Log user info before updating attributes
+    //   console.log("Before update - Auth user attributes:", authUser.attributes);
+  
+    //   // Update Cognito User attribute 'sub' with the GraphQL user id
+    //   await Auth.updateUserAttributes(authUser, {
+    //     'custom:graphQLUSerID': user_id,
+    //   });
+  
+    //   // Log user info after updating attributes
+    //   console.log("After update - Auth user attributes:", authUser.attributes);
+    //   setUserCreated(true);
+    //   setNewUser(user_id)
+     
+    // } catch (error) {
+    //   console.log('Error creating user:', error);
+    
+//   }
+// }
+  
+//     createSquadUser()
+// }, [])
  
+
+
+//update user interest
 useEffect(()=>{
  const updateUserInterest = async() =>{
   if(newUser){
@@ -273,6 +261,31 @@ useEffect(()=>{
 updateUserInterest()
 console.log("this is the local user",user)
 },[newUser, userInterest])
+
+
+//update the local user 
+useEffect(()=>{
+const updateLocalUser = async()=>{ updateLocalUser({
+  id: userID,
+  imageUrl: "", //put as empty as of now
+  userName: "",
+
+  userSquadId: [],
+  numOfPolls: 0,
+  numOfSquadJoined: 0,
+  userInterests: userInterest,
+  email: "",
+  squadJoined: [],
+  userSquadId: [],
+});
+}
+updateLocalUser()
+},[userID, userInterest])
+
+
+
+
+
 
 
 return (
