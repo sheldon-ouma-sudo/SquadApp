@@ -202,6 +202,7 @@ useEffect(()=>{
       const preUpdatedSub = authUser.attributes.sub;
   
       console.log("this is sub before the update", preUpdatedSub);
+      
      if(!userCreated){
       const createUserInput = {
         name: name,

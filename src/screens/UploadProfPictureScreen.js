@@ -51,7 +51,7 @@ const UploadProfPicture = () => {
   const[image, setImage]= useState('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')
   const[userImage, setUserImage] =useState('https://squadmaindb55805-staging.s3.us-west-2.amazonaws.com/SquadInAppImages/logos/userProfilePlaceholder.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEE8aCXVzLXdlc3QtMSJIMEYCIQCAlMMtLCTHKdfQhT%2FwPQpRyQUzonKKtUaxFaSmcD%2BB%2BgIhAKcJUW120TLC7tb3T6ikcIC%2BRpiV9cnmcc4UNzVHFaSIKu0CCMj%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQARoMNzUzMTk1MzE4NjU3IgyxoVbUq1BmOwDrVg8qwQKIgAXZeGYOL8tNp9np0dCcA%2FrEROmqu4gttbtgpEB5s1ZMNs7w16NNguaeALWV66pmCpGHaYBTzi8rRSK1DyguhF%2FGjRWfUfi08HBq5Ch4f71y%2FtKHcaGJX7zIEJC2hG9DWexPSF3MHS7lHb5PczASaX%2FzPNhmWfo7PVCFPqgfVilmGMcPQKd4TRLDu66g%2BGSePaChAUJMVwWrcIzSxdtXBQ90WMry8%2BlyU3NIIu3HqU7xKU%2FB2uySFEme3LRb6ARk78Uilx0PSh%2BMV%2BdNqytGOzzHMOX14JNaIqEBul6hLANlYEG5uWZOaP8wrWhlh8%2FeHAuMHRsMJzbRXLfe7nsfHpTZbqp%2FuOo21%2B8GOdm6n%2BbMTc5%2ByEhFbwwI7t4X2LwN1loiMzY%2FjRiqSrSRhYPWgvTlFtk8Nm%2FGW0yXiBsOCXQwg5aDrAY6sgKJKv4ykpltW%2FJAMJVZG9Sq18wmqADBuWbuyNPzr47gi8GXAdKoXmDPr%2FmP9DHq3J8ydMn9mPPcSyLKSnn7JqdG7%2BBXp5cS%2FrJPqpZOyv1uyS%2B6gnsyOQ7zWhSfUs3RLI0xxKrEdNUR%2F4XzUG%2FScT22eRn9DnMWt3kDeKYkzMpeNOyMqMlQA%2FC%2BHRKtWy%2BToGTubT1RbGPWPlByKoFRNxCUdjWz0wvqaBhGoUYd3CQ%2F5haoe0yLTKi%2BwPDEYxBG9%2Fy1ukgQA3Ld%2B%2BXc9c2TEYUGgjgXndmHxFL3n9yRQppFthpPZcMRroo9bje4kG6fTL%2FwOMnOmIz7k2lQQvBk2wqCfFNMlO9QiB1sIwRoMWOC2ChQlju5yxXKDinldBFc48%2FEFQCVXiFeIUReokiCfVRijEo%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20231218T232702Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA26XPQPWATK7JSXEC%2F20231218%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=76b2e2e063ea528d95c8195b12c7248aab466306fecf5a18805f30e4de9ac2e0')
   const [progressText, setProgressText] = useState('');
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
  
   const navigation = useNavigation()
   useEffect(()=>{(async()=>{
@@ -95,69 +95,117 @@ const fetchResourceFromURI = async uri => {
   return blob;
 };
 // //upload the picture to the specific bucket
-const uploadUserImage = async () => {
-  //alert("uploading the photo attempt")
-    if (isLoading) return;
-    setisLoading(true);
-   const user = await Auth.currentAuthenticatedUser()
-   const userId = user.attributes.sub;
-   const filename = userId;
+// const uploadUserImage = async () => {
+//   //alert("uploading the photo attempt")
+//     if (isLoading) return;
+//     setisLoading(true);
+//     try {
+      
+//     } catch (error) {
+//       console.log("error uploading the the image", error)
+//     }
 
-   const ref = `${userId}$${filename}.jpg`
-   //const ref = `/@{userProfilePictures}.jpg`
-   const blob = fetchResourceFromURI(image);
-  
-   try{
-      const response = await Storage.put(ref, blob, {
-        level:'public',
-        contentType: "png/jpeg",
-        metadata: {userId: userId},
-      });
-          console.log("✅successful picture upload",response)
-          try{
-            const userImgUrl = Storage.get(response.key)
-            console.log("the result of the image from db query is this", userImgUrl)
-            setUserImage(userImgUrl)
-          }catch(e){
-          console.log("there was an error saving the user profile picture after the upload",e)
-          }  
-          //updating user attributes before na  
-          await Auth.updateUserAttributes(user, {
-            'picture': userImage})
-       navigation.navigate("ChangeProfilePictureScreen",{userImage:userImage})
-      }catch(e){
-       console.log("failure to upload the picture to the backend", e)
-     }
-  //  return Storage.put(ref,blob, {
-  //   level:'protected',
-  //   contentType:image.type,
-  //   metadata: {userId: userId},
-  //   progressCallback(uploadProgress){
-  //     console.log('PROGRESS--', uploadProgress.loaded + '/' + uploadProgress.total);
-  //   }
-  // })
-  // .then((res) => {
-  //   Storage.get(res.key)
-  //   .then((result) => {
-  //     console.log('RESULT --- ', result);
-  //     let awsImageUri = result.substring(0,result.indexOf('?'))
-  //     setUserImage(awsImageUri)
-  //     console.log('RESULT AFTER REMOVED URI --', awsImageUri)
-  //     setisLoading(false)
-  //     try{
-  //      Auth.updateUserAttributes(user, {
-  //         'picture': userImage})
-  //     }catch(e){
-  //       console.log("error uploading the profile pic attribute")
-  //     }
-   //  navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
-  //   })
-  //   .catch(e => {
-  //     console.log(e);
-  //   })
-  // }).catch(e => {
-  //   console.log(e);
+//   }
+
+const uploadUserImage = async () => {
+  if (isLoading) return;
+  setIsLoading(true);
+
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const userId = user.attributes.sub;
+    const filename = `${userId}.jpg`;
+    const blob = await fetchResourceFromURI(image);
+
+    // Upload image to S3
+    const response = await Storage.put(filename, blob, {
+      level: 'public',
+      contentType: 'image/jpeg',
+      metadata: { userId: userId },
+    });
+
+    console.log("✅ Image uploaded to S3:", response);
+
+    // Fetch the image URL from S3
+    const userImgUrl = await Storage.get(response.key);
+    console.log("✅ Image URL retrieved from S3:", userImgUrl);
+
+    // Update the user attribute
+    await Auth.updateUserAttributes(user, {
+      'picture': userImgUrl,
+    });
+
+    console.log("✅ Successfully uploaded and updated user profile picture");
+
+    // Navigate to the Personal Interest screen
+    navigation.navigate('PersonalInterestScreen')
+  } catch (error) {
+    console.log("❌ Failed to upload the picture or update user attributes:", error);
+  } finally {
+    setIsLoading(false);
   }
+};
+
+
+  //  const user = await Auth.currentAuthenticatedUser()
+  //  const userId = user.attributes.sub;
+  //  const filename = userId;
+
+  //  const ref = `${userId}$${filename}.jpg`
+  //  //const ref = `/@{userProfilePictures}.jpg`
+  //  const blob = fetchResourceFromURI(image);
+  
+  //  try{
+  //     const response = await Storage.put(ref, blob, {
+  //       level:'public',
+  //       contentType: "png/jpeg",
+  //       metadata: {userId: userId},
+  //     });
+  //         console.log("✅successful picture upload",response)
+  //         try{
+  //           const userImgUrl = Storage.get(response.key)
+  //           console.log("the result of the image from db query is this", userImgUrl)
+  //           setUserImage(userImgUrl)
+  //         }catch(e){
+  //         console.log("there was an error saving the user profile picture after the upload",e)
+  //         }  
+  //         //updating user attributes before na  
+  //         await Auth.updateUserAttributes(user, {
+  //           'picture': userImage})
+  //      navigation.navigate("ChangeProfilePictureScreen",{userImage:userImage})
+  //     }catch(e){
+  //      console.log("failure to upload the picture to the backend", e)
+  //    }
+  // //  return Storage.put(ref,blob, {
+  // //   level:'protected',
+  // //   contentType:image.type,
+  // //   metadata: {userId: userId},
+  // //   progressCallback(uploadProgress){
+  // //     console.log('PROGRESS--', uploadProgress.loaded + '/' + uploadProgress.total);
+  // //   }
+  // // })
+  // // .then((res) => {
+  // //   Storage.get(res.key)
+  // //   .then((result) => {
+  // //     console.log('RESULT --- ', result);
+  // //     let awsImageUri = result.substring(0,result.indexOf('?'))
+  // //     setUserImage(awsImageUri)
+  // //     console.log('RESULT AFTER REMOVED URI --', awsImageUri)
+  // //     setisLoading(false)
+  // //     try{
+  // //      Auth.updateUserAttributes(user, {
+  // //         'picture': userImage})
+  // //     }catch(e){
+  // //       console.log("error uploading the profile pic attribute")
+  // //     }
+  //  //  navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
+  // //   })
+  // //   .catch(e => {
+  // //     console.log(e);
+  // //   })
+  // // }).catch(e => {
+  // //   console.log(e);
+  // }
 
 
 

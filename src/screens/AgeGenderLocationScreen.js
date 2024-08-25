@@ -48,6 +48,7 @@ const AgeGenderLocationScreen = () => {
 
   const today = new Date();
   const tenYearsAgo = new Date(today.getFullYear() - 10, today.getMonth(), today.getDate());
+  const HundredYearsAgo = new Date(today.getFullYear() - 100, today.getMonth(), today.getDate());
   const [date, setDate] = useState(tenYearsAgo);
   const [age, setAge] = useState(tenYearsAgo.toISOString().split('T')[0]);
 
@@ -169,8 +170,8 @@ const AgeGenderLocationScreen = () => {
           value={date}
           mode="date"
           display="default"
-          maximumDate={today}
-          minimumDate={tenYearsAgo}
+          maximumDate={tenYearsAgo}
+          minimumDate={HundredYearsAgo}
           onChange={onChangeDate}
         />
       )}
