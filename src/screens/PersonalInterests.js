@@ -148,8 +148,8 @@ useEffect(() => {
 useEffect(() => {
   const createNewUser = async () => {
     try {
-       const authUser = await Auth.currentAuthenticatedUser();
-      console.log('Authenticated User:', authUser);
+      //  const authUser = await Auth.currentAuthenticatedUser();
+      // console.log('Authenticated User:', authUser);
       const name = authUser.attributes.name;
       setName(name)
       const username = authUser.attributes.preferred_username;
