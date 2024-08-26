@@ -101,6 +101,7 @@ type User @model @auth(rules: [{ allow: public }]) {
   userName: String
   imageUrl: String
   userPrimarySquad: [String]
+  nonPrimarySquadsCreated: [String]
   numOfPolls: Int
   numOfSquadJoined: Int
   numSquadCreated: Int

@@ -11,6 +11,7 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -63,6 +64,7 @@ export const getRequestToJoinASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -279,6 +281,7 @@ export const getPollComment = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -479,6 +482,7 @@ export const getUser = /* GraphQL */ `
       userName
       imageUrl
       userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
       numSquadCreated
@@ -528,6 +532,7 @@ export const listUsers = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -688,6 +693,7 @@ export const getSquadUser = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated

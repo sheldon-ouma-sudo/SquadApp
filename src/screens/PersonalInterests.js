@@ -142,7 +142,7 @@ useEffect(() => {
   const createSquadUser = async () => {
     try {
        const authUser = await Auth.currentAuthenticatedUser();
-      // console.log('Authenticated User:', authUser);
+      console.log('Authenticated User:', authUser);
       const name = authUser.attributes.name;
       const username = authUser.attributes.preferred_username;
       const userProfilePicture = authUser.attributes.picture;
@@ -152,11 +152,15 @@ useEffect(() => {
           name: name,
           userName: username,
           imageUrl: userProfilePicture,
-          userSquadId: [],
+          userPrimarySquad : [],
+          nonPrimarySquadsCreated: [],
           numOfPolls: 0,
           numOfSquadJoined: 0,
+          numSquadCreated: 1, 
+          superUser: false, 
           userInterests: userInterest,
           squadJoined: [],
+          squads: []
         };
 
         const response = await API.graphql(
@@ -169,7 +173,7 @@ useEffect(() => {
           id: userId,
           imageUrl: userProfilePicture,
           userName: username,
-          userSquadId: [],
+          userPrimarySquad: [],
           numOfPolls: 0,
           numOfSquadJoined: 0,
           userInterests: userInterest,

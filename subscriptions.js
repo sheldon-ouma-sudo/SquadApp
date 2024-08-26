@@ -13,6 +13,7 @@ export const onCreateRequestToBeAddedInASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -43,6 +44,7 @@ export const onUpdateRequestToBeAddedInASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -73,6 +75,7 @@ export const onDeleteRequestToBeAddedInASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -103,6 +106,7 @@ export const onCreateRequestToJoinASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -138,6 +142,7 @@ export const onUpdateRequestToJoinASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -173,6 +178,7 @@ export const onDeleteRequestToJoinASquad = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -479,6 +485,7 @@ export const onCreatePollComment = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -532,6 +539,7 @@ export const onUpdatePollComment = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -585,6 +593,7 @@ export const onDeletePollComment = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -858,6 +867,7 @@ export const onCreateUser = /* GraphQL */ `
       userName
       imageUrl
       userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
       numSquadCreated
@@ -902,6 +912,7 @@ export const onUpdateUser = /* GraphQL */ `
       userName
       imageUrl
       userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
       numSquadCreated
@@ -946,6 +957,7 @@ export const onDeleteUser = /* GraphQL */ `
       userName
       imageUrl
       userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
       numSquadCreated
@@ -1251,6 +1263,7 @@ export const onCreateSquadUser = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -1293,6 +1306,7 @@ export const onUpdateSquadUser = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
@@ -1335,6 +1349,7 @@ export const onDeleteSquadUser = /* GraphQL */ `
         userName
         imageUrl
         userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
         numSquadCreated
