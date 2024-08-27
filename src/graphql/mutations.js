@@ -19,6 +19,7 @@ export const createRequestToBeAddedInASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -51,6 +52,7 @@ export const updateRequestToBeAddedInASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -83,6 +85,7 @@ export const deleteRequestToBeAddedInASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -115,6 +118,7 @@ export const createRequestToJoinASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -152,6 +156,7 @@ export const updateRequestToJoinASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -189,6 +194,7 @@ export const deleteRequestToJoinASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -509,6 +515,7 @@ export const createPollComment = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -565,6 +572,7 @@ export const updatePollComment = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -621,6 +629,7 @@ export const deletePollComment = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -920,6 +929,7 @@ export const createUser = /* GraphQL */ `
       numOfSquadJoined
       numSquadCreated
       superUser
+      userProfilePicture
       userInterests
       Polls {
         nextToken
@@ -968,6 +978,7 @@ export const updateUser = /* GraphQL */ `
       numOfSquadJoined
       numSquadCreated
       superUser
+      userProfilePicture
       userInterests
       Polls {
         nextToken
@@ -1016,6 +1027,7 @@ export const deleteUser = /* GraphQL */ `
       numOfSquadJoined
       numSquadCreated
       superUser
+      userProfilePicture
       userInterests
       Polls {
         nextToken
@@ -1332,6 +1344,7 @@ export const createSquadUser = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -1376,6 +1389,7 @@ export const updateSquadUser = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -1420,6 +1434,7 @@ export const deleteSquadUser = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt

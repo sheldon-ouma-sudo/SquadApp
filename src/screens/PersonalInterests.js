@@ -98,13 +98,15 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
 const PersonalInterests = () => {
  const [selected, setSelected] = useState(new Map());
   const [userInterest, setUserInterest] = useState([]);
-  const[currentPosition, setCurrentPositon] = useState(2)
+  const[currentPosition, setCurrentPositon] = useState(3)
   const { user, updateLocalUser, updateUserProperty} = useUserContext();
   const[userCreated, setUserCreated] = useState(false)
   const [name, setName] = useState("")
   const [username, setUserName] = useState("")
   const [userProfilePicture, setUserProfilePicture] = useState("")
+  const [email, setEmail] = useState("")
   const [squadID, setSquadID] = useState("")
+  
   
 
   
@@ -153,10 +155,12 @@ useEffect(() => {
       const name = authUser.attributes.name;
       const username = authUser.attributes.preferred_username;
       const userProfilePicture = authUser.attributes.picture;
+      const email = authUser.attributes.email;
 
       setName(name);
       setUserName(username);
       setUserProfilePicture(userProfilePicture);
+      setEmail(email)
 
       if (!userCreated) {
         const createUserInput = {
@@ -171,14 +175,14 @@ useEffect(() => {
           superUser: false, 
           userInterests: userInterest,
           squadJoined: [],
-          squads: []
+        
         };
         
         const response = await API.graphql(
           graphqlOperation(createUser, { input: createUserInput })
         );
         
-
+      console.log("user created successfully✅", response)
         const userId = response.data.createUser.id;
         setUserID(userId);
         setUserCreated(true);
@@ -191,7 +195,7 @@ useEffect(() => {
           numOfPolls: 0,
           numOfSquadJoined: 0,
           userInterests: userInterest,
-          email: authUser.attributes.email,
+          userProfilePicture: userProfilePicture,
           squadJoined: [],
         });
 
@@ -315,7 +319,7 @@ const updateLocalUser = async()=>{ updateLocalUser({
   numOfPolls: 0,
   numOfSquadJoined: 0,
   userInterests: userInterest,
-  email: authUser.attributes.email,
+  email: email,
   squadJoined: [],
 });
 }

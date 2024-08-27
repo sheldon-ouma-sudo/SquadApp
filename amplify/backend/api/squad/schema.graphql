@@ -1,10 +1,10 @@
-type RequestToBeAddedInASquad @model @auth(rules: [{allow: public}]) {
+type RequestToBeAddedInASquad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   User: User @hasOne
   notificationID: ID! @index(name: "byNotification")
 }
 
-type RequestToJoinASquad @model @auth(rules: [{allow: public}]) {
+type RequestToJoinASquad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   User: User @hasOne
   Squads: [Squad] @manyToMany(relationName: "RequestToJoinASquadSquad")
@@ -12,7 +12,7 @@ type RequestToJoinASquad @model @auth(rules: [{allow: public}]) {
   message: String
 }
 
-type Notification @model @auth(rules: [{allow: public}]) {
+type Notification @model @auth(rules: [{ allow: public }]) {
   id: ID!
   pollRequestsArray: [String]
   pollResponsesArray: [String]
@@ -20,22 +20,26 @@ type Notification @model @auth(rules: [{allow: public}]) {
   pollLikeResponseArray: [String]
   squadAddRequestsArray: [String]
   SquadJoinRequestArray: [String]
-  PollComments: [PollComment] @hasMany(indexName: "byNotification", fields: ["id"])
-  PollRequests: [PollRequest] @hasMany(indexName: "byNotification", fields: ["id"])
+  PollComments: [PollComment]
+    @hasMany(indexName: "byNotification", fields: ["id"])
+  PollRequests: [PollRequest]
+    @hasMany(indexName: "byNotification", fields: ["id"])
   userID: ID! @index(name: "byUser")
   new: Boolean
-  RequestToBeAddedInASquads: [RequestToBeAddedInASquad] @hasMany(indexName: "byNotification", fields: ["id"])
-  RequestToJoinASquads: [RequestToJoinASquad] @hasMany(indexName: "byNotification", fields: ["id"])
+  RequestToBeAddedInASquads: [RequestToBeAddedInASquad]
+    @hasMany(indexName: "byNotification", fields: ["id"])
+  RequestToJoinASquads: [RequestToJoinASquad]
+    @hasMany(indexName: "byNotification", fields: ["id"])
 }
 
-type PollResponse @model @auth(rules: [{allow: public}]) {
+type PollResponse @model @auth(rules: [{ allow: public }]) {
   id: ID!
   pollID: ID! @index(name: "byPoll")
   userID: ID! @index(name: "byUser")
   caption: String
 }
 
-type PollRequest @model @auth(rules: [{allow: public}]) {
+type PollRequest @model @auth(rules: [{ allow: public }]) {
   id: ID!
   Poll: Poll @belongsTo
   ParentPollID: String
@@ -45,7 +49,7 @@ type PollRequest @model @auth(rules: [{allow: public}]) {
   notificationID: ID! @index(name: "byNotification")
 }
 
-type PollComment @model @auth(rules: [{allow: public}]) {
+type PollComment @model @auth(rules: [{ allow: public }]) {
   id: ID!
   pollID: ID! @index(name: "byPoll")
   userID: ID! @index(name: "byUser")
@@ -56,7 +60,7 @@ type PollComment @model @auth(rules: [{allow: public}]) {
   comment: String
 }
 
-type Poll @model @auth(rules: [{allow: public}]) {
+type Poll @model @auth(rules: [{ allow: public }]) {
   id: ID!
   totalNumOfVotes: Int
   pollMedia: [String]
@@ -78,7 +82,7 @@ type Poll @model @auth(rules: [{allow: public}]) {
   squads: [Squad] @manyToMany(relationName: "SquadPoll")
 }
 
-type Squad @model @auth(rules: [{allow: public}]) {
+type Squad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   Users: [User] @manyToMany(relationName: "SquadUser")
   authUserID: String
@@ -88,10 +92,11 @@ type Squad @model @auth(rules: [{allow: public}]) {
   squadName: String
   numOfPolls: Int
   Polls: [Poll] @manyToMany(relationName: "SquadPoll")
-  requesttojoinsquads: [RequestToJoinASquad] @manyToMany(relationName: "RequestToJoinASquadSquad")
+  requesttojoinsquads: [RequestToJoinASquad]
+    @manyToMany(relationName: "RequestToJoinASquadSquad")
 }
 
-type User @model @auth(rules: [{allow: public}]) {
+type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   userName: String
@@ -102,6 +107,7 @@ type User @model @auth(rules: [{allow: public}]) {
   numOfSquadJoined: Int
   numSquadCreated: Int
   superUser: Boolean
+  userProfilePicture: String
   userInterests: [String]
   Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
   PollComments: [PollComment] @hasMany(indexName: "byUser", fields: ["id"])
@@ -110,4 +116,4 @@ type User @model @auth(rules: [{allow: public}]) {
   squadJoined: [String]
   Notifications: [Notification] @hasMany(indexName: "byUser", fields: ["id"])
   squads: [Squad] @manyToMany(relationName: "SquadUser")
-} 
+}

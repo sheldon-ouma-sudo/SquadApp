@@ -10,7 +10,6 @@
     import { graphqlOperation, Auth, API } from 'aws-amplify';
     import { createSquadUser } from '../graphql/mutations';
     import { updateUser } from '../graphql/mutations';
-    import { graphql } from 'graphql';
     import { useUserContext } from '../../UserContext';
     import { getUser } from '../graphql/queries';
     
@@ -42,7 +41,7 @@
     }
     
   const SquadCreationScreen = () => {
-    const[currentPosition, setCurrentPositon] = useState(3)
+    const[currentPosition, setCurrentPositon] = useState(4)
     const[userId, setUserId] = useState("")
     const[mainSquadId, setMainSquadId] = useState("")
     const [mainSquadCreated, setMainSquadCreated] = useState(false);
@@ -51,35 +50,35 @@
 const navigation = useNavigation()
 useEffect(() => {
   const createMainUserSquad = async () => {
-    if (!mainSquadCreated) { // Check if main squad is already created
-      const userID = user.id;
-      console.log("here is the user id", userID);
-    try {
-      const authUser = await Auth.currentAuthenticatedUser();
-      console.log('Auth User:', authUser);
-      const squadName = `${authUser.attributes.name}'s first_squad`;
-      const authUserID = user.id;
-      const newSquad = await API.graphql(
-        graphqlOperation(createSquad, { input: { authUserID, squadName, numOfPolls: 0 } })
-      );
-      if (!newSquad.data?.createSquad) {
-        console.log('Error creating a Squad');
-        return;
-      }
-      const squadID = newSquad.data.createSquad.id;
-      setMainSquadId(squadID);
-      const userSquadArray = [...user.userSquadId, squadID];
-      updateUserProperty('userSquadId', userSquadArray);
-      await API.graphql(graphqlOperation(updateUser, { input: { id: user.id, userSquadId: userSquadArray } }));
-      console.log('Squad ID:', squadID);
-    setMainSquadCreated(true); // Set the flag to true after main squad creation
-    } catch (error) {
-      console.error('Error in createMainUserSquad:', error);
-    }
-  };
+//     if (!mainSquadCreated) { // Check if main squad is already created
+//       const userID = user.id;
+//       console.log("here is the user id", userID);
+//     try {
+//       const authUser = await Auth.currentAuthenticatedUser();
+//       console.log('Auth User:', authUser);
+//       const squadName = `${authUser.attributes.name}'s first_squad`;
+//       const authUserID = user.id;
+//       const newSquad = await API.graphql(
+//         graphqlOperation(createSquad, { input: { authUserID, squadName, numOfPolls: 0 } })
+//       );
+//       if (!newSquad.data?.createSquad) {
+//         console.log('Error creating a Squad');
+//         return;
+//       }
+//       const squadID = newSquad.data.createSquad.id;
+//       setMainSquadId(squadID);
+//       const userSquadArray = [...user.userSquadId, squadID];
+//       updateUserProperty('userSquadId', userSquadArray);
+//       await API.graphql(graphqlOperation(updateUser, { input: { id: user.id, userSquadId: userSquadArray } }));
+//       console.log('Squad ID:', squadID);
+//     setMainSquadCreated(true); // Set the flag to true after main squad creation
+//     } catch (error) {
+//       console.log('Error in createMainUserSquad:', error);
+//     }
+//   };
 }
-  createMainUserSquad();
-}, [user.id, mainSquadCreated]); 
+   createMainUserSquad();
+}, []); 
 
 const handleUserNavigationToExploreUserScreen =async ()=>{
   if(user){

@@ -16,6 +16,7 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -97,6 +98,7 @@ export const getRequestToJoinASquad = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -500,6 +502,7 @@ export const getPollComment = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -838,6 +841,7 @@ export const getUser = /* GraphQL */ `
       numOfSquadJoined
       numSquadCreated
       superUser
+      userProfilePicture
       userInterests
       Polls {
         nextToken
@@ -888,6 +892,7 @@ export const listUsers = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
@@ -1162,6 +1167,7 @@ export const getSquadUser = /* GraphQL */ `
         numOfSquadJoined
         numSquadCreated
         superUser
+        userProfilePicture
         userInterests
         squadJoined
         createdAt
