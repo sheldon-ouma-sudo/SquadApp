@@ -1,8 +1,5 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView, TextInput, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { auth } from '../firebase';
-import 'firebase/firestore';
-import firebase from '../firebase';
 import { useNavigation } from '@react-navigation/native';
 import { Auth } from 'aws-amplify';
 import { FontAwesome } from '@expo/vector-icons';

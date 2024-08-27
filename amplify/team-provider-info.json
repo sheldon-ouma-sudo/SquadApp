@@ -38,7 +38,7 @@
         "squad": {}
       },
       "api": {
-        "SquadAPI": {}
+        "squad": {}
       }
     }
   }

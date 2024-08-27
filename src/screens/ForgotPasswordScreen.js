@@ -1,7 +1,7 @@
 import { View, Text, KeyboardAvoidingView,StyleSheet, Image, TextInput,TouchableOpacity, Keyboard} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/core';
-import { getAuth } from 'firebase/auth';
+// import { getAuth } from 'firebase/auth';
 import { Auth } from 'aws-amplify';
 
 // // Send confirmation code to user's email

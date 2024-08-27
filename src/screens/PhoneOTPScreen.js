@@ -2,12 +2,10 @@
     import React, { useEffect, useState } from 'react'
     import { useNavigation } from '@react-navigation/core';
     import { useRoute } from '@react-navigation/native';
-    import { initializeApp, getApp } from 'firebase/app';
-    import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+  
     
     
-const app = getApp();
-const auth = getAuth();
+
 
   const PhoneOTPScreen = () => {
     const navigation = useNavigation()
@@ -21,17 +19,17 @@ const auth = getAuth();
    // 
    
 //whenever it changes it to is not null
-      useEffect(()=>{ 
-        const verificationId = route.params?.verificationId
-        console.log(route.params)
-        //console.log(verificationId)
-      if(verificationId!==null){
-        setVerificationCode(verificationId)
-        setVerificationId(verificationId)
-      }
+      // useEffect(()=>{ 
+      //   const verificationId = route.params?.verificationId
+      //   console.log(route.params)
+      //   //console.log(verificationId)
+      // if(verificationId!==null){
+      //   setVerificationCode(verificationId)
+      //   setVerificationId(verificationId)
+      // }
 
-      },
-      [route.params?.verificationId])
+      // },
+      // [route.params?.verificationId])
       return (
         <View
           style={styles.container}
@@ -76,9 +74,6 @@ const auth = getAuth();
                // }}
                 style = {styles.button}
                     >
-                    <Text style={styles.buttonText}>
-                      Confirm
-                    </Text>
                   </TouchableOpacity>
               </View>
               </View>

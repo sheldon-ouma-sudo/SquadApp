@@ -107,7 +107,7 @@ const PersonalInterests = () => {
   const [squadID, setSquadID] = useState("")
   
 
-  // const[newUser, setNewUser] = useState("");
+  
   const[userID, setUserID] = useState("")
   const navigation = useNavigation();
   const onSelect = useCallback(
@@ -144,25 +144,26 @@ useEffect(() => {
   getUserInterest();
 }, [selected, userInterest]);
 
-
+  
 useEffect(() => {
   const createNewUser = async () => {
     try {
-      //  const authUser = await Auth.currentAuthenticatedUser();
+      const authUser = await Auth.currentAuthenticatedUser();
       // console.log('Authenticated User:', authUser);
       const name = authUser.attributes.name;
-      setName(name)
       const username = authUser.attributes.preferred_username;
-      setUserName(username)
       const userProfilePicture = authUser.attributes.picture;
-      setUserProfilePicture(userProfilePicture)
+
+      setName(name);
+      setUserName(username);
+      setUserProfilePicture(userProfilePicture);
 
       if (!userCreated) {
         const createUserInput = {
           name: name,
           userName: username,
           imageUrl: userProfilePicture,
-          userPrimarySquad : [],
+          userPrimarySquad: [],
           nonPrimarySquadsCreated: [],
           numOfPolls: 0,
           numOfSquadJoined: 0,
@@ -172,14 +173,16 @@ useEffect(() => {
           squadJoined: [],
           squads: []
         };
-
+        
         const response = await API.graphql(
           graphqlOperation(createUser, { input: createUserInput })
         );
+        
 
         const userId = response.data.createUser.id;
-        // setNewUser(userId);
         setUserID(userId);
+        setUserCreated(true);
+
         updateLocalUser({
           id: userId,
           imageUrl: userProfilePicture,
@@ -192,12 +195,9 @@ useEffect(() => {
           squadJoined: [],
         });
 
-        // Update Cognito User attribute 'custom:graphQLUSerID' with the GraphQL user id
         await Auth.updateUserAttributes(authUser, {
           'custom:graphQLUSerID': userId,
         });
-
-        setUserCreated(true);
       }
     } catch (error) {
       console.log('Error creating user:', JSON.stringify(error, null, 2));
@@ -206,6 +206,7 @@ useEffect(() => {
 
   createNewUser();
 }, []);
+
 
 //create Primary Squad
 useEffect(()=>{
@@ -235,7 +236,7 @@ createPrimarySquad()
 
 useEffect(() => {
   const updateUserInterest = async () => {
-    if (newUser) {
+    if (userCreated) {
       try {
         await API.graphql(graphqlOperation(updateUser, {
           input: {
@@ -286,10 +287,10 @@ useEffect(() => {
 //update user interest
 useEffect(()=>{
  const updateUserInterest = async() =>{
-  if(newUser){
+  if(userCreated){
     await API.graphql(graphqlOperation(updateUser, {
       input: {
-        id: newUser,
+        id: userID,
         userInterests:userInterest, // Add the new interests to the existing array
       },
     }));
@@ -301,23 +302,21 @@ useEffect(()=>{
  }
 updateUserInterest()
 console.log("this is the local user",user)
-},[newUser, userInterest])
+},[userInterest])
 
 
 //update the local user 
 useEffect(()=>{
 const updateLocalUser = async()=>{ updateLocalUser({
   id: userID,
-  imageUrl: "", //put as empty as of now
-  userName: "",
-
-  userSquadId: [],
+  imageUrl: userProfilePicture,
+  userName: username,
+  userPrimarySquad: [],
   numOfPolls: 0,
   numOfSquadJoined: 0,
   userInterests: userInterest,
-  email: "",
+  email: authUser.attributes.email,
   squadJoined: [],
-  userSquadId: [],
 });
 }
 updateLocalUser()

@@ -13,9 +13,11 @@ export const createRequestToBeAddedInASquad = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -43,9 +45,11 @@ export const updateRequestToBeAddedInASquad = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -73,9 +77,11 @@ export const deleteRequestToBeAddedInASquad = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -91,21 +97,23 @@ export const deleteRequestToBeAddedInASquad = /* GraphQL */ `
     }
   }
 `;
-export const createRequestToAJoinSquad = /* GraphQL */ `
-  mutation CreateRequestToAJoinSquad(
-    $input: CreateRequestToAJoinSquadInput!
-    $condition: ModelRequestToAJoinSquadConditionInput
+export const createRequestToJoinASquad = /* GraphQL */ `
+  mutation CreateRequestToJoinASquad(
+    $input: CreateRequestToJoinASquadInput!
+    $condition: ModelRequestToJoinASquadConditionInput
   ) {
-    createRequestToAJoinSquad(input: $input, condition: $condition) {
+    createRequestToJoinASquad(input: $input, condition: $condition) {
       id
       User {
         id
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -121,26 +129,28 @@ export const createRequestToAJoinSquad = /* GraphQL */ `
       message
       createdAt
       updatedAt
-      requestToAJoinSquadUserId
+      requestToJoinASquadUserId
       __typename
     }
   }
 `;
-export const updateRequestToAJoinSquad = /* GraphQL */ `
-  mutation UpdateRequestToAJoinSquad(
-    $input: UpdateRequestToAJoinSquadInput!
-    $condition: ModelRequestToAJoinSquadConditionInput
+export const updateRequestToJoinASquad = /* GraphQL */ `
+  mutation UpdateRequestToJoinASquad(
+    $input: UpdateRequestToJoinASquadInput!
+    $condition: ModelRequestToJoinASquadConditionInput
   ) {
-    updateRequestToAJoinSquad(input: $input, condition: $condition) {
+    updateRequestToJoinASquad(input: $input, condition: $condition) {
       id
       User {
         id
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -156,26 +166,28 @@ export const updateRequestToAJoinSquad = /* GraphQL */ `
       message
       createdAt
       updatedAt
-      requestToAJoinSquadUserId
+      requestToJoinASquadUserId
       __typename
     }
   }
 `;
-export const deleteRequestToAJoinSquad = /* GraphQL */ `
-  mutation DeleteRequestToAJoinSquad(
-    $input: DeleteRequestToAJoinSquadInput!
-    $condition: ModelRequestToAJoinSquadConditionInput
+export const deleteRequestToJoinASquad = /* GraphQL */ `
+  mutation DeleteRequestToJoinASquad(
+    $input: DeleteRequestToJoinASquadInput!
+    $condition: ModelRequestToJoinASquadConditionInput
   ) {
-    deleteRequestToAJoinSquad(input: $input, condition: $condition) {
+    deleteRequestToJoinASquad(input: $input, condition: $condition) {
       id
       User {
         id
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -191,7 +203,7 @@ export const deleteRequestToAJoinSquad = /* GraphQL */ `
       message
       createdAt
       updatedAt
-      requestToAJoinSquadUserId
+      requestToJoinASquadUserId
       __typename
     }
   }
@@ -223,7 +235,7 @@ export const createNotification = /* GraphQL */ `
         nextToken
         __typename
       }
-      RequestToAJoinSquads {
+      RequestToJoinASquads {
         nextToken
         __typename
       }
@@ -260,7 +272,7 @@ export const updateNotification = /* GraphQL */ `
         nextToken
         __typename
       }
-      RequestToAJoinSquads {
+      RequestToJoinASquads {
         nextToken
         __typename
       }
@@ -297,7 +309,7 @@ export const deleteNotification = /* GraphQL */ `
         nextToken
         __typename
       }
-      RequestToAJoinSquads {
+      RequestToJoinASquads {
         nextToken
         __typename
       }
@@ -374,6 +386,7 @@ export const createPollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -413,6 +426,7 @@ export const updatePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -452,6 +466,7 @@ export const deletePollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -488,9 +503,11 @@ export const createPollComment = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -510,6 +527,7 @@ export const createPollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -541,9 +559,11 @@ export const updatePollComment = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -563,6 +583,7 @@ export const updatePollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -594,9 +615,11 @@ export const deletePollComment = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -616,6 +639,7 @@ export const deletePollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -648,6 +672,7 @@ export const createPoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      superPoll
       pollCommentArray
       squadID
       pollItems
@@ -699,6 +724,7 @@ export const updatePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      superPoll
       pollCommentArray
       squadID
       pollItems
@@ -750,6 +776,7 @@ export const deletePoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      superPoll
       pollCommentArray
       squadID
       pollItems
@@ -887,9 +914,11 @@ export const createUser = /* GraphQL */ `
       name
       userName
       imageUrl
-      userSquadId
+      userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
+      numSquadCreated
       superUser
       userInterests
       Polls {
@@ -933,9 +962,11 @@ export const updateUser = /* GraphQL */ `
       name
       userName
       imageUrl
-      userSquadId
+      userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
+      numSquadCreated
       superUser
       userInterests
       Polls {
@@ -979,9 +1010,11 @@ export const deleteUser = /* GraphQL */ `
       name
       userName
       imageUrl
-      userSquadId
+      userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
+      numSquadCreated
       superUser
       userInterests
       Polls {
@@ -1015,22 +1048,22 @@ export const deleteUser = /* GraphQL */ `
     }
   }
 `;
-export const createRequestToAJoinSquadSquad = /* GraphQL */ `
-  mutation CreateRequestToAJoinSquadSquad(
-    $input: CreateRequestToAJoinSquadSquadInput!
-    $condition: ModelRequestToAJoinSquadSquadConditionInput
+export const createRequestToJoinASquadSquad = /* GraphQL */ `
+  mutation CreateRequestToJoinASquadSquad(
+    $input: CreateRequestToJoinASquadSquadInput!
+    $condition: ModelRequestToJoinASquadSquadConditionInput
   ) {
-    createRequestToAJoinSquadSquad(input: $input, condition: $condition) {
+    createRequestToJoinASquadSquad(input: $input, condition: $condition) {
       id
-      requestToAJoinSquadId
+      requestToJoinASquadId
       squadId
-      requestToAJoinSquad {
+      requestToJoinASquad {
         id
         notificationID
         message
         createdAt
         updatedAt
-        requestToAJoinSquadUserId
+        requestToJoinASquadUserId
         __typename
       }
       squad {
@@ -1051,22 +1084,22 @@ export const createRequestToAJoinSquadSquad = /* GraphQL */ `
     }
   }
 `;
-export const updateRequestToAJoinSquadSquad = /* GraphQL */ `
-  mutation UpdateRequestToAJoinSquadSquad(
-    $input: UpdateRequestToAJoinSquadSquadInput!
-    $condition: ModelRequestToAJoinSquadSquadConditionInput
+export const updateRequestToJoinASquadSquad = /* GraphQL */ `
+  mutation UpdateRequestToJoinASquadSquad(
+    $input: UpdateRequestToJoinASquadSquadInput!
+    $condition: ModelRequestToJoinASquadSquadConditionInput
   ) {
-    updateRequestToAJoinSquadSquad(input: $input, condition: $condition) {
+    updateRequestToJoinASquadSquad(input: $input, condition: $condition) {
       id
-      requestToAJoinSquadId
+      requestToJoinASquadId
       squadId
-      requestToAJoinSquad {
+      requestToJoinASquad {
         id
         notificationID
         message
         createdAt
         updatedAt
-        requestToAJoinSquadUserId
+        requestToJoinASquadUserId
         __typename
       }
       squad {
@@ -1087,22 +1120,22 @@ export const updateRequestToAJoinSquadSquad = /* GraphQL */ `
     }
   }
 `;
-export const deleteRequestToAJoinSquadSquad = /* GraphQL */ `
-  mutation DeleteRequestToAJoinSquadSquad(
-    $input: DeleteRequestToAJoinSquadSquadInput!
-    $condition: ModelRequestToAJoinSquadSquadConditionInput
+export const deleteRequestToJoinASquadSquad = /* GraphQL */ `
+  mutation DeleteRequestToJoinASquadSquad(
+    $input: DeleteRequestToJoinASquadSquadInput!
+    $condition: ModelRequestToJoinASquadSquadConditionInput
   ) {
-    deleteRequestToAJoinSquadSquad(input: $input, condition: $condition) {
+    deleteRequestToJoinASquadSquad(input: $input, condition: $condition) {
       id
-      requestToAJoinSquadId
+      requestToJoinASquadId
       squadId
-      requestToAJoinSquad {
+      requestToJoinASquad {
         id
         notificationID
         message
         createdAt
         updatedAt
-        requestToAJoinSquadUserId
+        requestToJoinASquadUserId
         __typename
       }
       squad {
@@ -1144,6 +1177,7 @@ export const createSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -1191,6 +1225,7 @@ export const updateSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -1238,6 +1273,7 @@ export const deleteSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -1290,9 +1326,11 @@ export const createSquadUser = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -1332,9 +1370,11 @@ export const updateSquadUser = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -1374,9 +1414,11 @@ export const deleteSquadUser = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined

@@ -10,9 +10,11 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -80,18 +82,20 @@ export const requestToBeAddedInASquadsByNotificationID = /* GraphQL */ `
     }
   }
 `;
-export const getRequestToAJoinSquad = /* GraphQL */ `
-  query GetRequestToAJoinSquad($id: ID!) {
-    getRequestToAJoinSquad(id: $id) {
+export const getRequestToJoinASquad = /* GraphQL */ `
+  query GetRequestToJoinASquad($id: ID!) {
+    getRequestToJoinASquad(id: $id) {
       id
       User {
         id
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -107,18 +111,18 @@ export const getRequestToAJoinSquad = /* GraphQL */ `
       message
       createdAt
       updatedAt
-      requestToAJoinSquadUserId
+      requestToJoinASquadUserId
       __typename
     }
   }
 `;
-export const listRequestToAJoinSquads = /* GraphQL */ `
-  query ListRequestToAJoinSquads(
-    $filter: ModelRequestToAJoinSquadFilterInput
+export const listRequestToJoinASquads = /* GraphQL */ `
+  query ListRequestToJoinASquads(
+    $filter: ModelRequestToJoinASquadFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listRequestToAJoinSquads(
+    listRequestToJoinASquads(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -129,7 +133,7 @@ export const listRequestToAJoinSquads = /* GraphQL */ `
         message
         createdAt
         updatedAt
-        requestToAJoinSquadUserId
+        requestToJoinASquadUserId
         __typename
       }
       nextToken
@@ -137,15 +141,15 @@ export const listRequestToAJoinSquads = /* GraphQL */ `
     }
   }
 `;
-export const requestToAJoinSquadsByNotificationID = /* GraphQL */ `
-  query RequestToAJoinSquadsByNotificationID(
+export const requestToJoinASquadsByNotificationID = /* GraphQL */ `
+  query RequestToJoinASquadsByNotificationID(
     $notificationID: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelRequestToAJoinSquadFilterInput
+    $filter: ModelRequestToJoinASquadFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    requestToAJoinSquadsByNotificationID(
+    requestToJoinASquadsByNotificationID(
       notificationID: $notificationID
       sortDirection: $sortDirection
       filter: $filter
@@ -158,7 +162,7 @@ export const requestToAJoinSquadsByNotificationID = /* GraphQL */ `
         message
         createdAt
         updatedAt
-        requestToAJoinSquadUserId
+        requestToJoinASquadUserId
         __typename
       }
       nextToken
@@ -190,7 +194,7 @@ export const getNotification = /* GraphQL */ `
         nextToken
         __typename
       }
-      RequestToAJoinSquads {
+      RequestToJoinASquads {
         nextToken
         __typename
       }
@@ -368,6 +372,7 @@ export const getPollRequest = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -489,9 +494,11 @@ export const getPollComment = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -511,6 +518,7 @@ export const getPollComment = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -550,32 +558,35 @@ export const listPollComments = /* GraphQL */ `
   }
 `;
 export const pollCommentsByPollID = /* GraphQL */ `
- query PollCommentsByPollID(
-  $pollID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelPollCommentFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  pollCommentsByPollID(
-    pollID: $pollID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
+  query PollCommentsByPollID(
+    $pollID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentFilterInput
+    $limit: Int
+    $nextToken: String
   ) {
-    items {
-      id
-      pollID
-      userID
-      numOfLikes
-      comment
-      createdAt
-      updatedAt
+    pollCommentsByPollID(
+      pollID: $pollID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        numOfLikes
+        notificationID
+        comment
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
     }
-    nextToken
   }
-}
 `;
 export const pollCommentsByUserID = /* GraphQL */ `
   query PollCommentsByUserID(
@@ -653,6 +664,7 @@ export const getPoll = /* GraphQL */ `
       pollCaption
       pollLabel
       pollScore
+      superPoll
       pollCommentArray
       squadID
       pollItems
@@ -706,6 +718,7 @@ export const listPolls = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -746,6 +759,7 @@ export const pollsByUserID = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -818,9 +832,11 @@ export const getUser = /* GraphQL */ `
       name
       userName
       imageUrl
-      userSquadId
+      userPrimarySquad
+      nonPrimarySquadsCreated
       numOfPolls
       numOfSquadJoined
+      numSquadCreated
       superUser
       userInterests
       Polls {
@@ -866,9 +882,11 @@ export const listUsers = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined
@@ -881,19 +899,19 @@ export const listUsers = /* GraphQL */ `
     }
   }
 `;
-export const getRequestToAJoinSquadSquad = /* GraphQL */ `
-  query GetRequestToAJoinSquadSquad($id: ID!) {
-    getRequestToAJoinSquadSquad(id: $id) {
+export const getRequestToJoinASquadSquad = /* GraphQL */ `
+  query GetRequestToJoinASquadSquad($id: ID!) {
+    getRequestToJoinASquadSquad(id: $id) {
       id
-      requestToAJoinSquadId
+      requestToJoinASquadId
       squadId
-      requestToAJoinSquad {
+      requestToJoinASquad {
         id
         notificationID
         message
         createdAt
         updatedAt
-        requestToAJoinSquadUserId
+        requestToJoinASquadUserId
         __typename
       }
       squad {
@@ -914,20 +932,20 @@ export const getRequestToAJoinSquadSquad = /* GraphQL */ `
     }
   }
 `;
-export const listRequestToAJoinSquadSquads = /* GraphQL */ `
-  query ListRequestToAJoinSquadSquads(
-    $filter: ModelRequestToAJoinSquadSquadFilterInput
+export const listRequestToJoinASquadSquads = /* GraphQL */ `
+  query ListRequestToJoinASquadSquads(
+    $filter: ModelRequestToJoinASquadSquadFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listRequestToAJoinSquadSquads(
+    listRequestToJoinASquadSquads(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
     ) {
       items {
         id
-        requestToAJoinSquadId
+        requestToJoinASquadId
         squadId
         createdAt
         updatedAt
@@ -938,16 +956,16 @@ export const listRequestToAJoinSquadSquads = /* GraphQL */ `
     }
   }
 `;
-export const requestToAJoinSquadSquadsByRequestToAJoinSquadId = /* GraphQL */ `
-  query RequestToAJoinSquadSquadsByRequestToAJoinSquadId(
-    $requestToAJoinSquadId: ID!
+export const requestToJoinASquadSquadsByRequestToJoinASquadId = /* GraphQL */ `
+  query RequestToJoinASquadSquadsByRequestToJoinASquadId(
+    $requestToJoinASquadId: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelRequestToAJoinSquadSquadFilterInput
+    $filter: ModelRequestToJoinASquadSquadFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    requestToAJoinSquadSquadsByRequestToAJoinSquadId(
-      requestToAJoinSquadId: $requestToAJoinSquadId
+    requestToJoinASquadSquadsByRequestToJoinASquadId(
+      requestToJoinASquadId: $requestToJoinASquadId
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -955,7 +973,7 @@ export const requestToAJoinSquadSquadsByRequestToAJoinSquadId = /* GraphQL */ `
     ) {
       items {
         id
-        requestToAJoinSquadId
+        requestToJoinASquadId
         squadId
         createdAt
         updatedAt
@@ -966,15 +984,15 @@ export const requestToAJoinSquadSquadsByRequestToAJoinSquadId = /* GraphQL */ `
     }
   }
 `;
-export const requestToAJoinSquadSquadsBySquadId = /* GraphQL */ `
-  query RequestToAJoinSquadSquadsBySquadId(
+export const requestToJoinASquadSquadsBySquadId = /* GraphQL */ `
+  query RequestToJoinASquadSquadsBySquadId(
     $squadId: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelRequestToAJoinSquadSquadFilterInput
+    $filter: ModelRequestToJoinASquadSquadFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    requestToAJoinSquadSquadsBySquadId(
+    requestToJoinASquadSquadsBySquadId(
       squadId: $squadId
       sortDirection: $sortDirection
       filter: $filter
@@ -983,7 +1001,7 @@ export const requestToAJoinSquadSquadsBySquadId = /* GraphQL */ `
     ) {
       items {
         id
-        requestToAJoinSquadId
+        requestToJoinASquadId
         squadId
         createdAt
         updatedAt
@@ -1012,6 +1030,7 @@ export const getSquadPoll = /* GraphQL */ `
         pollCaption
         pollLabel
         pollScore
+        superPoll
         pollCommentArray
         squadID
         pollItems
@@ -1137,9 +1156,11 @@ export const getSquadUser = /* GraphQL */ `
         name
         userName
         imageUrl
-        userSquadId
+        userPrimarySquad
+        nonPrimarySquadsCreated
         numOfPolls
         numOfSquadJoined
+        numSquadCreated
         superUser
         userInterests
         squadJoined

@@ -3,20 +3,20 @@ import { useNavigation } from '@react-navigation/native';
 import React, {useState, useRef} from 'react';
 import {View, Text, Alert, StyleSheet, Pressable, KeyboardAvoidingView, Image,  Platform,} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
-import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
-import { initializeApp, getApp } from 'firebase/app';
-import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+// import { FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+// import { initializeApp, getApp } from 'firebase/app';
+// import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import PhoneOTPScreen from './PhoneOTPScreen';
 
 
 
 // Firebase references
-const app = getApp();
-const auth = getAuth();
+// const app = getApp();
+// const auth = getAuth();
 // Double-check that we can run the example
-if (!app?.options || Platform.OS === 'web') {
-    throw new Error('This example only works on Android or iOS, and requires a valid Firebase config.');
-  }
+// if (!app?.options || Platform.OS === 'web') {
+//     throw new Error('This example only works on Android or iOS, and requires a valid Firebase config.');
+//   }
   
 function PhoneNumberScreen() {
     const navigation = useNavigation()
@@ -24,7 +24,7 @@ function PhoneNumberScreen() {
     const phoneInput = useRef(null);
     const recaptchaVerifier = React.useRef(null);
     const [verificationId, setVerificationId] = React.useState();
-    const firebaseConfig = app ? app.options : undefined;
+    // const firebaseConfig = app ? app.options : undefined;
     const [message, showMessage] = React.useState();
     const attemptInvisibleVerification = false;
     const buttonPress = async() => {
@@ -71,7 +71,7 @@ function PhoneNumberScreen() {
             <View>
             <FirebaseRecaptchaVerifierModal
                     ref={recaptchaVerifier}
-                    firebaseConfig={app.options}
+                    // firebaseConfig={app.options}
                     // attemptInvisibleVerification
                 />
                 <PhoneInput
