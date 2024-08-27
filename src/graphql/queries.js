@@ -19,6 +19,7 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
         userProfilePicture
         userInterests
         Bio
+        email
         squadJoined
         createdAt
         updatedAt
@@ -102,6 +103,7 @@ export const getRequestToJoinASquad = /* GraphQL */ `
         userProfilePicture
         userInterests
         Bio
+        email
         squadJoined
         createdAt
         updatedAt
@@ -507,6 +509,7 @@ export const getPollComment = /* GraphQL */ `
         userProfilePicture
         userInterests
         Bio
+        email
         squadJoined
         createdAt
         updatedAt
@@ -847,6 +850,7 @@ export const getUser = /* GraphQL */ `
       userProfilePicture
       userInterests
       Bio
+      email
       Polls {
         nextToken
         __typename
@@ -899,6 +903,7 @@ export const listUsers = /* GraphQL */ `
         userProfilePicture
         userInterests
         Bio
+        email
         squadJoined
         createdAt
         updatedAt
@@ -1175,6 +1180,7 @@ export const getSquadUser = /* GraphQL */ `
         userProfilePicture
         userInterests
         Bio
+        email
         squadJoined
         createdAt
         updatedAt

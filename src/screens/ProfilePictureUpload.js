@@ -33,7 +33,7 @@ const customStyles = {
 
 const ProfilePictureUpload = () => {
   const navigation = useNavigation();
-  const [currentPosition, setCurrentPositon] = useState(1);
+  const [currentPosition, setCurrentPositon] = useState(2);
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {

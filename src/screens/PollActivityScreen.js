@@ -10,19 +10,10 @@ const PollActivityScreen = () => {
     const Tab = createMaterialTopTabNavigator();
     // const insets = useSafeAreaInsets();
     return (
-      <Tab.Navigator 
-      style={[{ marginTop:20 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "black" }, {borderRadius:9}]}   
-      screenOptions={{
-      tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
-      tabBarStyle: { backgroundColor: "#F4F8FB" },
-    }}
-      >
-          <Tab.Screen name="Poll Requests" 
-          component={PollRequest} />
-          <Tab.Screen name="Poll Response" 
-          component={PollResponse} />
-        </Tab.Navigator>
-)
+     <View>
+      <Text>All poll notification related stuff goes here</Text>
+     </View>
+   )
 }
 
 

@@ -12,18 +12,9 @@ const SquadActivityScreen = () => {
   
 const Tab = createMaterialTopTabNavigator()
     return (
-      <Tab.Navigator 
-      style={[{ marginTop:20 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
-      screenOptions={{
-      tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
-      tabBarStyle: { backgroundColor: "#F4F8FB" },
-    }}
-      >
-          <Tab.Screen name="Squad Addition Requests" 
-          component={RequestToBeAddedToSquadScreen} />
-          <Tab.Screen name="Requests To Join Your Squads" 
-          component={RequestToJoinSquads} />
-        </Tab.Navigator>
+      <View>
+        <Text>Squad notification goes here</Text>
+      </View>
   )
   }
 

@@ -110,6 +110,7 @@ type User @model @auth(rules: [{ allow: public }]) {
   userProfilePicture: String
   userInterests: [String]
   Bio: String
+  email: String
   Polls: [Poll] @hasMany(indexName: "byUser", fields: ["id"])
   PollComments: [PollComment] @hasMany(indexName: "byUser", fields: ["id"])
   PollRequests: [PollRequest] @hasMany(indexName: "byUser", fields: ["id"])

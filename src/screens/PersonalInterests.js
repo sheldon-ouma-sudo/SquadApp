@@ -191,6 +191,7 @@ useEffect(() => {
         updateLocalUser({
           id: userId,
           imageUrl: userProfilePicture,
+          name: name,
           userName: username,
           userPrimarySquad: [],
           numOfPolls: 0,
@@ -198,6 +199,7 @@ useEffect(() => {
           userInterests: userInterest,
           userProfilePicture: userProfilePicture,
           squadJoined: [],
+          email: email
         });
 
         await Auth.updateUserAttributes(authUser, {
@@ -241,10 +243,9 @@ useEffect(()=>{
 createPrimarySquad()
 
 }, [userID])
-
 useEffect(() => {
   const updateUserInterest = async () => {
-    if (userCreated) {
+    if (userCreated && userID) {
       try {
         await API.graphql(graphqlOperation(updateUser, {
           input: {
@@ -254,13 +255,16 @@ useEffect(() => {
         }));
         updateUserProperty('userInterests', userInterest);
       } catch (error) {
-        console.log("Error updating the user interests:", error);
+        console.log("Error updating the user interests:", error); // Use console.error for better error visibility
       }
+    } else {
+      console.log("User ID or user interest is missing");
     }
   };
 
   updateUserInterest();
 }, [userID, userInterest]);
+
 
     
 
@@ -291,15 +295,18 @@ const updateLocalUser = async()=>{ updateLocalUser({
   id: userID,
   imageUrl: userProfilePicture,
   userName: username,
+  name: name, 
   userPrimarySquad: [],
   numOfPolls: 0,
   numOfSquadJoined: 0,
   userInterests: userInterest,
   email: email,
+  bio: "Edit to add a bio",
   squadJoined: [],
 });
 }
 updateLocalUser()
+console.log("here is the user locally", user)
 },[userID, userInterest])
 
 

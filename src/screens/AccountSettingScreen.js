@@ -55,13 +55,7 @@ const AccountSettingScreen = () => {
     <SafeAreaView
     style={styles.container}
         behavior="padding">
-          <View style={[styles.squadLogoContainer, {flexDirection:'column'}]}>
-          <Image
-            source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
-            style={styles.squadLogo}
-            resizeMode='contain'
-          ></Image>
-          </View>
+          
       <TouchableOpacity style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row", marginTop:30}]}
       onPress={()=>navigation.goBack()}
       >

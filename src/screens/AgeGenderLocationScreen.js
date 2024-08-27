@@ -17,11 +17,11 @@ const customStyles = {
   currentStepStrokeWidth: 3,
   stepStrokeCurrentColor: '#ffff',
   stepStrokeWidth: 3,
-  stepStrokeFinishedColor: '#ffff',
+  stepStrokeFinishedColor: '#1764EF',
   stepStrokeUnFinishedColor: '#aaaaaa',
-  separatorFinishedColor: '#ffff',
+  separatorFinishedColor: '#1764EF',
   separatorUnFinishedColor: '#aaaaaa',
-  stepIndicatorFinishedColor: '#fff',
+  stepIndicatorFinishedColor: '#1764EF',
   stepIndicatorUnFinishedColor: '#ffffff',
   stepIndicatorCurrentColor: '#1764EF',
   stepIndicatorLabelFontSize: 13,
@@ -244,7 +244,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    backgroundColor: "#F4F8FB"
+    backgroundColor: "#F4F8FB",
+    
   },
   squadLogo: {
     width: 100,
