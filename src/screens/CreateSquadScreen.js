@@ -78,9 +78,6 @@ const CreateSquadScreen = () => {
     style={styles.container}
     behavior="padding"
     > 
-     <View style={styles.userImageContainer}>
-        <FontAwesome name="group" size={64} color="#1145FD" style={{marginTop:-25}}/>
-      </View>
     <View style={styles.pollContentStyles}>
       <Text style={styles.pollContentCaption}>Squad Name</Text> 
     </View>

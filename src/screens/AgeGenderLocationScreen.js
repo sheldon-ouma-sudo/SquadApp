@@ -36,11 +36,13 @@ const customStyles = {
 
 const dataGender = [
   { key: '1', value: "Male" },
-  { key: '2', value: "Female" },
+  { key: '2', value: "Female" }, 
+  {key: '3', value: "Other"}, 
+  {key: '4', value: "Prefer Not to Say"}
 ];
 
 const AgeGenderLocationScreen = () => {
-  const [currentPosition, setCurrentPositon] = useState(0);
+  const [currentPosition, setCurrentPositon] = useState(1);
   const [selectedGender, setGenderSelected] = useState("");
   const [gender, setGender] = useState("");
   const [location, setLocation] = useState("Enter your location");
@@ -114,6 +116,8 @@ const AgeGenderLocationScreen = () => {
       console.log("failed to update the additional attributes");
     }
   }
+
+  
 
   return (
     <SafeAreaView

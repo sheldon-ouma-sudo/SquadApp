@@ -21,6 +21,7 @@ export const createRequestToBeAddedInASquad = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -54,6 +55,7 @@ export const updateRequestToBeAddedInASquad = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -87,6 +89,7 @@ export const deleteRequestToBeAddedInASquad = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -120,6 +123,7 @@ export const createRequestToJoinASquad = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -158,6 +162,7 @@ export const updateRequestToJoinASquad = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -196,6 +201,7 @@ export const deleteRequestToJoinASquad = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -517,6 +523,7 @@ export const createPollComment = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -574,6 +581,7 @@ export const updatePollComment = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -631,6 +639,7 @@ export const deletePollComment = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -931,6 +940,7 @@ export const createUser = /* GraphQL */ `
       superUser
       userProfilePicture
       userInterests
+      Bio
       Polls {
         nextToken
         __typename
@@ -980,6 +990,7 @@ export const updateUser = /* GraphQL */ `
       superUser
       userProfilePicture
       userInterests
+      Bio
       Polls {
         nextToken
         __typename
@@ -1029,6 +1040,7 @@ export const deleteUser = /* GraphQL */ `
       superUser
       userProfilePicture
       userInterests
+      Bio
       Polls {
         nextToken
         __typename
@@ -1346,6 +1358,7 @@ export const createSquadUser = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -1391,6 +1404,7 @@ export const updateSquadUser = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt
@@ -1436,6 +1450,7 @@ export const deleteSquadUser = /* GraphQL */ `
         superUser
         userProfilePicture
         userInterests
+        Bio
         squadJoined
         createdAt
         updatedAt

@@ -24,9 +24,9 @@ import { updateUser } from '../graphql/mutations'
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
     const[userName, setUserName] =useState('User Name')
-    const[numOfUserPolls, setNumOfUserPolls] = useState("1060")
-    const[numOfUserSquadron, setNumOfSquadron] = useState("1060")
-    const[numOfUsersInSquad, setNumOfSquadUsers] = useState("1060")
+    const[numOfUserPolls, setNumOfUserPolls] = useState("0")
+    const[numOfSquadJoined, setNumOfSquadJoinedn] = useState("0")
+    const[numOfSquadCreated, setNumOfSquadCreated] = useState("0")
     const[name, setName] = useState("")
     const{user, updateUserProperty} = useUserContext();
     const[userPolls, setUserPolls] = useState([])
@@ -54,8 +54,8 @@ import { updateUser } from '../graphql/mutations'
           setName(userFromBackend.name)
           setUserName(userFromBackend.userName);
           setNumOfUserPolls(userFromBackend.numOfPolls);
-          setNumOfSquadron(userFromBackend.squadJoined.length);
-          setNumOfSquadUsers(userFromBackend.userSquadId.length);
+          setNumOfSquadJoinedn(userFromBackend.numOfSquadJoined);
+          setNumOfSquadCreated(userFromBackend.numSquadCreated);
   
         } catch (error) {
           console.log('Error fetching user data:', error);
@@ -127,9 +127,8 @@ import { updateUser } from '../graphql/mutations'
       <TouchableOpacity
       style={{backgroundColor:"#F4F8FB"}}
       onPress={handleOnSettingPress}
-
       >
-       <MaterialIcons name="settings" size={30} color="black" style={{marginLeft:380}} />
+       <MaterialIcons name="settings" size={25} color="black" style={{marginLeft:380}} />
       </TouchableOpacity>
       <View
       style={{backgroundColor:"#F4F8FB"}}
@@ -142,8 +141,8 @@ import { updateUser } from '../graphql/mutations'
       <Image
             source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
             resizeMode={'contain'}
-            style={[{ height: 100 }, { width: 100 }, 
-            {overflow:'hidden'},{marginBottom:15}, {marginLeft:20},{marginTop:-50}, {borderRadius:50}]} 
+            style={[{ height: 90 }, { width: 90 }, 
+            {overflow:'hidden'},{marginBottom:25}, {marginLeft:20},{marginTop:-60}, {borderRadius:50}]} 
         />
         {/* poll and poll number text */}
         <View
@@ -162,7 +161,7 @@ import { updateUser } from '../graphql/mutations'
         >
          <Text
          style={{marginLeft:30, fontSize:15, fontWeight:'800'}}
-         >{numOfUsersInSquad}</Text>
+         >{numOfSquadCreated}</Text>
          <Text
          style={{fontSize:15, fontWeight:'400'}}
          >Squad Created</Text>
@@ -174,7 +173,7 @@ import { updateUser } from '../graphql/mutations'
         >
          <Text
          style={{marginLeft:30, fontSize:15, fontWeight:'800'}}
-         >{numOfUserSquadron}</Text>
+         >{numOfSquadJoined}</Text>
          <Text
          style={{fontSize:15, fontWeight:'400'}}
          >Squad Joined</Text>

@@ -108,8 +108,11 @@ const PersonalInterests = () => {
   const [squadID, setSquadID] = useState("")
   
   
-
+  const route = useRoute();
+  const { userImgUrl } = route?.params;
   
+   
+   console.log('Received Image URL:', userImgUrl);
   const[userID, setUserID] = useState("")
   const navigation = useNavigation();
   const onSelect = useCallback(
@@ -121,34 +124,27 @@ const PersonalInterests = () => {
     [selected]
   );
 
-// get user interest 
-useEffect(() => {
-  const getUserInterest = () => {
-    console.log(selected.size);
-    if (selected.size !== 0) {
-      for (let [key, value] of selected) {
-        let obj = DATA.find((obj) => obj.id == key);
-        const personalInterest = obj.title;
-        if (value === true) {
-          if (userInterest.includes(personalInterest) === false) {
-            setUserInterest((userInterest) => [...userInterest, personalInterest]);
-            console.log("the following are the userInterests", userInterest);
-          }
-        } else {
-          console.log("these are the keys and the value are false: ", key);
-          if (userInterest.includes(personalInterest) === true) {
-            console.log("the initial array of the userInterest with false values", userInterest);
+    // get user interest 
+    useEffect(() => {
+      const getUserInterest = () => {
+        const interests = [];
+        for (let [key, value] of selected) {
+          let obj = DATA.find((obj) => obj.id === key);
+          if (value) {
+            interests.push(obj.title);
           }
         }
-      }
-    }
-  };
-  getUserInterest();
-}, [selected, userInterest]);
+        setUserInterest(interests);
+      };
+      getUserInterest();
+    }, [selected]);
 
   
 useEffect(() => {
   const createNewUser = async () => {
+    // Now you can use the `userImgUrl` in this screen
+    
+    
     try {
       const authUser = await Auth.currentAuthenticatedUser();
       // console.log('Authenticated User:', authUser);
@@ -159,7 +155,11 @@ useEffect(() => {
 
       setName(name);
       setUserName(username);
-      setUserProfilePicture(userProfilePicture);
+      if(userImgUrl){
+        setUserProfilePicture(userImgUrl)
+      }else{
+        setUserProfilePicture(userProfilePicture);
+      }
       setEmail(email)
 
       if (!userCreated) {
@@ -215,13 +215,15 @@ useEffect(() => {
 //create Primary Squad
 useEffect(()=>{
   const createPrimarySquad = async()=>{
+    const squadName = `${username}$` + " main Squad"
     const createSquadInput = {
       authUserID: userID, 
       authUserName: name, 
       bio: "Edit to add a bio", 
       public: true, 
-      squadName: "", 
-      numOfPolls: 0
+      squadName: squadName, 
+      numOfPolls: 0, 
+      Bio: "Your bio goes here"
     };
     try {
       const response = await API.graphql(graphqlOperation(createSquad,{input: createSquadInput}))
@@ -260,35 +262,7 @@ useEffect(() => {
   updateUserInterest();
 }, [userID, userInterest]);
 
-    //   const response = await API.graphql(
-    //     graphqlOperation(createUser, { input: createUserInput })
-    //   );
-    //   const user_id = response.data?.createUser.id;
-    //   console.log("here is the user id", user_id);
-     
-    //   // Log user info before updating attributes
-    //   console.log("Before update - Auth user attributes:", authUser.attributes);
-  
-    //   // Update Cognito User attribute 'sub' with the GraphQL user id
-    //   await Auth.updateUserAttributes(authUser, {
-    //     'custom:graphQLUSerID': user_id,
-    //   });
-  
-    //   // Log user info after updating attributes
-    //   console.log("After update - Auth user attributes:", authUser.attributes);
-    //   setUserCreated(true);
-    //   setNewUser(user_id)
-     
-    // } catch (error) {
-    //   console.log('Error creating user:', error);
     
-//   }
-// }
-  
-//     createSquadUser()
-// }, [])
- 
-
 
 //update user interest
 useEffect(()=>{

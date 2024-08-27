@@ -20,6 +20,7 @@ const ExploreSquadronScreen = () => {
           console.log('Error fetching squads');
           return;
         }
+        console.log("here are the squads",results.data.listSquads.items )
         setSquads(results.data.listSquads.items);
       } catch (error) {
         console.log('Error getting squads', error);

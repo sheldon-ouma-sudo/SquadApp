@@ -59,9 +59,11 @@ const EditProfileScreen = () => {
             <View
             style={{marginLeft:20, backgroundColor:'#FFFF', width:130, height:40, borderRadius:15}}
             >
+            <TouchableOpacity>
             <Text
             style={{marginLeft:10, marginTop:10}}
             >Change Photo</Text>
+            </TouchableOpacity>
           </View>
         </View> 
     </View>
@@ -130,7 +132,7 @@ const EditProfileScreen = () => {
         style={styles.input}
         />
        
-       <View
+       {/* <View
        style={{marginTop:20, marginLeft:-270}}
        >
           <Text>
@@ -145,7 +147,7 @@ const EditProfileScreen = () => {
         keyboardType="email-address"
         onChangeText={text => setPhoneNumber(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
         style={styles.input}
-        />
+        /> */}
         <TouchableOpacity
        // onPress={signUpWithAws}
         style = {styles.button}

@@ -138,7 +138,7 @@ const uploadUserImage = async () => {
     console.log("✅ Successfully uploaded and updated user profile picture");
 
     // Navigate to the Personal Interest screen
-    navigation.navigate('PersonalInterestScreen')
+    navigation.navigate('PersonalInterestScreen', { userImgUrl });
   } catch (error) {
     console.log("❌ Failed to upload the picture or update user attributes:", error);
   } finally {
@@ -147,90 +147,7 @@ const uploadUserImage = async () => {
 };
 
 
-  //  const user = await Auth.currentAuthenticatedUser()
-  //  const userId = user.attributes.sub;
-  //  const filename = userId;
-
-  //  const ref = `${userId}$${filename}.jpg`
-  //  //const ref = `/@{userProfilePictures}.jpg`
-  //  const blob = fetchResourceFromURI(image);
   
-  //  try{
-  //     const response = await Storage.put(ref, blob, {
-  //       level:'public',
-  //       contentType: "png/jpeg",
-  //       metadata: {userId: userId},
-  //     });
-  //         console.log("✅successful picture upload",response)
-  //         try{
-  //           const userImgUrl = Storage.get(response.key)
-  //           console.log("the result of the image from db query is this", userImgUrl)
-  //           setUserImage(userImgUrl)
-  //         }catch(e){
-  //         console.log("there was an error saving the user profile picture after the upload",e)
-  //         }  
-  //         //updating user attributes before na  
-  //         await Auth.updateUserAttributes(user, {
-  //           'picture': userImage})
-  //      navigation.navigate("ChangeProfilePictureScreen",{userImage:userImage})
-  //     }catch(e){
-  //      console.log("failure to upload the picture to the backend", e)
-  //    }
-  // //  return Storage.put(ref,blob, {
-  // //   level:'protected',
-  // //   contentType:image.type,
-  // //   metadata: {userId: userId},
-  // //   progressCallback(uploadProgress){
-  // //     console.log('PROGRESS--', uploadProgress.loaded + '/' + uploadProgress.total);
-  // //   }
-  // // })
-  // // .then((res) => {
-  // //   Storage.get(res.key)
-  // //   .then((result) => {
-  // //     console.log('RESULT --- ', result);
-  // //     let awsImageUri = result.substring(0,result.indexOf('?'))
-  // //     setUserImage(awsImageUri)
-  // //     console.log('RESULT AFTER REMOVED URI --', awsImageUri)
-  // //     setisLoading(false)
-  // //     try{
-  // //      Auth.updateUserAttributes(user, {
-  // //         'picture': userImage})
-  // //     }catch(e){
-  // //       console.log("error uploading the profile pic attribute")
-  // //     }
-  //  //  navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
-  // //   })
-  // //   .catch(e => {
-  // //     console.log(e);
-  // //   })
-  // // }).catch(e => {
-  // //   console.log(e);
-  // }
-
-
-
-
-  //  try{
-  //   const response = await Storage.put(ref, blob, {
-  //     level:'protected',
-  //     contentType: "png/jpeg",
-  //     level:'protected',
-  //     metadata: {userId: userId},
-  //   });
-  //       console.log("✅successful picture upload",response)
-  //       try{
-  //         const userImgUrl = Storage.get(response.key)
-  //         console.log("the result of the image from db query is this", userImgUrl)
-  //         setUserImage(userImgUrl)
-  //       }catch(e){
-  //       console.log("there was an error saving the user profile picture after the upload",e)
-  //       }    
-  //    navigation.navigate("ChangeProfilePictureScreen",{userImage:image})
-  //   }catch(e){
-  //    console.log("failure to upload the picture to the backend", e)
-  //  }
-   //update the user attributes
-  //}
 
 return (
     <KeyboardAvoidingView 
