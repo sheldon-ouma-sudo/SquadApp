@@ -225,7 +225,9 @@ useEffect(()=>{
     };
     try {
       const response = await API.graphql(graphqlOperation(createSquad,{input: createSquadInput}))
-      const newSquadID = response.data?.createSquad; 
+      console.log("successfully created the squad✅", response)
+      const newSquadID = response.data?.createSquad.id; 
+      console.log("here is the squad ID", newSquadID)
       setSquadID(newSquadID)
 
     } catch (error) {
@@ -327,11 +329,6 @@ updateLocalUser()
 },[userID, userInterest])
 
 
-
-
-
-
-
 return (
   <SafeAreaView
   style={styles.container}
@@ -392,7 +389,8 @@ return (
     style={[ styles.backButton,{borderColor:'#1145FD'}, {marginBottom:-140},{marginLeft:70},{marginTop:-330},{marginRight:250},{width:160} ]}>
     <Text  style={[{justifyContent: 'flex-end'},styles.backText,]}> Back </Text>
     </TouchableOpacity>
-    <TouchableOpacity  onPress={() =>navigation.navigate('SquadCreationScreen')}
+    <TouchableOpacity  
+    onPress={() => navigation.navigate('SquadCreationScreen', {squadID})}
     style={[ styles.button,
     {borderColor:'#1145FD'}, 
     {marginBottom:80},

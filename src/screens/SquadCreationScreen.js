@@ -41,45 +41,37 @@
     }
     
   const SquadCreationScreen = () => {
-    const[currentPosition, setCurrentPositon] = useState(4)
-    const[userId, setUserId] = useState("")
-    const[mainSquadId, setMainSquadId] = useState("")
-    const [mainSquadCreated, setMainSquadCreated] = useState(false);
-    const{user, updateUserProperty } = useUserContext();
-//console.log("here is the local user first time print", user)
-const navigation = useNavigation()
-useEffect(() => {
-  const createMainUserSquad = async () => {
-//     if (!mainSquadCreated) { // Check if main squad is already created
-//       const userID = user.id;
-//       console.log("here is the user id", userID);
-//     try {
-//       const authUser = await Auth.currentAuthenticatedUser();
-//       console.log('Auth User:', authUser);
-//       const squadName = `${authUser.attributes.name}'s first_squad`;
-//       const authUserID = user.id;
-//       const newSquad = await API.graphql(
-//         graphqlOperation(createSquad, { input: { authUserID, squadName, numOfPolls: 0 } })
-//       );
-//       if (!newSquad.data?.createSquad) {
-//         console.log('Error creating a Squad');
-//         return;
-//       }
-//       const squadID = newSquad.data.createSquad.id;
-//       setMainSquadId(squadID);
-//       const userSquadArray = [...user.userSquadId, squadID];
-//       updateUserProperty('userSquadId', userSquadArray);
-//       await API.graphql(graphqlOperation(updateUser, { input: { id: user.id, userSquadId: userSquadArray } }));
-//       console.log('Squad ID:', squadID);
-//     setMainSquadCreated(true); // Set the flag to true after main squad creation
-//     } catch (error) {
-//       console.log('Error in createMainUserSquad:', error);
-//     }
-//   };
-}
-   createMainUserSquad();
-}, []); 
+    const [currentPosition, setCurrentPositon] = useState(4);
+    const [squadUserCreated, setSquadUserCreated] = useState(false);
+    const { user, updateUserProperty } = useUserContext();
+    const navigation = useNavigation();
+    const route = useRoute();
+    const { squadID } = route?.params;
+  
+    useEffect(() => {
+      const createMainUserSquad = async () => {
+        if (user && squadID && !squadUserCreated) {
+          try {
+            const response = await API.graphql(graphqlOperation(createSquadUser, {
+              input: {
+                userId: user.id,
+                squadId: squadID,
+              },
+            }));
+            console.log("SquadUser created successfully:", response);
+            
+            // Update local user context if necessary
+            updateUserProperty('userPrimarySquad', [...user.userPrimarySquad, squadID]);
+            setSquadUserCreated(true);
+          } catch (error) {
+            console.log("Error creating squad user:", error);
+          }
+        }
+      };
+      createMainUserSquad();
+    }, [user, squadID, squadUserCreated]);
 
+    
 const handleUserNavigationToExploreUserScreen =async ()=>{
   if(user){
     try {
@@ -120,22 +112,23 @@ const handlesUserToPollCreationNavigation = async()=>{
 }
 
 const handleNavigationToHomeScreen = async() =>{
-  if(user){
-    try {
-      const userID = user.id;
-      const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
-      // Extract the user information from the query result
-      const userFromBackend = userData.data?.getUser;
-      if(userFromBackend.userSquadId.length ===0){
-        console.log("the userSquadId was not updated")
-      }else{
-        navigation.navigate('RootNavigation', { screen:'Home'})
-      }
-    } catch (error) {
-      console.log("error navigating to the main screen", error)
-    }
+  // if(user){
+  //   try {
+  //     const userID = user.id;
+  //     const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+  //     // Extract the user information from the query result
+  //     const userFromBackend = userData.data?.getUser;
+  //     if(userFromBackend.userSquadId.length ===0){
+  //       console.log("the userSquadId was not updated")
+  //     }else{
+  //       navigation.navigate('RootNavigation', { screen:'Home'})
+  //     }
+  //   } catch (error) {
+  //     console.log("error navigating to the main screen", error)
+  //   }
  
-  }
+  // }
+  navigation.navigate('RootNavigation', { screen:'Home'})
   
 }
  
