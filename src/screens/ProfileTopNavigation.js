@@ -16,13 +16,14 @@
   import {getUser, pollsByUserID} from '../graphql/queries'
   import { useUserContext } from '../../UserContext'
   import { MaterialIcons } from '@expo/vector-icons';
-import { updateUser } from '../graphql/mutations'
+  import { updateUser } from '../graphql/mutations'
+  
   
 
   
 
   const Profile =()=> {
-    const[profileImage, setProflieImage]= useState('https://squad-file-storage235821-staging.s3.us-west-2.amazonaws.com/Squad_inApp_images/userProfilePlaceholder.png')
+    const[profileImage, setProflieImage]= useState('https://squadtechlogobucket.s3.us-west-2.amazonaws.com/TechLogos/profilePH.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAMaCXVzLXdlc3QtMiJHMEUCIAw7LoJW508N6U7MDuh8BOEVYxGrRnT3s0E4JQHy0Rq7AiEApSh7LXEZPEO5ERpaJVdALhepv47Gj%2B5qANz5ps9nrvYq5AIIHBABGgw3NTMxOTUzMTg2NTciDGIKu7SWVqotZCZA%2FirBAoGEYRldaYS1ZaDWs0zTkmh8vGdMzKjIwmnFRKF3%2BRCCRXgZnSZ5uXElV%2B8EmFFiNB09SNj3h583cPVHwGkLQ8plfqat52EDQ11uYz56KvcI5bocfSSWLrW%2FO%2FDPj2uwiHPpGRtbUYuSXmbzTNACZAWGy4VDxzsuxEdY01RuSHX4OKpAwdDr42BsOBOVTB2%2BO15LkssaMKdfvNDMbMlwromsj94MoCPI5SFvxCIUj3qAljyHacENKPBsbsZC1U3DtS7nISaNcooAFr%2BkHNdCv15uf8%2F8m%2Fkwu0Ea9IAUgVoV%2F3ZBYg2PLMzpUPIGMs%2FCkIB86xk6Zb4kmWGdYaRlZBl6aGnA4U3vIf6B1UAuwdQHHJ8T1egB%2B2TYCxv%2BGKINRKebp%2F81BGFDtvmaszEE4xoXDfJZrpp5mhbJbRE4sLjgdTCvx7i2BjqzArTD%2B1S%2Bpy%2FH3GDPTIyEPU2veH9AF0umojrMvjxguhugtI8FQu9e44fUG8CwoPdaeb0J45erGmdhhNAoRpGlI4OukpDBJYVM7gZD282JrretqdNh8W340he5daYBkR4ziAdwQUq0JrHAWqmnuZb9bwAmmArOGxoxk6KFR2BOy2SvDLNmZOjTTl4irtB3qksvoKvA8JK9WmieN%2FxBG1LLVVTAyRZ5QfpzLVX3Z6Yp6X2%2FxbvNDg07L44404bbtjM1D6S2QfWjFmPL8rbdsDBfIsl9deb3Lz%2FaTU6z9ytsbYgkMFy%2FlLyLvSa2sq%2BjcvhcJC7u59GdaKaq4k1euqsbp3uVjGvxLZvuZJfgLgWSFfGqRV0OS1kEjxI3rI0k3rVOs4a1weUfstVF5%2Fz5MvqJojnyZjk%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240827T191517Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA26XPQPWASVIVLJVT%2F20240827%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=0b6504a98401ef53326d5e9adc97e16d5c0e4c3929931d05b1b90b51b93aa040')
     const[userName, setUserName] =useState('User Name')
     const[numOfUserPolls, setNumOfUserPolls] = useState("0")
     const[numOfSquadJoined, setNumOfSquadJoinedn] = useState("0")
@@ -50,12 +51,20 @@ import { updateUser } from '../graphql/mutations'
           // Extract the user information from the query result
           const userFromBackend = userData.data?.getUser;
           console.log("here is the user from backend ", userFromBackend)
+          
+          if(user){
+            console.log("here is the user",user)
+          
+          }
+          const userProfileImage = user.userProfilePicture;
           // Update state with the user information
           setName(userFromBackend.name)
           setUserName(userFromBackend.userName);
           setNumOfUserPolls(userFromBackend.numOfPolls);
           setNumOfSquadJoinedn(userFromBackend.numOfSquadJoined);
           setNumOfSquadCreated(userFromBackend.numSquadCreated);
+          setProflieImage(userProfileImage)
+       
   
         } catch (error) {
           console.log('Error fetching user data:', error);
@@ -139,10 +148,17 @@ import { updateUser } from '../graphql/mutations'
           >@{userName}</Text>
       </View>
       <Image
-            source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
-            resizeMode={'contain'}
-            style={[{ height: 90 }, { width: 90 }, 
-            {overflow:'hidden'},{marginBottom:25}, {marginLeft:20},{marginTop:-60}, {borderRadius:50}]} 
+             source={{ uri: profileImage }}
+             resizeMode="cover"
+             style={{
+               height: 90,
+               width: 90,
+               backgroundColor: '#e0e0e0', // Added background color to help with visibility issues
+               marginBottom: 25,
+               marginLeft: 20,
+               marginTop: -50,
+               borderRadius: 50,
+             }}
         />
         {/* poll and poll number text */}
         <View
@@ -193,10 +209,9 @@ import { updateUser } from '../graphql/mutations'
     style={{marginTop:0, backgroundColor:"#F4F8FB"}}
     >
       <Text
-      style={{marginLeft:150}}
+      style={{marginLeft:70}}
       >
-        My Bio: Stay cool forever
-        link: www.squadByMe.com
+         Bio: you can edit it by clicking edit profile below
       </Text>
     </View>
 

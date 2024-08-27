@@ -3,7 +3,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import React, { useEffect, useState } from 'react'
   import StepIndicator from 'react-native-step-indicator';
   import { TouchableOpacity } from 'react-native';
-  import { useNavigation } from '@react-navigation/native';
+  import { useNavigation, useRoute } from '@react-navigation/native';
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
   import { API, graphqlOperation, Auth } from "aws-amplify";
@@ -175,6 +175,7 @@ useEffect(() => {
           superUser: false, 
           userInterests: userInterest,
           squadJoined: [],
+          Bio: "Your bio goes here"
         
         };
         
@@ -215,15 +216,14 @@ useEffect(() => {
 //create Primary Squad
 useEffect(()=>{
   const createPrimarySquad = async()=>{
-    const squadName = `${username}$` + " main Squad"
+    const squadName = `${username}` + "'s main Squad"
     const createSquadInput = {
       authUserID: userID, 
       authUserName: name, 
       bio: "Edit to add a bio", 
       public: true, 
       squadName: squadName, 
-      numOfPolls: 0, 
-      Bio: "Your bio goes here"
+      numOfPolls: 0,
     };
     try {
       const response = await API.graphql(graphqlOperation(createSquad,{input: createSquadInput}))

@@ -127,7 +127,7 @@ const uploadUserImage = async () => {
     console.log("✅ Image uploaded to S3:", response);
 
     // Fetch the image URL from S3
-    const userImgUrl = await Storage.get(response.key);
+    const userImgUrl = await Storage.get(response.key, { expires: 86400 * 70000000000 });
     console.log("✅ Image URL retrieved from S3:", userImgUrl);
 
     // Update the user attribute

@@ -58,7 +58,7 @@
                 squadId: squadID,
               },
             }));
-            console.log("SquadUser created successfully:", response);
+            console.log("SquadUser created successfully:✅", response);
             
             // Update local user context if necessary
             updateUserProperty('userPrimarySquad', [...user.userPrimarySquad, squadID]);
@@ -106,7 +106,7 @@ const handlesUserToPollCreationNavigation = async()=>{
     }
   } catch (error) {
     console.log("error navigating to the main screen", error)
-  }
+  } 
 
 }
 }
