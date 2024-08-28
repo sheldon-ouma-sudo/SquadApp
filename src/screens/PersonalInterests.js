@@ -251,6 +251,7 @@ useEffect(() => {
           input: {
             id: userID,
             userInterests: userInterest,
+            userPrimarySquad: [squadID]
           },
         }));
         updateUserProperty('userInterests', userInterest);
