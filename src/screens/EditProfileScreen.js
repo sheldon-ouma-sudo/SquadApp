@@ -102,15 +102,15 @@ const EditProfileScreen = () => {
 
   const handleSubmit = async () => {
     try {
-        const user = await Auth.currentAuthenticatedUser();
-        const userId = user.attributes.sub;
+        const userID = user.id
+        // const userId = user.attributes.sub;
 
         // Prepare the updated user object
         const updatedUserInfo = {
-            id: userId,
+            id: userID,
             name: name.trim() || user.name,
             userName: username.trim() || user.userName,
-            Bio: bio.trim() || user.Bio,
+            Bio: bio.trim() , 
             email: email.trim() || ""
         };
 
