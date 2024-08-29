@@ -30,10 +30,7 @@ import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
 import { Amplify, Auth, Hub } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
-import {Storage, API,graphqlOperation } from 'aws-amplify';
 import { useEffect, useState } from "react";
-import {getUser} from './src/graphql/queries'
-import {createUser} from './src/graphql/mutations'
 import AccountSettingScreen from "./src/screens/AccountSettingScreen";
 import ChangePasswordScreen from "./src/screens/ChangePasswordScreen";
 import DeleteProfileScreen from "./src/screens/DeleteProfileScreen";
@@ -57,6 +54,8 @@ import GeneralUserProfileSquadJoinedTab from './src/screens/GeneralUserProfileSq
 import GeneralProfileUserSquadCreatedTab from './src/screens/GeneralProfileUserSquadCreatedTab'
 import GeneralSqaudMemberScreen from './src/screens/GeneralSqaudMemberScreen'
 import GeneralSquadPollPageScreen from './src/screens/GeneralSquadPollPageScreen'
+import SquadPollScreen from './src/screens/SquadPollScreen'
+import SquadUserScreen from './src/screens/SquadUserScreen'
 import { UserProvider } from "./UserContext"
 
 Amplify.configure(awsconfig);
@@ -235,6 +234,8 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "GeneralProfileUserSquadCreatedTab" component={GeneralProfileUserSquadCreatedTab}/>
         <Stack.Screen options={{headerShown:false}} name = "GeneralSqaudMemberScreen" component={GeneralSqaudMemberScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "GeneralSquadPollPageScreen" component={GeneralSquadPollPageScreen} />
+        <Stack.Screen options={{headerShown: false}} name = "SquadPollScreen" component={SquadPollScreen}/>
+        <Stack.Screen options={{headerShown: false}} name = "SquadUserScreen" component={SquadUserScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
     </UserProvider>

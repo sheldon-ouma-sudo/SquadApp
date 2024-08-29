@@ -1,18 +1,13 @@
-  import { View, Text,KeyboardAvoidingView,Image, StyleSheet, 
-  StatusBar,Dimensions,TouchableOpacity} from 'react-native'
+  import { View, Text,Image, StyleSheet,TouchableOpacity} from 'react-native'
   import PersonalPollScreen from './PersonalPollScreen'
-  import SwayingScreen from './SwayingScreen'
   import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
   import { useNavigation } from '@react-navigation/native'
-  import MySquadScreen from './MySquadScreen'
   import SquadCreatedScreen from './SquadCreatedScreen'
   import SquadJoinedScreen from './SquadJoinedScreen'
-  import { AntDesign } from '@expo/vector-icons';
   import React from 'react'
   import { useState, useEffect } from 'react'
   import { useSafeAreaInsets } from 'react-native-safe-area-context';
   import { API, graphqlOperation, Auth } from "aws-amplify";
-  //import { graphqlOperation } from 'aws-amplify' 
   import {getUser, pollsByUserID} from '../graphql/queries'
   import { useUserContext } from '../../UserContext'
   import { MaterialIcons } from '@expo/vector-icons';

@@ -2,7 +2,7 @@ import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity, Alert } fro
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect} from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { createNotification, createRequestToAJoinSquad, createSquadUser, updateNotification, updateUser } from "../../graphql/mutations";
+import { createNotification, createRequestToJoinASquad, createSquadUser, updateNotification, updateUser } from "../../graphql/mutations";
 import { graphqlOperation, Auth, API } from 'aws-amplify';
 import { notificationsByUserID } from "../../graphql/queries";
 import dayjs from "dayjs";
@@ -265,11 +265,16 @@ const SquadListItem =({ squad,userInfo})=>{
           }
         }
         }
+        const handleSquadNavigation = () => {
+          navigation.navigate("SquadDisplayScreen", { squad });
+        };
+      
         
 return (
-  <Pressable
+  <TouchableOpacity
   style={styles.container}
   behavior="padding"
+  onPress={handleSquadNavigation}
   >
 <View
   style={styles.userImageContainer}
@@ -304,7 +309,7 @@ return (
         </Text>
       </TouchableOpacity>
 </View>
-  </Pressable>
+  </TouchableOpacity>
 )
 }
 
