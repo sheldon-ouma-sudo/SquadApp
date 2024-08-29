@@ -83,50 +83,69 @@ const EditProfileScreen = () => {
 
           const userImgUrl = await Storage.get(response.key, { expires: 86400 * 7 });
 
-          await Auth.updateUserAttributes(user, {
-              'picture': userImgUrl,
-          });
-          setImage(userImgUrl)
-          updateUserProperty('imageUrl', userImgUrl);
+          // Update the user photo in the DynamoDB via GraphQL
+        await API.graphql(graphqlOperation(updateUser, {
+          input: {
+              id: userId,
+              imageUrl: userImgUrl,
+          }
+      }));
+
+      // Update the local context
+      updateUserProperty('imageUrl', userImgUrl);
+
+
       } catch (error) {
           console.log("❌ Failed to upload the picture or update user attributes:", error);
       }
   };
 
   const handleSubmit = async () => {
-      try {
-          const user = await Auth.currentAuthenticatedUser();
-          const userId = user.attributes.sub;
+    try {
+        const user = await Auth.currentAuthenticatedUser();
+        const userId = user.attributes.sub;
 
-          // Update GraphQL User object
-          const updatedUser = {
-              id: userId,
-              name: name.trim(),
-              userName: username.trim(),
-              Bio: bio.trim(),
-              email: email.trim(),
-              imageUrl: image || user.imageUrl,
-          };
+        // Prepare the updated user object
+        const updatedUserInfo = {
+            id: userId,
+            name: name.trim() || user.name,
+            userName: username.trim() || user.userName,
+            Bio: bio.trim() || user.Bio,
+            email: email.trim() || ""
+        };
 
-          await API.graphql(graphqlOperation(updateUser,
-             { input: updatedUser }));
+        console.log("Attributes before update:", updatedUserInfo);
 
-          // Update local context
-          updateUserProperty('name', name.trim());
-          updateUserProperty('userName', username.trim());
-          updateUserProperty('Bio', bio.trim());
-          updateUserProperty('email', email.trim());
-          if (image) {
-              updateUserProperty('imageUrl', image);
-          }
+        const response = await API.graphql(graphqlOperation(updateUser, {
+            input: updatedUserInfo
+        }));
 
-          Alert.alert("Success", "Your profile has been updated successfully!");
-          navigation.goBack();
-      } catch (error) {
-          console.log("❌ Error updating user:", error);
-          Alert.alert("Error", "Failed to update profile. Please try again.");
-      }
-  };
+        if (response.data.updateUser) {
+            // Update local context
+            updateUserProperty('name',name);
+            updateUserProperty('userName',username);
+            updateUserProperty('Bio',bio);
+            updateUserProperty('email',email);
+
+            Alert.alert("Success", "Your profile has been updated successfully!");
+            navigation.goBack();
+        } 
+    } catch (error) {
+        console.log("❌ Error updating user:", error);
+
+        // Extracting more detailed error information
+        if (error.errors && error.errors.length > 0) {
+            error.errors.forEach((err, index) => {
+                console.error(`Error ${index + 1}:`, err.message);
+                console.error(`Error ${index + 1} Details:`, JSON.stringify(err, null, 2));
+            });
+        } else {
+            console.error("Unknown error:", JSON.stringify(error, null, 2));
+        }
+
+        Alert.alert("Error", "Failed to update profile. Please try again.");
+    }
+};
 
     return (
         <SafeAreaView style={styles.container}>

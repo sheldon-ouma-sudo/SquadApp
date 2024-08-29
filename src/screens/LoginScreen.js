@@ -177,13 +177,17 @@ const LoginScreen = () => {
         console.log("here is the user from backend ", userFromBackend)
         updateLocalUser({
             id: userID,
-            imageUrl: userFromBackend.userProfilePicture,
+            name: userFromBackend.name,
             userName: username,
+            imageUrl: userFromBackend.userProfilePicture,
+            userPrimarySquad: userFromBackend.userPrimarySquad, 
             numOfPolls: userFromBackend.numOfPolls,
             numOfSquadJoined: userFromBackend.squadJoined.length,
+            numOfSquadCreated: userFromBackend.numSquadCreated, 
             userInterests: userFromBackend.userInterests,
             squadJoined: userFromBackend.squadJoined,
-            userSquadId: userFromBackend.userSquadId,
+            superUser: userFromBackend.superUser,
+            Bio: userFromBackend.Bio
         })
         console.log("here is the updated user", user)
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
