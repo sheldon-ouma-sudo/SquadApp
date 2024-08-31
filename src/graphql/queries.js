@@ -26,6 +26,8 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
         __typename
       }
       notificationID
+      requestingUserID
+      message
       createdAt
       updatedAt
       requestToBeAddedInASquadUserId
@@ -47,6 +49,8 @@ export const listRequestToBeAddedInASquads = /* GraphQL */ `
       items {
         id
         notificationID
+        requestingUserID
+        message
         createdAt
         updatedAt
         requestToBeAddedInASquadUserId
@@ -75,6 +79,8 @@ export const requestToBeAddedInASquadsByNotificationID = /* GraphQL */ `
       items {
         id
         notificationID
+        requestingUserID
+        message
         createdAt
         updatedAt
         requestToBeAddedInASquadUserId
@@ -114,6 +120,7 @@ export const getRequestToJoinASquad = /* GraphQL */ `
         __typename
       }
       notificationID
+      requestingUserID
       message
       createdAt
       updatedAt
@@ -136,6 +143,7 @@ export const listRequestToJoinASquads = /* GraphQL */ `
       items {
         id
         notificationID
+        requestingUserID
         message
         createdAt
         updatedAt
@@ -165,6 +173,7 @@ export const requestToJoinASquadsByNotificationID = /* GraphQL */ `
       items {
         id
         notificationID
+        requestingUserID
         message
         createdAt
         updatedAt
@@ -923,6 +932,7 @@ export const getRequestToJoinASquadSquad = /* GraphQL */ `
       requestToJoinASquad {
         id
         notificationID
+        requestingUserID
         message
         createdAt
         updatedAt

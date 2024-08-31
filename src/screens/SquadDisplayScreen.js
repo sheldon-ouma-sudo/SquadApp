@@ -11,8 +11,6 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 dayjs.extend(customParseFormat);
 
 
-
-
 const SquadDisplayScreen = () => {
 const[squadName, setSquadName] = useState("Squad Name")
 const [numOfSqudPolls, setNumOfSquadPolls] = useState(0)
@@ -114,38 +112,6 @@ const [squadCreationTime, setSquadCreationTime] = useState("")
        style={{fontSize:15, fontWeight:'400', marginLeft: 30}}
        >{squadCreationTime}</Text>
       </View>
-    
-    {/* the squad joined text and numbers */}
-      {/* <View
-       style={{marginLeft:320, marginTop:-36}}
-      >
-       <Text
-       style={{marginLeft:30, fontSize:15, fontWeight:'800'}}
-       >{numOfSquadJoined}</Text>
-       <Text
-       style={{fontSize:15, fontWeight:'400'}}
-       >Squad Joined</Text>
-      </View> */}
-    
-   
-    {/* <View
-    style={{backgroundColor:"#F4F8FB", marginTop:1}}
-    >
-    <Text
-     style={{marginLeft:20, marginTop:40}}
-     >{name}</Text>
-    </View> */}
-
-
-  {/* <View 
-  style={{marginTop:20, backgroundColor:"#F4F8FB"}}
-  >
-    <Text
-    style={{marginLeft:150, fontSize: 15}}
-    >
-       {userBio}
-    </Text>
-  </View> */}
   </View>
   {/* edit and squad creation button */}
 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: 10, marginTop:20, backgroundColor:"#F4F8FB" }}>

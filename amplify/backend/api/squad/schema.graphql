@@ -2,6 +2,8 @@ type RequestToBeAddedInASquad @model @auth(rules: [{ allow: public }]) {
   id: ID!
   User: User @hasOne
   notificationID: ID! @index(name: "byNotification")
+  requestingUserID: String
+  message: String
 }
 
 type RequestToJoinASquad @model @auth(rules: [{ allow: public }]) {
@@ -9,6 +11,7 @@ type RequestToJoinASquad @model @auth(rules: [{ allow: public }]) {
   User: User @hasOne
   Squads: [Squad] @manyToMany(relationName: "RequestToJoinASquadSquad")
   notificationID: ID! @index(name: "byNotification")
+  requestingUserID: String
   message: String
 }
 

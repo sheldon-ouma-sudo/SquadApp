@@ -42,6 +42,11 @@ const ExploreSquadronScreen = () => {
     console.log('Search bar clicked');
   };
 
+  const handleRequestSent = (squadId) => {
+    // Filter out the squad for which the join request has been sent
+    setSquads((prevSquads) => prevSquads.filter((squad) => squad.id !== squadId));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchBarContainer}>
@@ -51,11 +56,17 @@ const ExploreSquadronScreen = () => {
           setClicked={handleSearchBarClick} // Pass the function to handle search bar click
         />
         {filteredSquads.length === 0 ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="small" color="#1145FD" />
         ) : (
           <FlatList
             data={filteredSquads}
-            renderItem={({ item }) => <SquadListItem squad={item} userInfo={user} />}
+            renderItem={({ item }) => 
+            <SquadListItem
+             squad={item} 
+             userInfo={user} 
+             onRequestSent={handleRequestSent} // Pass the callback function to SquadListItem
+             />
+            }
             keyExtractor={(item) => item.id.toString()}
           />
         )}

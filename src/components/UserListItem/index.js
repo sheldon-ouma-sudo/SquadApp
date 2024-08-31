@@ -10,13 +10,7 @@ import { getUser, notificationsByUserID} from '../../graphql/queries';
 import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/mutations';
 //import { createSquadUser } from '../../graphql/mutations';
 
-    const UserListItem = ({
-      user,
-      userInfo,
-      onPress = () => {},
-      selectable = false,
-      isSelected = false,
-    }) => {
+    const UserListItem = ({user}) => {
       const navigation = useNavigation();
       const [selected, setSelected] = useState(false);
       const[localUserInfo, setLocalUserInfo] = useState()
@@ -251,10 +245,10 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
                   setSelected(true)
                    const newNotificationIDCreated = await handleNotificationProduction()
                    if(newNotificationIDCreated !==false){
-                  //   //create the request
+                    //create the request
                     const requestId = await handleRequestToBeAddedInASquadCreation(newNotificationIDCreated)
                     if(requestId !== false){
-                  //     //local update the notification 
+                    //local update the notification 
                      const updatedArray = await handleUpdatesquadAddRequestsArrayLocally(newNotificationCreated, requestId)
                       if(updatedArray!==false){
                         //globally update the notification 
@@ -295,13 +289,15 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
         }
     };
            
-
+    const handleUserNavigation = () => {
+      navigation.navigate("UserDisplayScreen", { user });
+    };
          
       return (
-        <Pressable
+        <TouchableOpacity
         style={styles.container}
         behavior="padding"
-        onPress={onPress}
+        onPress={handleUserNavigation}
         >
         <View
           style={styles.userImageContainer}
@@ -341,7 +337,7 @@ import { deleteRequestToBeAddedInASquad, deleteSquadUser } from '../../graphql/m
               )}
           </TouchableOpacity>
             </View>
-        </Pressable>
+        </TouchableOpacity>
       )
       }
     

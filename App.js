@@ -56,10 +56,15 @@ import GeneralSqaudMemberScreen from './src/screens/GeneralSqaudMemberScreen'
 import GeneralSquadPollPageScreen from './src/screens/GeneralSquadPollPageScreen'
 import SquadPollScreen from './src/screens/SquadPollScreen'
 import SquadUserScreen from './src/screens/SquadUserScreen'
+import UserDisplayScreen from './src/screens/UserDisplayScreen'
+import UserDisplayPollScreen from './src/screens/UserDisplayPollSCreen'
+import UserDisplaySquadJoined from './src/screens/UserDisplaySquadJoined'
+import UserDisplaySquadCreated from './src/screens/UserDisplaySquadCreated'
 import { UserProvider } from "./UserContext"
 
+
 Amplify.configure(awsconfig);
- ///run this once when the app is opened
+ ///run this once when the app is opened 
 
 
 const Stack = createNativeStackNavigator();
@@ -168,9 +173,6 @@ function BottomTabs() {
       </Tab.Navigator></>
   );
 }
-
-
-
 export default function App() {
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -236,6 +238,10 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "GeneralSquadPollPageScreen" component={GeneralSquadPollPageScreen} />
         <Stack.Screen options={{headerShown: false}} name = "SquadPollScreen" component={SquadPollScreen}/>
         <Stack.Screen options={{headerShown: false}} name = "SquadUserScreen" component={SquadUserScreen}/>
+        <Stack.Screen options={{headerShown: false}} name = "UserDisplayScreen" component={UserDisplayScreen}/>
+        <Stack.Screen options={{headerShown: false}} name = "UserDisplayPollScreen" component={UserDisplayPollScreen} />
+        <Stack.Screen options={{headerShown: false}} name = "UserDisplaySquadCreated" component={UserDisplaySquadCreated} />
+        <Stack.Screen options={{headerShown: false}} name = "UserDisplaySquadJoined" component={UserDisplaySquadJoined} />
       </Stack.Navigator>
     </NavigationContainer>
     </UserProvider>
