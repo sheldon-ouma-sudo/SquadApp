@@ -175,7 +175,8 @@ useEffect(() => {
           superUser: false, 
           userInterests: userInterest,
           squadJoined: [],
-          Bio: "Your bio goes here"
+          Bio: "Please Edit Your Bio by Clicking the Edit Button below",
+          email: email
         
         };
         
@@ -222,7 +223,7 @@ useEffect(()=>{
     const createSquadInput = {
       authUserID: userID, 
       authUserName: name, 
-      bio: "Edit to add a bio", 
+      bio: "Please Edit Your Bio by Clicking the Edit Button below", 
       public: true, 
       squadName: squadName, 
       numOfPolls: 0,
@@ -233,6 +234,18 @@ useEffect(()=>{
       const newSquadID = response.data?.createSquad.id; 
       console.log("here is the squad ID", newSquadID)
       setSquadID(newSquadID)
+      //update the user primary Squad 
+      try {
+        const result = await API.graphql(graphqlOperation(updateUser, {
+          input: {
+            id: userID,
+            userPrimarySquad: [newSquadID]
+          },
+        }));
+        console.log("successfully updated the user✅", result)
+      } catch (error) {
+        console.log("error updating user primary squad",error)
+      }
 
     } catch (error) {
       console.log("error creating the primary squad", error)
@@ -251,7 +264,6 @@ useEffect(() => {
           input: {
             id: userID,
             userInterests: userInterest,
-            userPrimarySquad: [squadID]
           },
         }));
         updateUserProperty('userInterests', userInterest);
@@ -266,30 +278,6 @@ useEffect(() => {
   updateUserInterest();
 }, [userID, userInterest]);
 
-
-    
-
-//update user interest
-useEffect(()=>{
- const updateUserInterest = async() =>{
-  if(userCreated){
-    await API.graphql(graphqlOperation(updateUser, {
-      input: {
-        id: userID,
-        userInterests:userInterest, // Add the new interests to the existing array
-      },
-    }));
-    updateUserProperty('userInterests', userInterest);
-  }else{
-    console.log("error updating the user interest")
-  }
-  
- }
-updateUserInterest()
-console.log("this is the local user",user)
-},[userInterest])
-
-
 //update the local user 
 useEffect(()=>{
 const updateLocalUser = async()=>{ updateLocalUser({
@@ -297,18 +285,19 @@ const updateLocalUser = async()=>{ updateLocalUser({
   imageUrl: userProfilePicture,
   userName: username,
   name: name, 
-  userPrimarySquad: [],
+  userPrimarySquad: [squadID],
   numOfPolls: 0,
   numOfSquadJoined: 0,
   userInterests: userInterest,
   email: email,
-  bio: "Edit to add a bio",
+  bio: "Please Edit Your Bio by Clicking the Edit Button below",
   squadJoined: [],
 });
 }
 updateLocalUser()
 console.log("here is the user locally", user)
-},[userID, userInterest])
+},[userID, squadID, userInterest])
+
 
 
 return (

@@ -57,7 +57,7 @@
           setNumOfSquadJoinedn(userFromBackend.numOfSquadJoined);
           setNumOfSquadCreated(userFromBackend.numSquadCreated);
           setProflieImage(userProfileImage)
-          setUserBio(user.Bio)
+          setUserBio(userFromBackend.Bio)
        
   
         } catch (error) {

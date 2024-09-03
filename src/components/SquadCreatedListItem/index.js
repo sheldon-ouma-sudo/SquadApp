@@ -46,7 +46,7 @@
     }
     const handleSquadCreatedListItemPress = () => {
       // Navigate to the screen with the poll
-      navigation.navigate('GeneralSquadScreen',{squad:squad});
+      navigation.navigate('SquadDisplayScreen',{squad:squad});
     };
      
     return (

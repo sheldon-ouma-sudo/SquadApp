@@ -3,6 +3,7 @@ type RequestToBeAddedInASquad @model @auth(rules: [{ allow: public }]) {
   User: User @hasOne
   notificationID: ID! @index(name: "byNotification")
   requestingUserID: String
+  squads: [String]
   message: String
 }
 
