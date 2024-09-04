@@ -37,6 +37,12 @@ const ExploreUserScreen = () => {
     console.log('Search bar clicked');
   };
 
+  // Define the handleSquadsSelected function here
+  const handleSquadsSelected = (squads) => {
+    console.log('Selected Squads:', squads);
+    // Implement the logic to handle the selected squads here
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchBarContainer}>
@@ -47,7 +53,9 @@ const ExploreUserScreen = () => {
         />
         <FlatList
           data={filteredUsers}
-          renderItem={({ item }) => <UserListItem user={item} />}
+          renderItem={({ item }) => (
+            <UserListItem user={item} handleSquadsSelected={handleSquadsSelected} />
+          )}
           keyExtractor={(item) => item.id.toString()}
         />
       </View>
