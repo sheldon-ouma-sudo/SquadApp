@@ -37,24 +37,23 @@ const ExploreUserScreen = () => {
     console.log('Search bar clicked');
   };
 
-  // Define the handleSquadsSelected function here
-  const handleSquadsSelected = (squads) => {
-    console.log('Selected Squads:', squads);
-    // Implement the logic to handle the selected squads here
+  // // Update the handleSquadsSelected function to remove the selected user
+  const handleUserAddedToSquad = (userId) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchBarContainer}>
         <SearchBar
           searchPhrase={searchPhrase}
           setSearchPhrase={setSearchPhrase}
-          setClicked={handleSearchBarClick} // Pass the function to handle search bar click
+          setClicked={handleSearchBarClick}
         />
-        <FlatList
+        <FlatList 
           data={filteredUsers}
           renderItem={({ item }) => (
-            <UserListItem user={item} handleSquadsSelected={handleSquadsSelected} />
+            <UserListItem user={item} 
+            onUserAddedToSquad={handleUserAddedToSquad} />
           )}
           keyExtractor={(item) => item.id.toString()}
         />

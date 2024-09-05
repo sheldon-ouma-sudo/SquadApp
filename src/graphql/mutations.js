@@ -30,6 +30,7 @@ export const createRequestToBeAddedInASquad = /* GraphQL */ `
       }
       notificationID
       requestingUserID
+      squads
       message
       createdAt
       updatedAt
@@ -67,6 +68,7 @@ export const updateRequestToBeAddedInASquad = /* GraphQL */ `
       }
       notificationID
       requestingUserID
+      squads
       message
       createdAt
       updatedAt
@@ -104,6 +106,7 @@ export const deleteRequestToBeAddedInASquad = /* GraphQL */ `
       }
       notificationID
       requestingUserID
+      squads
       message
       createdAt
       updatedAt

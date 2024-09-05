@@ -5,10 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { createNotification, createRequestToBeAddedInASquad, updateNotification } from '../../graphql/mutations';
 import { useUserContext } from '../../../UserContext';
 import { getUser, notificationsByUserID } from '../../graphql/queries';
+import { getSquad } from '../../graphql/queries';
 import { API, graphqlOperation } from 'aws-amplify';
-import { graphql } from 'graphql';
 
-const UserListItem = ({ user }) => {
+
+const UserListItem = ({ user, onUserAddedToSquad }) => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(false);
   const [localUserInfo, setLocalUserInfo] = useState(null);
@@ -18,16 +19,69 @@ const UserListItem = ({ user }) => {
   const [existingRequestsToBeAddedInASquadArr, setExistingRequestsToBeAddedInASquadArr] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [squads, setSquads] = useState([]);
+  const [selectedSquads, setSelectedSquads] = useState([]); 
   const { user: localUser } = useUserContext();
 
+    // Fetch squads for the local user
   useEffect(() => {
-    if (localUser) {
-      console.log("here is the local user: ", localUser)
-      const results =  API.graphql(graphqlOperation(getUser,{input: localUser.id}))
-      
-      setLocalUserInfo(localUser);
-    }
+    const fetchData = async () => {
+      try {
+        if (localUser) {
+          console.log("here is the local user", localUser);
+          setLocalUserInfo(localUser);
+
+          const allSquads = [];
+
+          // Fetch Primary Squad
+          const primaryUserSquadID = localUser.userPrimarySquad[0];
+          if (primaryUserSquadID) {
+            try {
+              const primaryResults = await API.graphql(graphqlOperation(getSquad, { id: primaryUserSquadID }));
+              const primarySquad = primaryResults.data?.getSquad;
+              console.log("here is the primary squad", primarySquad)
+              if (primarySquad) {
+                allSquads.push(primarySquad); // Add the primary squad to the list
+              }
+            } catch (error) {
+              console.log("Error getting user primary squad", error);
+            }
+          }
+
+          // Fetch Non-Primary Squads
+          const userID = localUser.id;
+          const userResults = await API.graphql(graphqlOperation(getUser, { id: userID }));
+          const nonPrimarySquadArr = userResults.data?.getUser?.nonPrimarySquadsCreated || [];
+
+          if (nonPrimarySquadArr.length > 0) {
+            const squadPromises = nonPrimarySquadArr.map(async (squadCreatedID) => {
+              try {
+                const squadResults = await API.graphql(graphqlOperation(getSquad, { id: squadCreatedID }));
+                const nonPrimarySquad = squadResults.data?.getSquad;
+                if (nonPrimarySquad) {
+                  allSquads.push(nonPrimarySquad); // Add non-primary squads to the list
+                }
+              } catch (error) {
+                console.log("Error querying squads", error);
+              }
+            });
+
+            // Wait for all promises to resolve
+            await Promise.all(squadPromises);
+          }
+
+          // Set all squads (both primary and non-primary)
+          console.log("here is the all squads", allSquads)
+          setSquads(allSquads);
+        }
+      } catch (error) {
+        console.log("There is an error", error);
+      }
+    };
+
+    fetchData();
   }, [localUser]);
+
+
 
   useEffect(() => {
     const fetchCurrentUserData = async () => {
@@ -72,30 +126,46 @@ const UserListItem = ({ user }) => {
   };
 
   const handleRequestCreation = async (notificationID, selectedSquads) => {
+    const squadIDArray = [];
     try {
       const requestPromises = selectedSquads.map(async (squadID) => {
-        const message = `${localUserInfo.name} has requested to add you to their Squad, ${squadID}`;
-        const results = await API.graphql(
-          graphqlOperation(createRequestToBeAddedInASquad, {
-            input: {
-              notificationID,
-              requestingUserID: localUserInfo.id,
-              squads: [squadID],
-              message,
-            },
-          })
-        );
-        return results.data?.createRequestToBeAddedInASquad.id;
+        try {
+          // Fetch the squad details to get the squadName
+          const squadResults = await API.graphql(graphqlOperation(getSquad, { id: squadID }));
+          const squadName = squadResults.data?.getSquad?.squadName;
+  
+          // Modify the message to include the squad name
+          const message = `${localUserInfo.name} has requested to add you to their Squad, ${squadName}`;
+  
+          // Store squadID in the array
+          squadIDArray.push(squadID);
+  
+          // Create the request
+          const results = await API.graphql(
+            graphqlOperation(createRequestToBeAddedInASquad, {
+              input: {
+                notificationID,
+                requestingUserID: localUserInfo.id,
+                squads: squadIDArray, // Updated to use the accumulated squadIDArray
+                message,
+              },
+            })
+          );
+          return results.data?.createRequestToBeAddedInASquad.id;
+        } catch (error) {
+          console.log(`Error fetching squad or creating request for squad ID ${squadID}:`, error);
+          return null;
+        }
       });
-
+  
       const requestIDs = await Promise.all(requestPromises);
-      return requestIDs;
+      return requestIDs.filter((id) => id !== null); // Filter out any null values in case of errors
     } catch (error) {
       console.log("Error creating request to be added in squad", error);
       return [];
     }
   };
-
+  
   const handleUpdateNotification = async (updatedArray) => {
     try {
       await API.graphql(
@@ -132,20 +202,35 @@ const UserListItem = ({ user }) => {
       }
     }
     setModalVisible(false); // Close modal after selection
+    onUserAddedToSquad(user.id);
   };
 
   const handleUserNavigation = () => {
     navigation.navigate("UserDisplayScreen", { user });
   };
+  const toggleSelectSquad = (squadID) => {
+    setSelectedSquads((prevSelected) =>
+      prevSelected.includes(squadID)
+        ? prevSelected.filter((id) => id !== squadID)
+        : [...prevSelected, squadID]
+    );
+  };
 
-  const renderSquadItem = ({ item }) => (
-    <TouchableOpacity
-      style={[styles.squadItem, squads.includes(item.id) && styles.selectedSquadItem]}
-      onPress={() => setSquads((prev) => prev.includes(item.id) ? prev.filter(id => id !== item.id) : [...prev, item.id])}
-    >
-      <Text style={styles.squadName}>{item.squadName}</Text>
-    </TouchableOpacity>
-  );
+  const renderSquadItem = ({ item }) => {
+    // Ensure the item exists and has an ID
+    if (!item || !item.id) {
+      return null;
+    }
+
+    return (
+      <TouchableOpacity
+        style={[styles.squadItem, selectedSquads.includes(item.id) && styles.selectedSquadItem]}
+        onPress={() => toggleSelectSquad(item.id)}
+      >
+        <Text style={styles.squadName}>{item.squadName}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <>
@@ -160,13 +245,13 @@ const UserListItem = ({ user }) => {
         <View style={styles.detailsContainer}>
           <Text style={styles.userName}>{user.name}</Text>
           <TouchableOpacity
-            style={[selected ? styles.unAddedUserIcon : styles.addedUserIcon]}
+            style={[selected ? styles.addedUserIcon : styles.unAddedUserIcon]}
             onPress={handleAddUserToSquad}
           >
             {!selected ? (
               <AntDesign name="addusergroup" size={27} color="white" style={{ marginBottom: 5, marginLeft:30, marginTop: 5}} />
             ) : (
-              <SimpleLineIcons name="user-following" size={20} color="#1145FD" style={{ marginBottom: 6 }} />
+              <SimpleLineIcons name="user-following" size={20} color="#1145FD" style={{ marginBottom: 6, marginLeft:30, marginTop: 5}} />
             )}
           </TouchableOpacity>
         </View>
@@ -177,11 +262,11 @@ const UserListItem = ({ user }) => {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select Squads</Text>
             <FlatList
-              data={squads} // Replace this with your squads data
+              data={squads.filter(squad => squad && squad.id)} // Ensure squads are valid
               renderItem={renderSquadItem}
               keyExtractor={(item) => item.id.toString()}
             />
-            <Button title="Confirm Selection" onPress={() => handleSquadsSelected(squads)} />
+            <Button title="Confirm Selection" onPress={() => handleSquadsSelected(selectedSquads)} />
             <Button title="Close" onPress={() => setModalVisible(false)} />
           </View>
         </View>
@@ -222,16 +307,18 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginTop: -20
   },
-  addedUserIcon: {
+  unAddedUserIcon: {
     height: 40,
     width: 95,
     backgroundColor: "#1145FD",
     borderRadius: 17,
     borderColor: "#FFFF",
     borderWidth: 2.5,
-    marginRight: 10
+    marginRight: 10,
+    marginLeft: 25,
+    marginTop: -10,
   },
-  unAddedUserIcon: {
+  addedUserIcon: {
     height: 40,
     width: 95,
     backgroundColor: "white",
@@ -239,20 +326,22 @@ const styles = StyleSheet.create({
     borderColor: "#1145FD",
     borderWidth: 2.5,
     marginLeft: 25,
+    marginRight: 10,
+    marginTop: -10,
     
   },
 
-    unAddedUserIcon: {
-      height: 40,
-      width: 95,
-      backgroundColor: "white",
-      borderRadius: 17,
-      borderColor: "#1145FD",
-      borderWidth: 2.5,
-      marginLeft: 25,
-      marginTop: -10, // Adjust this value to move the button up
+  //   unAddedUserIcon: {
+  //     height: 40,
+  //     width: 95,
+  //     backgroundColor: "white",
+  //     borderRadius: 17,
+  //     borderColor: "#1145FD",
+  //     borderWidth: 2.5,
+  //     marginLeft: 25,
+  //     marginTop: -10, // Adjust this value to move the button up
     
-  },
+  // },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -260,8 +349,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
-    width: 300,
-    padding: 20,
+    width: '90%', // Use a percentage to make the modal wider
+    height: '80%', // Increase the height of the modal
+    padding: 20, // You can adjust padding as necessary
     backgroundColor: 'white',
     borderRadius: 10,
   },
@@ -269,6 +359,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center', // Align the title in the center
   },
   squadItem: {
     padding: 15,

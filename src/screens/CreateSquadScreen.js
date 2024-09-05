@@ -157,7 +157,7 @@ const CreateSquadScreen = () => {
           renderItem={({ item }) => <UserListItem user={item} />}
           keyExtractor={(item) => item.id.toString()} // Assuming each user has a unique ID
         />
-          </BottomSheetView>
+          </BottomSheetView> 
         </BottomSheetModal>
     </KeyboardAvoidingView>
     </BottomSheetModalProvider>

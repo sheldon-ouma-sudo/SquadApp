@@ -263,7 +263,7 @@
             component={SquadCreatedScreen} />
           <Tab.Screen
             name="Squad Joined"
-            component={SquadJoinedScreen} />
+            component={SquadJoinedScreen} /> 
         </Tab.Navigator></>
     )
   }

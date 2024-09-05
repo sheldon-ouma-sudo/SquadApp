@@ -3,7 +3,10 @@
     import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
     import SquadActivityScreen from './SquadActivityScreen';
     import PollActivityScreen from './PollActivityScreen';
-    import React from 'react'
+    import React, { useEffect, useState } from 'react';
+    import { API, graphqlOperation } from 'aws-amplify';
+    import { useUserContext } from '../../../UserContext';
+    import { getNotification } from '../graphql/queries';
     import { useSafeAreaInsets } from 'react-native-safe-area-context';
     import * as Device from 'expo-device';
     import * as Notifications from 'expo-notifications';
@@ -85,23 +88,52 @@ Notifications.scheduleNotificationAsync({
    const NotificationScreen=()=>{
     const Tab = createMaterialTopTabNavigator();
       //const insets = useSafeAreaInsets();
-      return (
-        <Tab.Navigator 
-        style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, {borderRadius:9}]}   
-        screenOptions={{
-        tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
-        tabBarStyle: { backgroundColor: "#F4F8FB" },
-      }}
-        >
-            <Tab.Screen name="Poll Notifications" 
-            component={PollActivityScreen} />
-            <Tab.Screen name="Squad Notifications" 
-            component={SquadActivityScreen} />
-          </Tab.Navigator>
-  )
-} 
+      const { user } = useUserContext();
+  const [squadAddRequestsArray, setSquadAddRequestsArray] = useState([]);
+  const [squadJoinRequestArray, setSquadJoinRequestArray] = useState([]);
 
-  
+  // Fetch the user's notification data
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const notificationData = await API.graphql(
+          graphqlOperation(getNotification, { id: user.id })
+        );
+        const notification = notificationData?.data?.getNotification;
+
+        if (notification) {
+          setSquadAddRequestsArray(notification.squadAddRequestsArray || []);
+          setSquadJoinRequestArray(notification.SquadJoinRequestArray || []);
+        }
+      } catch (error) {
+        console.log('Error fetching notifications:', error);
+      }
+    };
+
+    if (user) {
+      fetchNotifications();
+    }
+  }, [user]);
+
+      return (
+        <Tab.Navigator
+        style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
+        screenOptions={{
+          tabBarLabelStyle: { color: '#1145FD', fontWeight: '600' },
+          tabBarStyle: { backgroundColor: "#F4F8FB" },
+        }}
+      >
+        <Tab.Screen name="Poll Notifications" component={PollActivityScreen} />
+        <Tab.Screen
+          name="Squad Notifications"
+          component={SquadActivityScreen}
+          initialParams={{ squadAddRequestsArray, squadJoinRequestArray }}
+        />
+      </Tab.Navigator>
+  )
+}  
+
+   
   
 const styles = StyleSheet.create({
     container:{
