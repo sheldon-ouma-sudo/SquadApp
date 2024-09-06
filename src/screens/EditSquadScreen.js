@@ -1,304 +1,108 @@
-    import { View, Text, StyleSheet, TextInput,Dimensions,TouchableOpacity, SafeAreaView} from 'react-native'
-    import React, { useEffect, useState } from 'react'
-    import { useNavigation } from '@react-navigation/native';
-    import { AntDesign } from '@expo/vector-icons';
-    import { useUserContext } from '../../UserContext';
-  
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native'; // import useRoute
+import { AntDesign } from '@expo/vector-icons';
+import { useUserContext } from '../../UserContext';
 
-  
-  
-  const EditSquadScreen = ({squad}) => {
-    // const[username, setUserName] = useState("User Name")
-    const[squadName, setSquadName] = useState()
-    const [squadBio, setSquadBio] = useState()
-    const [publicSquad, setPublicSquad] = useState(true)
-    
-  
-    const navigation = useNavigation()
-    const {user} = useUserContext()
-    
-  
-    useEffect(()=>{
-      if(user){
-        console.log("here is the user", user)
-        setSquadName(squad.squadName)
-        setSquadBio(squad.Bio)
-      }
-    })
-  
-    const handleSquadEdit=()=>{
+const EditSquadScreen = () => {
+  const [squadName, setSquadName] = useState('');
+  const [squadBio, setSquadBio] = useState('');
+  const [publicSquad, setPublicSquad] = useState(true);
 
+  const navigation = useNavigation();
+  const route = useRoute(); // useRoute to access the passed squad data
+  const { squad } = route.params; // Extract squad from route params
+
+  useEffect(() => {
+    if (squad) {
+      // Pre-fill the form with the squad details
+      setSquadName(squad.squadName);
+      setSquadBio(squad.bio); // Assuming squad has a 'bio' field
     }
-  
-    return (
-      <SafeAreaView
-      style={styles.container}
-          behavior="padding">
-  
-        <TouchableOpacity style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row", marginTop:30}]}
-        onPress={()=>navigation.goBack()}
-        >
-        <AntDesign name="arrowleft" size={24} color="#1764EF" style={{flex:1, marginLeft:30, justifyContent:'flex-start'}}/>
-        <Text
-        style = {{fontWeight: '600', fontSize:15, flex:1, marginRight:150, justifyContent:'flex-end'}}
-        >Edit the basics</Text>
-     
-  
-      </TouchableOpacity>
-      <View style = {[{backgroundColor:"#F4F8FB"},{flexDirection:"row"}]}>
-        <View style={{flex:1, justifyContent:'center', marginLeft:130, marginTop:-20}}>
-          </View> 
-      </View>
-      <View
-      style={{marginTop:20, marginLeft:-310}}
+  }, [squad]);
+
+  const handleSquadEdit = () => {
+    // Add logic to update the squad details
+    console.log("Squad Edited:", { squadName, squadBio, publicSquad });
+    // You can add your logic to update the squad using an API call here
+    navigation.goBack(); // Go back after editing
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+        style={[{ backgroundColor: "#F4F8FB" }, { flexDirection: "row", marginTop: 30 }]}
+        onPress={() => navigation.goBack()}
       >
-        <Text>
-       Squad Bio
-  
+        <AntDesign name="arrowleft" size={24} color="#1764EF" style={{ flex: 1, marginLeft: 30, justifyContent: 'flex-start' }} />
+        <Text style={{ fontWeight: '600', fontSize: 15, flex: 1, marginRight: 150, justifyContent: 'flex-end' }}>
+          Edit the basics
         </Text>
+      </TouchableOpacity>
+
+      <View style={{ marginTop: 20, marginLeft: -310 }}>
+        <Text>Squad Bio</Text>
       </View>
       <TextInput
-          placeholder = "Squad Bio"
-          value={squadBio}
-          autoCapitalize='none'
-          //textAlign = 'center'
-          keyboardType="email-address"
-          onChangeText={text => setSquadBio(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
-          style={styles.input}
-          />
-      <View
-      style={{marginTop:20, marginLeft:-310}}
-      >
-        <Text>
-      
-    Squad Name
-  
-        </Text>
+        placeholder="Squad Bio"
+        value={squadBio}
+        onChangeText={text => setSquadBio(text)}
+        style={styles.input}
+      />
+
+      <View style={{ marginTop: 20, marginLeft: -310 }}>
+        <Text>Squad Name</Text>
       </View>
-      {/* <TextInput
-          placeholder ="Name"
-          value={name}
-          autoCapitalize='none'
-          //textAlign = 'center'
-          keyboardType="email-address"
-          onChangeText={text => setName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the email to that text
-          style={styles.input}
-          /> */}
-          <View
-          style={{marginTop:20, marginLeft:-290}}>
-            <Text>
-              Squad Name
-            </Text>
-          </View>
-          <TextInput
-          placeholder ="Squad Name"
-          autoCapitalize='none'
-          value={squadName}
-          //textAlign = 'center'
-          onChangeText={text =>setSquadName(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
-          style={styles.input}
-          //secureTextEntry
-          />
-          
-        
-          <TouchableOpacity
-          onPress={handleSquadEdit}
-          style = {styles.button}
-              >
-              <Text style={styles.buttonText}>
-                  Submit
-              </Text>
-          </TouchableOpacity>
-          
-      
-      </SafeAreaView>
-    )}
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-    const styles = StyleSheet.create({
-      container:{
-      flex:1,
-      justifyContent:"flex-start",
-      alignItems:"center",
-      backgroundColor: "#F4F8FB"
-    
-      },
-      squadLogo:{
-        width:100,
-        height:35,
-        marginRight:250,
-        marginTop:20
-    },
-    squadLogo:{
-      width:221,
-      height:85
-  
-  
+      <TextInput
+        placeholder="Squad Name"
+        value={squadName}
+        onChangeText={text => setSquadName(text)}
+        style={styles.input}
+      />
+
+      <TouchableOpacity onPress={handleSquadEdit} style={styles.button}>
+        <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "#F4F8FB",
   },
-  InputContainer:{
-    
-      right: 16,
-      marginLeft:29,
-      marginTop: 20,
-      borderRadius:5
-  
+  input: {
+    backgroundColor: '#FFFF',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 5,
+    width: 356,
+    height: 42,
+    marginTop: 10,
+    fontSize: 13,
+    fontWeight: '600',
+    marginRight: 15,
+    marginLeft: 10,
   },
-  
-  input:{
-      backgroundColor: '#FFFF',
-      paddingHorizontal: 15,
-      paddingVertical:10,
-      borderRadius:5,
-      width:356,
-      height:42,
-      marginTop:10,
-      fontSize: 13,
-      fontWeight:'600',
-      marginRight:15,
-      marginLeft:10,
-      //fontFamily:"Montserrat-Regular",
-      color:'',
-          
+  button: {
+    backgroundColor: '#1145FD',
+    width: 366,
+    height: 42,
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 20,
+    alignItems: 'center',
+    marginRight: 10,
+    marginLeft: 15,
   },
-  countryCodeInput:{
-  backgroundColor: '#EAEAEA',
-  marginTop:10,
-  height:42,
-  width:40,
-  marginLeft:10,
-  marginRight:12,
-  paddingHorizontal:10    
-  
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 15,
   },
-  phoneNumberInput:{
-      backgroundColor: '#EAEAEA',
-      marginTop:10,
-      height:42,
-      marginLeft:-175,
-      marginRight:-10,
-      paddingVertical:13,
-      paddingHorizontal:12,
-      width:100,
-      color:'#535353',
-      fontSize: 13,
-      fontWeight:'400',
-      
-  
-  },
-  errorText:{
-      color:'#FFFFF',
-      marginLeft:20,
-      fontSize:12,
-      fontWeight:'600'
-      //textAlign:'center'
-  
-  
-  },
-      buttonContainer:{
-      width: 196,
-      height:42,
-      borderRadius:5,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 23,
-      marginBottom: 60
-  },
-  
-  button:{
-      backgroundColor: '#1145FD',
-      width: 366,
-      height: 42,
-      padding: 15,
-      borderRadius: 5,
-      marginTop: 20,
-      alignItems: 'center',
-      marginRight: 10,
-      marginLeft:15,
-      top: 0
-  
-  
-  },
-  buttonText:{
-      color: 'white',
-      fontWeight: '700',
-      fontSize: 10
-      
-  },
-  buttonOutline:{
-  backgroundColor: 'white',
-  marginTop: 5,
-  borderColor: '#1145FD',
-  borderWidth: 2,
-  
-  
-  },
-  buttonOutlineText:{
-      color: '#1145FD',
-      fontWeight: '700',
-      fontSize: 16
-  },
-  textWrapper:{
-      textAlign:'left',
-      marginTop:5,
-      flexDirection:'row',
-      justifyContent:'flex-start',
-      alignItems:'flex-start'
-  
-  },
-  
-  text:{
-  fontSize: 12,
-  textAlign: 'left',
-  marginTop:10,
-  marginBottom: 10,
-  marginLeft:10,
-  // alignItems:'left',
-  //fontStyle: "Montserrat"
-  
-  
-  },
-  loginText:{
-      fontSize: 14,
-      marginTop: -40,
-      marginBottom:10,
-      marginLeft: 10,
-      fontWeight:'bold',
-      // fontStyle:"Montserrat"
-  },
-  horizontalLineContainer:{},
-  googleLogo:{
-  height: 30, 
-  width:30,
-  borderRadius:20,
-  overflow:'hidden',
-  borderWidth:1,
-  borderColor: "red",
-  marginLeft:220,
-  marginTop:-5,
-  marginRight:20
-  
-  },
-  facebookLogo:{
-      height: 30, 
-      width:30,
-      borderRadius:20,
-      overflow:'hidden',
-      borderWidth:1,
-      borderColor: "red",
-      marginRight:220,
-      marginTop:-5
-  },
-  logo:{
-  marginTop:37}
-    })
-  export default EditSquadScreen
+});
+
+export default EditSquadScreen;

@@ -48,10 +48,14 @@
     const { squadID } = route?.params;
   
     useEffect(() => {
+      // Ensure that the effect runs only once
       const createMainUserNotification = async () => {
-        if (user && squadID && !squadUserCreated) {
+        if (!user || !squadID || squadCreationInProgress.current) return;
+  
+        squadCreationInProgress.current = true; // Mark the operation as in progress
+        if (!squadUserCreated) {
           try {
-            // Create notification only
+            // Create notification
             const notificationResponse = await API.graphql(
               graphqlOperation(createNotification, {
                 input: {
@@ -66,16 +70,16 @@
                 },
               })
             );
-            
+  
             const newNotification = notificationResponse.data.createNotification;
-    
+  
             // Update the local user context
             const updatedNotifications = [...(user.Notifications || []), newNotification];
             updateLocalUser({
               ...user,
               Notifications: updatedNotifications,
             });
-    
+  
             // Update user notifications in the database
             await API.graphql(
               graphqlOperation(updateUser, {
@@ -85,15 +89,16 @@
                 },
               })
             );
-            
-            setSquadUserCreated(true);
+  
+            setSquadUserCreated(true); // Mark as created
           } catch (error) {
             console.log("Error creating notification:", error);
           }
         }
       };
+  
       createMainUserNotification();
-    }, [user, squadID]);
+    }, [user, squadID]); //
     
 const handleUserNavigationToExploreUserScreen =async ()=>{
   if(user){

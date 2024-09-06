@@ -1,16 +1,8 @@
-    import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "react-native";
+    import { Text, Image, StyleSheet, View, TouchableOpacity } from "react-native";
     import { useNavigation } from '@react-navigation/native';
     import { useState, useEffect} from "react";
-    import { AntDesign, FontAwesome } from "@expo/vector-icons";
-    import { updateUser } from "../../graphql/mutations";
-    import { getSquad } from "../../graphql/queries";
-    import { graphqlOperation, Auth, API } from 'aws-amplify';
 
-    const SquadCreatedListItem = ({ squad,
-      userInfo,
-      onPress = () => {},
-      selectable = false,
-      isSelected = false,})=>{
+    const SquadCreatedListItem = ({ squad})=>{
     const navigation = useNavigation()
     const[squadSelected, setSquadSelected] = useState(false)
     const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
@@ -19,23 +11,13 @@
 
     useEffect(() => {
       const fetchSquad = async () => {
-        setSquadCreatedName(squad.squadName)
-      //  try {
-      //       //const result = API.graphqlOperation(graphql(getSquad))
-      //       const squadData = await API.graphql(graphqlOperation(getSquad, { id: squad }));
-      //       console.log("here is the squadData", squadData)
-      //       console.log("here is the squad name",squadData.data?.getSquad.squadName)
-      //       setSquadJoinedName(squadData.data?.getSquad.squadName)
-      //   } catch (error) {
-      //      console.log("error quering the squad",error) 
-      //   } 
-        
+        setSquadCreatedName(squad.squadName) 
         }
         fetchSquad()
     }, []);
     //add the squad selected to the user's joined squad array
     const handleSquadSelected=async() =>{
-      navigation.navigate('SquadDisplayScreen',{squad:squad});
+      navigation.navigate('EditSquadScreen',{squad:squad});
     }
     const handleSquadCreatedListItemPress = () => {
       // Navigate to the screen with the poll
@@ -63,8 +45,7 @@
           </Text>
         </View>
         <TouchableOpacity
-              style={[{ justifyContent: "flex-end" },{ alignItems: "center" },squadSelected ? styles.joinedSquadTextContainer : styles.joinSquadTextContainer, // Add this condition
-    ]}
+              style={[{ justifyContent: "flex-end" },{ alignItems: "center" }, styles.joinSquadTextContainer,]}
             onPress={handleSquadSelected}
               >
             <Text style={{ color: "white", marginBottom: 10 }}>
@@ -79,86 +60,62 @@
 
     
     const styles = StyleSheet.create({
-    container:{
-      flex:1,
-      flexDirection: "row",
-      marginHorizontal: 10,
-      marginTop: 20,
-      //marginVertical: 65,
-      borderColor: "#C2B960",
-      //height: 100,
-      borderRadius: 35,
-      backgroundColor: "white",
-      borderWidth: 3.5,
-      marginRight:30
-    },
-    pollCaptionContainer:{
-      height: 50,
-      width: 180,
-    },
-    joinSquadTextContainer:{
-      height:40,
-      width: 95,
-      backgroundColor: "#1145FD",
-      borderRadius: 16,
-      borderColor: "#FFFF",
-      borderWidth: 2.5,
-      marginLeft:25,
-      marginTop:-25
-      
-    },
-    joinedSquadTextContainer:{
-      height:40,
-      width: 95,
-      backgroundColor: "#FFFF",
-      borderRadius: 15,
-      borderColor:"#1145FD",
-      borderWidth: 2.5,
-      marginLeft:25,
-      marginTop:-25
-    },
-    
-    pollCaptionContainer:{
-      height: 50,
-      width: 180,
-    },
-    numOfVotesContainer:{
-      height:40,
-      width: 95,
-      backgroundColor: "#1145FD",
-      borderRadius: 10,
-      borderColor: "#FFFF",
-      borderWidth: 2.5,
-      marginLeft:5,
-      
-    },
-    votedText:{
-      color: "white",
-      fontWeight: "bold",
-      marginBottom:7,
-      marginLeft:1,
-      fontSize: 8.5,
-      textAlignVertical:'center'
-    }, 
-    userImageContainer:{
-      marginStart:10,
-      marginTop:50
-    },
-    userImage:{
+      container:{
+        flexDirection: "row",
+        marginHorizontal: 10,
+        marginTop: 20,
+        borderColor: "#C2B960", // Ensure border color is set
+        borderRadius: 28, // Adjust radius to match desired shape
+        backgroundColor: "white",
+        borderWidth: 4, // Ensure proper border width
+        padding: 15, // Padding to keep the content away from the edges
+        width: '90%', // This makes sure the item doesn't fill the full screen width
+        alignSelf: 'center', // Align the squad item at the center horizontally
+        shadowColor: '#000', // Optional: Add shadow for visual appeal
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 3, // For Android shadow
+      },
+      userImageContainer:{
+        marginStart:10,
+        marginTop:50
+      },
+      userImage:{
         width:50,
         height:70
-    },
-    squadNameText:{
-    fontWeight:'500',
-    marginLeft:5,
-    marginTop:-40
-    },
-    squadCreator:{
-    marginTop: 15,
-    marginLeft: 5,
-    color: '#545454',
-    fontSize:10
-    }
-    },
-    )
+      },
+      squadNameText:{
+        fontWeight:'500',
+        marginLeft:5,
+        marginTop:-40
+      },
+      squadCreator:{
+        marginTop: 15,
+        marginLeft: 5,
+        color: '#545454',
+        fontSize:10
+      },
+      joinSquadTextContainer:{
+        height:40,
+        width: 95,
+        backgroundColor: "#1145FD",
+        borderRadius: 16,
+        borderColor: "#FFFF",
+        borderWidth: 2.5,
+        marginLeft:5,
+        marginTop:-25
+      },
+      joinedSquadTextContainer:{
+        height:40,
+        width: 95,
+        backgroundColor: "#FFFF",
+        borderRadius: 15,
+        borderColor:"#1145FD",
+        borderWidth: 2.5,
+        marginLeft:25,
+        marginTop:-25
+      },
+    });
+    
     export default SquadCreatedListItem 

@@ -200,17 +200,17 @@
 
 
     <View 
-    style={{marginTop:20, backgroundColor:"#F4F8FB"}}
+    style={{marginTop:10, backgroundColor:"#F4F8FB"}}
     >
       <Text
-      style={{marginLeft:150, fontSize: 15}}
+      style={{marginLeft:90, marginRight: 20, fontSize: 15}}
       >
          {userBio}
       </Text>
     </View>
     </View>
     {/* edit and squad creation button */}
- <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingTop: insets.top + 10, marginTop:0, backgroundColor:"#F4F8FB" }}>
+ <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20,  marginTop:35, backgroundColor:"#F4F8FB" }}>
                 <TouchableOpacity 
                 style = {styles.editProfileButton}
                 onPress={() => navigation.navigate('EditProfileScreen')}
