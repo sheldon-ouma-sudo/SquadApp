@@ -86,10 +86,23 @@ const CreateSquadScreen = () => {
         return;
       }
     
+      if (!selectedPrivacyOption) {
+        Alert.alert("Privacy option is required");
+        return;
+      }
+    
+      // Determine if the squad is public or private based on the selected privacy option
+      const isPublic = selectedPrivacyOption === "Public";  // Assuming Public means public = true, Private means public = false
+    
       try {
         // Step 1: Create the Squad
         const squadResult = await API.graphql(graphqlOperation(createSquad, {
-          input: { squadName, bio: squadBio, public: true, authUserID: user.id },
+          input: {
+            squadName,
+            bio: squadBio,
+            public: isPublic,  // Set the squad's privacy based on the selected option
+            authUserID: user.id,
+          },
         }));
         const squadID = squadResult.data.createSquad.id;
     

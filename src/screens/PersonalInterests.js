@@ -7,8 +7,7 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
   import Constants from 'expo-constants';
   import { useCallback } from 'react';
   import { API, graphqlOperation, Auth } from "aws-amplify";
-  import { createUser } from '../graphql/mutations';
-  import { createSquad } from '../graphql/mutations';
+  import { createUser, createSquad } from '../graphql/mutations';
   import { useUserContext } from '../../UserContext';
   import { updateUser } from '../graphql/mutations';
 
@@ -112,7 +111,7 @@ const PersonalInterests = () => {
   const { userImgUrl } = route?.params;
   
    
-   console.log('Received Image URL:', userImgUrl);
+  //  console.log('Received Image URL:', userImgUrl);
   const[userID, setUserID] = useState("")
   const navigation = useNavigation();
   const onSelect = useCallback(
@@ -162,7 +161,7 @@ useEffect(() => {
       }
       setEmail(email)
 
-      if (!userCreated) {
+      if (!userCreated) { 
         const createUserInput = {
           name: name,
           userName: username,
@@ -217,45 +216,43 @@ useEffect(() => {
 
 
 //create Primary Squad
-useEffect(()=>{
-  const createPrimarySquad = async()=>{
-    const squadName = `${username}` + "'s main Squad"
+useEffect(() => {
+  const createPrimarySquad = async () => {
+    if (!userID) return; // Ensure userID exists
+
+    const squadName = `${username}'s main Squad`;
     const createSquadInput = {
-      authUserID: userID, 
-      authUserName: name, 
-      bio: "Please Edit Your Bio by Clicking the Edit Button below", 
-      public: true, 
-      squadName: squadName, 
+      authUserID: userID,
+      authUserName: name,
+      bio: "Please Edit Your Bio by Clicking the Edit Button below",
+      public: false,
+      squadName: squadName,
       numOfPolls: 0,
+      numOfUsers: 0,
     };
+
     try {
-      const response = await API.graphql(graphqlOperation(createSquad,{input: createSquadInput}))
-      console.log("successfully created the squad✅", response)
-      const newSquadID = response.data?.createSquad.id; 
-      console.log("here is the squad ID", newSquadID)
-      setSquadID(newSquadID)
-      //update the user primary Squad 
-      try {
-        const result = await API.graphql(graphqlOperation(updateUser, {
+      const response = await API.graphql(graphqlOperation(createSquad, { input: createSquadInput }));
+      console.log("successfully created the squad✅", response);
+      const newSquadID = response.data?.createSquad.id;
+      setSquadID(newSquadID);
+
+      if (newSquadID) {
+        await API.graphql(graphqlOperation(updateUser, {
           input: {
             id: userID,
             userPrimarySquad: [newSquadID]
-          },
+          }
         }));
-        console.log("successfully updated the user✅", result)
-      } catch (error) {
-        console.log("error updating user primary squad",error)
       }
-
     } catch (error) {
-      console.log("error creating the primary squad", error)
+      console.error("Error creating the primary squad:", error);
     }
+  };
 
-  }
+  createPrimarySquad();
+}, [userID]);
 
-createPrimarySquad()
-
-}, [userID])
 useEffect(() => {
   const updateUserInterest = async () => {
     if (userCreated && userID) {
@@ -296,7 +293,7 @@ const updateLocalUser = async()=>{ updateLocalUser({
 });
 }
 updateLocalUser()
-console.log("here is the user locally", user)
+// console.log("here is the user locally", user)
 },[userID, squadID, userInterest])
 
 

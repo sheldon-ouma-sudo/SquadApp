@@ -35,14 +35,7 @@
     }, []);
     //add the squad selected to the user's joined squad array
     const handleSquadSelected=async() =>{
-      console.log("here is the squad name",squad)
-      console.log("here is the user squadJoined array",userSquadsJoinedArray)
-      console.log("here is the user info",userInfo)
-      if(squadSelected==false){
-        setSquadSelected(true)
-      }else{
-        setSquadSelected(false)
-      }
+      navigation.navigate('SquadDisplayScreen',{squad:squad});
     }
     const handleSquadCreatedListItemPress = () => {
       // Navigate to the screen with the poll
@@ -66,7 +59,7 @@
           {squadCreatedName}
           </Text>
           <Text style = {styles.squadCreator}>
-            Created by {squad?.authUserID}
+            Created by {squad?.authUserName}
           </Text>
         </View>
         <TouchableOpacity
@@ -74,8 +67,8 @@
     ]}
             onPress={handleSquadSelected}
               >
-            <Text style={{ color: squadSelected ? "#1145FD" : "white", marginBottom: 10 }}>
-                {squadSelected ? "Squad Left!" : "Edit"}
+            <Text style={{ color: "white", marginBottom: 10 }}>
+                Edit
             </Text>
 
         </TouchableOpacity>

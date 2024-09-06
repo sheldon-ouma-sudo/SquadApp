@@ -5,7 +5,7 @@
     import PollActivityScreen from './PollActivityScreen';
     import React, { useEffect, useState } from 'react';
     import { API, graphqlOperation } from 'aws-amplify';
-    import { useUserContext } from '../../../UserContext';
+    import { useUserContext } from '../../UserContext';
     import { getNotification } from '../graphql/queries';
     import { useSafeAreaInsets } from 'react-native-safe-area-context';
     import * as Device from 'expo-device';
