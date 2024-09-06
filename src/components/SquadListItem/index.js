@@ -97,10 +97,11 @@ const SquadListItem = ({ squad, userInfo, onRequestSent }) => { // Add onRequest
   const handleRequestToJoinCurrentSquadCreation = async (notificationID) => {
     const message = `${localUserName} has asked to join the Squad`;
     const requestingUserID = localUserID 
+    const squadID = squad.id
     try {
       const results = await API.graphql(
         graphqlOperation(createRequestToJoinASquad, {
-          input: { notificationID, message, requestingUserID }
+          input: { notificationID, message, requestingUserID, squadID }
         })
       );
       const requestToJoinSquadID = results.data?.createRequestToJoinASquad.id;

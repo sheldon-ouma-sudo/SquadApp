@@ -148,6 +148,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
                 requestingUserID: localUserInfo.id,
                 squads: squadIDArray, // Updated to use the accumulated squadIDArray
                 message,
+                squadID: squadID
               },
             })
           );

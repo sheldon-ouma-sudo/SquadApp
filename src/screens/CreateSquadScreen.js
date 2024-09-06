@@ -5,23 +5,23 @@ import { View, Text, KeyboardAvoidingView, StyleSheet,Image,
   import { useNavigation } from '@react-navigation/native';
   import {API,graphqlOperation, Auth} from "aws-amplify"
   import { useUserContext } from '../../UserContext';
-  import { listUsers } from '../graphql/queries';
+  import { listUsers, getNotification } from '../graphql/queries';
+  import { createSquad, updateNotification, createNotification, createRequestToBeAddedInASquad } from '../graphql/mutations';
   import { FontAwesome } from '@expo/vector-icons';
   import {BottomSheetModal,BottomSheetView,BottomSheetModalProvider, } from '@gorhom/bottom-sheet';
   import SearchBar from '../components/SearchBar';
-  import UserListItem from '../components/UserListItem';
+  import SquadCreationUserListItem from '../components/SquadCreationUserListItem';
   
 
 
 const CreateSquadScreen = () => {
-  const [selected, setSelected] = useState(null);
-  const [squadImage, setSquadImage] = useState("")
+  const [selectedPrivacyOption, setSelectedPrivacyOption] = useState(null);
   const [squadName, setSquadName] = useState("")
   const [squadBio, SetSquadBio]  = useState("")
-  const [privacyOption, setPrivacyOption] = useState(null)
   const [searchPhrase, setSearchPhrase] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [users, setUsers] = useState([]);
-  const{user} = useUserContext();
+  const{user, updateLocalUser} = useUserContext();
   const navigation = useNavigation()
   const bottomSheetModalRef = useRef(null);
   
@@ -30,6 +30,8 @@ const CreateSquadScreen = () => {
     {key:'2', value:"Private"},
     
 ]
+ // variables
+ const snapPoints = useMemo(() => ['25%', '50%', '75%', '100'], []);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -54,14 +56,18 @@ const CreateSquadScreen = () => {
     });
   }, [searchPhrase, users]);
 
+  const handleSelectUser = (selectedUser) => {
+    // Add user to selected list and remove from FlatList
+    setSelectedUsers((prevSelectedUsers) => [...prevSelectedUsers, selectedUser]);
+  
+    // Remove user from users array (which is the data for the FlatList)
+    setUsers((prevUsers) => prevUsers.filter(user => user.id !== selectedUser.id));
+  };
+  
   const handleSearchBarClick = () => {
     // Handle click event for the search bar here
     console.log('Search bar clicked');
   };
-
-
-    // variables
-    const snapPoints = useMemo(() => ['25%', '50%', '75%', '100'], []);
 
     // callbacks
     const handlePresentModalPress = useCallback(() => {
@@ -72,6 +78,81 @@ const CreateSquadScreen = () => {
       console.log('handleSheetChanges', index);
     }, []);
 
+
+
+    const handleCreateSquad = async () => {
+      if (!squadName) {
+        Alert.alert("Squad name is required");
+        return;
+      }
+    
+      try {
+        // Step 1: Create the Squad
+        const squadResult = await API.graphql(graphqlOperation(createSquad, {
+          input: { squadName, bio: squadBio, public: true, authUserID: user.id },
+        }));
+        const squadID = squadResult.data.createSquad.id;
+    
+        // Step 2: Update the local user's info
+        const updatedSquadsCreated = [...user.nonPrimarySquadsCreated, squadID];
+        const updatedNumSquadsCreated = user.numSquadCreated + 1;
+    
+        updateLocalUser({
+          ...user,
+          nonPrimarySquadsCreated: updatedSquadsCreated,
+          numSquadCreated: updatedNumSquadsCreated,
+        });
+    
+        await API.graphql(graphqlOperation(updateUser, {
+          input: {
+            id: user.id,
+            nonPrimarySquadsCreated: updatedSquadsCreated,
+            numSquadCreated: updatedNumSquadsCreated,
+          },
+        }));
+    
+        // Step 3: Create `RequestToBeAddedInASquad` for each selected user
+        for (const selectedUser of selectedUsers) {
+          // Fetch the user's notification
+          const notificationData = await API.graphql(graphqlOperation(getNotification, { id: selectedUser.id }));
+          let notifications = notificationData.data?.getNotification;
+    
+          if (!notifications) {
+            // Create notification if not exist
+            notifications = await API.graphql(graphqlOperation(createNotification, { input: { userID: selectedUser.id } }));
+          }
+    
+          const notificationID = notifications.id;
+          const squadAddRequestsArray = notifications.squadAddRequestsArray || [];
+    
+          // Create request to be added to the squad
+          const requestToBeAddedResult = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
+            input: {
+              notificationID,
+              requestingUserID: user.id,
+              squadID,
+              squads: [squadID],  // Pass the squad ID in the array
+              message: `${user.name} invited you to join the squad ${squadName}.`,
+            },
+          }));
+    
+          const requestID = requestToBeAddedResult.data.createRequestToBeAddedInASquad.id;
+    
+          // Update notification with the new request ID
+          squadAddRequestsArray.push(requestID);
+    
+          await API.graphql(graphqlOperation(updateNotification, {
+            input: { id: notificationID, squadAddRequestsArray },
+          }));
+        }
+    
+        Alert.alert("Squad created successfully!");
+        navigation.goBack();
+      } catch (error) {
+        console.log("Error creating squad", error);
+      }
+    };
+    
   return (
     <BottomSheetModalProvider>
     <KeyboardAvoidingView
@@ -98,6 +179,7 @@ const CreateSquadScreen = () => {
       onChangeText={text =>SetSquadBio(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
       style={styles.input}
       textAlignVertical={"top"}
+      multiline
     ></TextInput>
 
 <TouchableOpacity
@@ -124,16 +206,19 @@ const CreateSquadScreen = () => {
 
     <TouchableOpacity
      style={{paddingHorizontal:15,marginTop:15,width:350,marginRight:70,marginLeft:30}}>
-      <SelectList 
-      value={selected}
-      data={SquadPrivacyOptions} 
+      <SelectList
+      setSelected={(value) => setSelectedPrivacyOption(value)} // Update the selected value
+      data={SquadPrivacyOptions}
       save="value"
-      search={true} 
-      />
+      search={true}
+      placeholder="Select Privacy"
+/>
+
     </TouchableOpacity>
     <View style={styles.pollButtonContainer}>
         <TouchableOpacity
         style = {styles.button}
+        onPress={handleCreateSquad}
             >
             <Text style={styles.buttonText}>
                 Create Squad
@@ -152,11 +237,17 @@ const CreateSquadScreen = () => {
           setSearchPhrase={setSearchPhrase}
           setClicked={handleSearchBarClick} // Pass the function to handle search bar click
         />
-          <FlatList
-           data={filteredUsers} // Assuming users is an array containing user objects
-          renderItem={({ item }) => <UserListItem user={item} />}
-          keyExtractor={(item) => item.id.toString()} // Assuming each user has a unique ID
-        />
+           <FlatList
+          data={filteredUsers}
+          renderItem={({ item }) => (
+            <SquadCreationUserListItem
+              user={item}
+              onSelect={() => handleSelectUser(item)}  // Pass the selection handler
+              selected={selectedUsers.includes(item)}  // Check if user is selected
+            />
+      )}
+    keyExtractor={(item) => item.id.toString()}
+  />
           </BottomSheetView> 
         </BottomSheetModal>
     </KeyboardAvoidingView>

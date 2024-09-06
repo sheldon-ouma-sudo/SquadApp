@@ -292,6 +292,7 @@ const updateLocalUser = async()=>{ updateLocalUser({
   email: email,
   bio: "Please Edit Your Bio by Clicking the Edit Button below",
   squadJoined: [],
+  Notifications: []
 });
 }
 updateLocalUser()

@@ -21,6 +21,7 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -29,9 +30,24 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
       requestingUserID
       squads
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToBeAddedInASquadUserId
+      requestToBeAddedInASquadSquadId
       __typename
     }
   }
@@ -53,9 +69,11 @@ export const listRequestToBeAddedInASquads = /* GraphQL */ `
         requestingUserID
         squads
         message
+        squadID
         createdAt
         updatedAt
         requestToBeAddedInASquadUserId
+        requestToBeAddedInASquadSquadId
         __typename
       }
       nextToken
@@ -84,9 +102,11 @@ export const requestToBeAddedInASquadsByNotificationID = /* GraphQL */ `
         requestingUserID
         squads
         message
+        squadID
         createdAt
         updatedAt
         requestToBeAddedInASquadUserId
+        requestToBeAddedInASquadSquadId
         __typename
       }
       nextToken
@@ -114,20 +134,32 @@ export const getRequestToJoinASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
-        __typename
-      }
-      Squads {
-        nextToken
         __typename
       }
       notificationID
       requestingUserID
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToJoinASquadUserId
+      requestToJoinASquadSquadId
       __typename
     }
   }
@@ -148,9 +180,11 @@ export const listRequestToJoinASquads = /* GraphQL */ `
         notificationID
         requestingUserID
         message
+        squadID
         createdAt
         updatedAt
         requestToJoinASquadUserId
+        requestToJoinASquadSquadId
         __typename
       }
       nextToken
@@ -178,9 +212,11 @@ export const requestToJoinASquadsByNotificationID = /* GraphQL */ `
         notificationID
         requestingUserID
         message
+        squadID
         createdAt
         updatedAt
         requestToJoinASquadUserId
+        requestToJoinASquadSquadId
         __typename
       }
       nextToken
@@ -523,6 +559,7 @@ export const getPollComment = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -808,11 +845,8 @@ export const getSquad = /* GraphQL */ `
       public
       squadName
       numOfPolls
+      numOfUsers
       Polls {
-        nextToken
-        __typename
-      }
-      requesttojoinsquads {
         nextToken
         __typename
       }
@@ -837,6 +871,7 @@ export const listSquads = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -880,6 +915,7 @@ export const getUser = /* GraphQL */ `
         __typename
       }
       squadJoined
+      squadJoinedID
       Notifications {
         nextToken
         __typename
@@ -917,120 +953,7 @@ export const listUsers = /* GraphQL */ `
         Bio
         email
         squadJoined
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getRequestToJoinASquadSquad = /* GraphQL */ `
-  query GetRequestToJoinASquadSquad($id: ID!) {
-    getRequestToJoinASquadSquad(id: $id) {
-      id
-      requestToJoinASquadId
-      squadId
-      requestToJoinASquad {
-        id
-        notificationID
-        requestingUserID
-        message
-        createdAt
-        updatedAt
-        requestToJoinASquadUserId
-        __typename
-      }
-      squad {
-        id
-        authUserID
-        authUserName
-        bio
-        public
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const listRequestToJoinASquadSquads = /* GraphQL */ `
-  query ListRequestToJoinASquadSquads(
-    $filter: ModelRequestToJoinASquadSquadFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRequestToJoinASquadSquads(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        requestToJoinASquadId
-        squadId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const requestToJoinASquadSquadsByRequestToJoinASquadId = /* GraphQL */ `
-  query RequestToJoinASquadSquadsByRequestToJoinASquadId(
-    $requestToJoinASquadId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelRequestToJoinASquadSquadFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    requestToJoinASquadSquadsByRequestToJoinASquadId(
-      requestToJoinASquadId: $requestToJoinASquadId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        requestToJoinASquadId
-        squadId
-        createdAt
-        updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const requestToJoinASquadSquadsBySquadId = /* GraphQL */ `
-  query RequestToJoinASquadSquadsBySquadId(
-    $squadId: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelRequestToJoinASquadSquadFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    requestToJoinASquadSquadsBySquadId(
-      squadId: $squadId
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        requestToJoinASquadId
-        squadId
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -1075,6 +998,7 @@ export const getSquadPoll = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1175,6 +1099,7 @@ export const getSquadUser = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1195,6 +1120,7 @@ export const getSquadUser = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename

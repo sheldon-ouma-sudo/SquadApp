@@ -5,11 +5,10 @@
     import { useNavigation, useRoute } from '@react-navigation/native';
     import { FontAwesome5 } from '@expo/vector-icons';
     import { FontAwesome } from '@expo/vector-icons'; 
-    import { createSquad } from '../graphql/mutations';
     import { useEffect } from 'react';
     import { graphqlOperation, Auth, API } from 'aws-amplify';
     import { createSquadUser } from '../graphql/mutations';
-    import { updateUser } from '../graphql/mutations';
+    import { createSquadUser, updateUser, createNotification } from '../graphql/mutations';
     import { useUserContext } from '../../UserContext';
     import { getUser } from '../graphql/queries';
     
@@ -43,7 +42,7 @@
   const SquadCreationScreen = () => {
     const [currentPosition, setCurrentPositon] = useState(4);
     const [squadUserCreated, setSquadUserCreated] = useState(false);
-    const { user, updateUserProperty } = useUserContext();
+    const { user, updateUserProperty, updateLocalUser } = useUserContext(); // Get user context
     const navigation = useNavigation();
     const route = useRoute();
     const { squadID } = route?.params;
@@ -62,6 +61,38 @@
             
             // Update local user context if necessary
             updateUserProperty('userPrimarySquad', [...user.userPrimarySquad, squadID]);
+            const notificationResponse = await API.graphql(
+              graphqlOperation(createNotification, {
+                input: {
+                  pollRequestsArray: [],
+                  pollResponsesArray: [],
+                  pollCommentsArray: [],
+                  pollLikeResponseArray: [],
+                  squadAddRequestsArray: [],
+                  SquadJoinRequestArray: [],
+                  userID: user.id,
+                  new: true
+                  
+                }
+              })
+            );
+            const newNotification = notificationResponse.data.createNotification;
+  
+            // Step 2: Update the local user context
+            updateLocalUser({
+              ...user,
+              Notifications: [...user.Notifications, newNotification]
+            });
+  
+            // Step 3: Update user notifications in the database
+            await API.graphql(
+              graphqlOperation(updateUser, {
+                input: {
+                  id: user.id,
+                  Notifications: [...user.Notifications, newNotification]
+                }
+              })
+            );
             setSquadUserCreated(true);
           } catch (error) {
             console.log("Error creating squad user:", error);

@@ -23,6 +23,7 @@ export const onCreateRequestToBeAddedInASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -31,9 +32,24 @@ export const onCreateRequestToBeAddedInASquad = /* GraphQL */ `
       requestingUserID
       squads
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToBeAddedInASquadUserId
+      requestToBeAddedInASquadSquadId
       __typename
     }
   }
@@ -60,6 +76,7 @@ export const onUpdateRequestToBeAddedInASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -68,9 +85,24 @@ export const onUpdateRequestToBeAddedInASquad = /* GraphQL */ `
       requestingUserID
       squads
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToBeAddedInASquadUserId
+      requestToBeAddedInASquadSquadId
       __typename
     }
   }
@@ -97,6 +129,7 @@ export const onDeleteRequestToBeAddedInASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -105,9 +138,24 @@ export const onDeleteRequestToBeAddedInASquad = /* GraphQL */ `
       requestingUserID
       squads
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToBeAddedInASquadUserId
+      requestToBeAddedInASquadSquadId
       __typename
     }
   }
@@ -134,20 +182,32 @@ export const onCreateRequestToJoinASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
-        __typename
-      }
-      Squads {
-        nextToken
         __typename
       }
       notificationID
       requestingUserID
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToJoinASquadUserId
+      requestToJoinASquadSquadId
       __typename
     }
   }
@@ -174,20 +234,32 @@ export const onUpdateRequestToJoinASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
-        __typename
-      }
-      Squads {
-        nextToken
         __typename
       }
       notificationID
       requestingUserID
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToJoinASquadUserId
+      requestToJoinASquadSquadId
       __typename
     }
   }
@@ -214,20 +286,32 @@ export const onDeleteRequestToJoinASquad = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
-        __typename
-      }
-      Squads {
-        nextToken
         __typename
       }
       notificationID
       requestingUserID
       message
+      Squad {
+        id
+        authUserID
+        authUserName
+        bio
+        public
+        squadName
+        numOfPolls
+        numOfUsers
+        createdAt
+        updatedAt
+        __typename
+      }
+      squadID
       createdAt
       updatedAt
       requestToJoinASquadUserId
+      requestToJoinASquadSquadId
       __typename
     }
   }
@@ -528,6 +612,7 @@ export const onCreatePollComment = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -586,6 +671,7 @@ export const onUpdatePollComment = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -644,6 +730,7 @@ export const onDeletePollComment = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -837,11 +924,8 @@ export const onCreateSquad = /* GraphQL */ `
       public
       squadName
       numOfPolls
+      numOfUsers
       Polls {
-        nextToken
-        __typename
-      }
-      requesttojoinsquads {
         nextToken
         __typename
       }
@@ -865,11 +949,8 @@ export const onUpdateSquad = /* GraphQL */ `
       public
       squadName
       numOfPolls
+      numOfUsers
       Polls {
-        nextToken
-        __typename
-      }
-      requesttojoinsquads {
         nextToken
         __typename
       }
@@ -893,11 +974,8 @@ export const onDeleteSquad = /* GraphQL */ `
       public
       squadName
       numOfPolls
+      numOfUsers
       Polls {
-        nextToken
-        __typename
-      }
-      requesttojoinsquads {
         nextToken
         __typename
       }
@@ -941,6 +1019,7 @@ export const onCreateUser = /* GraphQL */ `
         __typename
       }
       squadJoined
+      squadJoinedID
       Notifications {
         nextToken
         __typename
@@ -989,6 +1068,7 @@ export const onUpdateUser = /* GraphQL */ `
         __typename
       }
       squadJoined
+      squadJoinedID
       Notifications {
         nextToken
         __typename
@@ -1037,120 +1117,13 @@ export const onDeleteUser = /* GraphQL */ `
         __typename
       }
       squadJoined
+      squadJoinedID
       Notifications {
         nextToken
         __typename
       }
       squads {
         nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onCreateRequestToJoinASquadSquad = /* GraphQL */ `
-  subscription OnCreateRequestToJoinASquadSquad(
-    $filter: ModelSubscriptionRequestToJoinASquadSquadFilterInput
-  ) {
-    onCreateRequestToJoinASquadSquad(filter: $filter) {
-      id
-      requestToJoinASquadId
-      squadId
-      requestToJoinASquad {
-        id
-        notificationID
-        requestingUserID
-        message
-        createdAt
-        updatedAt
-        requestToJoinASquadUserId
-        __typename
-      }
-      squad {
-        id
-        authUserID
-        authUserName
-        bio
-        public
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateRequestToJoinASquadSquad = /* GraphQL */ `
-  subscription OnUpdateRequestToJoinASquadSquad(
-    $filter: ModelSubscriptionRequestToJoinASquadSquadFilterInput
-  ) {
-    onUpdateRequestToJoinASquadSquad(filter: $filter) {
-      id
-      requestToJoinASquadId
-      squadId
-      requestToJoinASquad {
-        id
-        notificationID
-        requestingUserID
-        message
-        createdAt
-        updatedAt
-        requestToJoinASquadUserId
-        __typename
-      }
-      squad {
-        id
-        authUserID
-        authUserName
-        bio
-        public
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
-        __typename
-      }
-      createdAt
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteRequestToJoinASquadSquad = /* GraphQL */ `
-  subscription OnDeleteRequestToJoinASquadSquad(
-    $filter: ModelSubscriptionRequestToJoinASquadSquadFilterInput
-  ) {
-    onDeleteRequestToJoinASquadSquad(filter: $filter) {
-      id
-      requestToJoinASquadId
-      squadId
-      requestToJoinASquad {
-        id
-        notificationID
-        requestingUserID
-        message
-        createdAt
-        updatedAt
-        requestToJoinASquadUserId
-        __typename
-      }
-      squad {
-        id
-        authUserID
-        authUserName
-        bio
-        public
-        squadName
-        numOfPolls
-        createdAt
-        updatedAt
         __typename
       }
       createdAt
@@ -1196,6 +1169,7 @@ export const onCreateSquadPoll = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1243,6 +1217,7 @@ export const onUpdateSquadPoll = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1290,6 +1265,7 @@ export const onDeleteSquadPoll = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1316,6 +1292,7 @@ export const onCreateSquadUser = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1336,6 +1313,7 @@ export const onCreateSquadUser = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -1362,6 +1340,7 @@ export const onUpdateSquadUser = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1382,6 +1361,7 @@ export const onUpdateSquadUser = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
@@ -1408,6 +1388,7 @@ export const onDeleteSquadUser = /* GraphQL */ `
         public
         squadName
         numOfPolls
+        numOfUsers
         createdAt
         updatedAt
         __typename
@@ -1428,6 +1409,7 @@ export const onDeleteSquadUser = /* GraphQL */ `
         Bio
         email
         squadJoined
+        squadJoinedID
         createdAt
         updatedAt
         __typename
