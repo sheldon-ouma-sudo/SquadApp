@@ -8,11 +8,12 @@ const SquadCreationUserListItem = ({user, onSelectUser}) => {
 
   const handleSelection = () => {
     setSelected(!selected);
-    onSelectUser(user);
+    if (onSelectUser) {
+      onSelectUser(user);  // Make sure onSelectUser is called only if it's defined
+    }
   };
-
          
-      return (
+      return ( 
         <TouchableOpacity
         style={styles.container}
         behavior="padding"

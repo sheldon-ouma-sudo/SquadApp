@@ -1,6 +1,7 @@
     import { Text, Image, StyleSheet, View, TouchableOpacity } from "react-native";
     import { useNavigation } from '@react-navigation/native';
     import { useState, useEffect} from "react";
+    import FontAwesome from '@expo/vector-icons/FontAwesome';
 
     const SquadCreatedListItem = ({ squad})=>{
     const navigation = useNavigation()
@@ -45,8 +46,8 @@
           </Text>
         </View>
         <TouchableOpacity
-              style={[{ justifyContent: "flex-end" },{ alignItems: "center" }, styles.joinSquadTextContainer,]}
-            onPress={handleSquadSelected}
+        style={[{ justifyContent: "flex-end" },{ alignItems: "center" }, styles.joinSquadTextContainer,]}
+        onPress={handleSquadSelected}
               >
             <Text style={{ color: "white", marginBottom: 10 }}>
                 Edit
@@ -75,6 +76,7 @@
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
+        marginLeft: -10,
         elevation: 3, // For Android shadow
       },
       userImageContainer:{
@@ -103,7 +105,7 @@
         borderRadius: 16,
         borderColor: "#FFFF",
         borderWidth: 2.5,
-        marginLeft:5,
+        marginLeft:-55,
         marginTop:-25
       },
       joinedSquadTextContainer:{

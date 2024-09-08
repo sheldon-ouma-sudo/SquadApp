@@ -14,7 +14,7 @@ dayjs.extend(customParseFormat);
 const SquadDisplayScreen = () => {
 const[squadName, setSquadName] = useState("Squad Name")
 const [numOfSqudPolls, setNumOfSquadPolls] = useState(0)
-const [numOfSquadMembers, setNumOfSquadMembers] = useState(0)
+const [numOfSquadMembers, setNumOfSquadMembers] = useState(1)
 const [squadCreator, setSquadCreator] = useState("Squad Creator")
 const [squadCreationTime, setSquadCreationTime] = useState("")
 
@@ -164,7 +164,7 @@ const [squadCreationTime, setSquadCreationTime] = useState("")
         <Tab.Screen
           name="Polls"
           component={SquadPollScreen} />
-        <Tab.Screen
+        <Tab.Screen 
           name="Members"
           component={SquadUserScreen} />
       </Tab.Navigator></>

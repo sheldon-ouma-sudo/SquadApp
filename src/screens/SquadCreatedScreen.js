@@ -1,14 +1,8 @@
-import { View, Text, 
-  StyleSheet,FlatList, 
-  SafeAreaView, KeyboardAvoidingView, 
-  ActivityIndicator,
-  Image } from 'react-native'
+import { View, Text,StyleSheet,FlatList, SafeAreaView, KeyboardAvoidingView, ActivityIndicator,Image } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import SearchBar from "../components/SearchBar"
-import List from "../components/SearchList"
 import SquadCreatedListItem from '../components/SquadCreatedListItem'
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getUser, listSquads } from '../graphql/queries';
+import { getUser} from '../graphql/queries';
 import { useRoute } from '@react-navigation/native';
 import {useUserContext} from '../../UserContext';
 import { getSquad } from '../graphql/queries';
@@ -21,68 +15,44 @@ const [squads, setSquads] = useState([]);
 const [primarySquad, setPrimarySquad] = useState(null);
 const[userInfo, setUserInfo] = useState("")
 const {user} = useUserContext();
-console.log("this is the user's primarsy squad: ", user.userPrimarySquad)
 useEffect(() => {
   const fetchData = async () => {
-      try {
-          if (user) {
-              console.log("here is the local user", user)
-              setUserInfo(user);
-              const primaryUserSquadID = user.userPrimarySquad[0]
-              console.log("here is the primaryUserSquadID", primaryUserSquadID )
-              if(primaryUserSquadID){
-                try {
-                  const results = await API.graphql(graphqlOperation(getSquad, { id: primaryUserSquadID }));
-                  console.log("squad from backend: ", results.data?.getSquad);
-                  const primary_user_squad = results.data?.getSquad;
-                  setPrimarySquad(primary_user_squad)
-                } catch (error) {
-                  console.log("error gettting user primary squad",error)
-                }
+    try { 
+      if (user && user.id) {
+        // Fetch user data from the backend
+        const userID = user.id;
+        const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+        const userFromBackend = userData.data?.getUser;
+        console.log("here is the user from the backend in the squad Created screen", userFromBackend)
 
-              }
-              // get nonPrimary squad from user real time data
-              const userID = user.id
-              const results = await API.graphql(graphqlOperation(getUser, {id:userID }))
-              console.log("squad from backend: ", results.data?.getUser);
-              const userRealTimeData = results.data?.getUser
-              const nonPrimarySquadArr = userRealTimeData.nonPrimarySquadsCreated;
-              const userSquadCreated = []
-              if (nonPrimarySquadArr.length !== 0) {
-                  // Create an array of promises for each async operation
-                  const squadPromises = nonPrimarySquadArr.map(async (squadCreatedID) => {
-                      console.log("here is the Squad id from the loop: ", squadCreatedID);
-                      try {
-                          const results = await API.graphql(graphqlOperation(getSquad, { id: squadCreatedID }));
-                          console.log("squad from backend: ", results.data?.getSquad);
+        if (userFromBackend) {
+          const primarySquadID = userFromBackend.userPrimarySquad?.[0]; // Fetch the first (primary) squad ID
+          const nonPrimarySquadIDs = userFromBackend.nonPrimarySquadsCreated || []; // Fetch non-primary squads
 
-                          if (!results.data?.getSquad) {
-                              console.log("Error fetching Squad");
-                          } else {
-                              console.log("this is one of the squad created by the user: ", results.data.getSquad);
-                              userSquadCreated.push(results.data?.getSquad);
-                          }
-                      } catch (error) {
-                          console.log("error querying Squads: ", error);
-                      }
-                  });
-
-                  // Wait for all promises to resolve
-                  await Promise.all(squadPromises);
-
-                  console.log("here are the extracted Squads: ", userSquadCreated);
-                  setSquads(userSquadCreated);
-              }
-
-
+          // Fetch the primary squad if it exists
+          if (primarySquadID) {
+            const primarySquadData = await API.graphql(graphqlOperation(getSquad, { id: primarySquadID }));
+            setPrimarySquad(primarySquadData.data?.getSquad);
           }
-      } catch (error) {
-          console.log("there is an error", error);
-      }
-  };
-  fetchData();
-}, [user]); // Dependency array to trigger useEffect when user changes
 
+          // Fetch non-primary squads if they exist
+          if (nonPrimarySquadIDs.length > 0) {
+            const nonPrimarySquads = [];
+            for (const squadID of nonPrimarySquadIDs) {
+              const squadData = await API.graphql(graphqlOperation(getSquad, { id: squadID }));
+              nonPrimarySquads.push(squadData.data?.getSquad);
+            }
+            setSquads(nonPrimarySquads);
+          }
+        }
+      }
+    } catch (error) {
+      console.log('Error fetching squads:', error);
+    }
+  };
+
+  fetchData();
+}, [user]);
 
   return (
     <SafeAreaView style={styles.container}>

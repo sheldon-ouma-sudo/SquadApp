@@ -250,17 +250,18 @@ const CreateSquadScreen = () => {
           setSearchPhrase={setSearchPhrase}
           setClicked={handleSearchBarClick} // Pass the function to handle search bar click
         />
-           <FlatList
+          <FlatList
           data={filteredUsers}
           renderItem={({ item }) => (
-            <SquadCreationUserListItem
-              user={item}
-              onSelect={() => handleSelectUser(item)}  // Pass the selection handler
-              selected={selectedUsers.includes(item)}  // Check if user is selected
-            />
-      )}
-    keyExtractor={(item) => item.id.toString()}
-  />
+       <SquadCreationUserListItem
+        user={item}
+        onSelectUser={() => handleSelectUser(item)}  // Pass onSelectUser properly
+        selected={selectedUsers.includes(item)}  // Check if user is selected
+    />
+  )}
+  keyExtractor={(item) => item.id.toString()}
+/>
+
           </BottomSheetView> 
         </BottomSheetModal>
     </KeyboardAvoidingView>

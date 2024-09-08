@@ -139,120 +139,127 @@ const PersonalInterests = () => {
     }, [selected]);
 
   
-useEffect(() => {
-  const createNewUser = async () => {
-    // Now you can use the `userImgUrl` in this screen
+    useEffect(() => {
+      const createNewUser = async () => {
+        try {
+          const authUser = await Auth.currentAuthenticatedUser();
+          const name = authUser.attributes.name;
+          const username = authUser.attributes.preferred_username;
+          const userProfilePicture = authUser.attributes.picture || userImgUrl;
+          const email = authUser.attributes.email;
     
+          setName(name);
+          setUserName(username);
+          setUserProfilePicture(userProfilePicture);
+          setEmail(email);
     
-    try {
-      const authUser = await Auth.currentAuthenticatedUser();
-      // console.log('Authenticated User:', authUser);
-      const name = authUser.attributes.name;
-      const username = authUser.attributes.preferred_username;
-      const userProfilePicture = authUser.attributes.picture;
-      const email = authUser.attributes.email;
-
-      setName(name);
-      setUserName(username);
-      if(userImgUrl){
-        setUserProfilePicture(userImgUrl)
-      }else{
-        setUserProfilePicture(userProfilePicture);
-      }
-      setEmail(email)
-
-      if (!userCreated) { 
-        const createUserInput = {
-          name: name,
-          userName: username,
-          imageUrl: userProfilePicture,
-          userPrimarySquad: [],
-          nonPrimarySquadsCreated: [],
-          numOfPolls: 0,
-          numOfSquadJoined: 0,
-          numSquadCreated: 1, 
-          superUser: false, 
-          userInterests: userInterest,
-          squadJoined: [],
-          Bio: "Please Edit Your Bio by Clicking the Edit Button below",
-          email: email
-        
-        };
-        
-        const response = await API.graphql(
-          graphqlOperation(createUser, { input: createUserInput })
-        );
-        
-      console.log("user created successfully✅", response)
-        const userId = response.data.createUser.id;
-        setUserID(userId);
-        setUserCreated(true);
-
-        updateLocalUser({
-          id: userId,
-          imageUrl: userProfilePicture,
-          name: name,
-          userName: username,
-          userPrimarySquad: [],
-          numOfPolls: 0,
-          numOfSquadJoined: 0,
-          userInterests: userInterest,
-          userProfilePicture: userProfilePicture,
-          squadJoined: [],
-          email: email
-        });
-
-        await Auth.updateUserAttributes(authUser, {
-          'custom:graphQLUSerID': userId,
-        });
-      }
-    } catch (error) {
-      console.log('Error creating user:', JSON.stringify(error, null, 2));
-    }
-  };
-
-  createNewUser();
-}, []);
-
-
-//create Primary Squad
-useEffect(() => {
-  const createPrimarySquad = async () => {
-    if (!userID) return; // Ensure userID exists
-
-    const squadName = `${username}'s main Squad`;
-    const createSquadInput = {
-      authUserID: userID,
-      authUserName: name,
-      bio: "Please Edit Your Bio by Clicking the Edit Button below",
-      public: false,
-      squadName: squadName,
-      numOfPolls: 0,
-      numOfUsers: 0,
-    };
-
-    try {
-      const response = await API.graphql(graphqlOperation(createSquad, { input: createSquadInput }));
-      console.log("successfully created the squad✅", response);
-      const newSquadID = response.data?.createSquad.id;
-      setSquadID(newSquadID);
-
-      if (newSquadID) {
-        await API.graphql(graphqlOperation(updateUser, {
-          input: {
-            id: userID,
-            userPrimarySquad: [newSquadID]
+          if (!userCreated) {
+            const createUserInput = {
+              name,
+              userName: username,
+              imageUrl: userProfilePicture,
+              userPrimarySquad: [], // Empty for now, will be updated after squad creation
+              nonPrimarySquadsCreated: [],
+              numOfPolls: 0,
+              numOfSquadJoined: 0,
+              numSquadCreated: 1,
+              superUser: false,
+              userInterests: userInterest,
+              squadJoined: [],
+              Bio: "Please Edit Your Bio by Clicking the Edit Button below",
+              email
+            };
+    
+            const response = await API.graphql(
+              graphqlOperation(createUser, { input: createUserInput })
+            );
+            console.log("User created successfully✅", response);
+    
+            const userId = response.data.createUser.id;
+            setUserID(userId);
+            setUserCreated(true);
+    
+            updateLocalUser({
+              id: userId,
+              imageUrl: userProfilePicture,
+              name: name,
+              userName: username,
+              userPrimarySquad: [],
+              numOfPolls: 0,
+              numOfSquadJoined: 0,
+              userInterests: userInterest,
+              email: email
+            });
+    
+            await Auth.updateUserAttributes(authUser, {
+              'custom:graphQLUserID': userId,
+            });
           }
-        }));
-      }
-    } catch (error) {
-      console.error("Error creating the primary squad:", error);
-    }
-  };
-
-  createPrimarySquad();
-}, [userID]);
-
+        } catch (error) {
+          console.log('Error creating user:', error);
+        }
+      };
+    
+      createNewUser();
+    }, []);
+    
+    useEffect(() => {
+      const createPrimarySquad = async () => {
+        if (!userID) return; // Ensure userID exists
+    
+        const squadName = `${username}'s main Squad`;
+        const createSquadInput = {
+          authUserID: userID,
+          authUserName: name,
+          bio: "Please Edit Your Bio by Clicking the Edit Button below",
+          public: false,
+          squadName: squadName,
+          numOfPolls: 0,
+          numOfUsers: 0,
+        };
+    
+        try {
+          const response = await API.graphql(graphqlOperation(createSquad, { input: createSquadInput }));
+          console.log("Successfully created the squad✅", response);
+    
+          const newSquadID = response.data?.createSquad.id;
+          setSquadID(newSquadID);
+        } catch (error) {
+          console.error("Error creating the primary squad:", error);
+        }
+      };
+    
+      createPrimarySquad();
+    }, [userID]);
+    
+    // NEW useEffect to update user with the created squad
+    useEffect(() => {
+      const updateUserWithSquad = async () => {
+        if (userID && squadID) {
+          try {
+            // Update user in the backend with the new primary squad
+            await API.graphql(graphqlOperation(updateUser, {
+              input: {
+                id: userID,
+                userPrimarySquad: [squadID],  // Ensure it's an array
+              },
+            }));
+    
+            // Update local user state with the new squad
+            updateLocalUser({
+              ...user,
+              userPrimarySquad: [squadID],
+            });
+            console.log("Primary squad added to user profile successfully.");
+          } catch (error) {
+            console.error("Error updating user with the primary squad:", error);
+          }
+        }
+      };
+    
+      updateUserWithSquad();
+    }, [userID, squadID]); // This useEffect will run only when both userID and squadID are available
+    
 useEffect(() => {
   const updateUserInterest = async () => {
     if (userCreated && userID) {

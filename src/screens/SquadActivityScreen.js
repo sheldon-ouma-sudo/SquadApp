@@ -64,30 +64,28 @@ const SquadActivityScreen = ({ route }) => {
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <View style={styles.container}>
-        {/* FlatList for Request to Join Squads */}
-        <Text style={styles.sectionHeader}>Requests to Join Your Squad</Text>
-        <FlatList
-          data={joinSquadRequests}
-          renderItem={renderJoinRequestItem}
-          keyExtractor={(item) => item.id}
-          style={styles.flatList}
-          nestedScrollEnabled
-          contentContainerStyle={styles.listContent}
-        />
+    <View style={styles.container}>
+      <Text style={styles.sectionHeader}>Requests to Join Your Squad</Text>
+      <FlatList
+        data={joinSquadRequests}
+        renderItem={renderJoinRequestItem}
+        keyExtractor={(item) => item.id}
+        style={styles.flatList}
+        nestedScrollEnabled
+        contentContainerStyle={styles.listContent}
+      />
 
-        {/* FlatList for Request to Be Added to Squads */}
-        <Text style={styles.sectionHeader}>Requests to Add You to Squads</Text>
-        <FlatList
-          data={addedToSquadRequests}
-          renderItem={renderAddedRequestItem}
-          keyExtractor={(item) => item.id}
-          style={styles.flatList}
-          nestedScrollEnabled
-          contentContainerStyle={styles.listContent}
-        />
-      </View>
-    </ScrollView>
+      <Text style={styles.sectionHeader}>Requests to Add You to Squads</Text>
+      <FlatList
+        data={addedToSquadRequests}
+        renderItem={renderAddedRequestItem}
+        keyExtractor={(item) => item.id}
+        style={styles.flatList}
+        nestedScrollEnabled
+        contentContainerStyle={styles.listContent}
+      />
+    </View>
+  </ScrollView>
   );
 };
 

@@ -13,6 +13,7 @@
   import { MaterialIcons } from '@expo/vector-icons';
   import { updateUser } from '../graphql/mutations'
   
+  
 
   const Profile =()=> {
     const[profileImage, setProflieImage]= useState('https://squadtechlogobucket.s3.us-west-2.amazonaws.com/TechLogos/profilePH.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAMaCXVzLXdlc3QtMiJHMEUCIAw7LoJW508N6U7MDuh8BOEVYxGrRnT3s0E4JQHy0Rq7AiEApSh7LXEZPEO5ERpaJVdALhepv47Gj%2B5qANz5ps9nrvYq5AIIHBABGgw3NTMxOTUzMTg2NTciDGIKu7SWVqotZCZA%2FirBAoGEYRldaYS1ZaDWs0zTkmh8vGdMzKjIwmnFRKF3%2BRCCRXgZnSZ5uXElV%2B8EmFFiNB09SNj3h583cPVHwGkLQ8plfqat52EDQ11uYz56KvcI5bocfSSWLrW%2FO%2FDPj2uwiHPpGRtbUYuSXmbzTNACZAWGy4VDxzsuxEdY01RuSHX4OKpAwdDr42BsOBOVTB2%2BO15LkssaMKdfvNDMbMlwromsj94MoCPI5SFvxCIUj3qAljyHacENKPBsbsZC1U3DtS7nISaNcooAFr%2BkHNdCv15uf8%2F8m%2Fkwu0Ea9IAUgVoV%2F3ZBYg2PLMzpUPIGMs%2FCkIB86xk6Zb4kmWGdYaRlZBl6aGnA4U3vIf6B1UAuwdQHHJ8T1egB%2B2TYCxv%2BGKINRKebp%2F81BGFDtvmaszEE4xoXDfJZrpp5mhbJbRE4sLjgdTCvx7i2BjqzArTD%2B1S%2Bpy%2FH3GDPTIyEPU2veH9AF0umojrMvjxguhugtI8FQu9e44fUG8CwoPdaeb0J45erGmdhhNAoRpGlI4OukpDBJYVM7gZD282JrretqdNh8W340he5daYBkR4ziAdwQUq0JrHAWqmnuZb9bwAmmArOGxoxk6KFR2BOy2SvDLNmZOjTTl4irtB3qksvoKvA8JK9WmieN%2FxBG1LLVVTAyRZ5QfpzLVX3Z6Yp6X2%2FxbvNDg07L44404bbtjM1D6S2QfWjFmPL8rbdsDBfIsl9deb3Lz%2FaTU6z9ytsbYgkMFy%2FlLyLvSa2sq%2BjcvhcJC7u59GdaKaq4k1euqsbp3uVjGvxLZvuZJfgLgWSFfGqRV0OS1kEjxI3rI0k3rVOs4a1weUfstVF5%2Fz5MvqJojnyZjk%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240827T191517Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA26XPQPWASVIVLJVT%2F20240827%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=0b6504a98401ef53326d5e9adc97e16d5c0e4c3929931d05b1b90b51b93aa040')
@@ -269,7 +270,7 @@
   }
 
  
-
+ 
   
 
   const styles = StyleSheet.create({

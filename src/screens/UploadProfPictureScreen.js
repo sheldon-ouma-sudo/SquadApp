@@ -60,23 +60,19 @@ const UploadProfPicture = () => {
     })()
   },[])
 
-const pickImage = async () => {
-  // No permissions request is necessary for launching the image library
-  let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-    base64:true
-  });
-
-  console.log(result);
-
-  if (!result.canceled) {
-    setImage(result.assets[0].uri);
-    //console.log("the new image is", image)
-  }
-};
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    if (!result.canceled && result.assets && result.assets[0]) {
+      setImage(result.assets[0].uri);
+    }
+  };
+  
 
 const takePhotoFromCamera = async () =>{
   const result = await ImagePicker.launchCameraAsync();
@@ -138,7 +134,8 @@ const uploadUserImage = async () => {
     console.log("✅ Successfully uploaded and updated user profile picture");
 
     // Navigate to the Personal Interest screen
-    navigation.navigate('PersonalInterestScreen', { userImgUrl });
+    navigation.navigate('PersonalInterestScreen', { userImgUrl: userImgUrl || userImage});
+
   } catch (error) {
     console.log("❌ Failed to upload the picture or update user attributes:", error);
   } finally {
@@ -159,7 +156,14 @@ return (
         source={require('/Users/sheldonotieno/Squad/assets/squad-logo.png')}
         style={styles.squadLogo}
         resizeMode='contain'
-      ></Image>
+      />
+    {/* <Image
+    source={{ uri: image ? image : '/Users/sheldonotieno/Squad/assets/squad-logo.png' }}
+    resizeMode='contain'
+    style={[{ height: 150 }, { width: 350 }, { overflow: 'hidden' }, { marginTop: -13 }, { alignSelf: 'center' }]}
+/> */}
+
+     
     </View>      
     <StatusBar backgroundColor={'black'} barStyle="light-content" />
     <View style={styles.header}>
@@ -174,12 +178,17 @@ return (
     </View>   
     <View style={styles.profilePictureContainer}>
         <TouchableOpacity>
-        <Image
+        {/* <Image
         //source={{uri:image}}
         source={{uri:image}}
         resizeMode={'contain'}
         style={[{height:150}, {width:350},{overflow: 'hidden'},{marginTop:-13},{alignSelf:'center'}]}
-        />
+        /> */}
+  <Image
+    source={{ uri: image ? image : '/Users/sheldonotieno/Squad/assets/squad-logo.png' }}
+    resizeMode='contain'
+    style={[{ height: 150 }, { width: 350 }, { overflow: 'hidden' }, { marginTop: -13 }, { alignSelf: 'center' }]}
+/> 
         </TouchableOpacity>
       </View>
       <View style={styles.buttonContainer}>

@@ -7,7 +7,7 @@
     import { FontAwesome } from '@expo/vector-icons'; 
     import { useEffect } from 'react';
     import { graphqlOperation, Auth, API } from 'aws-amplify';
-    import { createSquadUser, updateUser, createNotification } from '../graphql/mutations';
+    import {createNotification } from '../graphql/mutations';
     import { useUserContext } from '../../UserContext';
     import { getUser } from '../graphql/queries';
     
@@ -48,14 +48,13 @@
     const { squadID } = route?.params;
   
     useEffect(() => {
-      // Ensure that the effect runs only once
       const createMainUserNotification = async () => {
-        if (!user || !squadID || squadCreationInProgress.current) return;
-  
-        squadCreationInProgress.current = true; // Mark the operation as in progress
+        if (!user || !user.id || !squadID || squadCreationInProgress.current) return;
+    
+        squadCreationInProgress.current = true;
+    
         if (!squadUserCreated) {
           try {
-            // Create notification
             const notificationResponse = await API.graphql(
               graphqlOperation(createNotification, {
                 input: {
@@ -65,40 +64,30 @@
                   pollLikeResponseArray: [],
                   squadAddRequestsArray: [],
                   SquadJoinRequestArray: [],
-                  userID: user.id,
+                  userID: user.id,  // Make sure this is not null
                   new: true,
                 },
               })
             );
-  
+    
             const newNotification = notificationResponse.data.createNotification;
-  
-            // Update the local user context
+            console.log("Notification created successfully:", newNotification);
+    
             const updatedNotifications = [...(user.Notifications || []), newNotification];
             updateLocalUser({
               ...user,
               Notifications: updatedNotifications,
             });
-  
-            // Update user notifications in the database
-            await API.graphql(
-              graphqlOperation(updateUser, {
-                input: {
-                  id: user.id,
-                  Notifications: updatedNotifications,
-                },
-              })
-            );
-  
+    
             setSquadUserCreated(true); // Mark as created
           } catch (error) {
             console.log("Error creating notification:", error);
           }
         }
       };
-  
+    
       createMainUserNotification();
-    }, [user, squadID]); //
+    }, [user, squadID]);
     
 const handleUserNavigationToExploreUserScreen =async ()=>{
   if(user){
