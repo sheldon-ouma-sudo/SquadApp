@@ -27,7 +27,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
     const fetchData = async () => {
       try {
         if (localUser) {
-          console.log("here is the local user", localUser);
+          // console.log("here is the local user", localUser);
           setLocalUserInfo(localUser);
 
           const allSquads = [];
@@ -38,7 +38,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
             try {
               const primaryResults = await API.graphql(graphqlOperation(getSquad, { id: primaryUserSquadID }));
               const primarySquad = primaryResults.data?.getSquad;
-              console.log("here is the primary squad", primarySquad)
+              // console.log("here is the primary squad", primarySquad)
               if (primarySquad) {
                 allSquads.push(primarySquad); // Add the primary squad to the list
               }
@@ -70,7 +70,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
           }
 
           // Set all squads (both primary and non-primary)
-          console.log("here is the all squads", allSquads)
+          // console.log("here is the all squads", allSquads)
           setSquads(allSquads);
         }
       } catch (error) {
@@ -115,8 +115,11 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
       const results = await API.graphql(
         graphqlOperation(createNotification, { input: { userID: currentUserID } })
       );
-      const newNotificationID = results.data?.createNotification.id;
-      setCurrentUserNotificationID(newNotificationID);
+      const newNotificationID = results.data?.createNotification?.id;
+      if (!newNotificationID) {
+        console.log("Notification creation failed. No ID returned.");
+      }
+      setCurrentUserNotificationID(newNotificationID); // Ensure this is set
       setCurrentUserHasNotifications(true);
       return newNotificationID;
     } catch (error) {
@@ -124,7 +127,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
       return false;
     }
   };
-
+  
   const handleRequestCreation = async (notificationID, selectedSquads) => {
     const squadIDArray = [];
     try {
@@ -168,12 +171,18 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
   };
   
   const handleUpdateNotification = async (updatedArray) => {
+    if (!currentUserNotificationID) {
+      console.log("Error: currentUserNotificationID is missing");
+      return;
+    }
+    
     try {
-      await API.graphql(
+      const results = await API.graphql(
         graphqlOperation(updateNotification, {
           input: { id: currentUserNotificationID, squadAddRequestsArray: updatedArray },
         })
       );
+      console.log("Notification updated successfully✅", results);
     } catch (error) {
       console.log("Error updating notification", error);
     }

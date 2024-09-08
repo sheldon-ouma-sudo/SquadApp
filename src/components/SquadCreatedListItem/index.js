@@ -46,13 +46,10 @@
           </Text>
         </View>
         <TouchableOpacity
-        style={[{ justifyContent: "flex-end" },{ alignItems: "center" }, styles.joinSquadTextContainer,]}
-        onPress={handleSquadSelected}
-              >
-            <Text style={{ color: "white", marginBottom: 10 }}>
-                Edit
-            </Text>
-
+          style={styles.editButton}
+          onPress={handleSquadSelected}
+        >
+          <Text style={styles.editButtonText}>Edit</Text>
         </TouchableOpacity>
       </View>
       </TouchableOpacity>
@@ -70,7 +67,7 @@
         backgroundColor: "white",
         borderWidth: 4, // Ensure proper border width
         padding: 15, // Padding to keep the content away from the edges
-        width: '90%', // This makes sure the item doesn't fill the full screen width
+        width: '95%', // This makes sure the item doesn't fill the full screen width
         alignSelf: 'center', // Align the squad item at the center horizontally
         shadowColor: '#000', // Optional: Add shadow for visual appeal
         shadowOffset: { width: 0, height: 2 },
@@ -105,8 +102,8 @@
         borderRadius: 16,
         borderColor: "#FFFF",
         borderWidth: 2.5,
-        marginLeft:-55,
-        marginTop:-25
+        marginLeft:5,
+        marginTop:-15
       },
       joinedSquadTextContainer:{
         height:40,
@@ -117,6 +114,20 @@
         borderWidth: 2.5,
         marginLeft:25,
         marginTop:-25
+      },
+      editButton: {
+        height: 40,
+        width: 100, // Fixed width for consistency
+        backgroundColor: "#1145FD",
+        borderRadius: 16,
+        borderColor: "#FFFF",
+        borderWidth: 2.5,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      editButtonText: {
+        color: "white",
+        fontWeight: '600',
       },
     });
     
