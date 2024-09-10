@@ -18,24 +18,19 @@ const SquadJoinedListItem =({ squad,userInfo,})=>{
  const[squadSelected, setSquadSelected] = useState(false)
  const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
  const[squadJoinedName, setSquadJoinedName] = useState("squad joined")
+ const[squadCreator, setSquadCreator] = useState("squad creator")
 
 
 useEffect(() => {
   const fetchSquad = async () => {
     if (userInfo) {
-      console.log("we have userInfo data",userInfo.squadJoined);
+      console.log("we have squad joined",squad);
+      setSquadJoinedName(squad.squadName || "squad name unavailable")
+      setSquadCreator(squad.authUserName|| "squad creator unavailable")
+
       //setUserSquadsJoinedArray(userInfo.squadJoined)
        //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
      }
-    try {
-        //const result = API.graphqlOperation(graphql(getSquad))
-        const squadData = await API.graphql(graphqlOperation(getSquad, { id: squad }));
-        console.log("here is the squadData", squadData)
-        console.log("here is the squad name",squadData.data?.getSquad.squadName)
-        setSquadJoinedName(squadData.data?.getSquad.squadName)
-    } catch (error) {
-       console.log("error quering the squad",error) 
-    }
     
     }
     fetchSquad()
@@ -75,7 +70,7 @@ const handleSquadSelected=async() =>{
        {squadJoinedName}
        </Text>
        <Text style = {styles.squadCreator}>
-         Created by {squad?.authUserID}
+         Created by {squadCreator}
        </Text>
      </View>
      <TouchableOpacity

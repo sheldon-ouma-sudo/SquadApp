@@ -26,8 +26,6 @@ const SquadJoinedScreen = () => {
       }else {
        setUserInfo(user);
        console.log("otherwise this the user info in the explore squad screen", user);
-      //   console.log("here is the userSquadId", user.userSquadId);
-      //   setParentSquadID(user.userSquadId);
        }
     }
     fetchSquadsUserJoined();
