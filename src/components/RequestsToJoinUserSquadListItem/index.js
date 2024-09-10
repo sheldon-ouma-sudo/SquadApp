@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { API, graphqlOperation } from 'aws-amplify';
 import { updateUser, deleteRequestToJoinASquad, createSquadUser, updateNotification } from '../../graphql/mutations';
-import { getUser, getSquad, getNotification } from '../../graphql/queries';
+import { getUser, getSquad, getNotification, notificationsByUserID } from '../../graphql/queries';
 import { useUserContext } from '../../../UserContext';
 
 const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
@@ -10,27 +10,19 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
 
   const handleAccept = async () => {
     try {
-      const requestingUserID = item.requestingUserID; // Step 1: Get the requesting user's ID
-      const squadID = item.squadID; // Step 2: Get the squad ID
-
-      // Step 3: Get the requesting user's details
+      const userID = user.id;
+      const requestingUserID = item.requestingUserID; // Get requesting user's ID
+      const squadID = item.squadID; // Get the squad ID
+      // Fetch requesting user's details
       const requestingUserData = await API.graphql(graphqlOperation(getUser, { id: requestingUserID }));
       const requestingUser = requestingUserData.data.getUser;
-
-      // Step 4: Add the squad ID to the requesting user's `squadJoinedID`
-      const updatedSquadJoinedID = [...requestingUser.squadJoinedID, squadID];
-
-      // Step 5: Fetch the squad details
+      // Update requesting user's squad arrays
+      const updatedSquadJoinedID = [...(requestingUser.squadJoinedID || []), squadID];
       const squadResult = await API.graphql(graphqlOperation(getSquad, { id: squadID }));
       const squad = squadResult.data.getSquad;
-
-      // Step 6: Add the squad itself to the requesting user's `squadJoined` array
-      const updatedSquadJoined = [...requestingUser.squadJoined, squad];
-
-      // Step 7: Increment the number of squads joined by the requesting user
-      const updatedNumOfSquadJoined = requestingUser.numOfSquadJoined + 1;
-
-      // Step 8: Update the requesting user in the database
+      const updatedSquadJoined = [...(requestingUser.squadJoined || []), squad];
+      const updatedNumOfSquadJoined = (requestingUser.numOfSquadJoined || 0) + 1;
+      // Update requesting user in database
       await API.graphql(
         graphqlOperation(updateUser, {
           input: {
@@ -42,7 +34,7 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
         })
       );
 
-      // Step 9: Create the SquadUser using the squad ID and requesting user ID
+      // Create the SquadUser
       await API.graphql(
         graphqlOperation(createSquadUser, {
           input: {
@@ -52,24 +44,22 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
         })
       );
 
-      // Step 10: Remove the request ID from the notification's `SquadJoinRequestArray`
+      
       let notifications = user.Notifications;
-
       if (!notifications || notifications.length === 0) {
-        const notificationData = await API.graphql(graphqlOperation(getNotification, { id: user.id }));
-        notifications = notificationData.data?.getNotification ? [notificationData.data.getNotification] : [];
-
-        // Update local user with fetched notifications
+        const notificationData = await API.graphql(
+          graphqlOperation(notificationsByUserID, { userID })  // Ensure correct variable name
+        ); 
+        notifications = notificationData.data?.notificationsByUserID?.items || [];
         updateLocalUser({
           ...user,
           Notifications: notifications,
         });
       }
-
-      if (notifications.length > 0) {
-        const updatedRequestsArray = notifications[0].SquadJoinRequestArray.filter(
-          (reqID) => reqID !== item.id
-        );
+  
+      // Update notification to remove the request
+      if (notifications.length > 0 && notifications[0]?.SquadJoinRequestArray) {
+        const updatedRequestsArray = notifications[0].SquadJoinRequestArray.filter((reqID) => reqID !== item.id);
 
         await API.graphql(
           graphqlOperation(updateNotification, {
@@ -81,10 +71,10 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
         );
       }
 
-      // Step 11: Delete the request
+      // Delete the request
       await API.graphql(graphqlOperation(deleteRequestToJoinASquad, { input: { id: item.id } }));
 
-      // Step 12: Remove the request from the FlatList
+      // Remove request from FlatList
       removeRequestFromList(item.id);
     } catch (error) {
       console.log('Error accepting the request:', error);
@@ -93,19 +83,20 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
 
   const handleIgnore = async () => {
     try {
+      const userID = user.id
       // Fetch notifications if not available in local user data
       let notifications = user.Notifications;
-
       if (!notifications || notifications.length === 0) {
-        const notificationData = await API.graphql(graphqlOperation(getNotification, { id: user.id }));
-        notifications = notificationData.data?.getNotification ? [notificationData.data.getNotification] : [];
-
-        // Update local user with fetched notifications
+        const notificationData = await API.graphql(
+          graphqlOperation(notificationsByUserID, { userID })  // Ensure correct variable name
+        );
+        notifications = notificationData.data?.notificationsByUserID?.items || [];
         updateLocalUser({
           ...user,
           Notifications: notifications,
         });
       }
+  
 
       // Step 1: Remove the request ID from the notification's `SquadJoinRequestArray`
       if (notifications.length > 0) {

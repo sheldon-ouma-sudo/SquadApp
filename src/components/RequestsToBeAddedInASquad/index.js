@@ -12,30 +12,28 @@ const RequestsToBeAddedInASquad = ({ item, removeRequestFromList }) => {
 
   const handleAccept = async () => {
     try {
-      const userID = user.id
-      const squadID = item.squadID; // Get the squad ID
-      const requestingUserID = item.requestingUserID; // Get the ID of the user who sent the request
-      console.log("here are the requesting requesting user Id and squad ID",userID, requestingUserID,squadID )
-      // Step 1: Get the squad details
+      const userID = user.id;
+      console.log("here is the user ID: ", userID);
+      const squadID = item.squadID;
+      const requestingUserID = item.requestingUserID;
+      //console.log("here are the userID, requesting userId, and squadID:", userID, requestingUserID, squadID);
+      
       const squadResult = await API.graphql(graphqlOperation(getSquad, { id: squadID }));
       const squad = squadResult.data.getSquad;
-      console.log("here is the squad", squad)
-      // Step 2: Update the local user's squads
-      const updatedSquadJoinedID = [...(user.squadJoinedID || []), squadID]; 
-      console.log("here is the update squad joined ID things: ",updatedSquadJoinedID)
+      //console.log("here is the squad", squad);
+      
+      const updatedSquadJoinedID = [...(user.squadJoinedID || []), squadID];
       const updatedSquadJoined = [...(user.squadJoined || []), squad];
-      console.log("here is the update squad joined things: ",updatedSquadJoined, )
       const updatedNumOfSquadJoined = (user.numOfSquadJoined || 0) + 1;
-      console.log("here is the num of squad joined things: ",updatedNumOfSquadJoined )
-     
+      
       updateLocalUser({
         ...user,
         squadJoinedID: updatedSquadJoinedID,
         squadJoined: updatedSquadJoined,
         numOfSquadJoined: updatedNumOfSquadJoined,
       });
-
-     const updateUserResults =  await API.graphql(
+  
+      const updateUserResults = await API.graphql(
         graphqlOperation(updateUser, {
           input: {
             id: userID,
@@ -45,24 +43,19 @@ const RequestsToBeAddedInASquad = ({ item, removeRequestFromList }) => {
           },
         })
       );
- console.log("here is the update user results", updateUserResults)
-      //step 3 should be updating the squad
-      //update the number of squad users
-      // Step 3: Update the squad to increase the number of users in the squad
+      //console.log("here is the update user results", updateUserResults);
+      
       const updatedNumOfUsers = squad.numOfUsers + 1;
-
-      const updateNumOfUserResults =   await API.graphql(
-      graphqlOperation(updateSquad, {
-      input: {
-      id: squadID,
-      numOfUsers: updatedNumOfUsers,
-      // Add any other fields you want to update in the squad
-    },
-  })
-);
- console.log("here is the updated num of users", updateNumOfUserResults)
-
-      // Step 4: Add the requesting user to the SquadUser table
+      const updateNumOfUserResults = await API.graphql(
+        graphqlOperation(updateSquad, {
+          input: {
+            id: squadID,
+            numOfUsers: updatedNumOfUsers,
+          },
+        })
+      );
+      //console.log("here is the updated num of users", updateNumOfUserResults);
+  
       const createSquadUserResults = await API.graphql(
         graphqlOperation(createSquadUser, {
           input: {
@@ -71,42 +64,42 @@ const RequestsToBeAddedInASquad = ({ item, removeRequestFromList }) => {
           },
         })
       );
-console.log("here is the squadusers creation results", createSquadUserResults)
-      // Step 5: Fetch notifications for the local user (if not available locally)
+      //console.log("here is the squadusers creation results", createSquadUserResults);
+      
       let notifications = user.Notifications;
       if (!notifications || notifications.length === 0) {
-        const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { id: userID}));
-        notifications = notificationData.data?.getNotification ? [notificationData.data.notificationsByUserID] : [];
+        const notificationData = await API.graphql(
+          graphqlOperation(notificationsByUserID, { userID })  // Ensure correct variable name
+        );
+        notifications = notificationData.data?.notificationsByUserID?.items || [];
         updateLocalUser({
           ...user,
           Notifications: notifications,
         });
       }
-
-      // Step 6: Update the notification by removing the request ID from the `squadAddRequestsArray`
+  
+      // Uncomment and ensure userID is passed if required
       if (notifications.length > 0) {
-        const updatedRequestsArray = notifications[0].squadAddRequestsArray.filter((reqID) => reqID !== item.id);
-       const updateNotificationResults =  await API.graphql(
+        const updatedRequestsArray = notifications[0].squadAddRequestsArray.filter(reqID => reqID !== item.id);
+        const updateNotificationResults = await API.graphql(
           graphqlOperation(updateNotification, {
             input: {
               id: notifications[0].id,
               squadAddRequestsArray: updatedRequestsArray,
+              userID: user.id,  // Pass `userID` if required
             },
           })
         );
-        console.log("here is the update notification results",updateNotificationResults  )
+        //console.log("here is the update notification results", updateNotificationResults);
       }
-
-      // Step 7: Delete the request to join the squad
-      //await API.graphql(graphqlOperation(deleteRequestToBeAddedInASquad, { input: { id: item.id } }));
-
-      // Step 8: Remove the request from the FlatList
+  
       removeRequestFromList(item.id);
       console.log("Request ID to be removed:", item.id);
     } catch (error) {
       console.log('Error accepting the request:', error);
     }
   };
+  
   const handleIgnore = async () => {
     try {
       // Step 1: Fetch notifications if they don't exist in the local user context

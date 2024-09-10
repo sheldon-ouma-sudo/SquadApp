@@ -1,12 +1,12 @@
 import { View, Text, KeyboardAvoidingView, StyleSheet,Image, 
-    TextInput, TouchableOpacity, StatusBar, FlatList, Button, ScrollView} from 'react-native'
+    TextInput, TouchableOpacity, StatusBar, FlatList, Button, ScrollView, Alert} from 'react-native'
   import { useState, useEffect, useCallback, useMemo, useRef  } from 'react'
   import {SelectList} from 'react-native-dropdown-select-list'
   import { useNavigation } from '@react-navigation/native';
   import {API,graphqlOperation, Auth} from "aws-amplify"
   import { useUserContext } from '../../UserContext';
-  import { listUsers, getNotification } from '../graphql/queries';
-  import { createSquad, updateNotification, createNotification, createRequestToBeAddedInASquad } from '../graphql/mutations';
+  import { listUsers, getNotification, notificationsByUserID } from '../graphql/queries';
+  import { createSquad, updateNotification, createNotification, createRequestToBeAddedInASquad, updateUser } from '../graphql/mutations';
   import { FontAwesome } from '@expo/vector-icons';
   import {BottomSheetModal,BottomSheetView,BottomSheetModalProvider, } from '@gorhom/bottom-sheet';
   import SearchBar from '../components/SearchBar';
@@ -80,91 +80,133 @@ const CreateSquadScreen = () => {
 
 
 
-    const handleCreateSquad = async () => {
-      if (!squadName) {
-        Alert.alert("Squad name is required");
-        return;
+
+
+
+   const handleSelectedUsers = async (selectedUsers, squadID, squadName, userID, userName) => {
+  if (!selectedUsers || selectedUsers.length === 0) {
+    console.log("No users selected.");
+    return; // If no users were selected, we return early.
+  }
+
+  try {
+    for (const selectedUser of selectedUsers) {
+      console.log("Here is the selected user", selectedUser);
+
+      // Fetch the user's notification
+      const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { userID: selectedUser.id }));
+      let notifications = notificationData.data?.notificationsByUserID?.items?.[0];
+
+      if (!notifications) {
+        // Create notification if it doesn't exist
+        const notificationCreationResponse = await API.graphql(graphqlOperation(createNotification, { input: { userID: selectedUser.id } }));
+        notifications = notificationCreationResponse.data?.createNotification;
       }
+
+      const notificationID = notifications.id;
+      const squadAddRequestsArray = notifications.squadAddRequestsArray || [];
+      console.log("Current Squad Add Requests Array: ", squadAddRequestsArray);
+
+      // Create request to be added to the squad
+      const requestToBeAddedResult = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
+        input: {
+          notificationID,
+          requestingUserID: userID,
+          squadID,
+          squads: [squadID],
+          message: `${userName} invited you to join the squad ${squadName}.`,
+        },
+      }));
+
+      const requestID = requestToBeAddedResult.data.createRequestToBeAddedInASquad.id;
+      console.log("Request to be added result: ", requestToBeAddedResult);
+      // Update notification with the new request ID
+      squadAddRequestsArray.push(requestID);
+
+      await API.graphql(graphqlOperation(updateNotification, {
+        input: { id: notificationID, squadAddRequestsArray },
+      }));
+    }
+
+    console.log("All selected users processed.");
+  } catch (error) {
+    console.log("Error processing selected users:", error);
+     // Re-throw the error so that the calling function can handle it
+  }
+};
+
+
+const handleCreateSquad = async () => {
+  const userID = user.id;
+
+  if (!squadName) {
+    Alert.alert("Squad name is required");
+    return;
+  }
+
+  if (!selectedPrivacyOption) {
+    Alert.alert("Privacy option is required");
+    return;
+  }
+
+  // Determine if the squad is public or private based on the selected privacy option
+  const isPublic = selectedPrivacyOption === "Public";
+
+  try {
+    // Step 1: Create the Squad
+    const squadResult = await API.graphql(graphqlOperation(createSquad, {
+      input: {
+        squadName,
+        bio: squadBio,
+        public: isPublic, // Set the squad's privacy based on the selected option
+        authUserID: user.id,
+      },
+    }));
+    const squadID = squadResult.data.createSquad.id;
+    console.log("Squad creation result: ", squadResult);
+
+    // Step 2: Update the local user's info
+    const updatedSquadsCreated = [...(user.nonPrimarySquadsCreated || []), squadID]; // Ensure nonPrimarySquadsCreated is defined
+    const updatedNumSquadsCreated = (user.numSquadCreated || 0) + 1; // Ensure numSquadCreated is defined as a number
+    console.log("here is the updatedSquadsCreated and updatedNumSquadsCreated", updatedSquadsCreated, updatedNumSquadsCreated);
     
-      if (!selectedPrivacyOption) {
-        Alert.alert("Privacy option is required");
-        return;
-      }
-    
-      // Determine if the squad is public or private based on the selected privacy option
-      const isPublic = selectedPrivacyOption === "Public";  // Assuming Public means public = true, Private means public = false
-    
-      try {
-        // Step 1: Create the Squad
-        const squadResult = await API.graphql(graphqlOperation(createSquad, {
-          input: {
-            squadName,
-            bio: squadBio,
-            public: isPublic,  // Set the squad's privacy based on the selected option
-            authUserID: user.id,
-          },
-        }));
-        const squadID = squadResult.data.createSquad.id;
-    
-        // Step 2: Update the local user's info
-        const updatedSquadsCreated = [...user.nonPrimarySquadsCreated, squadID];
-        const updatedNumSquadsCreated = user.numSquadCreated + 1;
-    
-        updateLocalUser({
-          ...user,
-          nonPrimarySquadsCreated: updatedSquadsCreated,
-          numSquadCreated: updatedNumSquadsCreated,
-        });
-    
-        await API.graphql(graphqlOperation(updateUser, {
-          input: {
-            id: user.id,
-            nonPrimarySquadsCreated: updatedSquadsCreated,
-            numSquadCreated: updatedNumSquadsCreated,
-          },
-        }));
-    
-        // Step 3: Create `RequestToBeAddedInASquad` for each selected user
-        for (const selectedUser of selectedUsers) {
-          // Fetch the user's notification
-          const notificationData = await API.graphql(graphqlOperation(getNotification, { id: selectedUser.id }));
-          let notifications = notificationData.data?.getNotification;
-    
-          if (!notifications) {
-            // Create notification if not exist
-            notifications = await API.graphql(graphqlOperation(createNotification, { input: { userID: selectedUser.id } }));
-          }
-    
-          const notificationID = notifications.id;
-          const squadAddRequestsArray = notifications.squadAddRequestsArray || [];
-    
-          // Create request to be added to the squad
-          const requestToBeAddedResult = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
-            input: {
-              notificationID,
-              requestingUserID: user.id,
-              squadID,
-              squads: [squadID],  // Pass the squad ID in the array
-              message: `${user.name} invited you to join the squad ${squadName}.`,
-            },
-          }));
-    
-          const requestID = requestToBeAddedResult.data.createRequestToBeAddedInASquad.id;
-    
-          // Update notification with the new request ID
-          squadAddRequestsArray.push(requestID);
-    
-          await API.graphql(graphqlOperation(updateNotification, {
-            input: { id: notificationID, squadAddRequestsArray },
-          }));
-        }
-    
-        Alert.alert("Squad created successfully!");
-        navigation.goBack();
-      } catch (error) {
-        console.log("Error creating squad", error);
-      }
-    };
+    updateLocalUser({
+      ...user,
+      nonPrimarySquadsCreated: updatedSquadsCreated,
+      numSquadCreated: updatedNumSquadsCreated,
+    });
+
+    const updateUserResults = await API.graphql(graphqlOperation(updateUser, {
+      input: {
+        id: userID,
+        nonPrimarySquadsCreated: updatedSquadsCreated,
+        numSquadCreated: updatedNumSquadsCreated,
+      },
+    }));
+    console.log("Here are the updated user results", updateUserResults);
+
+    // Step 3: Call the handleSelectedUsers function to process the selected users
+    if (selectedUsers && selectedUsers.length > 0) {
+      await handleSelectedUsers(selectedUsers, squadID, squadName, userID, user.name);
+    } else {
+      Alert.alert("No users selected to invite to the squad.");
+    }
+
+    // Step 4: Clear the selectedUsers array and reset squadName and squadBio
+    setSelectedUsers([]);
+    setSquadName("");
+    SetSquadBio("");
+
+    Alert.alert("Squad created successfully!");
+
+    // Optionally navigate back
+    // navigation.goBack();
+  } catch (error) {
+    console.log("Error creating squad", error);
+  }
+};
+
+
     
   return (
     <BottomSheetModalProvider>
@@ -259,9 +301,8 @@ const CreateSquadScreen = () => {
         selected={selectedUsers.includes(item)}  // Check if user is selected
     />
   )}
-  keyExtractor={(item) => item.id.toString()}
+       keyExtractor={(item) => item.id.toString()}
 />
-
           </BottomSheetView> 
         </BottomSheetModal>
     </KeyboardAvoidingView>

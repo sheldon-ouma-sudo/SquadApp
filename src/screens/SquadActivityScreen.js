@@ -12,13 +12,19 @@ const SquadActivityScreen = () => {
   const [joinSquadRequests, setJoinSquadRequests] = useState([]); // Hold requests to join squads
   const [addedToSquadRequests, setAddedToSquadRequests] = useState([]); // Hold requests to be added to squads
 
-  // Callback to remove request from the list
-  const removeRequestFromList = (id) => {
-    setAddedToSquadRequests((prevRequests) =>
-      prevRequests.filter((request) => request.id !== id)
-    );
-  };
-  
+ // Function to remove a join squad request from the list
+ const removeJoinRequest = (id) => {
+  setJoinSquadRequests((prevRequests) => 
+    prevRequests.filter((request) => request.id !== id)
+  );
+};
+
+// Function to remove an add squad request from the list
+const removeAddRequest = (id) => {
+  setAddedToSquadRequests((prevRequests) => 
+    prevRequests.filter((request) => request.id !== id)
+  );
+};
   useEffect(() => {
     const fetchNotificationsAndRequests = async () => {
       try {
@@ -53,35 +59,35 @@ const SquadActivityScreen = () => {
     }
   
     // // Subscriptions for new requests
-    // const createRequestToJoinSub = API.graphql(
-    //   graphqlOperation(onCreateRequestToJoinASquad)
-    // ).subscribe({
-    //   next: (data) => {
-    //     const newRequest = data.value.data.onCreateRequestToJoinASquad;
-    //     if (newRequest) {
-    //       setJoinSquadRequests((prevRequests) => [...prevRequests, newRequest]);
-    //     }
-    //   },
-    //   error: (error) => console.log('Error on create request to join squad subscription:', error),
-    // });
+    const createRequestToJoinSub = API.graphql(
+      graphqlOperation(onCreateRequestToJoinASquad)
+    ).subscribe({
+      next: (data) => {
+        const newRequest = data.value.data.onCreateRequestToJoinASquad;
+        if (newRequest) {
+          setJoinSquadRequests((prevRequests) => [...prevRequests, newRequest]);
+        }
+      },
+      error: (error) => console.log('Error on create request to join squad subscription:', error),
+    });
   
-    // const createRequestToBeAddedSub = API.graphql(
-    //   graphqlOperation(onCreateRequestToBeAddedInASquad)
-    // ).subscribe({
-    //   next: (data) => {
-    //     const newRequest = data.value.data.onCreateRequestToBeAddedInASquad;
-    //     if (newRequest) {
-    //       setAddedToSquadRequests((prevRequests) => [...prevRequests, newRequest]);
-    //     }
-    //   },
-    //   error: (error) => console.error('Error on create request to be added subscription:', error),
-    // });
+    const createRequestToBeAddedSub = API.graphql(
+      graphqlOperation(onCreateRequestToBeAddedInASquad)
+    ).subscribe({
+      next: (data) => {
+        const newRequest = data.value.data.onCreateRequestToBeAddedInASquad;
+        if (newRequest) {
+          setAddedToSquadRequests((prevRequests) => [...prevRequests, newRequest]);
+        }
+      },
+      error: (error) => console.error('Error on create request to be added subscription:', error),
+    });
   
-    // // Cleanup subscriptions
-    // return () => {
-    //   createRequestToJoinSub.unsubscribe();
-    //   createRequestToBeAddedSub.unsubscribe();
-    // };
+    // Cleanup subscriptions
+    return () => {
+      createRequestToJoinSub.unsubscribe();
+      createRequestToBeAddedSub.unsubscribe();
+    };
   }, [user?.id]);
   
   
@@ -102,11 +108,11 @@ const SquadActivityScreen = () => {
 
     // Differentiate between join and added requests
     if (item.requestType === 'join') {
-      return <RequestsToJoinUserSquadListItem item={item} />;
+      return <RequestsToJoinUserSquadListItem item={item} removeRequestFromList={removeJoinRequest} />;
     }
 
     if (item.requestType === 'add') {
-      return <RequestsToBeAddedInASquad item={item} removeRequestFromList={removeRequestFromList} />;
+      return <RequestsToBeAddedInASquad item={item} removeRequestFromList={removeAddRequest} />;
     }
 
     return null;

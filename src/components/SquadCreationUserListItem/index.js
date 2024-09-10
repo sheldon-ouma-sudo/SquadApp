@@ -36,7 +36,7 @@ const SquadCreationUserListItem = ({user, onSelectUser}) => {
                 style = {styles.userName}
               > 
               {user.name}
-              </Text>
+              </Text> 
             </View>
             <TouchableOpacity
               style={[
