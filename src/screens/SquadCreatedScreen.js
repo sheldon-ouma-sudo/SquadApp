@@ -4,6 +4,7 @@ import SquadCreatedListItem from '../components/SquadCreatedListItem'
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getUser} from '../graphql/queries';
 import { useRoute } from '@react-navigation/native';
+import NonPrimarySquadCreatedListItem from '../components/NonPrimarySquadCreatedListItem'
 import {useUserContext} from '../../UserContext';
 import { getSquad } from '../graphql/queries';
 
@@ -69,13 +70,13 @@ useEffect(() => {
 
         {squads.length > 0 && (
           <>
-            <Text style={styles.titleText}>Personal Squads</Text>
+            <Text style={styles.titleText}>Other Squads</Text>
             <FlatList
               data={squads}
               renderItem={({ item }) => (
-                <SquadCreatedListItem
+                <NonPrimarySquadCreatedListItem
                   squad={item}
-                  userInfo={userInfo}
+                  userInfo = {userInfo}
                 />
               )}
               keyExtractor={(item) => item.id.toString()}

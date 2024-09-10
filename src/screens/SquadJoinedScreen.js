@@ -39,12 +39,6 @@ const SquadJoinedScreen = () => {
     <SafeAreaView
     style={styles.container}>
     <View style={styles.searchBarContainer}>
-        {/* <SearchBar
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
-        setClicked={setClicked}
-      /> */}
        <FlatList
        data = {squads}
        renderItem={({item})=>(

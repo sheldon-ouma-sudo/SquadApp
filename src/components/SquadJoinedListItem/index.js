@@ -13,11 +13,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-const SquadJoinedListItem =({ squad,
-  userInfo,
-  onPress = () => {},
-  selectable = false,
-  isSelected = false,})=>{
+const SquadJoinedListItem =({ squad,userInfo,})=>{
  const navigation = useNavigation()
  const[squadSelected, setSquadSelected] = useState(false)
  const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])

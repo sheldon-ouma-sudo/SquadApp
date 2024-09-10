@@ -2,29 +2,35 @@
     import { useNavigation } from '@react-navigation/native';
     import { useState, useEffect} from "react";
     import FontAwesome from '@expo/vector-icons/FontAwesome';
+    import { useUserContext } from "../../../UserContext";
 
     const SquadCreatedListItem = ({ squad})=>{
     const navigation = useNavigation()
-    const[squadSelected, setSquadSelected] = useState(false)
-    const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
     const[squadCreatedName, setSquadCreatedName] = useState("Squad Created")
+    const {user} = useUserContext();
 
 
     useEffect(() => {
       const fetchSquad = async () => {
-        setSquadCreatedName(squad.squadName) 
-        }
-        fetchSquad()
+        console.log("here is the squad", squad);
+        console.log("here is the user", user)
+        setSquadCreatedName(squad.squadName);
+      };
+      fetchSquad();
     }, []);
-    //add the squad selected to the user's joined squad array
-    const handleSquadSelected=async() =>{
-      navigation.navigate('EditSquadScreen',{squad:squad});
-    }
-    const handleSquadCreatedListItemPress = () => {
-      // Navigate to the screen with the poll
-      navigation.navigate('SquadDisplayScreen',{squad:squad});
+  
+    const handleSquadSelected = async () => {
+      navigation.navigate('EditSquadScreen', { squad: squad });
     };
-     
+  
+    const handleSquadCreatedListItemPress = () => {
+      // Navigate to the screen with the squad
+      navigation.navigate('SquadDisplayScreen', { squad: squad });
+    };
+  
+    // Determine the displayed creator name
+    const creatorName = squad?.authUserName || user?.userName;
+    console.log("here is the creator name",creatorName)
     return (
       <TouchableOpacity
       style={styles.container}  
@@ -42,7 +48,7 @@
           {squadCreatedName}
           </Text>
           <Text style = {styles.squadCreator}>
-            Created by {squad?.authUserName}
+            Created by {creatorName}
           </Text>
         </View>
         <TouchableOpacity
@@ -117,7 +123,7 @@
       },
       editButton: {
         height: 40,
-        width: 80, // Fixed width for consistency
+        width: 80,  // Fixed width for consistency
         backgroundColor: "#1145FD",
         borderRadius: 16,
         borderColor: "#FFFF",

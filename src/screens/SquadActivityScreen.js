@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { notificationsByUserID, getRequestToBeAddedInASquad, getRequestToJoinASquad } from '../graphql/queries';  // Import the queries
@@ -119,16 +119,24 @@ const removeAddRequest = (id) => {
   };
 
   return (
+    <SafeAreaView style={styles.container}>
     <FlatList
       data={combinedData}
       renderItem={renderItem}
       keyExtractor={(item, index) => item.id || index.toString()} // Use index as fallback for headers
       contentContainerStyle={styles.listContent}
     />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#F4F8FB',
+  },
   sectionHeader: {
     fontSize: 18,
     fontWeight: 'bold',

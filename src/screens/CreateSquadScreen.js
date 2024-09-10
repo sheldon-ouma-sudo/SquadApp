@@ -156,7 +156,7 @@ const handleCreateSquad = async () => {
     // Step 1: Create the Squad
     const squadResult = await API.graphql(graphqlOperation(createSquad, {
       input: {
-        squadName,
+        squadName: squadName,
         bio: squadBio,
         public: isPublic, // Set the squad's privacy based on the selected option
         authUserID: user.id,
