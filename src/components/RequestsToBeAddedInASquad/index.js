@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { API, graphqlOperation } from 'aws-amplify';
-import { updateUser, deleteRequestToBeAddedInASquad, updateNotification, createSquadUser } from '../../graphql/mutations'
-import { getSquad, getNotification } from '../../graphql/queries'; // for fetching the squad
+import { updateUser, deleteRequestToBeAddedInASquad, updateNotification, createSquadUser, updateSquad } from '../../graphql/mutations'
+import { getSquad, getNotification, notificationsByUserID } from '../../graphql/queries'; // for fetching the squad
 import { useUserContext } from '../../../UserContext'; // Import the user context to get the local user
 
 
@@ -12,91 +12,99 @@ const RequestsToBeAddedInASquad = ({ item, removeRequestFromList }) => {
 
   const handleAccept = async () => {
     try {
-      const squadID = item.squadID; // Step 1: Get the squad ID
-
-      // Step 2: Add the squad ID to the local user's `squadJoinedID` array
-      const updatedSquadJoinedID = [...user.squadJoinedID, squadID];
-
-      // Step 3: Get the squad details based on the squad ID (Step 5: get squad details)
+      const squadID = item.squadID; // Get the squad ID
+      const requestingUserID = item.requestingUserID; // Get the ID of the user who sent the request
+      console.log("here are the requesting user Id and squad ID", squadID, requestingUserID)
+      // Step 1: Get the squad details
       const squadResult = await API.graphql(graphqlOperation(getSquad, { id: squadID }));
       const squad = squadResult.data.getSquad;
-
-      // Add the squad itself to the user's `squadJoined` array (in addition to `squadJoinedID`)
-      const updatedSquadJoined = [...user.squadJoined, squad];
-      const updatedNumOfSquadJoined = user.numOfSquadJoined + 1;
-
-      // Step 4: Update the local user locally with the new information
+      console.log("here is the squad", squad)
+      // Step 2: Update the local user's squads
+      const updatedSquadJoinedID = [...(user.squadJoinedID || []), squadID]; 
+      console.log("here is the update squad things: ",updatedSquadJoinedID)
+      const updatedSquadJoined = [...(user.squadJoined || []), squad];
+      console.log("here is the update squad things: ",updatedSquadJoined, )
+      const updatedNumOfSquadJoined = (user.numOfSquadJoined || 0) + 1;
+      console.log("here is the update squad things: ",updatedNumOfSquadJoined )
+     
       updateLocalUser({
         ...user,
         squadJoinedID: updatedSquadJoinedID,
-        squadJoined: updatedSquadJoined, // Update the squad array with the newly joined squad
+        squadJoined: updatedSquadJoined,
         numOfSquadJoined: updatedNumOfSquadJoined,
       });
 
-      // Step 4: Update the local user in the database with the new information
       await API.graphql(
         graphqlOperation(updateUser, {
-          input: { id: user.id, squadJoinedID: updatedSquadJoinedID, squadJoined: updatedSquadJoined,  numOfSquadJoined: updatedNumOfSquadJoined, },
+          input: {
+            id: user.id,
+            squadJoinedID: updatedSquadJoinedID,
+            squadJoined: updatedSquadJoined,
+            numOfSquadJoined: updatedNumOfSquadJoined,
+          },
         })
       );
 
-      // Step 6: Create the SquadUser using the squad ID and local user ID
+      //step 3 should be updating the squad
+      //update the number of squad users
+      // Step 3: Update the squad to increase the number of users in the squad
+         const updatedNumOfUsers = squad.numOfUsers + 1;
+
+        await API.graphql(
+      graphqlOperation(updateSquad, {
+      input: {
+      id: squadID,
+      numOfUsers: updatedNumOfUsers,
+      // Add any other fields you want to update in the squad
+    },
+  })
+);
+
+
+      // Step 4: Add the requesting user to the SquadUser table
       await API.graphql(
         graphqlOperation(createSquadUser, {
           input: {
             squadId: squadID,
-            userId: user.id,
+            userId: requestingUserID,
           },
         })
       );
 
-      // Step 7: Handle notifications (fetch from backend if not available locally)
-    let notifications = user.Notifications;
+      // Step 5: Fetch notifications for the local user (if not available locally)
+      let notifications = user.Notifications;
+      if (!notifications || notifications.length === 0) {
+        const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { id: user.id }));
+        notifications = notificationData.data?.getNotification ? [notificationData.data.notificationsByUserID] : [];
+        updateLocalUser({
+          ...user,
+          Notifications: notifications,
+        });
+      }
 
-    if (!notifications || notifications.length === 0) {
-      // Fetch notifications from backend if they are not in the local user data
-      const notificationData = await API.graphql(graphqlOperation(getNotification, { id: user.id }));
-      notifications = notificationData.data?.getNotification ? [notificationData.data.getNotification] : [];
-      
-      // Update the local user with the fetched notifications
-      updateLocalUser({
-        ...user,
-        Notifications: notifications,
-      });
-    }
+      // Step 6: Update the notification by removing the request ID from the `squadAddRequestsArray`
+      if (notifications.length > 0) {
+        const updatedRequestsArray = notifications[0].squadAddRequestsArray.filter((reqID) => reqID !== item.id);
+        await API.graphql(
+          graphqlOperation(updateNotification, {
+            input: {
+              id: notifications[0].id,
+              squadAddRequestsArray: updatedRequestsArray,
+            },
+          })
+        );
+      }
 
-    if (notifications.length > 0) {
-      // Now that we have the notifications, proceed to update the `squadAddRequestsArray`
-      const updatedRequestsArray = notifications[0].squadAddRequestsArray.filter(
-        (reqID) => reqID !== item.id
-      );
-      
-      // Update the notification in the backend
-      await API.graphql(
-        graphqlOperation(updateNotification, {
-          input: {
-            id: notifications[0].id,
-            squadAddRequestsArray: updatedRequestsArray,
-          },
-        })
-      );
-    }
-
-    // Step 8: Delete the request
-    await API.graphql(graphqlOperation(deleteRequestToBeAddedInASquad, { input: { id: item.id } }));
-
-    // Step 9: Remove the request from the FlatList
-    removeRequestFromList(item.id);
-      // Step 8: Delete the request
+      // Step 7: Delete the request to join the squad
       await API.graphql(graphqlOperation(deleteRequestToBeAddedInASquad, { input: { id: item.id } }));
 
-      // Step 9: Remove the request from the FlatList
+      // Step 8: Remove the request from the FlatList
       removeRequestFromList(item.id);
+      console.log("Request ID to be removed:", item.id);
     } catch (error) {
       console.log('Error accepting the request:', error);
     }
   };
-
   const handleIgnore = async () => {
     try {
       // Step 1: Fetch notifications if they don't exist in the local user context
@@ -104,8 +112,8 @@ const RequestsToBeAddedInASquad = ({ item, removeRequestFromList }) => {
   
       if (!notifications || notifications.length === 0) {
         // Fetch notifications from backend if they are not in the local user data
-        const notificationData = await API.graphql(graphqlOperation(getNotification, { id: user.id }));
-        notifications = notificationData.data?.getNotification ? [notificationData.data.getNotification] : [];
+        const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { id: user.id }));
+        notifications = notificationData.data?.getNotification ? [notificationData.data.notificationsByUserID] : [];
         
         // Update the local user with the fetched notifications
         updateLocalUser({
@@ -159,10 +167,11 @@ const styles = StyleSheet.create({
   container: {
     padding: 15,
     backgroundColor: 'white',
-    borderRadius: 8,
-    borderColor: '#ddd',
-    borderWidth: 1,
+    borderRadius: 25,
+    borderColor: "#C2B960",
+    borderWidth: 3,
     marginBottom: 10,
+
   },
   message: {
     marginBottom: 10,

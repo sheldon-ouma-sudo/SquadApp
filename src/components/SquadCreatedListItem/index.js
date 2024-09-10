@@ -117,13 +117,14 @@
       },
       editButton: {
         height: 40,
-        width: 100, // Fixed width for consistency
+        width: 80, // Fixed width for consistency
         backgroundColor: "#1145FD",
         borderRadius: 16,
         borderColor: "#FFFF",
         borderWidth: 2.5,
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: -20
       },
       editButtonText: {
         color: "white",

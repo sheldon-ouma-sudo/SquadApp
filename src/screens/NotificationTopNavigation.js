@@ -6,6 +6,7 @@
     import React, { useEffect, useState } from 'react';
     import { API, graphqlOperation } from 'aws-amplify';
     import { useUserContext } from '../../UserContext';
+    import { notificationsByUserID } from '../graphql/queries';
     import { getNotification } from '../graphql/queries';
     import { useSafeAreaInsets } from 'react-native-safe-area-context';
     import * as Device from 'expo-device';
@@ -92,29 +93,45 @@ Notifications.scheduleNotificationAsync({
   const [squadAddRequestsArray, setSquadAddRequestsArray] = useState([]);
   const [squadJoinRequestArray, setSquadJoinRequestArray] = useState([]);
 
-  // Fetch the user's notification data
   useEffect(() => {
     const fetchNotifications = async () => {
+      // Check if the user and user.id exist before making the API request
+      if (!user || !user.id) {
+        console.log('User or User ID is not available');
+        return;
+      }
+  
       try {
+        console.log("Fetching notifications for user ID:", user.id);
+  
+        // Make sure you're using the correct variable for the query (user.id)
         const notificationData = await API.graphql(
-          graphqlOperation(getNotification, { id: user.id })
+          graphqlOperation(notificationsByUserID, { userID: user.id })
         );
-        const notification = notificationData?.data?.getNotification;
+  
+        const notifications = notificationData?.data?.notificationsByUserID?.items;
 
-        if (notification) {
+        // Check if notifications exist and grab the first one
+        if (notifications && notifications.length > 0) {
+          const notification = notifications[0];  // Get the first notification
+          console.log("here is the squadAddrequest", notification.squadAddRequestsArray); // This should no longer be undefined
+          console.log("here is the squadjoinrequest", notification.SquadJoinRequestArray); // Access it correctly now
+  
           setSquadAddRequestsArray(notification.squadAddRequestsArray || []);
           setSquadJoinRequestArray(notification.SquadJoinRequestArray || []);
+        } else {
+          console.log("No notifications found");
         }
       } catch (error) {
         console.log('Error fetching notifications:', error);
       }
     };
-
-    if (user) {
-      fetchNotifications();
+  
+    if (user && user.id) {
+      fetchNotifications(); // Only fetch if user and user.id are available
     }
   }, [user]);
-
+  
       return (
         <Tab.Navigator
         style={[{ marginTop: -2 }, { marginEnd: 5 }, { marginStart: 5 }, { backgroundColor: "#F4F8FB" }, { borderRadius: 9 }]}
@@ -125,10 +142,14 @@ Notifications.scheduleNotificationAsync({
       >
         <Tab.Screen name="Poll Notifications" component={PollActivityScreen} />
         <Tab.Screen
-          name="Squad Notifications"
-          component={SquadActivityScreen}
-          initialParams={{ squadAddRequestsArray, squadJoinRequestArray }}
-        />
+      name="Squad Notifications"
+      component={SquadActivityScreen}
+     initialParams={{ 
+    squadAddRequestsArray: squadAddRequestsArray, 
+    squadJoinRequestArray: squadJoinRequestArray 
+  }}
+/>
+
       </Tab.Navigator>
   )
 }  

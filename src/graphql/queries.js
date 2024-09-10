@@ -234,6 +234,7 @@ export const getNotification = /* GraphQL */ `
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
+      GeneralResponses
       PollComments {
         nextToken
         __typename
@@ -273,6 +274,7 @@ export const listNotifications = /* GraphQL */ `
         pollLikeResponseArray
         squadAddRequestsArray
         SquadJoinRequestArray
+        GeneralResponses
         userID
         new
         createdAt
@@ -307,6 +309,7 @@ export const notificationsByUserID = /* GraphQL */ `
         pollLikeResponseArray
         squadAddRequestsArray
         SquadJoinRequestArray
+        GeneralResponses
         userID
         new
         createdAt

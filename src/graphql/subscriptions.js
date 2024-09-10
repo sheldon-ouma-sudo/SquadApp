@@ -328,6 +328,7 @@ export const onCreateNotification = /* GraphQL */ `
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
+      GeneralResponses
       PollComments {
         nextToken
         __typename
@@ -364,6 +365,7 @@ export const onUpdateNotification = /* GraphQL */ `
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
+      GeneralResponses
       PollComments {
         nextToken
         __typename
@@ -400,6 +402,7 @@ export const onDeleteNotification = /* GraphQL */ `
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
+      GeneralResponses
       PollComments {
         nextToken
         __typename

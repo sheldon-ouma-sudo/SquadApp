@@ -71,7 +71,7 @@
             );
     
             const newNotification = notificationResponse.data.createNotification;
-            console.log("Notification created successfully:", newNotification);
+            // console.log("Notification created successfully:", newNotification);
     
             const updatedNotifications = [...(user.Notifications || []), newNotification];
             updateLocalUser({

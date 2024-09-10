@@ -1,103 +1,127 @@
-import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { getRequestToBeAddedInASquad, getRequestToJoinASquad } from '../graphql/queries';
+import { notificationsByUserID, getRequestToBeAddedInASquad, getRequestToJoinASquad } from '../graphql/queries';  // Import the queries
+import { onCreateRequestToJoinASquad, onCreateRequestToBeAddedInASquad, onDeleteRequestToBeAddedInASquad } from '../graphql/subscriptions';
 import RequestsToJoinUserSquadListItem from '../components/RequestsToJoinUserSquadListItem';
 import RequestsToBeAddedInASquad from '../components/RequestsToBeAddedInASquad';
+import { useUserContext } from '../../UserContext';
 
-const SquadActivityScreen = ({ route }) => {
-  const { squadAddRequestsArray, squadJoinRequestArray } = route.params || {};
-  const [joinSquadRequests, setJoinSquadRequests] = useState([]);
-  const [addedToSquadRequests, setAddedToSquadRequests] = useState([]);
+const SquadActivityScreen = () => {
+  const { user } = useUserContext();  // Get the current user from context
+  const [joinSquadRequests, setJoinSquadRequests] = useState([]); // Hold requests to join squads
+  const [addedToSquadRequests, setAddedToSquadRequests] = useState([]); // Hold requests to be added to squads
 
-    // Callback to remove request from the list
-    const removeRequestFromList = (id) => {
-      setAddedToSquadRequests((prevRequests) =>
-        prevRequests.filter((request) => request.id !== id)
-      );
-    };
-
-  // Fetch requests for squads
+  // Callback to remove request from the list
+  const removeRequestFromList = (id) => {
+    setAddedToSquadRequests((prevRequests) =>
+      prevRequests.filter((request) => request.id !== id)
+    );
+  };
   useEffect(() => {
-    const fetchRequests = async () => {
+    const fetchNotificationsAndRequests = async () => {
       try {
-        // Fetch request to join squads using squadJoinRequestArray
-        const joinRequests = await Promise.all(
-          squadJoinRequestArray.map(async (requestId) => {
-            const requestResult = await API.graphql(
-              graphqlOperation(getRequestToJoinASquad, { id: requestId })
-            );
-            return requestResult.data.getRequestToJoinASquad;
-          })
-        );
-        setJoinSquadRequests(joinRequests);
-
-        // Fetch request to be added to squads using squadAddRequestsArray
-        const addedRequests = await Promise.all(
-          squadAddRequestsArray.map(async (requestId) => {
-            const requestResult = await API.graphql(
-              graphqlOperation(getRequestToBeAddedInASquad, { id: requestId })
-            );
-            return requestResult.data.getRequestToBeAddedInASquad;
-          })
-        );
-        setAddedToSquadRequests(addedRequests);
+        const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { userID: user.id }));
+        const notifications = notificationData?.data?.notificationsByUserID?.items;
+  
+        if (notifications && notifications.length > 0) {
+          const notification = notifications[0];
+          const joinRequests = await Promise.all(
+            (notification.SquadJoinRequestArray || []).map(async (requestId) => {
+              const requestResult = await API.graphql(graphqlOperation(getRequestToJoinASquad, { id: requestId }));
+              return requestResult.data.getRequestToJoinASquad;
+            })
+          );
+          setJoinSquadRequests(joinRequests);
+  
+          const addedRequests = await Promise.all(
+            (notification.squadAddRequestsArray || []).map(async (requestId) => {
+              const requestResult = await API.graphql(graphqlOperation(getRequestToBeAddedInASquad, { id: requestId }));
+              return requestResult.data.getRequestToBeAddedInASquad;
+            })
+          );
+          setAddedToSquadRequests(addedRequests);
+        }
       } catch (error) {
         console.log('Error fetching squad requests:', error);
       }
     };
-
-    if (squadAddRequestsArray.length || squadJoinRequestArray.length) {
-      fetchRequests();
+  
+    if (user?.id) {
+      fetchNotificationsAndRequests();
     }
-  }, [squadAddRequestsArray, squadJoinRequestArray]);
+  
+    // // Subscriptions for new requests
+    // const createRequestToJoinSub = API.graphql(
+    //   graphqlOperation(onCreateRequestToJoinASquad)
+    // ).subscribe({
+    //   next: (data) => {
+    //     const newRequest = data.value.data.onCreateRequestToJoinASquad;
+    //     if (newRequest) {
+    //       setJoinSquadRequests((prevRequests) => [...prevRequests, newRequest]);
+    //     }
+    //   },
+    //   error: (error) => console.log('Error on create request to join squad subscription:', error),
+    // });
+  
+    // const createRequestToBeAddedSub = API.graphql(
+    //   graphqlOperation(onCreateRequestToBeAddedInASquad)
+    // ).subscribe({
+    //   next: (data) => {
+    //     const newRequest = data.value.data.onCreateRequestToBeAddedInASquad;
+    //     if (newRequest) {
+    //       setAddedToSquadRequests((prevRequests) => [...prevRequests, newRequest]);
+    //     }
+    //   },
+    //   error: (error) => console.error('Error on create request to be added subscription:', error),
+    // });
+  
+    // // Cleanup subscriptions
+    // return () => {
+    //   createRequestToJoinSub.unsubscribe();
+    //   createRequestToBeAddedSub.unsubscribe();
+    // };
+  }, [user?.id]);
+  
+  
 
-  // Render item for join squad requests
-  const renderJoinRequestItem = ({ item }) => (
-    <RequestsToJoinUserSquadListItem item={item} />
-  );
+  // Combine the two lists of requests with headers
+  const combinedData = [
+    { type: 'header', title: 'Requests to Join Your Squad' },
+    ...joinSquadRequests.map(item => ({ ...item, requestType: 'join' })),
+    { type: 'header', title: 'Requests to Add You to Squads' },
+    ...addedToSquadRequests.map(item => ({ ...item, requestType: 'add' })),
+  ];
 
-  // Render item for added to squad requests
-  const renderAddedRequestItem = ({ item }) => (
-    <RequestsToBeAddedInASquad item={item} removeRequestFromList={removeRequestFromList}/>
-  );
+  // Render item for FlatList
+  const renderItem = ({ item }) => {
+    if (item.type === 'header') {
+      return <Text style={styles.sectionHeader}>{item.title}</Text>;
+    }
+
+    // Differentiate between join and added requests
+    if (item.requestType === 'join') {
+      return <RequestsToJoinUserSquadListItem item={item} />;
+    }
+
+    if (item.requestType === 'add') {
+      return <RequestsToBeAddedInASquad item={item} removeRequestFromList={removeRequestFromList} />;
+    }
+
+    return null;
+  };
 
   return (
-    <ScrollView style={styles.scrollContainer}>
-    <View style={styles.container}>
-      <Text style={styles.sectionHeader}>Requests to Join Your Squad</Text>
-      <FlatList
-        data={joinSquadRequests}
-        renderItem={renderJoinRequestItem}
-        keyExtractor={(item) => item.id}
-        style={styles.flatList}
-        nestedScrollEnabled
-        contentContainerStyle={styles.listContent}
-      />
-
-      <Text style={styles.sectionHeader}>Requests to Add You to Squads</Text>
-      <FlatList
-        data={addedToSquadRequests}
-        renderItem={renderAddedRequestItem}
-        keyExtractor={(item) => item.id}
-        style={styles.flatList}
-        nestedScrollEnabled
-        contentContainerStyle={styles.listContent}
-      />
-    </View>
-  </ScrollView>
+    <FlatList
+      data={combinedData}
+      renderItem={renderItem}
+      keyExtractor={(item, index) => item.id || index.toString()} // Use index as fallback for headers
+      contentContainerStyle={styles.listContent}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flex: 1,
-    backgroundColor: '#F4F8FB',
-  },
-  container: {
-    padding: 15,
-    backgroundColor: '#F4F8FB',
-  },
   sectionHeader: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -105,20 +129,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: '#1145FD',
   },
-  flatList: {
-    maxHeight: 200, // Control the height to make both lists visible
-    marginBottom: 20,
-  },
   listContent: {
-    paddingBottom: 20, // Ensure enough padding for scrolling
-  },
-  requestItem: {
     padding: 15,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    marginBottom: 10,
+    backgroundColor: '#F4F8FB',
   },
 });
 

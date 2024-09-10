@@ -23,26 +23,26 @@ const SquadListItem = ({ squad, userInfo, onRequestSent }) => { // Add onRequest
   const [localUserName, setLocalUserName] = useState("");
   const [localUserID, setLocalUserID ] = useState("")
 
+ 
   useEffect(() => {
     if (userInfo) {
-      console.log("here is the local user", userInfo)
-      const fetchLocalSquadJoinedData = async () => {
-        setLocalUserName(userInfo.name);
-        setLocalUserID(userInfo.id)
-        setLocalUserSquadJoinedArray(userInfo.squadJoined);
-      };
+      console.log("Here is the local user", userInfo);
+      setLocalUserName(userInfo.name);
+      setLocalUserID(userInfo.id);
+      setLocalUserSquadJoinedArray(userInfo.squadJoined || []); // Default to an empty array if undefined
 
       const fetchCurrentSquadAuthUserData = async () => {
         const userID = squad.authUserID;
         if (!userID) {
-          console.log("the currentSquad auth user is non-valid");
+          console.log("The currentSquad auth user is non-valid");
         } else {
-          console.log("here is the userID", userID);
+          console.log("Here is the userID", userID);
           setCurrentSquadAuthUserID(userID);
           try {
             const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
             const userFromBackend = userData.data?.getUser;
             setCurrentUserName(userFromBackend.name);
+
             const notificationQueryResult = await API.graphql(
               graphqlOperation(notificationsByUserID, { userID })
             );
@@ -62,18 +62,19 @@ const SquadListItem = ({ squad, userInfo, onRequestSent }) => { // Add onRequest
         }
       };
 
-      fetchLocalSquadJoinedData();
       fetchCurrentSquadAuthUserData();
     }
   }, [squad, userInfo]);
 
   const possibleToJoinCurrentSquad = () => {
-    if (localUserSquadJoinedArray.includes(squad.id)) {
+    // Safely check if localUserSquadJoinedArray is defined and includes the squad ID
+    if (Array.isArray(localUserSquadJoinedArray) && localUserSquadJoinedArray.includes(squad.id)) {
       Alert.alert("You have already joined this squad!");
-      return false;
+      return false; 
     }
     return true;
   };
+
 
   const handleCurrentSquadAuthUserNotificationCreation = async () => {
     if (currentSquadAuthUserID) {
