@@ -39,6 +39,7 @@ export const getRequestToBeAddedInASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -151,6 +152,7 @@ export const getRequestToJoinASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -849,6 +851,7 @@ export const getSquad = /* GraphQL */ `
       squadName
       numOfPolls
       numOfUsers
+      prmiary
       Polls {
         nextToken
         __typename
@@ -875,6 +878,7 @@ export const listSquads = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1002,6 +1006,7 @@ export const getSquadPoll = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1103,6 +1108,7 @@ export const getSquadUser = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename

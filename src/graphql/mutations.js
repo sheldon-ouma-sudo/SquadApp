@@ -42,6 +42,7 @@ export const createRequestToBeAddedInASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -96,6 +97,7 @@ export const updateRequestToBeAddedInASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -150,6 +152,7 @@ export const deleteRequestToBeAddedInASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -203,6 +206,7 @@ export const createRequestToJoinASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -256,6 +260,7 @@ export const updateRequestToJoinASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -309,6 +314,7 @@ export const deleteRequestToJoinASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -958,6 +964,7 @@ export const createSquad = /* GraphQL */ `
       squadName
       numOfPolls
       numOfUsers
+      prmiary
       Polls {
         nextToken
         __typename
@@ -986,6 +993,7 @@ export const updateSquad = /* GraphQL */ `
       squadName
       numOfPolls
       numOfUsers
+      prmiary
       Polls {
         nextToken
         __typename
@@ -1014,6 +1022,7 @@ export const deleteSquad = /* GraphQL */ `
       squadName
       numOfPolls
       numOfUsers
+      prmiary
       Polls {
         nextToken
         __typename
@@ -1219,6 +1228,7 @@ export const createSquadPoll = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1268,6 +1278,7 @@ export const updateSquadPoll = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1317,6 +1328,7 @@ export const deleteSquadPoll = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1345,6 +1357,7 @@ export const createSquadUser = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1394,6 +1407,7 @@ export const updateSquadUser = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1443,6 +1457,7 @@ export const deleteSquadUser = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename

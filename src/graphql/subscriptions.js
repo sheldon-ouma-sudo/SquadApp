@@ -41,6 +41,7 @@ export const onCreateRequestToBeAddedInASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -94,6 +95,7 @@ export const onUpdateRequestToBeAddedInASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -147,6 +149,7 @@ export const onDeleteRequestToBeAddedInASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -199,6 +202,7 @@ export const onCreateRequestToJoinASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -251,6 +255,7 @@ export const onUpdateRequestToJoinASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -303,6 +308,7 @@ export const onDeleteRequestToJoinASquad = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -928,6 +934,7 @@ export const onCreateSquad = /* GraphQL */ `
       squadName
       numOfPolls
       numOfUsers
+      prmiary
       Polls {
         nextToken
         __typename
@@ -953,6 +960,7 @@ export const onUpdateSquad = /* GraphQL */ `
       squadName
       numOfPolls
       numOfUsers
+      prmiary
       Polls {
         nextToken
         __typename
@@ -978,6 +986,7 @@ export const onDeleteSquad = /* GraphQL */ `
       squadName
       numOfPolls
       numOfUsers
+      prmiary
       Polls {
         nextToken
         __typename
@@ -1173,6 +1182,7 @@ export const onCreateSquadPoll = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1221,6 +1231,7 @@ export const onUpdateSquadPoll = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1269,6 +1280,7 @@ export const onDeleteSquadPoll = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1296,6 +1308,7 @@ export const onCreateSquadUser = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1344,6 +1357,7 @@ export const onUpdateSquadUser = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename
@@ -1392,6 +1406,7 @@ export const onDeleteSquadUser = /* GraphQL */ `
         squadName
         numOfPolls
         numOfUsers
+        prmiary
         createdAt
         updatedAt
         __typename

@@ -100,6 +100,7 @@ type Squad @model @auth(rules: [{ allow: public }]) {
   squadName: String
   numOfPolls: Int
   numOfUsers: Int
+  prmiary: Boolean
   Polls: [Poll] @manyToMany(relationName: "SquadPoll")
 }
 

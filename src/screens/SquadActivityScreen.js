@@ -18,6 +18,7 @@ const SquadActivityScreen = () => {
       prevRequests.filter((request) => request.id !== id)
     );
   };
+  
   useEffect(() => {
     const fetchNotificationsAndRequests = async () => {
       try {
