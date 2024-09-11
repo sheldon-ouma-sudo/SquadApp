@@ -88,39 +88,56 @@ const PollListItem = ({ poll, }) => {
         );
 
         useEffect(() => {
-          //console.log(poll)
-          const username = user.userName
-          setLocalUserName(username)
+          const username = user.userName;
+          setLocalUserName(username);
           setNumOfPollLikes(poll.numOfLikes);
-          setNumOfPollComment(commentsData.length)
+          setNumOfPollComment(commentsData.length);
           setTotalNumOfVotes(poll.totalNumOfVotes || 0);
-          setPollCreatorID(poll.userID)
-          setPollID(poll.id)
-          //console.log("the total num of votes from the backend is: ",poll.totalNumOfVotes)
+          setPollCreatorID(poll.userID);
+          setPollID(poll.id);
+        
+          console.log('Raw Poll Items:', poll.pollItems); // Log the raw pollItems
+        
           try {
-            const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
+            // Check if pollItems are an array of strings, and then parse each string into an object
+            const parsedPollItems = Array.isArray(poll.pollItems)
+              ? poll.pollItems.map(item => JSON.parse(item)) // Parse each item string into an object
+              : [];
+        
+            console.log('Parsed Poll Items:', parsedPollItems); // Log parsed items to verify
+        
+            // Print the votes for each option after parsing
+            parsedPollItems.forEach((item, index) => {
+              console.log(`Option ${index + 1}: ${item.title} - ${item.votes} votes`);
+            });
+        
             setPollItems(parsedPollItems);
             const initialAnimationValues = parsedPollItems.map(() => new Value(0));
             setAnimationValues(initialAnimationValues);
             setSelectedOption(null);
+        
             const initialSelectedOption = parsedPollItems[0];
             animateVotePercentage(
-              initialSelectedOption.votes / poll.totalNumOfVotes || 0,0);
+              initialSelectedOption.votes / poll.totalNumOfVotes || 0, 0
+            );
           } catch (error) {
             console.log('Error parsing poll items:', error);
           }
-        const getPollCreater = async () => {
-          try {
-            const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
-            setPollCreator(pollCreatorInfoQuery.data?.getUser.userName)
-            setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser)
-          } catch (error) {
-            console.log("error fetching the poll creator", error)
-          }
-
-        }
-        getPollCreater()
+        
+          const getPollCreator = async () => {
+            try {
+              const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
+              setPollCreator(pollCreatorInfoQuery.data?.getUser.userName);
+              setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser);
+            } catch (error) {
+              console.log('Error fetching the poll creator:', error);
+            }
+          };
+          getPollCreator();
         }, [poll, pollCreatorID]);
+        
+        
+
 
         useEffect(() => {
           // Fetch comments when component mounts or when pollID changes
@@ -153,6 +170,18 @@ const PollListItem = ({ poll, }) => {
             setIsOptionSelected(false);
           }
         }, [selectedOption]);  
+
+        const formatLikes = (likes) => {
+          if (likes < 1000) {
+            return likes.toString(); // Return the number as is
+          } else if (likes >= 1000 && likes < 1000000) {
+            return (likes / 1000).toFixed(1).replace(/\.0$/, '') + 'K'; // Format in thousands
+          } else if (likes >= 1000000) {
+            return (likes / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'; // Format in millions
+          }
+          return likes.toString(); // Default case, although it won't be hit due to the previous conditions
+        };
+        
 
         const getOptionTextStyle = () => ({
           color: optionClicked ? 'black' : 'white',
@@ -204,7 +233,7 @@ const PollListItem = ({ poll, }) => {
           };
         }, [animationValues]);
         
-        const animateVotePercentage = (percentage, index, isSelected) => {
+        const animateVotePercentage = (percentage, index) => {
           if (!isNaN(percentage)) {
             timing(animationValues[index], {
               toValue: percentage, // Use the calculated percentage directly
@@ -216,19 +245,20 @@ const PollListItem = ({ poll, }) => {
           }
         };
         
+        // Update `animateAllOptions` to call `animateVotePercentage` for all options:
         const animateAllOptions = (selectedOptionIndex) => {
           pollItems.forEach((pollItem, i) => {
-            const percentage = calculatePercentage(pollItem.votes, totalNumOfVotes);
-            animateVotePercentage(percentage, i, i === selectedOptionIndex);
+            const percentage = calculatePercentage(pollItem.votes);
+            animateVotePercentage(percentage, i);
           });
         };
         
-
+        // Calculate the vote percentage relative to total votes:
         const calculatePercentage = (votes) => {
-        console.log(`Votes: ${votes}, Total Votes: ${totalNumOfVotes}`);
-        return totalNumOfVotes > 0 ? (votes / totalNumOfVotes) * 100 : 0;
-      };
-
+          console.log(`Votes: ${votes}, Total Votes: ${totalNumOfVotes}`);
+          return totalNumOfVotes > 0 ? (votes / totalNumOfVotes) * 100 : 0;
+        };
+        
         const handleLickedIconClick = () => {
           setIsLikeIconClicked(!isLikeIconClicked);
           setNumOfPollLikes(prevLikes => (isLikeIconClicked ? prevLikes +1 : prevLikes -1));
@@ -282,37 +312,38 @@ const PollListItem = ({ poll, }) => {
             <TouchableOpacity>
             <Text style={styles.question}>{poll.pollCaption}</Text>
             {pollItems.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.optionContainer,
-                  selectedOption === index && styles.selectedOption,
-                ]}
-                onPress={() => handleOptionPress(index)}
-              >
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.optionContainer,
+                    selectedOption === index && styles.selectedOption,
+                  ]}
+                  onPress={() => handleOptionPress(index)}
+                >
+                  {/* Always render the option title */}
+                  <Text style={styles.optionText}>{item.title}</Text>
 
-                <Text style={getOptionTextStyle()}>{item.title}</Text>
-                <Text style={getSelectedOptionTextStyle() }>{item.title}</Text>
-                <View style={styles.percentageContainer}>
-                  <Animated.View
-                    style={[
-                      styles.percentageBar,
-                      {
-                        width: animationValues[index].interpolate({
-                          inputRange: [0, 10.0],
-                          outputRange: ['0.0%', '35.0%'],
-                        }),
-                      },
-                    ]}
-                  />
-                  {isOptionSelected && (
-                    <Text style={styles.percentageText}>
-                      {`${calculatePercentage(item.votes).toFixed(2)}%`}
-                    </Text>
-                  )}
-                </View>
-              </TouchableOpacity>
-            ))}
+                  {/* Always render the percentage bar */}
+                  <View style={styles.percentageContainer}>
+                    <Animated.View
+                      style={[
+                        styles.percentageBar,
+                        {
+                          width: animationValues[index].interpolate({
+                            inputRange: [0, 100],
+                            outputRange: ['0%', '400%'], // Adjust to the actual vote percentage
+                          }),
+                        },
+                      ]} 
+                    />
+                    {isOptionSelected && (
+                      <Text style={styles.percentageText}>
+                        {`${calculatePercentage(item.votes).toFixed(2)}%`}
+                      </Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              ))}
             </TouchableOpacity>
 
             {/* component holding for the comment icon */}
@@ -343,7 +374,7 @@ const PollListItem = ({ poll, }) => {
                   color={isLikeIconClicked ? 'black' : 'red'}
                   style={styles.pollLikeIcon}
                 />
-                <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
+                 <Text style={styles.numOfpollLikes}>{formatLikes(numOfPollLikes)}</Text> 
               </TouchableOpacity>
 
             {/* Comments Section */}
@@ -387,16 +418,12 @@ const PollListItem = ({ poll, }) => {
           padding: 16,
           backgroundColor: "#FFFF",
           marginTop:5,
-          //borderWidth: 5,
           borderRadius: 29,
           marginBottom:5,
           marginStart:5,
           marginEnd:5
-        // borderColor: '#0038FF'
-          //marginVertical:135,
         },
         userImageContainer:{
-          //marginStart:10,
           marginTop:-20,
           marginLeft: -10
         },
@@ -405,7 +432,6 @@ const PollListItem = ({ poll, }) => {
             height:70
         },
         commentIconImageContainer:{
-          //marginStart:10,
           marginBottom:-20,
           marginLeft: 10,
           marginTop:20
@@ -428,8 +454,7 @@ const PollListItem = ({ poll, }) => {
           fontSize: 19.5,
           fontWeight: 'bold',
           marginBottom: 35,
-          marginTop: -25
-          
+          marginTop: -25 
         },
         optionContainer: {
           marginBottom: 30,
@@ -442,10 +467,8 @@ const PollListItem = ({ poll, }) => {
           height: 50,
           width: 350, // Adjust the width as per your requirement
         },
-
         selectedOption: {
         backgroundColor: '#add8e6', // Light blue for selected option
-        //backgroundColor: '#1764EF'
         },
          optionText: {
           fontSize: 16,
@@ -463,9 +486,16 @@ const PollListItem = ({ poll, }) => {
           marginLeft:125,
           color: "white"
         },
-        // percentageContainer:{
-        //   marginLeft:50
-        // },
+        percentageContainer: {
+          flexDirection: 'row',    // Align items horizontally (bar and text)
+          alignItems: 'center',    // Vertically align items in the center
+          justifyContent: 'space-between', // Spread items across the width of the container
+          marginTop: 10,           // Add margin to space it out from the option title
+          width: '100%',           // Take full width of the parent container (option container)
+          height: 30,              // Set height to contain the bar and text comfortably
+          paddingHorizontal: 10,   // Add padding on the sides
+        },
+        
         pollLikeIcon:{
           marginLeft:-3,
           //size:44
@@ -473,21 +503,21 @@ const PollListItem = ({ poll, }) => {
         percentageBar: {
           height: 50,
           backgroundColor: '#1764EF',
-          borderRadius: 29,
-          width: 30, // Adjust the width as per your requirement
-          alignSelf: 'flex-start',
-          marginBottom: 4,
-          marginTop: -48,
-          marginLeft: -7,
+          borderRadius: 25,
+          width: '100%', // Adjust the width as per your requirement
+          // alignSelf: 'flex-start',
+           marginBottom: 4,
+          marginTop: -28,
+          marginLeft: -15,
           overflow: 'hidden',
         },
         percentageText: {
-          fontSize: 15,
-          color: 'white',
-          fontWeight:'600',
-          marginTop: -36,
-          marginLeft:20
+          fontSize: 14,            // Size of the text showing percentage
+          color: 'black',          // Text color for visibility
+          marginLeft: 10,          // Ensure text does not overlap with the bar
+          fontWeight: '600',       // Make the percentage text bold
         },
+        
         pollCommentContainer:{
         marginTop:20,
         },
@@ -505,7 +535,7 @@ const PollListItem = ({ poll, }) => {
           marginTop:-85
         },
         numOfpollLikes:{
-          marginLeft:15,
+          marginLeft:-5,
           marginTop:5,
           fontSize:25,
           fontWeight:'700'

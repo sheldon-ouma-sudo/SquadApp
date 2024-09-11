@@ -12,12 +12,12 @@ const TrendingPollScreen = () => {
 
     useEffect(() => {
       const fetchPolls = async () => {
-        try {
+        try { 
           const results = await API.graphql(graphqlOperation(listPolls));
           if(!results.data?.listPolls){
             console.log("Error fetching users") 
           }
-          // console.log("this is the list of the Polls",results.data.listPolls.items)
+          console.log("this is the list of the Polls",results.data.listPolls.items)
             setPolls(results.data?.listPolls?.items)
         } catch (error) {
           console.log(error)
