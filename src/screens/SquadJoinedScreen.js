@@ -19,7 +19,8 @@ const SquadJoinedScreen = () => {
   
   useEffect(() => {
     const fetchSquadsUserJoined = async () => {
-      console.log("here is the user info",user)
+      //console.log("here is the user info",user)
+      console.log("here is the squad joined", user.squadJoined)
       setSquads(user.squadJoined)
       if (!user) {
         console.log("the user is null for now", user);

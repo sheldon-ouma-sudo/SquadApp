@@ -82,7 +82,6 @@ type Poll @model @auth(rules: [{ allow: public }]) {
   pollScore: Int
   superPoll: Boolean
   pollCommentArray: [String]
-  squadID: String
   pollItems: [AWSJSON]
   PollComments: [PollComment] @hasMany(indexName: "byPoll", fields: ["id"])
   PollRequest: PollRequest @hasOne

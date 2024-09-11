@@ -433,7 +433,6 @@ export const getPollRequest = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -583,7 +582,6 @@ export const getPollComment = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -729,7 +727,6 @@ export const getPoll = /* GraphQL */ `
       pollScore
       superPoll
       pollCommentArray
-      squadID
       pollItems
       PollComments {
         nextToken
@@ -783,7 +780,6 @@ export const listPolls = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -824,7 +820,6 @@ export const pollsByUserID = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -990,7 +985,6 @@ export const getSquadPoll = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt

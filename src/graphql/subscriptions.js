@@ -498,7 +498,6 @@ export const onCreatePollRequest = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -537,7 +536,6 @@ export const onUpdatePollRequest = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -576,7 +574,6 @@ export const onDeletePollRequest = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -640,7 +637,6 @@ export const onCreatePollComment = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -699,7 +695,6 @@ export const onUpdatePollComment = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -758,7 +753,6 @@ export const onDeletePollComment = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -788,7 +782,6 @@ export const onCreatePoll = /* GraphQL */ `
       pollScore
       superPoll
       pollCommentArray
-      squadID
       pollItems
       PollComments {
         nextToken
@@ -837,7 +830,6 @@ export const onUpdatePoll = /* GraphQL */ `
       pollScore
       superPoll
       pollCommentArray
-      squadID
       pollItems
       PollComments {
         nextToken
@@ -886,7 +878,6 @@ export const onDeletePoll = /* GraphQL */ `
       pollScore
       superPoll
       pollCommentArray
-      squadID
       pollItems
       PollComments {
         nextToken
@@ -1166,7 +1157,6 @@ export const onCreateSquadPoll = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -1215,7 +1205,6 @@ export const onUpdateSquadPoll = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt
@@ -1264,7 +1253,6 @@ export const onDeleteSquadPoll = /* GraphQL */ `
         pollScore
         superPoll
         pollCommentArray
-        squadID
         pollItems
         createdAt
         updatedAt

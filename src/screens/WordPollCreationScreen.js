@@ -74,33 +74,22 @@
                     };
 
                     const handleAddButtonPress = () => {
-                      const pollOptionObject = {
-                        id: idCounter,
-                        title: pollOption,
-                        votes: 0,
-                      };
-
-                      // console.log("clean pollOptionObject", pollOptionObject);
-
-                      // console.log("Before updating pollOptionData:", pollOptionData);
-
-                      setPollOptionData([...pollOptionData, pollOptionObject]);
-
-                      // console.log("After updating pollOptionData:", pollOptionData);
-
-                      // console.log("here is the new poll option", pollOptionData);
-                      setIdCounter(idCounter + 1);
-                  
-                      setPollOption("");
-                    };
+                      if (pollOption.trim() !== '') {
+                        const pollOptionObject = {
+                          id: idCounter,
+                          title: pollOption,
+                          votes: 0,
+                        };
                     
-
-
+                        setPollOptionData([...pollOptionData, pollOptionObject]);
+                        setIdCounter(idCounter + 1);
+                        setPollOption('');
+                      }
+                    };
                 const handleSelect = (val) => {
                   console.log('Selected value:', val);
                   setSelected(val);
                 };
-
 
                   const renderDataItem = (item) => {
                     return (
@@ -109,106 +98,99 @@
                             <AntDesign style={styles.icon} color="black" name="delete" size={20} />
                         </View>
                     );
-                  };
-
-                    //get the pollAudience 
-                    useEffect(() => {
-                      // console.log("here is the user", user);
-                      // console.log("poll audience, either updated or not updated for the first time", pollAudience)
-                      const fetchSquadInfo = async () => {
-                        const array = user.userSquadId;
-                        //console.log("here is the array", array);
-
-                        try {
-                          const promises = array.map(async (squadId, index) => {
+                  }
+                  //get the pollAudience 
+                  useEffect(() => {
+                    const fetchSquadInfo = async () => {
+                      try {
+                        // Fetch primary and non-primary squads created by the user
+                        const primarySquadArray = user.userPrimarySquad || [];
+                        const nonPrimarySquadArray = user.nonPrimarySquadsCreated || [];
+                        const squadArray = [...primarySquadArray, ...nonPrimarySquadArray]; // Combine both arrays
+                  
+                        // Ensure there are squads to process
+                        if (squadArray.length > 0) {
+                          const promises = squadArray.map(async (squadId) => {
                             try {
                               const response = await API.graphql(graphqlOperation(getSquad, { id: squadId }));
-                            //console.log("here is the raw response from the backend,", response.data?.getSquad.Users);
-                            const usersConnection = response.data?.getSquad?.Users; // Access Users connection
-                            //console.log("here is the user connections", usersConnection)
-                            const users = usersConnection?.items; // Access items array from the connection
-                            //console.log("here are the users from the squad", users);
-      
-                              const { squadName, Users } = response.data.getSquad;
-
-                            
-                              const dataItem = {
-                                label: squadName,
-                                value: squadId,
-                                Users: Users, 
-                              };
-
-                              //console.log("this is the data item's users", dataItem.Users);
-
-                              return dataItem; 
+                              const { squadName } = response.data.getSquad;
+                  
+                              return { key: squadId, label: squadName }; // Use `label` for MultiSelect
                             } catch (error) {
                               console.log('Error fetching squad:', error);
                               return null;
                             }
                           });
-
-                          const dataItemArr = await Promise.all(promises);
-                          //console.log("here is the dataItemArr", dataItemArr)
-                          const filteredDataItemArr = dataItemArr.filter(item => item !== null);
-                          //console.log("here is the filteredDataItemArr", filteredDataItemArr)
-                          // Update SquadsData state with the fetched data
-                          //setSquadsData(filteredDataItemArr);
-                          // Update PollAudience state with squad names
-                          const squadNames = filteredDataItemArr.map(item => item.label);
-                          //console.log("here is the squadNames", squadNames)
-                          const final_pollAudience = []
-                          for(let i=0; i<squadNames.length; i++){
-                            const dataItem = { key: i, value: squadNames[i]};
-                            final_pollAudience.push(dataItem)
-                          }
-                          //console.log("here is the final_poll audience",final_pollAudience)
-                          setPollAudience(final_pollAudience);
-                        } catch (error) {
-                          console.log('Error in fetchSquadInfo:', error);
+                  
+                          // Wait for all squads to be fetched and filtered
+                          const squadsData = await Promise.all(promises);
+                          const filteredSquads = squadsData.filter(squad => squad !== null);
+                  
+                          // Add the "Public" option
+                          const pollAudienceWithPublic = [
+                            { key: 'public', label: 'Public' }, // MultiSelect uses `label` for display
+                            ...filteredSquads,
+                          ];
+                  
+                          // Set the poll audience state for the MultiSelect
+                          setPollAudience(pollAudienceWithPublic);
+                        } else {
+                          // If no squads are found, still provide the "Public" option
+                          setPollAudience([{ key: 'public', label: 'Public' }]);
                         }
-                      };
-                      fetchSquadInfo();
-                    }, [user.userSquadId]);
-
-
-                //gather SquadData
-                useEffect(()=>{
-                const fetchSquadData = async()=>{
-                  //get the array of the squad --- find a way to track this
-                  const user_id  = user.id
-                  //console.log("this is the user ID", user_id)
-                  setUserID(user_id)
-                  const array = user.userSquadId;
-                  const squadID = array[0]
+                      } catch (error) {
+                        console.log('Error fetching squads for poll audience:', error);
+                        // In case of error, fallback to the "Public" option only
+                        setPollAudience([{ key: 'public', label: 'Public' }]);
+                      }
+                    };      
+                    // Fetch squad info on component mount or when user info changes
+                    fetchSquadInfo();
+                  }, [user.userPrimarySquad, user.nonPrimarySquadsCreated]);
+                  
+              // Function to gather squad data for all selected squads
+              useEffect(() => {
+                const fetchSquadData = async () => {
                   try {
-                    const response = await API.graphql(graphqlOperation(listSquadUsers, { id: squadID }));
-                    const data = JSON.stringify(response.data?.listSquadUsers.items);
-                    const parsedData = JSON.parse(data)
-                    //console.log(parsedData)
-                    const userData = []
-                    for (let i = 0; i < parsedData.length; i++) {
-                    //console.log("here is the user id",userID )
-                    if (parsedData[i].userId) {
-                      //console.log(parsedData[i])
-                      const userID =  parsedData[i].userId
-                      userData.push(userID)
-                        try {
-                            const results = await API.graphql(graphqlOperation(getUser, { id: userID }))
-                            //console.log("here are the results for getting users",results)
-                        } catch (error) {
-                            console.log("error extracting users", error);
-                        }
+                    const user_id = user.id;
+                    setUserID(user_id);
+                    const selectedSquads = selectedPollAudience.filter(audience => audience.key !== 'public'); // Exclude 'public' audience
+                    if (selectedSquads.length === 0) {
+                      console.log('No squads selected for poll audience.');
+                      return;
                     }
-                }
-                //console.log("here is the userData array new",userData)
-                setSquadsData(userData)
-
+                    const squadMembersPromises = selectedSquads.map(async (squad) => {
+                    const squadID = squad.key; // Extract squad ID from selectedPollAudience
+                      try {
+                        // Fetch squad users for each selected squad
+                        const response = await API.graphql(graphqlOperation(listSquadUsers, { id: squadID }));
+                        const squadUsersData = response.data?.listSquadUsers?.items;
+                        if (squadUsersData) {
+                          // Extract user IDs from squad users data
+                          return squadUsersData.map(user => user.userId);
+                        } else {
+                          console.log(`No users found for squad ID: ${squadID}`);
+                          return [];
+                        }
+                      } catch (error) {
+                        console.log(`Error fetching users for squad ID: ${squadID}`, error);
+                        return [];
+                      }
+                    });
+                    // Wait for all squad user data to be fetched
+                    const allSquadUsers = await Promise.all(squadMembersPromises);
+                    // Merge all squad user arrays into a single array
+                    const mergedSquadUsers = allSquadUsers.flat();
+                    // Update the squad data with the merged user IDs
+                    setSquadsData(mergedSquadUsers);
+                    // console.log('Squad Users Data:', mergedSquadUsers);
                   } catch (error) {
-                    console.log("error getting squad data",error)
+                    console.log('Error fetching squad data:', error);
                   }
-                }
-                fetchSquadData()
-                }, []) 
+                };
+               fetchSquadData();
+              }, [selectedPollAudience]);
+
              const updatePollItems = async (pollId, items) => {
                   try {
                     const updateInput = {
@@ -228,11 +210,23 @@
                 };
            const handleNotificationProduction = async (userID) =>{
              try {
-             const result = await API.graphql(graphqlOperation(notificationsByUserID, { userID: userID }))
-             //console.log("here are the results from notification production, success",result)
-             const notification = result.data?.notificationsByUserID.items
-             //const notificationID = notification[0].id
-             return notification
+              const notificationResponse = await API.graphql(
+                graphqlOperation(createNotification, {
+                  input: {
+                    pollRequestsArray: [],
+                    pollResponsesArray: [],
+                    pollCommentsArray: [],
+                    pollLikeResponseArray: [],
+                    squadAddRequestsArray: [],
+                    SquadJoinRequestArray: [],
+                    userID: userID,  // Make sure this is not null
+                    new: true,
+                  },
+                })
+              );
+      
+             const newNotification = notificationResponse.data.createNotification;
+             return newNotification
              } catch (error) {
               console.log("error producing the notification for this user", error)
              }
@@ -256,7 +250,6 @@
                 return false
               }  
           };
-
           //check if the user has notification
           const checkIfUserHasNotification=async(user_ID)=>{
             try {
@@ -269,11 +262,6 @@
               const notifications = notificationQueryResult.data?.notificationsByUserID.items;
               console.log("here are the notificationsnotifications✅", notifications)
               if (notifications.length > 0) {
-                //console.log("User has notifications:", notifications);
-                //const notificationID = notifications[0].id
-                //s//etUserNotificationID(notificationID)
-                //setExistingRequestsToBeAddedInASquadArr(notifications.squadAddRequestsArray)
-                console.log("notification before returning", notifications)
                 return notifications
               } else {
                     console.log("User has no notifications.");
@@ -288,8 +276,6 @@
           
 //handles updation the notification update to the receipients 
           const handleNotificationUpdate= async(pollRequestArray, notification_id)=>{
-            //console.log("here is the pollRequestArray", pollRequestArray)
-            //console.log("here is the notification id", notification_id)
             try {
               const resultUpdateNotification = await API.graphql(graphqlOperation(updateNotification, {input:{id: notification_id, pollRequestsArray:pollRequestArray}}))
               //console.log("updating existing user notification successful✅", resultUpdateNotification)
@@ -299,119 +285,52 @@
              }
           }
 
-        const handlePollRequestUpdate = async(pollRequestID, pollID)=>{
-          if (pollRequestID) {
-            // Update the Poll field in the PollRequest with the pollId
-            const updatePollRequestInput = {id: pollRequestID,Poll: {id: pollID}};
-            try {
-             const results =  await API.graphql(graphqlOperation(updatePollRequest,{ input: updatePollRequestInput}));
-             console.log("here is the results of updating the pollRequest", results)
-             return results
-            } catch (error) {
-              console.log("there has been an error updating the poll request", error)
-              return false;
-            }
-        }else{
-          console.log("Poll request ID faulty")
-          return false;
-        }
+      //   const handlePollRequestUpdate = async(pollRequestID, pollID)=>{
+      //     if (pollRequestID) {
+      //       // Update the Poll field in the PollRequest with the pollId
+      //       const updatePollRequestInput = {id: pollRequestID,Poll: {id: pollID}};
+      //       try {
+      //        const results =  await API.graphql(graphqlOperation(updatePollRequest,{ input: updatePollRequestInput}));
+      //        console.log("here is the results of updating the pollRequest", results)
+      //        return results
+      //       } catch (error) {
+      //         console.log("there has been an error updating the poll request", error)
+      //         return false;
+      //       }
+      //   }else{
+      //     console.log("Poll request ID faulty")
+      //     return false;
+      //   }
        
 
-      }
+      // }
           // // Function to create notifications for users in selected squads
-          const handleNotificationCreationAndUpdate = async (userID, pollID) => {
-            //console.log(squadsData)
-            try {
-              if(checkIfUserHasNotification === false){
-                console.log("user has no notification")
-                try {
-                   const notification= await handleNotificationProduction(userID)
-                  //console.log("here is the results fron notification production", notification)
-                  console.log("here is the notification", notification)
-                  const notification_id = notification[0].id
-                  //create the poll request ID 
-                  const pollRequestID = await handlePollRequestCreation(notification_id, userID,pollID)
-                  //handle the poll request update
-                  const resultFromUpdate = await handlePollRequestUpdate(pollRequestID, pollID)
-                  if(resultFromUpdate !== false){
-                    console.log("everything ok, everything great")
-                  }else{
-                    console.log("the result from the update is false", resultFromUpdate)
-                  }
-                  //retrieve notification poll request creation array
-                  const pollRequestArray = notification[0].pollRequestsArray
-                  //console.log("here is the poll request array", pollRequestArray)
-                  if(pollRequestArray === null){
-                    //console.log("poll request is null for now")
-                    const newPollRequestArray = []
-                    newPollRequestArray.push(pollRequestID)
-                    //console.log("here is the newPollRequestArr", newPollRequestArray)
-                    //pollRequestArray, notification_id
-                    //console.log("here is the notification", notification_id)
-                    const resultUpdate = handleNotificationUpdate(newPollRequestArray, notification_id);
-                    //console.log("here are the results", resultUpdate)
-                    return resultUpdate
-                  }else{
-                    console.log("here is the poll request array before update", pollRequestArray)
-                    pollRequestArray.push(pollRequestID)
-                    console.log("here is the updadated poll request array after update", pollRequestArray)
-                    const resultUpdate = handleNotificationUpdate(pollRequestArray, notification_id);
-                    console.log("here is the result update", resultUpdate)
-                    return resultUpdate
-                  }
-                } catch (error) {
-                  console.log("error creating the notification", error)
-                }
-              }else{
-               const notification = await checkIfUserHasNotification(userID)
-               console.log("here is the existing notification", notification)
-               const notification_id = notification[0].id
-               console.log("here is the notification ID",notification_id )
-                 const pollRequestID = await handlePollRequestCreation(notification_id, userID,pollID)
-                 //retrieve notification poll request creation array
-                 const pollRequestArray = notification[0].pollRequestsArray
-                 //console.log("here is the poll request array", pollRequestArray)
-                 if(pollRequestArray === null){
-                   //console.log("poll request is null for now")
-                   const newPollRequestArray = []
-                   newPollRequestArray.push(pollRequestID)
-                   //console.log("here is the newPollRequestArr", newPollRequestArray)
-                   //pollRequestArray, notification_id
-                   //console.log("here is the notification", notification_id)
-                   const resultUpdate = handleNotificationUpdate(newPollRequestArray, notification_id);
-                   //console.log("here are the results", resultUpdate)
-                   return resultUpdate
-                 }else{
-                   //console.log("poll request array is not null, this is the value instead",pollRequestArray )
-                   pollRequestArray.push(pollRequestID)
-                   //console.log("poll request array is not null, this is the value after update",pollRequestArray )
-                   const newArr = pollRequestArray;
-                   //console.log("here is the new array", newArr)
-                   const notificationUpdate = await handleNotificationUpdate(newArr, notification_id)
-                   //console.log("here is the new notification update", notificationUpdate)
-                   return notificationUpdate
-                 }
-              }
-            } catch (error) {
-              console.log("error updating notification",error)
-               return false
-            }
-           
-            }
+         
           //create a connection between the user's squad and the poll 
-          const handleSquadPollCreation = async(pollID, SquadID) =>{
-          try {
-            const SquadPollCreationResults = await API.graphql(graphqlOperation(createSquadPoll, {input:{
-              pollId:pollID,
-              squadId:SquadID
-            }}))
-            console.log("here are the squad poll creation results✅", SquadPollCreationResults)
-            return true; 
-          } catch (error) {
-            console.log("error creating a squad poll❌", error)
-            return false;
-          }
-          }
+          const handleSquadPollCreation = async (pollID, selectedPollAudience) => {
+            try {
+              // Step 1: Filter out "Public" from the selected poll audience
+              const squadsOnly = selectedPollAudience.filter(audience => audience.key !== 'public');
+          
+              // Step 2: Iterate over the squads and create squad poll for each selected squad
+              for (const squad of squadsOnly) {
+                const squadId = squad.key; // Assuming the squad ID is stored in the 'value' field
+          
+                const squadPollCreationResults = await API.graphql(graphqlOperation(createSquadPoll, { input: {
+                  pollId: pollID,
+                  squadId: squadId
+                }}));
+          
+                console.log(`Squad poll created for squad ID ${squadId}:`, squadPollCreationResults);
+              }
+          
+              return true; // Successfully created squad polls for all selected squads
+            } catch (error) {
+              console.log('Error creating squad poll:', error);
+              return false;
+            }
+          };
+          
 //incrementing the number of polls for the user
           const incrementNumOfPollsForUser = async (userId, updatedNumOfPolls) => {
             try {
@@ -441,23 +360,114 @@
               return false
             }
           }
+  // NotificationBussinessLogic calls the notification creation and update once for all users
+const NotificationBussinessLogic = async (pollId) => {
+  try {
+    // Pass the `squadsData` (the list of squad members) to the notification handling function
+    const notificationUpdateResult = await handleNotificationCreationAndUpdate(pollId);
+    if (notificationUpdateResult === true) {
+      console.log("All notifications and poll requests were handled successfully.");
+    } else {
+      console.log("There was an error handling the notifications.");
+    }
 
-      const NotificationBussinessLogic = async(pollId)=>{
-        for (const squadMemberID of squadsData){
-          try {
-            const notificationUpdateResult = handleNotificationCreationAndUpdate(squadMemberID,pollId)
-            if(notificationUpdateResult === false){
-              console.log("error updating the notification")
-            }else{
-              console.log("everything greatgreat✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅")
-            }
-            return true;
-          } catch (error) {
-            console.log("error updation notification", error)
-            return false
-          }
-        }
+    return notificationUpdateResult;
+  } catch (error) {
+    console.log("Error in NotificationBussinessLogic:", error);
+    return false;
   }
+};
+
+// handleNotificationCreationAndUpdate will handle all notifications for the entire `squadsData`
+const handleNotificationCreationAndUpdate = async (pollID) => {
+  try {
+    // Iterate through all the users of the selected squads (stored in squadsData)
+    for (const squadMemberID of squadsData) {
+      // Step 1: Check if the user already has a notification
+      const existingNotifications = await checkIfUserHasNotification(squadMemberID);
+
+      if (existingNotifications === false || existingNotifications.length === 0) {
+        console.log(`User ${squadMemberID} has no existing notification. Creating a new notification.`);
+
+        // Step 2: If no notification exists, create a new notification
+        const notification = await handleNotificationProduction(squadMemberID);
+
+        // Step 3: Create poll request associated with this new notification
+        if (notification && notification.length > 0) {
+          const notification_id = notification[0].id;
+          const pollRequestID = await handlePollRequestCreation(notification_id, squadMemberID, pollID);
+
+          // Step 4: Initialize a new pollRequestsArray if it's the first request
+          const pollRequestArray = notification[0].pollRequestsArray || [];
+          pollRequestArray.push(pollRequestID);
+
+          // Step 5: Update the notification with the new poll request
+          const updateNotificationResult = await handleNotificationUpdate(pollRequestArray, notification_id);
+          console.log(`Notification created and updated for user ${squadMemberID}`, updateNotificationResult);
+        }
+      } else {
+        // Step 6: If the user already has a notification, update the existing notification
+        const notification = existingNotifications[0];
+        const notification_id = notification.id;
+
+        // Step 7: Create a new poll request
+        const pollRequestID = await handlePollRequestCreation(notification_id, squadMemberID, pollID);
+
+        // Step 8: Update the pollRequestsArray in the existing notification
+        const pollRequestArray = notification.pollRequestsArray || [];
+        pollRequestArray.push(pollRequestID);
+
+        // Step 9: Update the existing notification with the new poll request
+        const updateNotificationResult = await handleNotificationUpdate(pollRequestArray, notification_id);
+        console.log(`Notification updated for user ${squadMemberID}`, updateNotificationResult);
+      }
+    }
+
+    console.log('All poll requests and notifications handled successfully.');
+    return true;
+
+  } catch (error) {
+    console.log('Error handling notifications and poll requests:', error);
+    return false;
+  }
+};
+
+  const handlePublicPollVotes = (pollOptions, pollAudience) => {
+    // Step 1: Check if "Public" is among the pollAudience
+    const isPublicSelected = pollAudience.some(audience => audience.key === 'public');
+  
+    // Step 2: Transform pollOptions to include unique IDs and initialize votes
+    const updatedOptions = pollOptions.map((item, index) => ({
+      id: index + 1, // Assign unique IDs starting from 1
+      title: item.title, // Keep the title as is
+      votes: 0, // Initialize votes with 0
+    }));
+  
+    // Step 3: If Public is selected, generate a total number of votes greater than 10,000
+    if (isPublicSelected) {
+      const totalVotes = Math.floor(Math.random() * 9001) + 1000000; // Generate a random number between 10,000 and 19,000
+      console.log('Total Votes (Public Poll):', totalVotes);
+  
+      // Step 4: Calculate random votes for each poll option
+      let remainingVotes = totalVotes;
+      const updatedVotesOptions = updatedOptions.map((option, index) => {
+        if (index === updatedOptions.length - 1) {
+          // Assign the remaining votes to the last option
+          return { ...option, votes: remainingVotes };
+        } else {
+          const randomVotes = Math.floor(Math.random() * (remainingVotes / 2)); // Assign a random number to the option (not more than half the remaining votes)
+          remainingVotes -= randomVotes; // Decrease the remaining votes
+          return { ...option, votes: randomVotes };
+        }
+      });
+  
+      // Return the poll options with assigned votes
+      return updatedVotesOptions;
+    }
+  
+    // If Public is not selected, return the updated poll options with votes initialized to 0
+    return updatedOptions;
+  };
   
       //handle poll creation
       const handlePollCreation = async () => {
@@ -476,28 +486,19 @@
                       pollLabel: selected,
                       pollScore: 0,
                       userID: user.id,
-                      squadID:user.userSquadId
                     };
-                    const squadId = user.userSquadId[0]
+                    const squadId = user.userPrimarySquad[0]
                     //console.log("here is  the squad id", squadId)
                     const response = await API.graphql(graphqlOperation(createPoll, { input: pollInput }));
                    if (response.data && response.data.createPoll) {
                      const pollId = response.data.createPoll.id;
                     //   console.log('Poll created successfully:', response.data.createPoll);   
                      const userID = user.id
-                    // console.log("this is the user id",userID)
-                    //   // Transform pollOptionData into the desired format
-                      const updatedItems = JSON.stringify(
-                        pollOptionData.map((item, index) => ({
-                          id: index + 1, // You can use any logic to generate unique IDs
-                          title: item.title,
-                          votes: 0,
-                        }))
-                      );
-                    const updatePollItemResults = await updatePollItems(pollId, updatedItems);
+                    const updatedOptions = handlePublicPollVotes(pollOptionData, selectedPollAudience);
+                    const updatePollItemResults = await updatePollItems(pollId, updatedOptions);
                     if(updatePollItemResults !==false){
                       console.log("here is the updated poll results", updatePollItemResults)
-                      const squadPollCreationResults = await handleSquadPollCreation(pollId, squadId)
+                      const squadPollCreationResults = await handleSquadPollCreation(pollId, selectedPollAudience)
                       if(squadPollCreationResults !== false){
                         const updatedNumOfPolls = (user.numOfPolls || 0) + 1;
                         const incrementNumOfPollForUserResults =  await incrementNumOfPollsForUser(user.id, updatedNumOfPolls);
@@ -591,64 +592,48 @@
                 </TouchableOpacity> 
                 
                 <FlatList
-                data={pollOptionData} 
-                horizontal={true}
-                renderItem={renderPOllOptionDataItem} 
-                keyExtractor={item=>item.id}
-              />
-
-
-              <View style={styles.pollAudience}>
-                <Text style={styles.pollContentCaption}>Poll Audience</Text>
-              </View>
-
-              {/* <MultiSelect
-                  style={styles.pollAudienceDropdown}
-                  placeholderStyle={styles.placeholderStyle}
-                  selectedTextStyle={styles.selectedTextStyle}
-                  inputSearchStyle={styles.inputSearchStyle}
-                  iconStyle={styles.iconStyle}
-                  data={pollAudience}
-                  labelField="label"
-                  valueField="value"
-                  placeholder="Choose Poll Audience"
-                  value={selectedPollAudience}
-                  search
-                  searchPlaceholder="Search..."
-                  onChange={item => {
-                      setSelectedPollAudience(item);
-                  }}
-                  renderLeftIcon={() => (
+                data={pollOptionData}
+                //horizontal = {true}
+                renderItem={renderPOllOptionDataItem}
+                keyExtractor={(item) => item.id.toString()}
+                style={styles.optionList}
+                  />
+                <View style={styles.pollAudienceContainer}>
+                  <MultiSelect
+                    style={styles.pollAudienceDropdown}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    inputSearchStyle={styles.inputSearchStyle}
+                    iconStyle={styles.iconStyle}
+                    data={pollAudience} // Use the updated poll audience data
+                    labelField="label"
+                    valueField="key"
+                    placeholder="Select poll audience"
+                    value={selectedPollAudience} // Array of selected options
+                    search
+                    searchPlaceholder="Search squads..."
+                    onChange={(item) => {
+                      setSelectedPollAudience(item); // Update selected items
+                    }}
+                    renderLeftIcon={() => (
                       <AntDesign
-                          style={styles.icon}
-                          color="black"
-                          name="Safety"
-                          size={20}
+                        style={styles.icon}
+                        color="black"
+                        name="Safety"
+                        size={20}
                       />
-                  )}
-                renderItem={renderDataItem}
-                renderSelectedItem={(item, unSelect) => (
-                    <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                    )}
+                    renderItem={renderDataItem} // Function to render each squad/item
+                    renderSelectedItem={(item, unSelect) => (
+                      <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
                         <View style={styles.selectedStyle}>
-                            <Text style={styles.textSelectedStyle}>{item.label}</Text>
-                            <AntDesign color="black" name="delete" size={17} />
+                          <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                          <AntDesign color="black" name="delete" size={17} />
                         </View>
-                    </TouchableOpacity>
-                          )}  
-                      /> */}
-              
-              <TouchableOpacity
-              style={{paddingHorizontal:15,marginTop:35,width:350}}>
-                <SelectList 
-                setSelected={handleSelect} 
-                value={selected}
-                data={pollAudience} 
-                save="value"
-                search={true} 
-                placeholder="Select squad" 
-                />
-              </TouchableOpacity>
-
+                      </TouchableOpacity>
+                    )}
+                  />
+                </View>
               <View style={styles.pollButtonContainer}>
                   <TouchableOpacity
                   onPress={handlePollCreation}
@@ -678,12 +663,9 @@
             },
             pollContentStyles:{
               marginRight:250,
-              marginTop:10,
+              marginTop:-10,
               marginBottom:11.5,
               
-            },
-            pollOptionTextContainer:{
-
             },
             pollLabelContainer:{
               marginRight:270,
@@ -737,7 +719,7 @@
             height: 42,
             padding: 12,
             borderRadius: 5,
-            marginTop: 10,
+            marginTop: 1,
             alignItems: 'center',
             marginRight: 10,
             marginLeft:15,
@@ -822,24 +804,12 @@
           },
           selectedStyle: {
             flexDirection: 'row',
-            //justifyContent: 'center',
-            //alignItems: 'center',
-            //borderRadius: 14,
             backgroundColor: 'white',
-          // shadowColor: 'red',
             marginBottom: 10,
             marginRight: 15,
             paddingHorizontal: 12,
             paddingVertical: 2,
-            // shadowOffset: {
-            //     width: 0,
-            //     height: 1,
-            // },
-            // shadowOpacity: 0.2,
-            // shadowRadius: 1.41,
             marginLeft:57,
-
-            //elevation: 2,
           },
           textSelectedStyle: {
             marginRight: 10,
@@ -860,7 +830,37 @@
               color:'#535353',
               fontWeight:'400'  ,
               backgroundColor: '#fff'
-          }
+          },
+          optionList: {
+            maxHeight: 200, // Adjust this height as needed
+            width: '60%',
+            marginTop: -10,
+            marginBottom: 10, 
+            marginLeft: -10
+          },
+          pollAudienceContainer: {
+            zIndex: 1099,  // Ensure the dropdown is above other components
+            marginTop: -20
+          },
+          pollAudienceDropdown: {
+            zIndex: 100,  // Same here to avoid conflicts
+            height: 50,
+            width: 350,
+            backgroundColor: '#1764EF',
+            borderRadius: 12,
+            padding: 12,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.2,
+            shadowRadius: 1.41,
+            elevation: 2,
+            marginBottom: 20,
+            marginLeft: 40
+          },
+         
           })
 
           export default WordPollCreationScreen
