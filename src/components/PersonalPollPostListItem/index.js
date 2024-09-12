@@ -23,9 +23,19 @@ const PersonalPollListItem = ({ poll }) => {
 
   const handlePollItemPress = () => {
     // Navigate to the screen with the poll
-    navigation.navigate('PersonalPollDisplayScreen', { pollID: poll.id });
+    navigation.navigate('PersonalPollDisplayScreen', { poll});
   };
-
+  const formatLikes = (likes) => {
+    if (likes < 1000) {
+      return likes.toString(); // Return the number as is
+    } else if (likes >= 1000 && likes < 1000000) {
+      return (likes / 1000).toFixed(1).replace(/\.0$/, '') + 'K'; // Format in thousands
+    } else if (likes >= 1000000) {
+      return (likes / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'; // Format in millions
+    }
+    return likes.toString(); // Default case, although it won't be hit due to the previous conditions
+  };
+  
   return (
     <LinearGradient
       colors={['#EE8B94', '#0038FF']}
@@ -45,8 +55,9 @@ const PersonalPollListItem = ({ poll }) => {
             name={isLikeCommentIconClicked ? 'heart-o' : 'heart'}
             size={26}
             color='black'
+            style={{marginLeft: -15}}
           />
-          <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
+           <Text style={styles.numOfpollLikes}>{formatLikes(numOfPollLikes)}</Text>
         </View>
       </TouchableOpacity>
     </LinearGradient>
@@ -57,7 +68,7 @@ const styles = StyleSheet.create({
   gradientContainer: {
     //borderWidth: 2,
     borderRadius: 29,
-    marginVertical:10,
+    marginVertical:15,
     //marginEnd:10
 
   },
@@ -72,9 +83,8 @@ const styles = StyleSheet.create({
     marginStart:5,
     marginEnd:4,
     width:390,
-    height:80
-   // borderColor: '#0038FF'
-    //marginVertical:135,
+    height:130
+   
   },
   userImageContainer:{
     //marginStart:10,
@@ -120,13 +130,14 @@ const styles = StyleSheet.create({
   },
   pollLikesContainer:{
     marginLeft:320,
-    marginTop:-25
+    marginTop:5
   },
   numOfpollLikes:{
-    marginLeft:10,
-    //marginTop:5,
+    marginLeft:-35,
+    marginTop:5,
     fontSize:20,
-    fontWeight:'700'
+    fontWeight:'700', 
+    marginBottom: 30
   },
   pollCommentContainer: {
     marginTop: 20,

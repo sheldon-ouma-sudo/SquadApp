@@ -38,7 +38,17 @@
         }, [])
 
           const Tab = createMaterialTopTabNavigator();
-         
+          const formatLikes = (likes) => {
+            if (likes < 1000) {
+              return likes.toString(); // Return the number as is
+            } else if (likes >= 1000 && likes < 1000000) {
+              return (likes / 1000).toFixed(1).replace(/\.0$/, '') + 'K'; // Format in thousands
+            } else if (likes >= 1000000) {
+              return (likes / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'; // Format in millions
+            }
+            return likes.toString(); // Default case, although it won't be hit due to the previous conditions
+          };
+          
           return (
             <KeyboardAvoidingView style={styles.container} behavior="padding">
             <BottomSheetModalProvider>

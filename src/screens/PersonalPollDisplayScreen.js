@@ -1,133 +1,304 @@
-import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, StatusBar, Dimensions, SafeAreaView } from 'react-native'
-import React, { useEffect, useState } from 'react'
-//import {listPolls} from '../graphql/queries'
-import { API, graphqlOperation } from "aws-amplify";
-//import Poll from "../components/PersonalPollDisplayItem"
-import PollComponent from '../components/PersonalPollDisplayItem/index'
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { View, TextInput, Text, StyleSheet, KeyboardAvoidingView, FlatList, Image} from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
+import Animated, { EasingNode } from 'react-native-reanimated';
 import { useRoute } from '@react-navigation/native';
-import { getPoll } from '../graphql/queries';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import PollCommentItem from '../components/PollCommentItem'
 
-
+const { Value, timing } = Animated;
 
 const PersonalPollDisplayScreen = () => {
-     const [poll, setPoll] = useState([])
-     const [pollItems, setPollItems] = useState([]);
-     const [numOfPollLikes, setNumOfPollLikes] = useState(0)
-     const [totalNumOfVotes, setTotalNumOfVotes] = useState(0)
-     const [numOfPollComments, setNumOfPollComment] = useState(0)
-
-     const navigation = useNavigation()
-
-      const route = useRoute()
-       const pollID = route?.params.pollID
-       console.log("here is the poll ID", pollID)
-    //     // console.log("here is the poll id", pollID)
+  const [pollItems, setPollItems] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [numOfPollLikes, setNumOfPollLikes] = useState(0);
+  const [animationValues, setAnimationValues] = useState([]);
+  const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
+  const [numOfPollComments, setNumOfPollComments] = useState(0);
+  const [isOptionSelected, setIsOptionSelected] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [isCommentsVisible, setCommentsVisible] = useState(false);
+  const [isLikeIconClicked, setIsLikeIconClicked] = useState(true);
+  const [newComment, setNewComment] = useState('');
+  const navigation = useNavigation();
+  const route = useRoute();
+  const animations = useRef([]);
+  const poll = route?.params.poll;
+  const commentsData = [
+    {
+      id: 1,
+      username: 'User1',
+      comment: 'This is a great comment.',
+      likes: 10,
+      replies: 5,
+    },
+    {
+      id: 2,
+      username: 'User2',
+      comment: 'I really enjoyed reading this.',
+      likes: 15,
+      replies: 3,
+    },
+    {
+      id: 3,
+      username: 'User3',
+      comment: 'Interesting perspective.',
+      likes: 8,
+      replies: 2,
+    },
+    {
+      id: 4,
+      username: 'User4',
+      comment: 'Awesome conversation!',
+      likes: 20,
+      replies: 7,
+    },
+    {
+      id: 5,
+      username: 'User5',
+      comment: 'No woman no cry, me say you don know',
+      likes: 12,
+      replies: 4,
+    },
+  ];
+  
         useEffect(() => {
-          const fetchPoll = async () => {
-            if (pollID) {
-              try {
-                const results = await API.graphql(graphqlOperation(getPoll, { id: pollID }));
-                if (!results.data?.getPoll) {
-                  console.log("Error fetching poll:", results);
-                } else {
-                  console.log("Fetched poll:", results.data.getPoll);
-                  const queryResults = results.data.getPoll
-                  console.log("here is the poll query results", queryResults)
-                  setPoll(queryResults)
-                }
-              } catch (error) {
-                console.error("Error fetching poll:", error);
-              }
-            } else {
-              console.log("Poll ID is null or undefined");
-            }
-          };
-        
-          fetchPoll();
-        }, [pollID]); // Make sure to include pollID in the dependencies array
-          
-          
-        useEffect(()=>{
-          const fetchPollInfo=async()=>{
-            setNumOfPollLikes(poll.numOfLikes);
+          if (poll) {
+            setNumOfPollLikes(poll.numOfLikes || 0);
+            setTotalNumOfVotes(poll.totalNumOfVotes || 0);
+            setNumOfPollComments(poll.numOfComments || 0);
+
+            // Check if pollItems are an array of strings, and parse if necessary
             try {
-              const parsedPollItems = JSON.parse(poll.pollItems || '[]'); // Parse the string
-              console.log("here is the parsed poll Items", parsedPollItems)
+              const parsedPollItems = Array.isArray(poll.pollItems)
+                ? poll.pollItems.map(item => JSON.parse(item))
+                : [];
+              
               setPollItems(parsedPollItems);
+        
+              // Initialize animation values for each poll item, ensuring that the lengths match
+              const initialAnimationValues = parsedPollItems.map(() => new Value(0));
+              setAnimationValues(initialAnimationValues);
             } catch (error) {
-              console.log("error fetching the poll info", error)
+              console.log('Error parsing poll items:', error);
             }
           }
-          fetchPollInfo()
-        }, [poll])
-      
-      
-      
-    return (
-      
-            <KeyboardAvoidingView style={styles.container} behavior="padding">
+        }, [poll]);
+        useEffect(() => {
+          return () => {
+            // Stop and reset all animations
+            animationValues.forEach((value, index) => {
+              if (animations[index]) {
+                animations[index].stop();
+              }
+              value.setValue(0);
+            });
+          };
+        }, [animationValues]);
+        
+        const animateVotePercentage = (percentage, index) => {
+          if (!isNaN(percentage)) {
+            timing(animationValues[index], {
+              toValue: percentage, // Use the calculated percentage directly
+              duration: 600,
+              easing: EasingNode.inOut(EasingNode.ease),
+            }).start();
+          } else {
+            console.log('Invalid percentage value:', percentage);
+          }
+        };
+        
+        // Update `animateAllOptions` to call `animateVotePercentage` for all options:
+        const animateAllOptions = (selectedOptionIndex) => {
+          pollItems.forEach((pollItem, i) => {
+            const percentage = calculatePercentage(pollItem.votes);
+            animateVotePercentage(percentage, i);
+          });
+        };
+        
+        // Calculate the vote percentage relative to total votes:
+        const calculatePercentage = (votes) => {
+          console.log(`Votes: ${votes}, Total Votes: ${totalNumOfVotes}`);
+          return totalNumOfVotes > 0 ? (votes / totalNumOfVotes) * 100 : 0;
+        };
+        ;
+
+        const handleOptionPress = (index) => {
+          if (index !== selectedOption) {
+            const updatedPollItems = [...pollItems];
+            updatedPollItems[index].votes += 1;
+            if (selectedOption !== null) {
+              updatedPollItems[selectedOption].votes -= 1;
+            }
+            setPollItems(updatedPollItems);
+            setSelectedOption(index);
+
+            // Animate the vote percentage for each option
+            animateAllOptions();
+          }
+        };
+
+
+        const formatLikes = (likes) => {
+          if (likes < 1000) {
+            return likes.toString();
+          } else if (likes >= 1000 && likes < 1000000) {
+            return (likes / 1000).toFixed(1) + 'K';
+          } else if (likes >= 1000000) {
+            return (likes / 1000000).toFixed(1) + 'M';
+          }
+          return likes.toString();
+        };
+        const toggleComments = () => {
+          setCommentsVisible(!isCommentsVisible);
+            // Set static comments data when the comments are made visible
+            if (!isCommentsVisible) {
+              setComments(commentsData);
+            } else {
+              setComments([]); 
+            }
+          };
+
+          const renderCommentItem = ({ item }) => (
+            <View style={styles.commentItem}>
+              <PollCommentItem comment={item} />
+            </View>
+          );
+          const handleLickedIconClick = () => {
+            setIsLikeIconClicked(!isLikeIconClicked);
+            setNumOfPollLikes(prevLikes => (isLikeIconClicked ? prevLikes +1 : prevLikes -1));
+  
+          };
+          const handleAddComment = () => {
+            if (newComment.trim() === '') {
+              return; // Don't add empty comments
+            }
+    return (   
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
               <TouchableOpacity
               onPress={()=>navigation.goBack()}
               >
               <Ionicons name="arrow-back" size={24} color="black" />
-              
               </TouchableOpacity>
             <LinearGradient
-          colors={['#EE8B94', '#0038FF']} // Adjust the gradient colors as per your preference
+            colors={['#EE8B94', '#0038FF']} // Adjust the gradient colors as per your preference
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.gradientContainer}
            >
-          <View style={styles.innerContainer}>
-          <TouchableOpacity>
-          <Text style={styles.question}>{poll.pollCaption}</Text>
-          {pollItems.map((item, index)=>(
-            <TouchableOpacity
-            key={index}
-            style={[styles.optionContainer]}
-            >
-            <Text style={styles.optionText}>{item.title}</Text>
+         
+        <View style={styles.innerContainer}>
+         <TouchableOpacity>
+            <Text style={styles.question}>{poll.pollCaption}</Text>
+            {pollItems.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.optionContainer,
+                    selectedOption === index && styles.selectedOption,
+                  ]}
+                  onPress={() => handleOptionPress(index)}
+                >
+                  {/* Always render the option title */}
+                  <Text style={styles.optionText}>{item.title}</Text>
+
+                  {/* Always render the percentage bar */}
+                  <View style={styles.percentageContainer}>
+                    <Animated.View
+                      style={[
+                        styles.percentageBar,
+                        {
+                          width: animationValues[index].interpolate({
+                            inputRange: [0, 100],
+                            outputRange: ['0%', '320%'], // Adjust to the actual vote percentage
+                          }),
+                        },
+                      ]} 
+                    />
+                    {isOptionSelected && (
+                      <Text style={styles.percentageText}>
+                        {`${calculatePercentage(item.votes).toFixed(2)}%`}
+                      </Text>
+                    )}
+                  </View>
+                  <Text style={styles.voteCountText}>
+                   {formatLikes(item.votes)} votes
+                   </Text>
+
+                </TouchableOpacity>
+              ))}
             </TouchableOpacity>
-          ))}
-          </TouchableOpacity>
-          <TouchableOpacity
-          style={styles.pollCommentContainer}
-           >
-        <FontAwesome
-          name="commenting-o"
-          size={35}
-          color="#black"
-          style={styles.pollCommentIcon}
-        />
-      </TouchableOpacity>
-      <View
-      style={{marginLeft:5}}
-      >
-      <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
-      </View>
-      <TouchableOpacity
-      style={styles.pollLikesContainer}
-      >
-        <FontAwesome
-          name='heart-o'
-          size={36}
-          color='#black'
-          style={styles.pollCommentIcon}
-        />
-        <Text style={styles.numOfpollLikes}>{numOfPollLikes}</Text>
-      </TouchableOpacity>
-      </View>
+            <View
+                style={styles.pollLikesContainer} 
+              >
+                <FontAwesome
+                  name={'heart-o'}
+                  size={40}
+                  color={'black'}
+                  style={styles.pollLikeIcon}
+                />
+                 <Text style={styles.numOfpollLikes}>{formatLikes(numOfPollLikes)}</Text> 
+              </View>
+         {/* component holding for the comment icon */}
+         <TouchableOpacity
+                style={styles.pollCommentContainer}
+                onPress={toggleComments}
+              >
+              <View style={styles.commentIconImageContainer}>
+              <Image
+                source={require('/Users/sheldonotieno/Squad/assets/comments.png')}
+                resizeMode="contain"
+                style={styles.commentIconImage}
+              />
+              </View>
+              </TouchableOpacity>
+            <View
+            style={{marginLeft:5}}
+            >
+            <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
+            </View>
+            <TouchableOpacity
+                style={styles.pollLikesContainer}
+                onPress={handleLickedIconClick}
+              >
+                <FontAwesome
+                  name={isLikeIconClicked ? 'heart-o' : 'heart'}
+                  size={46}
+                  color={isLikeIconClicked ? 'black' : 'red'}
+                  style={styles.pollLikeIcon}
+                />
+                 <Text style={styles.numOfpollLikes}>{formatLikes(numOfPollLikes)}</Text> 
+              </TouchableOpacity>
+
+            {/* Comments Section */}
+            <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
+              <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
+              <FlatList
+              data={comments}
+              keyExtractor={(item) => `comment-${item.id}`}
+              renderItem={renderCommentItem}
+              contentContainerStyle={{ paddingBottom: 10 }}
+          />
+              <View style={styles.addCommentContainer}>
+              <TextInput
+                style={styles.commentInput}
+                value={newComment}
+                onChangeText={setNewComment}
+                placeholder="Add a comment..."
+              />
+              <TouchableOpacity onPress={handleAddComment} style={styles.addCommentButton}>
+                <FontAwesome name="send" size={20} color="black" />
+              </TouchableOpacity>
+        </View>
+        </View>
+        </View>
    </LinearGradient>
   </KeyboardAvoidingView>
           )
         }
-
 
 
         const styles = StyleSheet.create({
@@ -161,93 +332,164 @@ const PersonalPollDisplayScreen = () => {
             marginStart:5,
             marginEnd:5,
           },
-          squadLogo:{
-              width:100,
-              height:35,
-              marginRight:250,
-              marginTop:70  
-        },
-        list: {
-          padding: 10,
-        },
-        question: {
-          fontSize: 19.5,
-          fontWeight: 'bold',
-          marginBottom: 15,
-          marginTop: 75,
-          marginLeft:105
+          commentIconImageContainer:{
+            marginBottom:-20,
+            marginLeft: 10,
+            marginTop:-90
+          },
+          commentIconImage:{
+              width:60,
+              height:80
+          },
+          userName:{
+          marginLeft: 0,
+          marginTop:-45,
+          marginBottom:50
+          },
+          userNameText:{
+          fontSize:19,
+          fontWeight:'200',
+          marginLeft: 40
+          },
+          question: {
+            fontSize: 19.5,
+            fontWeight: 'bold',
+            marginBottom: 35,
+            marginTop: 25 
+          },
+          optionContainer: {
+            marginBottom: 30,
+            padding: 5,
+            borderColor: '#ccc',
+            borderRadius: 28,
+            backgroundColor: '#ffff',
+            borderColor: 'black',
+            borderWidth: 1,
+            height: 50,
+            width: 350, // Adjust the width as per your requirement
+          },
+          selectedOption: {
+          backgroundColor: '#add8e6', // Light blue for selected option
+          },
+           optionText: {
+            fontSize: 16,
+            marginBottom: 20,
+            fontWeight:'700',
+            marginLeft:135,
+            color: "black",
+            marginTop:-30
+  
+          },
+          selectedOptionText: {
+            fontSize: 16,
+            marginBottom: 12,
+            fontWeight:'700',
+            marginLeft:125,
+            color: "white"
+          },
+          percentageContainer: {
+            flexDirection: 'row',    // Align items horizontally (bar and text)
+            alignItems: 'center',    // Vertically align items in the center
+            justifyContent: 'space-between', // Spread items across the width of the container
+            marginTop: 10,           // Add margin to space it out from the option title
+            width: '100%',           // Take full width of the parent container (option container)
+            height: 30,              // Set height to contain the bar and text comfortably
+            paddingHorizontal: 10,   // Add padding on the sides
+          },
           
-        },
-        optionContainer: {
-          marginBottom: 30,
-          padding: 5,
-          borderColor: '#ccc',
-          borderRadius: 28,
-          backgroundColor: '#ffff',
-          borderColor: 'black',
-          borderWidth: 1.5,
-          height: 50,
-          width: 350, // Adjust the width as per your requirement
-        },
-        optionText: {
-          fontSize: 19,
-          //marginBottom: -3,
-          fontWeight:'700',
-          marginLeft:135,
-          color: "black",
-          marginTop:10
-        },
-        pollCommentContainer:{
-          marginTop:20,
-         },
-         pollCommentIcon:{
+          pollLikeIcon:{
+            marginLeft:-3,
+            //size:44
+          },
+          percentageBar: {
+            height: 50,
+            backgroundColor: '#1764EF',
+            borderRadius: 25,
+            width: '100%', // Adjust the width as per your requirement
+            // alignSelf: 'flex-start',
+             marginBottom: 4,
+            marginTop: -28,
+            marginLeft: -15,
+            overflow: 'hidden',
+          },
+          percentageText: {
+            fontSize: 14,            // Size of the text showing percentage
+            color: 'black',          // Text color for visibility
+            marginLeft: 10,          // Ensure text does not overlap with the bar
+            fontWeight: '600',       // Make the percentage text bold
+          },
+          
+          pollCommentContainer:{
+          marginTop:-20,
+          },
+          pollCommentIcon:{
           marginLeft:20,
-         },
-         numOfpollComments:{
-           fontSize: 15,
-           marginLeft:12,
-           marginTop:5,
-          // fontWeight:'400'
-         },
-         pollLikesContainer:{
-           marginLeft:280,
-           marginTop:-65
-         },
-         numOfpollLikes:{
-           marginLeft:35,
-           marginTop:5,
-           fontSize:20,
-           fontWeight:'700'
-         },
-         pollCommentContainer: {
-           marginTop: 20,
-         },
-         pollCommentIcon: {
-           marginLeft: 20,
-         },
-         numOfpollComments: {
-           fontSize: 19,
-           marginLeft: 18,
-           marginTop: 5,
-           fontWeight: '700',
-         },
-         modalBackground: {
-           flex: 1,
-           backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the background color and opacity
-         },
-         commentItem: {
-           padding: 16,
-           borderBottomWidth: 1,
-           borderBottomColor: '#ccc',
-         },
-         numOfCommentsText: {
-           fontSize: 18,
-           fontWeight: '400',
-           marginBottom: 20,
-           marginLeft: 100,
-           marginTop: 20
-           //color: '#1764EF', // Adjust the color based on your design
-         },
+          },
+
+          pollLikesContainer:{
+            marginLeft:280,
+            marginTop:15
+          },
+          numOfpollLikes:{
+            marginLeft:-15,
+            marginTop:5,
+            fontSize:20,
+            fontWeight:'700'
+          },
+          pollCommentContainer: {
+            marginTop: 20,
+          },
+          pollCommentIcon: {
+            marginLeft: 20,
+          },
+          numOfpollComments: {
+            fontSize: 32,
+            marginLeft: 10,
+            marginTop: -23,
+            fontWeight: '700',
+          },
+          modalBackground: {
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the background color and opacity
+          },
+          commentItem: {
+            padding: 16,
+            borderBottomWidth: 1,
+            borderBottomColor: '#ccc',
+          },
+          numOfCommentsText: {
+            fontSize: 18,
+            fontWeight: '400',
+            marginBottom: 20,
+            marginLeft: 100,
+            marginTop: 20
+            //color: '#1764EF', // Adjust the color based on your design
+          },
+          commentsSection: {
+            height: 200, // Set a fixed height to ensure scrollability
+            overflow: 'hidden',
+          },
+          addCommentContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginLeft:-10,
+            width:360,
+            padding: 10,
+          },
+  
+          commentInput: {
+            flex: 1,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            borderRadius: 10,
+            padding: 10,
+          },
+          addCommentButton: {
+            backgroundColor: '#f0f0f0',
+            padding: 10,
+            borderRadius: 10,
+            marginLeft: 10,
+          },
         })
 
 

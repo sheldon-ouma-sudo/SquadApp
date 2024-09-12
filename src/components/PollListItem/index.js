@@ -331,7 +331,7 @@ const PollListItem = ({ poll, }) => {
                         {
                           width: animationValues[index].interpolate({
                             inputRange: [0, 100],
-                            outputRange: ['0%', '400%'], // Adjust to the actual vote percentage
+                            outputRange: ['0%', '320%'], // Adjust to the actual vote percentage
                           }),
                         },
                       ]} 
@@ -342,6 +342,10 @@ const PollListItem = ({ poll, }) => {
                       </Text>
                     )}
                   </View>
+                  <Text style={styles.voteCountText}>
+                   {formatLikes(item.votes)} votes
+                   </Text>
+
                 </TouchableOpacity>
               ))}
             </TouchableOpacity>
@@ -412,6 +416,12 @@ const PollListItem = ({ poll, }) => {
           // marginHorizontal:10, 
           // marginEnd:10, 
 
+        },
+        voteCountText: {
+          fontSize: 14,
+          color: '#888',
+          marginLeft: 10,
+          marginTop: 4,
         },
         container: {
           flex:1,
@@ -528,14 +538,13 @@ const PollListItem = ({ poll, }) => {
           fontSize: 15,
           marginLeft:12,
           marginTop:5,
-        // fontWeight:'400'
         },
         pollLikesContainer:{
           marginLeft:280,
           marginTop:-85
         },
         numOfpollLikes:{
-          marginLeft:-5,
+          marginLeft:-15,
           marginTop:5,
           fontSize:25,
           fontWeight:'700'
