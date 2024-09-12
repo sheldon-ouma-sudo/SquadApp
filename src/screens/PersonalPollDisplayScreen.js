@@ -1,4 +1,4 @@
-import { View, TextInput, Text, StyleSheet, KeyboardAvoidingView, FlatList, Image} from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, StatusBar, Dimensions, SafeAreaView } from 'react-native'
 import React, { useEffect, useState, useRef } from 'react'
 import Animated, { EasingNode } from 'react-native-reanimated';
 import { useRoute } from '@react-navigation/native';
@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import PollCommentItem from '../components/PollCommentItem'
 
 const { Value, timing } = Animated;
 
@@ -21,8 +20,6 @@ const PersonalPollDisplayScreen = () => {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [comments, setComments] = useState([]);
   const [isCommentsVisible, setCommentsVisible] = useState(false);
-  const [isLikeIconClicked, setIsLikeIconClicked] = useState(true);
-  const [newComment, setNewComment] = useState('');
   const navigation = useNavigation();
   const route = useRoute();
   const animations = useRef([]);
@@ -162,20 +159,6 @@ const PersonalPollDisplayScreen = () => {
             }
           };
 
-          const renderCommentItem = ({ item }) => (
-            <View style={styles.commentItem}>
-              <PollCommentItem comment={item} />
-            </View>
-          );
-          const handleLickedIconClick = () => {
-            setIsLikeIconClicked(!isLikeIconClicked);
-            setNumOfPollLikes(prevLikes => (isLikeIconClicked ? prevLikes +1 : prevLikes -1));
-  
-          };
-          const handleAddComment = () => {
-            if (newComment.trim() === '') {
-              return; // Don't add empty comments
-            }
     return (   
       <KeyboardAvoidingView style={styles.container} behavior="padding">
               <TouchableOpacity
@@ -242,58 +225,19 @@ const PersonalPollDisplayScreen = () => {
                 />
                  <Text style={styles.numOfpollLikes}>{formatLikes(numOfPollLikes)}</Text> 
               </View>
-         {/* component holding for the comment icon */}
-         <TouchableOpacity
-                style={styles.pollCommentContainer}
-                onPress={toggleComments}
-              >
-              <View style={styles.commentIconImageContainer}>
-              <Image
-                source={require('/Users/sheldonotieno/Squad/assets/comments.png')}
-                resizeMode="contain"
-                style={styles.commentIconImage}
-              />
-              </View>
-              </TouchableOpacity>
-            <View
-            style={{marginLeft:5}}
-            >
-            <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
-            </View>
-            <TouchableOpacity
-                style={styles.pollLikesContainer}
-                onPress={handleLickedIconClick}
+              <TouchableOpacity
+                style={styles.pollCommentsContainer} 
               >
                 <FontAwesome
-                  name={isLikeIconClicked ? 'heart-o' : 'heart'}
-                  size={46}
-                  color={isLikeIconClicked ? 'black' : 'red'}
+                  name={'commenting-o'}
+                  size={40}
+                  color={'black'}
                   style={styles.pollLikeIcon}
                 />
-                 <Text style={styles.numOfpollLikes}>{formatLikes(numOfPollLikes)}</Text> 
+                 <Text style={styles.numOfpollComments}>{formatLikes(numOfPollComments)}</Text> 
               </TouchableOpacity>
+              
 
-            {/* Comments Section */}
-            <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
-              <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
-              <FlatList
-              data={comments}
-              keyExtractor={(item) => `comment-${item.id}`}
-              renderItem={renderCommentItem}
-              contentContainerStyle={{ paddingBottom: 10 }}
-          />
-              <View style={styles.addCommentContainer}>
-              <TextInput
-                style={styles.commentInput}
-                value={newComment}
-                onChangeText={setNewComment}
-                placeholder="Add a comment..."
-              />
-              <TouchableOpacity onPress={handleAddComment} style={styles.addCommentButton}>
-                <FontAwesome name="send" size={20} color="black" />
-              </TouchableOpacity>
-        </View>
-        </View>
         </View>
    </LinearGradient>
   </KeyboardAvoidingView>
@@ -332,10 +276,18 @@ const PersonalPollDisplayScreen = () => {
             marginStart:5,
             marginEnd:5,
           },
+          userImageContainer:{
+            marginTop:-20,
+            marginLeft: -10
+          },
+          userImage:{
+              width:50,
+              height:70
+          },
           commentIconImageContainer:{
             marginBottom:-20,
             marginLeft: 10,
-            marginTop:-90
+            marginTop:20
           },
           commentIconImage:{
               width:60,
@@ -415,20 +367,25 @@ const PersonalPollDisplayScreen = () => {
           percentageText: {
             fontSize: 14,            // Size of the text showing percentage
             color: 'black',          // Text color for visibility
-            marginLeft: 10,          // Ensure text does not overlap with the bar
-            fontWeight: '600',       // Make the percentage text bold
+            marginLeft: 300,          // Ensure text does not overlap with the bar
+            fontWeight: '600', 
+            marginTop: 20      // Make the percentage text bold
           },
           
           pollCommentContainer:{
-          marginTop:-20,
+          marginTop:20,
           },
           pollCommentIcon:{
           marginLeft:20,
           },
-
+          
           pollLikesContainer:{
             marginLeft:280,
             marginTop:15
+          },
+          pollCommentsContainer:{
+            marginLeft:20,
+            marginTop:-70
           },
           numOfpollLikes:{
             marginLeft:-15,
@@ -443,9 +400,9 @@ const PersonalPollDisplayScreen = () => {
             marginLeft: 20,
           },
           numOfpollComments: {
-            fontSize: 32,
+            fontSize: 29,
             marginLeft: 10,
-            marginTop: -23,
+            marginTop: 5,
             fontWeight: '700',
           },
           modalBackground: {
