@@ -113,14 +113,14 @@ const ResponsePollScreen = ({ poll: pollReception, onClose }) => {
         await API.graphql(graphqlOperation(updatePoll, {
           input: {
             id: pollID,
-            totalNumOfVotes,
+            totalNumOfVotes: totalNumOfVotes,
             pollItems: updatedPollItem,
           },
         }));
 
         const voteResponse = await API.graphql(graphqlOperation(createPollResponse, {
           input: {
-            pollID,
+            pollID: pollID,
             userID: localUserID,
             caption: `${localUserName} has voted in your poll!`,
           },
@@ -141,15 +141,15 @@ const ResponsePollScreen = ({ poll: pollReception, onClose }) => {
     try {
       await API.graphql(graphqlOperation(createPollComment, {
         input: {
-          pollID,
+          pollID: pollID,
           userID: localUserID,
-          comment,
+          comment: comment,
         },
       }));
 
       const commentResponse = await API.graphql(graphqlOperation(createPollResponse, {
         input: {
-          pollID,
+          pollID: pollID,
           userID: localUserID,
           caption: `${localUserName} has commented on your poll!`,
         },
@@ -172,34 +172,34 @@ const ResponsePollScreen = ({ poll: pollReception, onClose }) => {
   };
 
   useEffect(() => {
-    const updateNotificationInDatabase = async () => {
-      if (notificationID) {  // Ensure we have the notification ID before updating
-        try {
-          await API.graphql(graphqlOperation(updateNotification, {
-            input: {
-              id: notificationID,  // The ID of the notification to update
-              pollResponsesArray: notificationPollItemResponseArray,
-              pollLikeResponseArray: notificationPollLikeResponseArray,
-              pollCommentsArray: notificationPollCommentResponseArray,
-            },
-          }));
-          console.log('Notification updated successfully');
-        } catch (error) {
-          console.log('Error updating notification:', error);
-        }
+  const updateNotificationInDatabase = async () => {
+    if (notificationID) {  // Ensure we have the notification ID before updating
+      try {
+        await API.graphql(graphqlOperation(updateNotification, {
+          input: {
+            id: notificationID,  // The ID of the notification to update
+            pollResponsesArray: notificationPollItemResponseArray,
+            pollLikeResponseArray: notificationPollLikeResponseArray,
+            pollCommentsArray: notificationPollCommentResponseArray,
+          },
+        }));
+        console.log('Notification updated successfully');
+      } catch (error) {
+        console.log('Error updating notification:', error);
       }
-    };
-  
-    // Trigger the notification update whenever any of the response arrays change
-    if (
-      notificationPollItemResponseArray.length > 0 || 
-      notificationPollLikeResponseArray.length > 0 || 
-      notificationPollCommentResponseArray.length > 0
-    ) {
-      updateNotificationInDatabase();
     }
-  }, [notificationPollItemResponseArray, notificationPollLikeResponseArray, notificationPollCommentResponseArray, notificationID]);
-  
+  };
+
+  // Trigger the notification update whenever any of the response arrays change
+  if (
+    notificationPollItemResponseArray.length > 0 || 
+    notificationPollLikeResponseArray.length > 0 || 
+    notificationPollCommentResponseArray.length > 0
+  ) {
+    updateNotificationInDatabase();
+  }
+}, [notificationPollItemResponseArray, notificationPollLikeResponseArray, notificationPollCommentResponseArray, notificationID]);
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <TouchableOpacity onPress={onClose}>

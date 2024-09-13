@@ -18,7 +18,8 @@ const ExploreSquadronScreen = () => {
   const fetchSquads = async () => {
     try {
       const results = await API.graphql(graphqlOperation(listSquads));
-      if (!results.data?.listSquads) {
+      // console.log("here is the number of squads",results.data?.listSquads)
+      if (!results.data?.listSquads.items) {
         console.log('Error fetching squads');
         return;
       }
@@ -26,31 +27,37 @@ const ExploreSquadronScreen = () => {
       const sortedSquads = results.data.listSquads.items.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      console.log("here is the sorted squads", sortedSquads)
+      //console.log("here is the sorted squads", sortedSquads)
+      //onsole.log("here is the sorted squads", sortedSquads)
       setSquads(sortedSquads); 
+        // Check the length of squads and log it
+        console.log('Number of squads:', sortedSquads.length);
     } catch (error) {
       console.log('Error getting squads', error);
     }
   };
   fetchSquads();
-}, []);
-    // Subscription for new squads
-    useEffect(() => {
-      const subscription = API.graphql(graphqlOperation(onCreateSquad)).subscribe({
-        next: ({ value }) => {
-          const newSquad = value.data.onCreateSquad;
-          console.log('New squad created:', newSquad);
-          // Add the new squad to the current list of squads
-          setSquads((prevSquads) => [newSquad, ...prevSquads]);
-        },
-        error: (error) => console.log('Error on squad creation subscription', error),
+   // Set up the subscription for new squads being created
+   const subscription = API.graphql(graphqlOperation(onCreateSquad)).subscribe({
+    next: (squadData) => {
+      const newSquad = squadData.value.data.onCreateSquad;
+      console.log('New squad created: ', newSquad);
+
+      // Add the new squad to the list and sort by creation time
+      setSquads((prevSquads) => {
+        const updatedSquads = [newSquad, ...prevSquads];
+        return updatedSquads.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       });
-  
-      // Cleanup the subscription when the component unmounts
-      return () => {
-        subscription.unsubscribe();
-      };
-    }, []);
+      //console.log("here is the updated squads", squads)
+    },
+    error: (error) => console.log('Error on squad subscription', error),
+  });
+
+  // Cleanup subscription on unmount
+  return () => {
+    subscription.unsubscribe();
+  };
+}, []);
   
     useEffect(() => {
       setFilteredSquads(

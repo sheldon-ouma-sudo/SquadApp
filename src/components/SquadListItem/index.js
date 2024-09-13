@@ -26,7 +26,7 @@ const SquadListItem = ({ squad, userInfo, onRequestSent }) => { // Add onRequest
  
   useEffect(() => {
     if (userInfo) {
-      console.log("Here is the local user", userInfo);
+      // console.log("Here is the local user", userInfo);
       setLocalUserName(userInfo.name);
       setLocalUserID(userInfo.id);
       setLocalUserSquadJoinedArray(userInfo.squadJoined || []); // Default to an empty array if undefined
@@ -72,7 +72,7 @@ const SquadListItem = ({ squad, userInfo, onRequestSent }) => { // Add onRequest
       Alert.alert("You have already joined this squad!");
       return false; 
     }
-    return true;
+    return true; 
   };
 
 

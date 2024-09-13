@@ -151,21 +151,20 @@ const PollActivityScreen = () => {
     ...pollResponses.map(item => ({ ...item, requestType: 'pollResponse' })),
   ];
 
-  // Render item for FlatList
   const renderItem = ({ item }) => {
     if (item.type === 'header') {
       return <Text style={styles.sectionHeader}>{item.title}</Text>;
     }
-
+  
     // Differentiate between poll requests and responses
     if (item.requestType === 'pollRequest') {
       return <PollRequestListItem item={item} removeRequestFromList={removePollRequest} />;
     }
-
+  
     if (item.requestType === 'pollResponse') {
       return <PollResponseListItem item={item} removeResponseFromList={removePollResponse} />;
     }
-
+  
     return null;
   };
 

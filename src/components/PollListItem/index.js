@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, Alert, TextInput } from 'react-native';
-import Animated, { EasingNode } from 'react-native-reanimated';
-import { getUser, pollCommentsByPollID } from '../../graphql/queries';
+import Animated, { EasingNode, not } from 'react-native-reanimated';
+import { getNotification , getUser, notificationsByUserID, pollCommentsByPollID } from '../../graphql/queries';
+import { createPollResponse, updatePoll, updateNotification } from '../../graphql/mutations';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import PollCommentItem from '../PollCommentItem/index'
@@ -9,6 +10,43 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useUserContext } from '../../../UserContext';
 import { useNavigation } from '@react-navigation/native';
 
+const commentsData = [
+  {
+    id: 1,
+    username: 'User1',
+    comment: 'This is a great comment.',
+    likes: 10,
+    replies: 5,
+  },
+  {
+    id: 2,
+    username: 'User2',
+    comment: 'I really enjoyed reading this.',
+    likes: 15,
+    replies: 3,
+  },
+  {
+    id: 3,
+    username: 'User3',
+    comment: 'Interesting perspective.',
+    likes: 8,
+    replies: 2,
+  },
+  {
+    id: 4,
+    username: 'User4',
+    comment: 'Awesome conversation!',
+    likes: 20,
+    replies: 7,
+  },
+  {
+    id: 5,
+    username: 'User5',
+    comment: 'No woman no cry, me say you don know',
+    likes: 12,
+    replies: 4,
+  },
+];
 const { Value, timing } = Animated;
 const PollListItem = ({ poll, }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -18,7 +56,7 @@ const PollListItem = ({ poll, }) => {
   const [numOfPollComments, setNumOfPollComment] = useState('500');
   const [numOfPollLikes, setNumOfPollLikes] = useState('0');
   const [isLikeIconClicked, setIsLikeIconClicked] = useState(true);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([commentsData]);
   const [isCommentsVisible, setCommentsVisible] = useState(false);
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalNumOfVotes, setTotalNumOfVotes] = useState(0);
@@ -27,49 +65,14 @@ const PollListItem = ({ poll, }) => {
   const[optionClicked, setOptionClicked] = useState(false)
   const[pollID, setPollID] = useState()
   const[localUserName, setLocalUserName] = useState()
+  const [pollCreatorNotificationID, setPollCreatorNotificationID] = useState("")
   const [prevSelectedOption, setPrevSelectedOption] = useState(null);
   const [newComment, setNewComment] = useState('');
   const animations = useRef([]);
   const navigation  = useNavigation()
   const {user} = useUserContext()
 
-  const commentsData = [
-          {
-            id: 1,
-            username: 'User1',
-            comment: 'This is a great comment.',
-            likes: 10,
-            replies: 5,
-          },
-          {
-            id: 2,
-            username: 'User2',
-            comment: 'I really enjoyed reading this.',
-            likes: 15,
-            replies: 3,
-          },
-          {
-            id: 3,
-            username: 'User3',
-            comment: 'Interesting perspective.',
-            likes: 8,
-            replies: 2,
-          },
-          {
-            id: 4,
-            username: 'User4',
-            comment: 'Awesome conversation!',
-            likes: 20,
-            replies: 7,
-          },
-          {
-            id: 5,
-            username: 'User5',
-            comment: 'No woman no cry, me say you don know',
-            likes: 12,
-            replies: 4,
-          },
-        ];
+ 
         
       const toggleComments = () => {
         setCommentsVisible(!isCommentsVisible);
@@ -95,7 +98,8 @@ const PollListItem = ({ poll, }) => {
           setTotalNumOfVotes(poll.totalNumOfVotes || 0);
           setPollCreatorID(poll.userID);
           setPollID(poll.id);
-        
+          // setComments(commentsData)
+          console.log("here is the poll", poll)
           console.log('Raw Poll Items:', poll.pollItems); // Log the raw pollItems
         
           try {
@@ -125,8 +129,9 @@ const PollListItem = ({ poll, }) => {
           }
         
           const getPollCreator = async () => {
+            const pollCreatoriD = poll.userID;
             try {
-              const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
+              const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatoriD }));
               setPollCreator(pollCreatorInfoQuery.data?.getUser.userName);
               setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser);
             } catch (error) {
@@ -140,26 +145,46 @@ const PollListItem = ({ poll, }) => {
 
 
         useEffect(() => {
-          // Fetch comments when component mounts or when pollID changes
           const fetchComments = async () => {
             try {
               if (pollID) {
-                console.log("here is the pollID", pollID)
-                // const response = await API.graphql(graphqlOperation(pollCommentsByPollID, {
-                //   pollID: pollID
-                // }));
-                const results = await API.graphql(graphqlOperation(pollCommentsByPollID, {
+                console.log("Fetching comments for pollID:", pollID);
+        
+                // Fetch comments from the backend
+                const response = await API.graphql(graphqlOperation(pollCommentsByPollID, {
                   pollID: pollID
-                }))
-                //setComments(response.data?.pollCommentsByPollID?.items || []);
-                console.log(results)
+                }));
+        
+                const fetchedComments = response.data?.pollCommentsByPollID?.items || [];
+        
+                console.log("Fetched comments:", fetchedComments);
+                
+                // Update the comments state with the fetched comments
+                setComments(fetchedComments);
+                
+                // Update the number of comments
+                setNumOfPollComment(fetchedComments.length);
               }
             } catch (error) {
               console.log('Error fetching comments:', error);
             }
           };
-          fetchComments(); // Fetch comments initially
+        
+          fetchComments(); // Fetch comments when component is mounted or pollID changes
         }, [pollID]);
+        
+        useEffect(()=>{
+          const fetchPollCreatorNotification = async()=>{
+            const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
+              userID: pollCreatorID,
+            }))
+            console.log("here is the notification of the poll creator", notificationResult.data?.notificationsByUserID)
+            console.log("here is the notificatin iD", notificationResult[0].id)
+            setPollCreatorNotificationID(notificationResult[0].id)
+          }
+          
+          fetchPollCreatorNotification()
+        }, [pollCreatorID])
       
 
 
@@ -183,25 +208,25 @@ const PollListItem = ({ poll, }) => {
         };
         
 
-        const getOptionTextStyle = () => ({
-          color: optionClicked ? 'black' : 'white',
-          fontSize: 16,
-          marginBottom: 20,
-          fontWeight:'700',
-          marginLeft:135,
-          // color: "black",
-          marginTop:-30
-        });
+        // const getOptionTextStyle = () => ({
+        //   color: optionClicked ? 'black' : 'white',
+        //   fontSize: 16,
+        //   marginBottom: 20,
+        //   fontWeight:'700',
+        //   marginLeft:135,
+        //   // color: "black",
+        //   marginTop:-30
+        // });
       
-        const getSelectedOptionTextStyle = () => ({
-          color: optionClicked ? 'white' : 'black',
-          fontSize: 16,
-          marginBottom: 12,
-          fontWeight:'700',
-          marginLeft:125,
-          // color: "white"
-        });
-        const handleOptionPress = (index) => {
+        // const getSelectedOptionTextStyle = () => ({
+        //   color: optionClicked ? 'white' : 'black',
+        //   fontSize: 16,
+        //   marginBottom: 12,
+        //   fontWeight:'700',
+        //   marginLeft:125,
+        //   // color: "white"
+        // });
+        const handleOptionPress = async(index) => {
           setOptionClicked(true)
           // Check if the selected option is different from the previously selected one
           if (index !== selectedOption) {
@@ -212,12 +237,45 @@ const PollListItem = ({ poll, }) => {
               updatedPollItems[selectedOption].votes -= 1;
             }
             setPollItems(updatedPollItems);
-            // Update total number of votes only if an option is selected for the first time
-            if (selectedOption === null) {
-              setTotalNumOfVotes(totalNumOfVotes + 1);
-            }
+            // Update total number of votes if an option is selected for the first time
+            const newTotalVotes = selectedOption === null ? totalNumOfVotes + 1 : totalNumOfVotes;
+            setTotalNumOfVotes(newTotalVotes);
             setSelectedOption(index);
             animateAllOptions(index);
+            // Create poll response for the selected option
+           const pollResponse = await API.graphql(graphqlOperation(createPollResponse, {
+            input: {
+            pollID: pollID,
+            userID: user.id,
+            caption: `${localUserName} voted in your poll!`,
+           }    
+      }));
+        const pollResponseID = pollResponse.data.createPollResponse.id;
+
+        // Update the poll in the backend with the new total votes and updated poll items
+      await API.graphql(graphqlOperation(updatePoll, {
+        input: {
+          id: pollID,
+          totalNumOfVotes: newTotalVotes,
+          pollItems: JSON.stringify(updatedPollItems),
+        }
+      }));
+       // Fetch the user's notification
+       const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
+        userID: pollCreatorID,
+      }));
+
+      const notification = notificationResult.data.getNotification;
+        // Update the notification by adding the poll response ID to the pollResponsesArray
+        console.log("here is the notificatin iD", notification[0].id)
+        await API.graphql(graphqlOperation(updateNotification, {
+          input: {
+            id: notification[0].id,
+            pollResponsesArray: [...(notification.pollResponsesArray || []), pollResponseID],
+          }
+        }));
+  
+        console.log("Poll response created and notification updated");
           }
         };
         
@@ -259,9 +317,44 @@ const PollListItem = ({ poll, }) => {
           return totalNumOfVotes > 0 ? (votes / totalNumOfVotes) * 100 : 0;
         };
         
-        const handleLickedIconClick = () => {
+        const handleLikedIconClick = async() => {
           setIsLikeIconClicked(!isLikeIconClicked);
+          const updatedLikes = isLikeIconClicked ? numOfPollLikes - 1 : numOfPollLikes + 1;
           setNumOfPollLikes(prevLikes => (isLikeIconClicked ? prevLikes +1 : prevLikes -1));
+          try {
+                // Update the poll with the new number of likes
+              await API.graphql(graphqlOperation(updatePoll, {
+                input: {
+                  id: pollID,
+                  numOfLikes: updatedLikes,
+                }
+              }));
+
+            // Create a poll response for the like action
+             const pollResponse =  await API.graphql(graphqlOperation(createPollResponse, {
+                input: {
+                  pollID: pollID,
+                  userID: user.id,
+                  caption: `${localUserName} liked your poll!`,
+                }
+              }));
+              const pollResponseID = pollResponse.data.createPollResponse.id;
+           // Fetch the user's notification
+            const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
+              userID: pollCreatorID,
+            }));
+
+      const notification = notificationResult.data.getNotification;
+        // Update the notification by adding the poll response ID to the pollResponsesArray
+        await API.graphql(graphqlOperation(updateNotification, {
+          input: {
+            id: notification[0].id,
+            pollResponsesArray: [...(notification.pollResponsesArray || []), pollResponseID],
+          }
+        }));   
+          } catch (error) {
+            console.log("error updating poll likes", error)
+          }
 
         };
           // Function to handle navigation when the username is clicked
@@ -370,7 +463,7 @@ const PollListItem = ({ poll, }) => {
             </View>
             <TouchableOpacity
                 style={styles.pollLikesContainer}
-                onPress={handleLickedIconClick}
+                onPress={handleLikedIconClick}
               >
                 <FontAwesome
                   name={isLikeIconClicked ? 'heart-o' : 'heart'}
