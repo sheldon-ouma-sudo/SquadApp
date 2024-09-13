@@ -179,8 +179,9 @@ const PollListItem = ({ poll, }) => {
               userID: pollCreatorID,
             }))
             console.log("here is the notification of the poll creator", notificationResult.data?.notificationsByUserID)
-            console.log("here is the notificatin iD", notificationResult[0].id)
-            setPollCreatorNotificationID(notificationResult[0].id)
+            const notification = notificationResult.data.notificationsByUserID.items[0]
+            console.log("here is the notificatin iD", notification.id)
+            setPollCreatorNotificationID(notification.id)
           }
           
           fetchPollCreatorNotification()
@@ -197,6 +198,12 @@ const PollListItem = ({ poll, }) => {
         }, [selectedOption]);  
 
         const formatLikes = (likes) => {
+          // Check if likes is undefined or null, if so, default it to 0
+          if (likes === undefined || likes === null) {
+            likes = 0;
+          }
+        
+          // Format likes value
           if (likes < 1000) {
             return likes.toString(); // Return the number as is
           } else if (likes >= 1000 && likes < 1000000) {
@@ -204,8 +211,10 @@ const PollListItem = ({ poll, }) => {
           } else if (likes >= 1000000) {
             return (likes / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'; // Format in millions
           }
-          return likes.toString(); // Default case, although it won't be hit due to the previous conditions
+        
+          return likes.toString(); // Default case
         };
+        
         
 
         // const getOptionTextStyle = () => ({
@@ -265,13 +274,13 @@ const PollListItem = ({ poll, }) => {
         userID: pollCreatorID,
       }));
 
-      const notification = notificationResult.data.getNotification;
-        // Update the notification by adding the poll response ID to the pollResponsesArray
-        console.log("here is the notificatin iD", notification[0].id)
+      const notification = notificationResult.data?.notificationsByUserID.items;
+      //   // Update the notification by adding the poll response ID to the pollResponsesArray
+      //   console.log("here is the notificatin iD", notification.id)
         await API.graphql(graphqlOperation(updateNotification, {
           input: {
-            id: notification[0].id,
-            pollResponsesArray: [...(notification.pollResponsesArray || []), pollResponseID],
+            id: pollCreatorNotificationID,
+            pollResponsesArray: [...(notification[0].pollResponsesArray || []), pollResponseID],
           }
         }));
   
@@ -344,12 +353,12 @@ const PollListItem = ({ poll, }) => {
               userID: pollCreatorID,
             }));
 
-      const notification = notificationResult.data.getNotification;
+            const notification = notificationResult.data?.notificationsByUserID.items;
         // Update the notification by adding the poll response ID to the pollResponsesArray
         await API.graphql(graphqlOperation(updateNotification, {
           input: {
-            id: notification[0].id,
-            pollResponsesArray: [...(notification.pollResponsesArray || []), pollResponseID],
+            id: notification.id,
+            pollResponsesArray: [...(notification[0].pollResponsesArray || []), pollResponseID],
           }
         }));   
           } catch (error) {
@@ -365,21 +374,56 @@ const PollListItem = ({ poll, }) => {
             }
           };
 
-        const handleAddComment = () => {
-          if (newComment.trim() === '') {
-            return; // Don't add empty comments
-          }
-
-          const newCommentObj = {
-            id: comments.length + 1,
-            username: localUserName,
-            comment: newComment,
-            likes: 0,
+          const handleAddComment = async () => {
+            if (newComment.trim() === '') {
+              return; // Prevent adding empty comments
+            }
+          
+            try {
+              // Create a new poll comment
+              const newPollComment = await API.graphql(graphqlOperation(createPollComment, {
+                input: {
+                  pollID: pollID, // Use the current poll ID
+                  userID: user.id, // Use the current user's ID
+                  comment: newComment, // The comment text
+                  numOfLikes: 0, // Initialize likes to 0
+                  notificationID: null, // Initialize as null or set accordingly
+                }
+              }));
+          
+              const newPollCommentID = newPollComment.data.createPollComment.id; // Extract the new comment's ID
+          
+              // Fetch the notification related to this poll
+              const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
+                userID: pollCreatorID, // Assuming pollCreatorID holds the correct notification owner
+              }));
+          
+              const notification = notificationResult.data.notificationsByUserID.items[0]; // Fetch the first notification for the user
+          
+              // Update the notification by adding the new comment ID to pollCommentsArray
+              await API.graphql(graphqlOperation(updateNotification, {
+                input: {
+                  id: notification.id,
+                  pollCommentsArray: [...(notification.pollCommentsArray || []), newPollCommentID], // Append the new comment ID
+                }
+              }));
+          
+              // Add the comment locally to the component state (for immediate UI feedback)
+              const newCommentObj = {
+                id: newPollCommentID,
+                username: localUserName,
+                comment: newComment,
+                likes: 0,
+              };
+          
+              setComments([...comments, newCommentObj]); // Update local state with the new comment
+              setNewComment(''); // Clear the input field
+              console.log("Comment added and notification updated");
+            } catch (error) {
+              console.error("Error adding comment and updating notification", error);
+            }
           };
-
-          setComments([...comments, newCommentObj]); // Add new comment
-          setNewComment(''); // Clear the input
-        };
+          
 
         return (
           <LinearGradient
