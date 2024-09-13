@@ -4,6 +4,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import SearchBar from '../components/SearchBar';
 import UserListItem from '../components/UserListItem';
 import { listUsers } from '../graphql/queries';
+import { onCreateUser } from '../graphql/subscriptions';  
 
 const ExploreUserScreen = () => {
   const [searchPhrase, setSearchPhrase] = useState('');
@@ -17,12 +18,35 @@ const ExploreUserScreen = () => {
           console.log('Error fetching users');
           return;
         }
-        setUsers(results.data?.listUsers?.items);
+        // Sort users by creation time, from latest to oldest
+        const sortedUsers = results.data.listUsers.items.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );  
+        setUsers(sortedUsers);
       } catch (error) {
         console.log('Error getting users', error);
       }
     };
     fetchUsers();
+    // Set up the subscription for new users being created
+    const subscription = API.graphql(graphqlOperation(onCreateUser)).subscribe({
+      next: (userData) => {
+        const newUser = userData.value.data.onCreateUser;
+        console.log('New user created: ', newUser);
+
+        // Add the new user to the list and sort by creation time
+        setUsers((prevUsers) => {
+          const updatedUsers = [newUser, ...prevUsers];
+          return updatedUsers.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        });
+      },
+      error: (error) => console.log('Error on user subscription', error),
+    });
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const filteredUsers = useMemo(() => {

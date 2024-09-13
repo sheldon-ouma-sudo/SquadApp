@@ -4,6 +4,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import SearchBar from '../components/SearchBar';
 import SquadListItem from '../components/SquadListItem';
 import { listSquads } from '../graphql/queries';
+import { onCreateSquad } from '../graphql/subscriptions'; 
 import { useUserContext } from '../../UserContext';
 
 const ExploreSquadronScreen = () => {
@@ -12,22 +13,53 @@ const ExploreSquadronScreen = () => {
   const [filteredSquads, setFilteredSquads] = useState([]);
   const { user } = useUserContext();
 
-  useEffect(() => {
-    const fetchSquads = async () => {
-      try {
-        const results = await API.graphql(graphqlOperation(listSquads));
-        if (!results.data?.listSquads) {
-          console.log('Error fetching squads');
-          return;
-        }
-        console.log("here are the squads",results.data.listSquads.items )
-        setSquads(results.data.listSquads.items);
-      } catch (error) {
-        console.log('Error getting squads', error);
+ // Fetch squads on initial render
+ useEffect(() => {
+  const fetchSquads = async () => {
+    try {
+      const results = await API.graphql(graphqlOperation(listSquads));
+      if (!results.data?.listSquads) {
+        console.log('Error fetching squads');
+        return;
       }
-    };
-    fetchSquads();
-  }, []);
+      // Sort squads by createdAt in descending order
+      const sortedSquads = results.data.listSquads.items.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      console.log("here is the sorted squads", sortedSquads)
+      setSquads(sortedSquads); 
+    } catch (error) {
+      console.log('Error getting squads', error);
+    }
+  };
+  fetchSquads();
+}, []);
+    // Subscription for new squads
+    useEffect(() => {
+      const subscription = API.graphql(graphqlOperation(onCreateSquad)).subscribe({
+        next: ({ value }) => {
+          const newSquad = value.data.onCreateSquad;
+          console.log('New squad created:', newSquad);
+          // Add the new squad to the current list of squads
+          setSquads((prevSquads) => [newSquad, ...prevSquads]);
+        },
+        error: (error) => console.log('Error on squad creation subscription', error),
+      });
+  
+      // Cleanup the subscription when the component unmounts
+      return () => {
+        subscription.unsubscribe();
+      };
+    }, []);
+  
+    useEffect(() => {
+      setFilteredSquads(
+        squads.filter((squad) =>
+          squad.squadName.toLowerCase().includes(searchPhrase.toLowerCase())
+        )
+      );
+    }, [searchPhrase, squads]);
+  
 
   useEffect(() => {
     setFilteredSquads(
