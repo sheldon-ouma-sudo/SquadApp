@@ -13,6 +13,7 @@ const PollCommentList = ({comment, pollCreator, poll }) => {
   const [numOfCommentLikes, setNumOfCommentLikes] = useState(comment.numOfLikes || 0);
   const [commentorID, setCommentorID] = useState("")
   const [userName, setUserName ] = useState("")
+  const [pollCratorID, setPollCreatorID] = useState()
   const [userProfilePicture, setUserProfilePicture] = useState("")
   const [localUserName, setLocalUserName] = useState("")
   const {user} = useUserContext()
@@ -23,7 +24,7 @@ const PollCommentList = ({comment, pollCreator, poll }) => {
           const pollCreatorID = pollCreator.id
           const pollCommentorID = comment.userID 
           setCommentorID(pollCommentorID)
-          setPollCretorID(pollCreatorID)
+          setPollCreatorID(pollCreatorID)
         }
         if(user){
           setLocalUserName(user.userName)
