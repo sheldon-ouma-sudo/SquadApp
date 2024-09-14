@@ -235,6 +235,7 @@ export const getNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollCommentLikeArray
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
@@ -275,6 +276,7 @@ export const listNotifications = /* GraphQL */ `
         pollRequestsArray
         pollResponsesArray
         pollCommentsArray
+        pollCommentLikeArray
         pollLikeResponseArray
         squadAddRequestsArray
         SquadJoinRequestArray
@@ -310,12 +312,109 @@ export const notificationsByUserID = /* GraphQL */ `
         pollRequestsArray
         pollResponsesArray
         pollCommentsArray
+        pollCommentLikeArray
         pollLikeResponseArray
         squadAddRequestsArray
         SquadJoinRequestArray
         GeneralResponses
         userID
         new
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getPollCommentResponse = /* GraphQL */ `
+  query GetPollCommentResponse($id: ID!) {
+    getPollCommentResponse(id: $id) {
+      id
+      pollID
+      userID
+      caption
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listPollCommentResponses = /* GraphQL */ `
+  query ListPollCommentResponses(
+    $filter: ModelPollCommentResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPollCommentResponses(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        caption
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollCommentResponsesByPollID = /* GraphQL */ `
+  query PollCommentResponsesByPollID(
+    $pollID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollCommentResponsesByPollID(
+      pollID: $pollID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        caption
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollCommentResponsesByUserID = /* GraphQL */ `
+  query PollCommentResponsesByUserID(
+    $userID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollCommentResponsesByUserID(
+      userID: $userID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        caption
         createdAt
         updatedAt
         __typename

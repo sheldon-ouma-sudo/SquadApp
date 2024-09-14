@@ -344,6 +344,7 @@ export const createNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollCommentLikeArray
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
@@ -382,6 +383,7 @@ export const updateNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollCommentLikeArray
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
@@ -391,7 +393,7 @@ export const updateNotification = /* GraphQL */ `
         __typename
       }
       PollRequests {
-        nextToken 
+        nextToken
         __typename
       }
       userID
@@ -420,6 +422,7 @@ export const deleteNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollCommentLikeArray
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
@@ -442,6 +445,54 @@ export const deleteNotification = /* GraphQL */ `
         nextToken
         __typename
       }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createPollCommentResponse = /* GraphQL */ `
+  mutation CreatePollCommentResponse(
+    $input: CreatePollCommentResponseInput!
+    $condition: ModelPollCommentResponseConditionInput
+  ) {
+    createPollCommentResponse(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      caption
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updatePollCommentResponse = /* GraphQL */ `
+  mutation UpdatePollCommentResponse(
+    $input: UpdatePollCommentResponseInput!
+    $condition: ModelPollCommentResponseConditionInput
+  ) {
+    updatePollCommentResponse(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      caption
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deletePollCommentResponse = /* GraphQL */ `
+  mutation DeletePollCommentResponse(
+    $input: DeletePollCommentResponseInput!
+    $condition: ModelPollCommentResponseConditionInput
+  ) {
+    deletePollCommentResponse(input: $input, condition: $condition) {
+      id
+      pollID
+      userID
+      caption
       createdAt
       updatedAt
       __typename

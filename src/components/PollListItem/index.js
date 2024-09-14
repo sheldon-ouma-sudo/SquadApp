@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, FlatList, Image, Alert, TextInput } from 'react-native';
 import Animated, { EasingNode, not } from 'react-native-reanimated';
 import { getNotification , getUser, notificationsByUserID, pollCommentsByPollID } from '../../graphql/queries';
-import { createPollResponse, updatePoll, updateNotification } from '../../graphql/mutations';
+import { createPollResponse, updatePoll, updateNotification, createPollComment } from '../../graphql/mutations';
 import { API, graphqlOperation } from "aws-amplify";
 import { FontAwesome } from '@expo/vector-icons';
 import PollCommentItem from '../PollCommentItem/index'
@@ -81,7 +81,7 @@ const PollListItem = ({ poll}) => {
         
        const renderCommentItem = ({ item }) => (
           <View style={styles.commentItem}>
-            <PollCommentItem comment={item} />
+            <PollCommentItem comment={item} pollCreator={pollCreatorInfo} poll={poll}/>
           </View>
         );
 
@@ -398,57 +398,64 @@ const PollListItem = ({ poll}) => {
           const handleUsernamePress = () => {
             // Ensure pollCreatorInfo is defined before navigating
             if (pollCreatorInfo) {
-              navigation.navigate('GeneralUserProfileScreenPage', { userInfo: pollCreatorInfo });
+              navigation.navigate("UserDisplayScreen", { user: pollCreatorInfo })
             }
           };
 
           const handleAddComment = async () => {
+            // Prevent adding empty comments
             if (newComment.trim() === '') {
-              return; // Prevent adding empty comments
+              return;
             }
           
             try {
               // Create a new poll comment
               const newPollComment = await API.graphql(graphqlOperation(createPollComment, {
                 input: {
-                  pollID: pollID, // Use the current poll ID
-                  userID: user.id, // Use the current user's ID
-                  comment: newComment, // The comment text
-                  numOfLikes: 0, // Initialize likes to 0
-                  notificationID: null, // Initialize as null or set accordingly
-                }
+                  pollID: pollID, // The current poll ID
+                  userID: user.id, // Current user's ID
+                  comment: newComment, // The comment text from the input
+                  numOfLikes: 0, // Default likes for a new comment
+                  notificationID: pollCreatorNotificationID, // Initialize as null, set later if needed
+                },
               }));
           
-              const newPollCommentID = newPollComment.data.createPollComment.id; // Extract the new comment's ID
+              // Extract the new comment's ID
+              const newPollCommentID = newPollComment.data.createPollComment.id;
           
               // Fetch the notification related to this poll
               const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
-                userID: pollCreatorID, // Assuming pollCreatorID holds the correct notification owner
+                userID: pollCreatorID, // Assuming pollCreatorID is available from state
               }));
           
-              const notification = notificationResult.data.notificationsByUserID.items[0]; // Fetch the first notification for the user
+              // Get the first notification for the user
+              const notification = notificationResult.data.notificationsByUserID.items[0];
           
-              // Update the notification by adding the new comment ID to pollCommentsArray
+              // Update the notification by adding the new comment ID to the pollCommentsArray
               await API.graphql(graphqlOperation(updateNotification, {
                 input: {
                   id: notification.id,
-                  pollCommentsArray: [...(notification.pollCommentsArray || []), newPollCommentID], // Append the new comment ID
-                }
+                  pollCommentsArray: [...(notification.pollCommentsArray || []), newPollCommentID],
+                },
               }));
           
-              // Add the comment locally to the component state (for immediate UI feedback)
+              // Add the comment to the local state for immediate UI feedback
               const newCommentObj = {
                 id: newPollCommentID,
-                username: localUserName,
-                comment: newComment,
-                likes: 0,
+                username: localUserName, // The current user's username
+                comment: newComment, // The new comment text
+                likes: 0, // Initialize the likes count
               };
           
-              setComments([...comments, newCommentObj]); // Update local state with the new comment
-              setNewComment(''); // Clear the input field
-              console.log("Comment added and notification updated");
+              // Update the local comments state with the new comment
+              setComments([...comments, newCommentObj]);
+          
+              // Clear the input field after adding the comment
+              setNewComment('');
+          
+              console.log("Comment added successfully and notification updated");
             } catch (error) {
-              console.error("Error adding comment and updating notification", error);
+              console.error("Error adding comment and updating notification:", error);
             }
           };
           
@@ -548,7 +555,7 @@ const PollListItem = ({ poll}) => {
 
             {/* Comments Section */}
             <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
-              <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
+              <Text style={styles.numOfCommentsText}>{comments.length} comments</Text>
               <FlatList
               data={comments}
               keyExtractor={(item) => `comment-${item.id}`}
@@ -736,7 +743,7 @@ const PollListItem = ({ poll}) => {
           borderBottomColor: '#ccc',
         },
         numOfCommentsText: {
-          fontSize: 28,
+          fontSize: 18,
           fontWeight: '700',
           marginBottom: 20,
           marginLeft: 100,

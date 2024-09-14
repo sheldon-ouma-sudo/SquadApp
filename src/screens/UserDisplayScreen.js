@@ -35,8 +35,7 @@ const UserDisplayScreen = () => {
           setNumOfUserPolls(numOfPolls)
           const numOfSquadJoined = user.numOfSquadJoined
           const numOfSquadCreated = user.numOfSquadCreated
-        //   const user_name = user.username; 
-        //   const squad_creator = squad.authUserName
+        
           const user_joinTime = dayjs(user.createdAt).format('MMMM D, YYYY')
           setUserJoiningTime(user_joinTime)
         //   setSquadName(squad_name)

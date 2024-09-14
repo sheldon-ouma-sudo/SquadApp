@@ -24,6 +24,7 @@ type Notification @model @auth(rules: [{ allow: public }]) {
   pollRequestsArray: [String]
   pollResponsesArray: [String]
   pollCommentsArray: [String]
+  pollCommentLikeArray: [String]
   pollLikeResponseArray: [String]
   squadAddRequestsArray: [String]
   SquadJoinRequestArray: [String]
@@ -38,6 +39,13 @@ type Notification @model @auth(rules: [{ allow: public }]) {
     @hasMany(indexName: "byNotification", fields: ["id"])
   RequestToJoinASquads: [RequestToJoinASquad]
     @hasMany(indexName: "byNotification", fields: ["id"])
+}
+type PollCommentResponse @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  pollID: ID! @index(name: "byPoll")
+  userID: ID! @index(name: "byUser")
+  pollCommentID: ID! @index(name: "byPollComment")
+  caption: String
 }
 
 type PollResponse @model @auth(rules: [{ allow: public }]) {

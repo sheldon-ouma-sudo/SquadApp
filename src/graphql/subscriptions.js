@@ -337,6 +337,7 @@ export const onCreateNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollCommentLikeArray
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
@@ -374,6 +375,7 @@ export const onUpdateNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollCommentLikeArray
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
@@ -411,6 +413,7 @@ export const onDeleteNotification = /* GraphQL */ `
       pollRequestsArray
       pollResponsesArray
       pollCommentsArray
+      pollCommentLikeArray
       pollLikeResponseArray
       squadAddRequestsArray
       SquadJoinRequestArray
@@ -433,6 +436,51 @@ export const onDeleteNotification = /* GraphQL */ `
         nextToken
         __typename
       }
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreatePollCommentResponse = /* GraphQL */ `
+  subscription OnCreatePollCommentResponse(
+    $filter: ModelSubscriptionPollCommentResponseFilterInput
+  ) {
+    onCreatePollCommentResponse(filter: $filter) {
+      id
+      pollID
+      userID
+      caption
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdatePollCommentResponse = /* GraphQL */ `
+  subscription OnUpdatePollCommentResponse(
+    $filter: ModelSubscriptionPollCommentResponseFilterInput
+  ) {
+    onUpdatePollCommentResponse(filter: $filter) {
+      id
+      pollID
+      userID
+      caption
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeletePollCommentResponse = /* GraphQL */ `
+  subscription OnDeletePollCommentResponse(
+    $filter: ModelSubscriptionPollCommentResponseFilterInput
+  ) {
+    onDeletePollCommentResponse(filter: $filter) {
+      id
+      pollID
+      userID
+      caption
       createdAt
       updatedAt
       __typename

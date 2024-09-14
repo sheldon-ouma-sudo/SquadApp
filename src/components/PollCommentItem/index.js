@@ -1,27 +1,90 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet,Image } from 'react-native';
 import { BottomSheetModal, BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import { useUserContext } from '../../../UserContext';
+import { getUser, notificationsByUserID,} from '../../graphql/queries';
+import { API, graphqlOperation } from "aws-amplify";
+import { updateNotification, updatePollComment, createPollCommentResponse} from '../../graphql/mutations';
+
 import { FontAwesome } from '@expo/vector-icons';
 
-const PollCommentList = ({comment }) => {
+const PollCommentList = ({comment, pollCreator, poll }) => {
   const [isLikeIconClicked, setIsLikeIconClicked] = useState(false); // Track whether the comment is liked
-  const [numOfCommentLikes, setNumOfCommentLikes] = useState(0);
+  const [numOfCommentLikes, setNumOfCommentLikes] = useState(comment.numOfLikes || 0);
+  const [commentorID, setCommentorID] = useState("")
+  const [userName, setUserName ] = useState("")
+  const [userProfilePicture, setUserProfilePicture] = useState("")
+  const [localUserName, setLocalUserName] = useState("")
+  const {user} = useUserContext()
 
-  const handleLikeClick = () => {
+     
+    useEffect(()=>{
+        if(pollCreator){
+          const pollCreatorID = pollCreator.id
+          const pollCommentorID = comment.userID 
+          setCommentorID(pollCommentorID)
+          setPollCretorID(pollCreatorID)
+        }
+        if(user){
+          setLocalUserName(user.userName)
+        }
+     }, [pollCreator, user])
+
+    useEffect(async()=>{
+      if(comment){
+        const commentorInfoResults = await API.graphql(graphqlOperation,(getUser, {id: commentorID}))
+        if(commentorInfoResults.data?.getUser){
+          const user = commentorInfoResults.data?.getUser
+          const commentorUserName = user.userName;
+          const commentorProfilePicture = user.userProfilePicture
+          setUserName(commentorUserName);
+          setUserProfilePicture(commentorProfilePicture)
+        }
+      }
+    }, [comment])
+
+  const handleLikeClick = async () => {
+    const updatedLikes = isLikeIconClicked ? numOfCommentLikes - 1 : numOfCommentLikes + 1;
     setIsLikeIconClicked(!isLikeIconClicked);
-    setNumOfCommentLikes(prevLikes => (isLikeIconClicked ? prevLikes -1 : prevLikes +1));
+    setNumOfCommentLikes(updatedLikes);
+
+    try {
+      // Update the comment's number of likes in the backend
+      await API.graphql(graphqlOperation(updatePollComment, {
+        input: {
+          id: comment.id, // Comment ID
+          numOfLikes: updatedLikes, // Updated number of likes
+        }
+      }));
+     
+      const pollCommentResponseCreationResults = await API.graphql(graphqlOperation(createPollCommentResponse,{
+        input: {
+          pollID: poll.id,
+          userID: user.id, 
+          pollCommentID: comment.id, 
+          caption: `${localUserName} has liked your comment!`         
+}}))
+      const pollCommentResponseID = pollCommentResponseCreationResults.data?.createPollCommentResponse
+      const notificationQueryResults = API.graphql(graphqlOperation(notificationsByUserID,{userID: commentorID}))
+      const notification = await notificationQueryResults.data?.notificationsByUserID.items[0]
+      await API.graphql(graphqlOperation(updateNotification,{input:{
+        id: notification.id, 
+        pollCommentLikeArray: [...(notification.pollCommentLikeArray || []), pollCommentResponseID ]
+      }} ))
+    } catch (error) {
+      console.error("Error updating comment likes:", error);
+    }
   };
-  
   return (
     <View style={styles.commentContainer}>
       {/* User image and username */}
       <View style={styles.userInfoContainer}>
         <Image
-          source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}
+          source={require('/Users/sheldonotieno/Squad/assets/person-circle-sharp-pngrepo-com.png')}// we want to fix the profile picture if it's available
           resizeMode='contain'
           style={styles.userImage}
         />
-        <Text style={styles.username}>{comment.username}</Text>
+        <Text style={styles.username}>{userName}</Text>
       </View>
 
       {/* Parent view for the comment and the like button */}
