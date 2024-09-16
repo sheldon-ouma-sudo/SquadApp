@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
 import { API, graphqlOperation } from 'aws-amplify';
 import SearchBar from '../components/SearchBar';
@@ -6,19 +6,20 @@ import SquadListItem from '../components/SquadListItem';
 import { listSquads } from '../graphql/queries';
 import { onCreateSquad } from '../graphql/subscriptions'; 
 import { useUserContext } from '../../UserContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ExploreSquadronScreen = () => {
   const [searchPhrase, setSearchPhrase] = useState('');
   const [squads, setSquads] = useState([]);
   const [filteredSquads, setFilteredSquads] = useState([]);
+  const [loading, setLoading] = useState(false); // Added loading state
   const { user } = useUserContext();
 
- // Fetch squads on initial render
- useEffect(() => {
+  // Function to fetch squads from the backend
   const fetchSquads = async () => {
     try {
+      setLoading(true);
       const results = await API.graphql(graphqlOperation(listSquads));
-      // console.log("here is the number of squads",results.data?.listSquads)
       if (!results.data?.listSquads.items) {
         console.log('Error fetching squads');
         return;
@@ -27,47 +28,38 @@ const ExploreSquadronScreen = () => {
       const sortedSquads = results.data.listSquads.items.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      //console.log("here is the sorted squads", sortedSquads)
-      //onsole.log("here is the sorted squads", sortedSquads)
       setSquads(sortedSquads); 
-        // Check the length of squads and log it
-        console.log('Number of squads:', sortedSquads.length);
+      setFilteredSquads(sortedSquads); // Initially set filtered squads to the fetched squads
     } catch (error) {
       console.log('Error getting squads', error);
+    } finally {
+      setLoading(false); // Stop the loading spinner
     }
   };
-  fetchSquads();
-   // Set up the subscription for new squads being created
-   const subscription = API.graphql(graphqlOperation(onCreateSquad)).subscribe({
-    next: (squadData) => {
-      const newSquad = squadData.value.data.onCreateSquad;
-      console.log('New squad created: ', newSquad);
 
-      // Add the new squad to the list and sort by creation time
-      setSquads((prevSquads) => {
-        const updatedSquads = [newSquad, ...prevSquads];
-        return updatedSquads.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  // Refetch squads every time the screen is focused using useFocusEffect
+  useFocusEffect(
+    useCallback(() => {
+      fetchSquads();
+
+      const subscription = API.graphql(graphqlOperation(onCreateSquad)).subscribe({
+        next: (squadData) => {
+          const newSquad = squadData.value.data.onCreateSquad;
+          setSquads((prevSquads) => {
+            const updatedSquads = [newSquad, ...prevSquads];
+            return updatedSquads.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          });
+        },
+        error: (error) => console.log('Error on squad subscription', error),
       });
-      //console.log("here is the updated squads", squads)
-    },
-    error: (error) => console.log('Error on squad subscription', error),
-  });
 
-  // Cleanup subscription on unmount
-  return () => {
-    subscription.unsubscribe();
-  };
-}, []);
-  
-    useEffect(() => {
-      setFilteredSquads(
-        squads.filter((squad) =>
-          squad.squadName.toLowerCase().includes(searchPhrase.toLowerCase())
-        )
-      );
-    }, [searchPhrase, squads]);
-  
+      return () => {
+        subscription.unsubscribe();
+      };
+    }, [])
+  );
 
+  // Filter squads based on the search phrase
   useEffect(() => {
     setFilteredSquads(
       squads.filter((squad) =>
@@ -77,7 +69,6 @@ const ExploreSquadronScreen = () => {
   }, [searchPhrase, squads]);
 
   const handleSearchBarClick = () => {
-    // Handle click event for the search bar here
     console.log('Search bar clicked');
   };
 
@@ -92,19 +83,21 @@ const ExploreSquadronScreen = () => {
         <SearchBar
           searchPhrase={searchPhrase}
           setSearchPhrase={setSearchPhrase}
-          setClicked={handleSearchBarClick} // Pass the function to handle search bar click
+          setClicked={handleSearchBarClick}
         />
-        {filteredSquads.length === 0 ? (
+        {loading ? (
           <ActivityIndicator size="small" color="#1145FD" />
+        ) : filteredSquads.length === 0 ? (
+          <Text>No squads found</Text>
         ) : (
           <FlatList
             data={filteredSquads}
             renderItem={({ item }) => 
-            <SquadListItem
-             squad={item} 
-             userInfo={user} 
-             onRequestSent={handleRequestSent} // Pass the callback function to SquadListItem
-             />
+              <SquadListItem
+                squad={item} 
+                userInfo={user} 
+                onRequestSent={handleRequestSent}
+              />
             }
             keyExtractor={(item) => item.id.toString()}
           />

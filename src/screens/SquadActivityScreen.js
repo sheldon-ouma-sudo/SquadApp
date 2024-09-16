@@ -36,6 +36,7 @@ const removeAddRequest = (id) => {
           const joinRequests = await Promise.all(
             (notification.SquadJoinRequestArray || []).map(async (requestId) => {
               const requestResult = await API.graphql(graphqlOperation(getRequestToJoinASquad, { id: requestId }));
+              console.log("here is the message",requestResult.data?.getRequestToJoinASquad.message)
               return requestResult.data.getRequestToJoinASquad;
             })
           );

@@ -7,6 +7,7 @@ import { useUserContext } from '../../../UserContext';
 import { getUser, notificationsByUserID } from '../../graphql/queries';
 import { getSquad } from '../../graphql/queries';
 import { API, graphqlOperation } from 'aws-amplify';
+import { Alert } from 'react-native';
 
 
 const UserListItem = ({ user, onUserAddedToSquad }) => {
@@ -130,6 +131,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
   
   const handleRequestCreation = async (notificationID, selectedSquads) => {
     const squadIDArray = [];
+    console.log("here are the selected squads", selectedSquads)
     try {
       const requestPromises = selectedSquads.map(async (squadID) => {
         try {
@@ -150,7 +152,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
                 notificationID,
                 requestingUserID: localUserInfo.id,
                 squads: squadIDArray, // Updated to use the accumulated squadIDArray
-                message,
+                message: message,
                 squadID: squadID
               },
             })
@@ -182,7 +184,7 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
           input: { id: currentUserNotificationID, squadAddRequestsArray: updatedArray },
         })
       );
-      console.log("Notification updated successfully✅", results);
+      // console.log("Notification updated successfully✅", results);
     } catch (error) {
       console.log("Error updating notification", error);
     }
@@ -193,6 +195,16 @@ const UserListItem = ({ user, onUserAddedToSquad }) => {
   };
 
   const handleSquadsSelected = async (selectedSquads) => {
+    const selectedUserSquadJoinedID = user.squadJoinedID || [];
+
+    // Check if any of the selected squads are already in the user's squadJoinedID
+    const alreadyInSquad = selectedSquads.some((squadID) => selectedUserSquadJoinedID.includes(squadID));
+  
+    if (alreadyInSquad) {
+      // Show an alert if the user is already in the selected squad
+      Alert.alert('Already in Squad', 'The user is already a member of the selected squad.');
+      return; // Prevent the request creation if the user is already in the squad
+    }
     if (!currentUserHasNotification) {
       const newNotificationID = await handleNotificationCreation();
       if (newNotificationID) {

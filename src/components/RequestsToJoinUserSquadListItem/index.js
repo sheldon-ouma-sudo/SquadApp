@@ -13,6 +13,7 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
       const userID = user.id;
       const requestingUserID = item.requestingUserID; // Get requesting user's ID
       const squadID = item.squadID; // Get the squad ID
+      
       // Fetch requesting user's details
       const requestingUserData = await API.graphql(graphqlOperation(getUser, { id: requestingUserID }));
       const requestingUser = requestingUserData.data.getUser;

@@ -147,60 +147,64 @@ const PollListItem = ({ poll}) => {
             }
         }, [poll]);
         
-        useEffect(()=>{
-          const getPollCreator = async () => {
-            const pollCreatoriD = poll.userID;
-            try {
-              const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatoriD }));
-              setPollCreator(pollCreatorInfoQuery.data?.getUser.userName);
-              setPollCreatorInfo(pollCreatorInfoQuery.data?.getUser);
-            } catch (error) {
-              console.log('Error fetching the poll creator:', error);
-            }
-          };
-          getPollCreator();
-        }, [pollCreatorID])
-        
         useEffect(() => {
-          const fetchComments = async () => {
+          const getPollCreator = async () => {
+            if (!pollCreatorID) return; // Ensure pollCreatorID is available
+        
             try {
-              if (pollID) {
-                // console.log("Fetching comments for pollID:", pollID);
-        
-                // Fetch comments from the backend
-                const response = await API.graphql(graphqlOperation(pollCommentsByPollID, {
-                  pollID: pollID
-                }));
-        
-                const fetchedComments = response.data?.pollCommentsByPollID?.items || [];
-        
-                // console.log("Fetched comments:", fetchedComments);
-                
-                // Update the comments state with the fetched comments
-                setComments(fetchedComments);
-                
-                // Update the number of comments
-                setNumOfPollComment(fetchedComments.length);
+              const pollCreatorInfoQuery = await API.graphql(graphqlOperation(getUser, { id: pollCreatorID }));
+              if (pollCreatorInfoQuery.data?.getUser) {
+                setPollCreator(pollCreatorInfoQuery.data.getUser.userName);
+                setPollCreatorInfo(pollCreatorInfoQuery.data.getUser);
+              } else {
+                console.error("Error: Poll creator not found");
               }
             } catch (error) {
-              console.log('Error fetching comments:', error);
+              console.error('Error fetching the poll creator:', error);
             }
           };
         
-          fetchComments(); // Fetch comments when component is mounted or pollID changes
-        }, [pollID]);
+          getPollCreator(); // Call the async function within useEffect
+        }, [pollCreatorID]);
         
         
         useEffect(() => {
+          if (!pollID || !pollCreatorID) {
+            console.log("PollID or PollCreatorID is missing");
+            return;
+          }
+        
+          const fetchComments = async () => {
+            try {
+              const response = await API.graphql(graphqlOperation(pollCommentsByPollID, { pollID: pollID }));
+              const fetchedComments = response.data?.pollCommentsByPollID?.items || [];
+              setComments(fetchedComments);
+              setNumOfPollComment(fetchedComments.length);
+            } catch (error) {
+              console.error('Error fetching comments:', error);
+            }
+          };
+        
+          fetchComments();
+        }, [pollID, pollCreatorID]);
+        
+        
+        
+        useEffect(() => {
+          console.log("Poll ID: ", pollID);
+          console.log("Poll Creator ID: ", pollCreatorID);
+        
           const fetchPollCreatorNotification = async () => {
             if (!pollCreatorID) return;  // Ensure pollCreatorID is set
             try {
               const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
                 userID: pollCreatorID,
               }));
-              const notification = notificationResult.data?.notificationsByUserID?.items[0];
-              if (notification) {
-                setPollCreatorNotificationID(notification.id);
+        
+              if (notificationResult.data?.notificationsByUserID?.items[0]) {
+                setPollCreatorNotificationID(notificationResult.data.notificationsByUserID.items[0].id);
+              } else {
+                console.error("Error: No notification found for poll creator");
               }
             } catch (error) {
               console.error('Error fetching poll creator notification:', error);
@@ -209,6 +213,7 @@ const PollListItem = ({ poll}) => {
         
           fetchPollCreatorNotification();
         }, [pollCreatorID]);
+        
 
         useEffect(() => {
           if (selectedOption !== null) { 
@@ -299,7 +304,7 @@ const PollListItem = ({ poll}) => {
       //   // Update the notification by adding the poll response ID to the pollResponsesArray
       //   console.log("here is the notificatin iD", notification.id)
         await API.graphql(graphqlOperation(updateNotification, {
-          input: {
+          input: {  
             id: pollCreatorNotificationID,
             pollResponsesArray: [...(notification[0].pollResponsesArray || []), pollResponseID],
           }
@@ -403,61 +408,41 @@ const PollListItem = ({ poll}) => {
           };
 
           const handleAddComment = async () => {
-            // Prevent adding empty comments
-            if (newComment.trim() === '') {
+            if (!newComment.trim()) {
+              console.error("Comment is empty");
+              return;
+            }
+          
+            if (!pollID || !pollCreatorNotificationID) {
+              console.error("Poll ID or notification ID is missing");
               return;
             }
           
             try {
-              // Create a new poll comment
               const newPollComment = await API.graphql(graphqlOperation(createPollComment, {
                 input: {
-                  pollID: pollID, // The current poll ID
-                  userID: user.id, // Current user's ID
-                  comment: newComment, // The comment text from the input
-                  numOfLikes: 0, // Default likes for a new comment
-                  notificationID: pollCreatorNotificationID, // Initialize as null, set later if needed
-                },
+                  pollID: pollID,
+                  userID: user.id,
+                  comment: newComment,
+                  numOfLikes: 0,
+                  notificationID: pollCreatorNotificationID,
+                }
               }));
           
-              // Extract the new comment's ID
-              const newPollCommentID = newPollComment.data.createPollComment.id;
-          
-              // Fetch the notification related to this poll
-              const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
-                userID: pollCreatorID, // Assuming pollCreatorID is available from state
-              }));
-          
-              // Get the first notification for the user
-              const notification = notificationResult.data.notificationsByUserID.items[0];
-          
-              // Update the notification by adding the new comment ID to the pollCommentsArray
-              await API.graphql(graphqlOperation(updateNotification, {
-                input: {
-                  id: notification.id,
-                  pollCommentsArray: [...(notification.pollCommentsArray || []), newPollCommentID],
-                },
-              }));
-          
-              // Add the comment to the local state for immediate UI feedback
               const newCommentObj = {
-                id: newPollCommentID,
-                username: localUserName, // The current user's username
-                comment: newComment, // The new comment text
-                likes: 0, // Initialize the likes count
+                id: newPollComment.data.createPollComment.id,
+                username: localUserName,
+                comment: newComment,
+                likes: 0,
               };
           
-              // Update the local comments state with the new comment
               setComments([...comments, newCommentObj]);
-          
-              // Clear the input field after adding the comment
               setNewComment('');
-          
-              console.log("Comment added successfully and notification updated");
             } catch (error) {
-              console.error("Error adding comment and updating notification:", error);
+              console.error("Error adding comment:", error);
             }
           };
+          
           
 
         return (
@@ -484,42 +469,43 @@ const PollListItem = ({ poll}) => {
             <TouchableOpacity>
             <Text style={styles.question}>{poll.pollCaption}</Text>
             {pollItems.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.optionContainer,
-                    selectedOption === index && styles.selectedOption,
-                  ]}
-                  onPress={() => handleOptionPress(index)}
-                >
-                  {/* Always render the option title */}
-                  <Text style={styles.optionText}>{item.title}</Text>
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.optionContainer,
+                  selectedOption === index && styles.selectedOption,
+                ]}
+                onPress={() => handleOptionPress(index)}
+              >
+                <Text style={styles.optionText}>{item.title}</Text>
 
-                  {/* Always render the percentage bar */}
-                  <View style={styles.percentageContainer}>
+                <View style={styles.percentageContainer}>
+                  {animationValues[index] ? (
                     <Animated.View
                       style={[
                         styles.percentageBar,
                         {
-                          width: animationValues[index].interpolate({
+                          width: animationValues[index]?.interpolate({
                             inputRange: [0, 100],
-                            outputRange: ['0%', '320%'], // Adjust to the actual vote percentage
+                            outputRange: ['0%', '320%'],
                           }),
                         },
-                      ]} 
+                      ]}
                     />
-                    {isOptionSelected && (
-                      <Text style={styles.percentageText}>
-                        {`${calculatePercentage(item.votes).toFixed(2)}%`}
-                      </Text>
-                    )}
-                  </View>
-                  <Text style={styles.voteCountText}>
-                   {formatLikes(item.votes)} votes
-                   </Text>
-
-                </TouchableOpacity>
-              ))}
+                  ) : (
+                    <View style={{ width: '0%' }} /> // Fallback view if animation value is not present
+                  )}
+                  {selectedOption !== null && (
+                    <Text style={styles.percentageText}>
+                      {`${calculatePercentage(item.votes).toFixed(2)}%`}
+                    </Text>
+                  )}
+                </View>
+                <Text style={styles.voteCountText}>
+                  {formatLikes(item.votes)} votes
+                </Text>
+              </TouchableOpacity>
+            ))}
             </TouchableOpacity>
 
             {/* component holding for the comment icon */}
@@ -538,7 +524,7 @@ const PollListItem = ({ poll}) => {
             <View
             style={{marginLeft:5}}
             >
-            <Text style={styles.numOfpollComments}>{formatLikes(numOfPollComments)}</Text>
+            <Text style={styles.numOfpollComments}>{numOfPollComments}</Text>
             </View>
             <TouchableOpacity
                 style={styles.pollLikesContainer}
@@ -555,7 +541,7 @@ const PollListItem = ({ poll}) => {
 
             {/* Comments Section */}
             <View style={{ height: isCommentsVisible ? 'auto' : 0, overflow: 'hidden' }}>
-              <Text style={styles.numOfCommentsText}>{comments.length} comments</Text>
+              <Text style={styles.numOfCommentsText}>{comments.length} Comments</Text>
               <FlatList
               data={comments}
               keyExtractor={(item) => `comment-${item.id}`}
@@ -578,6 +564,7 @@ const PollListItem = ({ poll}) => {
           </LinearGradient>
         );
       };
+      
 
 
       const styles = StyleSheet.create({

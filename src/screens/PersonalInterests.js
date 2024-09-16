@@ -164,8 +164,11 @@ const PersonalInterests = () => {
 
   useEffect(() => {
     const createPrimarySquad = async () => {
-      if (!userID) return;
-
+      if (!userID) {
+        console.log("here is non valid user ID")
+        return;
+      }else{
+        console.log("here is the user ID", userID)
       const squadName = `${username}'s main Squad`;
       const createSquadInput = {
         authUserID: userID,
@@ -187,7 +190,7 @@ const PersonalInterests = () => {
         console.error("Error creating the primary squad:", error);
       }
     };
-
+  }
     createPrimarySquad();
   }, [userID]);
 

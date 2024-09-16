@@ -31,18 +31,32 @@ const PollCommentList = ({comment, pollCreator, poll }) => {
         }
      }, [pollCreator, user])
 
-    useEffect(async()=>{
-      if(comment){
-        const commentorInfoResults = await API.graphql(graphqlOperation,(getUser, {id: commentorID}))
-        if(commentorInfoResults.data?.getUser){
-          const user = commentorInfoResults.data?.getUser
-          const commentorUserName = user.userName;
-          const commentorProfilePicture = user.userProfilePicture
-          setUserName(commentorUserName);
-          setUserProfilePicture(commentorProfilePicture)
+     useEffect(() => {
+      const fetchCommentorInfo = async () => {
+        try {
+          if (comment) {
+            const commentorInfoResults = await API.graphql(graphqlOperation(getUser, { id: commentorID }));
+            if (commentorInfoResults.data?.getUser) {
+              const user = commentorInfoResults.data.getUser;
+              const commentorUserName = user.userName;
+              const commentorProfilePicture = user.userProfilePicture;
+              setUserName(commentorUserName);
+              setUserProfilePicture(commentorProfilePicture);
+            }
+          }
+        } catch (error) {
+          console.log("Error fetching commentor info:", error);
         }
-      }
-    }, [comment])
+      };
+    
+      fetchCommentorInfo();
+    
+      // Cleanup (optional)
+      return () => {
+        // Optionally, cancel any pending asynchronous tasks here
+      };
+    }, [comment, commentorID]);
+    
 
   const handleLikeClick = async () => {
     const updatedLikes = isLikeIconClicked ? numOfCommentLikes - 1 : numOfCommentLikes + 1;

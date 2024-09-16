@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, SafeAreaView, ActivityIndicator } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import PollListItem from '../components/PollListItem';
+import Poll from "../components/PollListItem";
 import { listPolls } from '../graphql/queries';
 import { API, graphqlOperation } from 'aws-amplify';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -21,7 +21,6 @@ const ExplorePollScreen = () => {
           return;
         }
         //console.log('List of polls:', results.data.listPolls.items);
-
         setPolls(results.data.listPolls.items);
         setIsLoading(false);
       } catch (error) {
@@ -29,41 +28,41 @@ const ExplorePollScreen = () => {
       }
     };
     fetchPolls();
-      // Subscribe to poll creation
-      const createPollSubscription = API.graphql(graphqlOperation(onCreatePoll)).subscribe({
-        next: (response) => {
-          const newPoll = response.value.data.onCreatePoll;
-          setPolls((prevPolls) => [newPoll, ...prevPolls]); // Add new poll to the list
-        },
-        error: (error) => console.log('Error on create poll subscription:', error),
-      });
+      // // Subscribe to poll creation
+      // const createPollSubscription = API.graphql(graphqlOperation(onCreatePoll)).subscribe({
+      //   next: (response) => {
+      //     const newPoll = response.value.data.onCreatePoll;
+      //     setPolls((prevPolls) => [newPoll, ...prevPolls]); // Add new poll to the list
+      //   },
+      //   error: (error) => console.log('Error on create poll subscription:', error),
+      // });
   
-      // Subscribe to poll updates
-      const updatePollSubscription = API.graphql(graphqlOperation(onUpdatePoll)).subscribe({
-        next: (response) => {
-          const updatedPoll = response.value.data.onUpdatePoll;
-          setPolls((prevPolls) =>
-            prevPolls.map((poll) => (poll.id === updatedPoll.id ? updatedPoll : poll)) // Update poll in the list
-          );
-        },
-        error: (error) => console.log('Error on update poll subscription:', error),
-      });
+      // // Subscribe to poll updates
+      // const updatePollSubscription = API.graphql(graphqlOperation(onUpdatePoll)).subscribe({
+      //   next: (response) => {
+      //     const updatedPoll = response.value.data.onUpdatePoll;
+      //     setPolls((prevPolls) =>
+      //       prevPolls.map((poll) => (poll.id === updatedPoll.id ? updatedPoll : poll)) // Update poll in the list
+      //     );
+      //   },
+      //   error: (error) => console.log('Error on update poll subscription:', error),
+      // });
   
-      // Subscribe to poll deletion
-      const deletePollSubscription = API.graphql(graphqlOperation(onDeletePoll)).subscribe({
-        next: (response) => {
-          const deletedPoll = response.value.data.onDeletePoll;
-          setPolls((prevPolls) => prevPolls.filter((poll) => poll.id !== deletedPoll.id)); // Remove poll from the list
-        },
-        error: (error) => console.log('Error on delete poll subscription:', error),
-      });
+      // // Subscribe to poll deletion
+      // const deletePollSubscription = API.graphql(graphqlOperation(onDeletePoll)).subscribe({
+      //   next: (response) => {
+      //     const deletedPoll = response.value.data.onDeletePoll;
+      //     setPolls((prevPolls) => prevPolls.filter((poll) => poll.id !== deletedPoll.id)); // Remove poll from the list
+      //   },
+      //   error: (error) => console.log('Error on delete poll subscription:', error),
+      // });
   
-      // Clean up subscriptions on component unmount
-      return () => {
-        createPollSubscription.unsubscribe();
-        updatePollSubscription.unsubscribe();
-        deletePollSubscription.unsubscribe();
-      };
+      // // Clean up subscriptions on component unmount
+      // return () => {
+      //   createPollSubscription.unsubscribe();
+      //   updatePollSubscription.unsubscribe();
+      //   deletePollSubscription.unsubscribe();
+     // };
   }, []);
 
   const filteredPolls = polls.filter((poll) =>
@@ -82,13 +81,15 @@ const ExplorePollScreen = () => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <BottomSheetModalProvider>
-            <FlatList
-              data={filteredPolls}
-              renderItem={({ item }) => <PollListItem poll={item} />}
-              keyExtractor={(item) => item.id}
-              style={styles.list}
-              contentContainerStyle={{ flexGrow: 1 }}
-            />
+            <FlatList    
+          data={filteredPolls}
+          renderItem={({ item }) => (
+          <Poll poll={item} />
+        )}
+        keyExtractor={(item) => item.id}
+        style={styles.list}
+        contentContainerStyle={{ flexGrow: 1 }}
+      />
           </BottomSheetModalProvider>
         )}
       </View>

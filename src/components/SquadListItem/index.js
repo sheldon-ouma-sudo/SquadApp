@@ -22,19 +22,20 @@ const SquadListItem = ({ squad, userInfo, onRequestSent }) => { // Add onRequest
   const [currentSquadAuthUserID, setCurrentSquadAuthUserID] = useState("");
   const [localUserName, setLocalUserName] = useState("");
   const [localUserID, setLocalUserID ] = useState("")
+  const [squadName, setSquadName] = useState()
 
  
   useEffect(() => {
     if (userInfo) {
-      // console.log("Here is the local user", userInfo);
+       console.log("Here is the squad", squad);
       setLocalUserName(userInfo.name);
       setLocalUserID(userInfo.id);
       setLocalUserSquadJoinedArray(userInfo.squadJoined || []); // Default to an empty array if undefined
-
+      setSquadName(squad.squadName)
       const fetchCurrentSquadAuthUserData = async () => {
         const userID = squad.authUserID;
         if (!userID) {
-          console.log("The currentSquad auth user is non-valid");
+          console.log("The currentSquad auth user is non-valid and here it is: ", userID, "and here is their squad", squad);
         } else {
           console.log("Here is the userID", userID);
           setCurrentSquadAuthUserID(userID);
@@ -96,7 +97,8 @@ const SquadListItem = ({ squad, userInfo, onRequestSent }) => { // Add onRequest
   };
 
   const handleRequestToJoinCurrentSquadCreation = async (notificationID) => {
-    const message = `${localUserName} has asked to join the Squad`;
+    console.log("here is the squad name", squadName, "and here is the squad", squad)
+    const message = `${localUserName} has asked to join your Squad, ${squadName}`;
     const requestingUserID = localUserID 
     const squadID = squad.id
     try {
