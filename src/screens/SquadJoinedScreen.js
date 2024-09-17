@@ -1,62 +1,78 @@
-import { View, Text, 
-  StyleSheet,FlatList, 
-  SafeAreaView, KeyboardAvoidingView, 
-  ActivityIndicator,
-  Image } from 'react-native'
+import { View, Text, StyleSheet,FlatList, SafeAreaView, KeyboardAvoidingView, ActivityIndicator,Image } from'react-native'
 import React, { useState, useEffect } from 'react';
-import SearchBar from "../components/SearchBar"
-import List from "../components/SearchList"
+//import NonPrimarySquadCreatedListItem from '../components/NonPrimarySquadCreatedListItem'
 import SquadJoinedListItem from '../components/SquadJoinedListItem'
-import { API, graphqlOperation, Auth } from "aws-amplify";
-import { listSquads } from '../graphql/queries';
-import { useRoute } from '@react-navigation/native';
+import { API, graphqlOperation } from 'aws-amplify';
 import {useUserContext} from '../../UserContext';
+import { getSquad } from '../graphql/queries';
 
 const SquadJoinedScreen = () => {
-  const [squads, setSquads] = useState([])
-  const[userInfo, setUserInfo] = useState("")
-  const {user} = useUserContext();
-  
+  const { user } = useUserContext();
+  const [loading, setLoading] = useState(true);
+  const [joinedSquads, setJoinedSquads] = useState(user.squadJoined || []);
+
+  const handleRemoveSquad = (squadId) => {
+    setJoinedSquads(prevSquads => prevSquads.filter(squad => squad.id !== squadId));
+  };
+
   useEffect(() => {
     const fetchSquadsUserJoined = async () => {
-      //console.log("here is the user info",user)
-      console.log("here is the squad joined", user.squadJoined)
-      setSquads(user.squadJoined)
-      if (!user) {
-        console.log("the user is null for now", user);
-      }else {
-       setUserInfo(user);
-       console.log("otherwise this the user info in the explore squad screen", user);
-       }
-    }
+      if (user && user.squadJoinedID?.length > 0) {
+        try {
+          const squadIDArray = user.squadJoinedID;
+          const fetchedSquads = [];
+
+          for (const squadID of squadIDArray) {
+            const squadData = await API.graphql(graphqlOperation(getSquad, { id: squadID }));
+            if (squadData?.data?.getSquad) {
+              fetchedSquads.push(squadData.data.getSquad);
+            }
+          }
+
+          setJoinedSquads(fetchedSquads);
+        } catch (error) {
+          console.error('Error fetching squads:', error);
+        }
+      } else {
+        setJoinedSquads([]); // Ensure the state is an empty array if no squads are joined
+      }
+      setLoading(false); // Stop loading
+    };
+
     fetchSquadsUserJoined();
-
-  }, []);
-
+  }, [user]);
 
   return (
-    <SafeAreaView
-    style={styles.container}>
-    <View style={styles.searchBarContainer}>
-       <FlatList
-       data = {squads}
-       renderItem={({item})=>(
-        <SquadJoinedListItem
-         squad={item}
-         userInfo={userInfo}
-        />
-       )} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.squadListContainer}>
+        {loading ? (
+          <ActivityIndicator size="large" color="#1145FD" />
+        ) : joinedSquads.length > 0 ? (
+          <FlatList
+              data={joinedSquads}
+              renderItem={({ item }) => (
+                <SquadJoinedListItem
+                  squad={item}
+                  onLeaveSquad={handleRemoveSquad}
+                  userInfo={user}
+                />
+              )}
+              keyExtractor={(item) => item.id.toString()}
+          />
+        ) : (
+          <Text>No squads joined yet.</Text>
+        )}
+      </View>
     </SafeAreaView>
-  )
+  );
 }
+
 const styles = StyleSheet.create({
   container:{
   flex:1,
   justifyContent:"flex-start",
   alignItems:"center",
   backgroundColor: "#F4F8FB",
-
 
   },
   squadLogo:{

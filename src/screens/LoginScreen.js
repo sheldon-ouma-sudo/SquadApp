@@ -186,6 +186,7 @@ const LoginScreen = () => {
             numOfSquadCreated: userFromBackend.numSquadCreated, 
             userInterests: userFromBackend.userInterests,
             squadJoined: userFromBackend.squadJoined,
+            squadJoinedID: userFromBackend.squadJoinedID||[],
             superUser: userFromBackend.superUser,
             Bio: userFromBackend.Bio
         })

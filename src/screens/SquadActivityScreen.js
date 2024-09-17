@@ -12,86 +12,96 @@ const SquadActivityScreen = () => {
   const [joinSquadRequests, setJoinSquadRequests] = useState([]); // Hold requests to join squads
   const [addedToSquadRequests, setAddedToSquadRequests] = useState([]); // Hold requests to be added to squads
 
- // Function to remove a join squad request from the list
- const removeJoinRequest = (id) => {
-  setJoinSquadRequests((prevRequests) => 
-    prevRequests.filter((request) => request.id !== id)
-  );
-};
+ //  Function to remove a join squad request from the list
+  const removeJoinRequest = (id) => {
+    setJoinSquadRequests((prevRequests) => 
+      prevRequests.filter((request) => request.id !== id)
+    );
+  };
 
-// Function to remove an add squad request from the list
-const removeAddRequest = (id) => {
-  setAddedToSquadRequests((prevRequests) => 
-    prevRequests.filter((request) => request.id !== id)
-  );
-};
+  // Function to remove an add squad request from the list
+  const removeAddRequest = (id) => {
+    setAddedToSquadRequests((prevRequests) => 
+      prevRequests.filter((request) => request.id !== id)
+    );
+  };
+
   useEffect(() => {
     const fetchNotificationsAndRequests = async () => {
       try {
         const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { userID: user.id }));
         const notifications = notificationData?.data?.notificationsByUserID?.items;
-  
+
         if (notifications && notifications.length > 0) {
           const notification = notifications[0];
+          
+          // Filter join requests where the requesting user is not the local user
           const joinRequests = await Promise.all(
             (notification.SquadJoinRequestArray || []).map(async (requestId) => {
               const requestResult = await API.graphql(graphqlOperation(getRequestToJoinASquad, { id: requestId }));
-              console.log("here is the message",requestResult.data?.getRequestToJoinASquad.message)
-              return requestResult.data.getRequestToJoinASquad;
+              const request = requestResult.data?.getRequestToJoinASquad;
+
+              // Only return requests where the requesting user is not the local user
+              return request?.requestingUserID !== user.id ? request : null;
             })
           );
-          setJoinSquadRequests(joinRequests);
-  
+          
+          setJoinSquadRequests(joinRequests.filter(Boolean)); // Remove null values
+
+          // Filter add requests where the requesting user is not the local user
           const addedRequests = await Promise.all(
             (notification.squadAddRequestsArray || []).map(async (requestId) => {
               const requestResult = await API.graphql(graphqlOperation(getRequestToBeAddedInASquad, { id: requestId }));
-              return requestResult.data.getRequestToBeAddedInASquad;
+              const request = requestResult.data?.getRequestToBeAddedInASquad;
+
+              // Only return requests where the requesting user is not the local user
+              return request?.requestingUserID !== user.id ? request : null;
             })
           );
-          setAddedToSquadRequests(addedRequests);
+          setAddedToSquadRequests(addedRequests.filter(Boolean)); // Remove null values
         }
       } catch (error) {
         console.log('Error fetching squad requests:', error);
       }
     };
-  
+
     if (user?.id) {
       fetchNotificationsAndRequests();
     }
-  
-    // // Subscriptions for new requests
+
+    // Subscriptions for new requests
     const createRequestToJoinSub = API.graphql(
       graphqlOperation(onCreateRequestToJoinASquad)
     ).subscribe({
       next: (data) => {
         const newRequest = data.value.data.onCreateRequestToJoinASquad;
-        if (newRequest) {
+        // Only add the request if the requesting user is not the local user
+        if (newRequest && newRequest.requestingUserID !== user.id) {
           setJoinSquadRequests((prevRequests) => [...prevRequests, newRequest]);
         }
       },
       error: (error) => console.log('Error on create request to join squad subscription:', error),
     });
-  
+
     const createRequestToBeAddedSub = API.graphql(
       graphqlOperation(onCreateRequestToBeAddedInASquad)
     ).subscribe({
       next: (data) => {
         const newRequest = data.value.data.onCreateRequestToBeAddedInASquad;
-        if (newRequest) {
+        // Only add the request if the requesting user is not the local user
+        if (newRequest && newRequest.requestingUserID !== user.id) {
           setAddedToSquadRequests((prevRequests) => [...prevRequests, newRequest]);
         }
       },
       error: (error) => console.error('Error on create request to be added subscription:', error),
     });
-  
+
     // Cleanup subscriptions
     return () => {
       createRequestToJoinSub.unsubscribe();
       createRequestToBeAddedSub.unsubscribe();
     };
   }, [user?.id]);
-  
-  
 
   // Combine the two lists of requests with headers
   const combinedData = [
@@ -118,6 +128,7 @@ const removeAddRequest = (id) => {
 
     return null;
   };
+
 
   return (
     <SafeAreaView style={styles.container}>

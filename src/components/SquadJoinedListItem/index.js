@@ -1,10 +1,11 @@
-import { Text, Image, StyleSheet, Pressable, View, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, Alert, View, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect} from "react";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+import {  FontAwesome } from "@expo/vector-icons";
 import { updateUser } from "../../graphql/mutations";
 import { getSquad } from "../../graphql/queries";
 import { graphqlOperation, Auth, API } from 'aws-amplify';
+import { deleteSquadUser } from "../../graphql/mutations";
 //import { useNavigation } from '@react-navigation/native';
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -13,50 +14,95 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-const SquadJoinedListItem =({ squad,userInfo,})=>{
+const SquadJoinedListItem =({ squad, userInfo, onLeaveSquad})=>{
  const navigation = useNavigation()
  const[squadSelected, setSquadSelected] = useState(false)
- const[userSquadsJoinedArray, setUserSquadsJoinedArray] = useState([])
- const[squadJoinedName, setSquadJoinedName] = useState("squad joined")
+ const[squadName, setSquadName] = useState("squad name")
  const[squadCreator, setSquadCreator] = useState("squad creator")
 
+ useEffect(() => {
+ if (squad && typeof squad === "object" && Object.keys(squad).length > 0) {
+  // Safely extract squadName and authUserName
+  console.log("here is the squad", squad)
+  const { squadName: name, authUserName: creator } = squad;
 
-useEffect(() => {
-  const fetchSquad = async () => {
-    if (userInfo) {
-      console.log("we have squad joined",squad);
-      setSquadJoinedName(squad.squadName || "squad name unavailable")
-      setSquadCreator(squad.authUserName|| "squad creator unavailable")
-
-      //setUserSquadsJoinedArray(userInfo.squadJoined)
-       //setSquadToBeJoined(userInfo.userSquadId); // Access userSquadId directly
-     }
-    
-    }
-    fetchSquad()
-}, [userInfo]);
-//add the squad selected to the user's joined squad array
-const handleSquadSelected=async() =>{
-  console.log("here is the squad name",squad)
-  console.log("here is the user squadJoined array",userSquadsJoinedArray)
-  console.log("here is the user info",userInfo)
-  if(squadSelected==false){
-    setSquadSelected(true)
-    //userSquadsJoinedArray.push(squad.id)
-    //update the user backend 
-    //try {
-     // await API.graphql(graphqlOperation(updateUser, {input:{id: userInfo.id, squadJoined: userSquadsJoinedArray}}));
-    //} catch (error) {
-     // console.log("error updating the user", error)
-    //}
-  }else{
-    setSquadSelected(false)
+  if (name) {
+    console.log("Squad Name: ", name);
+    setSquadName(name);
+  } else {
+    console.log("Squad name is missing or undefined.");
+    setSquadName("Unnamed Squad");
   }
+
+  if (creator) {
+    console.log("Squad Creator: ", creator);
+    setSquadCreator(creator);
+  } else {
+    console.log("Squad creator is missing or undefined.");
+    setSquadCreator("Unknown Creator");
+  }
+} else {
+  console.log("Squad object or necessary fields are undefined.");
+  setSquadName("Unnamed Squad");
+  setSquadCreator("Unknown Creator");
 }
- 
+}, [squad]);
+
+
+const handleLeaveSquad = async () => {
+  Alert.alert(
+    "Leave Squad",
+    `Are you sure you want to leave ${squad.squadName}?`,
+    [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "Leave",
+        onPress: async () => {
+          setSquadSelected(false); // Update UI immediately
+          try {
+            // Backend update to remove the squad from the user's joined squads
+            const updatedSquadJoined = user.squadJoined.filter(sq => sq.id !== squad.id);
+            const updatedSquadJoinedID = user.squadJoinedID.filter(sqId => sqId !== squad.id);
+
+            await API.graphql(graphqlOperation(updateUser, {
+              input: {
+                id: user.id,
+                squadJoined: updatedSquadJoined.map(sq => sq.id),
+                squadJoinedID: updatedSquadJoinedID
+              }
+            }));
+
+            // Delete the SquadUser relationship
+            await API.graphql(graphqlOperation(deleteSquadUser, {
+              input: { userId: user.id, squadId: squad.id }
+            }));
+
+            // Update the UI
+            onLeaveSquad(squad.id);
+
+            console.log("Successfully left the squad:", squad.squadName);
+          } catch (error) {
+            console.log("Error leaving squad:", error);
+            Alert.alert("Error", "An error occurred while trying to leave the squad. Please try again.");
+            setSquadSelected(true);  // Revert UI if there was an error
+          }
+        }
+      }
+    ]
+  );
+};
+
+const handleSquadJoinedListItemPress = () => {
+  // Navigate to the screen with the squad
+  navigation.navigate('SquadDisplayScreen', { squad });
+};
  return (
-   <Pressable
+   <TouchableOpacity
    style={styles.container}
+   onPress={handleSquadJoinedListItemPress}
    behavior="padding"
    >
   <View
@@ -67,7 +113,7 @@ const handleSquadSelected=async() =>{
   <View style={{flexDirection:"row", marginTop:60, marginLeft:5 }}>
    <View style = {[styles.pollCaptionContainer, {justifyContent:'flex-start'}]}>
        <Text style = {styles.squadNameText}> 
-       {squadJoinedName}
+       {squadName}
        </Text>
        <Text style = {styles.squadCreator}>
          Created by {squadCreator}
@@ -76,7 +122,7 @@ const handleSquadSelected=async() =>{
      <TouchableOpacity
           style={[{ justifyContent: "flex-end" },{ alignItems: "center" },squadSelected ? styles.joinedSquadTextContainer : styles.joinSquadTextContainer, // Add this condition
  ]}
-        onPress={handleSquadSelected}
+        onPress={handleLeaveSquad}
           >
         <Text style={{ color: squadSelected ? "#1145FD" : "white", marginBottom: 10 }}>
             {squadSelected ? "Squad Left!" : "Leave Squad"}
@@ -84,7 +130,7 @@ const handleSquadSelected=async() =>{
 
     </TouchableOpacity>
   </View>
-   </Pressable>
+   </TouchableOpacity>
  )
  }
 
@@ -95,13 +141,12 @@ const handleSquadSelected=async() =>{
     flexDirection: "row",
     marginHorizontal: 10,
     marginTop: 20,
-    //marginVertical: 65,
     borderColor: "#C2B960",
-    //height: 100,
     borderRadius: 35,
     backgroundColor: "white",
     borderWidth: 3.5,
-    marginRight:30
+    marginRight:30, 
+    width:400
   },
   pollCaptionContainer:{
     height: 50,

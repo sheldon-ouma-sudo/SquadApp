@@ -92,7 +92,7 @@ const RequestsToBeAddedInASquad = ({ item, removeRequestFromList }) => {
         );
         //console.log("here is the update notification results", updateNotificationResults);
       }
-  
+      console.log("handle accept successful for request to be added")
       removeRequestFromList(item.id);
       console.log("Request ID to be removed:", item.id);
     } catch (error) {

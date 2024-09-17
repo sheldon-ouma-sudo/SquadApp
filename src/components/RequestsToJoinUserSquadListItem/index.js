@@ -40,23 +40,23 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
         graphqlOperation(createSquadUser, {
           input: {
             squadId: squadID,
-            userId: requestingUserID,
+            userId: userID,
           },
         })
       );
 
       
-      let notifications = user.Notifications;
-      if (!notifications || notifications.length === 0) {
+      // let notifications = user.Notifications;
+     // if (!notifications || notifications.length === 0) {
         const notificationData = await API.graphql(
           graphqlOperation(notificationsByUserID, { userID })  // Ensure correct variable name
         ); 
-        notifications = notificationData.data?.notificationsByUserID?.items || [];
+       const notifications = notificationData.data?.notificationsByUserID?.items || [];
         updateLocalUser({
           ...user,
           Notifications: notifications,
         });
-      }
+      //}
   
       // Update notification to remove the request
       if (notifications.length > 0 && notifications[0]?.SquadJoinRequestArray) {
@@ -74,7 +74,7 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
 
       // Delete the request
       await API.graphql(graphqlOperation(deleteRequestToJoinASquad, { input: { id: item.id } }));
-
+      console.log("successful joining of the squads✅✅")
       // Remove request from FlatList
       removeRequestFromList(item.id);
     } catch (error) {
