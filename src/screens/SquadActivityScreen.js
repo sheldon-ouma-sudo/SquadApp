@@ -8,22 +8,16 @@ import RequestsToBeAddedInASquad from '../components/RequestsToBeAddedInASquad';
 import { useUserContext } from '../../UserContext';
 
 const SquadActivityScreen = () => {
-  const { user } = useUserContext();  // Get the current user from context
-  const [joinSquadRequests, setJoinSquadRequests] = useState([]); // Hold requests to join squads
-  const [addedToSquadRequests, setAddedToSquadRequests] = useState([]); // Hold requests to be added to squads
+  const { user } = useUserContext();
+  const [joinSquadRequests, setJoinSquadRequests] = useState([]);
+  const [addedToSquadRequests, setAddedToSquadRequests] = useState([]);
 
- //  Function to remove a join squad request from the list
   const removeJoinRequest = (id) => {
-    setJoinSquadRequests((prevRequests) => 
-      prevRequests.filter((request) => request.id !== id)
-    );
+    setJoinSquadRequests((prevRequests) => prevRequests.filter((request) => request.id !== id));
   };
 
-  // Function to remove an add squad request from the list
   const removeAddRequest = (id) => {
-    setAddedToSquadRequests((prevRequests) => 
-      prevRequests.filter((request) => request.id !== id)
-    );
+    setAddedToSquadRequests((prevRequests) => prevRequests.filter((request) => request.id !== id));
   };
 
   useEffect(() => {
@@ -34,31 +28,24 @@ const SquadActivityScreen = () => {
 
         if (notifications && notifications.length > 0) {
           const notification = notifications[0];
-          
-          // Filter join requests where the requesting user is not the local user
+
           const joinRequests = await Promise.all(
             (notification.SquadJoinRequestArray || []).map(async (requestId) => {
               const requestResult = await API.graphql(graphqlOperation(getRequestToJoinASquad, { id: requestId }));
               const request = requestResult.data?.getRequestToJoinASquad;
-
-              // Only return requests where the requesting user is not the local user
               return request?.requestingUserID !== user.id ? request : null;
             })
           );
-          
-          setJoinSquadRequests(joinRequests.filter(Boolean)); // Remove null values
+          setJoinSquadRequests(joinRequests.filter(Boolean));
 
-          // Filter add requests where the requesting user is not the local user
           const addedRequests = await Promise.all(
             (notification.squadAddRequestsArray || []).map(async (requestId) => {
               const requestResult = await API.graphql(graphqlOperation(getRequestToBeAddedInASquad, { id: requestId }));
               const request = requestResult.data?.getRequestToBeAddedInASquad;
-
-              // Only return requests where the requesting user is not the local user
               return request?.requestingUserID !== user.id ? request : null;
             })
           );
-          setAddedToSquadRequests(addedRequests.filter(Boolean)); // Remove null values
+          setAddedToSquadRequests(addedRequests.filter(Boolean));
         }
       } catch (error) {
         console.log('Error fetching squad requests:', error);
@@ -69,13 +56,9 @@ const SquadActivityScreen = () => {
       fetchNotificationsAndRequests();
     }
 
-    // Subscriptions for new requests
-    const createRequestToJoinSub = API.graphql(
-      graphqlOperation(onCreateRequestToJoinASquad)
-    ).subscribe({
+    const createRequestToJoinSub = API.graphql(graphqlOperation(onCreateRequestToJoinASquad)).subscribe({
       next: (data) => {
         const newRequest = data.value.data.onCreateRequestToJoinASquad;
-        // Only add the request if the requesting user is not the local user
         if (newRequest && newRequest.requestingUserID !== user.id) {
           setJoinSquadRequests((prevRequests) => [...prevRequests, newRequest]);
         }
@@ -83,12 +66,9 @@ const SquadActivityScreen = () => {
       error: (error) => console.log('Error on create request to join squad subscription:', error),
     });
 
-    const createRequestToBeAddedSub = API.graphql(
-      graphqlOperation(onCreateRequestToBeAddedInASquad)
-    ).subscribe({
+    const createRequestToBeAddedSub = API.graphql(graphqlOperation(onCreateRequestToBeAddedInASquad)).subscribe({
       next: (data) => {
         const newRequest = data.value.data.onCreateRequestToBeAddedInASquad;
-        // Only add the request if the requesting user is not the local user
         if (newRequest && newRequest.requestingUserID !== user.id) {
           setAddedToSquadRequests((prevRequests) => [...prevRequests, newRequest]);
         }
@@ -96,28 +76,24 @@ const SquadActivityScreen = () => {
       error: (error) => console.error('Error on create request to be added subscription:', error),
     });
 
-    // Cleanup subscriptions
     return () => {
       createRequestToJoinSub.unsubscribe();
       createRequestToBeAddedSub.unsubscribe();
     };
   }, [user?.id]);
 
-  // Combine the two lists of requests with headers
   const combinedData = [
     { type: 'header', title: 'Requests to Join Your Squad' },
-    ...joinSquadRequests.map(item => ({ ...item, requestType: 'join' })),
+    ...joinSquadRequests.map((item, index) => ({ ...item, requestType: 'join', uniqueKey: `join-${item.id || index}` })),
     { type: 'header', title: 'Requests to Add You to Squads' },
-    ...addedToSquadRequests.map(item => ({ ...item, requestType: 'add' })),
+    ...addedToSquadRequests.map((item, index) => ({ ...item, requestType: 'add', uniqueKey: `add-${item.id || index}` })),
   ];
 
-  // Render item for FlatList
   const renderItem = ({ item }) => {
     if (item.type === 'header') {
       return <Text style={styles.sectionHeader}>{item.title}</Text>;
     }
 
-    // Differentiate between join and added requests
     if (item.requestType === 'join') {
       return <RequestsToJoinUserSquadListItem item={item} removeRequestFromList={removeJoinRequest} />;
     }
@@ -129,15 +105,14 @@ const SquadActivityScreen = () => {
     return null;
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-    <FlatList
-      data={combinedData}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => item.id || index.toString()} // Use index as fallback for headers
-      contentContainerStyle={styles.listContent}
-    />
+      <FlatList
+        data={combinedData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.uniqueKey} // Ensure unique keys
+        contentContainerStyle={styles.listContent}
+      />
     </SafeAreaView>
   );
 };
