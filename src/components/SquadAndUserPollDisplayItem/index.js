@@ -4,17 +4,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
-const PersonalPollListItem = ({ poll }) => {
+const DisplayPollListItem = ({ poll }) => {
   const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
   const [numOfPollLikes, setNumOfPollLikes] = useState('0');
   const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(true);
   const navigation = useNavigation(); // Get navigation object
 
   useEffect(() => {
-    // console.log(poll)
     setNumOfPollLikes(poll.numOfLikes);
-    // Assuming you have some method to fetch poll creator
-    // setPollCreator(poll.creator); 
   }, [poll]);
 
   const handleLickedIconClick = () => {
@@ -182,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PersonalPollListItem;
+export default DisplayPollListItem;

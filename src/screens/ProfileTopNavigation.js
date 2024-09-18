@@ -12,6 +12,10 @@
   import { useUserContext } from '../../UserContext'
   import { MaterialIcons } from '@expo/vector-icons';
   import { updateUser } from '../graphql/mutations'
+  import { onCreateSquad } from '../graphql/subscriptions'
+  import { onUpdateUser } from '../graphql/subscriptions'
+  import { onCreatePoll } from '../graphql/subscriptions'
+  
   
   
 
@@ -19,7 +23,7 @@
     const[profileImage, setProflieImage]= useState('https://squadtechlogobucket.s3.us-west-2.amazonaws.com/TechLogos/profilePH.png?response-content-disposition=inline&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEAMaCXVzLXdlc3QtMiJHMEUCIAw7LoJW508N6U7MDuh8BOEVYxGrRnT3s0E4JQHy0Rq7AiEApSh7LXEZPEO5ERpaJVdALhepv47Gj%2B5qANz5ps9nrvYq5AIIHBABGgw3NTMxOTUzMTg2NTciDGIKu7SWVqotZCZA%2FirBAoGEYRldaYS1ZaDWs0zTkmh8vGdMzKjIwmnFRKF3%2BRCCRXgZnSZ5uXElV%2B8EmFFiNB09SNj3h583cPVHwGkLQ8plfqat52EDQ11uYz56KvcI5bocfSSWLrW%2FO%2FDPj2uwiHPpGRtbUYuSXmbzTNACZAWGy4VDxzsuxEdY01RuSHX4OKpAwdDr42BsOBOVTB2%2BO15LkssaMKdfvNDMbMlwromsj94MoCPI5SFvxCIUj3qAljyHacENKPBsbsZC1U3DtS7nISaNcooAFr%2BkHNdCv15uf8%2F8m%2Fkwu0Ea9IAUgVoV%2F3ZBYg2PLMzpUPIGMs%2FCkIB86xk6Zb4kmWGdYaRlZBl6aGnA4U3vIf6B1UAuwdQHHJ8T1egB%2B2TYCxv%2BGKINRKebp%2F81BGFDtvmaszEE4xoXDfJZrpp5mhbJbRE4sLjgdTCvx7i2BjqzArTD%2B1S%2Bpy%2FH3GDPTIyEPU2veH9AF0umojrMvjxguhugtI8FQu9e44fUG8CwoPdaeb0J45erGmdhhNAoRpGlI4OukpDBJYVM7gZD282JrretqdNh8W340he5daYBkR4ziAdwQUq0JrHAWqmnuZb9bwAmmArOGxoxk6KFR2BOy2SvDLNmZOjTTl4irtB3qksvoKvA8JK9WmieN%2FxBG1LLVVTAyRZ5QfpzLVX3Z6Yp6X2%2FxbvNDg07L44404bbtjM1D6S2QfWjFmPL8rbdsDBfIsl9deb3Lz%2FaTU6z9ytsbYgkMFy%2FlLyLvSa2sq%2BjcvhcJC7u59GdaKaq4k1euqsbp3uVjGvxLZvuZJfgLgWSFfGqRV0OS1kEjxI3rI0k3rVOs4a1weUfstVF5%2Fz5MvqJojnyZjk%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20240827T191517Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIA26XPQPWASVIVLJVT%2F20240827%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=0b6504a98401ef53326d5e9adc97e16d5c0e4c3929931d05b1b90b51b93aa040')
     const[userName, setUserName] =useState('User Name')
     const[numOfUserPolls, setNumOfUserPolls] = useState("0")
-    const[numOfSquadJoined, setNumOfSquadJoinedn] = useState("0")
+    const[numOfSquadJoined, setNumOfSquadJoined] = useState("0")
     const[numOfSquadCreated, setNumOfSquadCreated] = useState("0")
     const[userBio, setUserBio] = useState("")
     const[name, setName] = useState(" Bio: you can edit it by clicking edit profile below")
@@ -28,8 +32,7 @@
     const Tab = createMaterialTopTabNavigator();
     const navigation = useNavigation()
     const insets = useSafeAreaInsets();  
-    //query the user from the backend
-    //set the values to what is in the backend 
+   
      useEffect(()=>{
       console.log("here is the user", user.id)
       const queryUser = async () => {
@@ -55,11 +58,11 @@
           setName(userFromBackend.name)
           setUserName(userFromBackend.userName);
           setNumOfUserPolls(userFromBackend.numOfPolls);
-          setNumOfSquadJoinedn(userFromBackend.numOfSquadJoined);
+          setNumOfSquadJoined(userFromBackend.numOfSquadJoined);
           setNumOfSquadCreated(userFromBackend.numSquadCreated);
           setProflieImage(userProfileImage)
           setUserBio(userFromBackend.Bio)
-       
+       console.log("num of squad created",userFromBackend.numSquadCreated) 
   
         } catch (error) {
           console.log('Error fetching user data:', error);
@@ -68,6 +71,37 @@
   
       queryUser();
   }, [user])
+
+  useEffect(() => {
+    const checkAndUpdateNumSquadsCreated = async () => {
+      if (user) {
+        const userID = user.id
+        const userQuery = await API.graphql(graphqlOperation(getUser, {id: userID}))
+        const updatedUser = userQuery.data?.getUser;
+        // console.log("here is the updated user", updatedUser)
+        const calculatedNumSquadsCreated = 1 + (updatedUser.nonPrimarySquadsCreated?.length || 0); // +1 for the primary squad
+        if (calculatedNumSquadsCreated !== user.numSquadCreated) {
+          console.log("Updating numSquadCreated...");
+          setNumOfSquadCreated(calculatedNumSquadsCreated);
+  
+          try {
+            await API.graphql(graphqlOperation(updateUser, {
+              input: {
+                id: user.id,
+                numSquadCreated: calculatedNumSquadsCreated
+              }
+            }));
+            console.log("numSquadCreated updated successfully.");
+          } catch (error) {
+            console.error("Error updating numSquadCreated:", error);
+          }
+        }
+      }
+    };
+  
+    checkAndUpdateNumSquadsCreated();
+  }, [user]);
+  
 
    useEffect(()=>{
     const getUserPoll=async()=>{
@@ -120,6 +154,58 @@
     };
     updateUserInfo();
   }, [userPolls, numOfUserPolls]); // Include userPolls and numOfUserPolls in the dependency array
+  useEffect(() => {
+    const squadCreationSubscription = API.graphql(
+      graphqlOperation(onCreateSquad)
+    ).subscribe({
+      next: (data) => {
+        console.log('New squad created:', data);
+        // Update the state with the new squad information
+        setNumOfSquadCreated(prev => prev + 1);
+        // Optionally fetch or append to your local squads created list
+      },
+    });
+  
+    return () => squadCreationSubscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+  const squadJoinedSubscription = API.graphql(
+    graphqlOperation(onUpdateUser)
+  ).subscribe({
+    next: async (data) => {
+      console.log('Squad joined or updated data:', data);
+
+      // Manually fetch the latest user data to ensure the state is updated
+      const userID = user.id;
+      const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
+      const updatedUser = userData.data.getUser;
+      
+      setNumOfSquadJoined(updatedUser.numOfSquadJoined);
+    },
+    error: (error) => {
+      console.log("Error with subscription:", error);
+    }
+  });
+
+  return () => squadJoinedSubscription.unsubscribe();
+}, [user]);
+
+
+  useEffect(() => {
+    const pollCreationSubscription = API.graphql(
+      graphqlOperation(onCreatePoll)
+    ).subscribe({
+      next: (data) => {
+        console.log('New poll created:', data);
+        setNumOfUserPolls(prev => prev + 1);
+        // Optionally fetch or append to your local polls list
+      },
+    });
+  
+    return () => pollCreationSubscription.unsubscribe();
+  }, []);
+  
   
   const handleOnSettingPress=async()=>{
    navigation.navigate("AccountSettingScreen")

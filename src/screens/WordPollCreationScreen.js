@@ -301,7 +301,7 @@
                   console.error("Missing squadId for squad:", squad);
                   continue; // Skip if squadId is undefined
                 }
-          
+                console.log("Here is the squad ID before squad poll creation:", squadId);
                 const squadPollCreationResults = await API.graphql(graphqlOperation(createSquadPoll, {
                   input: {
                     pollId: pollID,
@@ -491,6 +491,7 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
             pollItems: formattedItems,
             totalNumOfVotes: totalVotes, // Set total votes for public poll
             numOfLikes: numOfLikes, // Set number of likes based on the percentage of total votes
+            public: true
           };
       
           const updateResponse = await API.graphql(graphqlOperation(updatePoll, { input: updateInput }));
@@ -591,6 +592,11 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
               style={styles.container}
               behavior="padding"
               > 
+               {loading && ( // Show full-screen activity indicator when loading
+                <View style={styles.loadingOverlay}>
+                  <ActivityIndicator size="large" color="#1764EF" />
+                </View>
+                )}
               <View style={styles.pollContentStyles}>
                 <Text style={styles.pollContentCaption}>Poll Question</Text>
               </View>
@@ -600,6 +606,7 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
                 onChangeText={text =>setCaption(text)} // everytime a text changes (in our variable it spits out a text variable which we can then use in our function to change the text variable) we can set the password to that text
                 style={styles.input}
                 textAlignVertical={"top"}
+                multiline
               ></TextInput>
 
             <View style={styles.pollLabelContainer}>
@@ -672,27 +679,25 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
                       size={20}
                     />
                   )}
-  renderItem={renderDataItem} // Function to render each squad/item
-  renderSelectedItem={(item, unSelect) => (
-    <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
-      <View style={styles.selectedStyle}>
-        <Text style={styles.textSelectedStyle}>{item.label}</Text>
-        <AntDesign color="black" name="delete" size={17} />
-      </View>
-    </TouchableOpacity>
-  )}
-/>
+                renderItem={renderDataItem} // Function to render each squad/item
+                renderSelectedItem={(item, unSelect) => (
+                  <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                    <View style={styles.selectedStyle}>
+                      <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                      <AntDesign color="black" name="delete" size={17} />
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
 
                 </View>
                 <View style={styles.pollButtonContainer}>
-        {!loading ? ( // If not loading, show the button
-          <TouchableOpacity onPress={handlePollCreation} style={styles.button}>
-            <Text style={styles.buttonText}>Poll</Text>
-          </TouchableOpacity>
-        ) : ( // If loading, show the activity indicator
-          <ActivityIndicator size="large" color="#1764EF" />
-        )}
-      </View>
+         
+              <TouchableOpacity onPress={handlePollCreation} style={styles.button}>
+                <Text style={styles.buttonText}> Create Poll</Text>
+              </TouchableOpacity>
+          
+            </View>
               </KeyboardAvoidingView>
             )
           }
@@ -703,6 +708,17 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
             justifyContent:"flex-start",
             alignItems:"center",
             backgroundColor: "#F4F8FB"
+            },
+            loadingOverlay: {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              zIndex: 1000,
             },
             squadLogo:{
               width:100,

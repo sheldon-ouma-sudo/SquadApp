@@ -18,7 +18,6 @@ const UserDisplayScreen = () => {
     const[userName, setUserName] = useState("User Name")
     const [numOfUserPolls, setNumOfUserPolls] = useState(0)
     const [numOfSquadMembers, setNumOfSquadMembers] = useState(0)
-    // const [squadCreator, setSquadCreator] = useState("Squad Creator")
     const [userJoiningTime, setUserJoiningTime] = useState("")
     
       const route = useRoute()
@@ -38,11 +37,6 @@ const UserDisplayScreen = () => {
         
           const user_joinTime = dayjs(user.createdAt).format('MMMM D, YYYY')
           setUserJoiningTime(user_joinTime)
-        //   setSquadName(squad_name)
-        //   setSquadCreator(squad_creator)
-        //   setSquadCreationTime(squad_creationTime)
-          
-        
         }
     
       }, [user])

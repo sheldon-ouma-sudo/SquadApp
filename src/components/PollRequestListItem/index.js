@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
+import { useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
-import { updateNotification, deletePollRequest, createPollUser } from '../../graphql/mutations';  // Mutations
-import { getNotification, getPoll, notificationsByUserID } from '../../graphql/queries';  // Queries
+import { updateNotification, deletePollRequest } from '../../graphql/mutations';  // Mutations
+import { getPoll, notificationsByUserID } from '../../graphql/queries';  // Queries
 import { useUserContext } from '../../../UserContext';
 import ResponsePollSCreen from '../../screens/ResponsePollScreen'
 

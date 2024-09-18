@@ -5,7 +5,7 @@ import { View, Text, KeyboardAvoidingView, StyleSheet,Image,
   import { useNavigation } from '@react-navigation/native';
   import {API,graphqlOperation, Auth} from "aws-amplify"
   import { useUserContext } from '../../UserContext';
-  import { listUsers, getNotification, notificationsByUserID } from '../graphql/queries';
+  import { listUsers, getNotification, notificationsByUserID, getUser } from '../graphql/queries';
   import { createSquad, updateNotification, createNotification, createRequestToBeAddedInASquad, updateUser } from '../graphql/mutations';
   import { FontAwesome } from '@expo/vector-icons';
   import {BottomSheetModal,BottomSheetView,BottomSheetModalProvider, } from '@gorhom/bottom-sheet';
@@ -138,7 +138,9 @@ const CreateSquadScreen = () => {
 
 const handleCreateSquad = async () => {
   const userID = user.id;
-
+  const rtUserQuery = await API.graphql(graphqlOperation(getUser, {id: userID}))
+  console.log("here is the local user data from backend", rtUserQuery.data?.getUser)
+  const rtUser = rtUserQuery.data?.getUser; 
   if (!squadName) {
     Alert.alert("Squad name is required");
     return;
@@ -156,18 +158,24 @@ const handleCreateSquad = async () => {
     // Step 1: Create the Squad
     const squadResult = await API.graphql(graphqlOperation(createSquad, {
       input: {
-        squadName: squadName,
+        authUserID: userID, 
+        authUserName: user.userName,
         bio: squadBio,
-        public: isPublic, // Set the squad's privacy based on the selected option
-        authUserID: user.id,
+        public: isPublic, 
+        squadName: squadName, 
+        numOfPolls: 0,
+        numOfUsers: 1,
+        prmiary: false,
       },
     }));
     const squadID = squadResult.data.createSquad.id;
     console.log("Squad creation result: ", squadResult);
-
+    
     // Step 2: Update the local user's info
-    const updatedSquadsCreated = [...(user.nonPrimarySquadsCreated || []), squadID]; // Ensure nonPrimarySquadsCreated is defined
-    const updatedNumSquadsCreated = (user.numSquadCreated || 0) + 1; // Ensure numSquadCreated is defined as a number
+    console.log("here is real time user nonPrimarysquad Created before update", rtUser.nonPrimarySquadsCreated)
+    const updatedSquadsCreated = [...(rtUser.nonPrimarySquadsCreated || []), squadID]; // Ensure nonPrimarySquadsCreated is defined
+    console.log("here is the rtUser", rtUser, "and here is the updated non primary squad", updatedNumSquadsCreated)
+    const updatedNumSquadsCreated = (rtUser.numSquadCreated || 0) + 1; // Ensure numSquadCreated is defined as a number
     console.log("here is the updatedSquadsCreated and updatedNumSquadsCreated", updatedSquadsCreated, updatedNumSquadsCreated);
     
     updateLocalUser({

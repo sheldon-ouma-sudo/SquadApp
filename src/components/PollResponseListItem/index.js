@@ -30,7 +30,7 @@ const PollResponseListItem = ({ item, removeResponseFromList }) => {
           <FontAwesome name="eye" size={24} color="blue" />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleRemoveResponse} style={styles.removeButton}>
-          <FontAwesome name="trash" size={24} color="red" />
+          <FontAwesome name="trash" size={24} color='#333' />
         </TouchableOpacity>
       </View>
     </View>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#ddd',
+    width: 400
   },
   responseContent: {
     flex: 1,

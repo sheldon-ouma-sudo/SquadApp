@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     marginLeft: -10,
     elevation: 3, // For Android shadow
+    height: 140
   },
   userImageContainer:{
     marginStart:10,

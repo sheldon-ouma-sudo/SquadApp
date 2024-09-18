@@ -29,7 +29,12 @@ const SquadJoinedScreen = () => {
             }
           }
 
-          setJoinedSquads(fetchedSquads);
+          // Ensure unique squads by filtering out duplicates based on their ID
+          const uniqueSquads = fetchedSquads.filter(
+            (squad, index, self) => index === self.findIndex((s) => s.id === squad.id)
+          );
+
+          setJoinedSquads(uniqueSquads);
         } catch (error) {
           console.error('Error fetching squads:', error);
         }
@@ -57,7 +62,7 @@ const SquadJoinedScreen = () => {
                   userInfo={user}
                 />
               )}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item, index) => item?.id ? item.id.toString() : index.toString()}
           />
         ) : (
           <Text>No squads joined yet.</Text>

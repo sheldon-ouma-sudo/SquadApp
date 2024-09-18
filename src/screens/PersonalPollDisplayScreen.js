@@ -62,28 +62,28 @@ const PersonalPollDisplayScreen = () => {
     },
   ];
   
-        useEffect(() => {
-          if (poll) {
-            setNumOfPollLikes(poll.numOfLikes || 0);
-            setTotalNumOfVotes(poll.totalNumOfVotes || 0);
-            setNumOfPollComments(poll.numOfComments || 0);
-
-            // Check if pollItems are an array of strings, and parse if necessary
-            try {
-              const parsedPollItems = Array.isArray(poll.pollItems)
-                ? poll.pollItems.map(item => JSON.parse(item))
-                : [];
-              
-              setPollItems(parsedPollItems);
-        
-              // Initialize animation values for each poll item, ensuring that the lengths match
-              const initialAnimationValues = parsedPollItems.map(() => new Value(0));
-              setAnimationValues(initialAnimationValues);
-            } catch (error) {
-              console.log('Error parsing poll items:', error);
-            }
-          }
-        }, [poll]);
+  useEffect(() => {
+    if (poll) {
+      setNumOfPollLikes(poll.numOfLikes || 0);
+      setTotalNumOfVotes(poll.totalNumOfVotes || 0);
+      setNumOfPollComments(poll.numOfComments || 0);
+  
+      try {
+        // Flatten the pollItems array in case it is nested
+        const parsedPollItems = Array.isArray(poll.pollItems)
+          ? [].concat(...poll.pollItems.map(item => JSON.parse(item))) // Flatten the nested array and parse each item
+          : [];
+        console.log("here are the parsed poll items: ", parsedPollItems);
+        setPollItems(parsedPollItems);
+  
+        const initialAnimationValues = parsedPollItems.map(() => new Value(0));
+        setAnimationValues(initialAnimationValues);
+      } catch (error) {
+        console.log('Error parsing poll items:', error);
+      }
+    }
+  }, [poll]);
+  
         useEffect(() => {
           return () => {
             // Stop and reset all animations
@@ -138,17 +138,22 @@ const PersonalPollDisplayScreen = () => {
           }
         };
 
-
         const formatLikes = (likes) => {
-          if (likes < 1000) {
-            return likes.toString();
-          } else if (likes >= 1000 && likes < 1000000) {
-            return (likes / 1000).toFixed(1) + 'K';
-          } else if (likes >= 1000000) {
-            return (likes / 1000000).toFixed(1) + 'M';
+          if (!likes) {
+            return '0'; // Default to '0' if likes is undefined or null
           }
-          return likes.toString();
+          if (likes < 1000) {
+            return likes.toString(); // Return the number as is
+          } else if (likes >= 1000 && likes < 1000000) {
+            return (likes / 1000).toFixed(1).replace(/\.0$/, '') + 'K'; // Format in thousands
+          } else if (likes >= 1000000) {
+            return (likes / 1000000).toFixed(1).replace(/\.0$/, '') + 'M'; // Format in millions
+          }
+          return likes.toString(); // Default case, although it won't be hit due to the previous conditions
         };
+
+
+
         const toggleComments = () => {
           setCommentsVisible(!isCommentsVisible);
             // Set static comments data when the comments are made visible
