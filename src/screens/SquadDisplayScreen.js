@@ -38,7 +38,7 @@ useEffect(() => {
         const squadID = squad.id;
         const result = await API.graphql(graphqlOperation(squadUsersBySquadId, { squadId: squadID }));
         const users = result?.data?.squadUsersBySquadId?.items || [];
-
+         console.log("here are the users",users)
         // Deduplicate users by filtering out identical user IDs
         const uniqueUsers = users.reduce((acc, currentUser) => {
           if (!acc.find(user => user.userId === currentUser.userId)) {

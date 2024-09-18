@@ -32,17 +32,22 @@ const PollCommentList = ({comment, pollCreator, poll }) => {
      }, [pollCreator, user])
 
      useEffect(() => {
+      console.log("commentorID value:", commentorID); // Add this log
+    
       const fetchCommentorInfo = async () => {
+        if (!commentorID) {
+          console.log("commentorID is not set, skipping fetch.");
+          return;
+        }
+    
         try {
-          if (comment) {
-            const commentorInfoResults = await API.graphql(graphqlOperation(getUser, { id: commentorID }));
-            if (commentorInfoResults.data?.getUser) {
-              const user = commentorInfoResults.data.getUser;
-              const commentorUserName = user.userName;
-              const commentorProfilePicture = user.userProfilePicture;
-              setUserName(commentorUserName);
-              setUserProfilePicture(commentorProfilePicture);
-            }
+          const commentorInfoResults = await API.graphql(graphqlOperation(getUser, { id: commentorID }));
+          if (commentorInfoResults.data?.getUser) {
+            const user = commentorInfoResults.data.getUser;
+            setUserName(user.userName);
+            setUserProfilePicture(user.userProfilePicture);
+          } else {
+            console.log("No user found for this commentorID");
           }
         } catch (error) {
           console.log("Error fetching commentor info:", error);
@@ -50,12 +55,8 @@ const PollCommentList = ({comment, pollCreator, poll }) => {
       };
     
       fetchCommentorInfo();
+    }, [commentorID, comment]);
     
-      // Cleanup (optional)
-      return () => {
-        // Optionally, cancel any pending asynchronous tasks here
-      };
-    }, [comment, commentorID]);
     
 
   const handleLikeClick = async () => {

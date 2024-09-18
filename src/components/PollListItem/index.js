@@ -74,77 +74,75 @@ const PollListItem = ({ poll}) => {
 
  
         
-        const toggleComments = () => {
+  const toggleComments = () => {
           setCommentsVisible(!isCommentsVisible);
-          // No need to reset the comments when toggling
         };
         
-       const renderCommentItem = ({ item }) => (
-          <View style={styles.commentItem}>
-            <PollCommentItem comment={item} pollCreator={pollCreatorInfo} poll={poll}/>
-          </View>
-        );
+  const renderCommentItem = ({ item }) => (
+    <View style={styles.commentItem}>
+      <PollCommentItem comment={item} pollCreator={pollCreatorInfo} poll={poll}/>
+    </View>
+  );
 
-        useEffect(() => {
-          
-          const parsePollItems = (items) => {
-            try {
-              const recursiveParse = (item) => {
-                // If it's a string, parse it as JSON
-                if (typeof item === 'string') {
-                  const parsedItem = JSON.parse(item);
-                  // Recursively call the function if it's still an array
-                  return recursiveParse(parsedItem);
-                }
-                // If it's an array, flatten it recursively
-                if (Array.isArray(item)) {
-                  return item.flatMap(recursiveParse);
-                }
-                // If it's an object, return it as is
-                return item;
-              };
-          
-              // Start parsing the top-level items array
-              if (Array.isArray(items)) {
-                return items.flatMap(recursiveParse);
-              }
-              return [];
-            } catch (error) {
-              console.log('Error parsing poll items:', error);
-              return [];
-            }
-          };
-          
-          
-        
-          const username = user.userName;
-          setLocalUserName(username);
-          setNumOfPollLikes(poll.numOfLikes);
-          setNumOfPollComment(commentsData.length);
-          setTotalNumOfVotes(poll.totalNumOfVotes || 0);
-          setPollCreatorID(poll.userID);
-          setPollID(poll.id);
-            // Parse pollItems
-            const parsedPollItems = parsePollItems(poll.pollItems);
-            // Log and set parsed poll items
-            // console.log( 'Here is the poll',poll,'Parsed Poll Items:', parsedPollItems);
-            setPollItems(parsedPollItems);
-            try {
-              if (parsedPollItems.length > 0) {
-                const initialAnimationValues = parsedPollItems.map(() => new Value(0));
-                setAnimationValues(initialAnimationValues);
-                setSelectedOption(null);
-          
-                const initialSelectedOption = parsedPollItems[0];
-                animateVotePercentage(
-                  initialSelectedOption.votes / poll.totalNumOfVotes || 0, 0
-                );
-              } else {
-                console.log("No valid poll items to initialize animations.");
-              }
-            } catch (error) {
-              console.log('Error initializing animations:', error);
-            }
+  useEffect(() => {
+    const parsePollItems = (items) => {
+      try {
+        const recursiveParse = (item) => {
+          // If it's a string, parse it as JSON
+          if (typeof item === 'string') {
+            const parsedItem = JSON.parse(item);
+            // Recursively call the function if it's still an array
+            return recursiveParse(parsedItem);
+          }
+          // If it's an array, flatten it recursively
+          if (Array.isArray(item)) {
+            return item.flatMap(recursiveParse);
+          }
+          // If it's an object, return it as is
+          return item;
+        };
+    
+        // Start parsing the top-level items array
+        if (Array.isArray(items)) {
+          return items.flatMap(recursiveParse);
+        }
+        return [];
+      } catch (error) {
+        console.log('Error parsing poll items:', error);
+        return [];
+      }
+    };
+    
+    
+  
+    const username = user.userName;
+    setLocalUserName(username);
+    setNumOfPollLikes(poll.numOfLikes);
+    setNumOfPollComment(commentsData.length);
+    setTotalNumOfVotes(poll.totalNumOfVotes || 0);
+    setPollCreatorID(poll.userID);
+    setPollID(poll.id);
+      // Parse pollItems
+      const parsedPollItems = parsePollItems(poll.pollItems);
+      // Log and set parsed poll items
+      // console.log( 'Here is the poll',poll,'Parsed Poll Items:', parsedPollItems);
+      setPollItems(parsedPollItems);
+      try {
+        if (parsedPollItems.length > 0) {
+          const initialAnimationValues = parsedPollItems.map(() => new Value(0));
+          setAnimationValues(initialAnimationValues);
+          setSelectedOption(null);
+    
+          const initialSelectedOption = parsedPollItems[0];
+          animateVotePercentage(
+            initialSelectedOption.votes / poll.totalNumOfVotes || 0, 0
+          );
+        } else {
+          console.log("No valid poll items to initialize animations.");
+        }
+      } catch (error) {
+        console.log('Error initializing animations:', error);
+      }
         }, [poll]);
         
         useEffect(() => {
@@ -190,32 +188,32 @@ const PollListItem = ({ poll}) => {
         
         
         
-        useEffect(() => {
-          console.log("Poll ID: ", pollID);
-          console.log("Poll Creator ID: ", pollCreatorID);
-        
-          const fetchPollCreatorNotification = async () => {
-            if (!pollCreatorID) return;  // Ensure pollCreatorID is set
-            try {
-              const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
-                userID: pollCreatorID,
-              }));
-        
-              if (notificationResult.data?.notificationsByUserID?.items[0]) {
-                setPollCreatorNotificationID(notificationResult.data.notificationsByUserID.items[0].id);
-              } else {
-                console.error("Error: No notification found for poll creator");
-              }
-            } catch (error) {
-              console.error('Error fetching poll creator notification:', error);
+  useEffect(() => {
+        console.log("Poll ID: ", pollID);
+        console.log("Poll Creator ID: ", pollCreatorID);
+      
+        const fetchPollCreatorNotification = async () => {
+          if (!pollCreatorID) return;  // Ensure pollCreatorID is set
+          try {
+            const notificationResult = await API.graphql(graphqlOperation(notificationsByUserID, {
+              userID: pollCreatorID,
+            }));
+      
+            if (notificationResult.data?.notificationsByUserID?.items[0]) {
+              setPollCreatorNotificationID(notificationResult.data.notificationsByUserID.items[0].id);
+            } else {
+              console.error("Error: No notification found for poll creator");
             }
-          };
-        
-          fetchPollCreatorNotification();
+          } catch (error) {
+            console.error('Error fetching poll creator notification:', error);
+          }
+        };
+      
+        fetchPollCreatorNotification();
         }, [pollCreatorID]);
         
 
-        useEffect(() => {
+    useEffect(() => {
           if (selectedOption !== null) { 
             setIsOptionSelected(true);
           } else {
@@ -428,7 +426,7 @@ const PollListItem = ({ poll}) => {
                   notificationID: pollCreatorNotificationID,
                 }
               }));
-          
+              console.log("here is the new poll comment created", newPollComment)
               const newCommentObj = {
                 id: newPollComment.data.createPollComment.id,
                 username: localUserName,

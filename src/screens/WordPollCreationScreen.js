@@ -174,6 +174,7 @@
                             // Fetch squad users for each selected squad
                             const response = await API.graphql(graphqlOperation(listSquadUsers, { id: squadID }));
                             const squadUsersData = response.data?.listSquadUsers?.items;
+                            console.log("here is the squad data before user id extraction", squadUsersData)
                             if (squadUsersData) {
                               // Extract user IDs from squad users data
                               return squadUsersData.map(user => user.userId);
@@ -371,6 +372,7 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
   try {
     // Iterate through all the users of the selected squads (stored in squadsData)
     for (const squadMemberID of squadsData) {
+      console.log("here is the squadMember ID", squadMemberID)
       // Step 1: Check if the user already has a notification
       const existingNotifications = await checkIfUserHasNotification(squadMemberID);
 

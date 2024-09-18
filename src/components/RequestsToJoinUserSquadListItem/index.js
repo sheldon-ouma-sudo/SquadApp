@@ -23,8 +23,10 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
       const squad = squadResult.data.getSquad;
       const updatedSquadJoined = [...(requestingUser.squadJoined || []), squad];
       const updatedNumOfSquadJoined = (requestingUser.numOfSquadJoined || 0) + 1;
+      console.log("here is the updated squads", updatedNumOfSquadJoined)
+      console.log("here is the requesting user before update", requestingUser, "and here is their squad joinedID", requestingUser.squadJoinedID )
       // Update requesting user in database
-      await API.graphql(
+     const updatedRequestingUser =  await API.graphql(
         graphqlOperation(updateUser, {
           input: {
             id: requestingUserID,
@@ -34,9 +36,9 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
           },
         })
       );
-
+    console.log("here is the updatedRequesting User", updatedRequestingUser)
       // Create the SquadUser
-      await API.graphql(
+      const squaduser = await API.graphql(
         graphqlOperation(createSquadUser, {
           input: {
             squadId: squadID,
@@ -45,7 +47,7 @@ const RequestsToJoinUserSquadListItem = ({ item, removeRequestFromList }) => {
         })
       );
 
-      
+      console.log("here is the squad user created", squaduser)
       // let notifications = user.Notifications;
      // if (!notifications || notifications.length === 0) {
         const notificationData = await API.graphql(

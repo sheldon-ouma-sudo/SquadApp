@@ -42,6 +42,7 @@ const PollActivityScreen = () => {
               return requestResult.data.getPollRequest;
             })
           );
+          console.log("heare are the requests", requests)
           setPollRequests(requests);
 
           // Fetch Poll Responses
