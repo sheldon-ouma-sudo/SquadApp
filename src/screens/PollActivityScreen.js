@@ -31,7 +31,7 @@ const PollActivityScreen = () => {
       try {
         const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { userID: user.id }));
         const notifications = notificationData?.data?.notificationsByUserID?.items;
-
+        console.log("here are the notification", notifications)
         if (notifications && notifications.length > 0) {
           const notification = notifications[0];
 
