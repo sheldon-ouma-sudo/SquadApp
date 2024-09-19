@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { updateNotification, deletePollRequest } from '../../graphql/mutations';  // Mutations
@@ -104,12 +104,17 @@ const PollRequestListItem = ({ item, removeRequestFromList }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 15,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     borderRadius: 8,
-    borderColor: '#ddd',
-    borderWidth: 1,
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    width: 400
+    
   },
   message: {
     marginBottom: 10,

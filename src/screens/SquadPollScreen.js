@@ -13,6 +13,7 @@ const SquadPollScreen = ({ squadPolls })=> {
   useEffect(() => {
     const fetchPollDetails = async () => {
       if (squadPolls) {
+        console.log("here is the squad polls", squadPolls)
         setLoading(true);
         try {
           const pollPromises = squadPolls.map(async (pollItem) => {

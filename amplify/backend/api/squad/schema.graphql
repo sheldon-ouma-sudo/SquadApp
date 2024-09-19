@@ -60,9 +60,8 @@ type PollRequest @model @auth(rules: [{ allow: public }]) {
   Poll: Poll @belongsTo
   ParentPollID: String
   userID: ID! @index(name: "byUser")
-  pollRequestsId: [String]
-  responseStatus: Boolean
   notificationID: ID! @index(name: "byNotification")
+  message: String
 }
 
 type PollComment @model @auth(rules: [{ allow: public }]) {

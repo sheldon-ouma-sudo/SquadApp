@@ -73,23 +73,25 @@ const DisplayPollListItem = ({ poll }) => {
 const styles = StyleSheet.create({
   gradientContainer: {
     //borderWidth: 2,
-    borderRadius: 29,
-    marginVertical:15,
-    //marginEnd:10
+     borderRadius: 29,
+     marginVertical:15,
+    // marginEnd:10
+    width: '90%'
 
   },
   container: {
     flex:1,
     padding: 16,
     backgroundColor: "#FFFF",
-    marginTop:5,
-    //borderWidth: 5,
+     marginTop:5,
+    // //borderWidth: 5,
     borderRadius: 29,
     marginBottom:4,
     marginStart:5,
     marginEnd:4,
-    width:390,
-    height:150
+    // width:4,
+    height:120,
+    // marginLeft: 30
    
   },
   userImageContainer:{
@@ -178,5 +180,6 @@ const styles = StyleSheet.create({
     //color: '#1764EF', // Adjust the color based on your design
   },
 });
+
 
 export default DisplayPollListItem;

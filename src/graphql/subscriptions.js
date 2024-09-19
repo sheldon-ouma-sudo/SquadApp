@@ -450,6 +450,7 @@ export const onCreatePollCommentResponse = /* GraphQL */ `
       id
       pollID
       userID
+      pollCommentID
       caption
       createdAt
       updatedAt
@@ -465,6 +466,7 @@ export const onUpdatePollCommentResponse = /* GraphQL */ `
       id
       pollID
       userID
+      pollCommentID
       caption
       createdAt
       updatedAt
@@ -480,6 +482,7 @@ export const onDeletePollCommentResponse = /* GraphQL */ `
       id
       pollID
       userID
+      pollCommentID
       caption
       createdAt
       updatedAt
@@ -561,9 +564,8 @@ export const onCreatePollRequest = /* GraphQL */ `
       }
       ParentPollID
       userID
-      pollRequestsId
-      responseStatus
       notificationID
+      message
       createdAt
       updatedAt
       pollRequestPollId
@@ -600,9 +602,8 @@ export const onUpdatePollRequest = /* GraphQL */ `
       }
       ParentPollID
       userID
-      pollRequestsId
-      responseStatus
       notificationID
+      message
       createdAt
       updatedAt
       pollRequestPollId
@@ -639,9 +640,8 @@ export const onDeletePollRequest = /* GraphQL */ `
       }
       ParentPollID
       userID
-      pollRequestsId
-      responseStatus
       notificationID
+      message
       createdAt
       updatedAt
       pollRequestPollId
@@ -855,9 +855,8 @@ export const onCreatePoll = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId
@@ -904,9 +903,8 @@ export const onUpdatePoll = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId
@@ -953,9 +951,8 @@ export const onDeletePoll = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId

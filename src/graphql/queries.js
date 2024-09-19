@@ -334,6 +334,7 @@ export const getPollCommentResponse = /* GraphQL */ `
       id
       pollID
       userID
+      pollCommentID
       caption
       createdAt
       updatedAt
@@ -356,6 +357,7 @@ export const listPollCommentResponses = /* GraphQL */ `
         id
         pollID
         userID
+        pollCommentID
         caption
         createdAt
         updatedAt
@@ -385,6 +387,7 @@ export const pollCommentResponsesByPollID = /* GraphQL */ `
         id
         pollID
         userID
+        pollCommentID
         caption
         createdAt
         updatedAt
@@ -414,6 +417,37 @@ export const pollCommentResponsesByUserID = /* GraphQL */ `
         id
         pollID
         userID
+        pollCommentID
+        caption
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const pollCommentResponsesByPollCommentID = /* GraphQL */ `
+  query PollCommentResponsesByPollCommentID(
+    $pollCommentID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPollCommentResponseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    pollCommentResponsesByPollCommentID(
+      pollCommentID: $pollCommentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        pollID
+        userID
+        pollCommentID
         caption
         createdAt
         updatedAt
@@ -543,9 +577,8 @@ export const getPollRequest = /* GraphQL */ `
       }
       ParentPollID
       userID
-      pollRequestsId
-      responseStatus
       notificationID
+      message
       createdAt
       updatedAt
       pollRequestPollId
@@ -564,9 +597,8 @@ export const listPollRequests = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId
@@ -596,9 +628,8 @@ export const pollRequestsByUserID = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId
@@ -628,9 +659,8 @@ export const pollRequestsByNotificationID = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId
@@ -841,9 +871,8 @@ export const getPoll = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId

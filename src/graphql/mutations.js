@@ -460,6 +460,7 @@ export const createPollCommentResponse = /* GraphQL */ `
       id
       pollID
       userID
+      pollCommentID
       caption
       createdAt
       updatedAt
@@ -476,6 +477,7 @@ export const updatePollCommentResponse = /* GraphQL */ `
       id
       pollID
       userID
+      pollCommentID
       caption
       createdAt
       updatedAt
@@ -492,6 +494,7 @@ export const deletePollCommentResponse = /* GraphQL */ `
       id
       pollID
       userID
+      pollCommentID
       caption
       createdAt
       updatedAt
@@ -577,9 +580,8 @@ export const createPollRequest = /* GraphQL */ `
       }
       ParentPollID
       userID
-      pollRequestsId
-      responseStatus
       notificationID
+      message
       createdAt
       updatedAt
       pollRequestPollId
@@ -617,9 +619,8 @@ export const updatePollRequest = /* GraphQL */ `
       }
       ParentPollID
       userID
-      pollRequestsId
-      responseStatus
       notificationID
+      message
       createdAt
       updatedAt
       pollRequestPollId
@@ -657,9 +658,8 @@ export const deletePollRequest = /* GraphQL */ `
       }
       ParentPollID
       userID
-      pollRequestsId
-      responseStatus
       notificationID
+      message
       createdAt
       updatedAt
       pollRequestPollId
@@ -879,9 +879,8 @@ export const createPoll = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId
@@ -931,9 +930,8 @@ export const updatePoll = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId
@@ -983,9 +981,8 @@ export const deletePoll = /* GraphQL */ `
         id
         ParentPollID
         userID
-        pollRequestsId
-        responseStatus
         notificationID
+        message
         createdAt
         updatedAt
         pollRequestPollId

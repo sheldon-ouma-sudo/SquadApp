@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, StatusBar, Dimensions, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, StatusBar, Dimensions, SafeAreaView, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import {listPolls} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
@@ -8,10 +8,12 @@ import { onCreatePoll, onUpdatePoll, onDeletePoll } from '../graphql/subscriptio
 
 const TrendingPollScreen = () => {
   const [polls, setPolls] = useState([])
+  const [loading, setLoading] = useState(true) 
   
 
     useEffect(() => {
       const fetchPolls = async () => {
+        setLoading(true)  // Start loading
         try { 
           const results = await API.graphql(graphqlOperation(listPolls));
           if(!results.data?.listPolls){
@@ -25,7 +27,15 @@ const TrendingPollScreen = () => {
       };
       fetchPolls();
     }, []);
-   
+    if (loading) {
+      // Display loading indicator when fetching data
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#1764EF" />
+        </View>
+      )
+    }
+  
   
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -54,6 +64,11 @@ const styles = StyleSheet.create({
   backgroundColor: "#F4F8FB",
 
 
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   squadLogo:{
       width:100,

@@ -29,7 +29,9 @@ const PollActivityScreen = () => {
   useEffect(() => {
     const fetchNotificationsAndRequests = async () => {
       try {
+       
         const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { userID: user.id }));
+        console.log("here is the notificationData", notificationData)
         const notifications = notificationData?.data?.notificationsByUserID?.items;
         console.log("here are the notification", notifications)
         if (notifications && notifications.length > 0) {
@@ -63,85 +65,85 @@ const PollActivityScreen = () => {
       fetchNotificationsAndRequests();
     }
 
-    // Subscriptions for new poll requests
-    const createPollRequestSub = API.graphql(
-      graphqlOperation(onCreatePollRequest)
-    ).subscribe({
-      next: (data) => {
-        const newRequest = data.value.data.onCreatePollRequest;
-        if (newRequest) {
-          setPollRequests((prevRequests) => [...prevRequests, newRequest]);
-        }
-      },
-      error: (error) => console.log('Error on create poll request subscription:', error),
-    });
+  //   // Subscriptions for new poll requests
+  //   const createPollRequestSub = API.graphql(
+  //     graphqlOperation(onCreatePollRequest)
+  //   ).subscribe({
+  //     next: (data) => {
+  //       const newRequest = data.value.data.onCreatePollRequest;
+  //       if (newRequest) {
+  //         setPollRequests((prevRequests) => [...prevRequests, newRequest]);
+  //       }
+  //     },
+  //     error: (error) => console.log('Error on create poll request subscription:', error),
+  //   });
 
-    const updatePollRequestSub = API.graphql(
-      graphqlOperation(onUpdatePollRequest)
-    ).subscribe({
-      next: (data) => {
-        const updatedRequest = data.value.data.onUpdatePollRequest;
-        setPollRequests((prevRequests) =>
-          prevRequests.map((request) => (request.id === updatedRequest.id ? updatedRequest : request))
-        );
-      },
-      error: (error) => console.log('Error on update poll request subscription:', error),
-    });
+  //   const updatePollRequestSub = API.graphql(
+  //     graphqlOperation(onUpdatePollRequest)
+  //   ).subscribe({
+  //     next: (data) => {
+  //       const updatedRequest = data.value.data.onUpdatePollRequest;
+  //       setPollRequests((prevRequests) =>
+  //         prevRequests.map((request) => (request.id === updatedRequest.id ? updatedRequest : request))
+  //       );
+  //     },
+  //     error: (error) => console.log('Error on update poll request subscription:', error),
+  //   });
 
-    const deletePollRequestSub = API.graphql(
-      graphqlOperation(onDeletePollRequest)
-    ).subscribe({
-      next: (data) => {
-        const deletedRequest = data.value.data.onDeletePollRequest;
-        removePollRequest(deletedRequest.id);
-      },
-      error: (error) => console.log('Error on delete poll request subscription:', error),
-    });
+  //   const deletePollRequestSub = API.graphql(
+  //     graphqlOperation(onDeletePollRequest)
+  //   ).subscribe({
+  //     next: (data) => {
+  //       const deletedRequest = data.value.data.onDeletePollRequest;
+  //       removePollRequest(deletedRequest.id);
+  //     },
+  //     error: (error) => console.log('Error on delete poll request subscription:', error),
+  //   });
 
-    // Subscriptions for new poll responses
-    const createPollResponseSub = API.graphql(
-      graphqlOperation(onCreatePollResponse)
-    ).subscribe({
-      next: (data) => {
-        const newResponse = data.value.data.onCreatePollResponse;
-        if (newResponse) {
-          setPollResponses((prevResponses) => [...prevResponses, newResponse]);
-        }
-      },
-      error: (error) => console.log('Error on create poll response subscription:', error),
-    });
+  //   // Subscriptions for new poll responses
+  //   const createPollResponseSub = API.graphql(
+  //     graphqlOperation(onCreatePollResponse)
+  //   ).subscribe({
+  //     next: (data) => {
+  //       const newResponse = data.value.data.onCreatePollResponse;
+  //       if (newResponse) {
+  //         setPollResponses((prevResponses) => [...prevResponses, newResponse]);
+  //       }
+  //     },
+  //     error: (error) => console.log('Error on create poll response subscription:', error),
+  //   });
 
-    const updatePollResponseSub = API.graphql(
-      graphqlOperation(onUpdatePollResponse)
-    ).subscribe({
-      next: (data) => {
-        const updatedResponse = data.value.data.onUpdatePollResponse;
-        setPollResponses((prevResponses) =>
-          prevResponses.map((response) => (response.id === updatedResponse.id ? updatedResponse : response))
-        );
-      },
-      error: (error) => console.log('Error on update poll response subscription:', error),
-    });
+  //   const updatePollResponseSub = API.graphql(
+  //     graphqlOperation(onUpdatePollResponse)
+  //   ).subscribe({
+  //     next: (data) => {
+  //       const updatedResponse = data.value.data.onUpdatePollResponse;
+  //       setPollResponses((prevResponses) =>
+  //         prevResponses.map((response) => (response.id === updatedResponse.id ? updatedResponse : response))
+  //       );
+  //     },
+  //     error: (error) => console.log('Error on update poll response subscription:', error),
+  //   });
 
-    const deletePollResponseSub = API.graphql(
-      graphqlOperation(onDeletePollResponse)
-    ).subscribe({
-      next: (data) => {
-        const deletedResponse = data.value.data.onDeletePollResponse;
-        removePollResponse(deletedResponse.id);
-      },
-      error: (error) => console.log('Error on delete poll response subscription:', error),
-    });
+  //   const deletePollResponseSub = API.graphql(
+  //     graphqlOperation(onDeletePollResponse)
+  //   ).subscribe({
+  //     next: (data) => {
+  //       const deletedResponse = data.value.data.onDeletePollResponse;
+  //       removePollResponse(deletedResponse.id);
+  //     },
+  //     error: (error) => console.log('Error on delete poll response subscription:', error),
+  //   });
 
-    // Cleanup subscriptions
-    return () => {
-      createPollRequestSub.unsubscribe();
-      updatePollRequestSub.unsubscribe();
-      deletePollRequestSub.unsubscribe();
-      createPollResponseSub.unsubscribe();
-      updatePollResponseSub.unsubscribe();
-      deletePollResponseSub.unsubscribe();
-    };
+  //   // Cleanup subscriptions
+  //   return () => {
+  //     createPollRequestSub.unsubscribe();
+  //     updatePollRequestSub.unsubscribe();
+  //     deletePollRequestSub.unsubscribe();
+  //     createPollResponseSub.unsubscribe();
+  //     updatePollResponseSub.unsubscribe();
+  //     deletePollResponseSub.unsubscribe();
+     //};
   }, [user?.id]);
 
   // Combine the two lists of requests with headers
