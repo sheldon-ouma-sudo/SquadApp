@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, KeyboardAvoidingView, FlatList, ActivityIndicator,  ImageBackground } from 'react-native'
 import React, { useEffect, useState } from 'react'
 //import {listPolls} from '../graphql/queries'
-import {getPoll, squadPollsBySquadId} from "../graphql/queries"
+import {getPoll, getUser, squadPollsBySquadId} from "../graphql/queries"
 import { API, graphqlOperation } from "aws-amplify";
 import Poll from "../components/SquadPollListItem/index";
 import { useUserContext } from '../../UserContext';
@@ -15,14 +15,17 @@ const MySquadPollScreen = () => {
   const [userSquadJoinedArray, setUserSquadJoinedArray] = useState([])
   const [squadID, setSquadID] = useState()
   const{user} = useUserContext()
-  //console.log("here is the user", user)
+ 
     
 
 //get all the squads the user has joined
     useEffect(()=>{
     if(user){
-      console.log("here is the squad the user has joined", user.squadJoined)
-      const userSquads = user.squadJoined
+      const userID = user.id;
+      const userRtQuery =  API.graphql(graphqlOperation(getUser, {id: userID}))
+      const userRt = userRtQuery.data?.getUser
+      console.log("here is the squad the user has joined", userRt.squadJoinedID)
+      const userSquads = userRt.squadJoinedID
       setUserSquadJoinedArray(userSquads)
     }
 
@@ -125,8 +128,9 @@ const MySquadPollScreen = () => {
      <FlatList    
        data={squadPollData}
        renderItem={({ item }) => (
-         <Poll poll={item} 
-          squadID = {squadID}
+         <Poll
+         poll={item} 
+         squadID = {squadID}
          />
        )}
        keyExtractor={(item) => item.id}

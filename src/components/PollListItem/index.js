@@ -76,7 +76,7 @@ const PollListItem = ({ poll}) => {
         
   const toggleComments = () => {
           setCommentsVisible(!isCommentsVisible);
-        };
+   };
         
   const renderCommentItem = ({ item }) => (
     <View style={styles.commentItem}>
@@ -114,7 +114,7 @@ const PollListItem = ({ poll}) => {
     };
     
     
-  
+    // console.log("here is the poll", poll)
     const username = user.userName;
     setLocalUserName(username);
     setNumOfPollLikes(poll.numOfLikes);
@@ -168,7 +168,7 @@ const PollListItem = ({ poll}) => {
         
         useEffect(() => {
           if (!pollID || !pollCreatorID) {
-            console.log("PollID or PollCreatorID is missing");
+            // console.log("PollID or PollCreatorID is missing");
             return;
           }
         
@@ -189,9 +189,8 @@ const PollListItem = ({ poll}) => {
         
         
   useEffect(() => {
-        console.log("Poll ID: ", pollID);
-        console.log("Poll Creator ID: ", pollCreatorID);
-      
+        // console.log("Poll ID: ", pollID);
+        // console.log("Poll Creator ID: ", pollCreatorID);
         const fetchPollCreatorNotification = async () => {
           if (!pollCreatorID) return;  // Ensure pollCreatorID is set
           try {
@@ -259,6 +258,8 @@ const PollListItem = ({ poll}) => {
         //   marginLeft:125,
         //   // color: "white"
         // });
+
+
         const handleOptionPress = async(index) => {
           setOptionClicked(true)
           // Check if the selected option is different from the previously selected one
@@ -308,7 +309,7 @@ const PollListItem = ({ poll}) => {
           }
         }));
   
-        console.log("Poll response created and notification updated");
+        // console.log("Poll response created and notification updated");
           }
         };
         
@@ -324,6 +325,8 @@ const PollListItem = ({ poll}) => {
           };
         }, [animationValues]);
         
+
+
         const animateVotePercentage = (percentage, index) => {
           if (!isNaN(percentage)) {
             timing(animationValues[index], {
@@ -459,11 +462,13 @@ const PollListItem = ({ poll}) => {
                 style={styles.userImage}
               />
             </View>
+
             <TouchableOpacity 
             onPress={handleUsernamePress}
             style={styles.userName}>
               <Text style={styles.userNameText}>@{pollCreator}</Text>
             </TouchableOpacity>
+
             <TouchableOpacity>
             <Text style={styles.question}>{poll.pollCaption}</Text>
             {pollItems.map((item, index) => (

@@ -130,9 +130,9 @@
                   
                           // Wait for all squads to be fetched and filtered
                           const squadsData = await Promise.all(promises);
-                          console.log("here is the squad data", squadsData)
+                          // console.log("here is the squad data", squadsData)
                           const filteredSquads = squadsData.filter(squad => squad !== null);
-                        console.log("here is the filtered squads", filteredSquads)
+                        // console.log("here is the filtered squads", filteredSquads)
                           // Add the "Public" option
                           const pollAudienceWithPublic = [
                             { key: 'public', label: 'Public' }, // MultiSelect uses `label` for display
@@ -157,7 +157,7 @@
                   // Function to gather squad data for all selected squads
                   useEffect(() => {
                     const fetchSquadData = async () => {
-                      console.log("here is the selectedPollAudience", selectedPollAudience)
+                      // console.log("here is the selectedPollAudience", selectedPollAudience)
                       try {
                         const user_id = user.id;
                         setUserID(user_id);
@@ -179,11 +179,11 @@
                         let allSquadUsers = [];
                         
                         for (const squadID of selectedSquads) {
-                          console.log('Processing squad with ID:', squadID);
+                          // console.log('Processing squad with ID:', squadID);
                           try {
                             // Fetch squad users for each selected squad
                             const response = await API.graphql(graphqlOperation(squadUsersBySquadId, { squadId: squadID }));
-                            console.log("here is the response", response);
+                            // console.log("here is the response", response);
                   
                             const squadUsersData = response.data?.squadUsersBySquadId?.items;
                   
@@ -246,7 +246,7 @@
               };
               try {
                 const response = await API.graphql(graphqlOperation(createPollRequest, { input: pollRequestInput }));
-                console.log('Poll Request created successfully:✅✅✅✅✅', response.data?.createPollRequest.id);
+                // console.log('Poll Request created successfully:✅✅✅✅✅', response.data?.createPollRequest.id);
                 const pollRequestID = response.data?.createPollRequest.id;
                 return pollRequestID;
               } catch (error) {
@@ -263,7 +263,7 @@
           
               const notifications = notificationQueryResult.data?.notificationsByUserID.items;
               
-              console.log("The user has notifications✅", notifications);
+              // console.log("The user has notifications✅", notifications);
               
               if (notifications && notifications.length > 0) {
                 // If there are any notifications, return the entire array
@@ -282,11 +282,11 @@
 //handles updation the notification update to the receipients 
           const handleNotificationUpdate= async(pollRequestArray, notification_id)=>{
             try {
-              console.log("here is the updated poll request array", pollRequestArray)
+              // console.log("here is the updated poll request array", pollRequestArray)
               const resultUpdateNotification = await API.graphql(graphqlOperation(updateNotification, {input:{id: notification_id, pollRequestsArray:pollRequestArray}}))
               const newNotificationQuery = await API.graphql(graphqlOperation(getNotification, {id: notification_id}))
               const newNotification = newNotificationQuery.data?.getNotification
-              console.log("here is the updated notification",newNotification)
+              // console.log("here is the updated notification",newNotification)
               return resultUpdateNotification
              } catch (error) {
               console.log("error updating existing user notifications request to join❌", error)
@@ -313,7 +313,6 @@
                   console.log("Missing squadId for squad:", squadID);
                   continue; // Skip if squadId is undefined
                 }
-          
                 console.log("Processing squad with ID:", squadID);
           
                 const squadPollCreationResults = await API.graphql(graphqlOperation(createSquadPoll, {
@@ -385,9 +384,9 @@
 const handleNotificationCreationAndUpdate = async (pollID) => {
   try {
     // Iterate through all the users of the selected squads (stored in squadsData)
-    console.log("before iteration here is the squadDAta", squadsData)
+    // console.log("before iteration here is the squadDAta", squadsData)
     for (const squadMemberID of squadsData) {
-      console.log("here is the squadMember ID", squadMemberID)
+      // console.log("here is the squadMember ID", squadMemberID)
        // Fetch and print details of the user
        const userResponse = await API.graphql(graphqlOperation(getUser, { id: squadMemberID }));
        const squadUser = userResponse.data?.getUser;
