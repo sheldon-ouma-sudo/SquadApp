@@ -83,40 +83,40 @@ const MySquadPollScreen = () => {
     handleSquadPollData()
    }, [pollIDArray])
  // Set up subscriptions for squad poll updates
- useEffect(() => {
-  const createSquadPollSubscription = API.graphql(graphqlOperation(onCreateSquadPoll)).subscribe({
-    next: (response) => {
-      const newSquadPoll = response.value.data.onCreateSquadPoll;
-      setPollIDArray((prevPolls) => [newSquadPoll.pollId, ...prevPolls]);
-    },
-    error: (error) => console.log('Error on create squad poll subscription:', error),
-  });
+  useEffect(() => {
+    const createSquadPollSubscription = API.graphql(graphqlOperation(onCreateSquadPoll)).subscribe({
+      next: (response) => {
+        const newSquadPoll = response.value.data.onCreateSquadPoll;
+        setPollIDArray((prevPolls) => [newSquadPoll.pollId, ...prevPolls]);
+      },
+      error: (error) => console.log('Error on create squad poll subscription:', error),
+    });
 
-  const updateSquadPollSubscription = API.graphql(graphqlOperation(onUpdateSquadPoll)).subscribe({
-    next: (response) => {
-      const updatedSquadPoll = response.value.data.onUpdateSquadPoll;
-      setSquadPollData((prevPolls) =>
-        prevPolls.map((poll) => (poll.id === updatedSquadPoll.pollId ? updatedSquadPoll.poll : poll))
-      );
-    },
-    error: (error) => console.log('Error on update squad poll subscription:', error),
-  });
+    const updateSquadPollSubscription = API.graphql(graphqlOperation(onUpdateSquadPoll)).subscribe({
+      next: (response) => {
+        const updatedSquadPoll = response.value.data.onUpdateSquadPoll;
+        setSquadPollData((prevPolls) =>
+          prevPolls.map((poll) => (poll.id === updatedSquadPoll.pollId ? updatedSquadPoll.poll : poll))
+        );
+      },
+      error: (error) => console.log('Error on update squad poll subscription:', error),
+    });
 
-  const deleteSquadPollSubscription = API.graphql(graphqlOperation(onDeleteSquadPoll)).subscribe({
-    next: (response) => {
-      const deletedSquadPoll = response.value.data.onDeleteSquadPoll;
-      setPollIDArray((prevPolls) => prevPolls.filter((pollId) => pollId !== deletedSquadPoll.pollId));
-    },
-    error: (error) => console.log('Error on delete squad poll subscription:', error),
-  });
+    const deleteSquadPollSubscription = API.graphql(graphqlOperation(onDeleteSquadPoll)).subscribe({
+      next: (response) => {
+        const deletedSquadPoll = response.value.data.onDeleteSquadPoll;
+        setPollIDArray((prevPolls) => prevPolls.filter((pollId) => pollId !== deletedSquadPoll.pollId));
+      },
+      error: (error) => console.log('Error on delete squad poll subscription:', error),
+    });
 
-  // Clean up subscriptions on component unmount
-  return () => {
-    createSquadPollSubscription.unsubscribe();
-    updateSquadPollSubscription.unsubscribe();
-    deleteSquadPollSubscription.unsubscribe();
-  };
-}, []);
+    // Clean up subscriptions on component unmount
+    return () => {
+      createSquadPollSubscription.unsubscribe();
+      updateSquadPollSubscription.unsubscribe();
+      deleteSquadPollSubscription.unsubscribe();
+    };
+  }, []);
 
 
   return (

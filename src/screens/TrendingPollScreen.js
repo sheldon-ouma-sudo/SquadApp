@@ -11,22 +11,30 @@ const TrendingPollScreen = () => {
   const [loading, setLoading] = useState(true) 
   
 
-    useEffect(() => {
-      const fetchPolls = async () => {
+  useEffect(() => {
+    const fetchPolls = async () => {
+      try { 
         setLoading(true)  // Start loading
-        try { 
-          const results = await API.graphql(graphqlOperation(listPolls));
-          if(!results.data?.listPolls){
-            console.log("Error fetching polls") 
-          }
-          // console.log("this is the list of the Polls",results.data.listPolls.items)
-            setPolls(results.data?.listPolls?.items)
-        } catch (error) {
-          console.log(error)
+        const results = await API.graphql(graphqlOperation(listPolls))
+        if (!results.data?.listPolls) {
+          console.log("Error fetching polls")
+        } else {
+          setPolls(results.data?.listPolls?.items)
         }
-      };
-      fetchPolls();
-    }, []);
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setLoading(false)  // Stop loading
+      }
+    }
+    fetchPolls()
+  }, [])
+
+
+
+
+
+
     if (loading) {
       // Display loading indicator when fetching data
       return (

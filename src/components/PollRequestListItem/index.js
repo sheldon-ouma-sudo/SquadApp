@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
 import { updateNotification, deletePollRequest } from '../../graphql/mutations';  // Mutations
 import { getPoll, notificationsByUserID } from '../../graphql/queries';  // Queries
@@ -12,17 +12,20 @@ const PollRequestListItem = ({ item, removeRequestFromList }) => {
   const { user, updateLocalUser } = useUserContext();
   const [showPollModal, setShowPollModal] = useState(false);
   const [pollData, setPollData] = useState(null); // Store the poll data
+  const[message, setMessage] = useState("You have a new poll request")
 
   // Function to handle accepting the poll request
   const handleAccept = async () => {
     try {
+      console.log("here is the request poll item:", item)
       const requestingUserID = item.userID;
       const pollID = item.ParentPollID;
 
       // Fetch poll details
       const pollResult = await API.graphql(graphqlOperation(getPoll, { id: pollID }));
+      console.log("here is the pollResults", pollResult.data?.getPoll)
       setPollData(pollResult.data.getPoll);  // Store the poll data
-
+    
       // Show the poll modal after accepting the request
       setShowPollModal(true);
 
@@ -75,11 +78,15 @@ const PollRequestListItem = ({ item, removeRequestFromList }) => {
          console.log('Error ignoring the poll request:', error);
        }
      };
-
+     useEffect(() => {
+      if (item.message) {
+        setMessage(item.message);
+      }
+    }, [item.message]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.message}>{item.message}</Text>
+      <Text style={styles.message}>{message}</Text>
       <View style={styles.buttonContainer}>
         <Button title="Accept" onPress={handleAccept} color="#1145FD" />
         <Button title="Ignore" onPress={handleIgnore} color="#1145FD" />
@@ -92,7 +99,13 @@ const PollRequestListItem = ({ item, removeRequestFromList }) => {
         onRequestClose={() => setShowPollModal(false)}
       >
         {pollData && (
-          <ResponsePollSCreen poll={pollData} onClose={() => setShowPollModal(false)} />
+         <ResponsePollSCreen 
+         poll={pollData} 
+         onClose={() => setShowPollModal(false)} 
+         removeRequestFromList={removeRequestFromList} 
+         requestID={item.id}  // Pass the poll request ID
+       />
+       
         )}
         <TouchableOpacity style={styles.closeButton} onPress={() => setShowPollModal(false)}>
           <Text style={styles.closeButtonText}>Close</Text>
@@ -126,9 +139,12 @@ const styles = StyleSheet.create({
   closeButton: {
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#FF0000',
-    borderRadius: 5,
-    margin: 10,
+    backgroundColor: '#1764EF',
+    borderRadius: 15,
+    marginTop: -10,
+    marginBottom:50, 
+    width: 350,
+    marginLeft: 50
   },
   closeButtonText: {
     color: '#FFFFFF',
