@@ -2,9 +2,8 @@ import React, {useState , useEffect } from 'react';
 import { View, Text,Image, StyleSheet,TouchableOpacity} from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { useNavigation, useRoute } from '@react-navigation/native'
-// import SquadPollScreen from './SquadPollScreen';
-// import SquadUserScreen from './SquadUserScreen';
-// import UserDisplaySquadPage from './userDisplaySquadPage';
+import { pollsByUserID} from '../graphql/queries'
+import { API, graphqlOperation, Auth } from "aws-amplify";
 import UserDisplayPollSCreen from './UserDisplayPollSCreen';
 import UserDisplaySquadCreated from './UserDisplaySquadCreated'
 import UserDisplaySquadJoined from './UserDisplaySquadJoined'
@@ -17,7 +16,11 @@ dayjs.extend(customParseFormat);
 const UserDisplayScreen = () => {
     const[userName, setUserName] = useState("User Name")
     const [numOfUserPolls, setNumOfUserPolls] = useState(0)
-    const [numOfSquadMembers, setNumOfSquadMembers] = useState(0)
+    const [numOfSquadJoined, setNumOfSquadJoined] = useState(0)
+    const [numOfSquadCreated, setNumOfSquadCreated] = useState(0)
+    const [squadCreated, setSquadCreated] = useState([])
+    const [squadJoined,setSquadJoined] = useState([])
+    const [polls,  setPolls]=useState([])
     const [userJoiningTime, setUserJoiningTime] = useState("")
     
       const route = useRoute()
@@ -27,14 +30,29 @@ const UserDisplayScreen = () => {
     
       useEffect(()=>{
         if(user){
-          console.log("here is the squad details", user)
+          // console.log("here is the user", user)
+          const userID = user.id
           const userName = user.userName
+          const userSquadJoined = user.squadJoinedID || []
+          const userPrimarySquad = user.userPrimarySquad 
+          // console.log("here is the user primary squad", userPrimarySquad)
+          const userNonPrimarySquads = user.nonPrimarySquadsCreated
+          // console.log("here is userNon primary squads", userNonPrimarySquads)
+          const combinedCreatedSquads = [...(userPrimarySquad || []), ...(userNonPrimarySquads || [])];
+          // console.log("here is the combined created squads",combinedCreatedSquads)
+          const numOfSquad_created = combinedCreatedSquads.length
+          const numOfSquad_joined = userSquadJoined.length
+          const results =  API.graphql(graphqlOperation(pollsByUserID,{userID:userID}))
+          // console.log("here is the user results items",results.data?.pollsByUserID.items)
+          const userPolls = results.data?.pollsByUserID.items
+          setPolls(userPolls)
+          setNumOfSquadCreated(numOfSquad_created)
+          setNumOfSquadJoined(numOfSquad_joined)
+          setSquadCreated(combinedCreatedSquads)
+          setSquadJoined(userSquadJoined)
           setUserName(userName)
           const numOfPolls = user.numOfPolls
           setNumOfUserPolls(numOfPolls)
-          const numOfSquadJoined = user.numOfSquadJoined
-          const numOfSquadCreated = user.numOfSquadCreated
-        
           const user_joinTime = dayjs(user.createdAt).format('MMMM D, YYYY')
           setUserJoiningTime(user_joinTime)
         }
@@ -87,7 +105,7 @@ const UserDisplayScreen = () => {
           >
            <Text
            style={{marginLeft:30, fontSize:15, fontWeight:'800'}}
-           > 0 </Text>
+           > {numOfSquadJoined}</Text>
            <Text
            style={{fontSize:15, fontWeight:'400'}}
            >Squad Joined</Text>
@@ -97,7 +115,7 @@ const UserDisplayScreen = () => {
           >
            <Text
            style={{marginLeft:30, fontSize:15, fontWeight:'800'}}
-           > 0 </Text>
+           > {numOfSquadCreated} </Text>
            <Text
            style={{fontSize:15, fontWeight:'400'}}
            >Squad Created</Text>
@@ -163,13 +181,16 @@ const UserDisplayScreen = () => {
     >
             <Tab.Screen
               name="Polls"
-              component={UserDisplayPollSCreen} />
-            <Tab.Screen
+              children={()=><UserDisplayPollSCreen polls={polls} user={user}/>} />
+             <Tab.Screen
               name="Squad Created"
-              component={UserDisplaySquadCreated} />
-              <Tab.Screen name = "Squad Joined" 
-              component={UserDisplaySquadJoined} />
-          </Tab.Navigator></>
+              children={()=><UserDisplaySquadCreated squadCreated={squadCreated} user={user}/>} />
+              <Tab.Screen 
+              name = "Squad Joined" 
+              children={()=><UserDisplaySquadJoined squadJoined={squadJoined} user={user}/>} />
+          </Tab.Navigator>
+          
+          </>
       )
     };
     const styles = StyleSheet.create({

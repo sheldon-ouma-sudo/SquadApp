@@ -28,10 +28,10 @@ const AccountSettingScreen = () => {
   
 
   useEffect(()=>{
-   console.log("here is the user: ",user)
+   
    //setUserName(user.userName)
    const updateUser = async () => {
-    console.log("here is the userName",user)
+    
     setUserName(user.userName);
     setUserEmail(user.email)
    }
@@ -41,7 +41,6 @@ const AccountSettingScreen = () => {
   async function handleLogout() {
     try {
      await Auth.signOut();
-      console.log('✅ Success');
      //updateAuthState('loggedIn');
      await AsyncStorage.clear();
      navigation.navigate('LoginScreen')

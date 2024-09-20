@@ -26,14 +26,14 @@
             userID: userID
           },
         });
-        console.log('User polls:', response.data.pollsByUserID.items);
+        // console.log('User polls:', response.data.pollsByUserID.items);
         setUserPolls(response.data?.pollsByUserID.items)
       } catch (error) {
         console.log('Error fetching user polls', error);
       }
     };
     
-  console.log(userID)
+  // console.log(userID)
   fetchUserPolls(userID)
   }, [])
   // Subscribe to new polls being created
@@ -42,7 +42,7 @@
     const subscription = API.graphql(graphqlOperation(onCreatePoll)).subscribe({
       next: (pollData) => {
         const newPoll = pollData.value.data.onCreatePoll;
-        console.log('New poll created:', newPoll);
+        // console.log('New poll created:', newPoll);
 
         // Check if the poll belongs to the current user
         if (newPoll.userID === userID) {

@@ -40,7 +40,6 @@ const ChangeProfilePictureScreen = () => {
    const route = useRoute()
    const navigation = useNavigation()
    const userImage = route?.params.userImage
-   console.log(userImage)
    useEffect(()=>{
     setImage(userImage)
    })

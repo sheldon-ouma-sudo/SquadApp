@@ -1,6 +1,5 @@
 import { View, Text,KeyboardAvoidingView,Image, StyleSheet, StatusBar,Dimensions,TouchableOpacity} from 'react-native'
 import React from 'react'
-import PublicPollSquadScreen from './PublicPollSquadScreen'
 import TrendingPollScreen from './TrendingPollScreen'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MySquadPollScreen from './MySquadPollScreen';

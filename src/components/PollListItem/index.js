@@ -121,6 +121,7 @@ const PollListItem = ({ poll}) => {
     setNumOfPollComment(commentsData.length);
     setTotalNumOfVotes(poll.totalNumOfVotes || 0);
     setPollCreatorID(poll.userID);
+    console.log("here is the poll Id", poll.id)
     setPollID(poll.id);
       // Parse pollItems
       const parsedPollItems = parsePollItems(poll.pollItems);

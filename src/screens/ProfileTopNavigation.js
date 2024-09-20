@@ -34,12 +34,12 @@
     const insets = useSafeAreaInsets();  
    
      useEffect(()=>{
-      console.log("here is the user", user.id)
+      // console.log("here is the user", user.id)
       const queryUser = async () => {
         try {
           const authUser = await Auth.currentAuthenticatedUser();
           const userID = user.id; // Use sub instead of profile for the user ID
-          console.log("user id in the profile top navigation: ", userID)
+          // console.log("user id in the profile top navigation: ", userID)
           const name = authUser.attributes.name;
   
           // Query the user from the backend using Amplify API
@@ -47,10 +47,10 @@
   
           // Extract the user information from the query result
           const userFromBackend = userData.data?.getUser;
-          console.log("here is the user from backend ", userFromBackend)
+          // console.log("here is the user from backend ", userFromBackend)
           
           if(user){
-            console.log("here is the user",user)
+            // console.log("here is the user",user)
           
           }
           const userProfileImage = user.userProfilePicture;
@@ -62,7 +62,7 @@
           setNumOfSquadCreated(userFromBackend.numSquadCreated);
           setProflieImage(userProfileImage)
           setUserBio(userFromBackend.Bio)
-       console.log("num of squad created",userFromBackend.numSquadCreated) 
+      //  console.log("num of squad created",userFromBackend.numSquadCreated) 
   
         } catch (error) {
           console.log('Error fetching user data:', error);
@@ -81,7 +81,7 @@
         // console.log("here is the updated user", updatedUser)
         const calculatedNumSquadsCreated = 1 + (updatedUser.nonPrimarySquadsCreated?.length || 0); // +1 for the primary squad
         if (calculatedNumSquadsCreated !== user.numSquadCreated) {
-          console.log("Updating numSquadCreated...");
+          // console.log("Updating numSquadCreated...");
           setNumOfSquadCreated(calculatedNumSquadsCreated);
   
           try {
@@ -91,7 +91,7 @@
                 numSquadCreated: calculatedNumSquadsCreated
               }
             }));
-            console.log("numSquadCreated updated successfully.");
+            // console.log("numSquadCreated updated successfully.");
           } catch (error) {
             console.error("Error updating numSquadCreated:", error);
           }
@@ -108,9 +108,9 @@
       if(user){
         try {
           const userID = user.id
-          console.log("here is the user ID", userID)
+          // console.log("here is the user ID", userID)
           const results = await API.graphql(graphqlOperation(pollsByUserID,{userID:userID}))
-          console.log("here is the user results items",results.data?.pollsByUserID.items)
+          // console.log("here is the user results items",results.data?.pollsByUserID.items)
           const userPollArray = results.data?.pollsByUserID.items
           setUserPolls(userPollArray)
           // const numOfUserPolls = userPollArray.length
@@ -129,10 +129,10 @@
    useEffect(() => {
     const updateUserInfo = async () => {
       if (userPolls) {
-        console.log("here is the user polls", userPolls);
+        // console.log("here is the user polls", userPolls);
         try {
           const userID = user.id;
-          console.log("here is the user ID", userID);
+          // console.log("here is the user ID", userID);
           if (userPolls.length > numOfUserPolls) {
             const newNumOfUserPoll = userPolls.length;
             setNumOfUserPolls(newNumOfUserPoll);
@@ -142,7 +142,7 @@
                 id: userID,
                 numOfPolls: newNumOfUserPoll,
               }));
-              console.log("here are the results for updating the num of user Polls", results);
+              // console.log("here are the results for updating the num of user Polls", results);
             } catch (error) {
               console.log("Error updating user info:", error);
             }
@@ -159,7 +159,7 @@
       graphqlOperation(onCreateSquad)
     ).subscribe({
       next: (data) => {
-        console.log('New squad created:', data);
+        // console.log('New squad created:', data);
         // Update the state with the new squad information
         setNumOfSquadCreated(prev => prev + 1);
         // Optionally fetch or append to your local squads created list
@@ -174,7 +174,7 @@
     graphqlOperation(onUpdateUser)
   ).subscribe({
     next: async (data) => {
-      console.log('Squad joined or updated data:', data);
+      // console.log('Squad joined or updated data:', data);
 
       // Manually fetch the latest user data to ensure the state is updated
       const userID = user.id;

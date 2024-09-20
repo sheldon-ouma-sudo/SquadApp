@@ -25,7 +25,7 @@ const EditProfileScreen = () => {
 
     useEffect(() => {
         if (user) {
-          console.log("here is the user", user)
+        //   console.log("here is the user", user)
             setUsername(user.userName);
             setName(user.name || "");
             setBio(user.bio || "");
@@ -114,7 +114,7 @@ const EditProfileScreen = () => {
             email: email.trim() || ""
         };
 
-        console.log("Attributes before update:", updatedUserInfo);
+        // console.log("Attributes before update:", updatedUserInfo);
 
         const response = await API.graphql(graphqlOperation(updateUser, {
             input: updatedUserInfo

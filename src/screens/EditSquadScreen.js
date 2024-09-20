@@ -37,12 +37,12 @@ const EditSquadScreen = () => {
       // Perform the mutation to update the squad
       const response = await API.graphql(graphqlOperation(updateSquad, { input: updateInput }));
       
-      console.log("Squad updated successfully:", response);
+      // console.log("Squad updated successfully:", response);
 
       // Navigate back or provide feedback to the user
       navigation.goBack(); // Go back after editing
     } catch (error) {
-      console.error("Error updating squad:", error);
+      console.log("Error updating squad:", error);
     }
   };
 

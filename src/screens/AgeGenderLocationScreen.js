@@ -109,8 +109,8 @@ const AgeGenderLocationScreen = () => {
         'birthdate': age,
         'gender': selectedGender
       });
-      console.log(location, age, selectedGender);
-      console.log("✅successfully updated users attributes");
+    
+
       navigation.navigate("ProfilePictureUploadScreen");
     } catch (e) {
       console.log("failed to update the additional attributes");

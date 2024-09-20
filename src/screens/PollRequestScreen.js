@@ -20,7 +20,7 @@ const PollRequest = () => {
   useEffect(() => {
     const fetchPollRequest = async () => {
           const userID = user.id
-          console.log("here is the user id", userID)
+          // console.log("here is the user id", userID)
       try {
         const notificationQueryResult = await API.graphql(
           graphqlOperation(notificationsByUserID, { userID: userID })
@@ -28,10 +28,10 @@ const PollRequest = () => {
         if(!notificationQueryResult.data?.notificationsByUserID){
           console.log("Error fetching users") 
         }
-        console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
+        // console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
           const notificationData = notificationQueryResult.data?.notificationsByUserID.items
           const pollRequestsArray = notificationData[0].pollRequestsArray;
-          console.log("here is the poll request array",pollRequestsArray)
+          // console.log("here is the poll request array",pollRequestsArray)
           setPollRequestData(pollRequestsArray)
 
       } catch (error) {
@@ -44,43 +44,43 @@ const PollRequest = () => {
   useEffect(() => {
     const fetchPollRequestInfo = async () => {
       const userID = user.id;
-      console.log("User ID:", userID);
+      // console.log("User ID:", userID);
   
       for (const pollRequestID of pollRequestData) {
         try {
-          console.log("Poll Request ID:", pollRequestID);
+          // console.log("Poll Request ID:", pollRequestID);
           
           // Retrieve the poll request info
           const pollRequestQueryResults = await API.graphql(graphqlOperation(getPollRequest, { id: pollRequestID }));
           const pollRequest = pollRequestQueryResults.data?.getPollRequest;
   
-          console.log("Poll Request:", pollRequest);
+          // console.log("Poll Request:", pollRequest);
   
           if (pollRequest) {
             // Extract the poll ID from the poll request
             const pollIDPollRequestDirectly = pollRequest.Poll?.id;
-            console.log("here is the poll ID", pollIDPollRequestDirectly)
+            // console.log("here is the poll ID", pollIDPollRequestDirectly)
             if (pollIDPollRequestDirectly) {
               // Fetch the associated poll using the poll ID
               const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollIDPollRequestDirectly }));
               const poll = pollQueryResults.data?.getPoll;
   
-              console.log("Associated Poll:", poll);
+              // console.log("Associated Poll:", poll);
   
               // Handle the fetched poll as needed (e.g., store it in state)
               // For example:
               // setPoll(poll);
             }else if(pollIDPollRequestDirectly === undefined || pollIDPollRequestDirectly === null) {
-              console.log("Poll ID not found directly from poll request:", pollRequestID);
+              // console.log("Poll ID not found directly from poll request:", pollRequestID);
               const pollIDByParentPollID = pollRequest.ParentPollID
-              console.log(" poll ID is available through parent poll ID, here is the pollIDByParentPollID", pollIDByParentPollID)
+              // console.log(" poll ID is available through parent poll ID, here is the pollIDByParentPollID", pollIDByParentPollID)
               if (pollIDByParentPollID) {
-                console.log("we have the poll by ID from parent poll ID", pollIDByParentPollID);
+                // console.log("we have the poll by ID from parent poll ID", pollIDByParentPollID);
                 try {
                   // Ensure pollIDByParentPollID is used here instead of pollIDPollRequestDirectly
                   const pollQueryResults = await API.graphql(graphqlOperation(getPoll, { id: pollIDByParentPollID }));
                   const poll = pollQueryResults.data?.getPoll;
-                  console.log("Associated Poll:", poll);
+                  // console.log("Associated Poll:", poll);
                   if (poll) {
                     // Set the poll state only if poll exists
                     setPoll(poll);

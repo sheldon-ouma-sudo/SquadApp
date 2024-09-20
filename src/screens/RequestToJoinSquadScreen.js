@@ -18,18 +18,18 @@ const RequestToJoinSquadScreen = () => {
   useEffect(() => {
     const fetchRequestToJoinPersonalSquadsData = async () => {
           const userID = user.id
-          console.log("here is the user id", userID)
+          // console.log("here is the user id", userID)
             try {
               const notificationQueryResult = await API.graphql(
                 graphqlOperation(notificationsByUserID, { userID: userID })
               );
               if(!notificationQueryResult.data?.notificationsByUserID){
-                console.log("Error fetching notifications") 
+                // console.log("Error fetching notifications") 
               }
-              console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
+              // console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
                 const notificationData = notificationQueryResult.data?.notificationsByUserID.items
                 const SquadJoinRequestArray = notificationData[0].SquadJoinRequestArray;
-                console.log("here is the poll request array",SquadJoinRequestArray)
+                // console.log("here is the poll request array",SquadJoinRequestArray)
                 if(SquadJoinRequestArray){
                  setRequestToJoinPersonalSquadsData(SquadJoinRequestArray )
                 }else{

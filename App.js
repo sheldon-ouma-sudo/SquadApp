@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import SquadCreationScreen from './src/screens/SquadCreationScreen';
-import PhoneOTPScreen from './src/screens/PhoneOTPScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import EmailOTPScreen from './src/screens/EmailOTPScreen';
 import AgeGenderLocationScreen from './src/screens/AgeGenderLocationScreen';
@@ -14,7 +13,7 @@ import ProfilePictureUpload from './src/screens/ProfilePictureUpload';
 import GoogleSignInLoadingScreen from './src/screens/GoogleSignInLoadingScreen';
 import UploadProfPicture from './src/screens/UploadProfPictureScreen';
 import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen';
-import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
+
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PollCreation from './src/screens/PollCreationScreen';
@@ -24,7 +23,6 @@ import TestWorkScreen from './src/screens/TestWorkScreen';
 import ExploreScreen from './src/screens/ExploreScreen';
 import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
-import PollContentScreen from "./src/screens/PollContentScreen";
 import NewTestScreenWork from "./src/screens/NewTestScreen";
 import MapMarkerSCreen from "./src/screens/MapMarkerSCreen";
 import CalendarScreen from "./src/screens/CalendarScreen";
@@ -34,7 +32,6 @@ import { useEffect, useState } from "react";
 import AccountSettingScreen from "./src/screens/AccountSettingScreen";
 import ChangePasswordScreen from "./src/screens/ChangePasswordScreen";
 import DeleteProfileScreen from "./src/screens/DeleteProfileScreen";
-import DeleteProfileConfirmationScreen from "./src/screens/DeleteProfileConfirmationScreen";
 import EditProfileScreen from "./src/screens/EditProfileScreen";
 import ExploreUserScreen from "./src/screens/ExploreUserScreen";
 import ExploreSquadronScreen from "./src/screens/ExploreSquadronScreen";
@@ -47,13 +44,6 @@ import ResponsePollScreen from './src/screens/ResponsePollScreen'
 import PersonalSquadDisplayScreen from './src/screens/PersonalSquadsDisplayScreen'
 import SquadDisplayScreen from './src/screens/SquadDisplayScreen'
 import EditSquadScreen from './src/screens/EditSquadScreen'
-import GeneralSquadScreen from './src/screens/GeneralSquadPage'
-import GeneralUserProfileScreen from './src/screens/GeneralUserProfileScreenPage'
-import GeneralUserProfilePollTab from './src/screens/GeneralUserProfilePollTab'
-import GeneralUserProfileSquadJoinedTab from './src/screens/GeneralUserProfileSquadJoinedTab'
-import GeneralProfileUserSquadCreatedTab from './src/screens/GeneralProfileUserSquadCreatedTab'
-import GeneralSqaudMemberScreen from './src/screens/GeneralSqaudMemberScreen'
-import GeneralSquadPollPageScreen from './src/screens/GeneralSquadPollPageScreen'
 import SquadPollScreen from './src/screens/SquadPollScreen'
 import SquadUserScreen from './src/screens/SquadUserScreen'
 import UserDisplayScreen from './src/screens/UserDisplayScreen'
@@ -197,10 +187,8 @@ export default function App() {
        <Stack.Screen options={{headerShown : false}} name="RootNavigation" component={BottomTabs}/>
         <Stack.Screen options={{headerShown : false}} name="NewTestWorkScreen" component={NewTestScreenWork}/>
         <Stack.Screen options={{headerShown: false}} name="SignupScreen"  component={SignupScreen} />
-        <Stack.Screen options={{headerShown:false}} name ="PollContentScreen" component={PollContentScreen}/>
         <Stack.Screen options={{headerShown:false}} name="PasswordResetScreen" component={PasswordResetScreen}/> 
         <Stack.Screen options={{headerShown: false}} name="SquadCreationScreen"  component={SquadCreationScreen} />
-        <Stack.Screen options={{headerShown: false}} name="PhoneOTPScreen"  component={ PhoneOTPScreen} />
         <Stack.Screen options={{headerShown: false}} name="EmailOTPScreen"  component={EmailOTPScreen} />
         <Stack.Screen options={{headerShown: false}} name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
         <Stack.Screen options={{headerShown: false}} name="AgeGenderLocationScreen" component={AgeGenderLocationScreen}/>
@@ -211,12 +199,10 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="ProfilePictureUploadScreen" component={ProfilePictureUpload}/>
         <Stack.Screen options={{headerShown: false}} name="UploadProfPictureScreen" component={UploadProfPicture}/>
         <Stack.Screen options={{headerShown: false}} name="ChangeProfilePictureScreen" component={ChangeProfilePictureScreen}/>
-        <Stack.Screen options={{headerShown: false}} name="PhoneNumberScreen" component={PhoneNumberScreen}/>
         <Stack.Screen options={{headerShown: false}} name="TestWorkScreen" component={TestWorkScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "AccountSettingScreen" component={AccountSettingScreen}/>
         <Stack.Screen options={{headerShown:false,}} name="ChangePasswordScreen" component={ChangePasswordScreen}/>
         <Stack.Screen options= {{headerShown:false}} name="DeleteProfile" component={DeleteProfileScreen}/>
-        <Stack.Screen options={{headerShown:false}} name="DeleteProfileConfirmation" component={DeleteProfileConfirmationScreen}/>
         <Stack.Screen options={{headerShown:false}} name="EditProfileScreen" component={EditProfileScreen}/>
         <Stack.Screen options={{headerShown:false}} name="ExplorePollScreen" component={ExplorePollScreen}/>
         <Stack.Screen options={{headerShown:false}} name="ExploreSquadronScreen" component={ExploreSquadronScreen}/>
@@ -229,13 +215,7 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "PersonalSquadDisplayScreen" component={PersonalSquadDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "SquadDisplayScreen" component={SquadDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "EditSquadScreen" component={EditSquadScreen }/>   
-        <Stack.Screen options={{headerShown:false}} name = "GeneralSquadScreen" component={GeneralSquadScreen}/>
-        <Stack.Screen options= {{headerShown:false}} name = "GeneralUserProfileScreenPage" component={GeneralUserProfileScreen}/>
-        <Stack.Screen options={{headerShown:false}} name = "GeneralUserProfilePollTab" component={GeneralUserProfilePollTab}/>
-        <Stack.Screen options={{headerShown:false}} name = "GeneralUserProfileSquadJoinedTab" component={GeneralUserProfileSquadJoinedTab}/>
-        <Stack.Screen options={{headerShown:false}} name = "GeneralProfileUserSquadCreatedTab" component={GeneralProfileUserSquadCreatedTab}/>
-        <Stack.Screen options={{headerShown:false}} name = "GeneralSqaudMemberScreen" component={GeneralSqaudMemberScreen}/>
-        <Stack.Screen options={{headerShown:false}} name = "GeneralSquadPollPageScreen" component={GeneralSquadPollPageScreen} />
+     
         <Stack.Screen options={{headerShown: false}} name = "SquadPollScreen" component={SquadPollScreen}/>
         <Stack.Screen options={{headerShown: false}} name = "SquadUserScreen" component={SquadUserScreen}/>
         <Stack.Screen options={{headerShown: false}} name = "UserDisplayScreen" component={UserDisplayScreen}/>

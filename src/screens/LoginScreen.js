@@ -163,18 +163,18 @@ const LoginScreen = () => {
    async function signInWithAWS() {
         try {
           await Auth.signIn(username, password);
-          console.log('✅ Success');
+        //   console.log('✅ Success');
           //get the user sub
          const authUser = await Auth.currentAuthenticatedUser();
-        console.log("here is the graphQL",authUser.attributes["custom:graphQLUSerID"]);
+        // console.log("here is the graphQL",authUser.attributes["custom:graphQLUSerID"]);
         const userID = authUser.attributes["custom:graphQLUSerID"];
-        console.log("here is the user id: ",userID)// Query the user from the backend using Amplify API
+        // console.log("here is the user id: ",userID)// Query the user from the backend using Amplify API
 
         const userData = await API.graphql(graphqlOperation(getUser, { id: userID }));
 
         // Extract the user information from the query result
         const userFromBackend = userData.data?.getUser;
-        console.log("here is the user from backend ", userFromBackend)
+        // console.log("here is the user from backend ", userFromBackend)
         updateLocalUser({
             id: userID,
             name: userFromBackend.name,
@@ -190,7 +190,7 @@ const LoginScreen = () => {
             superUser: userFromBackend.superUser,
             Bio: userFromBackend.Bio
         })
-        console.log("here is the updated user", user)
+        // console.log("here is the updated user", user)
          //navigation.navigate('RootNavigation', { screen: 'HomeScreen' })
          navigation.navigate('RootNavigation', { screen:'Home'})
          //navigation.navigate("PersonalInterestScreen");

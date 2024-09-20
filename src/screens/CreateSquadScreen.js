@@ -66,7 +66,7 @@ const CreateSquadScreen = () => {
   
   const handleSearchBarClick = () => {
     // Handle click event for the search bar here
-    console.log('Search bar clicked');
+    // console.log('Search bar clicked');
   };
 
     // callbacks
@@ -75,7 +75,7 @@ const CreateSquadScreen = () => {
     }, []);
 
     const handleSheetChanges = useCallback((index) => {
-      console.log('handleSheetChanges', index);
+      // console.log('handleSheetChanges', index);
     }, []);
 
 
@@ -85,13 +85,13 @@ const CreateSquadScreen = () => {
 
    const handleSelectedUsers = async (selectedUsers, squadID, squadName, userID, userName) => {
   if (!selectedUsers || selectedUsers.length === 0) {
-    console.log("No users selected.");
+    // console.log("No users selected.");
     return; // If no users were selected, we return early.
   }
 
   try {
     for (const selectedUser of selectedUsers) {
-      console.log("Here is the selected user", selectedUser);
+      // console.log("Here is the selected user", selectedUser);
 
       // Fetch the user's notification
       const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { userID: selectedUser.id }));
@@ -105,7 +105,7 @@ const CreateSquadScreen = () => {
 
       const notificationID = notifications.id;
       const squadAddRequestsArray = notifications.squadAddRequestsArray || [];
-      console.log("Current Squad Add Requests Array: ", squadAddRequestsArray);
+      // console.log("Current Squad Add Requests Array: ", squadAddRequestsArray);
 
       // Create request to be added to the squad
       const requestToBeAddedResult = await API.graphql(graphqlOperation(createRequestToBeAddedInASquad, {
@@ -119,7 +119,7 @@ const CreateSquadScreen = () => {
       }));
 
       const requestID = requestToBeAddedResult.data.createRequestToBeAddedInASquad.id;
-      console.log("Request to be added result: ", requestToBeAddedResult);
+      // console.log("Request to be added result: ", requestToBeAddedResult);
       // Update notification with the new request ID
       squadAddRequestsArray.push(requestID);
 
@@ -128,7 +128,7 @@ const CreateSquadScreen = () => {
       }));
     }
 
-    console.log("All selected users processed.");
+    // console.log("All selected users processed.");
   } catch (error) {
     console.log("Error processing selected users:", error);
      // Re-throw the error so that the calling function can handle it
@@ -139,7 +139,7 @@ const CreateSquadScreen = () => {
 const handleCreateSquad = async () => {
   const userID = user.id;
   const rtUserQuery = await API.graphql(graphqlOperation(getUser, {id: userID}))
-  console.log("here is the local user data from backend", rtUserQuery.data?.getUser)
+  // console.log("here is the local user data from backend", rtUserQuery.data?.getUser)
   const rtUser = rtUserQuery.data?.getUser; 
   if (!squadName) {
     Alert.alert("Squad name is required");
@@ -169,14 +169,14 @@ const handleCreateSquad = async () => {
       },
     }));
     const squadID = squadResult.data.createSquad.id;
-    console.log("Squad creation result: ", squadResult);
+    // console.log("Squad creation result: ", squadResult);
     
     // Step 2: Update the local user's info
-    console.log("here is real time user nonPrimarysquad Created before update", rtUser.nonPrimarySquadsCreated)
+    // console.log("here is real time user nonPrimarysquad Created before update", rtUser.nonPrimarySquadsCreated)
     const updatedSquadsCreated = [...(rtUser.nonPrimarySquadsCreated || []), squadID]; // Ensure nonPrimarySquadsCreated is defined
-    console.log("here is the rtUser", rtUser, "and here is the updated non primary squad", updatedNumSquadsCreated)
+    // console.log("here is the rtUser", rtUser, "and here is the updated non primary squad", updatedNumSquadsCreated)
     const updatedNumSquadsCreated = (rtUser.numSquadCreated || 0) + 1; // Ensure numSquadCreated is defined as a number
-    console.log("here is the updatedSquadsCreated and updatedNumSquadsCreated", updatedSquadsCreated, updatedNumSquadsCreated);
+    // console.log("here is the updatedSquadsCreated and updatedNumSquadsCreated", updatedSquadsCreated, updatedNumSquadsCreated);
     
     updateLocalUser({
       ...user,
@@ -191,7 +191,7 @@ const handleCreateSquad = async () => {
         numSquadCreated: updatedNumSquadsCreated,
       },
     }));
-    console.log("Here are the updated user results", updateUserResults);
+    // console.log("Here are the updated user results", updateUserResults);
 
     // Step 3: Call the handleSelectedUsers function to process the selected users
     if (selectedUsers && selectedUsers.length > 0) {

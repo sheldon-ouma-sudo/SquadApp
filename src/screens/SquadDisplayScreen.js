@@ -238,7 +238,7 @@ useEffect(() => {
           },
         })}
       >
-          <Tab.Screen
+        <Tab.Screen
         name="Polls"
         children={() => <SquadPollScreen squadPolls={squadPolls} />}  // Pass polls to SquadPollScreen
       />

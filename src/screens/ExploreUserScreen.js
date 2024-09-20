@@ -42,7 +42,7 @@ const ExploreUserScreen = () => {
       const subscription = API.graphql(graphqlOperation(onCreateUser)).subscribe({
         next: (userData) => {
           const newUser = userData.value.data.onCreateUser;
-          console.log('New user created: ', newUser);
+          // console.log('New user created: ', newUser);
 
           // Add the new user to the list and sort by creation time
           setUsers((prevUsers) => {

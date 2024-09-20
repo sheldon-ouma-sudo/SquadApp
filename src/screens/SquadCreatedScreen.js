@@ -16,6 +16,8 @@ const [squads, setSquads] = useState([]);
 const [primarySquad, setPrimarySquad] = useState(null);
 const[userInfo, setUserInfo] = useState("")
 const {user} = useUserContext();
+
+
 useEffect(() => {
   const fetchData = async () => {
     try { 

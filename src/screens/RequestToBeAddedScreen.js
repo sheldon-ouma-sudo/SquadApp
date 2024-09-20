@@ -22,7 +22,7 @@ const RequestToBeAddedToSquadsScreen = () => {
   useEffect(() => {
     const fetchRequestToBeAddedToSquadsData = async () => {
           const userID = user.id
-          console.log("here is the user id", userID)
+          // console.log("here is the user id", userID)
             try {
               const notificationQueryResult = await API.graphql(
                 graphqlOperation(notificationsByUserID, { userID: userID })
@@ -33,7 +33,7 @@ const RequestToBeAddedToSquadsScreen = () => {
               console.log("this is the notification for the user",notificationQueryResult.data?.notificationsByUserID.items)
                 const notificationData = notificationQueryResult.data?.notificationsByUserID.items
                 const squadAddRequestsArray = notificationData[0].squadAddRequestsArray;
-                console.log("here is the poll request array",squadAddRequestsArray)
+                // console.log("here is the poll request array",squadAddRequestsArray)
                 if(squadAddRequestsArray){
                   setRequestToBeAddedToSquadsData(squadAddRequestsArray )
                 }else{
@@ -51,14 +51,14 @@ const RequestToBeAddedToSquadsScreen = () => {
   useEffect(() => {
     const handleRequestToBeAddedSquad = async () => {
       if (requestToBeAddedToSquadsData) {
-        console.log("here is the requestToBeAdded ID Array", requestToBeAddedToSquadsData);
+        // console.log("here is the requestToBeAdded ID Array", requestToBeAddedToSquadsData);
         for (const squadRequestToBeAddedID of requestToBeAddedToSquadsData) {
           console.log("here is the current ID", squadRequestToBeAddedID);
           try {
             const squadRequestToBeAddedResults = await API.graphql(graphqlOperation(getRequestToBeAddedInASquad, {
               id: squadRequestToBeAddedID
             }));
-            console.log("here is the squad request result", squadRequestToBeAddedResults.data?.getRequestToBeAddedInASquad);
+            // console.log("here is the squad request result", squadRequestToBeAddedResults.data?.getRequestToBeAddedInASquad);
           } catch (error) {
             console.log("error getting the squad request", error);
           }

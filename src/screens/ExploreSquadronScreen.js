@@ -4,7 +4,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import SearchBar from '../components/SearchBar';
 import SquadListItem from '../components/SquadListItem';
 import { listSquads } from '../graphql/queries';
-import { onCreateSquad } from '../graphql/subscriptions'; 
+import { onCreateSquad } from '../graphql/subscriptions';
 import { useUserContext } from '../../UserContext';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -12,7 +12,7 @@ const ExploreSquadronScreen = () => {
   const [searchPhrase, setSearchPhrase] = useState('');
   const [squads, setSquads] = useState([]);
   const [filteredSquads, setFilteredSquads] = useState([]);
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false); // Loading state
   const { user } = useUserContext();
 
   // Function to fetch squads from the backend
@@ -20,16 +20,17 @@ const ExploreSquadronScreen = () => {
     try {
       setLoading(true);
       const results = await API.graphql(graphqlOperation(listSquads));
-      if (!results.data?.listSquads.items) {
+      if (!results.data?.listSquads?.items) {
         console.log('Error fetching squads');
         return;
       }
+
       // Sort squads by createdAt in descending order
       const sortedSquads = results.data.listSquads.items.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      setSquads(sortedSquads); 
-      setFilteredSquads(sortedSquads); // Initially set filtered squads to the fetched squads
+      setSquads(sortedSquads);
+      setFilteredSquads(sortedSquads); // Set filtered squads to the fetched squads initially
     } catch (error) {
       console.log('Error getting squads', error);
     } finally {
@@ -37,7 +38,7 @@ const ExploreSquadronScreen = () => {
     }
   };
 
-  // Refetch squads every time the screen is focused using useFocusEffect
+  // Fetch squads and subscribe to new squad creation events when the screen is focused
   useFocusEffect(
     useCallback(() => {
       fetchSquads();
@@ -77,6 +78,11 @@ const ExploreSquadronScreen = () => {
     setSquads((prevSquads) => prevSquads.filter((squad) => squad.id !== squadId));
   };
 
+  // Debugging logs to check for potential issues
+  useEffect(() => {
+    console.log("Current Squads: ", squads);
+  }, [squads]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchBarContainer}>
@@ -92,14 +98,20 @@ const ExploreSquadronScreen = () => {
         ) : (
           <FlatList
             data={filteredSquads}
-            renderItem={({ item }) => 
-              <SquadListItem
-                squad={item} 
-                userInfo={user} 
-                onRequestSent={handleRequestSent}
-              />
-            }
-            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item, index }) => {
+              if (!item || !item.id) {
+                console.log(`Missing or null id for squad at index ${index}:`, item);
+                return null; // Skip rendering if item or id is invalid
+              }
+              return (
+                <SquadListItem
+                  squad={item}
+                  userInfo={user}
+                  onRequestSent={handleRequestSent}
+                />
+              );
+            }}
+            keyExtractor={(item, index) => (item.id ? item.id.toString() : `squad-${index}`)}
           />
         )}
       </View>

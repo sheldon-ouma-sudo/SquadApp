@@ -4,7 +4,6 @@ import { View, Text,KeyboardAvoidingView,Image, StyleSheet,
     import SwayingScreen from './SwayingScreen'
     import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
     import { useNavigation } from '@react-navigation/native'
-    import MySquadScreen from './MySquadScreen'
     import SquadCreatedScreen from './SquadCreatedScreen'
     import SquadJoinedScreen from './SquadJoinedScreen'
     import { AntDesign } from '@expo/vector-icons';

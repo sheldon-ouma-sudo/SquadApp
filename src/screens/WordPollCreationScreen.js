@@ -87,7 +87,7 @@
                       }
                     };
                 const handleSelect = (val) => {
-                  console.log('Selected value:', val);
+                  // console.log('Selected value:', val);
                   setSelected(val);
                 };
 
@@ -112,7 +112,7 @@
                         const primarySquadArray = backendUser.userPrimarySquad || [];
                         const nonPrimarySquadArray = backendUser.nonPrimarySquadsCreated || [];
                         const squadArray = [...primarySquadArray, ...nonPrimarySquadArray]; 
-                        console.log("here is the squad array", squadArray)
+                        // console.log("here is the squad array", squadArray)
                         // Ensure there are squads to process
                         if (squadArray.length > 0) {
                           const promises = squadArray.map(async (squadId) => {
@@ -196,7 +196,7 @@
                             console.log(`Error fetching users for squad ID: ${squadID}`, error);
                           }
                         }
-                        console.log("here is all the squad users before setting up squadData", allSquadUsers)
+                        // console.log("here is all the squad users before setting up squadData", allSquadUsers)
                         setSquadsData(allSquadUsers); // Set the user IDs of squad members
                         console.log("All squad users: ", allSquadUsers); // Log to check the final array of squad users
                       } catch (error) {
@@ -296,14 +296,14 @@
      
           //create a connection between the user's squad and the poll 
           const handleSquadPollCreation = async (pollID, selectedPollAudience) => {
-            console.log("here is the selectedPollAudience in handle squad poll creation", selectedPollAudience)
+            // console.log("here is the selectedPollAudience in handle squad poll creation", selectedPollAudience)
             try {
               // Step 1: Filter out "Public" from the selected poll audience
               const squadsOnly = selectedPollAudience.filter(audience => audience&& audience !== 'public');
-              console.log("Filtered squads:", squadsOnly);
+              // console.log("Filtered squads:", squadsOnly);
           
               if (squadsOnly.length === 0) {
-                console.log("No squads selected, skipping squad poll creation.");
+                // console.log("No squads selected, skipping squad poll creation.");
                 return false;  // Nothing to create, but not an error
               }else{
           
@@ -313,7 +313,10 @@
                   console.log("Missing squadId for squad:", squadID);
                   continue; // Skip if squadId is undefined
                 }
-                console.log("Processing squad with ID:", squadID);
+
+                
+
+
           
                 const squadPollCreationResults = await API.graphql(graphqlOperation(createSquadPoll, {
                   input: {
@@ -391,10 +394,11 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
        const userResponse = await API.graphql(graphqlOperation(getUser, { id: squadMemberID }));
        const squadUser = userResponse.data?.getUser;
        const squadUserName = squadUser.userName
-       console.log("here is the squad user✅✅",squadUserName )
+      //  console.log("here is the squad user✅✅",squadUserName )
       // Step 1: Check if the user already has a notification
       const existingNotifications = await checkIfUserHasNotification(squadMemberID);
-      console.log("here is the existing Notifcations", existingNotifications )
+
+      
       if (!existingNotifications || existingNotifications.length === 0){
         console.log(`User ${squadUserName} has no existing notification. Creating a new notification.`);
         // Step 2: If no notification exists, create a new notification
@@ -676,20 +680,20 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
                   />
                 <View style={styles.pollAudienceContainer}>
                 <MultiSelect
-              style={styles.pollAudienceDropdown}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={pollAudience} // Use the updated poll audience data
-              labelField="label"
-              valueField="key"
-              placeholder="Select poll audience"
-              value={selectedPollAudience} // Array of selected options
-              search
-              searchPlaceholder="Search squads..."
-              onChange={(items) => {
-                // Log the selected items to confirm their structure
+                style={styles.pollAudienceDropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={pollAudience} // Use the updated poll audience data
+                labelField="label"
+                valueField="key"
+                placeholder="Select poll audience"
+                value={selectedPollAudience} // Array of selected options
+                search
+                searchPlaceholder="Search squads..."
+                onChange={(items) => {
+                  // Log the selected items to confirm their structure
                 console.log("Selected Poll Audience:", items);
                 setSelectedPollAudience(items); // Update selected items
                   }}
@@ -855,7 +859,7 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
             shadowOpacity: 0.2,
             shadowRadius: 1.41,
             elevation: 2,
-            marginLeft:-10,
+            marginLeft:-20,
             marginBottom:20
 
           },
@@ -945,7 +949,7 @@ const handleNotificationCreationAndUpdate = async (pollID) => {
             shadowRadius: 1.41,
             elevation: 2,
             marginBottom: 20,
-            marginLeft: 30
+            marginLeft: 10
           },
          
           })

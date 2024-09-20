@@ -236,8 +236,8 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
   
       // Perform the API call for updating poll data and responses
       try {
-        console.log("here is the total number of votes", totalNumOfVotes + 1);
-        console.log("here are the updated Poll Items", updatedPollItems);
+        // console.log("here is the total number of votes", totalNumOfVotes + 1);
+        // console.log("here are the updated Poll Items", updatedPollItems);
   
         const updatePollResponse = await API.graphql(graphqlOperation(updatePoll, {
           input: {
@@ -255,8 +255,8 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
           }
         }));
   
-        console.log("here is the vote poll response", voteResponse.data?.createPollResponse);
-        console.log("here is the updated poll response", updatePollResponse.data?.updatePoll);
+        // console.log("here is the vote poll response", voteResponse.data?.createPollResponse);
+        // console.log("here is the updated poll response", updatePollResponse.data?.updatePoll);
   
         const pollVoteResponseID = voteResponse.data?.createPollResponse.id;
   
@@ -276,7 +276,7 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
             }
           }));
   
-          console.log("here are the updateNotification results", updateNotificationResults);
+          // console.log("here are the updateNotification results", updateNotificationResults);
         }
   
         setNotificationPollItemResponseArray([...notificationPollItemResponseArray, voteResponse.data.createPollResponse.id]);
@@ -291,8 +291,8 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
       const newLikesCount = isLikeIconClicked ? numOfPollLikes - 1 : numOfPollLikes + 1;
       setIsLikeIconClicked(!isLikeIconClicked);
       setNumOfPollLikes(Math.max(newLikesCount, 0)); // Prevent negative likes
-      console.log("here is the local user ID before updating the likes", localUserID)
-      console.log("here is the pollID", pollID)
+      // console.log("here is the local user ID before updating the likes", localUserID)
+      // console.log("here is the pollID", pollID)
       try {
         await API.graphql(graphqlOperation(updatePoll, 
           {
@@ -308,7 +308,7 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
             caption: `${localUserName} has liked your poll!`
           }
         }));
-        console.log("here is the like poll response", likeResponse)
+        // console.log("here is the like poll response", likeResponse)
         setNotificationPollLikeResponseArray([...notificationPollLikeResponseArray, likeResponse.data.createPollResponse.id]);
       } catch (error) {
         console.log('error updating poll likes:', error);
@@ -317,8 +317,8 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
 
   const handleCommentSubmit = async () => {
     try {
-      console.log("here is the pollID before commenting", pollID)
-      console.log("here is the localUserID before commenting",localUserID )
+      // console.log("here is the pollID before commenting", pollID)
+      // console.log("here is the localUserID before commenting",localUserID )
       const newCommArr = [...commentArray, comment]
       setCommentArray(newCommArr)
       const commentCreationResponse = await API.graphql(graphqlOperation(createPollComment, {
@@ -330,9 +330,9 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
           notificationID: notificationID
         },
       }));
-    console.log("here is the commentCreationResponse", commentCreationResponse.data?.createPollComment)
+    // console.log("here is the commentCreationResponse", commentCreationResponse.data?.createPollComment)
     const commentID = commentCreationResponse.data?.createPollComment.id
-    console.log("here is the commentID", commentID)
+    // console.log("here is the commentID", commentID)
       const commentResponse = await API.graphql(graphqlOperation(createPollResponse, {
         input: {
           pollID: pollID,
@@ -342,7 +342,7 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
       }));
     
       const notificationQuery  = await API.graphql(graphqlOperation(getNotification, {id: notificationID}))
-      console.log("here is the notificatioQuery", notificationQuery.data?.getNotification)
+      // console.log("here is the notificatioQuery", notificationQuery.data?.getNotification)
       
       const commentArrayQuery = notificationQuery.data?.getNotification
       const pollCommentArr = commentArrayQuery.pollCommentsArray || []
@@ -354,7 +354,7 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
           pollCommentsArray: newArr
         }
       }))
-      console.log("here is the updateNotification results", updateNotificationResults)
+      // console.log("here is the updateNotification results", updateNotificationResults)
       }   
       
       setNotificationPollCommentResponseArray(prev => [...prev, commentResponse.data.createPollResponse.id]);
@@ -366,7 +366,7 @@ const ResponsePollScreen = ({ poll, onClose, removeRequestFromList, requestID })
 
   const handleSubmitPollResponse = () => {
     if (!isLikeIconClicked || selectedOption === null || commentArray.length === 0) {
-      console.log("is poll liked, option selected, and comment added:", isLikeIconClicked, selectedOption, comment);
+      // console.log("is poll liked, option selected, and comment added:", isLikeIconClicked, selectedOption, comment);
       Alert.alert("You must like, vote, and comment to submit your response.");
       return;
     }

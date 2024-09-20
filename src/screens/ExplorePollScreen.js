@@ -17,7 +17,7 @@ const ExplorePollScreen = () => {
       try {
         const results = await API.graphql(graphqlOperation(listPolls));
         if (!results.data?.listPolls) {
-          console.log('Error fetching polls');
+          // console.log('Error fetching polls');
           return;
         }
         //console.log('List of polls:', results.data.listPolls.items);
