@@ -13,7 +13,6 @@ import ProfilePictureUpload from './src/screens/ProfilePictureUpload';
 import GoogleSignInLoadingScreen from './src/screens/GoogleSignInLoadingScreen';
 import UploadProfPicture from './src/screens/UploadProfPictureScreen';
 import ChangeProfilePictureScreen from './src/screens/ChangeProfilePictureScreen';
-
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PollCreation from './src/screens/PollCreationScreen';

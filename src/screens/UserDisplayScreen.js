@@ -21,6 +21,7 @@ const UserDisplayScreen = () => {
     const [squadCreated, setSquadCreated] = useState([])
     const [squadJoined,setSquadJoined] = useState([])
     const [polls,  setPolls]=useState([])
+    const [userID, setUserID] = useState("")
     const [userJoiningTime, setUserJoiningTime] = useState("")
     
       const route = useRoute()
@@ -30,8 +31,9 @@ const UserDisplayScreen = () => {
     
       useEffect(()=>{
         if(user){
-          // console.log("here is the user", user)
+           console.log("here is the user", user)
           const userID = user.id
+          setUserID(userID)
           const userName = user.userName
           const userSquadJoined = user.squadJoinedID || []
           const userPrimarySquad = user.userPrimarySquad 
@@ -42,10 +44,6 @@ const UserDisplayScreen = () => {
           // console.log("here is the combined created squads",combinedCreatedSquads)
           const numOfSquad_created = combinedCreatedSquads.length
           const numOfSquad_joined = userSquadJoined.length
-          const results =  API.graphql(graphqlOperation(pollsByUserID,{userID:userID}))
-          // console.log("here is the user results items",results.data?.pollsByUserID.items)
-          const userPolls = results.data?.pollsByUserID.items
-          setPolls(userPolls)
           setNumOfSquadCreated(numOfSquad_created)
           setNumOfSquadJoined(numOfSquad_joined)
           setSquadCreated(combinedCreatedSquads)
@@ -58,7 +56,28 @@ const UserDisplayScreen = () => {
         }
     
       }, [user])
-    
+
+      useEffect(()=>{
+       
+        const fetchUserPolls = async (UserID) => {
+            if(UserID){
+              try {
+                  const response = await API.graphql({
+                    query: pollsByUserID, 
+                    variables: {
+                      userID: userID
+                    },
+                  });
+                  console.log('User polls:', response.data.pollsByUserID.items);
+                  setPolls(response.data?.pollsByUserID.items)
+                } catch (error) {
+                  console.log('Error fetching user polls', error);
+                }
+            } 
+        };
+         // console.log(userID)
+  fetchUserPolls(userID)
+}, [userID])
       return (
         <>
         <TouchableOpacity

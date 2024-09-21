@@ -29,14 +29,12 @@ const PollActivityScreen = () => {
   useEffect(() => {
     const fetchNotificationsAndRequests = async () => {
       try {
-       
         const notificationData = await API.graphql(graphqlOperation(notificationsByUserID, { userID: user.id }));
-        // console.log("here is the notificationData", notificationData)
         const notifications = notificationData?.data?.notificationsByUserID?.items;
-        // console.log("here are the notification", notifications)
+  
         if (notifications && notifications.length > 0) {
           const notification = notifications[0];
-
+  
           // Fetch Poll Requests
           const requests = await Promise.all(
             (notification.pollRequestsArray || []).map(async (requestId) => {
@@ -44,9 +42,12 @@ const PollActivityScreen = () => {
               return requestResult.data.getPollRequest;
             })
           );
-          // console.log("heare are the requests", requests)
-          setPollRequests(requests);
-
+          setPollRequests((prevRequests) =>
+            [...prevRequests, ...requests].filter((request, index, self) =>
+              index === self.findIndex((r) => r.id === request.id) // Ensures unique requests by id
+            )
+          );
+  
           // Fetch Poll Responses
           const responses = await Promise.all(
             (notification.pollResponsesArray || []).map(async (responseId) => {
@@ -54,30 +55,38 @@ const PollActivityScreen = () => {
               return responseResult.data.getPollResponse;
             })
           );
-          setPollResponses(responses);
+          setPollResponses((prevResponses) =>
+            [...prevResponses, ...responses].filter((response, index, self) =>
+              index === self.findIndex((r) => r.id === response.id) // Ensures unique responses by id
+            )
+          );
         }
       } catch (error) {
         console.log('Error fetching poll requests and responses:', error);
       }
     };
-
+  
     if (user?.id) {
       fetchNotificationsAndRequests();
     }
-
-  //   // Subscriptions for new poll requests
+  
+    // Subscriptions for new poll requests
     const createPollRequestSub = API.graphql(
       graphqlOperation(onCreatePollRequest)
     ).subscribe({
       next: (data) => {
         const newRequest = data.value.data.onCreatePollRequest;
         if (newRequest) {
-          setPollRequests((prevRequests) => [...prevRequests, newRequest]);
+          setPollRequests((prevRequests) => 
+            [...prevRequests, newRequest].filter((request, index, self) =>
+              index === self.findIndex((r) => r.id === request.id) // Ensures unique requests by id
+            )
+          );
         }
       },
       error: (error) => console.log('Error on create poll request subscription:', error),
     });
-
+  
     const updatePollRequestSub = API.graphql(
       graphqlOperation(onUpdatePollRequest)
     ).subscribe({
@@ -89,7 +98,7 @@ const PollActivityScreen = () => {
       },
       error: (error) => console.log('Error on update poll request subscription:', error),
     });
-
+  
     const deletePollRequestSub = API.graphql(
       graphqlOperation(onDeletePollRequest)
     ).subscribe({
@@ -99,7 +108,7 @@ const PollActivityScreen = () => {
       },
       error: (error) => console.log('Error on delete poll request subscription:', error),
     });
-
+  
     // Subscriptions for new poll responses
     const createPollResponseSub = API.graphql(
       graphqlOperation(onCreatePollResponse)
@@ -107,12 +116,16 @@ const PollActivityScreen = () => {
       next: (data) => {
         const newResponse = data.value.data.onCreatePollResponse;
         if (newResponse) {
-          setPollResponses((prevResponses) => [...prevResponses, newResponse]);
+          setPollResponses((prevResponses) =>
+            [...prevResponses, newResponse].filter((response, index, self) =>
+              index === self.findIndex((r) => r.id === response.id) // Ensures unique responses by id
+            )
+          );
         }
       },
       error: (error) => console.log('Error on create poll response subscription:', error),
     });
-
+  
     const updatePollResponseSub = API.graphql(
       graphqlOperation(onUpdatePollResponse)
     ).subscribe({
@@ -124,7 +137,7 @@ const PollActivityScreen = () => {
       },
       error: (error) => console.log('Error on update poll response subscription:', error),
     });
-
+  
     const deletePollResponseSub = API.graphql(
       graphqlOperation(onDeletePollResponse)
     ).subscribe({
@@ -134,7 +147,7 @@ const PollActivityScreen = () => {
       },
       error: (error) => console.log('Error on delete poll response subscription:', error),
     });
-
+  
     // Cleanup subscriptions
     return () => {
       createPollRequestSub.unsubscribe();
@@ -143,8 +156,9 @@ const PollActivityScreen = () => {
       createPollResponseSub.unsubscribe();
       updatePollResponseSub.unsubscribe();
       deletePollResponseSub.unsubscribe();
-     };
+    };
   }, [user?.id]);
+  
 
   // Combine the two lists of requests with headers
   const combinedData = [

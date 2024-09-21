@@ -83,10 +83,18 @@ const PollCommentList = ({comment, pollCreator, poll }) => {
       const pollCommentResponseID = pollCommentResponseCreationResults.data?.createPollCommentResponse
       const notificationQueryResults = API.graphql(graphqlOperation(notificationsByUserID,{userID: commentorID}))
       const notification = await notificationQueryResults.data?.notificationsByUserID.items[0]
-      await API.graphql(graphqlOperation(updateNotification,{input:{
+      console.log("here is the notifications", notification)
+      const notificationID = notification.id
+      console.log("here is notification ID", notificationID)
+      if(notificationID){
+        await API.graphql(graphqlOperation(updateNotification,{input:{
         id: notification.id, 
         pollCommentLikeArray: [...(notification.pollCommentLikeArray || []), pollCommentResponseID ]
       }} ))
+      }else{
+        console.log("error getting notification ID", notificationID)
+      }
+      
     } catch (error) {
       console.error("Error updating comment likes:", error);
     }

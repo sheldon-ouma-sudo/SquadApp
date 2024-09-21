@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'; // Import useNavigatio
 
 const PersonalPollListItem = ({ poll }) => {
   const [pollCreator, setPollCreator] = useState('@superDuperBostoner');
-  const [numOfPollLikes, setNumOfPollLikes] = useState('0');
+  const [numOfPollLikes, setNumOfPollLikes] = useState(0);
   const [isLikeCommentIconClicked, setIsLikeCommentIconClicked] = useState(true);
   const navigation = useNavigation(); // Get navigation object
 
