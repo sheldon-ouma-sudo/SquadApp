@@ -18,7 +18,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PollCreation from './src/screens/PollCreationScreen';
 import Profile from './src/screens/ProfileTopNavigation';
 import PasswordResetScreen from './src/screens/PasswordResetScreen';
-import TestWorkScreen from './src/screens/TestWorkScreen';
 import ExploreScreen from './src/screens/ExploreScreen';
 import HomeScreen from './src/screens/HomeTopNavigation';
 import NotificationScreen from './src/screens/NotificationTopNavigation';
@@ -40,7 +39,6 @@ import SquadCreatedScreen from "./src/screens/SquadCreatedScreen";
 import SquadJoinedScreen from "./src/screens/SquadJoinedScreen";
 import PersonalPollDisplayScreen from './src/screens/PersonalPollDisplayScreen'
 import ResponsePollScreen from './src/screens/ResponsePollScreen'
-import PersonalSquadDisplayScreen from './src/screens/PersonalSquadsDisplayScreen'
 import SquadDisplayScreen from './src/screens/SquadDisplayScreen'
 import EditSquadScreen from './src/screens/EditSquadScreen'
 import SquadPollScreen from './src/screens/SquadPollScreen'
@@ -198,7 +196,6 @@ export default function App() {
         <Stack.Screen options={{headerShown: false}} name="ProfilePictureUploadScreen" component={ProfilePictureUpload}/>
         <Stack.Screen options={{headerShown: false}} name="UploadProfPictureScreen" component={UploadProfPicture}/>
         <Stack.Screen options={{headerShown: false}} name="ChangeProfilePictureScreen" component={ChangeProfilePictureScreen}/>
-        <Stack.Screen options={{headerShown: false}} name="TestWorkScreen" component={TestWorkScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "AccountSettingScreen" component={AccountSettingScreen}/>
         <Stack.Screen options={{headerShown:false,}} name="ChangePasswordScreen" component={ChangePasswordScreen}/>
         <Stack.Screen options= {{headerShown:false}} name="DeleteProfile" component={DeleteProfileScreen}/>
@@ -211,10 +208,8 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name = "SquadJoinedScreen" component={SquadJoinedScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "PersonalPollDisplayScreen" component={PersonalPollDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "ResponsePollScreen" component={ResponsePollScreen}/>
-        <Stack.Screen options={{headerShown:false}} name = "PersonalSquadDisplayScreen" component={PersonalSquadDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "SquadDisplayScreen" component={SquadDisplayScreen}/>
         <Stack.Screen options={{headerShown:false}} name = "EditSquadScreen" component={EditSquadScreen }/>   
-     
         <Stack.Screen options={{headerShown: false}} name = "SquadPollScreen" component={SquadPollScreen}/>
         <Stack.Screen options={{headerShown: false}} name = "SquadUserScreen" component={SquadUserScreen}/>
         <Stack.Screen options={{headerShown: false}} name = "UserDisplayScreen" component={UserDisplayScreen}/>

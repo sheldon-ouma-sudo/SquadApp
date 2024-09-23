@@ -3,9 +3,9 @@ import { View, Text, KeyboardAvoidingView, StyleSheet,Image,
   import { useState, useEffect, useCallback, useMemo, useRef  } from 'react'
   import {SelectList} from 'react-native-dropdown-select-list'
   import { useNavigation } from '@react-navigation/native';
-  import {API,graphqlOperation, Auth} from "aws-amplify"
+  import {API,graphqlOperation} from "aws-amplify"
   import { useUserContext } from '../../UserContext';
-  import { listUsers, getNotification, notificationsByUserID, getUser } from '../graphql/queries';
+  import { listUsers, notificationsByUserID, getUser } from '../graphql/queries';
   import { createSquad, updateNotification, createNotification, createRequestToBeAddedInASquad, updateUser } from '../graphql/mutations';
   import { FontAwesome } from '@expo/vector-icons';
   import {BottomSheetModal,BottomSheetView,BottomSheetModalProvider, } from '@gorhom/bottom-sheet';
